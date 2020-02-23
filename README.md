@@ -5,6 +5,8 @@ Prova finale della materia "Ingegneria del Software", prevista nel secondo semes
 ## Composizione del gruppo
 Il gruppo di lavoro è composto da tre studenti:
 * Alice Piemonti
+   * Codice Persona: 10572806
+   * Matricola: 888585
 * Luca Pirovano
     * Codice Persona: 10569272
     * Matricola: 888838
