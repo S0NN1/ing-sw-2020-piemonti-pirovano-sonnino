@@ -9,3 +9,6 @@ Il gruppo di lavoro è composto da tre studenti:
     * Codice Persona: 10569272
     * Matricola: 888838
 * Nicolò Sonnino
+## Specifica di progetto
+## Scelte progettuali
+## Casi di test
