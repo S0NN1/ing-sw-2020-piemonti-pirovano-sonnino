@@ -6,4 +6,6 @@ Prova finale della materia "Ingegneria del Software", prevista nel secondo semes
 Il gruppo di lavoro è composto da tre studenti:
 * Alice Piemonti
 * Luca Pirovano
+    * Codice Persona: 10569272
+    * Matricola: 888838
 * Nicolò Sonnino
