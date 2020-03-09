@@ -14,7 +14,7 @@ Il gruppo di lavoro è composto da tre studenti:
     * Codice Persona: 10569180 
     * Matricola: 890940
 ## Specifica di progetto
-Il progetto consiste nello sviluppo di una versione software del gioco da tavolo Santorini.
+Il progetto consiste nello sviluppo di una versione software del gioco da tavolo *Santorini*.
 
 Il progetto finale dovrà includere:
 * diagramma UML iniziale dell’applicazione (ad alto livello);
