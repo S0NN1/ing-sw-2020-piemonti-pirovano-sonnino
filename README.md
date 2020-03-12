@@ -25,7 +25,7 @@ documento;
 * codice sorgente dell’implementazione;
 - codice sorgente dei test di unità.
 
-##Implemented Functionalities
+## Implemented Functionalities
 | Functionality | State |
 |:-----------------------|:------------------------------------:|
 | Basic rules | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
