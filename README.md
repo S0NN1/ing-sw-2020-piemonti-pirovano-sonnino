@@ -2,7 +2,7 @@
 ### Software Engineering Final Test
 ### AA 2019/2020
 ## Description
-Final test of "Software Engineering 1", which is a 3rd year subject of 
+Final test of "Software Engineering", which is a 3rd year subject of 
 ## The Team
 Our working group is composed by three students:
 * Alice Piemonti
@@ -15,8 +15,8 @@ Our working group is composed by three students:
     * Person Code: 10569180 
     * Number: 890940
 ## Project specification
-The project consists of a Java version of the famous table Game *Santorini*, made by Cranio Creations.
-You can find the full game here: https://amzn.to/2Wk2U7L
+The project consists of a Java version of the famous board Game *Santorini*, made by Cranio Creations.
+You can find the full game here: https://bit.ly/2Qi7gs9
 
 The final version must include:
 * initial UML diagram;
