@@ -43,6 +43,5 @@ The final version must include:
 [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)
 [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
 -->
-## Scelte progettuali
 
-## Casi di test
+## Test cases
