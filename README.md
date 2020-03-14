@@ -1,29 +1,29 @@
-# Prova Finale (Ingegneria del Software)
+# A Java implementation of Santorini
+### Software Engineering Final Test
 ### AA 2019/2020
-## Descrizione
-Prova finale della materia "Ingegneria del Software", prevista nel secondo semestre del terzo anno di corso.
-## Composizione del gruppo
-Il gruppo di lavoro è composto da tre studenti:
+## Description
+Final test of "Software Engineering 1", which is a 3rd year subject of 
+## The Team
+Our working group is composed by three students:
 * Alice Piemonti
-   * Codice Persona: 10572806
-   * Matricola: 888585
+   * Person Code: 10572806
+   * Number: 888585
 * Luca Pirovano
-    * Codice Persona: 10569272
-    * Matricola: 888838
+    * Person Code: 10569272
+    * Number: 888838
 * Nicolò Sonnino
-    * Codice Persona: 10569180 
-    * Matricola: 890940
-## Specifica di progetto
-Il progetto consiste nello sviluppo di una versione software del gioco da tavolo *Santorini*.
+    * Person Code: 10569180 
+    * Number: 890940
+## Project specification
+The project consists of a Java version of the famous table Game *Santorini*, made by Cranio Creations.
+You can find the full game here: https://amzn.to/2Wk2U7L
 
-Il progetto finale dovrà includere:
-* diagramma UML iniziale dell’applicazione (ad alto livello);
-* diagrammi UML finali che mostrino come è stato progettato il software, i diagrammi potranno essere
-generati a partire dal codice sorgente del progetto utilizzando tool automatici;
-* implementazione funzionante del gioco conforme alle regole del gioco e alle specifiche presenti in questo
-documento;
-* codice sorgente dell’implementazione;
-- codice sorgente dei test di unità.
+The final version must include:
+* initial UML diagram;
+* final UML diagram, generated from the code by automated tools;
+* working game implementation, which has to be rules compliant;
+* source code of the implementation;
+* source code of unity tests.
 
 ## Implemented Functionalities
 | Functionality | State |
