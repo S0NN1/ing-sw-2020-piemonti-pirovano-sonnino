@@ -2,7 +2,7 @@
 ### Software Engineering Final Test
 ### AA 2019/2020
 ## Description
-Final test of "Software Engineering", which is a 3rd year subject of 
+Final test of "Software Engineering", course of "Computer Science Engineering" held at "Politecnico di Milano".
 ## The Team
 Our working group is composed by three students:
 * Alice Piemonti
