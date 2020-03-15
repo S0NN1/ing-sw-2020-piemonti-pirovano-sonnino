@@ -1,5 +1,4 @@
-{
-  "Gods": [
+[
     {
       "name": "Apollo",
       "property": "God of Music",
@@ -28,7 +27,7 @@
     {
       "name": "Hephaestus",
       "property": "God of Blacksmiths",
-      "Desc": "Your Build: Your Worker may build one additional block (not dome) on top of your first block."
+      "desc": "Your Build: Your Worker may build one additional block (not dome) on top of your first block."
     },
     {
       "name": "Minotaur",
@@ -46,4 +45,3 @@
       "desc": "Your Turn: If your Worker does not move up, it may build both before and after moving."
     }
   ]
-}

@@ -16,4 +16,6 @@ public class Player {
         this.nickname = nickname;
         this.color = color;
     }
+
+
 }
