@@ -71,9 +71,11 @@ public class CardSelection extends Observable implements Observer, Runnable {
                 case "DESCRIPTION":
                     godDescription();
                     break;
-                case "SELECTION":
+                case "SELECT":
                     selectionCounter++;
                     break;
+                default:
+                    throw new IllegalArgumentException("Wrong argument; the avaible ones are LIST, DESCRIPTION and SELECT");
             }
         }
     }
