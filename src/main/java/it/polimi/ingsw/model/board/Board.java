@@ -8,8 +8,9 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.view.CardSelection;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Board {
+public class Board extends Observable implements Cloneable {
     private Space[][] grid;
     private ArrayList<Player> players;
     private Player currentPlayer;
@@ -17,11 +18,19 @@ public class Board {
     public Board() {
         grid = new Space[5][5];
         players = new ArrayList<Player>();
+        for(int i=0; i<5; i++) {
+            for(int j=0; j<5; j++) {
+                grid[i][j].setX(i);
+                grid[i][j].setY(j);
+            }
+        }
     }
 
     public void createNewPlayer(String nickname, PlayerColors color) {
         players.add(new Player(nickname, color));
     }
+
+
 
     public void cardChoice() {
         CardSelectionBoard model = new CardSelectionBoard();
