@@ -21,6 +21,34 @@ public class CardSelection extends Observable implements Observer, Runnable {
         output.println(model.getDescription());
     }
 
+    public void godList() {
+        output.println("Here's a list of selectable gods.");
+        Card cards[] = Card.values();
+        for(int i=0; i<cards.length; i++) {
+            if(i==8) {
+                output.println(cards[i].toString() + ".");
+                break;
+            }
+            output.print(cards[i].toString() + ", ");
+        }
+    }
+
+    public void godDescription() {
+        output.println("Select a god and get a description of him.");
+        String selection;
+        while(true) {
+            output.print("Your selection: ");
+            selection = input.next();
+            try {
+                Card god = Card.parseInput(selection);
+                setChanged();
+                notifyObservers(god);
+            } catch (IllegalArgumentException e) {
+                output.println("Unexpected input, it must be an element of the list above.");
+            }
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         if(!(arg instanceof CardSelectionBoard)) {
@@ -31,25 +59,21 @@ public class CardSelection extends Observable implements Observer, Runnable {
 
     @Override
     public void run() {
-        String selection;
-        output.println("Select a god from a one below and get a description of him.");
-        Card cards[] = Card.values();
-        for(int i=0; i<cards.length; i++) {
-            if(i==8) {
-                output.println(cards[i].toString() + ".");
-                break;
-            }
-            output.print(cards[i].toString() + ", ");
-        }
-        while(true) {
-            output.print("Your selection: ");
-            selection = input.next();
-            try {
-                Card god = Card.parseInput(selection);
-                setChanged();
-                notifyObservers(god);
-            } catch (IllegalArgumentException e) {
-                output.println("Unexpected input, it must be an element of the list above.");
+        int selectionCounter = 0;
+        while (selectionCounter < 3) {
+            String command;
+            output.print("Command: ");
+            command = input.next();
+            switch (command.toUpperCase()) {
+                case "LIST":
+                    godList();
+                    break;
+                case "DESCRIPTION":
+                    godDescription();
+                    break;
+                case "SELECTION":
+                    selectionCounter++;
+                    break;
             }
         }
     }
