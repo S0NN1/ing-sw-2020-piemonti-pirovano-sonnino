@@ -1,1 +1,49 @@
-["Your Move: Your Worker may move into an opponent Worker's space.", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur", "Pan", "Prometheus"]
+{
+  "Gods": [
+    {
+      "name": "Apollo",
+      "property": "God of Music",
+      "desc": "Your Move: Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated."
+    },
+    {
+      "name": "Artemis",
+      "property": "Goddess of the Hunt",
+      "desc": "Your Move: Your Worker may move one additional time, but not back to its initial space."
+    },
+    {
+      "name": "Athena",
+      "property": "Goddess of Wisdom",
+      "desc": "Opponent’s Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn."
+    },
+    {
+      "name": "Atlas",
+      "property": "Titan shouldering the Heavens",
+      "desc": "Your Build: Your Worker may build a dome at any level."
+    },
+    {
+      "name": "Demeter",
+      "property": "Goddess of the Harvest",
+      "desc": "Your Build: Your Worker may build one additional time, but not on the same space."
+    },
+    {
+      "name": "Hephaestus",
+      "property": "God of Blacksmiths",
+      "Desc": "Your Build: Your Worker may build one additional block (not dome) on top of your first block."
+    },
+    {
+      "name": "Minotaur",
+      "property": "Bull-headed Monster",
+      "desc": "Your Move: Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level."
+    },
+    {
+      "name": "Pan",
+      "property": "God of the WIld",
+      "desc": "Win Condition: You also win if your Worker moves down two or more levels."
+    },
+    {
+      "name": "Prometheus",
+      "property": "Titan Benefactor of Mankind",
+      "desc": "Your Turn: If your Worker does not move up, it may build both before and after moving."
+    }
+  ]
+}
