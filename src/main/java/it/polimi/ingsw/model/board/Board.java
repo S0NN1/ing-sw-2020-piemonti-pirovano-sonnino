@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.controller.GodSelectionController;
-import it.polimi.ingsw.model.Deck;
-import it.polimi.ingsw.model.Space;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.view.CardSelection;
@@ -30,6 +28,9 @@ public class Board extends Observable implements Cloneable {
         players.add(new Player(nickname, color));
     }
 
+    public Space getSpace(int x, int y) {
+        return grid[x][y];
+    }
 
 
     public void cardChoice() {

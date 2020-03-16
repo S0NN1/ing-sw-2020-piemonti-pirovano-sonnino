@@ -1,5 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.board;
 
+import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.player.Worker;
 
 public class Space {
@@ -21,5 +22,9 @@ public class Space {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public Worker getWorker() {
+        return worker;
     }
 }

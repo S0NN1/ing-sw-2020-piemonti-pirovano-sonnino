@@ -34,11 +34,12 @@ public class CardSelection extends Observable implements Observer, Runnable {
     }
 
     public void godDescription() {
-        output.println("Select a god and get a description of him.");
+        output.println("Select a god and get a description of him. Type exit to stop.");
         String selection;
         while(true) {
             output.print("Your selection: ");
             selection = input.next();
+            if (selection.equalsIgnoreCase("exit")) break;
             try {
                 Card god = Card.parseInput(selection);
                 setChanged();
