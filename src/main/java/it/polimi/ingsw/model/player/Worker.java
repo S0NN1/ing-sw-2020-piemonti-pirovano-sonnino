@@ -16,8 +16,6 @@ public class Worker {
                 break;
             default:
                 throw new IllegalArgumentException();
-
         }
-
     }
 }

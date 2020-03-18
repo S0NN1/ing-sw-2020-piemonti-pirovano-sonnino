@@ -47,4 +47,6 @@ public class Board extends Observable implements Cloneable {
     public void setup() {
         cardChoice();
     }
+
+
 }
