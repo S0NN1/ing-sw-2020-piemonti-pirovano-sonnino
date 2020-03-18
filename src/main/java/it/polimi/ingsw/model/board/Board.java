@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 public class Board extends Observable implements Cloneable {
-    private Space[][] grid;
+    private Space[][] grid = new Space[5][5];
     private ArrayList<Player> players;
     private Player currentPlayer;
 
     public Board() {
-        grid = new Space[5][5];
         players = new ArrayList<Player>();
         for(int i=0; i<5; i++) {
             for(int j=0; j<5; j++) {
-                grid[i][j].setX(i);
-                grid[i][j].setY(j);
+                grid[i][j] = new Space();
+                this.grid[i][j].setX(i);
+                this.grid[i][j].setY(j);
             }
         }
     }
@@ -28,7 +28,7 @@ public class Board extends Observable implements Cloneable {
         players.add(new Player(nickname, color));
     }
 
-    public Space getSpace(int x, int y) {
+    public Space getSpace(int x, int y) throws ArrayIndexOutOfBoundsException{
         return grid[x][y];
     }
 
