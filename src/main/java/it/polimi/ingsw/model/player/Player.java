@@ -17,5 +17,8 @@ public class Player {
         this.color = color;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
 
 }
