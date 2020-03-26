@@ -9,6 +9,10 @@ import it.polimi.ingsw.view.CardSelection;
 import java.util.ArrayList;
 import java.util.Observable;
 
+/**
+ * @author Luca Pirovano
+ */
+
 public class Game extends Observable {
     private GameBoard gameBoard;
     private ArrayList<Player> players = new ArrayList<>();
@@ -19,68 +23,74 @@ public class Game extends Observable {
     private int currentPlayerN;
 
 
-    /*
-        Player control section
-     */
+
     public void createNewPlayer(Player player) {
         players.add(player);
         activePlayers.add(player);
     }
+
+    /**
+     * Remove an active player from the list (loss of workers).
+     * @param player the player we want to remove from the match.
+     */
     public void removePlayer(Player player) {
         activePlayers.remove(player);
     }
 
+    /**
+     * @return the list of the active players in the match (not dead).
+     */
     public ArrayList<Player> getActivePlayers() {
         return activePlayers;
     }
 
-    public void currentPlayerName() {
-        setChanged();
-        notifyObservers("PLAYERNAME:" + currentPlayer.getNickname());
-    }
-
+    /**
+     * Update the variable "currentPlayer" with the desired one.
+     * @param player the player we want to set as current.
+     */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
     }
 
+    /**
+     * @return the current player (value of the variable currentPlayer).
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Skip to the next player in "activePlayers" order.
+     */
     public void nextPlayer() {
-        currentPlayerN=(currentPlayerN == PlayersNumber.playerNumber - 1) ? 0 : currentPlayerN+1;   //Clockwise rotation
+        currentPlayerN=(currentPlayerN == activePlayers.size() - 1 || currentPlayerN == activePlayers.size()) ? 0 : currentPlayerN+1;   //Clockwise rotation
         currentPlayer = activePlayers.get(currentPlayerN);
-    }
-
-    public void getPlayerList() {
-        for(int i=0; i<activePlayers.size(); i++) {
-            setChanged();
-            notifyObservers("LIST:" + i + ":" + activePlayers.get(i).getNickname());
-        }
     }
 
     /*
         Challenger section
      */
 
-    public void setChallenger(int challengerNumber) {
-        this.challengerNumber = challengerNumber;
-        this.currentPlayerN = challengerNumber;
-    }
-
+    /**
+     * @return the challenger ID: his position number in "activePlayers" array.
+     */
     public int getChallenger() {
         return challengerNumber;
     }
 
+    /**
+     * Create a new deck with God Powers. The challenger decides the cards he wants to put inside. MVC Local Pattern.
+     */
     public void createDeck() {
         CardSelectionBoard model = new CardSelectionBoard(deck);
-        CardSelection view = new CardSelection();
-        GodSelectionController controller = new GodSelectionController(model, view);
+        CardSelection RemoteView = new CardSelection();
+        GodSelectionController controller = new GodSelectionController(model, RemoteView);
 
-        model.addObservers(view);
-        view.addObservers(controller);
+        model.addObservers(RemoteView);
+        RemoteView.addObservers(controller);
 
-        view.run();
+        RemoteView.run();
+        System.out.println("LMAO");
     }
 
 }

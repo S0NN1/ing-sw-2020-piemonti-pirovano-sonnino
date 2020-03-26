@@ -12,7 +12,7 @@ class BoardTest {
 
     @Test
     void getSpace() {
-        Board board = new Board();
+        GameBoard board = new GameBoard();
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> board.getSpace(3,7), "An out of bound exception should be thrown.");
     }
 
