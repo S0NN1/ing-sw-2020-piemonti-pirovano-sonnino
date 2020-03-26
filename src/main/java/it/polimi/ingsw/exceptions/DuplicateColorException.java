@@ -1,4 +1,3 @@
 package it.polimi.ingsw.exceptions;
 
-public class DuplicateColorException {
-}
+public class DuplicateColorException extends Exception {}

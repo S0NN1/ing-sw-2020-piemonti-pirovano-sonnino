@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.GodSelectionController;
+import it.polimi.ingsw.exceptions.DuplicateColorException;
+import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.board.CardSelectionBoard;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Player;
@@ -34,7 +36,15 @@ public class Game extends Observable {
      * Create a new player in the match. The minimum length of activePlayers array is 2 elements, and the maximum is 3.
      * @param player the player to be added.
      */
-    public void createNewPlayer(Player player) {
+    public void createNewPlayer(Player player) throws DuplicateColorException, DuplicateNicknameException{
+        for (Player player1:players) {
+            if (player1.getColor().equals(player.getColor())) {
+                throw new DuplicateColorException();
+            }
+            if (player1.getNickname().equalsIgnoreCase(player.getNickname())) {
+                throw new DuplicateNicknameException();
+            }
+        }
         players.add(player);
         activePlayers.add(player);
     }
@@ -45,6 +55,7 @@ public class Game extends Observable {
      */
     public void removePlayer(Player player) {
         activePlayers.remove(player);
+        setCurrentPlayer(activePlayers.get(currentPlayerN));
     }
 
     /**
@@ -74,12 +85,8 @@ public class Game extends Observable {
      */
     public void nextPlayer() {
         currentPlayerN=(currentPlayerN == activePlayers.size() - 1 || currentPlayerN == activePlayers.size()) ? 0 : currentPlayerN+1;   //Clockwise rotation
-        currentPlayer = activePlayers.get(currentPlayerN);
+        setCurrentPlayer(activePlayers.get(currentPlayerN));
     }
-
-    /**
-     * Challenger section
-     */
 
     /**
      * @return the challenger ID: his position number in "activePlayers" array.
@@ -100,7 +107,6 @@ public class Game extends Observable {
         RemoteView.addObservers(controller);
 
         RemoteView.run();
-        System.out.println("LMAO");
     }
 
 }

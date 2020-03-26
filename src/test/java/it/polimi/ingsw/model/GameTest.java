@@ -1,5 +1,7 @@
-package it.polimi.ingsw.model.board;
+package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.DuplicateColorException;
+import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -10,11 +12,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     @Test
-    void setupRemoveNextPlayer() {
+    void setupRemoveNextPlayer() throws DuplicateNicknameException, DuplicateColorException {
         Game testGame = new Game();
-        /*testGame.createNewPlayer(new Player("piro", PlayerColors.WHITE));
+        testGame.createNewPlayer(new Player("piro", PlayerColors.WHITE));
+
+        assertThrows(DuplicateColorException.class, ()->testGame.createNewPlayer(new Player("pino", PlayerColors.WHITE)));
+        assertThrows(DuplicateNicknameException.class, ()->testGame.createNewPlayer(new Player("piro", PlayerColors.GREY)));
+
         testGame.createNewPlayer(new Player("alice", PlayerColors.GREY));
-        testGame.createNewPlayer(new Player("sonny", PlayerColors.BLUE));*/
+        testGame.createNewPlayer(new Player("sonny", PlayerColors.BLUE));
 
         testGame.setCurrentPlayer(testGame.getActivePlayers().get(0));
         System.out.println(testGame.getCurrentPlayer().getNickname());
@@ -22,15 +28,15 @@ class GameTest {
         System.out.println(testGame.getCurrentPlayer().getNickname());
         testGame.nextPlayer();
         System.out.println(testGame.getCurrentPlayer().getNickname());
-        //testGame.removePlayer(testGame.getPlayerByID(2));
+
         testGame.nextPlayer();
+        testGame.removePlayer(testGame.getCurrentPlayer());
         System.out.println(testGame.getCurrentPlayer().getNickname());
 
         testGame.nextPlayer();
         System.out.println(testGame.getCurrentPlayer().getNickname());
         testGame.nextPlayer();
         System.out.println(testGame.getCurrentPlayer().getNickname());
-
     }
 
 

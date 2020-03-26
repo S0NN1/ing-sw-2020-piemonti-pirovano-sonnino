@@ -36,8 +36,10 @@ public class GodSelectionController implements CardObserver<GodSelectionControll
         switch (cmd) {
             case "DESC":
                 cardModel.setDescription(cardModel.getSelectedGod().godsDescription());
+                break;
             case "ADD":
                 cardModel.addToDeck(cardModel.getSelectedGod());
+                break;
         }
     }
 }

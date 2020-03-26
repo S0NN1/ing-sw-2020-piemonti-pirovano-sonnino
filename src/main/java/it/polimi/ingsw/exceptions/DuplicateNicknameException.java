@@ -1,4 +1,3 @@
 package it.polimi.ingsw.exceptions;
 
-public class DuplicateNicknameException {
-}
+public class DuplicateNicknameException extends Exception {}

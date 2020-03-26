@@ -21,4 +21,8 @@ public class Player {
         return nickname;
     }
 
+    public PlayerColors getColor() {
+        return color;
+    }
+
 }
