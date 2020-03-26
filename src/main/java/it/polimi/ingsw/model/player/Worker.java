@@ -42,7 +42,7 @@ public class Worker {
          */
     }
 
-    public void move(Gameboard board) {
+    public void move(GameBoard gameBoard) {
 
     }
 
@@ -56,7 +56,7 @@ public class Worker {
         }
     }
 
-    public ArrayList<Space> getMoves(Gameboard board) {
+    public ArrayList<Space> getMoves(GameBoard gameBoard) {
         ArrayList<Space> moves = new ArrayList<Space>();
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -65,5 +65,9 @@ public class Worker {
             }
         }
         return  moves;
+    }
+
+    public void build(GameBoard gameBoard){
+
     }
 }
