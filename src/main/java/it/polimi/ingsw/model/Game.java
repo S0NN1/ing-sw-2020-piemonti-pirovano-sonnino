@@ -10,6 +10,13 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 /**
+ * This class contains the main logic of "Santorini", which is divided in several macro-areas.
+ * The first area is the Player/Worker section, which contains information about the single player and his god power
+ * (overriding build and construct methods).
+ * The second area is the GameBoard section, which contains a grid of 25 cells (Space class). That class contains
+ * information about the status of the cell, and the presence of a tower in it.
+ * The last section is the "MVC Deck creation", which consists in a Model-View-Controller pattern that lets challenger
+ * to choose the god powers cards.
  * @author Luca Pirovano
  */
 
