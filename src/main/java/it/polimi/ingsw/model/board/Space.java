@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.model.board.Tower;
 
 /**
  * @author Sonny
@@ -19,7 +18,6 @@ public class Space {
     public Space() {
         x = 0;
         y = 0;
-        workerHere = new Worker();
         builtTower = new Tower();
         workerHere = null;
     }
@@ -76,6 +74,15 @@ public class Space {
      */
     public Worker getWorker() {
         return workerHere;
+    }
+
+    /**
+     * Set worker into workerHere variable
+     *
+     * @param worker parameter
+     */
+    public void setWorker(Worker worker) {
+        workerHere = worker;
     }
 
     /**
