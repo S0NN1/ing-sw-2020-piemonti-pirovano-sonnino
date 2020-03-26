@@ -30,7 +30,10 @@ public class Game extends Observable {
     private int currentPlayerN;
 
 
-
+    /**
+     * Create a new player in the match. The minimum length of activePlayers array is 2 elements, and the maximum is 3.
+     * @param player the player to be added.
+     */
     public void createNewPlayer(Player player) {
         players.add(player);
         activePlayers.add(player);
@@ -74,8 +77,8 @@ public class Game extends Observable {
         currentPlayer = activePlayers.get(currentPlayerN);
     }
 
-    /*
-        Challenger section
+    /**
+     * Challenger section
      */
 
     /**
