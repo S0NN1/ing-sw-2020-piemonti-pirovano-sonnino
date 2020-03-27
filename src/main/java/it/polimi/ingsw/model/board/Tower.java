@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.board;
 
+import it.polimi.ingsw.exceptions.OutOfBoundException;
+
 public class Tower {
     private int height;
     private boolean dome;
@@ -34,30 +36,26 @@ public class Tower {
     /**
      * Add one block
      */
-    public void addLevel() {
-        try {
-            if ((getHeight() >= 0 && getHeight() < 4) || !isCompleted()) {
-                height++;
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
+    public void addLevel() throws OutOfBoundException {
+        if ((getHeight() >= 0 && getHeight() < 4) || !isCompleted()) {
+            height++;
+        } else {
+            throw new OutOfBoundException();
         }
     }
 
     /**
      * Remove one block
      */
-    public void removeLevel() {
-        try {
-            if (getHeight() > 0) {
-                if (dome) {
-                    dome = false;
-                } else height--;
-            } else if (getHeight() == 0 && dome) {
+    public void removeLevel() throws OutOfBoundException {
+        if (getHeight() > 0) {
+            if (dome) {
                 dome = false;
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
+            } else height--;
+        } else if (getHeight() == 0 && dome) {
+            dome = false;
+        } else {
+            throw new OutOfBoundException();
         }
     }
 }
