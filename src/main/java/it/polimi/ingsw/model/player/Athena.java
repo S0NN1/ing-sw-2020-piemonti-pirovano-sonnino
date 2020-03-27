@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 public class Athena extends Worker {
-    public Athena(String color) {
+    public Athena(PlayerColors color) {
         super(color);
     }
 }

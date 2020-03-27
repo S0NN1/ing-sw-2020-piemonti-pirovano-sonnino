@@ -14,12 +14,12 @@ class GameTest {
     @Test
     void setupRemoveNextPlayer() throws DuplicateNicknameException, DuplicateColorException {
         Game testGame = new Game();
-        testGame.createNewPlayer(new Player("piro", PlayerColors.WHITE));
+        testGame.createNewPlayer(new Player("piro", PlayerColors.RED));
 
-        assertThrows(DuplicateColorException.class, ()->testGame.createNewPlayer(new Player("pino", PlayerColors.WHITE)));
-        assertThrows(DuplicateNicknameException.class, ()->testGame.createNewPlayer(new Player("piro", PlayerColors.GREY)));
+        assertThrows(DuplicateColorException.class, ()->testGame.createNewPlayer(new Player("pino", PlayerColors.RED)));
+        assertThrows(DuplicateNicknameException.class, ()->testGame.createNewPlayer(new Player("piro", PlayerColors.GREEN)));
 
-        testGame.createNewPlayer(new Player("alice", PlayerColors.GREY));
+        testGame.createNewPlayer(new Player("alice", PlayerColors.GREEN));
         testGame.createNewPlayer(new Player("sonny", PlayerColors.BLUE));
 
         testGame.setCurrentPlayer(testGame.getActivePlayers().get(0));
