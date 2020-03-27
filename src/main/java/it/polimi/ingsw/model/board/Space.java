@@ -16,8 +16,6 @@ public class Space {
      * Constructor
      */
     public Space() {
-        x = 0;
-        y = 0;
         builtTower = new Tower();
         workerHere = null;
     }
