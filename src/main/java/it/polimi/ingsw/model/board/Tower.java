@@ -35,6 +35,7 @@ public class Tower {
 
     /**
      * Add one block
+     * @throws OutOfBoundException exceeded range
      */
     public void addLevel() throws OutOfBoundException {
         if ((getHeight() >= 0 && getHeight() < 4) || !isCompleted()) {
@@ -46,6 +47,7 @@ public class Tower {
 
     /**
      * Remove one block
+     * @throws OutOfBoundException exceeded range
      */
     public void removeLevel() throws OutOfBoundException {
         if (getHeight() > 0) {
