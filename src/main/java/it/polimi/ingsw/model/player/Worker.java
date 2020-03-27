@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.player;
 
+/**
+ * @author Alice Piemonti
+ */
 public class Worker {
 
     private Space position;
@@ -24,10 +27,18 @@ public class Worker {
         }
     }
 
+    /**
+     * cioa descrizone
+     * @param space lo spazio descrizione
+     */
     public void setPosition(Space space) {
         this.position = space;
     }
 
+    /**
+     *
+     * @return position of
+     */
     public Space getPosition() {
         return this.position;
     }
