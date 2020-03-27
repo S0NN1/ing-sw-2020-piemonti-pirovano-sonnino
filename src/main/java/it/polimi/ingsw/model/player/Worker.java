@@ -22,19 +22,27 @@ public class Worker {
     public Worker(PlayerColors color) {
         this.isBlocked = false;
         this.position = null;
-        switch (color.toUpperCase()) {
-            case "CYAN":
-                this.workerColor = "\033[34m";
+        switch (color) {
+            case RED:
+                this.workerColor = "\u001B[31m";
                 break;
-            case "WHITE":
-                this.workerColor = "\033[39m";
+            case GREEN:
+                this.workerColor = "\u001B[32m";
                 break;
-            case "GREY":
-                this.workerColor = "\033[37m";
+            case BLUE:
+                this.workerColor = "\u001B[34m";
                 break;
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    /**
+     * get worker color
+     * @return worker color
+     */
+    public String getWorkerColor() {
+        return workerColor;
     }
 
     /**
@@ -65,7 +73,7 @@ public class Worker {
      * return true if this worker has won the game
      * @return boolean value
      */
-    public boolean hasWon() {
+    public boolean hasWon() {   return true;
         /*
         -----------------DA COMPLETARE----------------
          */

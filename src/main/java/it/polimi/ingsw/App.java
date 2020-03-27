@@ -16,8 +16,8 @@ public class App
     public static void main( String[] args ) throws DuplicateColorException, DuplicateNicknameException {
         Game game = new Game();
         game.createNewPlayer(new Player("piro", PlayerColors.BLUE));
-        game.createNewPlayer(new Player("PIRO", PlayerColors.WHITE));
-        game.createNewPlayer(new Player("Sonny", PlayerColors.GREY));
+        game.createNewPlayer(new Player("PIRO", PlayerColors.GREEN));
+        game.createNewPlayer(new Player("Sonny", PlayerColors.RED));
         PlayersNumber.setPlayer(3);
         game.createDeck();
     }

@@ -2,6 +2,8 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Card;
 
+import static it.polimi.ingsw.model.Card.*;
+
 /**
  * @author Alice Piemonti
  */
@@ -15,21 +17,37 @@ public class Player {
     private Worker worker1, worker2;
     private Card card;
 
+    /**
+     * constructor
+     * @param nickname player's univocal name
+     * @param color player's univocal color
+     */
     public Player(String nickname, PlayerColors color) {
         this.nickname = nickname;
         this.color = color;
     }
 
+    /**
+     * get Player's nickname
+     * @return univocal Nickname
+     */
     public String getNickname(){
         return this.nickname;
     }
 
+    /**
+     * get Player's color
+     * @return univocal color
+     */
     public PlayerColors getColor() {
         return this.color;
     }
 
+    /**
+     * create two instances of worker related to the card received
+     * @param card god card
+     */
     public void addWorker(Card card){
-        APOLLO, ARTEMIS, ATHENA, ATLAS, DEMETER, HEPHAESTUS, MINOTAUR, PAN, PROMETHEUS;
         switch(card){
             case APOLLO:
                 worker1 = new Apollo(color);
@@ -70,6 +88,10 @@ public class Player {
         }
     }
 
+    /**
+     * set player's card attribute
+     * @param godCard god card
+     */
     public void setCard(Card godCard){
         this.card = godCard;
         addWorker(card);
