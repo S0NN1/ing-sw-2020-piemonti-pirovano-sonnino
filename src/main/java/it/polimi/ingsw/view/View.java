@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.board.Board;
+import it.polimi.ingsw.model.board.GameBoard;
 
 import java.io.PrintStream;
 import java.util.Observable;
@@ -16,7 +16,7 @@ public class View extends Observable implements Observer, Runnable {
         output = new PrintStream(System.out);
     }
 
-    public void showBoard(Board board) {
+    public void showBoard(GameBoard board) {
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++) {
                 //output.print(board.getSpace(i, j).getWorker(). + " ");

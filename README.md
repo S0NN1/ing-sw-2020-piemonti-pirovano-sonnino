@@ -28,7 +28,7 @@ The final version must include:
 ## Implemented Functionalities
 | Functionality | State |
 |:-----------------------|:------------------------------------:|
-| Basic rules | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+| Basic rules | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 | Complete rules | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Socket |[![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | GUI | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |

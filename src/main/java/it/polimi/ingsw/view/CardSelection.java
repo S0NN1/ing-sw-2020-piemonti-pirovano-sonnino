@@ -1,14 +1,23 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.GodSelectionController;
+import it.polimi.ingsw.exceptions.DuplicateGodException;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.board.CardSelectionBoard;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayersNumber;
+import it.polimi.ingsw.observer.CardObservable;
+import it.polimi.ingsw.observer.CardObserver;
 
 import java.io.PrintStream;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
-public class CardSelection extends Observable implements Observer, Runnable {
+
+/**
+ * @author Luca Pirovano
+ */
+
+public class CardSelection extends CardObservable<GodSelectionController> implements CardObserver<CardSelection>, Runnable {
     private Scanner input;
     private PrintStream output;
 
@@ -17,6 +26,10 @@ public class CardSelection extends Observable implements Observer, Runnable {
         output = new PrintStream(System.out);
     }
 
+    /**
+     * *
+     * @param model the model of the MVC
+     */
     public void showDescription(CardSelectionBoard model) {
         output.println(model.getDescription());
     }
@@ -33,50 +46,48 @@ public class CardSelection extends Observable implements Observer, Runnable {
         }
     }
 
-    public void godDescription() {
-        output.println("Select a god and get a description of him. Type exit to stop.");
-        String selection;
-        while(true) {
-            output.print("Your selection: ");
-            selection = input.next();
-            if (selection.equalsIgnoreCase("exit")) break;
-            try {
-                Card god = Card.parseInput(selection);
-                setChanged();
-                notifyObservers(god);
-            } catch (IllegalArgumentException e) {
-                output.println("Unexpected input, it must be an element of the list above.");
-            }
-        }
-    }
-
     @Override
-    public void update(Observable o, Object arg) {
-        if(!(arg instanceof CardSelectionBoard)) {
-            throw new IllegalArgumentException("Expected CardSelectionBoard type");
+    public void update(String cmd, Object arg) {
+        switch (cmd) {
+            case "DESC":
+                showDescription((CardSelectionBoard)arg);
         }
-        showDescription((CardSelectionBoard)o);
     }
 
     @Override
     public void run() {
+        output.println("You have to choose gods power. Type LIST to get a list of available gods, DESC <god name> to get a god's description and ADD <god name> to add a God power to deck.");
         int selectionCounter = 0;
-        while (selectionCounter < 3) {
+        while (selectionCounter < PlayersNumber.playerNumber) {
+            output.println("Remaining gods to choose: " + (PlayersNumber.playerNumber - selectionCounter));
             String command;
             output.print("Command: ");
             command = input.next();
-            switch (command.toUpperCase()) {
-                case "LIST":
-                    godList();
-                    break;
-                case "DESCRIPTION":
-                    godDescription();
-                    break;
-                case "SELECT":
-                    selectionCounter++;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Wrong argument; the avaible ones are LIST, DESCRIPTION and SELECT");
+            try {
+                switch (command.toUpperCase()) {
+                    case "LIST":
+                        godList();
+                        break;
+                    case "DESC":
+                        notify("DESC", Card.parseInput(input.next()));
+                        break;
+                    case "ADD":
+                        try {
+                            Card selection = Card.parseInput(input.next());
+                            Card.alreadyAdded(selection);
+                            notify("ADD", selection);
+                            selectionCounter++;
+                        }
+                        catch (DuplicateGodException e) {
+                            System.err.println("God has already been added!");
+                        }
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Wrong argument; the available ones are LIST, DESCRIPTION and SELECT");
+                }
+            }
+            catch (IllegalArgumentException e) {
+                System.err.println("Unexpected god!");
             }
         }
     }
