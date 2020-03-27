@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Card;
 
+/**
+ * @author Alice Piemonti
+ */
 public class Player {
     private final String nickname;
     private final PlayerColors color;
