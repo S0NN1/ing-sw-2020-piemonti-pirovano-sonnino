@@ -1,4 +1,4 @@
 package it.polimi.ingsw.client.messages;
 
-public class Disconnect {
+public class Disconnect implements Message {
 }

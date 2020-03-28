@@ -1,4 +1,4 @@
 package it.polimi.ingsw.server;
 
-public class ClientConnection {
+public interface ClientConnection {
 }

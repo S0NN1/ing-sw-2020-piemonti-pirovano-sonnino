@@ -52,11 +52,25 @@ public class Game extends Observable {
 
     /**
      * Remove an active player from the list (loss of workers).
-     * @param player the player we want to remove from the match.
+     * @param player we want to remove from the match.
      */
     public void removePlayer(Player player) {
         activePlayers.remove(player);
         setCurrentPlayer(activePlayers.get(currentPlayerN));
+    }
+
+    /**
+     * Search the player identified by his nickname in the list of active player.
+     * @param nickname of the player.
+     * @return the desired player, null if there's no active player with that nickname.
+     */
+    public Player getPlayerByNickname(String nickname) {
+        for (Player player : activePlayers) {
+            if (player.getNickname().equalsIgnoreCase(nickname)) {
+                return player;
+            }
+        }
+        return null;
     }
 
     /**

@@ -1,4 +1,7 @@
 package it.polimi.ingsw.server.answers;
 
-public interface Answer {
+import java.io.Serializable;
+
+public interface Answer extends Serializable {
+    public String getMessage();
 }
