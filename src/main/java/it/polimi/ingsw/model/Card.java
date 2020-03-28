@@ -53,7 +53,7 @@ public enum Card {
     }
 
     /**
-     * Parse all gods description from JSON file and return the selected god's description.
+     * Parse all gods' description from JSON file and return the selected god's description.
      * @return the god's description that the user wants to know.
      */
     public String godsDescription() {

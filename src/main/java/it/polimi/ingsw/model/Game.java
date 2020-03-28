@@ -123,4 +123,8 @@ public class Game extends Observable {
 
         RemoteView.run();
     }
+
+    public Deck getDeck() {
+        return deck;
+    }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.board;
 
+import it.polimi.ingsw.exceptions.DuplicateGodException;
+import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.observer.CardObservable;
@@ -36,7 +38,7 @@ public class CardSelectionBoard extends CardObservable<CardSelection> {
      * Add a chosen god (with command ADD) to the deck.
      * @param god the chosen god.
      */
-    public void addToDeck(Card god){
+    public void addToDeck(Card god) throws OutOfBoundException, DuplicateGodException {
         deck.setCard(god);
     }
 
