@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.board.Tower;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Nested;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -109,8 +108,9 @@ class WorkerTest {
             }
         }
 
+
         @Test
-        @DisplayName("getMoves test without towers")
+        @DisplayName("without towers")
         void getMoves(){
 
             worker.setPosition(gameBoard.getSpace(2, 2));
@@ -139,7 +139,7 @@ class WorkerTest {
         }
 
         @Test
-        @DisplayName("getMoves from different height test ")
+        @DisplayName("from different height")
         void getMovesHeightTest() throws OutOfBoundException {
 
             gameBoard.getSpace(1, 1).getTower().addLevel();
@@ -179,7 +179,7 @@ class WorkerTest {
         }
 
         @Test
-        @DisplayName("getMoves exception test")
+        @DisplayName("exception: worker blocked")
         void getMovesButBlocked() throws OutOfBoundException {
             GameBoard gameBoard = new GameBoard();
             for(int i=0; i<3; i++){
@@ -196,10 +196,97 @@ class WorkerTest {
             worker.setPosition(gameBoard.getSpace(1,1));
             Exception exception = assertThrows(IllegalStateException.class, () -> {worker.getMoves(gameBoard);});
         }
-
     }
 
-    @Test
-    void getBuildableSpaces() {
+    @Nested
+    @DisplayName("getBuildableSpaces tests")
+    class getBuildableSpaces{
+
+        GameBoard gameBoard;
+
+        @BeforeEach
+        void init(){
+            gameBoard = new GameBoard();
+            for(int i=1; i<4; i++){
+                for(int j=1; j<4; j++){
+                    gameBoard.getSpace(i,j).setTower(new Tower());
+                }
+            }
+        }
+
+        @Test
+        @DisplayName("from central space")
+        void centralBuild() {
+            worker.setPosition(gameBoard.getSpace(1,1));
+            int expectedMoves = 8;
+            assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
+        }
+
+        @Test
+        @DisplayName("from boundary space")
+        void boundaryBuild() {
+            int expectedMoves = 5;
+
+            worker.setPosition(gameBoard.getSpace(0,1));
+            assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
+            worker.setPosition(gameBoard.getSpace(4,1));
+            assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
+            worker.setPosition(gameBoard.getSpace(1,0));
+            assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
+            worker.setPosition(gameBoard.getSpace(1,4));
+            assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
+        }
+
+        @Test
+        @DisplayName("from corners")
+        void cornerBuild(){
+            int expectedMoves = 3;
+
+            worker.setPosition(gameBoard.getSpace(0,0));
+            assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
+            worker.setPosition(gameBoard.getSpace(4,0));
+            assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
+            worker.setPosition(gameBoard.getSpace(0,4));
+            assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
+            worker.setPosition(gameBoard.getSpace(4,4));
+            assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
+        }
+
+        @Test
+        @DisplayName("from different heights")
+        void differentHeightBuild() throws OutOfBoundException {
+            gameBoard.getSpace(1, 1).getTower().addLevel();
+            gameBoard.getSpace(1, 1).getTower().addLevel();
+            gameBoard.getSpace(1, 2).getTower().addLevel();
+            gameBoard.getSpace(2, 1).getTower().addLevel();
+            gameBoard.getSpace(2, 1).getTower().addLevel();
+            gameBoard.getSpace(2, 1).getTower().addLevel();
+            gameBoard.getSpace(2, 3).getTower().addLevel();
+            gameBoard.getSpace(2, 3).getTower().addLevel();
+            gameBoard.getSpace(2, 3).getTower().addLevel();
+            gameBoard.getSpace(2, 3).getTower().addLevel();
+            gameBoard.getSpace(3, 1).getTower().addLevel();
+            gameBoard.getSpace(3, 3).getTower().addLevel();
+            gameBoard.getSpace(3, 3).getTower().addLevel();
+            gameBoard.getSpace(3, 3).getTower().addLevel();
+
+            int expected = 7;
+
+            worker.setPosition(gameBoard.getSpace(2, 2));
+            assertEquals(expected, worker.getBuildableSpaces(gameBoard).size());
+
+            worker.setPosition(gameBoard.getSpace(2, 2));
+            gameBoard.getSpace(2, 2).getTower().addLevel();
+            assertEquals(expected, worker.getBuildableSpaces(gameBoard).size());
+
+            worker.setPosition(gameBoard.getSpace(2, 2));
+            gameBoard.getSpace(2, 2).getTower().addLevel();
+            assertEquals(expected, worker.getBuildableSpaces(gameBoard).size());
+
+            worker.setPosition(gameBoard.getSpace(2, 2));
+            gameBoard.getSpace(2, 2).getTower().addLevel();
+            assertEquals(expected, worker.getBuildableSpaces(gameBoard).size(), "the worker build correctly from any height to any height");
+
+        }
     }
 }
