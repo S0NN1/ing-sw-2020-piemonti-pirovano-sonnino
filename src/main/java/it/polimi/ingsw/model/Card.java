@@ -1,19 +1,16 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import it.polimi.ingsw.exceptions.CardNotChosenException;
 import it.polimi.ingsw.exceptions.DuplicateGodException;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * This enumeration class contains the god list and parses the input for them.
  * It also contains an array of gods which are chosen by the challenger in the first phase of the game.
+ * @author Luca Pirovano
  */
 public enum Card {
     APOLLO, ARTEMIS, ATHENA, ATLAS, DEMETER, HEPHAESTUS, MINOTAUR, PAN, PROMETHEUS;
