@@ -2,3 +2,5 @@
 target/
 .vscode/
 GC1.iml
+src/main/java/it/polimi/ingsw/client/
+src/main/java/it/polimi/ingsw/server/
