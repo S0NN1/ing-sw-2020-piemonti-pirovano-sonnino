@@ -47,9 +47,11 @@ public class Worker {
 
     /**
      * set a new position to worker
+     * @throws IllegalArgumentException if space is null
      * @param space space, the unit of the GameBoard
      */
-    public void setPosition(Space space) {
+    public void setPosition(Space space) throws IllegalArgumentException {
+        if(space == null) throw new IllegalArgumentException();
         this.position = space;
     }
 
@@ -81,20 +83,25 @@ public class Worker {
 
     /**
      * change the worker's position while check winning condition
+     * @throws IllegalArgumentException if space is null
      * @param space the new position
      */
-    public void move(Space space) {
-        if(space.getTower().getHeight() == 3 && position.getTower().getHeight() == 2) { //WIIIIIIIIIIIIIIIIN
+    public void move(Space space) throws IllegalArgumentException {
+        if(space == null) throw new IllegalArgumentException();
+        if(space.getTower().getHeight() == 3 && position.getTower().getHeight() == 2) {
+            System.out.println("bravo hai vinto");//WIIIIIIIIIIIIIIIIN
         }
-        position = space;
+        else position = space;
     }
 
     /**
      * return true if the worker can move to the space received
+     * @throws IllegalArgumentException if space is null
      * @param space a space of the GameBoard
      * @return boolean value
      */
-    public boolean isSelectable(Space space) {
+    public boolean isSelectable(Space space) throws IllegalArgumentException {
+        if(space == null) throw new IllegalArgumentException();
         return (space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
                 (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
                 (space.getX() != position.getX() && space.getY() != position.getY()) &&
@@ -105,10 +112,13 @@ public class Worker {
 
     /**
      * get an ArrayList that contains the spaces which the worker can move to
+     * @throws IllegalArgumentException if gambeBoard is null
+     * @throws IllegalThreadStateException if the worker is blocked, so it cannot move
      * @param gameBoard GameBoard of the game
      * @return ArrayList of spaces
      */
-    public ArrayList<Space> getMoves(GameBoard gameBoard) throws IllegalStateException {
+    public ArrayList<Space> getMoves(GameBoard gameBoard) throws IllegalStateException, IllegalArgumentException {
+        if(gameBoard == null) throw new IllegalArgumentException();
         ArrayList<Space> moves = new ArrayList<Space>();
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -134,10 +144,12 @@ public class Worker {
 
     /**
      * return true if the worker can build into the space received
+     * @throws IllegalArgumentException if space is null
      * @param space space of the GameBoard
      * @return boolean value
      */
-    public boolean isBuildable(Space space){
+    public boolean isBuildable(Space space) throws IllegalArgumentException {
+        if(space == null) throw new IllegalArgumentException();
         return (space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
                 (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
                 (space.getX() != position.getX() && space.getY() != position.getY()) &&
@@ -147,10 +159,12 @@ public class Worker {
 
     /**
      * get an ArrayList that contains the spaces on which the worker can build
+     * @throws IllegalArgumentException if gameBoard is null
      * @param gameBoard gameBoard of the game
      * @return ArrayList of spaces
      */
-    public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard){
+    public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard) throws IllegalArgumentException {
+        if(gameBoard == null) throw new IllegalArgumentException();
         ArrayList<Space> buildable = new ArrayList<Space>();
         for (int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
