@@ -104,7 +104,7 @@ public class Worker {
         if(space == null) throw new IllegalArgumentException();
         return (space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
                 (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
-                (space.getX() != position.getX() && space.getY() != position.getY()) &&
+                (space.getX() != position.getX() || space.getY() != position.getY()) &&
                 !space.getTower().isCompleted() &&
                 (space.getTower().getHeight() - this.position.getTower().getHeight() < 2) &&
                 space.isEmpty();
@@ -137,8 +137,10 @@ public class Worker {
      * build on the space received
      * @param space space
      * @throws OutOfBoundException if it's impossible to build on this space
+     * @throws IllegalArgumentException if space is null
      */
-    public void build(Space space) throws OutOfBoundException {
+    public void build(Space space) throws OutOfBoundException, IllegalArgumentException {
+        if(space == null)throw new IllegalArgumentException();
         space.getTower().addLevel();
     }
 
