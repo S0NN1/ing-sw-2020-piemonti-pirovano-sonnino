@@ -11,9 +11,9 @@ import java.util.ArrayList;
  */
 public class Worker {
 
-    private Space position;
-    private boolean isBlocked;
-    private final String workerColor;
+    protected Space position;
+    protected boolean isBlocked;
+    protected final String workerColor;
 
     /**
      * Constructor
@@ -91,7 +91,11 @@ public class Worker {
         if(space.getTower().getHeight() == 3 && position.getTower().getHeight() == 2) {
             System.out.println("bravo hai vinto");//WIIIIIIIIIIIIIIIIN
         }
-        else position = space;
+        else {
+            position.setWorker(space.getWorker());
+            space.setWorker(this);
+            position = space;
+        }
     }
 
     /**

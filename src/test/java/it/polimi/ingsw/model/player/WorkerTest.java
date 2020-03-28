@@ -58,15 +58,14 @@ class WorkerTest {
         Space nullSpace = null;
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {worker.move(nullSpace);});
 
-        Space Space = new Space();
-        worker.setPosition(Space);
-        Space.setX(1);
-        Space.setY(4);
-        int expectedX = 1;
-        int expectedY = 4;
+        Space init = new Space();
+        Space spaceFin = new Space();
+        worker.setPosition(init);
+        worker.move(spaceFin);
 
-        assertEquals(expectedX, worker.getPosition().getX() );
-        assertEquals(expectedY, worker.getPosition().getY());
+        assertEquals(spaceFin, worker.getPosition());
+        assertNull(init.getWorker());
+        assertEquals(worker, spaceFin.getWorker());
 
         Space space2 = new Space();
         Space space3 = new Space();
