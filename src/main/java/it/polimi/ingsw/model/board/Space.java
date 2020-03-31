@@ -96,4 +96,12 @@ public class Space {
     public boolean isEmpty() {
         return workerHere == null;
     }
+
+    /**
+     * get Tower stored in builtTower
+     * @return tower
+     */
+    public Tower getTower() {
+        return builtTower;
+    }
 }

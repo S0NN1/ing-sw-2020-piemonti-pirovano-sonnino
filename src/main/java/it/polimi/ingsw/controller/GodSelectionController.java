@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.DuplicateGodException;
+import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.board.CardSelectionBoard;
 import it.polimi.ingsw.observer.CardObserver;
@@ -38,7 +39,15 @@ public class GodSelectionController implements CardObserver<GodSelectionControll
                 cardModel.setDescription(cardModel.getSelectedGod().godsDescription());
                 break;
             case "ADD":
-                cardModel.addToDeck(cardModel.getSelectedGod());
+                try {
+                    cardModel.addToDeck(cardModel.getSelectedGod());
+                }
+                catch (OutOfBoundException e) {
+                    //TODO
+                }
+                catch (DuplicateGodException e) {
+                    //TODO
+                }
                 break;
         }
     }
