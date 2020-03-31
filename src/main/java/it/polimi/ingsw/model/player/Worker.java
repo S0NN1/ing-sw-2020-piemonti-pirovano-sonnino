@@ -53,6 +53,7 @@ public class Worker {
     public void setPosition(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
         this.position = space;
+        space.setWorker(this);
     }
 
     /**
