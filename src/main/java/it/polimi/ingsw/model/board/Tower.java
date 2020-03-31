@@ -60,4 +60,12 @@ public class Tower {
             throw new OutOfBoundException();
         }
     }
+
+    /**
+     * Let Atlas set dome ==true
+     * @param dome used to identify dome block on an unfinished tower
+     */
+    public void setDome(boolean dome) {
+        this.dome = dome;
+    }
 }

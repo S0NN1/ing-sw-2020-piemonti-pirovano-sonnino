@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.board;
 
+import it.polimi.ingsw.exceptions.InvalidInputException;
+
 /**
  * This class represent the main game board of Santorini. It's composed by 25 "Spaces", which can be filled with a player
  * or monument (up to 4 levels),
@@ -17,14 +19,19 @@ public class GameBoard {
         for(int i=0; i<5; i++) {
             for(int j=0; j<5; j++) {
                 grid[i][j] = new Space();
+                try{
                 grid[i][j].setX(i);
                 grid[i][j].setY(j);
+                }
+                catch(InvalidInputException e){
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }
 
     /**
-     * This method is used to get a particular space in the board, identified by x and y coordinates.
+     * Method used in order to get a particular space in the board, identified by x and y coordinates.
      * @param row the y coordinate.
      * @param col the x coordinate.
      * @return the desired space.

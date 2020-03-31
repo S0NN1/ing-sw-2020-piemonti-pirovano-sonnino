@@ -34,9 +34,10 @@ public class Space {
      * Set x value
      *
      * @param x position
+     * @exception InvalidInputException input isn't between 0 and 4
      */
     public void setX(int x) throws InvalidInputException {
-        if (x >= 0 && x < 25) {
+        if (x >= 0 && x < 5) {
             this.x = x;
         } else throw new InvalidInputException();
     }
@@ -54,11 +55,14 @@ public class Space {
      * Set y value
      *
      * @param y position
+     * @exception InvalidInputException input isn't between 0 and 4
      */
     public void setY(int y) throws InvalidInputException {
-        if (x >= 0 && x < 25) {
+        if (x >= 0 && x < 5) {
             this.y = y;
-        } else throw new InvalidInputException();
+        } else {
+            throw new InvalidInputException();
+        }
     }
 
     /**
