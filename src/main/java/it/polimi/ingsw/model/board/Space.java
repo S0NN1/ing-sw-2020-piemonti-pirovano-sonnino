@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board;
 
+import it.polimi.ingsw.exceptions.InvalidInputException;
 import it.polimi.ingsw.model.player.Worker;
 
 /**
@@ -34,8 +35,10 @@ public class Space {
      *
      * @param x position
      */
-    public void setX(int x) {
-        this.x = x;
+    public void setX(int x) throws InvalidInputException {
+        if (x >= 0 && x < 25) {
+            this.x = x;
+        } else throw new InvalidInputException();
     }
 
     /**
@@ -52,8 +55,10 @@ public class Space {
      *
      * @param y position
      */
-    public void setY(int y) {
-        this.y = y;
+    public void setY(int y) throws InvalidInputException {
+        if (x >= 0 && x < 25) {
+            this.y = y;
+        } else throw new InvalidInputException();
     }
 
     /**
