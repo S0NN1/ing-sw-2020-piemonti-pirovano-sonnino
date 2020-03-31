@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
+import it.polimi.ingsw.observer.CardObservable;
 
 import java.util.ArrayList;
 
