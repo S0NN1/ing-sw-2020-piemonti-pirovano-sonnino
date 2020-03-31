@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SpaceTest {
     Space space = new Space();
 
-    @BeforeEach
+    @Test
     void isEmptywithoutworker() {
         assertTrue(space.isEmpty());
     }
@@ -32,7 +32,6 @@ class SpaceTest {
         InvalidInputException e = Assertions.assertThrows(InvalidInputException.class, () -> {
             space.setX(5);
         });
-        assertTrue(e.getMessage().contains("Error: Input must be between 0 and 24"));
-    }
+        }
 
 }
