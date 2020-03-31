@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.DuplicateColorException;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
 import org.junit.jupiter.api.Test;
@@ -11,8 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
+    /**
+     * This first test see the behaviour in front of player clockwise rotation, and player removal.
+     */
     @Test
-    void setupRemoveNextPlayer() throws DuplicateNicknameException, DuplicateColorException {
+    void setupCreateRemoveNextPlayer() throws DuplicateNicknameException, DuplicateColorException {
         Game testGame = new Game();
         testGame.createNewPlayer(new Player("piro", PlayerColors.RED));
 
@@ -20,35 +23,24 @@ class GameTest {
         assertThrows(DuplicateNicknameException.class, ()->testGame.createNewPlayer(new Player("piro", PlayerColors.GREEN)));
 
         testGame.createNewPlayer(new Player("alice", PlayerColors.GREEN));
-        testGame.createNewPlayer(new Player("sonny", PlayerColors.BLUE));
+        testGame.createNewPlayer(new Player("nico", PlayerColors.BLUE));
 
         testGame.setCurrentPlayer(testGame.getActivePlayers().get(0));
-        System.out.println(testGame.getCurrentPlayer().getNickname());
+        assertEquals(testGame.getCurrentPlayer().getNickname(), "piro");
         testGame.nextPlayer();
-        System.out.println(testGame.getCurrentPlayer().getNickname());
+        assertEquals(testGame.getCurrentPlayer().getNickname(), "alice");
         testGame.nextPlayer();
-        System.out.println(testGame.getCurrentPlayer().getNickname());
+        assertEquals(testGame.getCurrentPlayer().getNickname(), "nico");
 
         testGame.nextPlayer();
-        testGame.removePlayer(testGame.getCurrentPlayer());
-        System.out.println(testGame.getCurrentPlayer().getNickname());
+        testGame.removePlayer(testGame.getPlayerByNickname("piro"));
+        assertEquals(testGame.getCurrentPlayer().getNickname(), "alice");
 
         testGame.nextPlayer();
-        System.out.println(testGame.getCurrentPlayer().getNickname());
+        assertEquals(testGame.getCurrentPlayer().getNickname(), "nico");
         testGame.nextPlayer();
-        System.out.println(testGame.getCurrentPlayer().getNickname());
+        assertEquals(testGame.getCurrentPlayer().getNickname(), "alice");
     }
-
-
-    @Test
-    void createNewPlayer() {
-    }
-
-    /*@Test
-    void getSpace() {
-        Game board = new Game();
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> board.getSpace(3,7), "An out of bound exception should be thrown.");
-    }*/
 
     @Test
     void cardChoice() {

@@ -38,7 +38,7 @@ public class Tower {
      * @throws OutOfBoundException exceeded range
      */
     public void addLevel() throws OutOfBoundException {
-        if ((getHeight() >= 0 && getHeight() < 4) || !isCompleted()) {
+        if ((getHeight() >= 0 && getHeight() < 4) && !isCompleted()) {
             height++;
         } else {
             throw new OutOfBoundException();
@@ -59,5 +59,13 @@ public class Tower {
         } else {
             throw new OutOfBoundException();
         }
+    }
+
+    /**
+     * Let Atlas set dome ==true
+     * @param dome used to identify dome block on an unfinished tower
+     */
+    public void setDome(boolean dome) {
+        this.dome = dome;
     }
 }
