@@ -15,6 +15,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * An instance of this class is created from SocketServer when it accepts a new connection.
+ * It handles a connection between client and server, permitting sending and receiving messages and doing other
+ * class-useful operations too.
+ * @author Luca Pirovano
+ */
 public class SocketClientConnection implements ClientConnection, Runnable {
     private Socket socket;
     private Server server;
@@ -27,6 +33,12 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         return active;
     }
 
+    /**
+     * Constructor of the class: it instantiates an input/output stream from the socket received as parameters, and
+     * add the main server to his attributes too.
+     * @param socket the socket which accepted the client connection.
+     * @param server the main server class.
+     */
     public SocketClientConnection(Socket socket, Server server) {
         this.server = server;
         this.socket = socket;
@@ -42,10 +54,18 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+    /**
+     * @return the connection socket.
+     */
     public Socket getSocket() {
         return socket;
     }
 
+    /**
+     * Close the connection with the client, terminating firstly input and output streams, and then invoking the server
+     * method called "unregisterClient", which will remove the active virtual client from the list.
+     * @see it.polimi.ingsw.server.Server#unregisterClient for more details.
+     */
     public void close() {
         try {
             inputStream.close();
@@ -58,6 +78,11 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+    /**
+     * Read a serializable object from the input stream, using ObjectInputStream library.
+     * @throws IOException if the client is not online anymore.
+     * @throws ClassNotFoundException if the serializable object is not part of any class.
+     */
     public synchronized void readFromStream() throws IOException, ClassNotFoundException {
         Message command = (Message) inputStream.readObject();
         actionHandler(command);
@@ -71,13 +96,18 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
     catch (IOException e) {
-        System.err.println("LMAO " + e.getMessage());
+        System.err.println(e.getMessage());
     } catch (ClassNotFoundException e) {
         e.printStackTrace();
     }
     close();
     }
 
+    /**
+     * Handles an action by receiving a message from the client. The "Message" interface permits splitting the information
+     * into several types of messages. This method invokes another one relying on the implementation type of the message received.
+     * @param command the Message interface type command, which needs to be checked in order to perform an action.
+     */
     public void actionHandler(Message command) {
         if(command instanceof SetupConnection) {
             try {
@@ -105,6 +135,12 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+    /**
+     * Setup method. It permits setting the number of the players in the match, which is decided by the first user connected
+     * to the server. It waits for a NumberOfPlayers Message type, then extracts the information about the number of
+     * players, passing it as a parameter to the server function "setTotalPlayers".
+     * @param message the action received from the user. This method iterates on it until it finds a NumberOfPlayers type.
+     */
     public void setPlayers(RequestPlayersNumber message) {
         SerializedMessage ans = new SerializedMessage();
         ans.setServerAnswer(message);
@@ -115,7 +151,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
                 if (command instanceof NumberOfPlayers) {
                     try {
                         int playerNumber = (((NumberOfPlayers) command).playersNumber);
-                        server.setMaxPlayers(playerNumber);
+                        server.setTotalPlayers(playerNumber);
                         server.getClientByID(this.clientID).send(new CustomMessage("Success: player number set to " + playerNumber));
                         break;
                     } catch (OutOfBoundException e) {
@@ -133,6 +169,11 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+    /**
+     * Sending to the client method. It allows dispatching serverAnswer to the correct client. The type SerializedMessage
+     * contains an Answer type, which represents an interface for server answer, like the client Message one.
+     * @param serverAnswer the serialized server answer (interface Answer).
+     */
     public void sendSocketMessage(SerializedMessage serverAnswer) {
         try {
             outputStream.reset();
@@ -147,6 +188,9 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+    /**
+     * @return the client ID of the actual connection.
+     */
     public Integer getClientID() {
         return clientID;
     }
