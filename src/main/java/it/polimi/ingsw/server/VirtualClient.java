@@ -22,7 +22,7 @@ public class VirtualClient {
     }
 
     public boolean isConnected() {
-        return(socketClientConnection==null);
+        return(!(socketClientConnection==null));
     }
 
     public void setSocketClientConnection(SocketClientConnection clientConnection) {

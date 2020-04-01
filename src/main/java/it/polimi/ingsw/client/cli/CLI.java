@@ -3,8 +3,12 @@ package it.polimi.ingsw.client.cli;
 import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.Model;
 import it.polimi.ingsw.client.UI;
+import it.polimi.ingsw.client.messages.Disconnect;
+import it.polimi.ingsw.client.messages.StartMatch;
+import it.polimi.ingsw.server.answers.ConnectionClosed;
 import it.polimi.ingsw.server.answers.ConnectionConfirmation;
-import it.polimi.ingsw.server.answers.KekMessage;
+import it.polimi.ingsw.server.answers.CustomMessage;
+import it.polimi.ingsw.server.answers.FullServer;
 
 import java.io.PrintStream;
 import java.util.Observable;
@@ -22,8 +26,12 @@ public class CLI implements UI, Runnable, Observer {
     public CLI() {
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
-        model = new Model();
+        model = new Model(this);
         activeGame = true;
+    }
+
+    public void toggleActiveGame(boolean activeGame) {
+        this.activeGame = activeGame;
     }
 
     public void setup() {
@@ -32,12 +40,14 @@ public class CLI implements UI, Runnable, Observer {
         boolean confirmation = false;
         while (confirmation==false) {
             do {
-                output.print(">Insert your nickname: ");
-                nickname = input.nextLine();
+                output.println(">Insert your nickname: ");
+                output.print(">");
+                nickname = input.next();
             } while (nickname == null);
 
-            output.println("You chose: " + nickname);
-            output.print("Is it ok? [y/n]");
+            output.println(">You chose: " + nickname);
+            output.println(">Is it ok? [y/n] ");
+            output.print(">");
             if(input.next().equalsIgnoreCase("y")) {
                 confirmation=true;
             }
@@ -52,8 +62,16 @@ public class CLI implements UI, Runnable, Observer {
 
     }
 
-    public void action() {
-
+    public void action(String command) {
+        switch (command.toUpperCase()) {
+            case "START":
+                connection.send(new StartMatch());
+                break;
+            case "QUIT":
+                connection.send(new Disconnect());
+                output.println("Disconnected from the server.");
+                System.exit(0);
+        }
     }
 
     @Override
@@ -61,9 +79,10 @@ public class CLI implements UI, Runnable, Observer {
         setup();
 
         while(activeGame) {
-            action();
+            action(input.nextLine());
         }
-
+        input.close();
+        output.close();
     }
 
     public static void main(String[] args) {
@@ -73,9 +92,24 @@ public class CLI implements UI, Runnable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(arg.toString().equalsIgnoreCase("ConnectionConfirmation")) {
+        if(arg.toString().equals("ConnectionConfirmation")) {
             ConnectionConfirmation answer = (ConnectionConfirmation)model.getServerAnswer();
             output.println(answer.getMessage());
+        }
+        else if(arg.toString().equals("FullServer")) {
+            FullServer answer = (FullServer) model.getServerAnswer();
+            System.err.println(answer.getMessage() + "\nApplication will now close...");
+            System.exit(0);
+        }
+        else if(arg.toString().equals("CustomMessage")) {
+            CustomMessage answer = (CustomMessage)model.getServerAnswer();
+            output.println(answer.getMessage());
+        }
+        else if(arg.toString().equals("ConnectionClosed")) {
+            ConnectionClosed answer = (ConnectionClosed)model.getServerAnswer();
+            output.println(answer.getMessage());
+            System.err.println("Application will now close...");
+            System.exit(0);
         }
     }
 }

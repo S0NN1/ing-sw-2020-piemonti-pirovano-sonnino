@@ -29,23 +29,30 @@ public class SocketListener implements Runnable{
     public void run() {
         try {
             inputStream = new ObjectInputStream(socket.getInputStream());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Error while getting an input stream!");
             e.printStackTrace();
         }
-
-        while(true) {
-            try {
+        try {
+            while (true) {
                 SerializedMessage message = (SerializedMessage) inputStream.readObject();
                 process(message);
             }
-            catch (IOException e) {
-                //TODO
+        }
+        catch (IOException e) {
+            System.err.println("Connection closed by the server. Quitting...");
+            System.exit(0);
+        }
+        catch (ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
+        finally {
+            try {
+                inputStream.close();
+                socket.close();
             }
-            catch (ClassNotFoundException e) {
+            catch (IOException e) {
                 e.printStackTrace();
-                //TODO
             }
         }
     }

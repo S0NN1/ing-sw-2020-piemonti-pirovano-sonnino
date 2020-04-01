@@ -14,7 +14,9 @@ import it.polimi.ingsw.view.CardSelection;
 
 public class App 
 {
-    public static void main( String[] args ) throws DuplicateColorException, DuplicateNicknameException {
+    public static void main( String[] args ) {
+
+
         /*Game game = new Game();
         game.createNewPlayer(new Player("piro", PlayerColors.BLUE));
         game.createNewPlayer(new Player("PIRO", PlayerColors.GREEN));

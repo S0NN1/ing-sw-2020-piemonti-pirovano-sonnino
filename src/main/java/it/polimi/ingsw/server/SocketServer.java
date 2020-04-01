@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.constants.Constants;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
@@ -32,11 +34,11 @@ public class SocketServer implements Runnable{
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Socket Server running on port " + port);
+            System.out.println(Constants.getInfo() + "Socket Server started; listening on port " + port);
             acceptConnections(serverSocket);
         }
         catch (IOException e) {
-            System.err.println("Error during Socket initialization, quitting...");
+            System.err.println(Constants.getErr() + "Error during Socket initialization, quitting...");
             e.printStackTrace();
             System.exit(0);
         }
