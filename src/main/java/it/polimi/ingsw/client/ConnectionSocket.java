@@ -3,8 +3,13 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.Message;
 import it.polimi.ingsw.client.messages.SetupConnection;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.server.answers.Answer;
+import it.polimi.ingsw.server.answers.ConnectionConfirmation;
+import it.polimi.ingsw.server.answers.FullServer;
+import it.polimi.ingsw.server.answers.SerializedMessage;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
@@ -29,11 +34,27 @@ public class ConnectionSocket {
             System.out.println("Opening a socket server communication on port " + serverPort + "...");
             this.socket = new Socket(serverAddress, serverPort);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
-            listener = new SocketListener(socket, this, model);
+            ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+
+            while(true) {
+                try {
+                    send(new SetupConnection(nickname));
+                    SerializedMessage answer = (SerializedMessage) input.readObject();
+                    if (answer.getServerAnswer() instanceof ConnectionConfirmation) {
+                        break;
+                    }
+                    if (answer.getServerAnswer() instanceof FullServer) {
+                        System.err.println(((FullServer)answer.getServerAnswer()).getMessage() + "\nApplication will now close...");
+                        System.exit(0);
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    System.err.println(e.getMessage());
+                    return;
+                }
+            }
+            listener = new SocketListener(socket, this, model, input);
             Thread thread = new Thread(listener);
             thread.start();
-
-            send(new SetupConnection(nickname));
         }
         catch (IOException e) {
             System.err.println("Error during socket configuration! Application will now close.");

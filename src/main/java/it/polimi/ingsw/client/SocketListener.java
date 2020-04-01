@@ -15,10 +15,11 @@ public class SocketListener implements Runnable{
 
     private ObjectInputStream inputStream;
 
-    public SocketListener(Socket socket, ConnectionSocket connectionSocket, Model model) {
+    public SocketListener(Socket socket, ConnectionSocket connectionSocket, Model model, ObjectInputStream inputStream) {
         this.model = model;
         this.connectionSocket = connectionSocket;
         this.socket = socket;
+        this.inputStream = inputStream;
     }
 
     public void process(SerializedMessage serverMessage) {
@@ -27,12 +28,6 @@ public class SocketListener implements Runnable{
 
     @Override
     public void run() {
-        try {
-            inputStream = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            System.err.println("Error while getting an input stream!");
-            e.printStackTrace();
-        }
         try {
             while (true) {
                 SerializedMessage message = (SerializedMessage) inputStream.readObject();

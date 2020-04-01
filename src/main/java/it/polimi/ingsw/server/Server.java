@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.messages.Setup;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.DuplicateColorException;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
+import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.server.answers.*;
@@ -22,6 +23,8 @@ public class Server {
     private int nextClientID;
     private Game game;
     private List<SocketClientConnection> waiting = new ArrayList<>();
+    private int maxPlayers;
+    private Server server;
 
     public Server() {
         System.out.println(Constants.getInfo() + "Instantiating server class...");
@@ -30,33 +33,40 @@ public class Server {
         nameMAPid = new HashMap<>();
         clientToConnection = new HashMap<>();
         game = new Game();
+        maxPlayers=-1;
+        server = this;
     }
 
     public Game getCurrentGame() {
         return game;
     }
 
-    public synchronized void lobby(SocketClientConnection c, boolean start) {
-        if (start) {
-            if(!IDmapClient.get(c.getClientID()).getNickname().equalsIgnoreCase(IDmapClient.get(0).getNickname())) {
-                IDmapClient.get(c.getClientID()).send(new CustomMessage("You are not the host of the lobby!"));
-                return;
-            }
-            else if(waiting.size()<2) {
-                broadcast(new CustomMessage("There are not enough players!"));
-                return;
-            }
-            System.err.println(Constants.getInfo() + "Player " + IDmapClient.get(0).getNickname() + " has started the match.");
-            broadcast(new CustomMessage("The match has started!"));
-            return;
-        }
-        waiting.add(c);
-        if(waiting.size()==2) {
-            IDmapClient.get(0).send(new CustomMessage(IDmapClient.get(0).getNickname() + ", you are the lobby host. Type START when ready to go!"));
-            broadcast(new CustomMessage((Constants.MAX_PLAYERS - waiting.size()) + " slots left."));
+    protected void setMaxPlayers(int maxPlayers) throws OutOfBoundException {
+        if(maxPlayers<Constants.MIN_PLAYERS || maxPlayers>Constants.MAX_PLAYERS) {
+            throw new OutOfBoundException();
         }
         else {
-            broadcast(new CustomMessage((Constants.MAX_PLAYERS - waiting.size()) + " slots left."));
+            this.maxPlayers = maxPlayers;
+        }
+    }
+
+    public VirtualClient getClientByID(int ID) {
+        return IDmapClient.get(ID);
+    }
+
+    public synchronized void lobby(SocketClientConnection c) throws InterruptedException{
+        waiting.add(c);
+        if (waiting.size()==1) {
+            IDmapClient.get(c.getClientID()).send(new CustomMessage(IDmapClient.get(c.getClientID()).getNickname() + ", you are the lobby host."));
+            c.setPlayers(new RequestPlayersNumber());
+            broadcast(new CustomMessage((maxPlayers - waiting.size()) + " slots left."));
+        }
+        else if (waiting.size()==maxPlayers) {
+            System.err.println(Constants.getInfo() + "Minimum player number reached. The match has started.");
+            broadcast(new CustomMessage("The match has started!"));
+        }
+        else {
+            broadcast(new CustomMessage((maxPlayers - waiting.size()) + " slots left."));
         }
     }
 
@@ -74,7 +84,7 @@ public class Server {
         waiting.remove(clientToConnection.get(client));
         clientToConnection.remove(client);
         System.out.println(Constants.getInfo() + "Client has been successfully unregistered.");
-        broadcast(new CustomMessage("Client " + client.getNickname() + " left the game.\n" + (Constants.MAX_PLAYERS - waiting.size()) + " slots left."));
+        broadcast(new CustomMessage("Client " + client.getNickname() + " left the game.\n" + (maxPlayers - waiting.size()) + " slots left."));
     }
 
     public synchronized Integer registerConnection(String nickname, SocketClientConnection socketClientHandler) {
@@ -83,7 +93,7 @@ public class Server {
         if(clientID==null) {    //Player has never connected to the server before.
             clientID = createClientID();
             VirtualClient client = new VirtualClient(clientID, nickname, socketClientHandler, game);
-            if(waiting.size()>=3) {
+            if(maxPlayers!=-1 && waiting.size()>=maxPlayers) {
                 client.send(new FullServer());
                 return null;
             }
