@@ -1,6 +1,7 @@
 .idea/
 target/
 .vscode/
+
 GC1.iml
 src/main/java/it/polimi/ingsw/server/
 src/main/java/it/polimi/ingsw/client/
