@@ -3,7 +3,10 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
-import it.polimi.ingsw.observer.CardObservable;
+import it.polimi.ingsw.observer.workerListeners.MoveListener;
+import it.polimi.ingsw.observer.workerListeners.SelectMovesListeners;
+import it.polimi.ingsw.observer.workerListeners.WinListener;
+import it.polimi.ingsw.server.VirtualClient;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -41,7 +44,12 @@ public class Worker {
             default:
                 throw new IllegalArgumentException();
         }
-        listeners.put("moveListener", new moveListener());
+    }
+
+    public void createListeners(VirtualClient client){
+        listeners.put("moveListener", new MoveListener(client));
+        listeners.put("winListener",new WinListener(client));
+        listeners.put("selectMovesListener", new SelectMovesListeners(client));
     }
 
     /**
@@ -96,15 +104,14 @@ public class Worker {
      */
     public void move(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
-        if(space.getTower().getHeight() == 3 && position.getTower().getHeight() == 2) {
-            System.out.println("bravo hai vinto");//WIIIIIIIIIIIIIIIIN
+        Space oldPosition = position;
+        position.setWorker(space.getWorker());
+        space.setWorker(this);
+        position = space;
+        listeners.get("moveListener").propertyChange(new PropertyChangeEvent(this, "move", oldPosition, position));
+        if(position.getTower().getHeight() == 3 && oldPosition.getTower().getHeight() == 2) {
+            listeners.get("winListener").propertyChange(new PropertyChangeEvent(this,"win", null, null));
         }
-        else {
-            position.setWorker(space.getWorker());
-            space.setWorker(this);
-            position = space;
-        }
-        listeners.get("moveListener").propertyChange(new moveEvent(this));
     }
 
     /**
@@ -130,7 +137,7 @@ public class Worker {
      * @param gameBoard GameBoard of the game
      * @return ArrayList of spaces
      */
-    public ArrayList<Space> getMoves(GameBoard gameBoard) throws IllegalStateException, IllegalArgumentException {
+    public void getMoves(GameBoard gameBoard) throws IllegalStateException, IllegalArgumentException {
         if(gameBoard == null) throw new IllegalArgumentException();
         ArrayList<Space> moves = new ArrayList<Space>();
         for (int i = 0; i < 5; i++) {
@@ -143,7 +150,7 @@ public class Worker {
             isBlocked = true;
             throw new IllegalStateException();
         }
-        return  moves;
+        listeners.get("selectMovesListeners").propertyChange(new PropertyChangeEvent(this,"list of moves",null,moves));
     }
 
     /**
