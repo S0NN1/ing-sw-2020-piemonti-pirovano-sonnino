@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.exceptions.InvalidInputException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
@@ -36,7 +37,7 @@ class WorkerTest {
 
     @Test
     @DisplayName("setPosition method and exceptions")
-    void setPositionTest() {
+    void setPositionTest() throws InvalidInputException {
 
         Space space = new Space();
         space.setX(2);
@@ -47,8 +48,7 @@ class WorkerTest {
         assertEquals(expX, worker.getPosition().getX());
         assertEquals(expY, worker.getPosition().getY());
 
-        Space nullSpace = null;
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {worker.setPosition(nullSpace);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {worker.setPosition(null);});
 
     }
 

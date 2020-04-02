@@ -4,7 +4,11 @@ import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Alice Piemonti
@@ -14,6 +18,7 @@ public class Worker {
     protected Space position;
     protected boolean isBlocked;
     protected final String workerColor;
+    private Map<String,PropertyChangeListener> listeners = new HashMap<>();
 
     /**
      * Constructor
@@ -35,6 +40,7 @@ public class Worker {
             default:
                 throw new IllegalArgumentException();
         }
+        listeners.put("moveListener", new moveListener());
     }
 
     /**
@@ -76,7 +82,7 @@ public class Worker {
      * return true if this worker has won the game
      * @return boolean value
      */
-    public boolean hasWon() {   return true;
+    private boolean hasWon() {   return true;
         /*
         -----------------DA COMPLETARE----------------
          */
@@ -97,6 +103,7 @@ public class Worker {
             space.setWorker(this);
             position = space;
         }
+        listeners.get("moveListener").propertyChange(new moveEvent(this));
     }
 
     /**
@@ -105,7 +112,7 @@ public class Worker {
      * @param space a space of the GameBoard
      * @return boolean value
      */
-    public boolean isSelectable(Space space) throws IllegalArgumentException {
+    protected boolean isSelectable(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
         return (space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
                 (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
@@ -144,7 +151,7 @@ public class Worker {
      * @throws OutOfBoundException if it's impossible to build on this space
      * @throws IllegalArgumentException if space is null
      */
-    public void build(Space space) throws OutOfBoundException, IllegalArgumentException {
+    public void build(Space space, Boolean buildDome) throws IllegalArgumentException, OutOfBoundException {
         if(space == null)throw new IllegalArgumentException();
         space.getTower().addLevel();
     }
@@ -155,7 +162,7 @@ public class Worker {
      * @param space space of the GameBoard
      * @return boolean value
      */
-    public boolean isBuildable(Space space) throws IllegalArgumentException {
+    private boolean isBuildable(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
         return (space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
                 (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&

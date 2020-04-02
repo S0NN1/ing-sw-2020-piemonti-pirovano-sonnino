@@ -5,5 +5,4 @@ public class Artemis extends Worker {
         super(color);
     }
 
-    public
 }
