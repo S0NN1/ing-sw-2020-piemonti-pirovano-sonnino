@@ -7,7 +7,4 @@ src/main/java/it/polimi/ingsw/server/
 src/main/java/it/polimi/ingsw/client/
 
 src/main/java/it/polimi/ingsw/model/player/Minotaur.java
-src/main/java/it/polimi/ingsw/model/player/moveEvent.java
-src/main/java/it/polimi/ingsw/model/player/moveListener.java
-src/main/java/it/polimi/ingsw/controller/PhasesController.java
 src/test/java/it/polimi/ingsw/model/player/AtlasTest.java
