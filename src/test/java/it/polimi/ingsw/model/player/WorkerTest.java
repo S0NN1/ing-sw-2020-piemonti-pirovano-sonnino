@@ -88,7 +88,7 @@ class WorkerTest {
         }
 
         System.out.println("you should win:");
-        worker.setPosition(space2);
+        worker.move(space2);
         worker.move(space3);
     }
 
@@ -100,11 +100,6 @@ class WorkerTest {
         @BeforeEach
         void init(){
             gameBoard = new GameBoard();
-            for(int i=1; i<4; i++){
-                for(int j=1; j<4; j++){
-                    gameBoard.getSpace(i,j).setTower(new Tower());
-                }
-            }
         }
 
 
@@ -112,30 +107,32 @@ class WorkerTest {
         @DisplayName("without towers")
         void getMoves(){
 
-           /* worker.setPosition(gameBoard.getSpace(2, 2));
+            worker.setPosition(gameBoard.getSpace(2, 2));
             int expectedMovesCenter = 8;
             assertEquals(expectedMovesCenter, worker.getMoves(gameBoard).size());
 
             int expectedMovesBorder = 5;
-            worker.setPosition(gameBoard.getSpace(0, 3));
-            assertEquals(expectedMovesBorder, worker.getMoves(gameBoard).size());
-            worker.setPosition(gameBoard.getSpace(4, 3));
-            assertEquals(expectedMovesBorder, worker.getMoves(gameBoard).size());
-            worker.setPosition(gameBoard.getSpace(3, 0));
-            assertEquals(expectedMovesBorder, worker.getMoves(gameBoard).size());
-            worker.setPosition(gameBoard.getSpace(3, 4));
-            assertEquals(expectedMovesBorder, worker.getMoves(gameBoard).size());
+            worker.move(gameBoard.getSpace(0, 3));
+            assertEquals(expectedMovesBorder, worker.getMoves(gameBoard).size(),"1");
+            worker.move(gameBoard.getSpace(4, 3));
+            assertEquals(expectedMovesBorder, worker.getMoves(gameBoard).size(),"2");
+            worker.move(gameBoard.getSpace(3, 0));
+            assertEquals(expectedMovesBorder, worker.getMoves(gameBoard).size(),"3");
+            worker.move(gameBoard.getSpace(1, 4));
+            assertEquals(1, worker.getPosition().getX(),"x");
+            assertEquals(4, worker.getPosition().getY(),"y");
+            //assertEquals(expectedMovesBorder, worker.getMoves(gameBoard).size(),"4");
 
             int expectedMovesCorner = 3;
-            worker.setPosition(gameBoard.getSpace(0, 0));
-            assertEquals(expectedMovesCorner, worker.getMoves(gameBoard).size());
-            worker.setPosition(gameBoard.getSpace(0, 4));
-            assertEquals(expectedMovesCorner, worker.getMoves(gameBoard).size());
-            worker.setPosition(gameBoard.getSpace(4, 0));
-            assertEquals(expectedMovesCorner, worker.getMoves(gameBoard).size());
-            worker.setPosition(gameBoard.getSpace(4, 4));
+            worker.move(gameBoard.getSpace(0, 0));
+            assertEquals(expectedMovesCorner, worker.getMoves(gameBoard).size(),"5");
+            worker.move(gameBoard.getSpace(0, 4));
+            assertEquals(expectedMovesCorner, worker.getMoves(gameBoard).size(),"6");
+            worker.move(gameBoard.getSpace(4, 0));
+            assertEquals(expectedMovesCorner, worker.getMoves(gameBoard).size(),"7");
+            worker.move(gameBoard.getSpace(4, 4));
             assertEquals(expectedMovesCorner, worker.getMoves(gameBoard).size(), "the worker moves correctly without towers around");
-       */ }
+        }
 
         @Test
         @DisplayName("from different height")
@@ -164,15 +161,15 @@ class WorkerTest {
             worker.setPosition(gameBoard.getSpace(2, 2));
             assertEquals(expected0, worker.getMoves(gameBoard).size());
 
-            worker.setPosition(gameBoard.getSpace(2, 2));
+            worker.move(gameBoard.getSpace(2, 2));
             gameBoard.getSpace(2, 2).getTower().addLevel();
             assertEquals(expected1, worker.getMoves(gameBoard).size());
 
-            worker.setPosition(gameBoard.getSpace(2, 2));
+            worker.move(gameBoard.getSpace(2, 2));
             gameBoard.getSpace(2, 2).getTower().addLevel();
             assertEquals(expected2, worker.getMoves(gameBoard).size());
 
-            worker.setPosition(gameBoard.getSpace(2, 2));
+            worker.move(gameBoard.getSpace(2, 2));
             gameBoard.getSpace(2, 2).getTower().addLevel();
             assertEquals(expected3, worker.getMoves(gameBoard).size(), "the worker moves correctly from any height to any height");
         }
@@ -191,9 +188,8 @@ class WorkerTest {
                     }
                 }
             }
-
             worker.setPosition(gameBoard.getSpace(1,1));
-            Exception exception = assertThrows(IllegalStateException.class, () -> {worker.getMoves(gameBoard);});
+            Exception exception = assertThrows(IllegalStateException.class, () -> {worker.showMoves(gameBoard);});
         }
     }
 
@@ -228,11 +224,11 @@ class WorkerTest {
 
             worker.setPosition(gameBoard.getSpace(0,1));
             assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
-            worker.setPosition(gameBoard.getSpace(4,1));
+            worker.move(gameBoard.getSpace(4,1));
             assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
-            worker.setPosition(gameBoard.getSpace(1,0));
+            worker.move(gameBoard.getSpace(1,0));
             assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
-            worker.setPosition(gameBoard.getSpace(1,4));
+            worker.move(gameBoard.getSpace(1,4));
             assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
         }
 
@@ -274,15 +270,15 @@ class WorkerTest {
             worker.setPosition(gameBoard.getSpace(2, 2));
             assertEquals(expected, worker.getBuildableSpaces(gameBoard).size());
 
-            worker.setPosition(gameBoard.getSpace(2, 2));
+            worker.move(gameBoard.getSpace(2, 2));
             gameBoard.getSpace(2, 2).getTower().addLevel();
             assertEquals(expected, worker.getBuildableSpaces(gameBoard).size());
 
-            worker.setPosition(gameBoard.getSpace(2, 2));
+            worker.move(gameBoard.getSpace(2, 2));
             gameBoard.getSpace(2, 2).getTower().addLevel();
             assertEquals(expected, worker.getBuildableSpaces(gameBoard).size());
 
-            worker.setPosition(gameBoard.getSpace(2, 2));
+            worker.move(gameBoard.getSpace(2, 2));
             gameBoard.getSpace(2, 2).getTower().addLevel();
             assertEquals(expected, worker.getBuildableSpaces(gameBoard).size(), "the worker build correctly from any height to any height");
 

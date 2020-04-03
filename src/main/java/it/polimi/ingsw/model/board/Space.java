@@ -58,7 +58,7 @@ public class Space {
      * @exception InvalidInputException input isn't between 0 and 4
      */
     public void setY(int y) throws InvalidInputException {
-        if (x >= 0 && x < 5) {
+        if (y >= 0 && y < 5) {
             this.y = y;
         } else {
             throw new InvalidInputException();

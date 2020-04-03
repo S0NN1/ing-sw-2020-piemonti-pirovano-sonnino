@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.VirtualClient;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class Worker {
     protected Space position;
     protected boolean isBlocked;
     protected final String workerColor;
-    private Map<String,PropertyChangeListener> listeners = new HashMap<>();
+    private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
     /**
      * Constructor
@@ -46,10 +47,14 @@ public class Worker {
         }
     }
 
+    /**
+     * create the Map of listeners
+     * @param client virtualClient
+     */
     public void createListeners(VirtualClient client){
-        listeners.put("moveListener", new MoveListener(client));
-        listeners.put("winListener",new WinListener(client));
-        listeners.put("selectMovesListener", new SelectMovesListeners(client));
+        listeners.addPropertyChangeListener("moveListener", new MoveListener(client));
+        listeners.addPropertyChangeListener("winListener", new WinListener(client));
+        listeners.addPropertyChangeListener("selectMovesListener", new SelectMovesListeners(client));
     }
 
     /**
@@ -61,12 +66,14 @@ public class Worker {
     }
 
     /**
-     * set a new position to worker
+     * set a new position to worker. You can only call this method once
      * @throws IllegalArgumentException if space is null
+     * @throws IllegalStateException if the worker has already a position
      * @param space space, the unit of the GameBoard
      */
-    public void setPosition(Space space) throws IllegalArgumentException {
+    public void setPosition(Space space) throws IllegalArgumentException, IllegalStateException {
         if(space == null) throw new IllegalArgumentException();
+        else if(position != null) throw new IllegalStateException();
         this.position = space;
         space.setWorker(this);
     }
@@ -108,9 +115,9 @@ public class Worker {
         position.setWorker(space.getWorker());
         space.setWorker(this);
         position = space;
-        listeners.get("moveListener").propertyChange(new PropertyChangeEvent(this, "move", oldPosition, position));
+        listeners.firePropertyChange("moveListener", oldPosition, position);
         if(position.getTower().getHeight() == 3 && oldPosition.getTower().getHeight() == 2) {
-            listeners.get("winListener").propertyChange(new PropertyChangeEvent(this,"win", null, null));
+            listeners.firePropertyChange("winListener", null, null);
         }
     }
 
@@ -122,35 +129,48 @@ public class Worker {
      */
     protected boolean isSelectable(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
-        return (space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
+        return ((space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
                 (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
                 (space.getX() != position.getX() || space.getY() != position.getY()) &&
                 !space.getTower().isCompleted() &&
-                (space.getTower().getHeight() - this.position.getTower().getHeight() < 2) &&
-                space.isEmpty();
+                (space.getTower().getHeight() - position.getTower().getHeight() < 2) &&
+                space.isEmpty());
     }
 
     /**
-     * get an ArrayList that contains the spaces which the worker can move to
-     * @throws IllegalArgumentException if gambeBoard is null
-     * @throws IllegalThreadStateException if the worker is blocked, so it cannot move
-     * @param gameBoard GameBoard of the game
-     * @return ArrayList of spaces
+     * notify the selectMovesListener with all the moves the worker can do
+     * @param gameBoard of the game
+     * @throws IllegalArgumentException if gameBoard is null
+     * @throws IllegalStateException if the worker is blocked
      */
-    public void getMoves(GameBoard gameBoard) throws IllegalStateException, IllegalArgumentException {
+    public void showMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
         if(gameBoard == null) throw new IllegalArgumentException();
-        ArrayList<Space> moves = new ArrayList<Space>();
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                Space space = gameBoard.getSpace(i,j);
-                if (isSelectable(space)) { moves.add(space);}
-            }
-        }
+        ArrayList<Space> moves = getMoves(gameBoard);
         if(moves.isEmpty()) {
             isBlocked = true;
             throw new IllegalStateException();
         }
-        listeners.get("selectMovesListeners").propertyChange(new PropertyChangeEvent(this,"list of moves",null,moves));
+        listeners.firePropertyChange("selectMovesListener",null,moves);
+    }
+
+    /**
+     * get an ArrayList that contains the spaces which the worker can move to
+     * @throws IllegalArgumentException if gameBoard is null
+     * @throws IllegalThreadStateException if the worker is blocked, so it cannot move
+     * @param gameBoard GameBoard of the game
+     * @return ArrayList of Spaces
+     */
+    public ArrayList<Space> getMoves(GameBoard gameBoard) {
+        ArrayList<Space> moves = new ArrayList<Space>();
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                Space space = gameBoard.getSpace(i, j);
+                if (isSelectable(space)) {
+                    moves.add(space);
+                }
+            }
+        }
+        return moves;
     }
 
     /**
