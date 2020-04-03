@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.server.answers.*;
+import it.polimi.ingsw.server.answers.GameError;
 
 import java.util.Observable;
 
@@ -15,20 +16,15 @@ public class Model extends Observable {
     }
 
     public void answerHandler(Answer answer) {
-        if(answer instanceof ConnectionConfirmation) {
+        if(answer instanceof RequestPlayersNumber) {
             serverAnswer = answer;
             setChanged();
-            notifyObservers("ConnectionConfirmation");
+            notifyObservers("RequestPlayerNumber");
         }
         else if(answer instanceof CustomMessage) {
             serverAnswer = answer;
             setChanged();
             notifyObservers("CustomMessage");
-        }
-        else if(answer instanceof FullServer) {
-            serverAnswer = answer;
-            setChanged();
-            notifyObservers("FullServer");
         }
         else if(answer instanceof ConnectionClosed) {
             serverAnswer = answer;

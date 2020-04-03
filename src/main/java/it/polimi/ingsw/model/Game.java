@@ -37,15 +37,7 @@ public class Game extends Observable {
      * Create a new player in the match. The minimum length of activePlayers array is 2 elements, and the maximum is 3.
      * @param player the player to be added.
      */
-    public void createNewPlayer(Player player) throws DuplicateColorException, DuplicateNicknameException{
-        for (Player player1:players) {
-            if (player1.getColor().equals(player.getColor())) {
-                throw new DuplicateColorException();
-            }
-            if (player1.getNickname().equalsIgnoreCase(player.getNickname())) {
-                throw new DuplicateNicknameException();
-            }
-        }
+    public void createNewPlayer(Player player) {
         players.add(player);
         activePlayers.add(player);
     }

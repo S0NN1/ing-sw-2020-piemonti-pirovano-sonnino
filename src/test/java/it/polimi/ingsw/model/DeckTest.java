@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.CardNotChosenException;
 import it.polimi.ingsw.exceptions.DuplicateGodException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.player.PlayersNumber;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,6 +12,11 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeckTest {
+
+    @BeforeEach
+    void initialization() {
+        Deck testDeck = new Deck();
+    }
 
     @Test
     void setCardTest1() throws OutOfBoundException, DuplicateGodException {

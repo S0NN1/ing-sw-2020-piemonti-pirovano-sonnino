@@ -4,13 +4,12 @@ import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.Model;
 import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.messages.Disconnect;
-import it.polimi.ingsw.client.messages.StartMatch;
-import it.polimi.ingsw.server.answers.ConnectionClosed;
-import it.polimi.ingsw.server.answers.ConnectionConfirmation;
-import it.polimi.ingsw.server.answers.CustomMessage;
-import it.polimi.ingsw.server.answers.FullServer;
+import it.polimi.ingsw.client.messages.NumberOfPlayers;
+import it.polimi.ingsw.exceptions.DuplicateNicknameException;
+import it.polimi.ingsw.server.answers.*;
 
 import java.io.PrintStream;
+import java.util.InputMismatchException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -18,8 +17,9 @@ import java.util.Scanner;
 public class CLI implements UI, Runnable, Observer {
     private Scanner input;
     private PrintStream output;
-    boolean activeGame;
-    Model model;
+    private boolean activeGame;
+    private boolean canInput;
+    private Model model;
 
     ConnectionSocket connection;
 
@@ -35,7 +35,6 @@ public class CLI implements UI, Runnable, Observer {
     }
 
     public void setup() {
-        output.println("Hi, welcome to Santorini!");
         String nickname=null;
         boolean confirmation = false;
         while (confirmation==false) {
@@ -56,22 +55,37 @@ public class CLI implements UI, Runnable, Observer {
             }
         }
         connection = new ConnectionSocket();
-        connection.setup(nickname, model);
-        output.println("Socket Connection setup completed!");
+        try {
+            connection.setup(nickname, model);
+            output.println("Socket Connection setup completed!");
+        } catch (DuplicateNicknameException e) {
+            setup();
+        }
         model.addObserver(this);
-
     }
 
     public void action(String command) {
         switch (command.toUpperCase()) {
-            case "START":
-                connection.send(new StartMatch());
+            case "PLAYERNUMBER":
+                int selection;
+                while(true) {
+                    try {
+                        output.print(">");
+                        selection = input.nextInt();
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.err.println("Invalid parameter, it must be a number.\nApplication will now quit...");
+                        System.exit(-1);
+                    }
+                }
+                connection.send(new NumberOfPlayers(selection));
                 break;
             case "QUIT":
                 connection.send(new Disconnect());
                 output.println("Disconnected from the server.");
                 System.exit(0);
         }
+        canInput = false;
     }
 
     @Override
@@ -79,37 +93,35 @@ public class CLI implements UI, Runnable, Observer {
         setup();
 
         while(activeGame) {
-            action(input.nextLine());
+            if (canInput) {
+                action(input.nextLine());
+            }
         }
         input.close();
         output.close();
     }
 
     public static void main(String[] args) {
+        System.out.println("Hi, welcome to Santorini!");
         CLI cli = new CLI();
         cli.run();
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if(arg.toString().equals("ConnectionConfirmation")) {
-            ConnectionConfirmation answer = (ConnectionConfirmation)model.getServerAnswer();
-            output.println(answer.getMessage());
-        }
-        else if(arg.toString().equals("FullServer")) {
-            FullServer answer = (FullServer) model.getServerAnswer();
-            System.err.println(answer.getMessage() + "\nApplication will now close...");
-            System.exit(0);
-        }
-        else if(arg.toString().equals("CustomMessage")) {
-            CustomMessage answer = (CustomMessage)model.getServerAnswer();
-            output.println(answer.getMessage());
-        }
-        else if(arg.toString().equals("ConnectionClosed")) {
-            ConnectionClosed answer = (ConnectionClosed)model.getServerAnswer();
-            output.println(answer.getMessage());
-            System.err.println("Application will now close...");
-            System.exit(0);
+        String value = arg.toString();
+        switch (value) {
+            case "RequestPlayerNumber":
+                output.println(((RequestPlayersNumber)model.getServerAnswer()).getMessage());
+                action("PlayerNumber");
+                break;
+            case "CustomMessage":
+                output.println(((CustomMessage)model.getServerAnswer()).getMessage());
+                break;
+            case "ConnectionClosed":
+                output.println(((ConnectionClosed)model.getServerAnswer()).getMessage());
+                System.err.println("Application will now close...");
+                System.exit(0);
         }
     }
 }
