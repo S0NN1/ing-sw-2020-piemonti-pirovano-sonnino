@@ -48,6 +48,11 @@ public class Server {
     private int nextClientID;
 
     /**
+     * Active lobby Game handler
+     */
+    private GameHandler currentGame;
+
+    /**
      * The main game class (model).
      */
     private Game game;
@@ -72,7 +77,6 @@ public class Server {
         IDmapClient = new HashMap<>();
         nameMAPid = new HashMap<>();
         clientToConnection = new HashMap<>();
-        game = new Game();
         totalPlayers =-1;
     }
 
@@ -108,6 +112,8 @@ public class Server {
         return IDmapClient.get(ID);
     }
 
+    public int getIDByNickname(String nickname) { return nameMAPid.get(nickname); }
+
     /**
      * Creates or handle a lobby, which is a common room used before a match. In this room, connected players are waiting
      * for other ones, in order to reach the correct players number for playing.
@@ -122,23 +128,19 @@ public class Server {
         if (waiting.size()==1) {
             IDmapClient.get(c.getClientID()).send(new CustomMessage(IDmapClient.get(c.getClientID()).getNickname() + ", you are the lobby host."));
             c.setPlayers(new RequestPlayersNumber());
-            broadcast(new CustomMessage((totalPlayers - waiting.size()) + " slots left."));
+            currentGame.sendAll(new CustomMessage((totalPlayers - waiting.size()) + " slots left."));
         }
         else if (waiting.size()== totalPlayers) {
             System.err.println(Constants.getInfo() + "Minimum player number reached. The match is starting.");
             for(int i=5; i>0; i--) {
-                broadcast(new CustomMessage("Match starting in " + i));
+                currentGame.sendAll(new CustomMessage("Match starting in " + i));
                 TimeUnit.SECONDS.sleep(1);
             }
-            broadcast(new CustomMessage("The match has started!"));
+            currentGame.sendAll(new CustomMessage("The match has started!"));
+            waiting.clear();
         }
         else {
-            broadcast(new CustomMessage((totalPlayers - waiting.size()) + " slots left."));
-        }
-    }
-
-    public void run() {
-        while (true) {
+            currentGame.sendAll(new CustomMessage((totalPlayers - waiting.size()) + " slots left."));
         }
     }
 
@@ -155,7 +157,7 @@ public class Server {
         waiting.remove(clientToConnection.get(client));
         clientToConnection.remove(client);
         System.out.println(Constants.getInfo() + "Client has been successfully unregistered.");
-        broadcast(new CustomMessage("Client " + client.getNickname() + " left the game.\n" + (totalPlayers - waiting.size()) + " slots left."));
+        currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " left the game.\n" + (totalPlayers - waiting.size()) + " slots left."));
     }
 
     /**
@@ -169,8 +171,18 @@ public class Server {
         Integer clientID = nameMAPid.get(nickname);
 
         if(clientID==null) {    //Player has never connected to the server before.
+            if(waiting.size()==0) {
+                currentGame = new GameHandler(this);
+            }
+            if(nameMAPid.keySet().stream().anyMatch(nickname::equalsIgnoreCase)) {
+                SerializedMessage error = new SerializedMessage();
+                error.setServerAnswer(new GameError(ErrorsType.DUPLICATENICKNAME));
+                socketClientHandler.sendSocketMessage(error);
+                return null;
+            }
+            currentGame.setupPlayer(nickname);
             clientID = createClientID();
-            VirtualClient client = new VirtualClient(clientID, nickname, socketClientHandler, game);
+            VirtualClient client = new VirtualClient(clientID, nickname, socketClientHandler, currentGame);
             if(totalPlayers !=-1 && waiting.size()>= totalPlayers) {
                 client.send(new FullServer());
                 return null;
@@ -180,13 +192,13 @@ public class Server {
             clientToConnection.put(client, socketClientHandler);
             System.out.println(Constants.getInfo() + "Client " + client.getNickname() + ", identified by ID " + client.getClientID() + ", has successfully connected!");
             client.send(new ConnectionConfirmation());
-            broadcast(new CustomMessage("Client " + client.getNickname() + " joined the game"));
+            currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " joined the game"));
         }
         else {
             VirtualClient client = IDmapClient.get(clientID);
             if(client.isConnected()) {
                 SerializedMessage ans = new SerializedMessage();
-                ans.setServerAnswer(new ConnectionClosed("A client with the name " + client.getNickname() + " has already connected!"));
+                ans.setServerAnswer(new GameError(ErrorsType.DUPLICATENICKNAME));
                 socketClientHandler.sendSocketMessage(ans);
                 return null;
             }
@@ -205,8 +217,8 @@ public class Server {
      */
     public synchronized void setupPlayer(int clientID, Setup setup) throws DuplicateNicknameException, DuplicateColorException {
         VirtualClient client = IDmapClient.get(clientID);
-        Game game = client.getGameManager();
-        game.createNewPlayer(new Player(client.getNickname(), setup.getColor()));
+        //Game game = client.getGameHandler();
+        //game.createNewPlayer(new Player(client.getNickname(), setup.getColor()));
     }
 
     /**

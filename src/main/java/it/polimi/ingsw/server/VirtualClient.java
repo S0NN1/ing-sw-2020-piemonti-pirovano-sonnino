@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.server.answers.Answer;
 import it.polimi.ingsw.server.answers.SerializedMessage;
 
@@ -14,13 +13,13 @@ public class VirtualClient {
     private int clientID;
     private String nickname;
     private SocketClientConnection socketClientConnection;
-    private Game gameManager;
+    private GameHandler gameHandler;
 
-    public VirtualClient(int clientID, String nickname, SocketClientConnection socketClientConnection, Game gameManager) {
+    public VirtualClient(int clientID, String nickname, SocketClientConnection socketClientConnection, GameHandler gameHandler) {
         this.nickname = nickname;
         this.clientID = clientID;
         this.socketClientConnection = socketClientConnection;
-        this.gameManager = gameManager;
+        this.gameHandler = gameHandler;
     }
 
     /**
@@ -44,8 +43,8 @@ public class VirtualClient {
     /**
      * @return the game manager of his match.
      */
-    public Game getGameManager() {
-        return gameManager;
+    public GameHandler getGameHandler() {
+        return gameHandler;
     }
 
     /**
@@ -66,5 +65,4 @@ public class VirtualClient {
         message.setServerAnswer(serverAnswer);
         socketClientConnection.sendSocketMessage(message);
     }
-
 }

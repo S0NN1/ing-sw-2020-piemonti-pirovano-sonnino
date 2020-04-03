@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.Model;
 import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
+import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.server.answers.*;
 
 import java.io.PrintStream;
@@ -34,7 +35,6 @@ public class CLI implements UI, Runnable, Observer {
     }
 
     public void setup() {
-        output.println("Hi, welcome to Santorini!");
         String nickname=null;
         boolean confirmation = false;
         while (confirmation==false) {
@@ -55,10 +55,13 @@ public class CLI implements UI, Runnable, Observer {
             }
         }
         connection = new ConnectionSocket();
-        connection.setup(nickname, model);
-        output.println("Socket Connection setup completed!");
+        try {
+            connection.setup(nickname, model);
+            output.println("Socket Connection setup completed!");
+        } catch (DuplicateNicknameException e) {
+            setup();
+        }
         model.addObserver(this);
-
     }
 
     public void action(String command) {
@@ -99,6 +102,7 @@ public class CLI implements UI, Runnable, Observer {
     }
 
     public static void main(String[] args) {
+        System.out.println("Hi, welcome to Santorini!");
         CLI cli = new CLI();
         cli.run();
     }

@@ -3,10 +3,8 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.Message;
 import it.polimi.ingsw.client.messages.SetupConnection;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.server.answers.Answer;
-import it.polimi.ingsw.server.answers.ConnectionConfirmation;
-import it.polimi.ingsw.server.answers.FullServer;
-import it.polimi.ingsw.server.answers.SerializedMessage;
+import it.polimi.ingsw.exceptions.DuplicateNicknameException;
+import it.polimi.ingsw.server.answers.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,7 +26,7 @@ public class ConnectionSocket {
         this.serverPort = Constants.PORT;
     }
 
-    public void setup(String nickname, Model model) {
+    public void setup(String nickname, Model model) throws DuplicateNicknameException{
         try {
             System.out.println("Configuring socket connection...");
             System.out.println("Opening a socket server communication on port " + serverPort + "...");
@@ -43,7 +41,13 @@ public class ConnectionSocket {
                     if (answer.getServerAnswer() instanceof ConnectionConfirmation) {
                         break;
                     }
-                    if (answer.getServerAnswer() instanceof FullServer) {
+                    else if(answer.getServerAnswer() instanceof GameError) {
+                        if(((GameError) answer.getServerAnswer()).getError().equals(ErrorsType.DUPLICATENICKNAME)) {
+                            System.err.println("This nickname is already in use! Please choose one other.");
+                            throw new DuplicateNicknameException();
+                        }
+                    }
+                    else if (answer.getServerAnswer() instanceof FullServer) {
                         System.err.println(((FullServer)answer.getServerAnswer()).getMessage() + "\nApplication will now close...");
                         System.exit(0);
                     }

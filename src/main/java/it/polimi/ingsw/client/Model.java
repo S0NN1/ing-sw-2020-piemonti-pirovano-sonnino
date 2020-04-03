@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.server.answers.*;
+import it.polimi.ingsw.server.answers.GameError;
 
 import java.util.Observable;
 

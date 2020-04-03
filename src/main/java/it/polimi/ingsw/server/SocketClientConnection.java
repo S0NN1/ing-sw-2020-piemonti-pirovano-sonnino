@@ -5,10 +5,8 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.DuplicateColorException;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
-import it.polimi.ingsw.server.answers.CustomMessage;
-import it.polimi.ingsw.server.answers.RequestPlayersNumber;
-import it.polimi.ingsw.server.answers.SerializedMessage;
-import it.polimi.ingsw.server.answers.WaitMessage;
+import it.polimi.ingsw.server.answers.*;
+import it.polimi.ingsw.server.answers.GameError;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -182,8 +180,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
             outputStream.flush();
         }
         catch (IOException e) {
-
-            e.printStackTrace();
+            close();
             //TODO: Disconnect Client
         }
     }
