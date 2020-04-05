@@ -19,7 +19,6 @@ public class CLI implements UI, Runnable, Observer {
     private Scanner input;
     private PrintStream output;
     private boolean activeGame;
-    private boolean canInput;
     private Model model;
 
     ConnectionSocket connection;
@@ -65,29 +64,21 @@ public class CLI implements UI, Runnable, Observer {
         model.addObserver(this);
     }
 
-    public void action(String command) {
+    public synchronized void action() {
+        output.print(">");
+        String command = input.next();
+        model.untoggleInput();
         switch (command.toUpperCase()) {
-            case "PLAYERNUMBER":
-                int selection;
-                while(true) {
-                    try {
-                        output.print(">");
-                        selection = input.nextInt();
-                        break;
-                    } catch (InputMismatchException e) {
-                        System.err.println("Invalid parameter, it must be a number.\nApplication will now quit...");
-                        System.exit(-1);
-                    }
-                }
-                connection.send(new NumberOfPlayers(selection));
-                break;
             case "GODLIST":
                 connection.send(new GodSelectionAction("LIST"));
-                canInput=false;
                 break;
             case "GODDESC":
-                connection.send(new GodSelectionAction("DESC", Card.parseInput(input.next())));
-                canInput=false;
+                try {
+                    connection.send(new GodSelectionAction("DESC", Card.parseInput(input.next())));
+                } catch (IllegalArgumentException e){
+                    System.err.println("Not existing god with your input's name.");
+                    action();
+                }
                 break;
             case "QUIT":
                 connection.send(new Disconnect());
@@ -95,8 +86,13 @@ public class CLI implements UI, Runnable, Observer {
                 System.exit(0);
             default:
                 output.println("Unknown input, please try again!");
-                String cmd = input.next();
-                action(cmd);
+                action();
+        }
+    }
+
+    public void loop() {
+        if(model.getCanInput()) {
+            action();
         }
     }
 
@@ -105,9 +101,7 @@ public class CLI implements UI, Runnable, Observer {
         setup();
 
         while(activeGame) {
-            /*if (canInput) {
-                action(input.nextLine());
-            }*/
+            loop();
         }
         input.close();
         output.close();
@@ -117,6 +111,21 @@ public class CLI implements UI, Runnable, Observer {
         System.out.println("Hi, welcome to Santorini!");
         CLI cli = new CLI();
         cli.run();
+    }
+
+    public void chooseNickname() {
+        int selection;
+        while(true) {
+            try {
+                output.print(">");
+                selection = input.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.err.println("Invalid parameter, it must be a number.\nApplication will now quit...");
+                System.exit(-1);
+            }
+        }
+        connection.send(new NumberOfPlayers(selection));
     }
 
     public void chooseColor(ArrayList<PlayerColors> available) {
@@ -139,12 +148,12 @@ public class CLI implements UI, Runnable, Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public synchronized void update(Observable o, Object arg) {
         String value = arg.toString();
         switch (value) {
             case "RequestPlayerNumber":
                 output.println(((RequestPlayersNumber)model.getServerAnswer()).getMessage());
-                action("PlayerNumber");
+                chooseNickname();
                 break;
             case "RequestColor":
                 output.println(((RequestColor)model.getServerAnswer()).getMessage() + "\nRemaining:");
@@ -156,16 +165,11 @@ public class CLI implements UI, Runnable, Observer {
                 if (req.godList!=null) {
                     req.godList.forEach(n -> output.print(n + ", "));
                     output.println();
-                    output.print(">");
-                    String cmd = input.next();
-                    action(cmd);
                 }
                 else {
                     output.println(req.message);
-                    output.print(">");
-                    String cmd = input.next();
-                    action(cmd);
                 }
+                model.toggleInput();
                 break;
             case "CustomMessage":
                 output.println(((CustomMessage)model.getServerAnswer()).getMessage());

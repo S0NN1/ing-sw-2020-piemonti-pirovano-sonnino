@@ -141,6 +141,9 @@ public class GameHandler extends Observable {
             setChanged();
             notifyObservers((GodSelectionAction)action);
         }
+        else {
+            setChanged();
+            notifyObservers(action);
+        }
     }
-
 }
