@@ -10,9 +10,22 @@ public class Model extends Observable {
 
     private Answer serverAnswer;
     private CLI cli;
+    private boolean canInput;
 
     public Model(CLI cli) {
         this.cli = cli;
+    }
+
+    public synchronized void toggleInput() {
+        canInput = true;
+    }
+
+    public synchronized void untoggleInput() {
+        canInput = false;
+    }
+
+    public synchronized boolean getCanInput() {
+        return canInput;
     }
 
     public void answerHandler(Answer answer) {

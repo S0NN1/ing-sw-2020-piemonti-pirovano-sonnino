@@ -54,8 +54,8 @@ public class GameHandler extends Observable {
      * This method receives a nickname from the server application and creates a new player in the game class.
      * @param nickname the chosen nickname, after a duplicates check.
      */
-    public void setupPlayer(String nickname) {
-        game.createNewPlayer(new Player(nickname));
+    public void setupPlayer(String nickname, int clientID) {
+        game.createNewPlayer(new Player(nickname, clientID));
     }
 
     /**
@@ -85,7 +85,7 @@ public class GameHandler extends Observable {
     public void sendAllExcept(Answer message, int excludedID) {
         for(Player player:game.getActivePlayers()) {
             if(server.getIDByNickname(player.getNickname())!=excludedID) {
-                singleSend(message, server.getIDByNickname(player.getNickname()));
+                singleSend(message, player.getClientID());
             }
         }
     }
@@ -115,13 +115,13 @@ public class GameHandler extends Observable {
         Random rnd = new Random();
         game.setCurrentPlayer(game.getActivePlayers().get(rnd.nextInt(playersNumber)));
         singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", you are the challenger!"),
-                server.getIDByNickname(game.getCurrentPlayer().getNickname()));
+                game.getCurrentPlayer().getClientID());
         singleSend(new GodRequest("You have to choose gods power. Type GODLIST to get a list of available gods, DESC " +
                 "<god name> to get a god's description and ADDGOD <god name> to add a God power to deck."),
-                server.getIDByNickname(game.getCurrentPlayer().getNickname()));
+                game.getCurrentPlayer().getClientID());
         sendAllExcept(new CustomMessage(game.getCurrentPlayer().getNickname() + " is the challenger!\nPlease wait while " +
-                "he chooses the god powers."), server.getIDByNickname(game.getCurrentPlayer().getNickname()));
-        controller.setSelectionController(server.getIDByNickname(game.getCurrentPlayer().getNickname()));
+                "he chooses the god powers."), game.getCurrentPlayer().getClientID());
+        controller.setSelectionController(game.getCurrentPlayer().getClientID());
     }
 
     /**
@@ -141,6 +141,9 @@ public class GameHandler extends Observable {
             setChanged();
             notifyObservers((GodSelectionAction)action);
         }
+        else {
+            setChanged();
+            notifyObservers(action);
+        }
     }
-
 }
