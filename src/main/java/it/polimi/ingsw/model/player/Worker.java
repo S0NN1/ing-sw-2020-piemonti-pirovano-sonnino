@@ -5,16 +5,12 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.observer.workerListeners.BuildListener;
 import it.polimi.ingsw.observer.workerListeners.MoveListener;
-import it.polimi.ingsw.observer.workerListeners.SelectMovesListeners;
+import it.polimi.ingsw.observer.workerListeners.SelectSpacesListener;
 import it.polimi.ingsw.observer.workerListeners.WinListener;
 import it.polimi.ingsw.server.VirtualClient;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Alice Piemonti
@@ -53,10 +49,11 @@ public class Worker {
      * @param client virtualClient
      */
     public void createListeners(VirtualClient client){
+        listeners.addPropertyChangeListener("selectSpacesListener", new SelectSpacesListener(client));
         listeners.addPropertyChangeListener("moveListener", new MoveListener(client));
         listeners.addPropertyChangeListener("winListener", new WinListener(client));
-        listeners.addPropertyChangeListener("selectMovesListener", new SelectMovesListeners(client));
         listeners.addPropertyChangeListener("buildListener",new BuildListener(client));
+
     }
 
     /**
@@ -140,29 +137,29 @@ public class Worker {
     }
 
     /**
-     * notify the selectMovesListener with all the moves the worker can do
+     * notify the selectSpacesListener with all the moves the worker can do
      * @param gameBoard of the game
      * @throws IllegalArgumentException if gameBoard is null
      * @throws IllegalStateException if the worker is blocked
      */
-    public void showMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
+    public void getMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
         if(gameBoard == null) throw new IllegalArgumentException();
-        ArrayList<Space> moves = getMoves(gameBoard);
+        ArrayList<Space> moves = selectMoves(gameBoard);
         if(moves.isEmpty()) {
             isBlocked = true;
             throw new IllegalStateException();
         }
-        listeners.firePropertyChange("selectMovesListener",null,moves);
+        listeners.firePropertyChange("selectSpacesListener",null,moves);
     }
 
     /**
-     * get an ArrayList that contains the spaces which the worker can move to
+     * return an ArrayList that contains the spaces which the worker can move to
      * @throws IllegalArgumentException if gameBoard is null
      * @throws IllegalThreadStateException if the worker is blocked, so it cannot move
      * @param gameBoard GameBoard of the game
      * @return ArrayList of Spaces
      */
-    public ArrayList<Space> getMoves(GameBoard gameBoard) {
+    public ArrayList<Space> selectMoves(GameBoard gameBoard) {
         ArrayList<Space> moves = new ArrayList<Space>();
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -208,7 +205,7 @@ public class Worker {
      * @param gameBoard gameBoard of the game
      * @return ArrayList of spaces
      */
-    public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard) throws IllegalArgumentException {
+    public void getBuildableSpaces(GameBoard gameBoard) throws IllegalArgumentException {
         if(gameBoard == null) throw new IllegalArgumentException();
         ArrayList<Space> buildable = new ArrayList<Space>();
         for (int i = 0; i < 5; i++){
@@ -217,7 +214,7 @@ public class Worker {
                 if(isBuildable(space)){ buildable.add(space);}
             }
         }
-        return buildable;
+        listeners.firePropertyChange("selectSpacesListener", null, buildable);
     }
 }
 
