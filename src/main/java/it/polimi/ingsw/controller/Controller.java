@@ -31,6 +31,10 @@ public class Controller extends Observable implements Observer{
         selectionController = new GodSelectionController(new CardSelectionModel(model.getDeck()), this, gameHandler.getServer().getClientByID(clientID));
         this.addObserver(selectionController);
     }
+    public Game getModel() {
+        return model;
+    }
+
 
     @Override
     public void update(Observable o, Object arg) {

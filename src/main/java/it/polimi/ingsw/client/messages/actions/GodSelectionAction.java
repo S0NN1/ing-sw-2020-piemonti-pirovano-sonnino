@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.messages.actions;
 
 import it.polimi.ingsw.model.Card;
 
-public class GodSelectionAction implements UserAction {
+public abstract class GodSelectionAction implements UserAction {
     public final String action;
     public final Card arg;
 

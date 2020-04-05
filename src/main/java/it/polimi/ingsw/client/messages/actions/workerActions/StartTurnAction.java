@@ -1,0 +1,13 @@
+package it.polimi.ingsw.client.messages.actions.workerActions;
+
+import it.polimi.ingsw.client.messages.actions.UserAction;
+
+public abstract class StartTurnAction implements UserAction {
+    public final String option;
+    public StartTurnAction(){
+        option="start";
+    }
+    public StartTurnAction(String option){
+        this.option=option;
+    }
+}
