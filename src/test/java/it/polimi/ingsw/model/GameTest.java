@@ -18,9 +18,9 @@ class GameTest {
     @BeforeEach
     void initialization() {
         testGame = new Game();
-        testGame.createNewPlayer(new Player("piro"));
-        testGame.createNewPlayer(new Player("alice"));
-        testGame.createNewPlayer(new Player("nico"));
+        testGame.createNewPlayer(new Player("piro", 0));
+        testGame.createNewPlayer(new Player("alice", 1));
+        testGame.createNewPlayer(new Player("nico", 2));
     }
 
     /**

@@ -175,8 +175,8 @@ public class Server {
                 socketClientHandler.sendSocketMessage(error);
                 return null;
             }
-            currentGame.setupPlayer(nickname);
             clientID = createClientID();
+            currentGame.setupPlayer(nickname, clientID);
             VirtualClient client = new VirtualClient(clientID, nickname, socketClientHandler, currentGame);
             if(totalPlayers !=-1 && waiting.size()>= totalPlayers) {
                 client.send(new FullServer());

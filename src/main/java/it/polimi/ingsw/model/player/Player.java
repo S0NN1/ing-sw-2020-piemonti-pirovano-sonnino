@@ -9,6 +9,7 @@ import static it.polimi.ingsw.model.Card.*;
  */
 public class Player {
     private final String nickname;
+    private final int clientID;
     private PlayerColors color;
     private boolean isActive;
     private boolean isFirstPlayer;
@@ -21,9 +22,10 @@ public class Player {
      * constructor
      * @param nickname player's univocal name
      */
-    public Player(String nickname) {
+    public Player(String nickname, int clientID) {
         this.nickname = nickname;
         color = null;
+        this.clientID = clientID;
     }
 
     public void setColor(PlayerColors color) {
@@ -38,6 +40,10 @@ public class Player {
      */
     public String getNickname(){
         return this.nickname;
+    }
+
+    public int getClientID() {
+        return clientID;
     }
 
     /**
