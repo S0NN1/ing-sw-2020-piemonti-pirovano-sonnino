@@ -45,7 +45,7 @@ public class ActionController {
             worker.getMoves(gameBoard);
         } else if (worker.getPhase(phase) == Phase.SELECTBUILD) {
             phase++;
-            worker.getBuildableSpaces(gameBoard);
+            worker.notifyWithBuildable(gameBoard);
         }
         return true;
     }

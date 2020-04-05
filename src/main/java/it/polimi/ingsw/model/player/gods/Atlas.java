@@ -18,11 +18,12 @@ public class Atlas extends Worker {
      * @param space space
      */
     @Override
-    public void build(Space space, Boolean buildDome) throws IllegalArgumentException, OutOfBoundException {
+    public boolean build(Space space, Boolean buildDome) throws IllegalArgumentException{
         if(space == null) throw new IllegalArgumentException();
         if(buildDome){
             space.getTower().setDome(true);
+
         }
-        else    super.build(space, buildDome);
+        else return super.build(space, buildDome);
     }
 }

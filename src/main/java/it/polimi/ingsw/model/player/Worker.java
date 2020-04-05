@@ -58,12 +58,12 @@ public class Worker {
     }
 
     /**
-     * get phase in index position
-     * @param position index
+     * get element phase at the specified index
+     * @param index
      * @return phase
      */
-    public Phase getPhase(int position){
-        return phases.get(position);
+    public Phase getPhase(int index){
+        return phases.get(index);
     }
 
     /**
@@ -129,6 +129,7 @@ public class Worker {
      * change the worker's position while check winning condition
      * @throws IllegalArgumentException if space is null
      * @param space the new position
+     * @return false if the worker can't move into this space
      */
     public boolean move(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
@@ -199,8 +200,8 @@ public class Worker {
     /**
      * build on the space received
      * @param space space
-     * @throws OutOfBoundException if it's impossible to build on this space
      * @throws IllegalArgumentException if space is null
+     * @return false if it's impossible to build on the space or if OutOfBoundException is thrown
      */
     public boolean build(Space space, Boolean buildDome) throws IllegalArgumentException{
         if(space == null)throw new IllegalArgumentException();
@@ -230,13 +231,23 @@ public class Worker {
     }
 
     /**
-     * get an ArrayList that contains the spaces on which the worker can build
+     * notify the selectSpaceListener with all the spaces on which the worker can build
      * @throws IllegalArgumentException if gameBoard is null
      * @param gameBoard gameBoard of the game
-     * @return ArrayList of spaces
      */
-    public void getBuildableSpaces(GameBoard gameBoard) throws IllegalArgumentException {
-        if(gameBoard == null) throw new IllegalArgumentException();
+   public void notifyWithBuildable(GameBoard gameBoard){
+       if(gameBoard == null) throw new IllegalArgumentException();
+       ArrayList<Space> buildable = getBuildableSpaces(gameBoard);
+       listeners.firePropertyChange("selectSpacesListener", null, buildable);
+
+   }
+
+    /**
+     * return an ArrayList which contains all the buildable spaces
+     * @param gameBoard gameBoard
+     * @return an ArrayList of spaces
+     */
+    public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard){
         ArrayList<Space> buildable = new ArrayList<Space>();
         for (int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
@@ -244,7 +255,7 @@ public class Worker {
                 if(isBuildable(space)){ buildable.add(space);}
             }
         }
-        listeners.firePropertyChange("selectSpacesListener", null, buildable);
+        return buildable;
     }
 }
 

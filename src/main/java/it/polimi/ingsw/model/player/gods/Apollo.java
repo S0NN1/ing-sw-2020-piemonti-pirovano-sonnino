@@ -27,19 +27,19 @@ public class Apollo extends Worker {
     }
 
     /**
-     * change the worker's position while check winning condition
-     *
+     * change the worker's position while check winning condition. This worker can also change his position with a neighboring worker
      * @param space the new position
      * @throws IllegalArgumentException if space is null
+     * @return super
      */
     @Override
-    public void move(Space space) throws IllegalArgumentException {
+    public boolean move(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
         else if(!space.isEmpty()) {
             Worker other = space.getWorker();
             other.setPosition(position);
-            super.move(space);
+            return super.move(space);
         }
-        else super.move(space);
+        else return super.move(space);
     }
 }
