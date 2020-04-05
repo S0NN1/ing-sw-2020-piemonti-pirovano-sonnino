@@ -1,13 +1,11 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.GameBoard;
-import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
+/**
+ * @author Alice Piemonti
+ */
 public class ActionController {
 
     GameBoard gameBoard;
