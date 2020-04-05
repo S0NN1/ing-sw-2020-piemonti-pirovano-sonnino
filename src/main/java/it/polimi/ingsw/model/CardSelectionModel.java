@@ -1,11 +1,8 @@
-package it.polimi.ingsw.model.board;
+package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.DuplicateGodException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
-import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.Deck;
-import it.polimi.ingsw.observer.CardObservable;
-import it.polimi.ingsw.view.CardSelection;
+import it.polimi.ingsw.server.answers.GodRequest;
 
 import java.util.Observable;
 
@@ -13,16 +10,15 @@ import java.util.Observable;
  * This class provide a model for card selection phase, which is made by the challenger.
  * @author Luca Pirovano
  */
-public class CardSelectionBoard extends CardObservable<CardSelection> {
+public class CardSelectionModel extends Observable {
     private Card selectedGod;
-    private String description;
     private Deck deck;
 
     /**
      * Constructor of the class; it receives the deck from the Game, in order to put the chosen cards inside it.
      * @param deck the cards deck.
      */
-    public CardSelectionBoard(Deck deck) {
+    public CardSelectionModel(Deck deck) {
         this.deck = deck;
     }
 
@@ -54,15 +50,13 @@ public class CardSelectionBoard extends CardObservable<CardSelection> {
      * @param description the description of the god.
      */
     public void setDescription(String description) {
-        this.description = description;
-        notify("DESC", this);
+        setChanged();
+        notifyObservers(new GodRequest(description));
     }
 
-    /**
-     * @return the description of the god.
-     */
-    public String getDescription() {
-        return description;
+    public void setNameList() {
+        setChanged();
+        notifyObservers(new GodRequest(Card.godsName()));
     }
 
 }

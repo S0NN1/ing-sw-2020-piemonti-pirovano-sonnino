@@ -1,12 +1,12 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.messages.*;
+import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
+import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.exceptions.DuplicateColorException;
-import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
+import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.*;
-import it.polimi.ingsw.server.answers.GameError;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -82,8 +82,15 @@ public class SocketClientConnection implements ClientConnection, Runnable {
      * @throws ClassNotFoundException if the serializable object is not part of any class.
      */
     public synchronized void readFromStream() throws IOException, ClassNotFoundException {
-        Message command = (Message) inputStream.readObject();
-        actionHandler(command);
+        SerializedMessage input = (SerializedMessage)inputStream.readObject();
+        if(input.message!=null) {
+            Message command = (Message) input.message;
+            actionHandler(command);
+        }
+        else if(input.action!=null) {
+            UserAction action = (UserAction) input.action;
+            actionHandler(action);
+        }
     }
 
     @Override
@@ -120,16 +127,26 @@ public class SocketClientConnection implements ClientConnection, Runnable {
                 System.err.println(e.getMessage());
             }
         }
-        else if(command instanceof Setup) {
-            try {
-                server.setupPlayer(clientID, (Setup) command);
+        else if(command instanceof ChosenColor) {
+            if(PlayerColors.isChosen(((ChosenColor)command).getColor())) {
+                server.getClientByID(clientID).send(new RequestColor("Error! This color is not available anymore. Please choose another one!"));
+                return;
             }
-            catch (DuplicateNicknameException | DuplicateColorException e) {
-                System.err.println(e.getMessage());
-            }
+            server.getGameByID(clientID).getController().setColor(((ChosenColor)command).getColor(), server.getClientByID(clientID).getNickname());
+            PlayerColors.choose(((ChosenColor)command).getColor());
+            server.getGameByID(clientID).setup();
         }
         else if(command instanceof Disconnect) {
             server.unregisterClient(clientID);
+        }
+    }
+
+    public void actionHandler(UserAction action) {
+        if(action instanceof GodSelectionAction) {
+            if(server.getGameByID(clientID).getCurrentPlayerID()!=clientID) {
+                server.getGameByID(clientID).singleSend(new GameError(ErrorsType.NOTYOURTURN), clientID);
+            }
+            server.getGameByID(clientID).makeAction((GodSelectionAction)action);
         }
     }
 
@@ -140,16 +157,18 @@ public class SocketClientConnection implements ClientConnection, Runnable {
      * @param message the action received from the user. This method iterates on it until it finds a NumberOfPlayers type.
      */
     public void setPlayers(RequestPlayersNumber message) {
-        SerializedMessage ans = new SerializedMessage();
+        SerializedAnswer ans = new SerializedAnswer();
         ans.setServerAnswer(message);
         sendSocketMessage(ans);
         while(true) {
             try {
-                Message command = (Message) inputStream.readObject();
+                SerializedMessage input = (SerializedMessage)inputStream.readObject();
+                Message command = input.message;
                 if (command instanceof NumberOfPlayers) {
                     try {
                         int playerNumber = (((NumberOfPlayers) command).playersNumber);
                         server.setTotalPlayers(playerNumber);
+                        server.getGameByID(clientID).setPlayersNumber(playerNumber);
                         server.getClientByID(this.clientID).send(new CustomMessage("Success: player number set to " + playerNumber));
                         break;
                     } catch (OutOfBoundException e) {
@@ -172,11 +191,10 @@ public class SocketClientConnection implements ClientConnection, Runnable {
      * contains an Answer type, which represents an interface for server answer, like the client Message one.
      * @param serverAnswer the serialized server answer (interface Answer).
      */
-    public void sendSocketMessage(SerializedMessage serverAnswer) {
+    public void sendSocketMessage(SerializedAnswer serverAnswer) {
         try {
             outputStream.reset();
             outputStream.writeObject(serverAnswer);
-            //System.out.println("Message sent!");
             outputStream.flush();
         }
         catch (IOException e) {

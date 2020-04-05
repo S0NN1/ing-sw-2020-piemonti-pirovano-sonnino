@@ -1,41 +1,51 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
 import it.polimi.ingsw.exceptions.DuplicateGodException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.board.CardSelectionBoard;
-import it.polimi.ingsw.observer.CardObserver;
-import it.polimi.ingsw.view.CardSelection;
+import it.polimi.ingsw.model.CardSelectionModel;
+import it.polimi.ingsw.server.VirtualClient;
+
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Controller of the god powers selection, made by the challenger.
  * @author Luca Pirovano
  */
 
-public class GodSelectionController implements CardObserver<GodSelectionController> {
-    private CardSelectionBoard cardModel;
-    private CardSelection view;
+public class GodSelectionController implements Observer {
+    private CardSelectionModel cardModel;
+    private it.polimi.ingsw.view.CardSelection view;
+    private Controller mainController;
 
     /**
-     * Constructor of the class, it receives in input the CardSelectionBoard and the CardSelection remote view.
+     * Constructor of the class, it receives in input the CardSelectionBoard.
      * @param model the CardSelectionBoard.
-     * @param view the CardSelection remote view.
      */
-    public GodSelectionController(CardSelectionBoard model, CardSelection view) {
+    public GodSelectionController(CardSelectionModel model, Controller mainController, VirtualClient challenger) {
         this.cardModel = model;
-        this.view = view;
+        this.mainController = mainController;
+        model.addObserver(challenger);
     }
 
     /**
      * Update method for MVC communication.
-     * @param cmd the command received from the RemoteView.
      * @param arg the card selected by the player.
      */
     @Override
-    public void update(String cmd, Object arg) {
-        cardModel.setSelectedGod((Card)arg);
-        switch (cmd) {
+    public void update(Observable o, Object arg) {
+        if (!(arg instanceof GodSelectionAction)) {
+            throw new IllegalArgumentException();
+        }
+        GodSelectionAction cmd = (GodSelectionAction)arg;
+        switch (cmd.action) {
+            case "LIST":
+                cardModel.setNameList();
+                break;
             case "DESC":
+                cardModel.setSelectedGod(cmd.arg);
                 cardModel.setDescription(cardModel.getSelectedGod().godsDescription());
                 break;
             case "ADD":

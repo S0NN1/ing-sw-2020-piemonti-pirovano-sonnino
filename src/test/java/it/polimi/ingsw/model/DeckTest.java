@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.CardNotChosenException;
 import it.polimi.ingsw.exceptions.DuplicateGodException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayersNumber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,15 +13,15 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeckTest {
+    Deck testDeck;
 
     @BeforeEach
     void initialization() {
-        Deck testDeck = new Deck();
+        testDeck = new Deck();
     }
 
     @Test
     void setCardTest1() throws OutOfBoundException, DuplicateGodException {
-        Deck testDeck = new Deck();
         PlayersNumber.setPlayer(2);
         testDeck.setCard(Card.APOLLO);
         assertThrows(DuplicateGodException.class, ()->testDeck.setCard(Card.APOLLO));
@@ -30,7 +31,6 @@ class DeckTest {
 
     @Test
     void setCardTest2() throws OutOfBoundException, DuplicateGodException {
-        Deck testDeck = new Deck();
         PlayersNumber.setPlayer(3);
         testDeck.setCard(Card.APOLLO);
         assertThrows(DuplicateGodException.class, ()->testDeck.setCard(Card.APOLLO));
@@ -46,7 +46,6 @@ class DeckTest {
 
     @Test
     void removeCardTest() throws OutOfBoundException, DuplicateGodException, CardNotChosenException {
-        Deck testDeck = new Deck();
         PlayersNumber.setPlayer(3);
         testDeck.setCard(Card.APOLLO);
         testDeck.setCard(Card.ATHENA);

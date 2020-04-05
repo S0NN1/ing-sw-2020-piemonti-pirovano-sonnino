@@ -3,8 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.GodSelectionController;
 import it.polimi.ingsw.exceptions.DuplicateGodException;
 import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.board.CardSelectionBoard;
-import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.CardSelectionModel;
 import it.polimi.ingsw.model.player.PlayersNumber;
 import it.polimi.ingsw.observer.CardObservable;
 import it.polimi.ingsw.observer.CardObserver;
@@ -17,21 +16,13 @@ import java.util.Scanner;
  * @author Luca Pirovano
  */
 
-public class CardSelection extends CardObservable<GodSelectionController> implements CardObserver<CardSelection>, Runnable {
+public class CardSelection extends CardObservable<GodSelectionController> implements Runnable {
     private Scanner input;
     private PrintStream output;
 
     public CardSelection() {
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
-    }
-
-    /**
-     * *
-     * @param model the model of the MVC
-     */
-    public void showDescription(CardSelectionBoard model) {
-        output.println(model.getDescription());
     }
 
     public void godList() {
@@ -43,14 +34,6 @@ public class CardSelection extends CardObservable<GodSelectionController> implem
                 break;
             }
             output.print(cards[i].toString() + ", ");
-        }
-    }
-
-    @Override
-    public void update(String cmd, Object arg) {
-        switch (cmd) {
-            case "DESC":
-                showDescription((CardSelectionBoard)arg);
         }
     }
 

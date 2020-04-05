@@ -6,6 +6,7 @@ import it.polimi.ingsw.exceptions.DuplicateGodException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This enumeration class contains the god list and parses the input for them.
@@ -50,6 +51,20 @@ public enum Card {
             throw new CardNotChosenException();
         }
         return card;
+    }
+
+    public static List<String> godsName() {
+        Gson gson = new Gson();
+        List<String> result = new ArrayList<>();
+        try {
+            God[] god = gson.fromJson(new FileReader("src/main/resources/json/gods.json"), God[].class);
+            for(God god1:god) {
+                result.add(god1.getName());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     /**

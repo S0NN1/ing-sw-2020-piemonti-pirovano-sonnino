@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.messages.Message;
+import it.polimi.ingsw.client.messages.SerializedMessage;
 import it.polimi.ingsw.client.messages.SetupConnection;
+import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.server.answers.*;
@@ -37,7 +39,7 @@ public class ConnectionSocket {
             while(true) {
                 try {
                     send(new SetupConnection(nickname));
-                    SerializedMessage answer = (SerializedMessage) input.readObject();
+                    SerializedAnswer answer = (SerializedAnswer) input.readObject();
                     if (answer.getServerAnswer() instanceof ConnectionConfirmation) {
                         break;
                     }
@@ -68,9 +70,23 @@ public class ConnectionSocket {
     }
 
     public void send(Message message) {
+        SerializedMessage output = new SerializedMessage(message);
         try {
             outputStream.reset();
-            outputStream.writeObject(message);
+            outputStream.writeObject(output);
+            outputStream.flush();
+        }
+        catch (IOException e) {
+            System.err.println("Error during send process.");
+            e.printStackTrace();
+        }
+    }
+
+    public void send(UserAction message) {
+        SerializedMessage output = new SerializedMessage(message);
+        try {
+            outputStream.reset();
+            outputStream.writeObject(output);
             outputStream.flush();
         }
         catch (IOException e) {

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.server.answers.Answer;
-import it.polimi.ingsw.server.answers.SerializedMessage;
+import it.polimi.ingsw.server.answers.SerializedAnswer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,7 +21,7 @@ public class SocketListener implements Runnable{
         this.inputStream = inputStream;
     }
 
-    public void process(SerializedMessage serverMessage) {
+    public void process(SerializedAnswer serverMessage) {
         model.answerHandler(serverMessage.getServerAnswer());
     }
 
@@ -30,7 +29,7 @@ public class SocketListener implements Runnable{
     public void run() {
         try {
             while (true) {
-                SerializedMessage message = (SerializedMessage) inputStream.readObject();
+                SerializedAnswer message = (SerializedAnswer) inputStream.readObject();
                 process(message);
             }
         }
