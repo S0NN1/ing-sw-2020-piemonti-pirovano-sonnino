@@ -1,6 +1,7 @@
-package it.polimi.ingsw.server.answers;
+package it.polimi.ingsw.server.answers.worker;
 
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.server.answers.Answer;
 
 public class WinMessage implements Answer {
 

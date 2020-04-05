@@ -1,4 +1,6 @@
-package it.polimi.ingsw.server.answers;
+package it.polimi.ingsw.server.answers.worker;
+
+import it.polimi.ingsw.server.answers.Couple;
 
 public class Move {
 

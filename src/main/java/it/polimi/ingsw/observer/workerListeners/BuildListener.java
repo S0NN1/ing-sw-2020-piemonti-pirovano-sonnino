@@ -2,7 +2,7 @@ package it.polimi.ingsw.observer.workerListeners;
 
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.server.VirtualClient;
-import it.polimi.ingsw.server.answers.BuildMessage;
+import it.polimi.ingsw.server.answers.worker.BuildMessage;
 
 import java.beans.PropertyChangeEvent;
 

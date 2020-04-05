@@ -1,9 +1,7 @@
-package it.polimi.ingsw.server.answers;
+package it.polimi.ingsw.server.answers.worker;
 
 import it.polimi.ingsw.model.board.Space;
-
-import java.util.HashMap;
-import java.util.Map;
+import it.polimi.ingsw.server.answers.Answer;
 
 public class MoveMessage implements Answer {
     Move message;

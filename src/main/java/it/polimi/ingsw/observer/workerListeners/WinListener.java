@@ -2,7 +2,7 @@ package it.polimi.ingsw.observer.workerListeners;
 
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.server.VirtualClient;
-import it.polimi.ingsw.server.answers.WinMessage;
+import it.polimi.ingsw.server.answers.worker.WinMessage;
 
 import java.beans.PropertyChangeEvent;
 
