@@ -1,7 +1,11 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.answers.Answer;
-import it.polimi.ingsw.server.answers.SerializedMessage;
+import it.polimi.ingsw.server.answers.GodRequest;
+import it.polimi.ingsw.server.answers.SerializedAnswer;
+
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Virtual client interface; this is a representation of the virtual instance of the client, which is connected
@@ -9,7 +13,7 @@ import it.polimi.ingsw.server.answers.SerializedMessage;
  * It's used for preparing an answer for sending and for general operations on the client too.
  * @author Luca Pirovano
  */
-public class VirtualClient {
+public class VirtualClient implements Observer {
     private int clientID;
     private String nickname;
     private SocketClientConnection socketClientConnection;
@@ -61,8 +65,15 @@ public class VirtualClient {
      * @param serverAnswer the answer to be sent to the user.
      */
     public void send(Answer serverAnswer) {
-        SerializedMessage message = new SerializedMessage();
+        SerializedAnswer message = new SerializedAnswer();
         message.setServerAnswer(serverAnswer);
         socketClientConnection.sendSocketMessage(message);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(arg instanceof GodRequest) {
+            send((GodRequest)arg);
+        }
     }
 }

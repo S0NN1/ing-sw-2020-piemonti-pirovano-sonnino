@@ -1,12 +1,8 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.messages.Setup;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.exceptions.DuplicateColorException;
-import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.*;
 
 import java.util.*;
@@ -53,11 +49,6 @@ public class Server {
     private GameHandler currentGame;
 
     /**
-     * The main game class (model).
-     */
-    private Game game;
-
-    /**
      * List of clients waiting in the lobby.
      */
     private List<SocketClientConnection> waiting = new ArrayList<>();
@@ -81,10 +72,12 @@ public class Server {
     }
 
     /**
-     * @return the active game on the server instance.
+     * Return the game handler by having the client ID. It's useful for getting the game handler from the socket handler.
+     * @param ID the client ID.
+     * @return the associated game handler.
      */
-    public Game getCurrentGame() {
-        return game;
+    public GameHandler getGameByID(int ID) {
+        return IDmapClient.get(ID).getGameHandler();
     }
 
     /**
@@ -132,12 +125,14 @@ public class Server {
         }
         else if (waiting.size()== totalPlayers) {
             System.err.println(Constants.getInfo() + "Minimum player number reached. The match is starting.");
-            for(int i=5; i>0; i--) {
+            for(int i=3; i>0; i--) {
                 currentGame.sendAll(new CustomMessage("Match starting in " + i));
                 TimeUnit.SECONDS.sleep(1);
             }
             currentGame.sendAll(new CustomMessage("The match has started!"));
             waiting.clear();
+            PlayerColors.reset();
+            currentGame.setup();
         }
         else {
             currentGame.sendAll(new CustomMessage((totalPlayers - waiting.size()) + " slots left."));
@@ -148,7 +143,7 @@ public class Server {
      * Delete a client from the hashmaps and active lists, deregistering his connection with the server.
      * @param clientID the ID of the virtual client to be removed.
      */
-    public void unregisterClient(int clientID) {
+    public synchronized void unregisterClient(int clientID) {
         VirtualClient client = IDmapClient.get(clientID);
         System.out.println(Constants.getInfo() + "Unregistering client " + client.getNickname() + "...");
         //client.getGameManager().removePlayer(client.getGameManager().getPlayerByNickname(client.getNickname()));
@@ -175,7 +170,7 @@ public class Server {
                 currentGame = new GameHandler(this);
             }
             if(nameMAPid.keySet().stream().anyMatch(nickname::equalsIgnoreCase)) {
-                SerializedMessage error = new SerializedMessage();
+                SerializedAnswer error = new SerializedAnswer();
                 error.setServerAnswer(new GameError(ErrorsType.DUPLICATENICKNAME));
                 socketClientHandler.sendSocketMessage(error);
                 return null;
@@ -197,7 +192,7 @@ public class Server {
         else {
             VirtualClient client = IDmapClient.get(clientID);
             if(client.isConnected()) {
-                SerializedMessage ans = new SerializedMessage();
+                SerializedAnswer ans = new SerializedAnswer();
                 ans.setServerAnswer(new GameError(ErrorsType.DUPLICATENICKNAME));
                 socketClientHandler.sendSocketMessage(ans);
                 return null;
@@ -206,19 +201,6 @@ public class Server {
             //client.setSocketClientConnection(socketClientHandler);
         }
         return clientID;
-    }
-
-    /**
-     *
-     * @param clientID
-     * @param setup
-     * @throws DuplicateNicknameException
-     * @throws DuplicateColorException
-     */
-    public synchronized void setupPlayer(int clientID, Setup setup) throws DuplicateNicknameException, DuplicateColorException {
-        VirtualClient client = IDmapClient.get(clientID);
-        //Game game = client.getGameHandler();
-        //game.createNewPlayer(new Player(client.getNickname(), setup.getColor()));
     }
 
     /**

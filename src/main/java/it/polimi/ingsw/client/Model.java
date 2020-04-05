@@ -16,18 +16,24 @@ public class Model extends Observable {
     }
 
     public void answerHandler(Answer answer) {
+        serverAnswer = answer;
         if(answer instanceof RequestPlayersNumber) {
-            serverAnswer = answer;
             setChanged();
             notifyObservers("RequestPlayerNumber");
         }
+        else if(answer instanceof RequestColor) {
+            setChanged();
+            notifyObservers("RequestColor");
+        }
+        else if(answer instanceof GodRequest) {
+            setChanged();
+            notifyObservers("GodRequest");
+        }
         else if(answer instanceof CustomMessage) {
-            serverAnswer = answer;
             setChanged();
             notifyObservers("CustomMessage");
         }
         else if(answer instanceof ConnectionClosed) {
-            serverAnswer = answer;
             setChanged();
             notifyObservers("ConnectionClosed");
             cli.toggleActiveGame(false);

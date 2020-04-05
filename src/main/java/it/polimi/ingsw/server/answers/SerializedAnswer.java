@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.answers;
 
 import java.io.Serializable;
 
-public class SerializedMessage implements Serializable {
+public class SerializedAnswer implements Serializable {
     private Answer serverAnswer;
 
     public void setServerAnswer(Answer answer) {

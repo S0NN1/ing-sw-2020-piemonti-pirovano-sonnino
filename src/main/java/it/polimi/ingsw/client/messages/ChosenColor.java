@@ -2,10 +2,10 @@ package it.polimi.ingsw.client.messages;
 
 import it.polimi.ingsw.model.player.PlayerColors;
 
-public class Setup implements Message {
+public class ChosenColor implements Message {
     private PlayerColors color;
 
-    public Setup(PlayerColors color) {
+    public ChosenColor(PlayerColors color) {
         this.color=color;
     }
 

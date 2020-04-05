@@ -5,26 +5,30 @@ import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
+    Game testGame;
+
+    @BeforeEach
+    void initialization() {
+        testGame = new Game();
+        testGame.createNewPlayer(new Player("piro"));
+        testGame.createNewPlayer(new Player("alice"));
+        testGame.createNewPlayer(new Player("nico"));
+    }
+
     /**
      * This first test see the behaviour in front of player clockwise rotation, and player removal.
      */
     @Test
-    void setupCreateRemoveNextPlayer() throws DuplicateNicknameException, DuplicateColorException {
-        Game testGame = new Game();
-        /*testGame.createNewPlayer(new Player("piro", PlayerColors.RED));
-
-        assertThrows(DuplicateColorException.class, ()->testGame.createNewPlayer(new Player("pino", PlayerColors.RED)));
-        assertThrows(DuplicateNicknameException.class, ()->testGame.createNewPlayer(new Player("piro", PlayerColors.GREEN)));
-
-        testGame.createNewPlayer(new Player("alice", PlayerColors.GREEN));
-        testGame.createNewPlayer(new Player("nico", PlayerColors.BLUE));
-
+    @DisplayName("Player setup, removal and clockwise rotation.")
+    void setupCreateRemoveNextPlayer() {
         testGame.setCurrentPlayer(testGame.getActivePlayers().get(0));
         assertEquals(testGame.getCurrentPlayer().getNickname(), "piro");
         testGame.nextPlayer();
@@ -39,7 +43,13 @@ class GameTest {
         testGame.nextPlayer();
         assertEquals(testGame.getCurrentPlayer().getNickname(), "nico");
         testGame.nextPlayer();
-        assertEquals(testGame.getCurrentPlayer().getNickname(), "alice");*/
+        assertEquals(testGame.getCurrentPlayer().getNickname(), "alice");
+
+        assertNull(testGame.getPlayerByNickname("lalo"));
+
+        testGame.removePlayer(testGame.getPlayerByNickname("nico"));
+        testGame.removePlayer(testGame.getPlayerByNickname("alice"));
+        assertTrue(testGame.getActivePlayers().isEmpty());
     }
 
     @Test

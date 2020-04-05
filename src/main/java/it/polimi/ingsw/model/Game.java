@@ -1,12 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.GodSelectionController;
-import it.polimi.ingsw.exceptions.DuplicateColorException;
-import it.polimi.ingsw.exceptions.DuplicateNicknameException;
-import it.polimi.ingsw.model.board.CardSelectionBoard;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.view.CardSelection;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -48,7 +44,9 @@ public class Game extends Observable {
      */
     public void removePlayer(Player player) {
         activePlayers.remove(player);
-        setCurrentPlayer(activePlayers.get(currentPlayerN));
+        if(!activePlayers.isEmpty()) {
+            setCurrentPlayer(activePlayers.get(currentPlayerN));
+        }
     }
 
     /**
@@ -106,14 +104,14 @@ public class Game extends Observable {
      * Create a new deck with God Powers. The challenger decides the cards he wants to put inside. MVC Local Pattern.
      */
     public void createDeck() {
-        CardSelectionBoard model = new CardSelectionBoard(deck);
-        CardSelection RemoteView = new CardSelection();
-        GodSelectionController controller = new GodSelectionController(model, RemoteView);
+        /*CardSelectionModel model = new CardSelectionModel(deck);
+        it.polimi.ingsw.view.CardSelection RemoteView = new it.polimi.ingsw.view.CardSelection();
+        GodSelectionController controller = new GodSelectionController(model);
 
         model.addObservers(RemoteView);
         RemoteView.addObservers(controller);
 
-        RemoteView.run();
+        RemoteView.run();*/
     }
 
     public Deck getDeck() {
