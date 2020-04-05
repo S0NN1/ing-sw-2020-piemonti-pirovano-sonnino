@@ -2,9 +2,8 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.Space;
+import it.polimi.ingsw.model.player.gods.Atlas;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author alice

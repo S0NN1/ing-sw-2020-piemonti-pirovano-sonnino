@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
-import org.junit.jupiter.api.DisplayName;
+import it.polimi.ingsw.model.player.gods.Apollo;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

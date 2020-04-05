@@ -1,7 +1,9 @@
-package it.polimi.ingsw.model.player;
+package it.polimi.ingsw.model.player.gods;
 
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.Space;
+import it.polimi.ingsw.model.player.PlayerColors;
+import it.polimi.ingsw.model.player.Worker;
 
 /**
  * @author alice

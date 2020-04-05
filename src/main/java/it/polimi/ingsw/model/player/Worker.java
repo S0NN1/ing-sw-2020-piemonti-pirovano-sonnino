@@ -21,6 +21,7 @@ public class Worker {
     protected boolean isBlocked;
     protected final String workerColor;
     private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
+    private ArrayList<Phase> phases;
 
     /**
      * Constructor
@@ -42,6 +43,27 @@ public class Worker {
             default:
                 throw new IllegalArgumentException();
         }
+        setPhases();
+    }
+
+    /**
+     * set the order of actions allowed by this worker
+     */
+    protected void setPhases(){
+        phases = new ArrayList<>();
+        phases.add(Phase.SELECTMOVE);
+        phases.add(Phase.MOVE);
+        phases.add(Phase.SELECTBUILD);
+        phases.add(Phase.BUILD);
+    }
+
+    /**
+     * get phase in index position
+     * @param position index
+     * @return phase
+     */
+    public Phase getPhase(int position){
+        return phases.get(position);
     }
 
     /**
@@ -108,8 +130,9 @@ public class Worker {
      * @throws IllegalArgumentException if space is null
      * @param space the new position
      */
-    public void move(Space space) throws IllegalArgumentException {
+    public boolean move(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
+        else if(!isSelectable(space)) return false;
         Space oldPosition = position;
         position.setWorker(space.getWorker());
         space.setWorker(this);
@@ -118,6 +141,7 @@ public class Worker {
         if(position.getTower().getHeight() == 3 && oldPosition.getTower().getHeight() == 2) {
             listeners.firePropertyChange("winListener", null, null);
         }
+        return true;
     }
 
     /**
@@ -126,7 +150,7 @@ public class Worker {
      * @param space a space of the GameBoard
      * @return boolean value
      */
-    protected boolean isSelectable(Space space) throws IllegalArgumentException {
+    public boolean isSelectable(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
         return ((space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
                 (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
@@ -178,10 +202,16 @@ public class Worker {
      * @throws OutOfBoundException if it's impossible to build on this space
      * @throws IllegalArgumentException if space is null
      */
-    public void build(Space space, Boolean buildDome) throws IllegalArgumentException, OutOfBoundException {
+    public boolean build(Space space, Boolean buildDome) throws IllegalArgumentException{
         if(space == null)throw new IllegalArgumentException();
-        space.getTower().addLevel();
+        else if(!isBuildable(space)) return false;
+        try {
+            space.getTower().addLevel();
+        } catch (OutOfBoundException e) {
+            return false;
+        }
         listeners.firePropertyChange("buildListener",null,space);
+        return true;
     }
 
     /**
@@ -190,7 +220,7 @@ public class Worker {
      * @param space space of the GameBoard
      * @return boolean value
      */
-    private boolean isBuildable(Space space) throws IllegalArgumentException {
+    public boolean isBuildable(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
         return (space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
                 (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
