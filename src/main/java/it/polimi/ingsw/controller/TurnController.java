@@ -1,8 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.messages.actions.UserAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.StartTurnAction;
+import it.polimi.ingsw.client.messages.actions.turnActions.EndTurnAction;
+import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
+import it.polimi.ingsw.client.messages.actions.workerActions.WorkerAction;
 import it.polimi.ingsw.server.GameHandler;
+import it.polimi.ingsw.server.answers.invalidInputRequest;
+import it.polimi.ingsw.server.answers.turn.workersRequest;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -28,8 +32,20 @@ public class TurnController implements Observer {
     public void update(Observable o, Object arg) {
         if (arg instanceof UserAction) {
             if (arg instanceof StartTurnAction) {
-                StartTurnAction action = (StartTurnAction) arg;
-                startTurn(action);
+                StartTurnAction start_action = (StartTurnAction) arg;
+                startTurn(start_action);
+            }
+            if (arg instanceof WorkerAction) {
+                WorkerAction worker_action = (WorkerAction) arg;
+                if (actionController.readMessage(worker_action)) { //TODO need fix readMessage actionController
+                    actionController.nextPhase();
+                } else {
+                    gameHandler.singleSend(invalidInputRequest::new, gameHandler.getCurrentPlayerID());
+                }
+            }
+            if (arg instanceof EndTurnAction) {
+                endTurn();
+                //TODO need to set ID into game handler
             }
         }
 
@@ -38,15 +54,19 @@ public class TurnController implements Observer {
     public void startTurn(StartTurnAction arg) {
         if (arg.option.equals("start")) {
             if (gameHandler.getCurrentPlayerID() == controller.getModel().getCurrentPlayer().getClientID()) {
-                gameHandler.singleSend(); //TODO Answer which worker
+                gameHandler.singleSend(workersRequest::new, gameHandler.getCurrentPlayerID());
             }
         }
         if (arg.option.equals("worker1")) {
-            actionController.startAction(controller.getModel().getCurrentPlayer().getWorker1());   //TODO need getWorker method
+            actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0));
         }
         if (arg.option.equals("worker2")) {
-            actionController.startAction(controller.getModel().getCurrentPlayer().getWorker1());  //TODO need getWorker method
+            actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1));
         }
 
+    }
+
+    public void endTurn() {
+        controller.getModel().nextPlayer();
     }
 }
