@@ -2,11 +2,9 @@ package it.polimi.ingsw.server.answers.worker;
 
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.server.answers.Answer;
-import it.polimi.ingsw.server.answers.Couple;
+import it.polimi.ingsw.constants.Couple;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class SelectSpacesMessage implements Answer {
 

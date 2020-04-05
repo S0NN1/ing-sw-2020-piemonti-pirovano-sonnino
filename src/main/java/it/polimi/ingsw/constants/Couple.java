@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.answers;
+package it.polimi.ingsw.constants;
 
 public class Couple {
 
