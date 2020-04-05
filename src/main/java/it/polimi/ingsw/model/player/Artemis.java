@@ -4,4 +4,5 @@ public class Artemis extends Worker {
     public Artemis(PlayerColors color) {
         super(color);
     }
+
 }
