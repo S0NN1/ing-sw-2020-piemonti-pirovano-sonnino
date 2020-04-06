@@ -63,6 +63,15 @@ public class Game extends Observable {
         return null;
     }
 
+    public Player getPlayerByID(int ID) {
+        for (Player player: activePlayers){
+            if(player.getClientID() == ID) {
+                return player;
+            }
+        }
+        return null;
+    }
+
     /**
      * @return the list of the active players in the match (not dead).
      */
