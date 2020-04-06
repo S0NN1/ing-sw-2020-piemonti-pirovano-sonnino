@@ -17,7 +17,6 @@ import java.util.Observer;
 
 public class GodSelectionController implements Observer {
     private CardSelectionModel cardModel;
-    private it.polimi.ingsw.view.CardSelection view;
     private Controller mainController;
 
     /**
