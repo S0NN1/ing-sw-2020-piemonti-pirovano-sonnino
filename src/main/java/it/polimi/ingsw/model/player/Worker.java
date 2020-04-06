@@ -20,7 +20,7 @@ public class Worker {
     protected Space position;
     protected boolean isBlocked;
     protected final String workerColor;
-    private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
+    protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     private ArrayList<Phase> phases;
 
     /**
@@ -198,12 +198,22 @@ public class Worker {
     }
 
     /**
+     * return false if it isn't an Atlas worker
+     * @param space space
+     * @param buildDome boolean
+     * @return false
+     */
+    public boolean build(Space space, boolean buildDome){
+        return false;
+    }
+
+    /**
      * build on the space received
      * @param space space
      * @throws IllegalArgumentException if space is null
      * @return false if it's impossible to build on the space or if OutOfBoundException is thrown
      */
-    public boolean build(Space space, Boolean buildDome) throws IllegalArgumentException{
+    public boolean build(Space space) throws IllegalArgumentException{
         if(space == null)throw new IllegalArgumentException();
         else if(!isBuildable(space)) return false;
         try {

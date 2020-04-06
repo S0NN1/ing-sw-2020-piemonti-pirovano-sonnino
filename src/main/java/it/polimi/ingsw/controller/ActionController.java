@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.messages.actions.workerActions.AtlasBuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.WorkerAction;
@@ -58,11 +59,18 @@ public class ActionController {
     public boolean readMessage(BuildAction action){
         if(worker.getPhase(phase) != Phase.BUILD) return false;
         Couple couple = action.getMessage();
-        if(worker.build(gameBoard.getSpace(couple.getX(), couple.getY()), false)){
+        if(action instanceof AtlasBuildAction){     //if Atlas worker, he can build a dome instead of a block
+            boolean dome = ((AtlasBuildAction) action).isDome();
+            if(worker.build(gameBoard.getSpace(couple.getX(),couple.getY()),dome)){
+                phase++;
+                return true;
+            }
+        }
+        else if(worker.build(gameBoard.getSpace(couple.getX(), couple.getY()))){
             phase++;
             return true;
         }
-        else return false;
+        return false;
     }
 
     /**

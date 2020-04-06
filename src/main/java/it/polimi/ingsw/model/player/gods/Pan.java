@@ -16,11 +16,14 @@ public class Pan extends Worker {
      * @throws IllegalArgumentException if space is null
      */
     @Override
-    public void move(Space space) throws IllegalArgumentException {
+    public boolean move(Space space) throws IllegalArgumentException {
         if((position.getTower().getHeight() - space.getTower().getHeight() ) > 1){
-            super.move(space);
-            System.out.println("bravo hai vinto per il potere di Pan"); //wiiiiiin
+            boolean value = super.move(space);
+            if(value){
+                listeners.firePropertyChange("winListener",null,null);
+            }
+            return value;
         }
-        super.move(space);
+        return super.move(space);
     }
 }

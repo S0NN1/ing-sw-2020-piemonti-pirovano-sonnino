@@ -44,7 +44,7 @@ class ApolloTest {
         apollo.setPosition(gameBoard.getSpace(1,1));
 
         int expectedMoves = 8;
-        assertEquals(expectedMoves, apollo.getMoves(gameBoard).size());
+        assertEquals(expectedMoves, apollo.selectMoves(gameBoard).size());
 
     }
 }
