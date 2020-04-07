@@ -12,6 +12,9 @@ import it.polimi.ingsw.server.VirtualClient;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.model.player.Action.SELECTMOVE;
+import static javax.swing.TransferHandler.MOVE;
+
 /**
  * @author Alice Piemonti
  */
@@ -21,7 +24,7 @@ public class Worker {
     protected boolean isBlocked;
     protected final String workerColor;
     protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-    private ArrayList<Phase> phases;
+    protected ArrayList<Phase> phases = new ArrayList<>();
 
     /**
      * Constructor
@@ -50,11 +53,10 @@ public class Worker {
      * set the order of actions allowed by this worker
      */
     protected void setPhases(){
-        phases = new ArrayList<>();
-        phases.add(Phase.SELECTMOVE);
-        phases.add(Phase.MOVE);
-        phases.add(Phase.SELECTBUILD);
-        phases.add(Phase.BUILD);
+        phases.add(new Phase(Action.SELECTMOVE,true));
+        phases.add(new Phase(Action.MOVE,true));
+        phases.add(new Phase(Action.SELECTBUILD,true));
+        phases.add(new Phase(Action.BUILD,true));
     }
 
     /**

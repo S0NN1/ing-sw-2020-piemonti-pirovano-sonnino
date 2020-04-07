@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 
 public class Apollo extends Worker {
+
     public Apollo(PlayerColors color) {
         super(color);
     }

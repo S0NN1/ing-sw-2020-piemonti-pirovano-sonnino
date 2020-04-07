@@ -4,7 +4,10 @@ import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 
+import java.beans.PropertyChangeSupport;
+
 public class Pan extends Worker {
+
     public Pan(PlayerColors color) {
         super(color);
     }

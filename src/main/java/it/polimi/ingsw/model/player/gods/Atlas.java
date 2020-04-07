@@ -7,12 +7,15 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.observer.workerListeners.AtlasBuildListener;
 import it.polimi.ingsw.server.VirtualClient;
 
+import javax.swing.*;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 /**
  * @author Alice Piemonti
  */
 public class Atlas extends Worker {
+
     public Atlas(PlayerColors color) {
         super(color);
     }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 
 public class Minotaur extends Worker {
+
     public Minotaur(PlayerColors color) {
         super(color);
     }
