@@ -63,9 +63,9 @@ class WorkerTest {
         worker.setPosition(init);
         worker.move(spaceFin);
 
-        assertEquals(spaceFin, worker.getPosition());
-        assertNull(init.getWorker());
-        assertEquals(worker, spaceFin.getWorker());
+        assertEquals(spaceFin, worker.getPosition(),"1");
+        assertNull(init.getWorker(),"2");
+        assertEquals(worker, spaceFin.getWorker(),"3");
 
         Space space2 = new Space();
         Space space3 = new Space();

@@ -59,7 +59,7 @@ public class Worker {
 
     /**
      * get element phase at the specified index
-     * @param index
+     * @param index of element
      * @return phase
      */
     public Phase getPhase(int index){
@@ -87,14 +87,12 @@ public class Worker {
     }
 
     /**
-     * set a new position to worker. You can only call this method once
+     * set a new position to worker
      * @throws IllegalArgumentException if space is null
-     * @throws IllegalStateException if the worker has already a position
      * @param space space, the unit of the GameBoard
      */
-    public void setPosition(Space space) throws IllegalArgumentException, IllegalStateException {
+    public void setPosition(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
-        else if(position != null) throw new IllegalStateException();
         this.position = space;
         space.setWorker(this);
     }
@@ -127,13 +125,13 @@ public class Worker {
 
     /**
      * change the worker's position while check winning condition
+     * requires this.isSelectable(space)
      * @throws IllegalArgumentException if space is null
      * @param space the new position
      * @return false if the worker can't move into this space
      */
     public boolean move(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
-        else if(!isSelectable(space)) return false;
         Space oldPosition = position;
         position.setWorker(space.getWorker());
         space.setWorker(this);

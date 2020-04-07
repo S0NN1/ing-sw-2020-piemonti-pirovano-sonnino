@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.messages.actions.workerActions.WorkerAction;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
+import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.Phase;
 import it.polimi.ingsw.model.player.Worker;
 
@@ -81,7 +82,8 @@ public class ActionController {
     public boolean readMessage(MoveAction action) {
         if(worker.getPhase(phase) != Phase.MOVE) return false;
         Couple couple = action.getMessage();
-        if(worker.move(gameBoard.getSpace(couple.getX(), couple.getY()))){
+        Space space = gameBoard.getSpace(couple.getX(),couple.getY());
+        if(worker.isSelectable(space) && worker.move(space)){
             phase++;
             return true;
         }
