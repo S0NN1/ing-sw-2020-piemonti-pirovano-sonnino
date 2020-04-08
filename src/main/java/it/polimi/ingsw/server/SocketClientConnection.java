@@ -65,6 +65,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
      * @see it.polimi.ingsw.server.Server#unregisterClient for more details.
      */
     public void close() {
+        server.getGameByID(clientID).unregisterPlayer(clientID);
         try {
             inputStream.close();
             outputStream.close();
@@ -101,10 +102,13 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
     catch (IOException e) {
-        System.err.println(e.getMessage());
+        System.err.println(Constants.getInfo() + e.getMessage());
     } catch (ClassNotFoundException e) {
         e.printStackTrace();
     }
+    server.getGameByID(clientID).sendAllExcept(new CustomMessage("Client " + server.getNicknameByID(clientID) +
+            " disconnected from the server."), clientID);
+    server.getGameByID(clientID).endGame();
     close();
     }
 
@@ -137,7 +141,11 @@ public class SocketClientConnection implements ClientConnection, Runnable {
             server.getGameByID(clientID).setup();
         }
         else if(command instanceof Disconnect) {
-            server.unregisterClient(clientID);
+            server.getGameByID(clientID).sendAllExcept(new CustomMessage("Client " + server.getNicknameByID(clientID) +
+                    " disconnected from the server."), clientID);
+            server.getGameByID(clientID).endGame();
+            close();
+            //server.unregisterClient(clientID);
         }
     }
 
