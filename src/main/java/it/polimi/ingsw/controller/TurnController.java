@@ -13,14 +13,23 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Controller
+ * Turn controller handling turn's moves and routing actions to the Action Controller
  *
  * @author Sonny
  */
 
 public class TurnController implements Observer {
+    /**
+     * Controller reference required for routing model to the Turn Controller
+     */
     Controller controller;
+    /**
+     * Controller reference required for routing actions
+     */
     ActionController actionController;
+    /**
+     * GameHandler reference in order to use singleSend method
+     */
     GameHandler gameHandler;
 
     public TurnController(Controller controller, ActionController actionController, GameHandler gameHandler) {
@@ -29,6 +38,12 @@ public class TurnController implements Observer {
         this.gameHandler = gameHandler;
     }
 
+    /**
+     * Update method used to receive messages
+     *
+     * @param o   observable
+     * @param arg Object containing the message
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof UserAction) {
@@ -64,6 +79,12 @@ public class TurnController implements Observer {
 
     }
 
+    /**
+     * Method handling the start of the turn
+     *
+     * @param arg StartTurnAction message
+     */
+
     public void startTurn(StartTurnAction arg) {
         if (arg.option.equals("start")) {
             if (gameHandler.getCurrentPlayerID() == controller.getModel().getCurrentPlayer().getClientID()) {
@@ -79,6 +100,9 @@ public class TurnController implements Observer {
 
     }
 
+    /**
+     * Method handling the end of the turn and switching to the next player
+     */
     public void endTurn() {
         controller.getModel().nextPlayer();
     }
