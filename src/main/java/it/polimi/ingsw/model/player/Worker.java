@@ -167,7 +167,7 @@ public class Worker {
      * @throws IllegalArgumentException if gameBoard is null
      * @throws IllegalStateException if the worker is blocked
      */
-    public void getMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
+    public void notifyWithMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
         if(gameBoard == null) throw new IllegalArgumentException();
         ArrayList<Space> moves = selectMoves(gameBoard);
         if(moves.isEmpty()) {

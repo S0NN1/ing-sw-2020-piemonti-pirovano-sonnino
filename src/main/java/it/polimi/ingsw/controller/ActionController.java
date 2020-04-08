@@ -42,7 +42,7 @@ public class ActionController {
         if (worker.getPhase(phase) == null) return false;
         else if (worker.getPhase(phase).getAction() == Action.SELECTMOVE) {
             phase++;
-            worker.getMoves(gameBoard);
+            worker.notifyWithMoves(gameBoard);
         } else if (worker.getPhase(phase).getAction() == Action.SELECTBUILD) {
             phase++;
             worker.notifyWithBuildable(gameBoard);

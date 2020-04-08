@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Artemis extends Worker {
 
-    private int phase = 0;
+    private Space oldPosition;
 
     public Artemis(PlayerColors color) {
         super(color);
@@ -40,9 +40,7 @@ public class Artemis extends Worker {
      */
     @Override
     public ArrayList<Space> selectMoves(GameBoard gameBoard) {
-        if (phase == 2){    //if selectMoves required, he chose to move another time
-            phases.get(3).changeMust(true);
-        }
+        phases.get(3).changeMust(true);
         return super.selectMoves(gameBoard);
     }
 
@@ -56,10 +54,50 @@ public class Artemis extends Worker {
      */
     @Override
     public boolean move(Space space) throws IllegalArgumentException {
-        if(super.move(space)){
-            phases.get(3).changeMust(false);
-            return true;
+        if(oldPosition == null) {   //first move
+            oldPosition = position; //save the actual position: Artemis can't move here again in this turn
+            if(super.move(space)){  //try to move
+                phases.get(3).changeMust(false);
+                return true;
+            }
+            oldPosition = null; //if super.move return false
+            return false;
+        }
+        else if(oldPosition == space) return false; //it's the second move and Artemis try to move to the previous position
+        else{   //second move
+            if(super.move(space)){
+                phases.get(3).changeMust(false);
+                oldPosition = null;
+                return true;
+            }
         }
         return false;
     }
+
+    /**
+     * return true if the worker can move to the space received
+     * can't select oldPosition
+     * @param space a space of the GameBoard
+     * @return boolean value
+     * @throws IllegalArgumentException if space is null
+     */
+    @Override
+    public boolean isSelectable(Space space) throws IllegalArgumentException {
+        if(space == oldPosition) return false;
+        return super.isSelectable(space);
+    }
+
+    /**
+     * notify the selectSpaceListener with all the spaces on which the worker can build
+     *
+     * @param gameBoard gameBoard of the game
+     * @throws IllegalArgumentException if gameBoard is null
+     */
+    @Override
+    public void notifyWithBuildable(GameBoard gameBoard) {
+        oldPosition = null;
+        super.notifyWithBuildable(gameBoard);
+    }
 }
+
+

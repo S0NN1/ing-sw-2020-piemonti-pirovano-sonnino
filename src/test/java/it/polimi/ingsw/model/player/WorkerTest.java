@@ -189,7 +189,7 @@ class WorkerTest {
                 }
             }
             worker.setPosition(gameBoard.getSpace(1,1));
-            Exception exception = assertThrows(IllegalStateException.class, () -> {worker.getMoves(gameBoard);});
+            Exception exception = assertThrows(IllegalStateException.class, () -> {worker.notifyWithMoves(gameBoard);});
         }
     }
 
