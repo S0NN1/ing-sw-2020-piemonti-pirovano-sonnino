@@ -12,21 +12,9 @@ public class Pan extends Worker {
         super(color);
     }
 
-    /**
-     * change the worker's position while check winning condition
-     * there's another winning condition
-     * @param space the new position
-     * @throws IllegalArgumentException if space is null
-     */
     @Override
-    public boolean move(Space space) throws IllegalArgumentException {
-        if((position.getTower().getHeight() - space.getTower().getHeight() ) > 1){
-            boolean value = super.move(space);
-            if(value){
-                listeners.firePropertyChange("winListener",null,null);
-            }
-            return value;
-        }
-        return super.move(space);
+    public boolean winCondition(Space space) {
+        if((space.getTower().getHeight() - position.getTower().getHeight() ) > 1) return true;
+        return super.winCondition(space);
     }
 }

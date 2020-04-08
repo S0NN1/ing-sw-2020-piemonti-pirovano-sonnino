@@ -139,10 +139,14 @@ public class Worker {
         space.setWorker(this);
         position = space;
         listeners.firePropertyChange("moveListener", oldPosition, position);
-        if(position.getTower().getHeight() == 3 && oldPosition.getTower().getHeight() == 2) {
+        if(winCondition(oldPosition)) {
             listeners.firePropertyChange("winListener", null, null);
         }
         return true;
+    }
+
+    public boolean winCondition(Space space){
+        return position.getTower().getHeight() == 3 && space.getTower().getHeight() == 2;
     }
 
     /**
