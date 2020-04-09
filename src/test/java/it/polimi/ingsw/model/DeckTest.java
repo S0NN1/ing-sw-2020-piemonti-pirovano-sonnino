@@ -17,7 +17,7 @@ class DeckTest {
 
     @BeforeEach
     void initialization() {
-        testDeck = new Deck();
+        testDeck = new Deck(new Game());
     }
 
     @Test

@@ -23,7 +23,7 @@ public class Game extends Observable {
     private GameBoard gameBoard;
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Player> activePlayers = new ArrayList<>();
-    private Deck deck = new Deck();
+    private Deck deck = new Deck(this);
     private int challengerNumber;
     private Player currentPlayer;
     private int currentPlayerN;
@@ -45,6 +45,7 @@ public class Game extends Observable {
     public void removePlayer(Player player) {
         activePlayers.remove(player);
         if(!activePlayers.isEmpty()) {
+            if(currentPlayerN==activePlayers.size()+1) currentPlayerN=0;
             setCurrentPlayer(activePlayers.get(currentPlayerN));
         }
     }
@@ -85,6 +86,7 @@ public class Game extends Observable {
      */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
+        this.currentPlayerN = activePlayers.indexOf(player);
     }
 
     /**

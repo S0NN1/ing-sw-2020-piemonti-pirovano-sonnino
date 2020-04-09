@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.answers.Answer;
+import it.polimi.ingsw.server.answers.CustomMessage;
 import it.polimi.ingsw.server.answers.GodRequest;
 import it.polimi.ingsw.server.answers.SerializedAnswer;
 
@@ -78,6 +79,9 @@ public class VirtualClient implements Observer {
     public void update(Observable o, Object arg) {
         if(arg instanceof GodRequest) {
             send((GodRequest)arg);
+        }
+        else if(arg instanceof CustomMessage){
+            send((CustomMessage)arg);
         }
     }
 }
