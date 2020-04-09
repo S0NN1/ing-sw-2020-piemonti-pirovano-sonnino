@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
-import it.polimi.ingsw.exceptions.DuplicateGodException;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.CardSelectionModel;
@@ -61,7 +61,7 @@ public class GodSelectionController implements Observer {
                 break;
             case "CHOOSE":
                 if(mainController.getGameHandler().isStarted()==1) {
-                    boolean result = mainController.getModel().getDeck().removeCard(cmd.arg);
+                    boolean result = mainController.getModel().getDeck().chooseCard(cmd.arg);
                     if (!result) {
                         mainController.getGameHandler().singleSend(new GodRequest("Error: the selected card has not been" +
                                         " chosen by the challenger or has already been taken by another player."),
@@ -69,7 +69,8 @@ public class GodSelectionController implements Observer {
                     }
                     else {
                         mainController.getGameHandler().sendAll(new CustomMessage("Player " +
-                                mainController.getModel().getCurrentPlayer().getNickname() + " has selected " + cmd.arg.name()));
+                                mainController.getModel().getCurrentPlayer().getNickname() + " has selected " +
+                                cmd.arg.name() + "\n\n" + cmd.arg.godsDescription() + "\n"));
                     }
                 }
                 try {
@@ -78,6 +79,20 @@ public class GodSelectionController implements Observer {
                     e.printStackTrace();
                 }
                 break;
+            case "LASTSELECTION":
+                if(mainController.getModel().getDeck().getCards().size()!=1) {
+                    mainController.getGameHandler().singleSend(new GodRequest("Error: invalid input."),
+                            mainController.getGameHandler().getCurrentPlayerID());
+                    return;
+                }
+                Card card = mainController.getModel().getDeck().getCards().get(0);
+                mainController.getModel().getDeck().chooseCard(card);
+                mainController.getGameHandler().sendAll(new CustomMessage(Constants.ANSI_RED + "The society decides for player " +
+                        mainController.getModel().getCurrentPlayer().getNickname() + "! He obtained " + card.name() +
+                        Constants.ANSI_RESET + "\n\n" + card.godsDescription() + "\n"));
+                break;
+
+                //TODO: make possible to request god's description during the card choosing
         }
     }
 }

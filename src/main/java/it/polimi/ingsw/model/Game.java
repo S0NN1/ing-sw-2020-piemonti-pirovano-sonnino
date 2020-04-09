@@ -16,7 +16,7 @@ import java.util.Observable;
  * The last section is the "MVC Deck creation", which consists in a Model-View-Controller pattern that lets challenger
  * to choose the god powers cards.
  * @author Luca Pirovano
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 public class Game extends Observable {
@@ -45,7 +45,7 @@ public class Game extends Observable {
     public void removePlayer(Player player) {
         activePlayers.remove(player);
         if(!activePlayers.isEmpty()) {
-            if(currentPlayerN==activePlayers.size()+1) currentPlayerN=0;
+            if(currentPlayerN==activePlayers.size()) currentPlayerN=0;
             setCurrentPlayer(activePlayers.get(currentPlayerN));
         }
     }
@@ -109,20 +109,6 @@ public class Game extends Observable {
      */
     public int getChallenger() {
         return challengerNumber;
-    }
-
-    /**
-     * Create a new deck with God Powers. The challenger decides the cards he wants to put inside. MVC Local Pattern.
-     */
-    public void createDeck() {
-        /*CardSelectionModel model = new CardSelectionModel(deck);
-        it.polimi.ingsw.view.CardSelection RemoteView = new it.polimi.ingsw.view.CardSelection();
-        GodSelectionController controller = new GodSelectionController(model);
-
-        model.addObservers(RemoteView);
-        RemoteView.addObservers(controller);
-
-        RemoteView.run();*/
     }
 
     public Deck getDeck() {

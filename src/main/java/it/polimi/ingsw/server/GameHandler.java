@@ -150,27 +150,32 @@ public class GameHandler extends Observable {
 
     public void makeAction(UserAction action) {
         if((action instanceof GodSelectionAction)) {
-            if(started==0) {
+            if (started == 0) {
                 setChanged();
-                notifyObservers((GodSelectionAction)action);
-                if(game.getDeck().getCards().size()==playersNumber) {
+                notifyObservers((GodSelectionAction) action);
+                if (game.getDeck().getCards().size() == playersNumber) {
                     started = 1;
                     game.nextPlayer();
                     singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
-                            "god power from one of the list below by typing CHOOSE <god-name>.\n" +
-                            game.getDeck().getCards().stream().map(e -> e.toString()).collect(Collectors.joining(", "))),
+                                    "god power from one of the list below by typing CHOOSE <god-name>.\n" +
+                                    game.getDeck().getCards().stream().map(e -> e.toString()).collect(Collectors.joining(", "))),
                             getCurrentPlayerID());
                 }
-            }
-            else if(started==1){
+            } else if (started == 1) {
                 setChanged();
-                notifyObservers((GodSelectionAction)action);
-                if(game.getDeck().getCards().size()>0) {
+                notifyObservers((GodSelectionAction) action);
+                if (game.getDeck().getCards().size() > 1) {
                     game.nextPlayer();
                     singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
                                     "god power from one of the list below by typing CHOOSE <god-name>.\n" + game.getDeck().
                                     getCards().stream().map(e -> e.toString()).collect(Collectors.joining(", "))),
                             getCurrentPlayerID());
+                }
+                else if(game.getDeck().getCards().size()==1) {
+                    game.nextPlayer();
+                    setChanged();
+                    notifyObservers(new GodSelectionAction("LASTSELECTION"));
+                }
             }
         }
         else {
@@ -178,7 +183,6 @@ public class GameHandler extends Observable {
             notifyObservers(action);
             }
         }
-    }
 
     public void unregisterPlayer(int ID) {
         game.removePlayer(game.getPlayerByID(ID));

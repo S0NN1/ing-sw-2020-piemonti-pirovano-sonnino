@@ -47,10 +47,11 @@ public class Deck {
      * @param card the card selected by the player.
      * @throws CardNotChosenException if the card was not chosen by the challenger or if it's been selected by someone else.
      */
-    public boolean removeCard(Card card) {
+    public boolean chooseCard(Card card) {
         if(!cards.contains(card)) {
             return false;
         }
+        game.getCurrentPlayer().setCard(card);
         cards.remove(card);
         return true;
     }

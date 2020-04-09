@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.CardNotChosenException;
 import it.polimi.ingsw.exceptions.DuplicateGodException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayersNumber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,12 +49,12 @@ class DeckTest {
         testDeck.setCard(Card.APOLLO);
         testDeck.setCard(Card.ATHENA);
         testDeck.setCard(Card.ATLAS);
-        testDeck.removeCard(Card.ATLAS);
+        testDeck.chooseCard(Card.ATLAS);
         assertEquals(testDeck.getCards().size(), 2);
-        assertThrows(CardNotChosenException.class, () -> testDeck.removeCard(Card.ATLAS));
-        testDeck.removeCard(Card.ATHENA);
-        assertThrows(CardNotChosenException.class, () -> testDeck.removeCard(Card.ATHENA));
-        testDeck.removeCard(Card.APOLLO);
+        assertThrows(CardNotChosenException.class, () -> testDeck.chooseCard(Card.ATLAS));
+        testDeck.chooseCard(Card.ATHENA);
+        assertThrows(CardNotChosenException.class, () -> testDeck.chooseCard(Card.ATHENA));
+        testDeck.chooseCard(Card.APOLLO);
         assertEquals(testDeck.getCards().size(), 0);
     }
 

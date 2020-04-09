@@ -204,7 +204,6 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
         catch (IOException e) {
             close();
-            //TODO: Disconnect Client
         }
     }
 
