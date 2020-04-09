@@ -33,6 +33,12 @@ public class Server {
     private Map<String, Integer> nameMAPid;
 
     /**
+     * This hashmap permits finding client nickname relying on his unique ID.
+     * The client has to be connected to the server.
+     */
+    private Map<Integer, String> idMAPname;
+
+    /**
      * This hashmap permits identifying a Virtual Client relying on his active connection with the server.
      * The client has to be connected to the server.
      */
@@ -68,6 +74,7 @@ public class Server {
         IDmapClient = new HashMap<>();
         nameMAPid = new HashMap<>();
         clientToConnection = new HashMap<>();
+        idMAPname = new HashMap<>();
         totalPlayers =-1;
     }
 
@@ -103,6 +110,15 @@ public class Server {
      */
     public VirtualClient getClientByID(int ID) {
         return IDmapClient.get(ID);
+    }
+
+    /**
+     * Return the user nickname from the hashmap explained above.
+     * @param ID the id of the client.
+     * @return the nickname of the associated player.
+     */
+    public String getNicknameByID(int ID) {
+        return idMAPname.get(ID);
     }
 
     public int getIDByNickname(String nickname) { return nameMAPid.get(nickname); }
@@ -150,6 +166,7 @@ public class Server {
         IDmapClient.remove(clientID);
         nameMAPid.remove(client.getNickname());
         waiting.remove(clientToConnection.get(client));
+        idMAPname.remove(client.getClientID());
         clientToConnection.remove(client);
         System.out.println(Constants.getInfo() + "Client has been successfully unregistered.");
         currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " left the game.\n" + (totalPlayers - waiting.size()) + " slots left."));
@@ -184,6 +201,7 @@ public class Server {
             }
             IDmapClient.put(clientID, client);
             nameMAPid.put(nickname, clientID);
+            idMAPname.put(clientID, nickname);
             clientToConnection.put(client, socketClientHandler);
             System.out.println(Constants.getInfo() + "Client " + client.getNickname() + ", identified by ID " + client.getClientID() + ", has successfully connected!");
             client.send(new ConnectionConfirmation());

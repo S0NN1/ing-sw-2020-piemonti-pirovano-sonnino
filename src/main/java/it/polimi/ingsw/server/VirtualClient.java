@@ -58,6 +58,10 @@ public class VirtualClient implements Observer {
         return nickname;
     }
 
+    public SocketClientConnection getConnection() {
+        return socketClientConnection;
+    }
+
     /**
      * Prepares the answer for sending it through the network, putting it in a serialized package, called SerializedMessage,
      * then sends the packaged answer to the transmission protocol, located in the socket-client handler.

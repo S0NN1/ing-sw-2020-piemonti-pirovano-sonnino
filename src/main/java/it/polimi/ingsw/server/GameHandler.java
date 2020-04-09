@@ -8,10 +8,7 @@ import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
-import it.polimi.ingsw.server.answers.Answer;
-import it.polimi.ingsw.server.answers.CustomMessage;
-import it.polimi.ingsw.server.answers.GodRequest;
-import it.polimi.ingsw.server.answers.RequestColor;
+import it.polimi.ingsw.server.answers.*;
 
 import java.util.Observable;
 import java.util.Random;
@@ -46,16 +43,16 @@ public class GameHandler extends Observable {
     }
 
 
-    public int getCurrentPlayerID() {
-        return server.getIDByNickname(game.getCurrentPlayer().getNickname());
-    }
-
     /**
      * This method receives a nickname from the server application and creates a new player in the game class.
      * @param nickname the chosen nickname, after a duplicates check.
      */
     public void setupPlayer(String nickname, int clientID) {
         game.createNewPlayer(new Player(nickname, clientID));
+    }
+
+    public int getCurrentPlayerID() {
+        return game.getCurrentPlayer().getClientID();
     }
 
     /**
@@ -144,6 +141,17 @@ public class GameHandler extends Observable {
         else {
             setChanged();
             notifyObservers(action);
+        }
+    }
+
+    public void unregisterPlayer(int ID) {
+        game.removePlayer(game.getPlayerByID(ID));
+    }
+
+    public void endGame() {
+        sendAll(new ConnectionClosed("Match ended.\nThanks for playing!"));
+        for (Player player:game.getActivePlayers()) {
+            server.getClientByID(player.getClientID()).getConnection().close();
         }
     }
 }
