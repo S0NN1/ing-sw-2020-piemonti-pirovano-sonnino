@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 
 public class Minotaur extends Worker {
+
     public Minotaur(PlayerColors color) {
         super(color);
     }
@@ -48,14 +49,14 @@ public class Minotaur extends Worker {
      * @throws IllegalArgumentException if space is null
      */
     @Override
-    public void move(Space space) throws IllegalArgumentException {
+    public boolean move(Space space) throws IllegalArgumentException {
         if(space.isEmpty()){
-            super.move(space);
+            return super.move(space);
         }
         else{
             if(position.getX() - space.getX() < 0){
-                ///////////////////space.getWorker().setPosition();
             }
+            return false; ///////////////////space.getWorker().setPosition();
         }
     }
 }

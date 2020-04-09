@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.messages.actions.workerActions.AtlasBuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.model.board.GameBoard;
-import it.polimi.ingsw.model.player.Phase;
+import it.polimi.ingsw.model.board.Space;
+import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Worker;
 
 /**
@@ -39,37 +41,54 @@ public class ActionController {
      */
     public boolean nextPhase() {
         if (worker.getPhase(phase) == null) return false;
-        else if (worker.getPhase(phase) == Phase.SELECTMOVE) {
+        else if (worker.getPhase(phase).getAction() == Action.SELECTMOVE) {
             phase++;
-            worker.getMoves(gameBoard);
-        } else if (worker.getPhase(phase) == Phase.SELECTBUILD) {
+            worker.notifyWithMoves(gameBoard);
+        } else if (worker.getPhase(phase).getAction() == Action.SELECTBUILD) {
             phase++;
-            worker.getBuildableSpaces(gameBoard);
+            worker.notifyWithBuildable(gameBoard);
         }
         return true;
     }
 
     /**
+<<<<<<< HEAD
      * build into the space received
      *
+=======
+     * move the worker into the space received
+>>>>>>> master
      * @param action a couple of int which refers to the space
-     * @return false if it isn't the correct phase or if it isn't possible to build into this space
+     * @return false if it isn't the correct phase or if the worker cannot move into this space
      */
+<<<<<<< HEAD
     public boolean readMessage(BuildAction action) {
         if (worker.getPhase(phase) != Phase.BUILD) return false;
         Couple couple = action.getMessage();
         if (worker.build(gameBoard.getSpace(couple.getX(), couple.getY()), false)) {
+=======
+    public boolean readMessage(MoveAction action) {
+        if(worker.getPhase(phase).getAction() != Action.MOVE) return false;
+        Couple couple = action.getMessage();
+        Space space = gameBoard.getSpace(couple.getX(),couple.getY());
+        if(worker.isSelectable(space) && worker.move(space)){
+>>>>>>> master
             phase++;
             return true;
         } else return false;
     }
 
     /**
+<<<<<<< HEAD
      * move the worker into the space received
      *
+=======
+     * build into the space received
+>>>>>>> master
      * @param action a couple of int which refers to the space
-     * @return false if it isn't the correct phase or if the worker cannot move into this space
+     * @return false if it isn't the correct phase or if it isn't possible to build into this space
      */
+<<<<<<< HEAD
     public boolean readMessage(MoveAction action) {
         if (worker.getPhase(phase) != Phase.MOVE) return false;
         Couple couple = action.getMessage();
@@ -77,5 +96,29 @@ public class ActionController {
             phase++;
             return true;
         } else return false;
+=======
+    public boolean readMessage(BuildAction action){
+        int phaseTemp = phase;
+        while (worker.getPhase(phase).getAction() != Action.BUILD && !worker.getPhase(phase).isMust()) {
+            phase++;
+        }
+        if(worker.getPhase(phase).getAction() == Action.BUILD) {
+            Couple couple = action.getMessage();
+            if (action instanceof AtlasBuildAction) {     //if Atlas worker, he can build a dome instead of a block
+                boolean dome = ((AtlasBuildAction) action).isDome();
+                if (worker.build(gameBoard.getSpace(couple.getX(), couple.getY()), dome)) {
+                    phase++;
+                    return true;
+                }
+            }
+            else if (worker.build(gameBoard.getSpace(couple.getX(), couple.getY()))) {
+                phase++;
+                return true;
+            }
+        }
+        //case !Action.BUILD && isMust
+        phase = phaseTemp;
+        return false;
+>>>>>>> master
     }
 }

@@ -1,23 +1,29 @@
-package it.polimi.ingsw.model.player;
+package it.polimi.ingsw.model.player.gods;
 
+import it.polimi.ingsw.exceptions.InvalidInputException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
+import it.polimi.ingsw.model.player.PlayerColors;
+import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.player.gods.Apollo;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author alice
+ */
 class ApolloTest {
 
     @Test
+    @DisplayName("Change position with another worker")
     void moveTest() {
         Worker apollo = new Apollo(PlayerColors.RED);
         Worker worker = new Worker((PlayerColors.BLUE));
 
         Space spaceInit = new Space();
         Space spaceFinal = new Space();
-        spaceInit.setWorker(apollo);
-        spaceFinal.setWorker(worker);
         apollo.setPosition(spaceInit);
         worker.setPosition(spaceFinal);
 
@@ -44,7 +50,7 @@ class ApolloTest {
         apollo.setPosition(gameBoard.getSpace(1,1));
 
         int expectedMoves = 8;
-        assertEquals(expectedMoves, apollo.getMoves(gameBoard).size());
+        assertEquals(expectedMoves, apollo.selectMoves(gameBoard).size());
 
     }
 }

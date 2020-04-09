@@ -12,6 +12,9 @@ import it.polimi.ingsw.server.VirtualClient;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.model.player.Action.SELECTMOVE;
+import static javax.swing.TransferHandler.MOVE;
+
 /**
  * @author Alice Piemonti
  */
@@ -20,8 +23,8 @@ public class Worker {
     protected Space position;
     protected boolean isBlocked;
     protected final String workerColor;
-    private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-    private ArrayList<Phase> phases;
+    protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
+    protected ArrayList<Phase> phases = new ArrayList<>();
 
     /**
      * Constructor
@@ -50,20 +53,19 @@ public class Worker {
      * set the order of actions allowed by this worker
      */
     protected void setPhases(){
-        phases = new ArrayList<>();
-        phases.add(Phase.SELECTMOVE);
-        phases.add(Phase.MOVE);
-        phases.add(Phase.SELECTBUILD);
-        phases.add(Phase.BUILD);
+        phases.add(new Phase(Action.SELECTMOVE,true));
+        phases.add(new Phase(Action.MOVE,true));
+        phases.add(new Phase(Action.SELECTBUILD,true));
+        phases.add(new Phase(Action.BUILD,true));
     }
 
     /**
-     * get phase in index position
-     * @param position index
+     * get element phase at the specified index
+     * @param index of element
      * @return phase
      */
-    public Phase getPhase(int position){
-        return phases.get(position);
+    public Phase getPhase(int index){
+        return phases.get(index);
     }
 
     /**
@@ -87,14 +89,12 @@ public class Worker {
     }
 
     /**
-     * set a new position to worker. You can only call this method once
+     * set a new position to worker
      * @throws IllegalArgumentException if space is null
-     * @throws IllegalStateException if the worker has already a position
      * @param space space, the unit of the GameBoard
      */
-    public void setPosition(Space space) throws IllegalArgumentException, IllegalStateException {
+    public void setPosition(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
-        else if(position != null) throw new IllegalStateException();
         this.position = space;
         space.setWorker(this);
     }
@@ -127,21 +127,26 @@ public class Worker {
 
     /**
      * change the worker's position while check winning condition
+     * requires this.isSelectable(space)
      * @throws IllegalArgumentException if space is null
      * @param space the new position
+     * @return false if the worker can't move into this space
      */
     public boolean move(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
-        else if(!isSelectable(space)) return false;
         Space oldPosition = position;
         position.setWorker(space.getWorker());
         space.setWorker(this);
         position = space;
         listeners.firePropertyChange("moveListener", oldPosition, position);
-        if(position.getTower().getHeight() == 3 && oldPosition.getTower().getHeight() == 2) {
+        if(winCondition(oldPosition)) {
             listeners.firePropertyChange("winListener", null, null);
         }
         return true;
+    }
+
+    public boolean winCondition(Space space){
+        return position.getTower().getHeight() == 3 && space.getTower().getHeight() == 2;
     }
 
     /**
@@ -166,7 +171,7 @@ public class Worker {
      * @throws IllegalArgumentException if gameBoard is null
      * @throws IllegalStateException if the worker is blocked
      */
-    public void getMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
+    public void notifyWithMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
         if(gameBoard == null) throw new IllegalArgumentException();
         ArrayList<Space> moves = selectMoves(gameBoard);
         if(moves.isEmpty()) {
@@ -197,12 +202,22 @@ public class Worker {
     }
 
     /**
+     * return false if it isn't an Atlas worker
+     * @param space space
+     * @param buildDome boolean
+     * @return false
+     */
+    public boolean build(Space space, boolean buildDome){
+        return false;
+    }
+
+    /**
      * build on the space received
      * @param space space
-     * @throws OutOfBoundException if it's impossible to build on this space
      * @throws IllegalArgumentException if space is null
+     * @return false if it's impossible to build on the space or if OutOfBoundException is thrown
      */
-    public boolean build(Space space, Boolean buildDome) throws IllegalArgumentException{
+    public boolean build(Space space) throws IllegalArgumentException{
         if(space == null)throw new IllegalArgumentException();
         else if(!isBuildable(space)) return false;
         try {
@@ -230,13 +245,23 @@ public class Worker {
     }
 
     /**
-     * get an ArrayList that contains the spaces on which the worker can build
+     * notify the selectSpaceListener with all the spaces on which the worker can build
      * @throws IllegalArgumentException if gameBoard is null
      * @param gameBoard gameBoard of the game
-     * @return ArrayList of spaces
      */
-    public void getBuildableSpaces(GameBoard gameBoard) throws IllegalArgumentException {
-        if(gameBoard == null) throw new IllegalArgumentException();
+   public void notifyWithBuildable(GameBoard gameBoard){
+       if(gameBoard == null) throw new IllegalArgumentException();
+       ArrayList<Space> buildable = getBuildableSpaces(gameBoard);
+       listeners.firePropertyChange("selectSpacesListener", null, buildable);
+
+   }
+
+    /**
+     * return an ArrayList which contains all the buildable spaces
+     * @param gameBoard gameBoard
+     * @return an ArrayList of spaces
+     */
+    public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard){
         ArrayList<Space> buildable = new ArrayList<Space>();
         for (int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
@@ -244,7 +269,7 @@ public class Worker {
                 if(isBuildable(space)){ buildable.add(space);}
             }
         }
-        listeners.firePropertyChange("selectSpacesListener", null, buildable);
+        return buildable;
     }
 }
 
