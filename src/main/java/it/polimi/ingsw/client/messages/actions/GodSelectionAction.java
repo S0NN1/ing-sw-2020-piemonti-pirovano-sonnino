@@ -15,9 +15,4 @@ public class GodSelectionAction implements UserAction {
         this.action = action;
         this.arg = null;
     }
-
-    @Override
-    public Object getMessage() {
-        return null;
-    }
 }
