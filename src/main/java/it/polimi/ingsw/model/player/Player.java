@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Card;
-
-import static it.polimi.ingsw.model.Card.*;
+import it.polimi.ingsw.model.player.gods.*;
 
 /**
  * @author Alice Piemonti
