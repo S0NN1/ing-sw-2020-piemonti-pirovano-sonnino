@@ -241,7 +241,7 @@ public abstract class Worker {
     }
 
     /**
-     * build on the space received
+     * check if the space is buildable and build on the space received
      * @param space space
      * @throws IllegalArgumentException if space is null
      * @return false if it's impossible to build on the space or if OutOfBoundException is thrown

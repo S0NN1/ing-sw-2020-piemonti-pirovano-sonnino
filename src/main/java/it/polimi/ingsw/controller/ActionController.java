@@ -25,27 +25,25 @@ public class ActionController {
      *
      * @throws IllegalStateException if worker is blocked
      */
-    public boolean startAction(Worker currentWorker) throws NullPointerException {
+    public void startAction(Worker currentWorker) throws NullPointerException {
         if (currentWorker == null) throw new NullPointerException();
         worker = currentWorker;
         phase = 0;
-        return nextPhase();
     }
 
     /**
-     * start the next phase of turn
-     * @return false if the turn is ended
+     * check if there are must phases left
+     * @return true if it's allowed to end the turn
      */
-    public boolean nextPhase() {
-        if (worker.getPhase(phase) == null) return false;
-        else if (worker.getPhase(phase).getAction() == Action.SELECTMOVE) {
+    public boolean endAction() {
+        do {
+            if (worker.getPhase(phase) == null) {
+                return true;
+            }
             phase++;
-            worker.notifyWithMoves(gameBoard);
-        } else if (worker.getPhase(phase).getAction() == Action.SELECTBUILD) {
-            phase++;
-            worker.notifyWithBuildable(gameBoard);
         }
-        return true;
+        while(!worker.getPhase(phase).isMust());
+        return false;
     }
 
     /**
@@ -135,6 +133,4 @@ public class ActionController {
         }
         return false;
     }
-
-    //TODO pensa a cosa succede a fine turno
 }
