@@ -49,10 +49,13 @@ public abstract class Worker {
         setPhases();
     }
 
+    /**
+     * set the order of action allowed by this worker
+     */
     public abstract void setPhases();
 
     /**
-     * set the order of actions allowed by this worker
+     * The worker has normal phases
      */
     protected void setNormalPhases(){
         phases.add(new Phase(Action.SELECTMOVE,true));
