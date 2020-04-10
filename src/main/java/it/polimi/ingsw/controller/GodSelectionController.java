@@ -57,6 +57,7 @@ public class GodSelectionController implements Observer {
                 catch (OutOfBoundException e) {
                     mainController.getGameHandler().singleSend(new GodRequest("Error: no more god to be added!"),
                             mainController.getModel().getCurrentPlayer().getClientID());
+                    return;
                 }
                 break;
             case "CHOOSE":
@@ -68,9 +69,10 @@ public class GodSelectionController implements Observer {
                                 mainController.getGameHandler().getCurrentPlayerID());
                     }
                     else {
-                        mainController.getGameHandler().sendAll(new CustomMessage("Player " +
+                        mainController.getGameHandler().sendAllExcept(new CustomMessage("Player " +
                                 mainController.getModel().getCurrentPlayer().getNickname() + " has selected " +
-                                cmd.arg.name() + "\n\n" + cmd.arg.godsDescription() + "\n"));
+                                cmd.arg.name() + "\n\n" + cmd.arg.godsDescription() + "\n"),
+                                mainController.getGameHandler().getCurrentPlayerID());
                     }
                 }
                 try {

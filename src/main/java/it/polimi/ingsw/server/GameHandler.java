@@ -151,25 +151,37 @@ public class GameHandler extends Observable {
     public void makeAction(UserAction action) {
         if((action instanceof GodSelectionAction)) {
             if (started == 0) {
+                if(((GodSelectionAction) action).action.equals("CHOOSE")) {
+                    singleSend(new GodRequest("Error: not in correct game phase for " + "this command!"), getCurrentPlayerID());
+                    return;
+                }
                 setChanged();
                 notifyObservers((GodSelectionAction) action);
                 if (game.getDeck().getCards().size() == playersNumber) {
                     started = 1;
                     game.nextPlayer();
                     singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
-                                    "god power from one of the list below by typing CHOOSE <god-name>.\n" +
-                                    game.getDeck().getCards().stream().map(e -> e.toString()).collect(Collectors.joining(", "))),
-                            getCurrentPlayerID());
+                                    "god power from one of the list below.\n\n" +
+                                    game.getDeck().getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription()
+                                            + "\n").collect(Collectors.joining("\n")) +
+                            "Select your god by typing choose <god-name>:"),getCurrentPlayerID());
                 }
-            } else if (started == 1) {
+            }
+            else if (started == 1) {
+                if(((GodSelectionAction) action).action.equals("DESC") || ((GodSelectionAction) action).action.equals("LIST") ||
+                ((GodSelectionAction) action).action.equals("ADD")) {
+                    singleSend(new GodRequest("Error: not in correct game phase for " + "this command!"), getCurrentPlayerID());
+                    return;
+                }
                 setChanged();
                 notifyObservers((GodSelectionAction) action);
                 if (game.getDeck().getCards().size() > 1) {
                     game.nextPlayer();
                     singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
-                                    "god power from one of the list below by typing CHOOSE <god-name>.\n" + game.getDeck().
-                                    getCards().stream().map(e -> e.toString()).collect(Collectors.joining(", "))),
-                            getCurrentPlayerID());
+                                    "god power from one of the list below.\n\n" + game.getDeck().
+                                    getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").
+                                    collect(Collectors.joining("\n ")) + "Select your god by typing CHOOSE " +
+                                    "<god-name>:"), getCurrentPlayerID());
                 }
                 else if(game.getDeck().getCards().size()==1) {
                     game.nextPlayer();
