@@ -16,9 +16,9 @@ import static it.polimi.ingsw.model.player.Action.SELECTMOVE;
 import static javax.swing.TransferHandler.MOVE;
 
 /**
- * @author Alice Piemonti
+ * @author alice
  */
-public class Worker {
+public abstract class Worker {
 
     protected Space position;
     protected boolean isBlocked;
@@ -49,12 +49,38 @@ public class Worker {
         setPhases();
     }
 
+    public abstract void setPhases();
+
     /**
      * set the order of actions allowed by this worker
      */
-    protected void setPhases(){
+    protected void setNormalPhases(){
         phases.add(new Phase(Action.SELECTMOVE,true));
         phases.add(new Phase(Action.MOVE,true));
+        phases.add(new Phase(Action.SELECTBUILD,true));
+        phases.add(new Phase(Action.BUILD,true));
+    }
+
+    /**
+     * The worker can build twice in a turn
+     */
+    protected void setTwoBuildPhases() {
+        phases.add(new Phase(Action.SELECTMOVE,true));
+        phases.add(new Phase(Action.MOVE,true));
+        phases.add(new Phase(Action.SELECTBUILD,true));
+        phases.add(new Phase(Action.BUILD,true));
+        phases.add(new Phase(Action.SELECTBUILD,false));
+        phases.add(new Phase(Action.BUILD,false));
+    }
+
+    /**
+     * The worker can move twice in a turn
+     */
+    protected void setTwoMovePhases() {
+        phases.add(new Phase(Action.SELECTMOVE,true));
+        phases.add(new Phase(Action.MOVE,true));
+        phases.add(new Phase(Action.SELECTMOVE, false));
+        phases.add(new Phase(Action.MOVE,false));
         phases.add(new Phase(Action.SELECTBUILD,true));
         phases.add(new Phase(Action.BUILD,true));
     }

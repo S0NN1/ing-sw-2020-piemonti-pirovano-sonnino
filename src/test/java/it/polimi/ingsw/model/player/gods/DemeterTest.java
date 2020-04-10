@@ -57,13 +57,13 @@ class DemeterTest {
     @Test
     @DisplayName("one move one build but build on the same space")
     void oneBuildInTheSame(){
-        //first turn - build = 1,1
+        //first turn - build = 2,2
         demeter.getBuildableSpaces(gameBoard); //select a build
 
         assertTrue(demeter.isBuildable(build),"1");
         assertTrue(demeter.build(build),"2");
 
-        //second turn - build in 1,1 again
+        //second turn - build in 2,2 again
         demeter.notifyWithMoves(gameBoard); //restart oldPosition
         assertTrue(demeter.getBuildableSpaces(gameBoard).contains(build),"3");
 

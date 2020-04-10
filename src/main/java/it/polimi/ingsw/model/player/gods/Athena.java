@@ -7,4 +7,9 @@ public class Athena extends Worker {
     public Athena(PlayerColors color) {
         super(color);
     }
+
+    @Override
+    public void setPhases() {
+        setNormalPhases();
+    }
 }

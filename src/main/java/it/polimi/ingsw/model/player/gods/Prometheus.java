@@ -7,4 +7,9 @@ public class Prometheus extends Worker {
     public Prometheus(PlayerColors color) {
         super(color);
     }
+
+    @Override
+    public void setPhases() {
+        setNormalPhases();
+    }
 }

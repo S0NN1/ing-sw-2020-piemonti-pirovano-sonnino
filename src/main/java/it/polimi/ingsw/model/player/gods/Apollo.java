@@ -10,6 +10,11 @@ public class Apollo extends Worker {
         super(color);
     }
 
+    @Override
+    public void setPhases() {
+        setNormalPhases();
+    }
+
     /**
      * return true if the worker can move to the space received
      *

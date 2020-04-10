@@ -12,12 +12,17 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 /**
- * @author Alice Piemonti
+ * @author alice
  */
 public class Atlas extends Worker {
 
     public Atlas(PlayerColors color) {
         super(color);
+    }
+
+    @Override
+    public void setPhases() {
+        setNormalPhases();
     }
 
     /**
