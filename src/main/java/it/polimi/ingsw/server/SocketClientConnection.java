@@ -65,12 +65,9 @@ public class SocketClientConnection implements ClientConnection, Runnable {
      * @see it.polimi.ingsw.server.Server#unregisterClient for more details.
      */
     public void close() {
-        server.getGameByID(clientID).unregisterPlayer(clientID);
+        server.unregisterClient(this.getClientID());
         try {
-            inputStream.close();
-            outputStream.close();
             socket.close();
-            server.unregisterClient(this.getClientID());
         }
         catch (IOException e) {
             System.err.println(e.getMessage());
@@ -102,14 +99,17 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
     catch (IOException e) {
+        GameHandler game = server.getGameByID(clientID);
+        game.sendAllExcept(new CustomMessage("Client " + server.getNicknameByID(clientID) +
+                " disconnected from the server."), clientID);
+        server.unregisterClient(clientID);
+        if(game.isStarted()>0) {
+            game.endGame();
+        }
         System.err.println(Constants.getInfo() + e.getMessage());
     } catch (ClassNotFoundException e) {
         e.printStackTrace();
     }
-    server.getGameByID(clientID).sendAllExcept(new CustomMessage("Client " + server.getNicknameByID(clientID) +
-            " disconnected from the server."), clientID);
-    server.getGameByID(clientID).endGame();
-    close();
     }
 
     /**
@@ -181,11 +181,8 @@ public class SocketClientConnection implements ClientConnection, Runnable {
                         break;
                     } catch (OutOfBoundException e) {
                         server.getClientByID(this.clientID).send(new CustomMessage("Error: not a valid input! Please provide a value of 2 or 3."));
-                        server.getClientByID(this.clientID).send(new RequestPlayersNumber());
+                        server.getClientByID(this.clientID).send(new RequestPlayersNumber("Choose the number of players! [2/3]", false));
                     }
-                }
-                else {
-                    ans.setServerAnswer(new WaitMessage());
                 }
             } catch (ClassNotFoundException | IOException e) {
                 close();
@@ -207,7 +204,6 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
         catch (IOException e) {
             close();
-            //TODO: Disconnect Client
         }
     }
 

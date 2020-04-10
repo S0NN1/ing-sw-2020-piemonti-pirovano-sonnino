@@ -18,6 +18,7 @@ import java.util.*;
 public class CLI implements UI, Runnable, Observer {
     private Scanner input;
     private PrintStream output;
+    private PrintStream err;
     private boolean activeGame;
     private Model model;
 
@@ -27,6 +28,7 @@ public class CLI implements UI, Runnable, Observer {
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
         model = new Model(this);
+        err = new PrintStream(System.err);
         activeGame = true;
     }
 
@@ -76,7 +78,26 @@ public class CLI implements UI, Runnable, Observer {
                 try {
                     connection.send(new GodSelectionAction("DESC", Card.parseInput(input.next())));
                 } catch (IllegalArgumentException e){
-                    System.err.println("Not existing god with your input's name.");
+                    err.println("Not existing god with your input's name.");
+                    output.println();
+                    action();
+                }
+                break;
+            case "ADDGOD":
+                try {
+                    connection.send(new GodSelectionAction("ADD", Card.parseInput(input.next())));
+                } catch (IllegalArgumentException e){
+                    err.println("Not existing god with your input's name.");
+                    output.println();
+                    action();
+                }
+                break;
+            case "CHOOSE":
+                try {
+                    connection.send(new GodSelectionAction("CHOOSE", Card.parseInput(input.next())));
+                } catch (IllegalArgumentException e){
+                    err.println("Not existing god with your input's name.");
+                    output.println();
                     action();
                 }
                 break;
@@ -85,7 +106,7 @@ public class CLI implements UI, Runnable, Observer {
                 output.println("Disconnected from the server.");
                 System.exit(0);
             default:
-                output.println("Unknown input, please try again!");
+                err.println("Unknown input, please try again!");
                 action();
         }
     }
@@ -121,7 +142,7 @@ public class CLI implements UI, Runnable, Observer {
                 selection = input.nextInt();
                 break;
             } catch (InputMismatchException e) {
-                System.err.println("Invalid parameter, it must be a number.\nApplication will now quit...");
+                err.println("Invalid parameter, it must be a number.\nApplication will now quit...");
                 System.exit(-1);
             }
         }
@@ -173,10 +194,11 @@ public class CLI implements UI, Runnable, Observer {
                 break;
             case "CustomMessage":
                 output.println(((CustomMessage)model.getServerAnswer()).getMessage());
+                model.untoggleInput();
                 break;
             case "ConnectionClosed":
                 output.println(((ConnectionClosed)model.getServerAnswer()).getMessage());
-                System.err.println("Application will now close...");
+                err.println("Application will now close...");
                 System.exit(0);
         }
     }

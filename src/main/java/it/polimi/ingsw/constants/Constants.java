@@ -9,6 +9,7 @@ public class Constants {
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 3;
     public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
 
     //server constants
     public static final String ADDRESS = "127.0.0.1";

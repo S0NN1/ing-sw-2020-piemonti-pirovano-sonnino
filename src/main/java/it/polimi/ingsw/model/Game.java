@@ -16,14 +16,14 @@ import java.util.Observable;
  * to choose the god powers cards.
  *
  * @author Luca Pirovano
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 public class Game extends Observable {
     private GameBoard gameBoard;
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Player> activePlayers = new ArrayList<>();
-    private Deck deck = new Deck();
+    private Deck deck = new Deck(this);
     private int challengerNumber;
     private Player currentPlayer;
     private int currentPlayerN;
@@ -46,7 +46,8 @@ public class Game extends Observable {
      */
     public void removePlayer(Player player) {
         activePlayers.remove(player);
-        if (!activePlayers.isEmpty()) {
+        if(!activePlayers.isEmpty()) {
+            if(currentPlayerN==activePlayers.size()) currentPlayerN=0;
             setCurrentPlayer(activePlayers.get(currentPlayerN));
         }
     }
@@ -85,8 +86,9 @@ public class Game extends Observable {
     /**
      * @return the current player (value of the variable currentPlayer).
      */
-    public Player getCurrentPlayer() {
-        return currentPlayer;
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
+        this.currentPlayerN = activePlayers.indexOf(player);
     }
 
     /**
@@ -111,20 +113,6 @@ public class Game extends Observable {
      */
     public int getChallenger() {
         return challengerNumber;
-    }
-
-    /**
-     * Create a new deck with God Powers. The challenger decides the cards he wants to put inside. MVC Local Pattern.
-     */
-    public void createDeck() {
-        /*CardSelectionModel model = new CardSelectionModel(deck);
-        it.polimi.ingsw.view.CardSelection RemoteView = new it.polimi.ingsw.view.CardSelection();
-        GodSelectionController controller = new GodSelectionController(model);
-
-        model.addObservers(RemoteView);
-        RemoteView.addObservers(controller);
-
-        RemoteView.run();*/
     }
 
     public Deck getDeck() {

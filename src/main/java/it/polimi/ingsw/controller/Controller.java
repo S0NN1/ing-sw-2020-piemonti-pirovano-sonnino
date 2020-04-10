@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
+import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.CardSelectionModel;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -16,7 +17,7 @@ import java.util.Observer;
 public class Controller extends Observable implements Observer{
     private Game model;
     private GameHandler gameHandler;
-    GodSelectionController selectionController;
+    private GodSelectionController selectionController;
 
     public Controller(Game model, GameHandler gameHandler) {
         this.model = model;
@@ -25,6 +26,14 @@ public class Controller extends Observable implements Observer{
 
     public void setColor(PlayerColors color, String nickname) {
         model.getPlayerByNickname(nickname).setColor(color);
+    }
+
+    public synchronized Game getModel() {
+        return model;
+    }
+
+    public GameHandler getGameHandler() {
+        return gameHandler;
     }
 
     public void setSelectionController(int clientID) {

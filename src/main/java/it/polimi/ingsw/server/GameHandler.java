@@ -1,10 +1,9 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.messages.Message;
 import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -12,6 +11,7 @@ import it.polimi.ingsw.server.answers.*;
 
 import java.util.Observable;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * This class handles a single match, instantiating a game mode (Game class) and a main controller (Controller class).
@@ -22,16 +22,23 @@ public class GameHandler extends Observable {
     private Server server;
     private Controller controller;
     private Game game;
-    private boolean started;
+    private int started;
     private int playersNumber;
 
 
     public GameHandler(Server server) {
         this.server = server;
-        started = false;
+        started = 0;
         game = new Game();
         controller = new Controller(game, this);
         this.addObserver(controller);
+    }
+
+    /**
+     * @return if the game has started (the started attribute becomes true after the challenger selection phase).
+     */
+    public int isStarted() {
+        return started;
     }
 
     /**
@@ -101,11 +108,19 @@ public class GameHandler extends Observable {
             sendAllExcept(new CustomMessage("Please wait, user " + nickname + " is choosing his color!"), server.getIDByNickname(nickname));
             return;
         }
-        else if(playersNumber==3) {
+        else if(playersNumber==3 && PlayerColors.notChosen().size()>0) {
             String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size()).getNickname();
-            server.getClientByID(server.getIDByNickname(nickname)).send(req);
-            sendAllExcept(new CustomMessage("Please wait, user " + nickname + " is choosing his color!"), server.getIDByNickname(nickname));
-            return;
+            if(PlayerColors.notChosen().size()==1) {
+                game.getPlayerByNickname(nickname).setColor(PlayerColors.notChosen().get(0));
+                singleSend(new CustomMessage(Constants.ANSI_RED + "\nThe society decides for you! You have the " +
+                        PlayerColors.notChosen().get(0) + " color!\n" + Constants.ANSI_RESET), server.getIDByNickname(nickname));
+                PlayerColors.choose(PlayerColors.notChosen().get(0));
+            }
+            else {
+                server.getClientByID(server.getIDByNickname(nickname)).send(req);
+                sendAllExcept(new CustomMessage("Please wait, user " + nickname + " is choosing his color!"), server.getIDByNickname(nickname));
+                return;
+            }
         }
 
         //Challenger section
@@ -113,7 +128,7 @@ public class GameHandler extends Observable {
         game.setCurrentPlayer(game.getActivePlayers().get(rnd.nextInt(playersNumber)));
         singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", you are the challenger!"),
                 game.getCurrentPlayer().getClientID());
-        singleSend(new GodRequest("You have to choose gods power. Type GODLIST to get a list of available gods, DESC " +
+        singleSend(new GodRequest("You have to choose gods power. Type GODLIST to get a list of available gods, GODDESC " +
                 "<god name> to get a god's description and ADDGOD <god name> to add a God power to deck."),
                 game.getCurrentPlayer().getClientID());
         sendAllExcept(new CustomMessage(game.getCurrentPlayer().getNickname() + " is the challenger!\nPlease wait while " +
@@ -134,15 +149,40 @@ public class GameHandler extends Observable {
     }
 
     public void makeAction(UserAction action) {
-        if(action instanceof GodSelectionAction) {
-            setChanged();
-            notifyObservers((GodSelectionAction)action);
+        if((action instanceof GodSelectionAction)) {
+            if (started == 0) {
+                setChanged();
+                notifyObservers((GodSelectionAction) action);
+                if (game.getDeck().getCards().size() == playersNumber) {
+                    started = 1;
+                    game.nextPlayer();
+                    singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
+                                    "god power from one of the list below by typing CHOOSE <god-name>.\n" +
+                                    game.getDeck().getCards().stream().map(e -> e.toString()).collect(Collectors.joining(", "))),
+                            getCurrentPlayerID());
+                }
+            } else if (started == 1) {
+                setChanged();
+                notifyObservers((GodSelectionAction) action);
+                if (game.getDeck().getCards().size() > 1) {
+                    game.nextPlayer();
+                    singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
+                                    "god power from one of the list below by typing CHOOSE <god-name>.\n" + game.getDeck().
+                                    getCards().stream().map(e -> e.toString()).collect(Collectors.joining(", "))),
+                            getCurrentPlayerID());
+                }
+                else if(game.getDeck().getCards().size()==1) {
+                    game.nextPlayer();
+                    setChanged();
+                    notifyObservers(new GodSelectionAction("LASTSELECTION"));
+                }
+            }
         }
         else {
             setChanged();
             notifyObservers(action);
+            }
         }
-    }
 
     public void unregisterPlayer(int ID) {
         game.removePlayer(game.getPlayerByID(ID));

@@ -136,7 +136,7 @@ public class Server {
         waiting.add(c);
         if (waiting.size()==1) {
             IDmapClient.get(c.getClientID()).send(new CustomMessage(IDmapClient.get(c.getClientID()).getNickname() + ", you are the lobby host."));
-            c.setPlayers(new RequestPlayersNumber());
+            c.setPlayers(new RequestPlayersNumber("Choose the number of players! [2/3]", false));
             currentGame.sendAll(new CustomMessage((totalPlayers - waiting.size()) + " slots left."));
         }
         else if (waiting.size()== totalPlayers) {
@@ -160,6 +160,7 @@ public class Server {
      * @param clientID the ID of the virtual client to be removed.
      */
     public synchronized void unregisterClient(int clientID) {
+        getGameByID(clientID).unregisterPlayer(clientID);
         VirtualClient client = IDmapClient.get(clientID);
         System.out.println(Constants.getInfo() + "Unregistering client " + client.getNickname() + "...");
         //client.getGameManager().removePlayer(client.getGameManager().getPlayerByNickname(client.getNickname()));
@@ -196,7 +197,7 @@ public class Server {
             currentGame.setupPlayer(nickname, clientID);
             VirtualClient client = new VirtualClient(clientID, nickname, socketClientHandler, currentGame);
             if(totalPlayers !=-1 && waiting.size()>= totalPlayers) {
-                client.send(new FullServer());
+                client.send(new GameError(ErrorsType.FULLSERVER));
                 return null;
             }
             IDmapClient.put(clientID, client);

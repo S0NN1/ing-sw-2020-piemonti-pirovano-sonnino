@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ConnectionSocket {
     private Socket socket;
@@ -48,10 +49,10 @@ public class ConnectionSocket {
                             System.err.println("This nickname is already in use! Please choose one other.");
                             throw new DuplicateNicknameException();
                         }
-                    }
-                    else if (answer.getServerAnswer() instanceof FullServer) {
-                        System.err.println(((FullServer)answer.getServerAnswer()).getMessage() + "\nApplication will now close...");
-                        System.exit(0);
+                        else if(((GameError)answer.getServerAnswer()).getError().equals(ErrorsType.FULLSERVER)) {
+                            System.err.println("This match is already full, please try again later!\nApplication will now close...");
+                            System.exit(0);
+                        }
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     System.err.println(e.getMessage());
@@ -78,7 +79,7 @@ public class ConnectionSocket {
         }
         catch (IOException e) {
             System.err.println("Error during send process.");
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
