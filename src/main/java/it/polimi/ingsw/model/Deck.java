@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.CardNotChosenException;
-import it.polimi.ingsw.exceptions.DuplicateGodException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
-import it.polimi.ingsw.model.player.PlayersNumber;
 
 import java.util.ArrayList;
 
@@ -45,7 +42,6 @@ public class Deck {
     /**
      * Remove a card afterwards a player god-power choice.
      * @param card the card selected by the player.
-     * @throws CardNotChosenException if the card was not chosen by the challenger or if it's been selected by someone else.
      */
     public boolean chooseCard(Card card) {
         if(!cards.contains(card)) {

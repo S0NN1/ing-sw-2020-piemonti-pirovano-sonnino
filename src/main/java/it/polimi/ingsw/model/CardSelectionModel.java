@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.DuplicateGodException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.server.answers.CustomMessage;
-import it.polimi.ingsw.server.answers.ErrorsType;
-import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.GodRequest;
 
 import java.util.Observable;
@@ -66,6 +63,10 @@ public class CardSelectionModel extends Observable {
         notifyObservers(new GodRequest(description));
     }
 
+    /**
+     * Set the gods' name list and notifies the virtual client class, which sends them to the user.
+     * @see it.polimi.ingsw.server.VirtualClient
+     */
     public void setNameList() {
         setChanged();
         notifyObservers(new GodRequest(Card.godsName()));

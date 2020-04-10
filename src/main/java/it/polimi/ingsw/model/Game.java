@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GodSelectionController;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Player;
 
@@ -14,7 +15,6 @@ import java.util.Observable;
  * information about the status of the cell, and the presence of a tower in it.
  * The last section is the "MVC Deck creation", which consists in a Model-View-Controller pattern that lets challenger
  * to choose the god powers cards.
- *
  * @author Luca Pirovano
  * @version 1.0.1
  */
@@ -31,7 +31,6 @@ public class Game extends Observable {
 
     /**
      * Create a new player in the match. The minimum length of activePlayers array is 2 elements, and the maximum is 3.
-     *
      * @param player the player to be added.
      */
     public void createNewPlayer(Player player) {
@@ -41,7 +40,6 @@ public class Game extends Observable {
 
     /**
      * Remove an active player from the list (loss of workers).
-     *
      * @param player we want to remove from the match.
      */
     public void removePlayer(Player player) {
@@ -54,7 +52,6 @@ public class Game extends Observable {
 
     /**
      * Search the player identified by his nickname in the list of active player.
-     *
      * @param nickname of the player.
      * @return the desired player, null if there's no active player with that nickname.
      */
@@ -84,7 +81,8 @@ public class Game extends Observable {
     }
 
     /**
-     * @return the current player (value of the variable currentPlayer).
+     * Update the variable "currentPlayer" with the desired one.
+     * @param player the player we want to set as current.
      */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
@@ -92,19 +90,17 @@ public class Game extends Observable {
     }
 
     /**
-     * Update the variable "currentPlayer" with the desired one.
-     *
-     * @param player the player we want to set as current.
+     * @return the current player (value of the variable currentPlayer).
      */
-    public void setCurrentPlayer(Player player) {
-        this.currentPlayer = player;
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     /**
      * Skip to the next player in "activePlayers" order.
      */
     public void nextPlayer() {
-        currentPlayerN = (currentPlayerN == activePlayers.size() - 1 || currentPlayerN == activePlayers.size()) ? 0 : currentPlayerN + 1;   //Clockwise rotation
+        currentPlayerN=(currentPlayerN == activePlayers.size() - 1 || currentPlayerN == activePlayers.size()) ? 0 : currentPlayerN+1;   //Clockwise rotation
         setCurrentPlayer(activePlayers.get(currentPlayerN));
     }
 
@@ -115,6 +111,9 @@ public class Game extends Observable {
         return challengerNumber;
     }
 
+    /**
+     * @return the cards deck.
+     */
     public Deck getDeck() {
         return deck;
     }

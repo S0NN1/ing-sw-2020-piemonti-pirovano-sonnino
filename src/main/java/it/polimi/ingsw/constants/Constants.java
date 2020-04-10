@@ -3,6 +3,10 @@ package it.polimi.ingsw.constants;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * This class contains the most significant constants for an execution of the game.
+ * @author Luca Pirovano, Alice Piemonti, Sonny
+ */
 public class Constants {
 
     //match constants

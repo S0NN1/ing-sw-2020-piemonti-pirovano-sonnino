@@ -144,32 +144,51 @@ public class GameHandler extends Observable {
         return controller;
     }
 
+    /**
+     * @return the server class.
+     */
     public Server getServer() {
         return server;
     }
 
+    /**
+     * Handles an action received from a single client. It makes several instance checks.
+     * @param action the action sent by the client.
+     */
     public void makeAction(UserAction action) {
         if((action instanceof GodSelectionAction)) {
             if (started == 0) {
+                if(((GodSelectionAction) action).action.equals("CHOOSE")) {
+                    singleSend(new GodRequest("Error: not in correct game phase for " + "this command!"), getCurrentPlayerID());
+                    return;
+                }
                 setChanged();
                 notifyObservers((GodSelectionAction) action);
                 if (game.getDeck().getCards().size() == playersNumber) {
                     started = 1;
                     game.nextPlayer();
                     singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
-                                    "god power from one of the list below by typing CHOOSE <god-name>.\n" +
-                                    game.getDeck().getCards().stream().map(e -> e.toString()).collect(Collectors.joining(", "))),
-                            getCurrentPlayerID());
+                                    "god power from one of the list below.\n\n" +
+                                    game.getDeck().getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription()
+                                            + "\n").collect(Collectors.joining("\n")) +
+                            "Select your god by typing choose <god-name>:"),getCurrentPlayerID());
                 }
-            } else if (started == 1) {
+            }
+            else if (started == 1) {
+                if(((GodSelectionAction) action).action.equals("DESC") || ((GodSelectionAction) action).action.equals("LIST") ||
+                ((GodSelectionAction) action).action.equals("ADD")) {
+                    singleSend(new GodRequest("Error: not in correct game phase for " + "this command!"), getCurrentPlayerID());
+                    return;
+                }
                 setChanged();
                 notifyObservers((GodSelectionAction) action);
                 if (game.getDeck().getCards().size() > 1) {
                     game.nextPlayer();
                     singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
-                                    "god power from one of the list below by typing CHOOSE <god-name>.\n" + game.getDeck().
-                                    getCards().stream().map(e -> e.toString()).collect(Collectors.joining(", "))),
-                            getCurrentPlayerID());
+                                    "god power from one of the list below.\n\n" + game.getDeck().
+                                    getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").
+                                    collect(Collectors.joining("\n ")) + "Select your god by typing CHOOSE " +
+                                    "<god-name>:"), getCurrentPlayerID());
                 }
                 else if(game.getDeck().getCards().size()==1) {
                     game.nextPlayer();
@@ -184,10 +203,18 @@ public class GameHandler extends Observable {
             }
         }
 
+    /**
+     * Unregister a player identified by his unique ID, after a disconnection event or message.
+     * @param ID the unique id of the client to be unregistered.
+     */
     public void unregisterPlayer(int ID) {
         game.removePlayer(game.getPlayerByID(ID));
     }
 
+    /**
+     * Terminates the game, disconnecting all the players. This method can be invoked after a disconnection of a player
+     * or after a win condition. It also unregisters each client connected to the server, freeing a new lobby.
+     */
     public void endGame() {
         sendAll(new ConnectionClosed("Match ended.\nThanks for playing!"));
         for (Player player:game.getActivePlayers()) {
