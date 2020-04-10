@@ -111,6 +111,9 @@ public class Game extends Observable {
         return challengerNumber;
     }
 
+    /**
+     * @return the cards deck.
+     */
     public Deck getDeck() {
         return deck;
     }

@@ -40,7 +40,7 @@ public class SocketServer implements Runnable{
     }
 
     /**
-     * Runnable method
+     * Runnable method that instantiates a new socket on server side.
      */
     @Override
     public void run() {

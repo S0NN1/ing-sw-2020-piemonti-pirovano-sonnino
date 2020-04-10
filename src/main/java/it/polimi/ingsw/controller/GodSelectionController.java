@@ -14,10 +14,9 @@ import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Controller of the god powers selection, made by the challenger.
+ * Controller of the god powers selection, made by the challenger, and the card choosing made by players.
  * @author Luca Pirovano
  */
-
 public class GodSelectionController implements Observer {
     private CardSelectionModel cardModel;
     private Controller mainController;
@@ -33,8 +32,12 @@ public class GodSelectionController implements Observer {
     }
 
     /**
-     * Update method for MVC communication.
-     * @param arg the card selected by the player.
+     * Update method for MVC communication. It contains the command sent by the players for:
+     * - listing all the gods present in the game;
+     * - getting the description of a single god;
+     * - adding a god to the match deck;
+     * - choosing a god from the match deck (initial phase).
+     * @param arg the couple action-arg, which represents the case direction and the chosen card.
      */
     @Override
     public void update(Observable o, Object arg) {
@@ -93,8 +96,6 @@ public class GodSelectionController implements Observer {
                         mainController.getModel().getCurrentPlayer().getNickname() + "! He obtained " + card.name() +
                         Constants.ANSI_RESET + "\n\n" + card.godsDescription() + "\n"));
                 break;
-
-                //TODO: make possible to request god's description during the card choosing
         }
     }
 }

@@ -6,6 +6,10 @@ import it.polimi.ingsw.server.answers.GameError;
 
 import java.util.Observable;
 
+/**
+ * This class contains a small representation of the game model, and contains linking to the main client actions, which
+ * will be invoked after an instance control.
+ */
 public class Model extends Observable {
 
     private Answer serverAnswer;
@@ -16,18 +20,34 @@ public class Model extends Observable {
         this.cli = cli;
     }
 
+    /**
+     * This method toggles the input of the main user class.
+     * @see it.polimi.ingsw.client.cli.CLI for more information.
+     */
     public synchronized void toggleInput() {
         canInput = true;
     }
 
+    /**
+     * This method untoggles the input of the main user class.
+     * @see it.polimi.ingsw.client.cli.CLI for more information.
+     */
     public synchronized void untoggleInput() {
         canInput = false;
     }
 
+    /**
+     * @return the value of the input enabler variable.
+     */
     public synchronized boolean getCanInput() {
         return canInput;
     }
 
+    /**
+     * Handles the answer received from the server. It calls the client interface passing values relying on the type
+     * of answer the server has sent.
+     * @param answer the answer received from the server.
+     */
     public void answerHandler(Answer answer) {
         serverAnswer = answer;
         if(answer instanceof RequestPlayersNumber) {
@@ -53,6 +73,9 @@ public class Model extends Observable {
         }
     }
 
+    /**
+     * @return the server answer, containing all the information for the client for action-performing.
+     */
     public Answer getServerAnswer() {
         return serverAnswer;
     }

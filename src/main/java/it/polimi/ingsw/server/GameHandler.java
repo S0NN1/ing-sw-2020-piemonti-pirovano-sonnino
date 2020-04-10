@@ -144,10 +144,17 @@ public class GameHandler extends Observable {
         return controller;
     }
 
+    /**
+     * @return the server class.
+     */
     public Server getServer() {
         return server;
     }
 
+    /**
+     * Handles an action received from a single client. It makes several instance checks.
+     * @param action the action sent by the client.
+     */
     public void makeAction(UserAction action) {
         if((action instanceof GodSelectionAction)) {
             if (started == 0) {
@@ -196,10 +203,18 @@ public class GameHandler extends Observable {
             }
         }
 
+    /**
+     * Unregister a player identified by his unique ID, after a disconnection event or message.
+     * @param ID the unique id of the client to be unregistered.
+     */
     public void unregisterPlayer(int ID) {
         game.removePlayer(game.getPlayerByID(ID));
     }
 
+    /**
+     * Terminates the game, disconnecting all the players. This method can be invoked after a disconnection of a player
+     * or after a win condition. It also unregisters each client connected to the server, freeing a new lobby.
+     */
     public void endGame() {
         sendAll(new ConnectionClosed("Match ended.\nThanks for playing!"));
         for (Player player:game.getActivePlayers()) {
