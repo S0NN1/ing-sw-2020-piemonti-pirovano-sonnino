@@ -278,7 +278,7 @@ public abstract class Worker {
      * @throws IllegalArgumentException if gameBoard is null
      * @param gameBoard gameBoard of the game
      */
-   public void notifyWithBuildable(GameBoard gameBoard){
+   public void notifyWithBuildable(GameBoard gameBoard) throws IllegalArgumentException {
        if(gameBoard == null) throw new IllegalArgumentException();
        ArrayList<Space> buildable = getBuildableSpaces(gameBoard);
        listeners.firePropertyChange("selectSpacesListener", null, buildable);
