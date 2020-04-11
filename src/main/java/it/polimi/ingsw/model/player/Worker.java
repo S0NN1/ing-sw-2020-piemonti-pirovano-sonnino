@@ -145,16 +145,6 @@ public abstract class Worker {
     }
 
     /**
-     * return true if this worker has won the game
-     * @return boolean value
-     */
-    private boolean hasWon() {   return true;
-        /*
-        -----------------DA COMPLETARE----------------
-         */
-    } //METODO NON SENSE
-
-    /**
      * change the worker's position while check winning condition
      * requires this.isSelectable(space)
      * @throws IllegalArgumentException if space is null
@@ -172,6 +162,16 @@ public abstract class Worker {
             listeners.firePropertyChange("winListener", null, null);
         }
         return true;
+    }
+
+    /**
+     * return false if it isn't a Minotaur worker
+     * @param mySpace where worker wants to move
+     * @param gameBoard in order to select the space where other worker is forced to move
+     * @return false if it isn't a Minotaur
+     */
+    public boolean move(Space mySpace, GameBoard gameBoard){
+        return false;
     }
 
     public boolean winCondition(Space space){

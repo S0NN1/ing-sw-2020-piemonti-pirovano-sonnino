@@ -1,8 +1,11 @@
 package it.polimi.ingsw.model.player.gods;
 
+import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.observer.workerListeners.DoubleMoveListener;
+import it.polimi.ingsw.server.VirtualClient;
 
 public class Apollo extends Worker {
 
@@ -13,6 +16,17 @@ public class Apollo extends Worker {
     @Override
     public void setPhases() {
         setNormalPhases();
+    }
+
+    /**
+     * create the Map of listeners
+     *
+     * @param client virtualClient
+     */
+    @Override
+    public void createListeners(VirtualClient client) {
+        super.createListeners(client);
+        listeners.addPropertyChangeListener("doubleMoveListener", new DoubleMoveListener(client));
     }
 
     /**
@@ -43,11 +57,17 @@ public class Apollo extends Worker {
         if(space == null) throw new IllegalArgumentException();
         else if(!space.isEmpty()) {
             Space oldPosition = position;
-            if(super.move(space)){
-                oldPosition.getWorker().setPosition(oldPosition);
-                return true;
+            oldPosition.setWorker(space.getWorker());
+            space.setWorker(this);
+            position = space;
+            oldPosition.getWorker().setPosition(oldPosition);
+            Move myMove = new Move(oldPosition.getX(),oldPosition.getY(),position.getX(),position.getY());
+            Move otherMove = new Move(position.getX(),position.getY(),oldPosition.getX(),oldPosition.getY());
+            listeners.firePropertyChange("doubleMoveListener", myMove,otherMove);
+            if(winCondition(oldPosition)){
+                listeners.firePropertyChange("winListener", null, null);
             }
-            else return false;
+            return true;
         }
         else return super.move(space);
     }
