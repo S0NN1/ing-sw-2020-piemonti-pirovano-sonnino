@@ -16,9 +16,9 @@ import static it.polimi.ingsw.model.player.Action.SELECTMOVE;
 import static javax.swing.TransferHandler.MOVE;
 
 /**
- * @author Alice Piemonti
+ * @author alice
  */
-public class Worker {
+public abstract class Worker {
 
     protected Space position;
     protected boolean isBlocked;
@@ -50,11 +50,40 @@ public class Worker {
     }
 
     /**
-     * set the order of actions allowed by this worker
+     * set the order of action allowed by this worker
      */
-    protected void setPhases(){
+    public abstract void setPhases();
+
+    /**
+     * The worker has normal phases
+     */
+    protected void setNormalPhases(){
         phases.add(new Phase(Action.SELECTMOVE,true));
         phases.add(new Phase(Action.MOVE,true));
+        phases.add(new Phase(Action.SELECTBUILD,true));
+        phases.add(new Phase(Action.BUILD,true));
+    }
+
+    /**
+     * The worker can build twice in a turn
+     */
+    protected void setTwoBuildPhases() {
+        phases.add(new Phase(Action.SELECTMOVE,true));
+        phases.add(new Phase(Action.MOVE,true));
+        phases.add(new Phase(Action.SELECTBUILD,true));
+        phases.add(new Phase(Action.BUILD,true));
+        phases.add(new Phase(Action.SELECTBUILD,false));
+        phases.add(new Phase(Action.BUILD,false));
+    }
+
+    /**
+     * The worker can move twice in a turn
+     */
+    protected void setTwoMovePhases() {
+        phases.add(new Phase(Action.SELECTMOVE,true));
+        phases.add(new Phase(Action.MOVE,true));
+        phases.add(new Phase(Action.SELECTMOVE, false));
+        phases.add(new Phase(Action.MOVE,false));
         phases.add(new Phase(Action.SELECTBUILD,true));
         phases.add(new Phase(Action.BUILD,true));
     }
@@ -212,7 +241,7 @@ public class Worker {
     }
 
     /**
-     * build on the space received
+     * check if the space is buildable and build on the space received
      * @param space space
      * @throws IllegalArgumentException if space is null
      * @return false if it's impossible to build on the space or if OutOfBoundException is thrown
@@ -249,7 +278,7 @@ public class Worker {
      * @throws IllegalArgumentException if gameBoard is null
      * @param gameBoard gameBoard of the game
      */
-   public void notifyWithBuildable(GameBoard gameBoard){
+   public void notifyWithBuildable(GameBoard gameBoard) throws IllegalArgumentException {
        if(gameBoard == null) throw new IllegalArgumentException();
        ArrayList<Space> buildable = getBuildableSpaces(gameBoard);
        listeners.firePropertyChange("selectSpacesListener", null, buildable);

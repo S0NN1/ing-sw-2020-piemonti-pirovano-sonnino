@@ -20,17 +20,9 @@ public class Demeter extends Worker {
         super(color);
     }
 
-    /**
-     * set the order of actions allowed by this worker
-     */
     @Override
-    protected void setPhases() {
-        phases.add(new Phase(Action.SELECTMOVE,true));
-        phases.add(new Phase(Action.MOVE,true));
-        phases.add(new Phase(Action.SELECTBUILD,true));
-        phases.add(new Phase(Action.BUILD,true));
-        phases.add(new Phase(Action.SELECTBUILD,false));
-        phases.add(new Phase(Action.BUILD,false));
+    public void setPhases() {
+        setTwoBuildPhases();
     }
 
     /**
@@ -54,21 +46,13 @@ public class Demeter extends Worker {
      */
     @Override
     public boolean build(Space space) throws IllegalArgumentException {
-        if(oldPosition == null){ //first build
-            if(super.build(space)){
+        if(super.build(space)){
+            if(oldPosition == null){    //first build
                 oldPosition = space;
-                phases.get(5).changeMust(false);
-                return true;
             }
-            return false;
-        }   //second build
-        else if(oldPosition == space) return false; //if try to build to the same space
-        else{
-            if (super.build(space)) {
-                phases.get(5).changeMust(false);
-                oldPosition = null;
-                return true;
-            }
+            else oldPosition = null;    //second build
+            phases.get(5).changeMust(false);
+            return true;
         }
         return false;
     }

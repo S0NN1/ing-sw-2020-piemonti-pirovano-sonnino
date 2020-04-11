@@ -10,6 +10,11 @@ public class Minotaur extends Worker {
         super(color);
     }
 
+    @Override
+    public void setPhases() {
+        setNormalPhases();
+    }
+
     /**
      * @param space space
      * @return true if the worker can move to the space received

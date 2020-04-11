@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.exceptions.CardNotChosenException;
-import it.polimi.ingsw.exceptions.DuplicateGodException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -28,31 +26,8 @@ public enum Card {
     }
 
     /**
-     * Add the card selected by the challenger to chosen god cards list.
-     * @param card the selected card.
-     * @throws DuplicateGodException if the chosen card is already inside the deck of active god power cards.
+     * @return a list with all gods' name, parsed from the json file.
      */
-    public static void alreadyAdded(Card card) throws DuplicateGodException {
-        if(chosen.contains(card)) {
-            throw new DuplicateGodException();
-        }
-        chosen.add(card);
-    }
-
-    /**
-     * Parse the input of the player, when he is choosing his god-card.
-     * @param input the text input entered by the player.
-     * @return the selected card, if present.
-     * @throws CardNotChosenException if the card was not chosen by the challenger.
-     */
-    public static Card parseChoice(String input) throws CardNotChosenException {
-        Card card = Enum.valueOf(Card.class, input.toUpperCase());
-        if (!chosen.remove(card)) {
-            throw new CardNotChosenException();
-        }
-        return card;
-    }
-
     public static List<String> godsName() {
         Gson gson = new Gson();
         List<String> result = new ArrayList<>();

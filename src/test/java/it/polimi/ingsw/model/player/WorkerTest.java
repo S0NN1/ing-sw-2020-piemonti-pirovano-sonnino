@@ -14,14 +14,14 @@ class WorkerTest {
 
     @BeforeEach
     void init(){
-         worker = new Worker(PlayerColors.RED);
+         worker = new WorkerForTest(PlayerColors.RED);
     }
 
     @Test
     void colorTest(){
-        Worker workerBlue = new Worker(PlayerColors.BLUE);
-        Worker workerRed = new Worker(PlayerColors.RED);
-        Worker workerGreen = new Worker(PlayerColors.GREEN);
+        Worker workerBlue = new WorkerForTest(PlayerColors.BLUE);
+        Worker workerRed = new WorkerForTest(PlayerColors.RED);
+        Worker workerGreen = new WorkerForTest(PlayerColors.GREEN);
         System.out.println(workerRed.getWorkerColor() + "red");
         System.out.println(workerGreen.getWorkerColor() + "green");
         System.out.println(workerBlue.getWorkerColor() + "blue");

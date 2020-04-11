@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.model.player.WorkerForTest;
 import it.polimi.ingsw.model.player.gods.Apollo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class ApolloTest {
     @DisplayName("Change position with another worker")
     void moveTest() {
         Worker apollo = new Apollo(PlayerColors.RED);
-        Worker worker = new Worker((PlayerColors.BLUE));
+        Worker worker = new WorkerForTest((PlayerColors.BLUE));
 
         Space spaceInit = new Space();
         Space spaceFinal = new Space();
@@ -38,9 +39,9 @@ class ApolloTest {
 
     @Test
     void getMovesTest() {
-        Worker worker1 = new Worker(PlayerColors.BLUE);
-        Worker worker2 = new Worker(PlayerColors.BLUE);
-        Worker worker3 = new Worker(PlayerColors.RED);
+        Worker worker1 = new WorkerForTest(PlayerColors.BLUE);
+        Worker worker2 = new WorkerForTest(PlayerColors.BLUE);
+        Worker worker3 = new WorkerForTest(PlayerColors.RED);
         Worker apollo = new Apollo(PlayerColors.RED);
 
         GameBoard gameBoard = new GameBoard();

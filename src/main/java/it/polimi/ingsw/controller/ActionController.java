@@ -1,8 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.messages.actions.workerActions.AtlasBuildAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
+import it.polimi.ingsw.client.messages.actions.workerActions.*;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
@@ -27,27 +25,75 @@ public class ActionController {
      *
      * @throws IllegalStateException if worker is blocked
      */
-    public boolean startAction(Worker currentWorker) throws NullPointerException {
+    public void startAction(Worker currentWorker) throws NullPointerException {
         if (currentWorker == null) throw new NullPointerException();
         worker = currentWorker;
         phase = 0;
-        return nextPhase();
     }
 
     /**
-     * start the next phase of turn
-     * @return false if the turn is ended
+     * check if there are must phases left
+     * @return true if it's allowed to end the turn
      */
-    public boolean nextPhase() {
-        if (worker.getPhase(phase) == null) return false;
-        else if (worker.getPhase(phase).getAction() == Action.SELECTMOVE) {
+    public boolean endAction() {
+        do {
+            if (worker.getPhase(phase) == null) {
+                return true;
+            }
             phase++;
-            worker.notifyWithMoves(gameBoard);
-        } else if (worker.getPhase(phase).getAction() == Action.SELECTBUILD) {
-            phase++;
-            worker.notifyWithBuildable(gameBoard);
         }
-        return true;
+        while(!worker.getPhase(phase).isMust());
+        return false;
+    }
+
+    /**
+     * notify the player with the moves his worker can make
+     * @param action tells only the player wants to receive the list of spaces in which the worker can move
+     * @return false if the worker is blocked or it isn't the correct phase of turn or gameBoard is null
+     */
+    public boolean readMessage(SelectMoveAction action){
+        int phaseTemp = phase;
+        while (worker.getPhase(phase).getAction() != Action.SELECTMOVE && !worker.getPhase(phase).isMust()) {
+            phase++;
+        }
+        if(worker.getPhase(phase).getAction() == Action.SELECTMOVE) {
+             try{
+                 worker.notifyWithMoves(gameBoard);
+             }
+             catch (IllegalStateException | IllegalArgumentException e) {
+                 return false;
+             }
+             phase++;
+             return true;
+        }
+        //case !Action.SELECTMOVE && isMust
+        phase = phaseTemp;
+        return false;
+    }
+
+    /**
+     * notify the player with a list of spaces in which his worker can build
+     * @param action tells only the player wants to receive the space in which the worker can build
+     * @return false if it isn't the correct phase of the turn or gameBoard is null
+     */
+    public boolean readMessage(SelectBuildAction action){
+        int phaseTemp = phase;
+        while (worker.getPhase(phase).getAction() != Action.SELECTBUILD && !worker.getPhase(phase).isMust()) {
+            phase++;
+        }
+        if(worker.getPhase(phase).getAction() == Action.SELECTBUILD) {
+            try{
+                worker.notifyWithBuildable(gameBoard);
+            }
+            catch (IllegalArgumentException e) {
+                return false;
+            }
+            phase++;
+            return true;
+        }
+        //case !Action.SELECTBUILD && isMust
+        phase = phaseTemp;
+        return false;
     }
 
     /**
@@ -72,26 +118,19 @@ public class ActionController {
      * @return false if it isn't the correct phase or if it isn't possible to build into this space
      */
     public boolean readMessage(BuildAction action){
-        int phaseTemp = phase;
-        while (worker.getPhase(phase).getAction() != Action.BUILD && !worker.getPhase(phase).isMust()) {
-            phase++;
-        }
-        if(worker.getPhase(phase).getAction() == Action.BUILD) {
-            Couple couple = action.getMessage();
-            if (action instanceof AtlasBuildAction) {     //if Atlas worker, he can build a dome instead of a block
-                boolean dome = ((AtlasBuildAction) action).isDome();
-                if (worker.build(gameBoard.getSpace(couple.getX(), couple.getY()), dome)) {
-                    phase++;
-                    return true;
-                }
-            }
-            else if (worker.build(gameBoard.getSpace(couple.getX(), couple.getY()))) {
+        if(worker.getPhase(phase).getAction() != Action.BUILD) return false;
+        Couple couple = action.getMessage();
+        if (action instanceof AtlasBuildAction) {     //if Atlas worker, he can build a dome instead of a block
+            boolean dome = ((AtlasBuildAction) action).isDome();
+            if (worker.build(gameBoard.getSpace(couple.getX(), couple.getY()), dome)) {
                 phase++;
                 return true;
             }
         }
-        //case !Action.BUILD && isMust
-        phase = phaseTemp;
+        else if (worker.build(gameBoard.getSpace(couple.getX(), couple.getY()))) {
+            phase++;
+            return true;
+        }
         return false;
     }
 }

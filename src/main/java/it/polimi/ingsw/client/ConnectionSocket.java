@@ -14,6 +14,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
+/**
+ * This class handles the connection between the client and the server.
+ * @author Luca Pirovano
+ */
 public class ConnectionSocket {
     private Socket socket;
     private int clientID;
@@ -29,6 +33,13 @@ public class ConnectionSocket {
         this.serverPort = Constants.PORT;
     }
 
+    /**
+     * Initializes a new socket connection and handles the nickname-choice response. It loops until the server confirms
+     * the successful connection (with no nickname duplication and with a correctly configured match lobby).
+     * @param nickname the username chosen by the user.
+     * @param model the game model.
+     * @throws DuplicateNicknameException if the selected nickname has already been taken (case-insensitive).
+     */
     public void setup(String nickname, Model model) throws DuplicateNicknameException{
         try {
             System.out.println("Configuring socket connection...");
@@ -70,6 +81,11 @@ public class ConnectionSocket {
         }
     }
 
+    /**
+     * This method handles the sending of a new message to the server. It encapsulates the object in a
+     * SerializedMessage type, which will be unpacked and read by the server.
+     * @param message the message to be sent to the server.
+     */
     public void send(Message message) {
         SerializedMessage output = new SerializedMessage(message);
         try {
@@ -83,8 +99,13 @@ public class ConnectionSocket {
         }
     }
 
-    public void send(UserAction message) {
-        SerializedMessage output = new SerializedMessage(message);
+    /**
+     * This method handles the sending of a new action to the server. It encapsulates the object in a
+     * SerializedMessage type, which will be unpacked and read by the server.
+     * @param action the action to be sent to the server.
+     */
+    public void send(UserAction action) {
+        SerializedMessage output = new SerializedMessage(action);
         try {
             outputStream.reset();
             outputStream.writeObject(output);
@@ -95,5 +116,4 @@ public class ConnectionSocket {
             e.printStackTrace();
         }
     }
-
 }

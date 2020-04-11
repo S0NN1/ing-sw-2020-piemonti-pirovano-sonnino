@@ -17,17 +17,9 @@ public class Artemis extends Worker {
         super(color);
     }
 
-    /**
-     * set the order of actions allowed by this worker
-     */
     @Override
-    protected void setPhases() {
-        phases.add(new Phase(Action.SELECTMOVE,true));
-        phases.add(new Phase(Action.MOVE,true));
-        phases.add(new Phase(Action.SELECTMOVE, false));
-        phases.add(new Phase(Action.MOVE,false));
-        phases.add(new Phase(Action.SELECTBUILD,true));
-        phases.add(new Phase(Action.BUILD,true));
+    public void setPhases() {
+        setTwoMovePhases();
     }
 
     /**
