@@ -14,7 +14,7 @@ public class Prometheus extends Worker {
         super(color);
     }
 
-    boolean canMoveUp = true;
+    private boolean canMoveUp = true;
 
     @Override
     public void setPhases() {
@@ -34,11 +34,11 @@ public class Prometheus extends Worker {
      */
     @Override
     public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard) {
-        if(canMoveUp){   //first build
+        if(canMoveUp){   //build before move
             canMoveUp = false;
             phases.get(1).changeMust(true);
         }
-        else {  //second build
+        else {  //build after move
             canMoveUp = true;
             phases.get(1).changeMust(false);
         }
@@ -46,20 +46,6 @@ public class Prometheus extends Worker {
     }
 
     //TODO voglio modificare player canMoveUp o fare il controllo internamente al worker?
-
-
-    /**
-     * notify the selectSpacesListener with all the moves the worker can do
-     *
-     * @param gameBoard of the game
-     * @throws IllegalArgumentException if gameBoard is null
-     * @throws IllegalStateException    if the worker is blocked
-     */
-    @Override
-    public void notifyWithMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
-        super.notifyWithMoves(gameBoard);
-        canMoveUp = false;
-    }
 
     /**
      * return true if the worker can move to the space received
@@ -72,5 +58,22 @@ public class Prometheus extends Worker {
     public boolean isSelectable(Space space) throws IllegalArgumentException {
         if(!canMoveUp && space.getTower().getHeight() - position.getTower().getHeight() == 1) return false;
         return super.isSelectable(space);
+    }
+
+    /**
+     * change the worker's position while check winning condition
+     * requires this.isSelectable(space)
+     *
+     * @param space the new position
+     * @return false if the worker can't move into this space
+     * @throws IllegalArgumentException if space is null
+     */
+    @Override
+    public boolean move(Space space) throws IllegalArgumentException {
+        if(super.move(space)){
+            canMoveUp = false;
+            return true;
+        }
+        return false;
     }
 }
