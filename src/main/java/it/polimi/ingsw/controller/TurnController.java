@@ -5,6 +5,8 @@ import it.polimi.ingsw.client.messages.actions.turnActions.EndTurnAction;
 import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
+import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
+import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.invalidInputRequest;
 import it.polimi.ingsw.server.answers.turn.workersRequest;
@@ -111,6 +113,10 @@ public class TurnController implements Observer {
      * Method handling the end of the turn and switching to the next player
      */
     public void endTurn() {
-        controller.getModel().nextPlayer();
+        if (actionController.endAction()) {
+            controller.getModel().nextPlayer();
+        } else {
+            gameHandler.singleSend(invalidInputRequest::new, gameHandler.getCurrentPlayerID());
+        }
     }
 }
