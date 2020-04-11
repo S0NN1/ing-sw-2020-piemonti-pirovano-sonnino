@@ -234,7 +234,7 @@ public class CLI implements UI, Runnable, Observer {
      * @param args the standard java main parameters.
      */
     public static void main(String[] args) {
-        System.out.println("Hi, welcome to Santorini!");
+        System.out.println("Hi, welcome to it.polimi.ingsw.Santorini!");
         CLI cli = new CLI();
         cli.run();
     }

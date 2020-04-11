@@ -23,7 +23,7 @@ public class CardSelectionModel extends Observable {
     }
 
     /**
-     * Return the god selected by the challenger.
+     * Set the god selected by the challenger.
      * @param god selection made by the challenger.
      */
     public void setSelectedGod(Card god) {

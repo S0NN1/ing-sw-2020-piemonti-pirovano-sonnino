@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 /**
- * This class contains the main logic of "Santorini", which is divided in several macro-areas.
+ * This class contains the main logic of "it.polimi.ingsw.Santorini", which is divided in several macro-areas.
  * The first area is the Player/Worker section, which contains information about the single player and his god power
  * (overriding build and construct methods).
  * The second area is the GameBoard section, which contains a grid of 25 cells (Space class). That class contains
