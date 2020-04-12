@@ -69,7 +69,6 @@ public class Server {
      * nicknames and client ids. It also creates a new game session.
      */
     public Server() {
-        System.out.println(Constants.getInfo() + "Instantiating server class...");
         socketServer = new SocketServer(Constants.PORT, this);
         IDmapClient = new HashMap<>();
         nameMAPid = new HashMap<>();
@@ -252,6 +251,7 @@ public class Server {
         System.err.println(Constants.getInfo() + "Starting Socket Server");
         Server server = new Server();
         ExecutorService executor = Executors.newCachedThreadPool();
+        System.out.println(Constants.getInfo() + "Instantiating server class...");
         executor.submit(server.socketServer);
     }
 }

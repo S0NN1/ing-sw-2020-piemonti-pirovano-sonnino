@@ -36,6 +36,7 @@ public class Game extends Observable {
     public void createNewPlayer(Player player) {
         players.add(player);
         activePlayers.add(player);
+        return true;
     }
 
     /**
@@ -64,6 +65,11 @@ public class Game extends Observable {
         return null;
     }
 
+    /**
+     *
+     * @param ID
+     * @return
+     */
     public Player getPlayerByID(int ID) {
         for (Player player: activePlayers){
             if(player.getClientID() == ID) {

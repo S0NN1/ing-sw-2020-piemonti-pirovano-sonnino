@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
-import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.CardSelectionModel;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.PlayerColors;

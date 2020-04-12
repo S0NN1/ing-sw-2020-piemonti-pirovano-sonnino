@@ -27,6 +27,9 @@ public class VirtualClient implements Observer {
         this.gameHandler = gameHandler;
     }
 
+    public VirtualClient() {
+    }
+
     /**
      * @return the unique ID of the client, which identifies him and his connection in the server system.
      */
