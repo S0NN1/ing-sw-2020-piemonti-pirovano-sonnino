@@ -85,12 +85,10 @@ public class Minotaur extends Worker {
         else y = mySpace.getY();
 
         otherSpace = gameBoard.getSpace(x,y);       //move Minotaur and force other worker
-        otherSpace.setWorker(mySpace.getWorker());
         mySpace.getWorker().setPosition(otherSpace);
-        mySpace.setWorker(this);
         Space oldPosition = position;
-        this.setPosition(mySpace);
         oldPosition.setWorker(null);
+        this.setPosition(mySpace);
         Move myMove = new Move(oldPosition.getX(),oldPosition.getY(),position.getX(),position.getY());
         Move otherMove = new Move(position.getX(),position.getY(),otherSpace.getX(),otherSpace.getY());
         listeners.firePropertyChange("doubleMoveListener", myMove, otherMove);

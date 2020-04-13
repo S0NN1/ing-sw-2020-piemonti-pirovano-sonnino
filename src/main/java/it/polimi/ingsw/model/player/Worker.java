@@ -155,8 +155,7 @@ public abstract class Worker {
         if(space == null) throw new IllegalArgumentException();
         Space oldPosition = position;
         position.setWorker(space.getWorker());
-        space.setWorker(this);
-        position = space;
+        setPosition(space);
         listeners.firePropertyChange("moveListener", oldPosition, position);
         if(winCondition(oldPosition)) {
             listeners.firePropertyChange("winListener", null, null);
