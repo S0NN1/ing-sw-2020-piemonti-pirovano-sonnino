@@ -1,9 +1,16 @@
 package it.polimi.ingsw.model.player.gods;
 
+import it.polimi.ingsw.constants.Move;
+import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.observer.workerListeners.DoubleMoveListener;
+import it.polimi.ingsw.server.VirtualClient;
 
+/**
+ * @author alice
+ */
 public class Minotaur extends Worker {
 
     public Minotaur(PlayerColors color) {
@@ -13,6 +20,17 @@ public class Minotaur extends Worker {
     @Override
     public void setPhases() {
         setNormalPhases();
+    }
+
+    /**
+     * create the Map of listeners
+     *
+     * @param client virtualClient
+     */
+    @Override
+    public void createListeners(VirtualClient client) {
+        super.createListeners(client);
+        listeners.addPropertyChangeListener("doubleMoveListener",new DoubleMoveListener(client));
     }
 
     /**
@@ -27,7 +45,7 @@ public class Minotaur extends Worker {
             (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
             (space.getX() != position.getX() || space.getY() != position.getY()) &&
             !space.getTower().isCompleted() &&
-            (space.getTower().getHeight() - this.position.getTower().getHeight() < 2)){
+            (space.getTower().getHeight() - position.getTower().getHeight() < 2)){
             if(space.isEmpty()){
                 return true;
             }
@@ -48,22 +66,34 @@ public class Minotaur extends Worker {
     }
 
     /**
-     * change the worker's position while check winning condition
-     *
-     * @param space the new position
-     * @throws IllegalArgumentException if space is null
+     *  move Minotaur to mySpace and force the other worker to move from mySpace to otherSpace
+     * @param mySpace where Minotaur wants to move
+     * @param gameBoard in order to select the space where other worker is forced to move
+     * @return false if otherSpace isn't valid
      */
     @Override
-    public boolean move(Space space) throws IllegalArgumentException {
-        if(space.isEmpty()){
-            return super.move(space);
+    public boolean move(Space mySpace, GameBoard gameBoard) throws IllegalArgumentException {
+        if (mySpace == null) throw new IllegalArgumentException();
+        Space otherSpace;
+        int x;
+        int y;
+        if(mySpace.getX() > position.getX()) x = mySpace.getX() + 1;    //find coordinates of otherSpace
+        else if(mySpace.getX() < position.getX()) x = mySpace.getX() - 1;
+        else x = mySpace.getX();
+        if(mySpace.getY() > position.getY()) y = mySpace.getY() + 1;
+        else if(mySpace.getY() < position.getY()) y = mySpace.getY() - 1;
+        else y = mySpace.getY();
+
+        otherSpace = gameBoard.getSpace(x,y);       //move Minotaur and force other worker
+        mySpace.getWorker().setPosition(otherSpace);
+        Space oldPosition = position;
+        oldPosition.setWorker(null);
+        this.setPosition(mySpace);
+        Move myMove = new Move(oldPosition.getX(),oldPosition.getY(),position.getX(),position.getY());
+        Move otherMove = new Move(position.getX(),position.getY(),otherSpace.getX(),otherSpace.getY());
+        listeners.firePropertyChange("doubleMoveListener", myMove, otherMove);
+        return true;
         }
-        else{
-            if(position.getX() - space.getX() < 0){
-            }
-            return false; ///////////////////space.getWorker().setPosition();
-        }
-    }
 }
 
 

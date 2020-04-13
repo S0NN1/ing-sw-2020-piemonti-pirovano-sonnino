@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.model.player.gods.Minotaur;
 
 /**
  * @author Alice Piemonti
@@ -105,6 +106,12 @@ public class ActionController {
         if(worker.getPhase(phase).getAction() != Action.MOVE) return false;
         Couple couple = action.getMessage();
         Space space = gameBoard.getSpace(couple.getX(),couple.getY());
+        if(worker instanceof Minotaur){
+            if(worker.isSelectable(space) && space.isEmpty() && ((Minotaur) worker).move(space,gameBoard)){
+                phase++;
+                return true;
+            }
+        }
         if(worker.isSelectable(space) && worker.move(space)){
             phase++;
             return true;
