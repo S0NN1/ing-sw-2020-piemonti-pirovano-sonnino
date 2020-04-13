@@ -48,6 +48,9 @@ class GameTest {
         assertTrue(testGame.getActivePlayers().isEmpty());
     }
 
+    /**
+     * This test aims to verify the correctness of the player information getters, like the nickname and the ID ones.
+     */
     @Test
     @DisplayName("Player getById and getByNickname method binding test")
     void playerGettingByIdTest() {
