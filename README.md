@@ -39,11 +39,11 @@ The final version must include:
 | 5 Advanced Gods | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 
 #### Legend
-Not Implemented [![RED](https://placehold.it/15/f03c15/f03c15)](#)
+[![RED](https://placehold.it/15/f03c15/f03c15)](#) Not Implemented 
 
-Implementing [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)
+[![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) Implementing 
 
-Implemented [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
+[![GREEN](https://placehold.it/15/44bb44/44bb44)](#) Implemented
 
 <!--
 [![RED](https://placehold.it/15/f03c15/f03c15)](#)
