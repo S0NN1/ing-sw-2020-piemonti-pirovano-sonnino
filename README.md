@@ -30,7 +30,7 @@ The final version must include:
 |:-----------------------|:------------------------------------:|
 | Basic rules | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 | Complete rules | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
-| Socket |[![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
+| Socket |[![GREEN](https://placehold.it/15/44bb44/44bb44)](/tree/master/src/main/java/it/polimi/ingsw) |
 | GUI | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | CLI |[![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 | Multiple games | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)|
