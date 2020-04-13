@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.board;
 import it.polimi.ingsw.exceptions.InvalidInputException;
 
 /**
- * This class represent the main game board of Santorini. It's composed by 25 "Spaces", which can be filled with a player
+ * This class represent the main game board of it.polimi.ingsw.Santorini. It's composed by 25 "Spaces", which can be filled with a player
  * or monument (up to 4 levels),
  * @see it.polimi.ingsw.model.board.Space for more information.
  * @author Luca Pirovano

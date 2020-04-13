@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -61,7 +62,6 @@ public enum Card {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        throw new IllegalArgumentException("Unexpected god");
+        return null;
     }
 }

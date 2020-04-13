@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SpaceTest {
     Space space = new Space();
@@ -32,6 +31,7 @@ class SpaceTest {
         InvalidInputException e = Assertions.assertThrows(InvalidInputException.class, () -> {
             space.setX(5);
         });
+        assertThrows(InvalidInputException.class, () -> space.setY(5));
         }
 
 }

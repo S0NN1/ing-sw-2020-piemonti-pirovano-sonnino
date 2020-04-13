@@ -28,6 +28,7 @@ public class Player {
         this.nickname = nickname;
         color = null;
         this.clientID = clientID;
+        workers = new ArrayList<>();
     }
 
     public ArrayList<Worker> getWorkers() {
