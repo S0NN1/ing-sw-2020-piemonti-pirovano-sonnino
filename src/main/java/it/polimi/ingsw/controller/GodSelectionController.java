@@ -42,11 +42,21 @@ public class GodSelectionController implements Observer {
         }
     }
 
+    /**
+     * Triggers the card model for notifying the virtual view about the description of the selected god.
+     * @param arg the selected god which description should be sent to che client.
+     */
     public void desc(Card arg) {
         cardModel.setSelectedGod(arg);
         cardModel.setDescription(cardModel.getSelectedGod().godsDescription());
     }
 
+    /**
+     * Triggers the card deck for selecting the requested card from the deck.
+     * @param arg the card requested by the client, to be inserted in his player profile.
+     * @return true if everything goes fine, false if the card is not present in the deck (not selected by the challenger
+     * or already chosen by someone else).
+     */
     public boolean choose(Card arg) {
         if(mainController.getGameHandler().isStarted()==1) {
             boolean result = mainController.getModel().getDeck().chooseCard(arg);
@@ -67,6 +77,11 @@ public class GodSelectionController implements Observer {
         return false;
     }
 
+    /**
+     * This method triggers when there's only one card left in the deck. It inserts it in the player's deck without
+     * asking him any input. It then notifies the players to communicate the "choice".
+     * @return true if everything goes fine, false if it's called outside his scope.
+     */
     public boolean lastSelection() {
         if(mainController.getModel().getDeck().getCards().size()!=1) {
             mainController.getGameHandler().singleSend(new GodRequest("Error: invalid input."),

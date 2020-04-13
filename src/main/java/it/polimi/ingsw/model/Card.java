@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,8 +13,6 @@ import java.util.List;
  */
 public enum Card {
     APOLLO, ARTEMIS, ATHENA, ATLAS, DEMETER, HEPHAESTUS, MINOTAUR, PAN, PROMETHEUS;
-
-    private static ArrayList<Card> chosen = new ArrayList<>();
 
     /**
      * Parse the input of the challenger player to get a valid god.
