@@ -29,11 +29,11 @@ The final version must include:
 | Functionality | State |
 |:-----------------------|:------------------------------------:|
 | Basic rules | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
-| Complete rules | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
-| Socket |[![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
+| Complete rules | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
+| Socket |[![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
 | GUI | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
-| CLI |[![RED](https://placehold.it/15/f03c15/f03c15)](#) |
-| Multiple games | [![RED](https://placehold.it/15/f03c15/f03c15)](#)|
+| CLI |[![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
+| Multiple games | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)|
 | Persistence | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Undo Function | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | 5 Advanced Gods | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
