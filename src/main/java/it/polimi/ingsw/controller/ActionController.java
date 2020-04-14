@@ -107,7 +107,7 @@ public class ActionController {
         Couple couple = action.getMessage();
         Space space = gameBoard.getSpace(couple.getX(),couple.getY());
         if(worker instanceof Minotaur){
-            if(worker.isSelectable(space) && space.isEmpty() && ((Minotaur) worker).move(space,gameBoard)){
+            if(worker.isSelectable(space) && space.isEmpty() && worker.move(space,gameBoard)){
                 phase++;
                 return true;
             }

@@ -6,6 +6,9 @@ import it.polimi.ingsw.server.answers.worker.AtlasBuildMessage;
 
 import java.beans.PropertyChangeEvent;
 
+/**
+ * @author Alice Piemonti
+ */
 public class AtlasBuildListener extends WorkerListener{
 
     public AtlasBuildListener(VirtualClient client) {

@@ -6,6 +6,9 @@ import it.polimi.ingsw.server.answers.worker.WinMessage;
 
 import java.beans.PropertyChangeEvent;
 
+/**
+ * @author Alice Piemonti
+ */
 public class WinListener extends WorkerListener {
 
     public WinListener(VirtualClient client) {

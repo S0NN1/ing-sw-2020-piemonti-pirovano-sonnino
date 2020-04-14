@@ -16,7 +16,7 @@ import static it.polimi.ingsw.model.player.Action.SELECTMOVE;
 import static javax.swing.TransferHandler.MOVE;
 
 /**
- * @author alice
+ * @author Alice Piemonti
  */
 public abstract class Worker {
 

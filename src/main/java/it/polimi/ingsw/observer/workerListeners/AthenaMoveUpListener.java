@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.VirtualClient;
 
 import java.beans.PropertyChangeEvent;
 
+/**
+ * @author Alice Piemonti
+ */
 public class AthenaMoveUpListener extends WorkerListener {
 
     public AthenaMoveUpListener(VirtualClient client) {

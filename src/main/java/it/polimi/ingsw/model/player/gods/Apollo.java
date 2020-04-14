@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.observer.workerListeners.DoubleMoveListener;
 import it.polimi.ingsw.server.VirtualClient;
 
+/**
+ * @author Alice Piemonti
+ */
 public class Apollo extends Worker {
 
     public Apollo(PlayerColors color) {

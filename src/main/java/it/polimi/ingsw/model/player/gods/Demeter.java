@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.player.Worker;
 import java.util.ArrayList;
 
 /**
- * @author alice
+ * @author Alice Piemonti
  */
 public class Demeter extends Worker {
 

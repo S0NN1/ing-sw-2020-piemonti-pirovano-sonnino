@@ -12,7 +12,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 /**
- * @author alice
+ * @author Alice Piemonti
  */
 public class Atlas extends Worker {
 

@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.player.Worker;
 
 import java.beans.PropertyChangeSupport;
 
+/**
+ * @author Alice Piemonti
+ */
 public class Pan extends Worker {
 
     public Pan(PlayerColors color) {

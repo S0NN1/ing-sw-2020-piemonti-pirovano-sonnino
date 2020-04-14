@@ -2,6 +2,9 @@ package it.polimi.ingsw.client.messages.actions.workerActions;
 
 import it.polimi.ingsw.client.messages.actions.workerActions.WorkerAction;
 
+/**
+ * @author Alice Piemonti
+ */
 public class AtlasBuildAction extends BuildAction {
 
     private boolean dome = false;

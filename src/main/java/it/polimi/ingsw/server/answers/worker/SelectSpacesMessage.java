@@ -6,6 +6,9 @@ import it.polimi.ingsw.constants.Couple;
 
 import java.util.ArrayList;
 
+/**
+ * @author Alice Piemonti
+ */
 public class SelectSpacesMessage implements Answer {
 
     ArrayList<Couple> message;

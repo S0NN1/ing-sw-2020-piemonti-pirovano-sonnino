@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.player.Worker;
 
 import java.util.ArrayList;
 
+/**
+ * @author Alice Piemonti
+ */
 public class Artemis extends Worker {
 
     private Space oldPosition;

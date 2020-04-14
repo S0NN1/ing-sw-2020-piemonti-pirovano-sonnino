@@ -7,6 +7,9 @@ import it.polimi.ingsw.server.answers.worker.SelectSpacesMessage;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
+/**
+ * @author Alice Piemonti
+ */
 public class SelectSpacesListener extends WorkerListener {
 
     public SelectSpacesListener(VirtualClient client) {

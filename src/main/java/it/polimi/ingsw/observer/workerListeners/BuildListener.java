@@ -6,6 +6,9 @@ import it.polimi.ingsw.server.answers.worker.BuildMessage;
 
 import java.beans.PropertyChangeEvent;
 
+/**
+ * @author Alice Piemonti
+ */
 public class BuildListener extends WorkerListener{
 
     public BuildListener(VirtualClient client) {

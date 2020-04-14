@@ -4,6 +4,9 @@ import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.server.answers.Answer;
 
+/**
+ * @author Alice Piemonti
+ */
 public class DoubleMoveMessage implements Answer {
 
     Move myMove;

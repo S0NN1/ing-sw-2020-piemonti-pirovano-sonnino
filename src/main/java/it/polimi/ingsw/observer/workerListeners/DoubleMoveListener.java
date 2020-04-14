@@ -8,6 +8,9 @@ import it.polimi.ingsw.server.answers.worker.DoubleMoveMessage;
 
 import java.beans.PropertyChangeEvent;
 
+/**
+ * @author Alice Piemonti
+ */
 public class DoubleMoveListener extends WorkerListener {
 
     public DoubleMoveListener(VirtualClient client) {

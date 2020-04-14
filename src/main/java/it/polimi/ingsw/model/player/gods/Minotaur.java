@@ -9,7 +9,7 @@ import it.polimi.ingsw.observer.workerListeners.DoubleMoveListener;
 import it.polimi.ingsw.server.VirtualClient;
 
 /**
- * @author alice
+ * @author Alice Piemonti
  */
 public class Minotaur extends Worker {
 

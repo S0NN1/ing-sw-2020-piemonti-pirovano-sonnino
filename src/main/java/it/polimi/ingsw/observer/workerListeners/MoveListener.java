@@ -6,6 +6,9 @@ import it.polimi.ingsw.server.answers.worker.MoveMessage;
 
 import java.beans.PropertyChangeEvent;
 
+/**
+ * @author Alice Piemonti
+ */
 public class MoveListener extends WorkerListener{
 
     public MoveListener(VirtualClient virtualClient) {
