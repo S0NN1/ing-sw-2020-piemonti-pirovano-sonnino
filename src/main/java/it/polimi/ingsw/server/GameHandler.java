@@ -129,7 +129,8 @@ public class GameHandler extends Observable {
         singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", you are the challenger!"),
                 game.getCurrentPlayer().getClientID());
         singleSend(new GodRequest("You have to choose gods power. Type GODLIST to get a list of available gods, GODDESC " +
-                "<god name> to get a god's description and ADDGOD <god name> to add a God power to deck."),
+                "<god name> to get a god's description and ADDGOD <god name> to add a God power to deck.\n" +
+                (playersNumber - game.getDeck().getCards().size()) + " gods left."),
                 game.getCurrentPlayer().getClientID());
         sendAllExcept(new CustomMessage(game.getCurrentPlayer().getNickname() + " is the challenger!\nPlease wait while " +
                 "he chooses the god powers."), game.getCurrentPlayer().getClientID());

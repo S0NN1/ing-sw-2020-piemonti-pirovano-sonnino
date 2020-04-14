@@ -41,7 +41,7 @@ public class CardSelectionModel extends Observable {
             notifyObservers(new GodRequest("Error: the selected god has already been added to the deck."));
             return false;
         } else if(result==1) {
-            notifyObservers(new GodRequest("God " + god.name() + " has been added!"));
+            notifyObservers(new GodRequest("God " + god.name() + " has been added!\nChoose another one!"));
             return true;
         }
         else {
