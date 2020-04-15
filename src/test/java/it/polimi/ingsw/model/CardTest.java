@@ -6,15 +6,20 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Luca Pirovano
+ */
 class CardTest {
-    private static Card testCard;
 
+    /**
+     * Input parsing test, check the correct working of the class.
+     * @throws IllegalArgumentException if the received string is not an element of the enumeration class.
+     */
     @Test
     @DisplayName("Input parsing test")
     void parseTest() throws IllegalArgumentException{
@@ -24,6 +29,9 @@ class CardTest {
         assertThrows(IllegalArgumentException.class, () -> Card.parseInput("someStuffs"));
     }
 
+    /**
+     * This tests tries the listing of the gods, which is used during the challenger phase.
+     */
     @Test
     @DisplayName("God listing test")
     void listTest() {
@@ -34,6 +42,9 @@ class CardTest {
         }
     }
 
+    /**
+     * This test checks the correct description deploying of the selected god.
+     */
     @Test
     @DisplayName("God description parsing test")
     void descriptionTest() throws FileNotFoundException {

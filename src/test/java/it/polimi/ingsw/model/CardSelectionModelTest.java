@@ -9,11 +9,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Luca Pirovano
+ */
 class CardSelectionModelTest {
 
     CardSelectionModel testModel;
     Game game;
 
+    /**
+     * Setup of the test, with the creation of 2 players.
+     */
     @BeforeEach
     void setUp() {
         game = new Game();
@@ -24,6 +30,9 @@ class CardSelectionModelTest {
         game.getActivePlayers().get(1).setColor(PlayerColors.GREEN);
     }
 
+    /**
+     * Insert test in standard conditions.
+     */
     @Test
     @DisplayName("Insert test in standard conditions")
     void testInsertStandard() throws OutOfBoundException{
@@ -34,6 +43,9 @@ class CardSelectionModelTest {
         assertEquals(game.getDeck().getCards().get(1), Card.APOLLO);
     }
 
+    /**
+     * Insert test with duplicate values check.
+     */
     @Test
     @DisplayName("Insert test with duplicate values")
     void testInsertDuplicate() throws OutOfBoundException {
@@ -48,6 +60,9 @@ class CardSelectionModelTest {
         assertEquals(game.getDeck().getCards().get(1), Card.PAN);
     }
 
+    /**
+     * Insert test with "out of bound" cards condition.
+     */
     @Test
     @DisplayName("Insert test with out of bound cards")
     void testInsertOutOfBound() throws OutOfBoundException {
@@ -56,6 +71,9 @@ class CardSelectionModelTest {
         assertThrows(OutOfBoundException.class, () -> testModel.addToDeck(Card.PROMETHEUS));
     }
 
+    /**
+     * Setting of the selected god.
+     */
     @Test
     @DisplayName("Setting of the selected god")
     void setGodTest() {

@@ -11,10 +11,17 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Luca Pirovano
+ */
 class DeckTest {
     Game testGame;
     Deck testDeck;
 
+    /**
+     * Initialization: create a new Game, a Deck and 2 test players, with the god powers of Atlas and Athena.
+     * The current player is then set as "Luca".
+     */
     @BeforeEach
     void initialization() throws OutOfBoundException {
         testGame = new Game();
@@ -28,6 +35,9 @@ class DeckTest {
         testDeck.setCard(Card.ATHENA);
     }
 
+    /**
+     * Deck insertion in normal condition.
+     */
     @Test
     @DisplayName("Insert test in normal conditions")
     void insertNormalTest() {
@@ -35,6 +45,9 @@ class DeckTest {
         assertEquals(testDeck.getCards().get(1), Card.ATHENA);
     }
 
+    /**
+     * Deck test with a duplicate card insertion. A false return (value 0) is expected.
+     */
     @Test
     @DisplayName("Insert test with duplicate card")
     void insertWithDuplicate() throws OutOfBoundException {
@@ -43,12 +56,19 @@ class DeckTest {
         assertEquals(testDeck.setCard(Card.ATLAS), 0);
     }
 
+    /**
+     * Deck test with an extra-player card insertion (number of god cards > number of players).
+     * An "OutOfBoundException" is expected when trying to insert another card.
+     */
     @Test
     @DisplayName("Insert test with OutOfBound throwing")
     void insertOutOfBound() {
         assertThrows(OutOfBoundException.class, ()->testDeck.setCard(Card.ARTEMIS));
     }
 
+    /**
+     * Same tests as above with 3 players instead of 2.
+     */
     @Test
     @DisplayName("Insert test with 3 players in the two conditions above")
     void insertThreePlayers() throws OutOfBoundException {
@@ -62,6 +82,9 @@ class DeckTest {
         assertThrows(OutOfBoundException.class, ()->testDeck.setCard(Card.ARTEMIS));
     }
 
+    /**
+     * Choice procedure test in standard working conditions.
+     */
     @Test
     @DisplayName("Choose test in normal conditions")
     void removeCardTest() {
@@ -72,12 +95,14 @@ class DeckTest {
         assertEquals(testDeck.getCards().size(), 0);
     }
 
+    /**
+     * Choice procedure test with a selection of a card which was not chosen by the challenger.
+     * A false return of the choose function is expected.
+     */
     @Test
     @DisplayName("Choose test with not chosen card")
     void removeCardNotChosenTest() {
         assertTrue(testDeck.chooseCard(Card.ATLAS));
         assertFalse(testDeck.chooseCard(Card.APOLLO));
     }
-
-
 }
