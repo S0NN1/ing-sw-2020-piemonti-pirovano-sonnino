@@ -365,13 +365,21 @@ class WorkerTest {
         VirtualClientStub client;
 
         @BeforeEach
-        void init(){
+        void init() throws OutOfBoundException {
             gameBoard = new GameBoard();
             client = new VirtualClientStub();
             worker.createListeners(client);
             worker.setPosition(gameBoard.getSpace(3,1));
+
+            gameBoard.getSpace(3,2).getTower().addLevel();
+            gameBoard.getSpace(3,2).getTower().addLevel();
+
         }
 
+        /**
+         * test if the selectSpacesListener send the message properly to the virtual client
+         * which should receive a list of couples
+         */
         @Test
         @DisplayName("selectSpacesListener test")
         void selectSpacesListenerTest(){
@@ -381,9 +389,66 @@ class WorkerTest {
                 assertEquals(moves.get(i).getX(), client.getSelectMoves().get(i).getX(),"x"+ i);
                 assertEquals(moves.get(i).getY(), client.getSelectMoves().get(i).getY(), "y" + i);
             }
+            worker.notifyWithBuildable(gameBoard);
+            ArrayList<Space> build = worker.getBuildableSpaces(gameBoard);
+            for(int i=0; i<build.size(); i++){
+                assertEquals(build.get(i).getX(), client.getSelectMoves().get(i).getX(),"x"+ i);
+                assertEquals(build.get(i).getY(), client.getSelectMoves().get(i).getY(), "y" + i);
+            }
+       }
+
+        /**
+         * test if the moveListener send the old position and the new position (Move type) properly
+         * to the virtual client during move method
+         */
+       @Test
+        @DisplayName("moveListener test")
+        void moveListenerTest(){
+            Space oldPosition = worker.getPosition();
+            Space nextPosition = gameBoard.getSpace(3,0);
+            assertTrue(worker.isSelectable(nextPosition),"1");
+            worker.move(nextPosition);
+            assertEquals(oldPosition.getX(),client.move.getOldPosition().getX(),"2");
+            assertEquals(oldPosition.getY(),client.move.getOldPosition().getY(),"3");
+            assertEquals(nextPosition.getX(),client.move.getNewPosition().getX(),"4");
+            assertEquals(nextPosition.getY(),client.move.getNewPosition().getY(),"5");
+       }
+
+        /**
+         * test if the buildListener send the position (Move type) where to build properly
+         * to the virtual client during build method
+         */
+       @Test
+        @DisplayName("buildListener test")
+        void buildListenerTest(){
+            Space build = gameBoard.getSpace(3,2); //build 3rd level
+            assertTrue(worker.isBuildable(build),"1");
+            worker.build(build);
+            assertEquals(build.getX(),client.build.getX(),"2");
+            assertEquals(build.getY(),client.build.getY(),"3");
+       }
+
+        /**
+         * test if the winListener send the current worker (this) properly to the virtual client
+         * when winCondition method returns true
+         * @throws OutOfBoundException if too many level are added
+         */
+       @Test
+        @DisplayName("winListener test")
+        void winListener() throws OutOfBoundException {
+            worker.getPosition().getTower().addLevel();
+            worker.getPosition().getTower().addLevel(); //2nd level
+           Space nextPosition = gameBoard.getSpace(3,2);
+           nextPosition.getTower().addLevel(); // 3rd level
+           assertTrue(worker.isSelectable(nextPosition),"1");
+           worker.move(nextPosition);
+           assertEquals(worker,client.winWorker,"2");
        }
     }
 
+    /**
+     * this class receive messages from different listeners
+     */
     private class VirtualClientStub extends VirtualClient {
 
         ArrayList<Couple> selectMoves;
