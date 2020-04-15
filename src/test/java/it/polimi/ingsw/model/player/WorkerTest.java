@@ -1,11 +1,23 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.constants.Couple;
+import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.exceptions.InvalidInputException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.board.Tower;
+import it.polimi.ingsw.server.SocketClientConnection;
+import it.polimi.ingsw.server.VirtualClient;
+import it.polimi.ingsw.server.answers.Answer;
+import it.polimi.ingsw.server.answers.worker.BuildMessage;
+import it.polimi.ingsw.server.answers.worker.MoveMessage;
+import it.polimi.ingsw.server.answers.worker.SelectSpacesMessage;
+import it.polimi.ingsw.server.answers.worker.WinMessage;
 import org.junit.jupiter.api.*;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,6 +32,9 @@ class WorkerTest {
          worker = new WorkerForTest(PlayerColors.RED);
     }
 
+    /**
+     * test if player's colors are correctly displayed in CLI
+     */
     @Test
     void colorTest(){
         Worker workerBlue = new WorkerForTest(PlayerColors.BLUE);
@@ -30,6 +45,10 @@ class WorkerTest {
         System.out.println(workerBlue.getWorkerColor() + "blue");
     }
 
+    /**
+     * test if the constructor set all values correctly
+     * a worker must start without a position and not blocked
+     */
     @Test
     void constructorTest(){
         Boolean blockExpected = false;
@@ -38,6 +57,10 @@ class WorkerTest {
         assertEquals(positionExpected, worker.getPosition(), "if the worker hasn't got a position yet");
     }
 
+    /**
+     * test the method setPosition
+     * @throws InvalidInputException if the argument passed to the method is null
+     */
     @Test
     @DisplayName("setPosition method and exceptions")
     void setPositionTest() throws InvalidInputException {
@@ -55,6 +78,14 @@ class WorkerTest {
 
     }
 
+    /**
+     * test the method move
+     * it must throw an IllegalArgumentException if the argument passed is null
+     * set the new position of the worker
+     * set the worker into space's attribute "worker"
+     * set old space's attribute "worker" to null
+     * test win condition
+     */
     @Test
     @DisplayName("move method, exception and winning condition")
     void move() {
@@ -95,6 +126,9 @@ class WorkerTest {
         worker.move(space3);
     }
 
+    /**
+     * test the method selectMoves
+     */
     @Nested
     @DisplayName("getMoves tests")
     class getMovesTest{
@@ -105,7 +139,12 @@ class WorkerTest {
             gameBoard = new GameBoard();
         }
 
-
+        /**
+         * test without any tower
+         * worker positioned in the center of the gameboard
+         * worker positioned on borders
+         * worker positioned on corners
+         */
         @Test
         @DisplayName("without towers")
         void getMoves(){
@@ -137,6 +176,11 @@ class WorkerTest {
             assertEquals(expectedMovesCorner, worker.selectMoves(gameBoard).size(), "the worker moves correctly without towers around");
         }
 
+        /**
+         * test with towers of different height around the worker
+         * test with worker positioned on towers with different height
+         * @throws OutOfBoundException if too many levels are added
+         */
         @Test
         @DisplayName("from different height")
         void getMovesHeightTest() throws OutOfBoundException {
@@ -177,6 +221,11 @@ class WorkerTest {
             assertEquals(expected3, worker.selectMoves(gameBoard).size(), "the worker moves correctly from any height to any height");
         }
 
+        /**
+         * test notifyWithMoves when worker is blocked
+         * it must throw an IllegalStateException
+         * @throws OutOfBoundException if too many levels are added
+         */
         @Test
         @DisplayName("exception: worker blocked")
         void getMovesButBlocked() throws OutOfBoundException {
@@ -196,6 +245,9 @@ class WorkerTest {
         }
     }
 
+    /**
+     * test the method getBuildableSpaces
+     */
     @Nested
     @DisplayName("getBuildableSpaces tests")
     class getBuildableSpaces{
@@ -212,6 +264,9 @@ class WorkerTest {
             }
         }
 
+        /**
+         * test with the worker positioned in the center of the gameboard
+         */
         @Test
         @DisplayName("from central space")
         void centralBuild() {
@@ -220,6 +275,9 @@ class WorkerTest {
             assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
         }
 
+        /**
+         * test with the worker positioned on borders
+         */
         @Test
         @DisplayName("from boundary space")
         void boundaryBuild() {
@@ -235,6 +293,9 @@ class WorkerTest {
             assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
         }
 
+        /**
+         * test with the worker positioned on corners
+         */
         @Test
         @DisplayName("from corners")
         void cornerBuild(){
@@ -250,6 +311,11 @@ class WorkerTest {
             assertEquals(expectedMoves, worker.getBuildableSpaces(gameBoard).size());
         }
 
+        /**
+         * test with the worker positioned on a tower with different height
+         * and with towers with different height around it
+         * @throws OutOfBoundException if too many level are added
+         */
         @Test
         @DisplayName("from different heights")
         void differentHeightBuild() throws OutOfBoundException {
@@ -288,5 +354,80 @@ class WorkerTest {
         }
     }
 
+    /**
+     * test all the listeners associated to worker
+     */
+    @Nested
+    @DisplayName("listeners tests")
+    class Listeners{
+
+        GameBoard gameBoard;
+        VirtualClientStub client;
+
+        @BeforeEach
+        void init(){
+            gameBoard = new GameBoard();
+            client = new VirtualClientStub();
+            worker.createListeners(client);
+            worker.setPosition(gameBoard.getSpace(3,1));
+        }
+
+        @Test
+        @DisplayName("selectSpacesListener test")
+        void selectSpacesListenerTest(){
+            worker.notifyWithMoves(gameBoard);
+            ArrayList<Space> moves = worker.selectMoves(gameBoard);
+            for(int i=0; i<moves.size(); i++){
+                assertEquals(moves.get(i).getX(), client.getSelectMoves().get(i).getX(),"x"+ i);
+                assertEquals(moves.get(i).getY(), client.getSelectMoves().get(i).getY(), "y" + i);
+            }
+       }
+    }
+
+    private class VirtualClientStub extends VirtualClient {
+
+        ArrayList<Couple> selectMoves;
+        Move move;
+        Couple build;
+        Worker winWorker;
+
+        /**
+         * save the message received in an appropriate field
+         */
+        @Override
+        public void send(Answer serverAnswer) {
+
+            if(serverAnswer instanceof SelectSpacesMessage){
+                selectMoves = ((SelectSpacesMessage) serverAnswer).getMessage();
+            }
+            else if(serverAnswer instanceof MoveMessage){
+                move = ((MoveMessage) serverAnswer).getMessage();
+            }
+            else if(serverAnswer instanceof BuildMessage){
+                build = ((BuildMessage) serverAnswer).getMessage();
+            }
+            else if(serverAnswer instanceof WinMessage){
+                winWorker = ((WinMessage) serverAnswer).getMessage();
+            }
+            else System.out.println("error: unknown type message");
+        }
+
+        public ArrayList<Couple> getSelectMoves() {
+            return selectMoves;
+        }
+
+        public Move getMove() {
+            return move;
+        }
+
+        public Couple getBuild() {
+            return build;
+        }
+
+        public Worker getWinWorker() {
+            return winWorker;
+        }
+
+    }
 
 }
