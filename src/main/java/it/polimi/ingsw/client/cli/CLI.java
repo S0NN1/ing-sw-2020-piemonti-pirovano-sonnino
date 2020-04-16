@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.answers.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 import java.util.*;
 
@@ -26,8 +27,8 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     private final PrintStream err;
     private boolean activeGame;
     private final Model model;
-    private ActionParser actionParser;
     private ConnectionSocket connection;
+    private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
 
     public CLI() {
         input = new Scanner(System.in);
@@ -77,7 +78,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         } catch (DuplicateNicknameException e) {
             setup();
         }
-        actionParser = new ActionParser(connection);
+        observers.addPropertyChangeListener(new ActionParser(connection, model));
     }
 
 
@@ -88,14 +89,9 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
      */
     public void loop() {
         if(model.getCanInput()) {
-           while(true) {
                System.out.print(">");
                String cmd = input.nextLine();
-               if (actionParser.action(cmd)) {
-                   model.untoggleInput();
-                   break;
-               }
-           }
+               observers.firePropertyChange("action", null, cmd);
         }
     }
 

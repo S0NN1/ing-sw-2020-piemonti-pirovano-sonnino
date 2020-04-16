@@ -4,12 +4,17 @@ import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
 import it.polimi.ingsw.model.Card;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class ActionParser {
+
+public class ActionParser implements PropertyChangeListener {
     private final ConnectionSocket connection;
+    private final Model model;
 
-    public ActionParser(ConnectionSocket connection) {
+    public ActionParser(ConnectionSocket connection, Model model) {
         this.connection = connection;
+        this.model = model;
     }
 
     /**
@@ -61,6 +66,16 @@ public class ActionParser {
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("Input error; try again!");
             return false;
+        }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(action(evt.getNewValue().toString())) {
+            model.untoggleInput();
+        }
+        else {
+            model.toggleInput();
         }
     }
 }
