@@ -18,22 +18,31 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GodSelectionControllerTest {
 
-    private class NetworkStub extends VirtualClient {
+    private class VirtualClientStub extends VirtualClient {
+        private boolean notified = false;
+        private List<String> gods;
+        private String message;
+
+        public String getMessage() {
+            return message;
+        }
         @Override
         public void update(Observable o, Object arg) {
-            System.err.println("\nNotified Virtual Client!");
+            notified = true;
             if (arg instanceof GodRequest) {
-                if (((GodRequest)arg).message!=null) System.out.println(((GodRequest) arg).message);
-                else System.out.println(((GodRequest) arg).godList);
+                if (((GodRequest)arg).message!=null) message = ((GodRequest) arg).message;
+                else gods = ((GodRequest) arg).godList;
             }
             else {
-                System.out.println("\n" + ((CustomMessage)arg).getMessage());
+                message = ((CustomMessage)arg).getMessage();
             }
         }
     }
@@ -97,7 +106,8 @@ class GodSelectionControllerTest {
     Server server = new Server();
     GameStub game = new GameStub();
     Controller controller = new Controller(game, new GameHandlerStub(server));
-    GodSelectionController selectionController = new GodSelectionController(new CardSelectionModel(game.getDeck()), controller, new NetworkStub());
+    VirtualClientStub virtualClient = new VirtualClientStub();
+    GodSelectionController selectionController = new GodSelectionController(new CardSelectionModel(game.getDeck()), controller, virtualClient);
 
     @BeforeEach
     void setUp() {
@@ -110,13 +120,22 @@ class GodSelectionControllerTest {
     void selectionFlowTest() throws IOException {
         controller.getModel().setCurrentPlayer(controller.getModel().getActivePlayers().get(0));
         //God list and description testing
+
         selectionController.update(controller, new GodSelectionAction("LIST", null));
+        assertTrue(virtualClient.notified);
+        assertEquals(Card.godsName(), virtualClient.gods);
+        virtualClient.notified = false;
         selectionController.update(controller, new GodSelectionAction("DESC", Card.APOLLO));
+        assertTrue(virtualClient.notified);
+        assertEquals(virtualClient.message, Card.APOLLO.godsDescription());
 
         //God deck addition test
         assertTrue(selectionController.add(Card.APOLLO));
+        assertTrue(virtualClient.message.contains("God APOLLO has been added!"));
         assertFalse(selectionController.add(Card.APOLLO));
+
         assertTrue(selectionController.add(Card.PAN));
+        assertTrue(virtualClient.message.contains("God PAN has been added!"));
         assertFalse(selectionController.add(Card.PROMETHEUS));
 
         //God choosing test
