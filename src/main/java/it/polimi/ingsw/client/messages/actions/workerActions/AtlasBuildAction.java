@@ -9,15 +9,8 @@ public class AtlasBuildAction extends BuildAction {
 
     private boolean dome = false;
 
-    public AtlasBuildAction(int x, int y) {
+    public AtlasBuildAction(int x, int y, boolean dome) {
         super(x, y);
-    }
-
-    /**
-     * change dome to true if Atlas worker wants to build a dome instead of a block
-     * @param dome
-     */
-    public void setDome(boolean dome){
         this.dome = dome;
     }
 

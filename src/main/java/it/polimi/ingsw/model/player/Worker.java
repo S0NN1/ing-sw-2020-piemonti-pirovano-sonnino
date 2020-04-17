@@ -94,6 +94,7 @@ public abstract class Worker {
      * @return phase
      */
     public Phase getPhase(int index){
+        if(phases.size() <= index) return null;
         return phases.get(index);
     }
 
