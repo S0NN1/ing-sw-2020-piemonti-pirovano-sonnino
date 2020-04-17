@@ -26,6 +26,10 @@ class PanTest {
         gameBoard = new GameBoard();
     }
 
+    /**
+     * test the method winCondition: Pan must win either when moves down two or more levels
+     * @throws OutOfBoundException
+     */
     @Test
     @DisplayName("win condition true")
     void moveTest() throws OutOfBoundException {

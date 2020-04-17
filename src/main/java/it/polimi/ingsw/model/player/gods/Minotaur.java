@@ -66,6 +66,20 @@ public class Minotaur extends Worker {
     }
 
     /**
+     * change the worker's position while check winning condition
+     * requires this.isSelectable(space)
+     *
+     * @param space the new position
+     * @return false if the worker can't move into this space or if space isn't empty
+     * @throws IllegalArgumentException if space is null
+     */
+    @Override
+    public boolean move(Space space) throws IllegalArgumentException {
+        if(!space.isEmpty()) return false;
+        return super.move(space);
+    }
+
+    /**
      *  move Minotaur to mySpace and force the other worker to move from mySpace to otherSpace
      * @param mySpace where Minotaur wants to move
      * @param gameBoard in order to select the space where other worker is forced to move

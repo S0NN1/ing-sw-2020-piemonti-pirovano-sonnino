@@ -447,7 +447,7 @@ class WorkerTest {
     }
 
     /**
-     * this class receive messages from different listeners
+     * this class receives messages from different listeners
      */
     private class VirtualClientStub extends VirtualClient {
 
@@ -474,7 +474,7 @@ class WorkerTest {
             else if(serverAnswer instanceof WinMessage){
                 winWorker = ((WinMessage) serverAnswer).getMessage();
             }
-            else System.out.println("error: unknown type message");
+            else fail("unknown message");
         }
 
         public ArrayList<Couple> getSelectMoves() {

@@ -40,28 +40,4 @@ public class Atlas extends Worker {
         }
         else return super.build(space);
     }
-
-    /**
-     * notify the selectSpaceListener with all the spaces on which the worker can build
-     * notify the DomeListener: this worker can build a dome everywhere
-     * @param gameBoard gameBoard of the game
-     * @throws IllegalArgumentException if gameBoard is null
-     */
-    @Override
-    public void notifyWithBuildable(GameBoard gameBoard) {
-        if(gameBoard == null) throw new IllegalArgumentException();
-        ArrayList<Space> buildable = getBuildableSpaces(gameBoard);
-        listeners.firePropertyChange("AtlasListener",null,buildable);
-    }
-
-    /**
-     * create the Map of listeners
-     * Atlas has a DomeListener
-     * @param client virtualClient
-     */
-    @Override
-    public void createListeners(VirtualClient client) {
-        super.createListeners(client);
-        listeners.addPropertyChangeListener("AtlasListener", new AtlasBuildListener(client));
-    }
 }

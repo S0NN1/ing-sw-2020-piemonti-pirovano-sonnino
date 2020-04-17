@@ -27,6 +27,9 @@ class DemeterTest {
         build = gameBoard.getSpace(2,2);
     }
 
+    /**
+     * test getPhase.isMust parameter during the succession of one move and one build action (normal move)
+     */
     @Test
     @DisplayName("one move one build")
     void oneNormalBuild(){
@@ -57,6 +60,9 @@ class DemeterTest {
         assertFalse(demeter.getPhase(5).isMust(),"9b");
     }
 
+    /**
+     * test getPhase.isMust parameter during the succession of one move and one build action (normal move)
+     */
     @Test
     @DisplayName("one move one build but build on the same space")
     void oneBuildInTheSame(){
@@ -75,6 +81,10 @@ class DemeterTest {
 
     }
 
+    /**
+     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
+     * the second build is correct: build on a different space
+     */
     @Test
     @DisplayName("two correct build")
     void twoCorrectBuild(){
@@ -106,6 +116,11 @@ class DemeterTest {
         assertFalse(demeter.getPhase(5).isMust(),"9b");
     }
 
+
+    /**
+     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
+     * the second build is wrong: try to build on the previous space
+     */
     @Test
     @DisplayName("try to build on the same space")
     void twoWrongBuild(){

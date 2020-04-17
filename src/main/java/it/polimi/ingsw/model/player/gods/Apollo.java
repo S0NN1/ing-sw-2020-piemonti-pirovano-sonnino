@@ -60,10 +60,8 @@ public class Apollo extends Worker {
         if(space == null) throw new IllegalArgumentException();
         else if(!space.isEmpty()) {
             Space oldPosition = position;
-            oldPosition.setWorker(space.getWorker());
-            space.setWorker(this);
-            position = space;
-            oldPosition.getWorker().setPosition(oldPosition);
+            space.getWorker().setPosition(oldPosition);
+            this.setPosition(space);
             Move myMove = new Move(oldPosition.getX(),oldPosition.getY(),position.getX(),position.getY());
             Move otherMove = new Move(position.getX(),position.getY(),oldPosition.getX(),oldPosition.getY());
             listeners.firePropertyChange("doubleMoveListener", myMove,otherMove);

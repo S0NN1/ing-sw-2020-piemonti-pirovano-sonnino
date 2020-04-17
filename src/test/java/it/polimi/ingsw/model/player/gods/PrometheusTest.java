@@ -26,6 +26,10 @@ class PrometheusTest {
         prometheus.setPosition(gameBoard.getSpace(1,1));
     }
 
+
+    /**
+     * test getPhase.isMust parameter during the succession of one move and one build action in a single turn
+     */
     @Test
     @DisplayName("one move one build")
     void moveBuild(){
@@ -59,6 +63,9 @@ class PrometheusTest {
 
     }
 
+    /**
+     * test getPhase.isMust parameter during the succession of one move up and one build action in a single turn
+     */
     @Test
     @DisplayName("one move up one build")
     void moveUpBuild() throws OutOfBoundException {
@@ -97,6 +104,11 @@ class PrometheusTest {
 
     }
 
+    /**
+     * test getPhase.isMust parameter during the succession of one build, one move and another build action
+     * in a single turn
+     * the sequence of actions is correct: Prometheus does not move up
+     */
     @Test
     @DisplayName("build move build")
     void buildMoveBuild(){
@@ -137,6 +149,11 @@ class PrometheusTest {
         assertTrue(prometheus.build(space),"12");    //build in 1,1
     }
 
+    /**
+     * test getPhase.isMust parameter during the succession of one build, one move and another build action
+     * in a single turn
+     * the sequence of actions is wrong: Prometheus tries to move up
+     */
     @Test
     @DisplayName("build move up build")
     void wrong(){
