@@ -217,7 +217,7 @@ public class GameHandler extends Observable {
      * or after a win condition. It also unregisters each client connected to the server, freeing a new lobby.
      */
     public void endGame() {
-        sendAll(new ConnectionClosed("Match ended.\nThanks for playing!"));
+        sendAll(new ConnectionMessage("Match ended.\nThanks for playing!", 1));
         for (Player player:game.getActivePlayers()) {
             server.getClientByID(player.getClientID()).getConnection().close();
         }

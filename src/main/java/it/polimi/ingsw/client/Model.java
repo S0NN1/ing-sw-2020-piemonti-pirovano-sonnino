@@ -53,19 +53,19 @@ public class Model {
     public void answerHandler(Answer answer) {
         serverAnswer = answer;
         if(answer instanceof RequestPlayersNumber) {
-            view.firePropertyChange("repsonse", null, "RequestPlayerNumber");
+            view.firePropertyChange("response", null, "RequestPlayerNumber");
         }
         else if(answer instanceof RequestColor) {
-            view.firePropertyChange("repsonse", null, "RequestColor");
+            view.firePropertyChange("response", null, "RequestColor");
         }
         else if(answer instanceof GodRequest) {
-            view.firePropertyChange("repsonse", null, "GodRequest");
+            view.firePropertyChange("response", null, "GodRequest");
         }
         else if(answer instanceof CustomMessage) {
-            view.firePropertyChange("repsonse", null, "CustomMessage");
+            view.firePropertyChange("response", null, "CustomMessage");
         }
-        else if(answer instanceof ConnectionClosed) {
-            view.firePropertyChange("repsonse", null, "ConnectionClosed");
+        else if(answer instanceof ConnectionMessage) {
+            view.firePropertyChange("response", null, "ConnectionClosed");
             cli.toggleActiveGame(false);
         }
     }

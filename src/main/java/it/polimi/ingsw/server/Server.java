@@ -204,7 +204,7 @@ public class Server {
             idMAPname.put(clientID, nickname);
             clientToConnection.put(client, socketClientHandler);
             System.out.println(Constants.getInfo() + "Client " + client.getNickname() + ", identified by ID " + client.getClientID() + ", has successfully connected!");
-            client.send(new ConnectionConfirmation());
+            client.send(new ConnectionMessage("Connection was successfully set-up! You are now connected.", 0));
             currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " joined the game"));
         }
         else {

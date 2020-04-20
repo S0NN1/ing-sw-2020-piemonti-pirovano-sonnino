@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 
 /**
  * This class handles the connection between the client and the server.
@@ -52,7 +51,7 @@ public class ConnectionSocket {
                 try {
                     send(new SetupConnection(nickname));
                     SerializedAnswer answer = (SerializedAnswer) input.readObject();
-                    if (answer.getServerAnswer() instanceof ConnectionConfirmation) {
+                    if (answer.getServerAnswer() instanceof ConnectionMessage && ((ConnectionMessage) answer.getServerAnswer()).getType()==0) {
                         break;
                     }
                     else if(answer.getServerAnswer() instanceof GameError) {

@@ -179,7 +179,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 model.untoggleInput();
                 break;
             case "ConnectionClosed":
-                output.println(((ConnectionClosed)model.getServerAnswer()).getMessage());
+                output.println(((ConnectionMessage)model.getServerAnswer()).getMessage());
                 err.println("Application will now close...");
                 System.exit(0);
         }

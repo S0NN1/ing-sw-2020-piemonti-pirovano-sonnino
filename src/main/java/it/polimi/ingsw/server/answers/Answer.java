@@ -8,5 +8,6 @@ import java.io.Serializable;
  * @author Luca Pirovano, Nicolò Sonnino, Alice Piemonti (of the entire package)
  */
 public interface Answer extends Serializable {
+    //public String getHeader();
     public Object getMessage();
 }
