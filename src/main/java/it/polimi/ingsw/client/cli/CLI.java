@@ -176,7 +176,6 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 break;
             case "CustomMessage":
                 output.println(((CustomMessage)model.getServerAnswer()).getMessage());
-                model.untoggleInput();
                 break;
             case "ConnectionClosed":
                 output.println(((ConnectionMessage)model.getServerAnswer()).getMessage());

@@ -101,7 +101,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     catch (IOException e) {
         GameHandler game = server.getGameByID(clientID);
         game.sendAllExcept(new CustomMessage("Client " + server.getNicknameByID(clientID) +
-                " disconnected from the server."), clientID);
+                " disconnected from the server.", false), clientID);
         server.unregisterClient(clientID);
         if(game.isStarted()>0) {
             game.endGame();
@@ -142,7 +142,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
         else if(command instanceof Disconnect) {
             server.getGameByID(clientID).sendAllExcept(new CustomMessage("Client " + server.getNicknameByID(clientID) +
-                    " disconnected from the server."), clientID);
+                    " disconnected from the server.", false), clientID);
             server.getGameByID(clientID).endGame();
             close();
             //server.unregisterClient(clientID);
@@ -177,10 +177,10 @@ public class SocketClientConnection implements ClientConnection, Runnable {
                         int playerNumber = (((NumberOfPlayers) command).playersNumber);
                         server.setTotalPlayers(playerNumber);
                         server.getGameByID(clientID).setPlayersNumber(playerNumber);
-                        server.getClientByID(this.clientID).send(new CustomMessage("Success: player number set to " + playerNumber));
+                        server.getClientByID(this.clientID).send(new CustomMessage("Success: player number set to " + playerNumber, false));
                         break;
                     } catch (OutOfBoundException e) {
-                        server.getClientByID(this.clientID).send(new CustomMessage("Error: not a valid input! Please provide a value of 2 or 3."));
+                        server.getClientByID(this.clientID).send(new CustomMessage("Error: not a valid input! Please provide a value of 2 or 3.", false));
                         server.getClientByID(this.clientID).send(new RequestPlayersNumber("Choose the number of players! [2/3]", false));
                     }
                 }

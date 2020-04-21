@@ -70,7 +70,7 @@ public class GodSelectionController implements Observer {
             else {
                 mainController.getGameHandler().sendAllExcept(new CustomMessage("Player " +
                                 mainController.getModel().getCurrentPlayer().getNickname() + " has selected " +
-                                arg.name() + "\n\n" + arg.godsDescription() + "\n"), clientId);
+                                arg.name() + "\n\n" + arg.godsDescription() + "\n", false), clientId);
                 return true;
             }
         }
@@ -94,7 +94,7 @@ public class GodSelectionController implements Observer {
         mainController.getModel().getDeck().chooseCard(card, client);
         mainController.getGameHandler().sendAll(new CustomMessage(Constants.ANSI_RED + "The society decides for player " +
                 mainController.getModel().getCurrentPlayer().getNickname() + "! He obtained " + card.name() +
-                Constants.ANSI_RESET + "\n\n" + card.godsDescription() + "\n"));
+                Constants.ANSI_RESET + "\n\n" + card.godsDescription() + "\n", false));
         return true;
     }
 

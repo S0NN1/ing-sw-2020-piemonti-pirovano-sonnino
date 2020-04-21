@@ -24,7 +24,6 @@ public class Game extends Observable {
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Player> activePlayers = new ArrayList<>();
     private Deck deck = new Deck(this);
-    private int challengerNumber;
     private Player currentPlayer;
     private int currentPlayerN;
 
@@ -107,13 +106,6 @@ public class Game extends Observable {
     public void nextPlayer() {
         currentPlayerN=(currentPlayerN == activePlayers.size() - 1 || currentPlayerN == activePlayers.size()) ? 0 : currentPlayerN+1;   //Clockwise rotation
         setCurrentPlayer(activePlayers.get(currentPlayerN));
-    }
-
-    /**
-     * @return the challenger ID: his position number in "activePlayers" array.
-     */
-    public int getChallenger() {
-        return challengerNumber;
     }
 
     /**
