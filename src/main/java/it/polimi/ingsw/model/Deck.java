@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.server.VirtualClient;
 
@@ -49,6 +50,15 @@ public class Deck {
             return false;
         }
         game.getCurrentPlayer().setCard(card, client);
+        cards.remove(card);
+        return true;
+    }
+
+    public boolean chooseCard(Card card, VirtualClient client, TurnController controller) {
+        if (!cards.contains(card)) {
+            return false;
+        }
+        game.getCurrentPlayer().setCard(card, client, controller);
         cards.remove(card);
         return true;
     }

@@ -9,22 +9,31 @@ import it.polimi.ingsw.server.GameHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Main controller class, it calls several "game phase" controllers, like the turn one, or the action one.
+ *
  * @author Luca Pirovano
  */
 public class Controller implements PropertyChangeListener {
     private Game model;
     private GameHandler gameHandler;
     private GodSelectionController selectionController;
-    private PropertyChangeSupport controllerListeners  = new PropertyChangeSupport(this);
+    private TurnController turnController;
+    private PropertyChangeSupport controllerListeners = new PropertyChangeSupport(this);
+
 
     public Controller(Game model, GameHandler gameHandler) {
         this.model = model;
         this.gameHandler = gameHandler;
+    }
+
+    public TurnController getTurnController() {
+        return turnController;
+    }
+
+    public void setTurnController(TurnController turnController) {
+        this.turnController = turnController;
     }
 
     public void setColor(PlayerColors color, String nickname) {
@@ -46,7 +55,7 @@ public class Controller implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getNewValue() instanceof GodSelectionAction) {
+        if (evt.getNewValue() instanceof GodSelectionAction) {
             controllerListeners.firePropertyChange("GODSELECTION", null, evt.getNewValue());
         }
     }

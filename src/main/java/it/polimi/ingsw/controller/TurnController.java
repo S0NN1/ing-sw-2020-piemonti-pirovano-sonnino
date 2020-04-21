@@ -35,8 +35,6 @@ public class TurnController implements PropertyChangeListener {
     private final GameHandler gameHandler;
 
 
-    private PropertyChangeListener listener;
-
     public TurnController(Controller controller, ActionController actionController, GameHandler gameHandler) {
         this.actionController = actionController;
         this.controller = controller;
@@ -44,9 +42,6 @@ public class TurnController implements PropertyChangeListener {
     }
 
 
-    public PropertyChangeListener getListener(){
-        return listener;
-    }
 
 
     public void propertyChange(PropertyChangeEvent evt){

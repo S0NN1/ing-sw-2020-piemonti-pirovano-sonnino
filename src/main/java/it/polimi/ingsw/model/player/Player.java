@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.player.gods.*;
 import it.polimi.ingsw.server.VirtualClient;
@@ -79,10 +80,6 @@ public class Player {
                 workers.add(new Artemis(color));
                 workers.add(new Artemis(color));
                 break;
-            case ATHENA:
-                workers.add(new Athena(color));
-                workers.add(new Athena(color));
-                break;
             case ATLAS:
                 workers.add(new Atlas(color));
                 workers.add(new Atlas(color));
@@ -119,6 +116,12 @@ public class Player {
     public void setCard(Card godCard, VirtualClient client) {
         this.card = godCard;
         addWorker(card, client);
+    }
+
+    public void setCard(Card godCard, VirtualClient client, TurnController controller) {
+        this.card = godCard;
+        workers.add(new Athena(color, controller));
+        workers.add(new Athena(color, controller));
     }
 
 
