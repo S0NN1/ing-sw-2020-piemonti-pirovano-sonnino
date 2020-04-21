@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.*;
 
-import java.util.Observable;
+import java.beans.PropertyChangeSupport;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -18,12 +18,13 @@ import java.util.stream.Collectors;
  * It also manages the startup phase, like the marker's color selection.
  * @author Luca Pirovano
  */
-public class GameHandler extends Observable {
+public class GameHandler {
     private Server server;
     private Controller controller;
     private Game game;
     private int started;
     private int playersNumber;
+    private PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
 
 
     public GameHandler(Server server) {
@@ -31,7 +32,7 @@ public class GameHandler extends Observable {
         started = 0;
         game = new Game();
         controller = new Controller(game, this);
-        this.addObserver(controller);
+        controllerListener.addPropertyChangeListener(controller);
     }
 
     /**
@@ -164,8 +165,7 @@ public class GameHandler extends Observable {
                     singleSend(new GodRequest("Error: not in correct game phase for " + "this command!"), getCurrentPlayerID());
                     return;
                 }
-                setChanged();
-                notifyObservers((GodSelectionAction) action);
+                controllerListener.firePropertyChange(null, null, action);
                 if (game.getDeck().getCards().size() == playersNumber) {
                     started = 1;
                     game.nextPlayer();
@@ -181,8 +181,7 @@ public class GameHandler extends Observable {
                     singleSend(new GodRequest("Error: not in correct game phase for " + "this command!"), getCurrentPlayerID());
                     return;
                 }
-                setChanged();
-                notifyObservers(userAction);
+                controllerListener.firePropertyChange(null, null, userAction);
                 if (game.getDeck().getCards().size() > 1) {
                     game.nextPlayer();
                     singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
@@ -193,8 +192,7 @@ public class GameHandler extends Observable {
                 }
                 else if(game.getDeck().getCards().size()==1) {
                     game.nextPlayer();
-                    setChanged();
-                    notifyObservers(new GodSelectionAction("LASTSELECTION"));
+                    controllerListener.firePropertyChange(null, null, new GodSelectionAction("LASTSELECTION"));
                     game.nextPlayer();
                     singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", choose the starting" +
                             "player!", true), game.getCurrentPlayer().getClientID());
@@ -204,8 +202,7 @@ public class GameHandler extends Observable {
             }
         }
         else {
-            setChanged();
-            notifyObservers(action);
+            controllerListener.firePropertyChange(null, null, action);
             }
         }
 

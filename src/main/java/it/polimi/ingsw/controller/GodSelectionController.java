@@ -9,6 +9,8 @@ import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.CustomMessage;
 import it.polimi.ingsw.server.answers.GodRequest;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * Controller of the god powers selection, made by the challenger, and the card choosing made by players.
  * @author Luca Pirovano
  */
-public class GodSelectionController implements Observer {
+public class GodSelectionController implements PropertyChangeListener {
     private CardSelectionModel cardModel;
     private Controller mainController;
 
@@ -104,14 +106,11 @@ public class GodSelectionController implements Observer {
      * - getting the description of a single god;
      * - adding a god to the match deck;
      * - choosing a god from the match deck (initial phase).
-     * @param arg the couple action-arg, which represents the case direction and the chosen card.
+     * @param evt the couple action-arg, which represents the case direction and the chosen card.
      */
     @Override
-    public void update(Observable o, Object arg) {
-        if (!(arg instanceof GodSelectionAction)) {
-            throw new IllegalArgumentException();
-        }
-        GodSelectionAction cmd = (GodSelectionAction)arg;
+    public void propertyChange(PropertyChangeEvent evt) {
+        GodSelectionAction cmd = (GodSelectionAction)evt.getNewValue();
         switch (cmd.action) {
             case "LIST":
                 cardModel.setNameList();
