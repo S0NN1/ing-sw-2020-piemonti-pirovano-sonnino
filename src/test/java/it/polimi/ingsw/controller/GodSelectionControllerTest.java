@@ -17,8 +17,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -93,8 +93,16 @@ class GodSelectionControllerTest {
             super(game);
         }
 
-        @Override
         public boolean chooseCard(Card card) {
+            if(!super.getCards().contains(card)) {
+                return false;
+            }
+            super.getCards().remove(card);
+            return true;
+        }
+
+        @Override
+        public boolean chooseCard(Card card, VirtualClient client) {
             if(!super.getCards().contains(card)) {
                 return false;
             }
@@ -121,11 +129,11 @@ class GodSelectionControllerTest {
         controller.getModel().setCurrentPlayer(controller.getModel().getActivePlayers().get(0));
         //God list and description testing
 
-        selectionController.update(controller, new GodSelectionAction("LIST", null));
+        selectionController.propertyChange(new PropertyChangeEvent(this, null, null, new GodSelectionAction("LIST", null)));
         assertTrue(virtualClient.notified);
         assertEquals(Card.godsName(), virtualClient.gods);
         virtualClient.notified = false;
-        selectionController.update(controller, new GodSelectionAction("DESC", Card.APOLLO));
+        selectionController.propertyChange(new PropertyChangeEvent(this, null, null, new GodSelectionAction("DESC", Card.APOLLO)));
         assertTrue(virtualClient.notified);
         assertEquals(virtualClient.message, Card.APOLLO.godsDescription());
 

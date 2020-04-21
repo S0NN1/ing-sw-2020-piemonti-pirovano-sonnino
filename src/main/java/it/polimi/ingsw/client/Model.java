@@ -63,6 +63,7 @@ public class Model {
         }
         else if(answer instanceof CustomMessage) {
             view.firePropertyChange("response", null, "CustomMessage");
+            canInput = ((CustomMessage) answer).canInput();
         }
         else if(answer instanceof ConnectionMessage) {
             view.firePropertyChange("response", null, "ConnectionClosed");

@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.*;
 
-import java.util.Observable;
+import java.beans.PropertyChangeSupport;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -18,12 +18,13 @@ import java.util.stream.Collectors;
  * It also manages the startup phase, like the marker's color selection.
  * @author Luca Pirovano
  */
-public class GameHandler extends Observable {
+public class GameHandler {
     private Server server;
     private Controller controller;
     private Game game;
     private int started;
     private int playersNumber;
+    private PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
 
 
     public GameHandler(Server server) {
@@ -31,7 +32,7 @@ public class GameHandler extends Observable {
         started = 0;
         game = new Game();
         controller = new Controller(game, this);
-        this.addObserver(controller);
+        controllerListener.addPropertyChangeListener(controller);
     }
 
     /**
@@ -105,7 +106,7 @@ public class GameHandler extends Observable {
             String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size() + 1).getNickname();
             singleSend(req, server.getIDByNickname(nickname));
             //server.getClientByID(server.getIDByNickname(game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size() + 1).getNickname())).send(req);
-            sendAllExcept(new CustomMessage("Please wait, user " + nickname + " is choosing his color!"), server.getIDByNickname(nickname));
+            sendAllExcept(new CustomMessage("Please wait, user " + nickname + " is choosing his color!", false), server.getIDByNickname(nickname));
             return;
         }
         else if(playersNumber==3 && PlayerColors.notChosen().size()>0) {
@@ -113,12 +114,12 @@ public class GameHandler extends Observable {
             if(PlayerColors.notChosen().size()==1) {
                 game.getPlayerByNickname(nickname).setColor(PlayerColors.notChosen().get(0));
                 singleSend(new CustomMessage(Constants.ANSI_RED + "\nThe society decides for you! You have the " +
-                        PlayerColors.notChosen().get(0) + " color!\n" + Constants.ANSI_RESET), server.getIDByNickname(nickname));
+                        PlayerColors.notChosen().get(0) + " color!\n" + Constants.ANSI_RESET, false), server.getIDByNickname(nickname));
                 PlayerColors.choose(PlayerColors.notChosen().get(0));
             }
             else {
                 server.getClientByID(server.getIDByNickname(nickname)).send(req);
-                sendAllExcept(new CustomMessage("Please wait, user " + nickname + " is choosing his color!"), server.getIDByNickname(nickname));
+                sendAllExcept(new CustomMessage("Please wait, user " + nickname + " is choosing his color!", false), server.getIDByNickname(nickname));
                 return;
             }
         }
@@ -126,14 +127,14 @@ public class GameHandler extends Observable {
         //Challenger section
         Random rnd = new Random();
         game.setCurrentPlayer(game.getActivePlayers().get(rnd.nextInt(playersNumber)));
-        singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", you are the challenger!"),
+        singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", you are the challenger!", false),
                 game.getCurrentPlayer().getClientID());
         singleSend(new GodRequest("You have to choose gods power. Type GODLIST to get a list of available gods, GODDESC " +
                 "<god name> to get a god's description and ADDGOD <god name> to add a God power to deck.\n" +
                 (playersNumber - game.getDeck().getCards().size()) + " gods left."),
                 game.getCurrentPlayer().getClientID());
         sendAllExcept(new CustomMessage(game.getCurrentPlayer().getNickname() + " is the challenger!\nPlease wait while " +
-                "he chooses the god powers."), game.getCurrentPlayer().getClientID());
+                "he chooses the god powers.", false), game.getCurrentPlayer().getClientID());
         controller.setSelectionController(game.getCurrentPlayer().getClientID());
     }
 
@@ -158,13 +159,13 @@ public class GameHandler extends Observable {
      */
     public void makeAction(UserAction action) {
         if((action instanceof GodSelectionAction)) {
+            GodSelectionAction userAction = (GodSelectionAction)action;
             if (started == 0) {
-                if(((GodSelectionAction) action).action.equals("CHOOSE")) {
+                if((userAction.action.equals("CHOOSE"))) {
                     singleSend(new GodRequest("Error: not in correct game phase for " + "this command!"), getCurrentPlayerID());
                     return;
                 }
-                setChanged();
-                notifyObservers((GodSelectionAction) action);
+                controllerListener.firePropertyChange(null, null, action);
                 if (game.getDeck().getCards().size() == playersNumber) {
                     started = 1;
                     game.nextPlayer();
@@ -176,13 +177,11 @@ public class GameHandler extends Observable {
                 }
             }
             else if (started == 1) {
-                if(((GodSelectionAction) action).action.equals("DESC") || ((GodSelectionAction) action).action.equals("LIST") ||
-                ((GodSelectionAction) action).action.equals("ADD")) {
+                if(userAction.action.equals("DESC") || userAction.action.equals("LIST") || userAction.action.equals("ADD")) {
                     singleSend(new GodRequest("Error: not in correct game phase for " + "this command!"), getCurrentPlayerID());
                     return;
                 }
-                setChanged();
-                notifyObservers((GodSelectionAction) action);
+                controllerListener.firePropertyChange(null, null, userAction);
                 if (game.getDeck().getCards().size() > 1) {
                     game.nextPlayer();
                     singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
@@ -193,14 +192,17 @@ public class GameHandler extends Observable {
                 }
                 else if(game.getDeck().getCards().size()==1) {
                     game.nextPlayer();
-                    setChanged();
-                    notifyObservers(new GodSelectionAction("LASTSELECTION"));
+                    controllerListener.firePropertyChange(null, null, new GodSelectionAction("LASTSELECTION"));
+                    game.nextPlayer();
+                    singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", choose the starting" +
+                            "player!", true), game.getCurrentPlayer().getClientID());
+                    sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() + " is " +
+                            " choosing the starting player, please wait!", false), game.getCurrentPlayer().getClientID());
                 }
             }
         }
         else {
-            setChanged();
-            notifyObservers(action);
+            controllerListener.firePropertyChange(null, null, action);
             }
         }
 

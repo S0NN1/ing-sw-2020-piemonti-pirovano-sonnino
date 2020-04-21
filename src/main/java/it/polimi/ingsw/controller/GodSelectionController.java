@@ -9,6 +9,8 @@ import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.CustomMessage;
 import it.polimi.ingsw.server.answers.GodRequest;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * Controller of the god powers selection, made by the challenger, and the card choosing made by players.
  * @author Luca Pirovano
  */
-public class GodSelectionController implements Observer {
+public class GodSelectionController implements PropertyChangeListener {
     private CardSelectionModel cardModel;
     private Controller mainController;
 
@@ -59,18 +61,18 @@ public class GodSelectionController implements Observer {
      */
     public boolean choose(Card arg) {
         if(mainController.getGameHandler().isStarted()==1) {
-            boolean result = mainController.getModel().getDeck().chooseCard(arg);
+            int clientId = mainController.getModel().getCurrentPlayer().getClientID();
+            VirtualClient client = mainController.getGameHandler().getServer().getClientByID(clientId);
+            boolean result = mainController.getModel().getDeck().chooseCard(arg, client);
             if (!result) {
                 mainController.getGameHandler().singleSend(new GodRequest("Error: the selected card has not been" +
-                                " chosen by the challenger or has already been taken by another player."),
-                        mainController.getModel().getCurrentPlayer().getClientID());
+                                " chosen by the challenger or has already been taken by another player."), clientId);
                 return false;
             }
             else {
                 mainController.getGameHandler().sendAllExcept(new CustomMessage("Player " +
                                 mainController.getModel().getCurrentPlayer().getNickname() + " has selected " +
-                                arg.name() + "\n\n" + arg.godsDescription() + "\n"),
-                        mainController.getModel().getCurrentPlayer().getClientID());
+                                arg.name() + "\n\n" + arg.godsDescription() + "\n", false), clientId);
                 return true;
             }
         }
@@ -83,16 +85,18 @@ public class GodSelectionController implements Observer {
      * @return true if everything goes fine, false if it's called outside his scope.
      */
     public boolean lastSelection() {
+        int clientId = mainController.getModel().getCurrentPlayer().getClientID();
+        VirtualClient client = mainController.getGameHandler().getServer().getClientByID(clientId);
         if(mainController.getModel().getDeck().getCards().size()!=1) {
             mainController.getGameHandler().singleSend(new GodRequest("Error: invalid input."),
-                    mainController.getModel().getCurrentPlayer().getClientID());
+                    clientId);
             return false;
         }
         Card card = mainController.getModel().getDeck().getCards().get(0);
-        mainController.getModel().getDeck().chooseCard(card);
+        mainController.getModel().getDeck().chooseCard(card, client);
         mainController.getGameHandler().sendAll(new CustomMessage(Constants.ANSI_RED + "The society decides for player " +
                 mainController.getModel().getCurrentPlayer().getNickname() + "! He obtained " + card.name() +
-                Constants.ANSI_RESET + "\n\n" + card.godsDescription() + "\n"));
+                Constants.ANSI_RESET + "\n\n" + card.godsDescription() + "\n", false));
         return true;
     }
 
@@ -102,14 +106,11 @@ public class GodSelectionController implements Observer {
      * - getting the description of a single god;
      * - adding a god to the match deck;
      * - choosing a god from the match deck (initial phase).
-     * @param arg the couple action-arg, which represents the case direction and the chosen card.
+     * @param evt the couple action-arg, which represents the case direction and the chosen card.
      */
     @Override
-    public void update(Observable o, Object arg) {
-        if (!(arg instanceof GodSelectionAction)) {
-            throw new IllegalArgumentException();
-        }
-        GodSelectionAction cmd = (GodSelectionAction)arg;
+    public void propertyChange(PropertyChangeEvent evt) {
+        GodSelectionAction cmd = (GodSelectionAction)evt.getNewValue();
         switch (cmd.action) {
             case "LIST":
                 cardModel.setNameList();

@@ -1,4 +1,4 @@
-# A Java implementation of it.polimi.ingsw.Santorini
+# A Java implementation of Santorini
 ### Software Engineering Final Test
 ### AA 2019/2020
 ## Description
@@ -15,7 +15,7 @@ Our working group is composed by three students:
     * Person Code: 10569180 
     * Number: 890940
 ## Project specification
-The project consists of a Java version of the gameBoard game *it.polimi.ingsw.Santorini*, made by Cranio Creations.
+The project consists of a Java version of the gameBoard game *Santorini*, made by Cranio Creations.
 You can find the full game here: https://bit.ly/2Qi7gs9
 
 The final version must include:

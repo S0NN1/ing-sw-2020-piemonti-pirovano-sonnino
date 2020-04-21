@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.player.gods.*;
+import it.polimi.ingsw.server.VirtualClient;
 
 import java.util.ArrayList;
 
@@ -68,7 +69,7 @@ public class Player {
      *
      * @param card god card
      */
-    public void addWorker(Card card) {
+    public void addWorker(Card card, VirtualClient client) {
         switch (card) {
             case APOLLO:
                 workers.add(new Apollo(color));
@@ -107,6 +108,7 @@ public class Player {
                 workers.add(new Prometheus(color));
                 break;
         }
+        workers.forEach(n -> n.createListeners(client));
     }
 
     /**
@@ -114,9 +116,9 @@ public class Player {
      *
      * @param godCard god card
      */
-    public void setCard(Card godCard) {
+    public void setCard(Card godCard, VirtualClient client) {
         this.card = godCard;
-        addWorker(card);
+        addWorker(card, client);
     }
 
 

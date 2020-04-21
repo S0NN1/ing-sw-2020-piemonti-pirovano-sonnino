@@ -22,6 +22,7 @@ public class ActionParser implements PropertyChangeListener {
      * selection before sending it to the server through the socket. It also performs an initial check about the
      * rightness of the captured command.
      */
+    //TODO challenger choose starting player
     public synchronized boolean action(String input) {
         String[] in = input.split(" ");
         String command = in[0];
