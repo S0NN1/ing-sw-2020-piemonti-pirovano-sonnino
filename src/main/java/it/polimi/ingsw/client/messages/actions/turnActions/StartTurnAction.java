@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.messages.actions.turnActions;
 
 import it.polimi.ingsw.client.messages.actions.UserAction;
 
-public abstract class StartTurnAction implements UserAction {
+public class StartTurnAction implements UserAction {
     public final String option;
     public StartTurnAction(){
         option="start";
