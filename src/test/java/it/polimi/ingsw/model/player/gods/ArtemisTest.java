@@ -13,6 +13,9 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Alice Piemonti
+ */
 class ArtemisTest {
 
     Worker artemis;
@@ -25,6 +28,9 @@ class ArtemisTest {
         artemis.setPosition(gameBoard.getSpace(1,1));
     }
 
+    /**
+     * test getPhase.isMust parameter during the succession of a move and build action in a single turn
+     */
     @Test
     @DisplayName("one move one build")
     void oneNormalMove() {
@@ -56,6 +62,9 @@ class ArtemisTest {
         artemis.notifyWithBuildable(gameBoard);
     }
 
+    /**
+     * test getPhase.isMust parameter during the succession of a move and build action in a single turn
+     */
     @Test
     @DisplayName("one move one build but return to the previous position")
     void oneMoveWithReturn(){
@@ -75,6 +84,10 @@ class ArtemisTest {
         assertTrue(artemis.move(move),"5");
     }
 
+    /**
+     * test getPhase.isMust parameter during the succession of two moves and one build action in a single turn
+     * the second move is correct: not to the previous position
+     */
     @Test
     @DisplayName("two correct moves")
     void twoCorrectMoves(){
@@ -110,6 +123,10 @@ class ArtemisTest {
 
     }
 
+    /**
+     * test getPhase.isMust parameter during the succession of two moves and one build action in a single turn
+     * the second move is wrong: try to move to the previous position
+     */
     @Test
     @DisplayName("try to return to initial space")
     void twoWrongMoves(){

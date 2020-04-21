@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.player;
 
+/**
+ * @author Alice Piemonti
+ */
 public class Phase {
 
     private Action action;

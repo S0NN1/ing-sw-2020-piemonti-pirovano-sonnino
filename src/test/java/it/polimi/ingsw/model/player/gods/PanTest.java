@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Alice Piemonti
+ */
 class PanTest {
 
     Worker pan;
@@ -23,6 +26,10 @@ class PanTest {
         gameBoard = new GameBoard();
     }
 
+    /**
+     * test the method winCondition: Pan must win either when moves down two or more levels
+     * @throws OutOfBoundException
+     */
     @Test
     @DisplayName("win condition true")
     void moveTest() throws OutOfBoundException {

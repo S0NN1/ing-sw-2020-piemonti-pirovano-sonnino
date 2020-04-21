@@ -1,4 +1,4 @@
-# A Java implementation of Santorini
+# A Java implementation of it.polimi.ingsw.Santorini
 ### Software Engineering Final Test
 ### AA 2019/2020
 ## Description
@@ -15,7 +15,7 @@ Our working group is composed by three students:
     * Person Code: 10569180 
     * Number: 890940
 ## Project specification
-The project consists of a Java version of the gameBoard game *Santorini*, made by Cranio Creations.
+The project consists of a Java version of the gameBoard game *it.polimi.ingsw.Santorini*, made by Cranio Creations.
 You can find the full game here: https://bit.ly/2Qi7gs9
 
 The final version must include:
@@ -29,14 +29,21 @@ The final version must include:
 | Functionality | State |
 |:-----------------------|:------------------------------------:|
 | Basic rules | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
-| Complete rules | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
-| Socket |[![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
+| Complete rules | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
+| Socket |[![GREEN](https://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/server) |
 | GUI | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
-| CLI |[![RED](https://placehold.it/15/f03c15/f03c15)](#) |
-| Multiple games | [![RED](https://placehold.it/15/f03c15/f03c15)](#)|
+| CLI |[![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
+| Multiple games | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)|
 | Persistence | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Undo Function | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | 5 Advanced Gods | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+
+#### Legend
+[![RED](https://placehold.it/15/f03c15/f03c15)](#) Not Implemented 
+
+[![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) Implementing 
+
+[![GREEN](https://placehold.it/15/44bb44/44bb44)](#) Implemented
 
 <!--
 [![RED](https://placehold.it/15/f03c15/f03c15)](#)

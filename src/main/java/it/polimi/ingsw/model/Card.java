@@ -14,8 +14,6 @@ import java.util.List;
 public enum Card {
     APOLLO, ARTEMIS, ATHENA, ATLAS, DEMETER, HEPHAESTUS, MINOTAUR, PAN, PROMETHEUS;
 
-    private static ArrayList<Card> chosen = new ArrayList<>();
-
     /**
      * Parse the input of the challenger player to get a valid god.
      * @param input the text entered by the player.
@@ -61,7 +59,6 @@ public enum Card {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        throw new IllegalArgumentException("Unexpected god");
+        return null;
     }
 }

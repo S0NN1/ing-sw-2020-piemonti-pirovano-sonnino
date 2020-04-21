@@ -2,22 +2,24 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.server.answers.*;
-import it.polimi.ingsw.server.answers.GameError;
 
-import java.util.Observable;
+import java.beans.PropertyChangeSupport;
 
 /**
  * This class contains a small representation of the game model, and contains linking to the main client actions, which
  * will be invoked after an instance control.
  */
-public class Model extends Observable {
+public class Model {
 
     private Answer serverAnswer;
     private CLI cli;
     private boolean canInput;
+    private PropertyChangeSupport view;
 
     public Model(CLI cli) {
         this.cli = cli;
+        view = new PropertyChangeSupport(this);
+        view.addPropertyChangeListener(cli);
     }
 
     /**
@@ -51,24 +53,19 @@ public class Model extends Observable {
     public void answerHandler(Answer answer) {
         serverAnswer = answer;
         if(answer instanceof RequestPlayersNumber) {
-            setChanged();
-            notifyObservers("RequestPlayerNumber");
+            view.firePropertyChange("response", null, "RequestPlayerNumber");
         }
         else if(answer instanceof RequestColor) {
-            setChanged();
-            notifyObservers("RequestColor");
+            view.firePropertyChange("response", null, "RequestColor");
         }
         else if(answer instanceof GodRequest) {
-            setChanged();
-            notifyObservers("GodRequest");
+            view.firePropertyChange("response", null, "GodRequest");
         }
         else if(answer instanceof CustomMessage) {
-            setChanged();
-            notifyObservers("CustomMessage");
+            view.firePropertyChange("response", null, "CustomMessage");
         }
-        else if(answer instanceof ConnectionClosed) {
-            setChanged();
-            notifyObservers("ConnectionClosed");
+        else if(answer instanceof ConnectionMessage) {
+            view.firePropertyChange("response", null, "ConnectionClosed");
             cli.toggleActiveGame(false);
         }
     }

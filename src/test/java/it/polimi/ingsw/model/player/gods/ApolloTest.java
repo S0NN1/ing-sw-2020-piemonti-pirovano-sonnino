@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player.gods;
 
+import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.exceptions.InvalidInputException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
@@ -7,16 +8,23 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.player.WorkerForTest;
 import it.polimi.ingsw.model.player.gods.Apollo;
+import it.polimi.ingsw.server.SocketClientConnection;
+import it.polimi.ingsw.server.VirtualClient;
+import it.polimi.ingsw.server.answers.Answer;
+import it.polimi.ingsw.server.answers.worker.DoubleMoveMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author alice
+ * @author Alice Piemonti
  */
 class ApolloTest {
 
+    /**
+     * test the method move when space isn't empty
+     */
     @Test
     @DisplayName("Change position with another worker")
     void moveTest() {
@@ -37,6 +45,9 @@ class ApolloTest {
         assertEquals(worker, spaceInit.getWorker(),"5");
     }
 
+    /**
+     * test the method selectMoves which must return not empty spaces either
+     */
     @Test
     void getMovesTest() {
         Worker worker1 = new WorkerForTest(PlayerColors.BLUE);
@@ -53,5 +64,61 @@ class ApolloTest {
         int expectedMoves = 8;
         assertEquals(expectedMoves, apollo.selectMoves(gameBoard).size());
 
+    }
+
+    /**
+     * test double move listener which is fired when Apollo makes a move into a not empty space
+     */
+    @Test
+    @DisplayName("double move listener test")
+    void listenerTest(){
+        Worker apollo = new Apollo(PlayerColors.GREEN);
+        Worker worker = new WorkerForTest(PlayerColors.RED);
+        VirtualClientStub client = new VirtualClientStub();
+        GameBoard gameBoard = new GameBoard();
+        apollo.setPosition(gameBoard.getSpace(3,4));
+        worker.setPosition(gameBoard.getSpace(3,3));
+
+        apollo.createListeners(client);
+        apollo.move(gameBoard.getSpace(3,3));
+
+        assertEquals(worker.getPosition().getX(),client.myMove.getOldPosition().getX(),"1");
+        assertEquals(worker.getPosition().getY(),client.myMove.getOldPosition().getY(),"2");
+        assertEquals(apollo.getPosition().getX(),client.myMove.getNewPosition().getX(),"3");
+        assertEquals(apollo.getPosition().getX(),client.myMove.getNewPosition().getY(),"4");
+
+        assertEquals(apollo.getPosition().getX(),client.otherMove.getOldPosition().getX(),"5");
+        assertEquals(apollo.getPosition().getY(),client.otherMove.getOldPosition().getY(),"6");
+        assertEquals(worker.getPosition().getX(),client.otherMove.getNewPosition().getX(),"7");
+        assertEquals(worker.getPosition().getY(),client.otherMove.getNewPosition().getY(),"8");
+    }
+
+    /**
+     * this class receives messages from a DoubleMoveListener
+     */
+    private class VirtualClientStub extends VirtualClient {
+
+        Move myMove;
+
+        Move otherMove;
+        /**
+         * save the message received in an appropriate field
+         */
+        @Override
+        public void send(Answer serverAnswer) {
+            if(serverAnswer instanceof DoubleMoveMessage){
+                myMove = ((DoubleMoveMessage) serverAnswer).getMessage();
+                otherMove = ((DoubleMoveMessage) serverAnswer).getOtherMove();
+            }
+            else fail("not double move message");
+        }
+
+        public Move getMyMove() {
+            return myMove;
+        }
+
+        public Move getOtherMove() {
+            return otherMove;
+        }
     }
 }

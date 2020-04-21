@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Alice Piemonti
+ */
 class HephaestusTest {
 
     Worker hephaestus;
@@ -24,6 +27,9 @@ class HephaestusTest {
         build = gameBoard.getSpace(2,2);
     }
 
+    /**
+     * test getPhase.isMust parameter during the succession of one move and one build action in a single turn
+     */
     @Test
     @DisplayName("one move one build")
     void oneNormalBuild(){
@@ -54,6 +60,10 @@ class HephaestusTest {
         assertFalse(hephaestus.getPhase(5).isMust(),"9b");
     }
 
+
+    /**
+     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
+     */
     @Test
     @DisplayName("one move one build but build on another space")
     void oneBuildInTheSame(){
@@ -72,6 +82,11 @@ class HephaestusTest {
         assertTrue(hephaestus.build(build),"5");
     }
 
+
+    /**
+     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
+     * the second build is correct: build on the previous space
+     */
     @Test
     @DisplayName("two correct build")
     void twoCorrectBuild(){
@@ -103,6 +118,11 @@ class HephaestusTest {
         assertFalse(hephaestus.getPhase(5).isMust(),"9b");
     }
 
+
+    /**
+     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
+     * the second build is wrong: try to build on different spaces
+     */
     @Test
     @DisplayName("try to build on another space")
     void twoWrongBuild(){

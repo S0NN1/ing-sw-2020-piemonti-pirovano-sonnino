@@ -23,7 +23,7 @@ public class CardSelectionModel extends Observable {
     }
 
     /**
-     * Return the god selected by the challenger.
+     * Set the god selected by the challenger.
      * @param god selection made by the challenger.
      */
     public void setSelectedGod(Card god) {
@@ -34,16 +34,19 @@ public class CardSelectionModel extends Observable {
      * Add a chosen god (with command ADD) to the deck.
      * @param god the chosen god.
      */
-    public void addToDeck(Card god) throws OutOfBoundException {
+    public boolean addToDeck(Card god) throws OutOfBoundException {
         int result=deck.setCard(god);
         setChanged();
         if (result==0) {
             notifyObservers(new GodRequest("Error: the selected god has already been added to the deck."));
+            return false;
         } else if(result==1) {
-            notifyObservers(new GodRequest("God " + god.name() + " has been added!"));
+            notifyObservers(new GodRequest("God " + god.name() + " has been added!\nChoose another one!"));
+            return true;
         }
         else {
             notifyObservers(new CustomMessage("God " + god.name() + " has been added!\nAll gods have been added!"));
+            return true;
         }
     }
 
@@ -58,18 +61,20 @@ public class CardSelectionModel extends Observable {
      * Set description inside the model, in order to print it in the RemoteView.
      * @param description the description of the god.
      */
-    public void setDescription(String description) {
+    public boolean setDescription(String description) {
         setChanged();
         notifyObservers(new GodRequest(description));
+        return true;
     }
 
     /**
      * Set the gods' name list and notifies the virtual client class, which sends them to the user.
      * @see it.polimi.ingsw.server.VirtualClient
      */
-    public void setNameList() {
+    public boolean setNameList() {
         setChanged();
         notifyObservers(new GodRequest(Card.godsName()));
+        return true;
     }
 
 }

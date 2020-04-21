@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.observer.workerListeners.AthenaMoveUpListener;
 import it.polimi.ingsw.server.VirtualClient;
 
+/**
+ * @author Alice Piemonti
+ */
 public class Athena extends Worker {
     public Athena(PlayerColors color) {
         super(color);

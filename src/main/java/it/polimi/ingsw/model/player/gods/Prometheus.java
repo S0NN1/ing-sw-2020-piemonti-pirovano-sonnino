@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.player.Worker;
 
 import java.util.ArrayList;
 
+/**
+ * @author Alice Piemonti
+ */
 public class Prometheus extends Worker {
     public Prometheus(PlayerColors color) {
         super(color);

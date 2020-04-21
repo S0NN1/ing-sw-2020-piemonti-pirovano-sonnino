@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author alice
+ * @author Alice Piemonti
  */
 class AtlasTest {
 
@@ -30,6 +30,9 @@ class AtlasTest {
 
     }
 
+    /**
+     * test the method build: build a normal block
+     */
     @Test
     @DisplayName("build block")
     void buildBlock() {
@@ -41,6 +44,9 @@ class AtlasTest {
         assertFalse(build.getTower().isCompleted(),"4");
     }
 
+    /**
+     * test the method build: build a dome at any level
+     */
     @Test
     @DisplayName("build dome")
     void buildDome(){

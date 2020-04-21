@@ -2,6 +2,9 @@ package it.polimi.ingsw.client.messages.actions.workerActions;
 
 import it.polimi.ingsw.constants.Couple;
 
+/**
+ * @author Alice Piemonti
+ */
 public class BuildAction extends WorkerAction {
 
     private Couple buildSpace;

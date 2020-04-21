@@ -1,30 +1,33 @@
 package it.polimi.ingsw.observer.workerListeners;
 
+import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.model.board.Space;
+import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.server.VirtualClient;
-import it.polimi.ingsw.server.answers.worker.SelectSpacesMessage;
+import it.polimi.ingsw.server.answers.worker.DoubleMoveMessage;
 
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
 
 /**
  * @author Alice Piemonti
  */
-public class SelectSpacesListener extends WorkerListener {
+public class DoubleMoveListener extends WorkerListener {
 
-    public SelectSpacesListener(VirtualClient client) {
+    public DoubleMoveListener(VirtualClient client) {
         super(client);
     }
 
     /**
-     * This method gets called when a bound property is changed.
+     * This method gets called when there are two moves simultaneously
      *
      * @param evt A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        SelectSpacesMessage message = new SelectSpacesMessage((ArrayList<Space>)evt.getNewValue());
+        Move move1 = (Move)evt.getOldValue();
+        Move move2 = (Move)evt.getNewValue();
+        DoubleMoveMessage message = new DoubleMoveMessage(move1,move2);
         virtualClient.send(message);
     }
 }

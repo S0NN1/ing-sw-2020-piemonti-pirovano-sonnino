@@ -31,6 +31,71 @@ public class GodSelectionController implements Observer {
         model.addObserver(challenger);
     }
 
+    public boolean add(Card arg) {
+        try {
+            return cardModel.addToDeck(arg);
+        }
+        catch (OutOfBoundException e) {
+            mainController.getGameHandler().singleSend(new GodRequest("Error: no more god to be added!"),
+                    mainController.getModel().getCurrentPlayer().getClientID());
+            return false;
+        }
+    }
+
+    /**
+     * Triggers the card model for notifying the virtual view about the description of the selected god.
+     * @param arg the selected god which description should be sent to che client.
+     */
+    public void desc(Card arg) {
+        cardModel.setSelectedGod(arg);
+        cardModel.setDescription(cardModel.getSelectedGod().godsDescription());
+    }
+
+    /**
+     * Triggers the card deck for selecting the requested card from the deck.
+     * @param arg the card requested by the client, to be inserted in his player profile.
+     * @return true if everything goes fine, false if the card is not present in the deck (not selected by the challenger
+     * or already chosen by someone else).
+     */
+    public boolean choose(Card arg) {
+        if(mainController.getGameHandler().isStarted()==1) {
+            boolean result = mainController.getModel().getDeck().chooseCard(arg);
+            if (!result) {
+                mainController.getGameHandler().singleSend(new GodRequest("Error: the selected card has not been" +
+                                " chosen by the challenger or has already been taken by another player."),
+                        mainController.getModel().getCurrentPlayer().getClientID());
+                return false;
+            }
+            else {
+                mainController.getGameHandler().sendAllExcept(new CustomMessage("Player " +
+                                mainController.getModel().getCurrentPlayer().getNickname() + " has selected " +
+                                arg.name() + "\n\n" + arg.godsDescription() + "\n"),
+                        mainController.getModel().getCurrentPlayer().getClientID());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This method triggers when there's only one card left in the deck. It inserts it in the player's deck without
+     * asking him any input. It then notifies the players to communicate the "choice".
+     * @return true if everything goes fine, false if it's called outside his scope.
+     */
+    public boolean lastSelection() {
+        if(mainController.getModel().getDeck().getCards().size()!=1) {
+            mainController.getGameHandler().singleSend(new GodRequest("Error: invalid input."),
+                    mainController.getModel().getCurrentPlayer().getClientID());
+            return false;
+        }
+        Card card = mainController.getModel().getDeck().getCards().get(0);
+        mainController.getModel().getDeck().chooseCard(card);
+        mainController.getGameHandler().sendAll(new CustomMessage(Constants.ANSI_RED + "The society decides for player " +
+                mainController.getModel().getCurrentPlayer().getNickname() + "! He obtained " + card.name() +
+                Constants.ANSI_RESET + "\n\n" + card.godsDescription() + "\n"));
+        return true;
+    }
+
     /**
      * Update method for MVC communication. It contains the command sent by the players for:
      * - listing all the gods present in the game;
@@ -50,51 +115,16 @@ public class GodSelectionController implements Observer {
                 cardModel.setNameList();
                 break;
             case "DESC":
-                cardModel.setSelectedGod(cmd.arg);
-                cardModel.setDescription(cardModel.getSelectedGod().godsDescription());
+                desc(cmd.arg);
                 break;
             case "ADD":
-                try {
-                    cardModel.addToDeck(cmd.arg);
-                }
-                catch (OutOfBoundException e) {
-                    mainController.getGameHandler().singleSend(new GodRequest("Error: no more god to be added!"),
-                            mainController.getModel().getCurrentPlayer().getClientID());
-                    return;
-                }
+                add(cmd.arg);
                 break;
             case "CHOOSE":
-                if(mainController.getGameHandler().isStarted()==1) {
-                    boolean result = mainController.getModel().getDeck().chooseCard(cmd.arg);
-                    if (!result) {
-                        mainController.getGameHandler().singleSend(new GodRequest("Error: the selected card has not been" +
-                                        " chosen by the challenger or has already been taken by another player."),
-                                mainController.getGameHandler().getCurrentPlayerID());
-                    }
-                    else {
-                        mainController.getGameHandler().sendAllExcept(new CustomMessage("Player " +
-                                mainController.getModel().getCurrentPlayer().getNickname() + " has selected " +
-                                cmd.arg.name() + "\n\n" + cmd.arg.godsDescription() + "\n"),
-                                mainController.getGameHandler().getCurrentPlayerID());
-                    }
-                }
-                try {
-                    TimeUnit.MILLISECONDS.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                choose(cmd.arg);
                 break;
             case "LASTSELECTION":
-                if(mainController.getModel().getDeck().getCards().size()!=1) {
-                    mainController.getGameHandler().singleSend(new GodRequest("Error: invalid input."),
-                            mainController.getGameHandler().getCurrentPlayerID());
-                    return;
-                }
-                Card card = mainController.getModel().getDeck().getCards().get(0);
-                mainController.getModel().getDeck().chooseCard(card);
-                mainController.getGameHandler().sendAll(new CustomMessage(Constants.ANSI_RED + "The society decides for player " +
-                        mainController.getModel().getCurrentPlayer().getNickname() + "! He obtained " + card.name() +
-                        Constants.ANSI_RESET + "\n\n" + card.godsDescription() + "\n"));
+                lastSelection();
                 break;
         }
     }

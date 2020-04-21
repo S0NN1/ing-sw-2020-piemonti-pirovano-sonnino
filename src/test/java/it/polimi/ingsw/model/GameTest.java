@@ -23,7 +23,7 @@ class GameTest {
      * This first test see the behaviour in front of player clockwise rotation, and player removal.
      */
     @Test
-    @DisplayName("Player setup, removal and clockwise rotation.")
+    @DisplayName("Player clockwise rotation test")
     void setupCreateRemoveNextPlayer() {
         testGame.setCurrentPlayer(testGame.getActivePlayers().get(0));
         assertEquals(testGame.getCurrentPlayer().getNickname(), "piro");
@@ -48,11 +48,17 @@ class GameTest {
         assertTrue(testGame.getActivePlayers().isEmpty());
     }
 
+    /**
+     * This test aims to verify the correctness of the player information getters, like the nickname and the ID ones.
+     */
     @Test
-    void cardChoice() {
-    }
-
-    @Test
-    void setup() {
+    @DisplayName("Player getById and getByNickname method binding test")
+    void playerGettingByIdTest() {
+        assertEquals(testGame.getPlayerByID(0), testGame.getPlayerByNickname("piro"));
+        assertEquals(testGame.getPlayerByID(1), testGame.getPlayerByNickname("alice"));
+        assertEquals(testGame.getPlayerByID(2), testGame.getPlayerByNickname("nico"));
+        assertNotEquals(testGame.getPlayerByID(0), testGame.getPlayerByNickname("nico"));
+        assertNull(testGame.getPlayerByID(5));
+        assertNull(testGame.getPlayerByNickname("ugo"));
     }
 }

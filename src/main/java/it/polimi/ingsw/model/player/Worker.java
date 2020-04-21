@@ -16,7 +16,7 @@ import static it.polimi.ingsw.model.player.Action.SELECTMOVE;
 import static javax.swing.TransferHandler.MOVE;
 
 /**
- * @author alice
+ * @author Alice Piemonti
  */
 public abstract class Worker {
 
@@ -94,6 +94,7 @@ public abstract class Worker {
      * @return phase
      */
     public Phase getPhase(int index){
+        if(phases.size() <= index) return null;
         return phases.get(index);
     }
 
@@ -145,16 +146,6 @@ public abstract class Worker {
     }
 
     /**
-     * return true if this worker has won the game
-     * @return boolean value
-     */
-    private boolean hasWon() {   return true;
-        /*
-        -----------------DA COMPLETARE----------------
-         */
-    } //METODO NON SENSE
-
-    /**
      * change the worker's position while check winning condition
      * requires this.isSelectable(space)
      * @throws IllegalArgumentException if space is null
@@ -165,13 +156,22 @@ public abstract class Worker {
         if(space == null) throw new IllegalArgumentException();
         Space oldPosition = position;
         position.setWorker(space.getWorker());
-        space.setWorker(this);
-        position = space;
+        setPosition(space);
         listeners.firePropertyChange("moveListener", oldPosition, position);
         if(winCondition(oldPosition)) {
             listeners.firePropertyChange("winListener", null, null);
         }
         return true;
+    }
+
+    /**
+     * return false if it isn't a Minotaur worker
+     * @param mySpace where worker wants to move
+     * @param gameBoard in order to select the space where other worker is forced to move
+     * @return false if it isn't a Minotaur
+     */
+    public boolean move(Space mySpace, GameBoard gameBoard){
+        return false;
     }
 
     public boolean winCondition(Space space){

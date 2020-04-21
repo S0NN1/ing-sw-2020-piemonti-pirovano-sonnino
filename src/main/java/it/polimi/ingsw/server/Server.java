@@ -69,7 +69,6 @@ public class Server {
      * nicknames and client ids. It also creates a new game session.
      */
     public Server() {
-        System.out.println(Constants.getInfo() + "Instantiating server class...");
         socketServer = new SocketServer(Constants.PORT, this);
         IDmapClient = new HashMap<>();
         nameMAPid = new HashMap<>();
@@ -205,7 +204,7 @@ public class Server {
             idMAPname.put(clientID, nickname);
             clientToConnection.put(client, socketClientHandler);
             System.out.println(Constants.getInfo() + "Client " + client.getNickname() + ", identified by ID " + client.getClientID() + ", has successfully connected!");
-            client.send(new ConnectionConfirmation());
+            client.send(new ConnectionMessage("Connection was successfully set-up! You are now connected.", 0));
             currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " joined the game"));
         }
         else {
@@ -248,10 +247,11 @@ public class Server {
      * @param args the main args, like any Java application.
      */
     public static void main(String[] args) {
-        System.out.println("Santorini Server | Welcome!");
+        System.out.println("it.polimi.ingsw.Santorini Server | Welcome!");
         System.err.println(Constants.getInfo() + "Starting Socket Server");
         Server server = new Server();
         ExecutorService executor = Executors.newCachedThreadPool();
+        System.out.println(Constants.getInfo() + "Instantiating server class...");
         executor.submit(server.socketServer);
     }
 }

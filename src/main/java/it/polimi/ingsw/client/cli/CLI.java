@@ -1,17 +1,18 @@
 package it.polimi.ingsw.client.cli;
 
+import it.polimi.ingsw.client.ActionParser;
 import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.Model;
 import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.messages.ChosenColor;
-import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
-import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
-import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.*;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 import java.util.*;
 
@@ -20,14 +21,14 @@ import java.util.*;
  * @author Luca Pirovano
  * @version 1.0.0
  */
-public class CLI implements UI, Runnable, Observer {
-    private Scanner input;
-    private PrintStream output;
-    private PrintStream err;
+public class CLI implements UI, Runnable, PropertyChangeListener {
+    private final Scanner input;
+    private final PrintStream output;
+    private final PrintStream err;
     private boolean activeGame;
-    private Model model;
-
-    ConnectionSocket connection;
+    private final Model model;
+    private ConnectionSocket connection;
+    private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
 
     public CLI() {
         input = new Scanner(System.in);
@@ -77,58 +78,10 @@ public class CLI implements UI, Runnable, Observer {
         } catch (DuplicateNicknameException e) {
             setup();
         }
-        model.addObserver(this);
+        observers.addPropertyChangeListener(new ActionParser(connection, model));
     }
 
-    /**
-     * Synchronized action method; it's called when a player inserts a command in the CLI interface, and manages his
-     * selection before sending it to the server through the socket. It also performs an initial check about the
-     * rightness of the captured command.
-     */
-    public synchronized void action() {
-        output.print(">");
-        String command = input.next();
-        model.untoggleInput();
-        switch (command.toUpperCase()) {
-            case "GODLIST":
-                connection.send(new GodSelectionAction("LIST"));
-                break;
-            case "GODDESC":
-                try {
-                    connection.send(new GodSelectionAction("DESC", Card.parseInput(input.next())));
-                } catch (IllegalArgumentException e){
-                    err.println("Not existing god with your input's name.");
-                    output.println();
-                    action();
-                }
-                break;
-            case "ADDGOD":
-                try {
-                    connection.send(new GodSelectionAction("ADD", Card.parseInput(input.next())));
-                } catch (IllegalArgumentException e){
-                    err.println("Not existing god with your input's name.");
-                    output.println();
-                    action();
-                }
-                break;
-            case "CHOOSE":
-                try {
-                    connection.send(new GodSelectionAction("CHOOSE", Card.parseInput(input.next())));
-                } catch (IllegalArgumentException e){
-                    err.println("Not existing god with your input's name.");
-                    output.println();
-                    action();
-                }
-                break;
-            case "QUIT":
-                connection.send(new Disconnect());
-                output.println("Disconnected from the server.");
-                System.exit(0);
-            default:
-                err.println("Unknown input, please try again!");
-                action();
-        }
-    }
+
 
     /**
      * The main execution loop of the client side. If the input has toggled (through the apposite method) it calls the
@@ -136,7 +89,9 @@ public class CLI implements UI, Runnable, Observer {
      */
     public void loop() {
         if(model.getCanInput()) {
-            action();
+               System.out.print(">");
+               String cmd = input.nextLine();
+               observers.firePropertyChange("action", null, cmd);
         }
     }
 
@@ -176,11 +131,12 @@ public class CLI implements UI, Runnable, Observer {
      * @param available the list of available colors, which will be printed out.
      */
     public void chooseColor(ArrayList<PlayerColors> available) {
+        input.nextLine();
         while (true) {
             output.println(">Make your choice!");
             output.print(">");
             try {
-                PlayerColors color = PlayerColors.parseInput(input.next());
+                PlayerColors color = PlayerColors.parseInput(input.nextLine());
                 if(available.contains(color)) {
                     connection.send(new ChosenColor(color));
                     return;
@@ -195,8 +151,8 @@ public class CLI implements UI, Runnable, Observer {
     }
 
     @Override
-    public synchronized void update(Observable o, Object arg) {
-        String value = arg.toString();
+    public void propertyChange(PropertyChangeEvent evt) {
+        String value = evt.getNewValue().toString();
         switch (value) {
             case "RequestPlayerNumber":
                 output.println(((RequestPlayersNumber)model.getServerAnswer()).getMessage());
@@ -223,7 +179,7 @@ public class CLI implements UI, Runnable, Observer {
                 model.untoggleInput();
                 break;
             case "ConnectionClosed":
-                output.println(((ConnectionClosed)model.getServerAnswer()).getMessage());
+                output.println(((ConnectionMessage)model.getServerAnswer()).getMessage());
                 err.println("Application will now close...");
                 System.exit(0);
         }
@@ -234,8 +190,9 @@ public class CLI implements UI, Runnable, Observer {
      * @param args the standard java main parameters.
      */
     public static void main(String[] args) {
-        System.out.println("Hi, welcome to Santorini!");
+        System.out.println("Hi, welcome to it.polimi.ingsw.Santorini!");
         CLI cli = new CLI();
         cli.run();
     }
+
 }

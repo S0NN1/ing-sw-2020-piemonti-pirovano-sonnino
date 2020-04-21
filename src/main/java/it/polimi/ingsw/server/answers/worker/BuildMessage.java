@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.server.answers.Answer;
 import it.polimi.ingsw.constants.Couple;
 
+/**
+ * @author Alice Piemonti
+ */
 public class BuildMessage implements Answer {
 
     Couple message;
