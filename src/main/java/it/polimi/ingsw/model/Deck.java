@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.OutOfBoundException;
+import it.polimi.ingsw.server.VirtualClient;
 
 import java.util.ArrayList;
 
@@ -43,11 +44,11 @@ public class Deck {
      * Remove a card afterwards a player god-power choice.
      * @param card the card selected by the player.
      */
-    public boolean chooseCard(Card card) {
+    public boolean chooseCard(Card card, VirtualClient client) {
         if(!cards.contains(card)) {
             return false;
         }
-        game.getCurrentPlayer().setCard(card);
+        game.getCurrentPlayer().setCard(card, client);
         cards.remove(card);
         return true;
     }

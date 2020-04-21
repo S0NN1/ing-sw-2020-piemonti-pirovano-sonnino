@@ -247,7 +247,7 @@ public class Server {
      * @param args the main args, like any Java application.
      */
     public static void main(String[] args) {
-        System.out.println("it.polimi.ingsw.Santorini Server | Welcome!");
+        System.out.println("Santorini Server | Welcome!");
         System.err.println(Constants.getInfo() + "Starting Socket Server");
         Server server = new Server();
         ExecutorService executor = Executors.newCachedThreadPool();

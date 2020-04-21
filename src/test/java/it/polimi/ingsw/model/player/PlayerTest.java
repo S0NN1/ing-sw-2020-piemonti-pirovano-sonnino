@@ -39,7 +39,7 @@ class PlayerTest {
     @DisplayName("God Card addition test")
     void cardAdditionTest() {
         testPlayer.setColor(PlayerColors.RED);
-        testPlayer.setCard(Card.ATLAS);
+        testPlayer.setCard(Card.ATLAS, null);
         assertTrue(testPlayer.getWorkers().get(0).getClass().toString().toUpperCase().contains(Card.ATLAS.toString()));
     }
 
@@ -49,7 +49,7 @@ class PlayerTest {
         for(Card card:Card.values()) {
             Player player = new Player("test", 1);
             player.setColor(PlayerColors.RED);
-            player.addWorker(card);
+            player.addWorker(card, null);
             assertTrue(player.getWorkers().get(0).getClass().toString().toUpperCase().contains(card.toString()));
         }
     }

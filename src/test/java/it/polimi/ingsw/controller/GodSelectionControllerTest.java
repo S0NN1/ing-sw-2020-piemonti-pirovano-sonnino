@@ -93,8 +93,16 @@ class GodSelectionControllerTest {
             super(game);
         }
 
-        @Override
         public boolean chooseCard(Card card) {
+            if(!super.getCards().contains(card)) {
+                return false;
+            }
+            super.getCards().remove(card);
+            return true;
+        }
+
+        @Override
+        public boolean chooseCard(Card card, VirtualClient client) {
             if(!super.getCards().contains(card)) {
                 return false;
             }
