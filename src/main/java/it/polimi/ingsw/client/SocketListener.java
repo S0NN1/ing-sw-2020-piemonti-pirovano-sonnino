@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+/**
+ * Listens for a server answer on the socket, passing it to the client model class.
+ * @author Luca Pirovano
+ */
 public class SocketListener implements Runnable{
 
     private Socket socket;
@@ -21,6 +25,11 @@ public class SocketListener implements Runnable{
         this.inputStream = inputStream;
     }
 
+    /**
+     * Processes the serialized answer received from the server, passing it to the answer handler.
+     * @see it.polimi.ingsw.client.Model for more information.
+     * @param serverMessage the serialized answer.
+     */
     public void process(SerializedAnswer serverMessage) {
         model.answerHandler(serverMessage.getServerAnswer());
     }

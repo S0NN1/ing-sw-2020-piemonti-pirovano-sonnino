@@ -3,12 +3,17 @@ package it.polimi.ingsw.constants;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * This class contains the most significant constants for an execution of the game.
+ * @author Luca Pirovano, Alice Piemonti, Sonny
+ */
 public class Constants {
 
     //match constants
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 3;
     public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
 
     //server constants
     public static final String ADDRESS = "127.0.0.1";

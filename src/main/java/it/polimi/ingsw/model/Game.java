@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GodSelectionController;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Player;
 
@@ -14,16 +15,15 @@ import java.util.Observable;
  * information about the status of the cell, and the presence of a tower in it.
  * The last section is the "MVC Deck creation", which consists in a Model-View-Controller pattern that lets challenger
  * to choose the god powers cards.
- *
  * @author Luca Pirovano
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 public class Game extends Observable {
     private GameBoard gameBoard;
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Player> activePlayers = new ArrayList<>();
-    private Deck deck = new Deck();
+    private Deck deck = new Deck(this);
     private int challengerNumber;
     private Player currentPlayer;
     private int currentPlayerN;
@@ -31,7 +31,6 @@ public class Game extends Observable {
 
     /**
      * Create a new player in the match. The minimum length of activePlayers array is 2 elements, and the maximum is 3.
-     *
      * @param player the player to be added.
      */
     public void createNewPlayer(Player player) {
@@ -41,19 +40,18 @@ public class Game extends Observable {
 
     /**
      * Remove an active player from the list (loss of workers).
-     *
      * @param player we want to remove from the match.
      */
     public void removePlayer(Player player) {
         activePlayers.remove(player);
-        if (!activePlayers.isEmpty()) {
+        if(!activePlayers.isEmpty()) {
+            if(currentPlayerN==activePlayers.size()) currentPlayerN=0;
             setCurrentPlayer(activePlayers.get(currentPlayerN));
         }
     }
 
     /**
      * Search the player identified by his nickname in the list of active player.
-     *
      * @param nickname of the player.
      * @return the desired player, null if there's no active player with that nickname.
      */
@@ -83,6 +81,15 @@ public class Game extends Observable {
     }
 
     /**
+     * Update the variable "currentPlayer" with the desired one.
+     * @param player the player we want to set as current.
+     */
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
+        this.currentPlayerN = activePlayers.indexOf(player);
+    }
+
+    /**
      * @return the current player (value of the variable currentPlayer).
      */
     public Player getCurrentPlayer() {
@@ -90,19 +97,10 @@ public class Game extends Observable {
     }
 
     /**
-     * Update the variable "currentPlayer" with the desired one.
-     *
-     * @param player the player we want to set as current.
-     */
-    public void setCurrentPlayer(Player player) {
-        this.currentPlayer = player;
-    }
-
-    /**
      * Skip to the next player in "activePlayers" order.
      */
     public void nextPlayer() {
-        currentPlayerN = (currentPlayerN == activePlayers.size() - 1 || currentPlayerN == activePlayers.size()) ? 0 : currentPlayerN + 1;   //Clockwise rotation
+        currentPlayerN=(currentPlayerN == activePlayers.size() - 1 || currentPlayerN == activePlayers.size()) ? 0 : currentPlayerN+1;   //Clockwise rotation
         setCurrentPlayer(activePlayers.get(currentPlayerN));
     }
 
@@ -114,19 +112,8 @@ public class Game extends Observable {
     }
 
     /**
-     * Create a new deck with God Powers. The challenger decides the cards he wants to put inside. MVC Local Pattern.
+     * @return the cards deck.
      */
-    public void createDeck() {
-        /*CardSelectionModel model = new CardSelectionModel(deck);
-        it.polimi.ingsw.view.CardSelection RemoteView = new it.polimi.ingsw.view.CardSelection();
-        GodSelectionController controller = new GodSelectionController(model);
-
-        model.addObservers(RemoteView);
-        RemoteView.addObservers(controller);
-
-        RemoteView.run();*/
-    }
-
     public Deck getDeck() {
         return deck;
     }

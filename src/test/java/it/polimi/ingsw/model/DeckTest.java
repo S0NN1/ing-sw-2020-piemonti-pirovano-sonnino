@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.CardNotChosenException;
-import it.polimi.ingsw.exceptions.DuplicateGodException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayersNumber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,23 +14,21 @@ class DeckTest {
 
     @BeforeEach
     void initialization() {
-        testDeck = new Deck();
+        testDeck = new Deck(new Game());
     }
 
     @Test
-    void setCardTest1() throws OutOfBoundException, DuplicateGodException {
+    void setCardTest1() throws OutOfBoundException {
         PlayersNumber.setPlayer(2);
         testDeck.setCard(Card.APOLLO);
-        assertThrows(DuplicateGodException.class, ()->testDeck.setCard(Card.APOLLO));
         testDeck.setCard(Card.ATHENA);
         assertThrows(OutOfBoundException.class, ()->testDeck.setCard(Card.ARTEMIS));
     }
 
     @Test
-    void setCardTest2() throws OutOfBoundException, DuplicateGodException {
+    void setCardTest2() throws OutOfBoundException {
         PlayersNumber.setPlayer(3);
         testDeck.setCard(Card.APOLLO);
-        assertThrows(DuplicateGodException.class, ()->testDeck.setCard(Card.APOLLO));
         testDeck.setCard(Card.ATHENA);
         testDeck.setCard(Card.ATLAS);
         assertThrows(OutOfBoundException.class, ()->testDeck.setCard(Card.ARTEMIS));
@@ -45,17 +40,15 @@ class DeckTest {
     }
 
     @Test
-    void removeCardTest() throws OutOfBoundException, DuplicateGodException, CardNotChosenException {
+    void removeCardTest() throws OutOfBoundException {
         PlayersNumber.setPlayer(3);
         testDeck.setCard(Card.APOLLO);
         testDeck.setCard(Card.ATHENA);
         testDeck.setCard(Card.ATLAS);
-        testDeck.removeCard(Card.ATLAS);
+        testDeck.chooseCard(Card.ATLAS);
         assertEquals(testDeck.getCards().size(), 2);
-        assertThrows(CardNotChosenException.class, () -> testDeck.removeCard(Card.ATLAS));
-        testDeck.removeCard(Card.ATHENA);
-        assertThrows(CardNotChosenException.class, () -> testDeck.removeCard(Card.ATHENA));
-        testDeck.removeCard(Card.APOLLO);
+        testDeck.chooseCard(Card.ATHENA);
+        testDeck.chooseCard(Card.APOLLO);
         assertEquals(testDeck.getCards().size(), 0);
     }
 

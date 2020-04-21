@@ -1,18 +1,11 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
-import org.junit.jupiter.api.Assertions;
+import it.polimi.ingsw.server.GameHandler;
+import it.polimi.ingsw.server.Server;
 import org.junit.jupiter.api.BeforeEach;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class TurnControllerTest {
-    @BeforeEach
-    void setValues() {
-        StartTurnAction action = new StartTurnAction() {
-            @Override
-            public Object getMessage() {
-                return null;
-            }
-        };
-        Assertions.assertEquals("start", action.option);
-    }
+
 }
