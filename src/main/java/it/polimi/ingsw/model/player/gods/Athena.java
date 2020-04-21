@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.VirtualClient;
 /**
  * @author Alice Piemonti
  */
-public class Athena extends Worker {
+public class Athena extends Worker  {
     public Athena(PlayerColors color) {
         super(color);
     }
@@ -51,4 +51,6 @@ public class Athena extends Worker {
         }
         return false;
     }
+
+
 }

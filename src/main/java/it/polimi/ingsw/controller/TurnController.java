@@ -11,8 +11,8 @@ import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.invalidInputRequest;
 import it.polimi.ingsw.server.answers.turn.workersRequest;
 
-import java.util.Observable;
-import java.util.Observer;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * Turn controller handling turn's moves and routing actions to the Action Controller
@@ -20,19 +20,22 @@ import java.util.Observer;
  * @author Sonny
  */
 
-public class TurnController implements Observer {
+public class TurnController implements PropertyChangeListener {
     /**
      * Controller reference required for routing model to the Turn Controller
      */
-    Controller controller;
+    private final Controller controller;
     /**
      * Controller reference required for routing actions
      */
-    ActionController actionController;
+    private final ActionController actionController;
     /**
      * GameHandler reference in order to use singleSend method
      */
-    GameHandler gameHandler;
+    private final GameHandler gameHandler;
+
+
+    private PropertyChangeListener listener;
 
     public TurnController(Controller controller, ActionController actionController, GameHandler gameHandler) {
         this.actionController = actionController;
@@ -40,14 +43,14 @@ public class TurnController implements Observer {
         this.gameHandler = gameHandler;
     }
 
-    /**
-     * Update method used to receive messages
-     *
-     * @param o   observable
-     * @param arg Object containing the message
-     */
-    @Override
-    public void update(Observable o, Object arg) {
+
+    public PropertyChangeListener getListener(){
+        return listener;
+    }
+
+
+    public void propertyChange(PropertyChangeEvent evt){
+        Object arg = evt.getNewValue();
         if (arg instanceof UserAction) {
             if (arg instanceof StartTurnAction) {
                 StartTurnAction start_action = (StartTurnAction) arg;
@@ -119,4 +122,6 @@ public class TurnController implements Observer {
             gameHandler.singleSend(invalidInputRequest::new, gameHandler.getCurrentPlayerID());
         }
     }
+
+
 }

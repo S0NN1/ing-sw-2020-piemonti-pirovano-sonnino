@@ -1,20 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.board.GameBoard;
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.PlayerColors;
-import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.server.GameHandler;
-import it.polimi.ingsw.server.Server;
-import it.polimi.ingsw.server.answers.Answer;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-
-class TurnControllerTest {
+class TurnControllerTest { /*
     Server server = new Server();
     GameBoardStub board = new GameBoardStub();
     GameStub game = new GameStub();
@@ -85,7 +71,10 @@ class TurnControllerTest {
          * @param nickname player's univocal name
          * @param clientID
          */
-        public PlayerStub(String nickname, int clientID) {
+
+    /*
+
+    public PlayerStub(String nickname, int clientID) {
             super(nickname, clientID);
         }
 
@@ -126,4 +115,6 @@ class TurnControllerTest {
     public void startTurnTest() {
         turnController.startTurn(start3);
     }
+
+     */
 }
