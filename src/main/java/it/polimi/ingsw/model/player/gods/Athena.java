@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player.gods;
 
+import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
@@ -20,15 +21,10 @@ public class Athena extends Worker {
     }
 
     /**
-     * create the Map of listeners
-     *
-     * @param client virtualClient
+     * add moveUpListener to listeners
      */
-    @Override
-    public void createListeners(VirtualClient client) {
-        super.createListeners(client);
-        listeners.addPropertyChangeListener("moveUpListener",new AthenaMoveUpListener(client));
-        //TODO  aggiungere listener per modificare CanMoveUp dei players
+    public void addTurnListener(){
+        //listeners.addPropertyChangeListener("moveUpListener", null//TODO MODIFY WITH THE LISTENER);
     }
 
     /**
@@ -45,7 +41,6 @@ public class Athena extends Worker {
         if(super.move(space)){
             if(position.getTower().getHeight() - oldPosition.getTower().getHeight() == 1){
                 listeners.firePropertyChange("moveUpListener", null, null);
-           //TODO  aggiungere listener per modificare CanMoveUp dei players
             }
             return true;
         }
