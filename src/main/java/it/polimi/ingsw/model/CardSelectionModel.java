@@ -45,7 +45,7 @@ public class CardSelectionModel extends Observable {
             return true;
         }
         else {
-            notifyObservers(new CustomMessage("God " + god.name() + " has been added!\nAll gods have been added!"));
+            notifyObservers(new CustomMessage("God " + god.name() + " has been added!\nAll gods have been added!", false));
             return true;
         }
     }

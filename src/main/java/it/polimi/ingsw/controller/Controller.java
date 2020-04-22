@@ -6,21 +6,34 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.GameHandler;
 
-import java.util.Observable;
-import java.util.Observer;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * Main controller class, it calls several "game phase" controllers, like the turn one, or the action one.
+ *
  * @author Luca Pirovano
  */
-public class Controller extends Observable implements Observer{
+public class Controller implements PropertyChangeListener {
     private Game model;
     private GameHandler gameHandler;
     private GodSelectionController selectionController;
+    private TurnController turnController;
+    private PropertyChangeSupport controllerListeners = new PropertyChangeSupport(this);
+
 
     public Controller(Game model, GameHandler gameHandler) {
         this.model = model;
         this.gameHandler = gameHandler;
+    }
+
+    public TurnController getTurnController() {
+        return turnController;
+    }
+
+    public void setTurnController(TurnController turnController) {
+        this.turnController = turnController;
     }
 
     public void setColor(PlayerColors color, String nickname) {
@@ -37,14 +50,13 @@ public class Controller extends Observable implements Observer{
 
     public void setSelectionController(int clientID) {
         selectionController = new GodSelectionController(new CardSelectionModel(model.getDeck()), this, gameHandler.getServer().getClientByID(clientID));
-        this.addObserver(selectionController);
+        controllerListeners.addPropertyChangeListener("GODSELECTION", selectionController);
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        if(arg instanceof GodSelectionAction) {
-            setChanged();
-            notifyObservers(arg);
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getNewValue() instanceof GodSelectionAction) {
+            controllerListeners.firePropertyChange("GODSELECTION", null, evt.getNewValue());
         }
     }
 }

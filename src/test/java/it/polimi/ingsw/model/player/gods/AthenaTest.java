@@ -20,7 +20,7 @@ class AthenaTest {
     @DisplayName("test move up")
     void moveUpTest() throws OutOfBoundException {
 
-        Worker athena = new Athena(PlayerColors.BLUE);
+        Worker athena = new Athena(PlayerColors.BLUE, null);
         GameBoard gameBoard = new GameBoard();
 
         Space firstPosition = gameBoard.getSpace(1,1);

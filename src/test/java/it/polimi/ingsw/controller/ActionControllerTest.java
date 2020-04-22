@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.player.WorkerForTest;
 import it.polimi.ingsw.model.player.gods.*;
-import it.polimi.ingsw.server.GameHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -205,10 +204,10 @@ class ActionControllerTest {
             super(gameBoard);
         }
         public void setPhase(int phase){
-            this.phase = phase;
+            super.setPhase(phase);
         }
         public int getPhase(){
-            return phase;
+            return super.getPhase();
         }
     }
 }

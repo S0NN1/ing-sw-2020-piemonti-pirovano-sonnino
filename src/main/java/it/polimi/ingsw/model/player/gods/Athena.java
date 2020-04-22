@@ -7,12 +7,20 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.observer.workerListeners.AthenaMoveUpListener;
 import it.polimi.ingsw.server.VirtualClient;
 
+import java.beans.PropertyChangeSupport;
+
 /**
  * @author Alice Piemonti
  */
-public class Athena extends Worker {
-    public Athena(PlayerColors color) {
+public class Athena extends Worker  {
+    Object sourceBean;
+    private PropertyChangeSupport support = new PropertyChangeSupport(this) ;
+
+
+
+    public Athena(PlayerColors color, TurnController controller) {
         super(color);
+        support.addPropertyChangeListener(controller);
     }
 
     @Override
@@ -46,4 +54,6 @@ public class Athena extends Worker {
         }
         return false;
     }
+
+
 }
