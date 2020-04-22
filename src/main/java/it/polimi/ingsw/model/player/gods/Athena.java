@@ -13,26 +13,15 @@ import java.beans.PropertyChangeSupport;
  * @author Alice Piemonti
  */
 public class Athena extends Worker  {
-    Object sourceBean;
-    private PropertyChangeSupport support = new PropertyChangeSupport(this) ;
-
-
 
     public Athena(PlayerColors color, TurnController controller) {
         super(color);
-        support.addPropertyChangeListener(controller);
+        listeners.addPropertyChangeListener("moveUpListener",controller);
     }
 
     @Override
     public void setPhases() {
         setNormalPhases();
-    }
-
-    /**
-     * add moveUpListener to listeners
-     */
-    public void addTurnListener(){
-        //listeners.addPropertyChangeListener("moveUpListener", null//TODO MODIFY WITH THE LISTENER);
     }
 
     /**
@@ -48,7 +37,7 @@ public class Athena extends Worker  {
         Space oldPosition = position;
         if(super.move(space)){
             if(position.getTower().getHeight() - oldPosition.getTower().getHeight() == 1){
-                listeners.firePropertyChange("moveUpListener", null, null);
+                listeners.firePropertyChange("moveUpListener", null, "AthenaMovedUp");
             }
             return true;
         }

@@ -28,13 +28,19 @@ public class ModelView {
         grid[newRow][newCol].setColor(color);
     }
 
-    public void doubleMove(int oldRow1, int oldCol1, int newRow1, int newCol1, //TODO PASSARE I MOVE MAGARI
-                           int oldRow2, int oldCol2, int newRow2, int newCol2){
-        if(oldRow1 == newRow1 && oldCol1 == newCol1) {
-            String color1 = grid[oldRow1][oldCol1].getColor();
-            move(oldRow2, oldCol2, newRow2, newCol2);
-            grid[newRow1][newCol1].setColor(color1);
-        }
+    public void apolloDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2){
+        String color1 = grid[oldRow1][oldCol1].getColor();
+        String color2 = grid[oldRow2][oldCol2].getColor();
+        grid[oldRow1][oldCol1].setColor(color2);
+        grid[oldRow2][oldCol2].setColor(color1);
+    }
+
+    public void minotaurDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2, int newRow2, int newCol2){
+        String color1 = grid[oldRow1][oldCol1].getColor();
+        String color2 = grid[oldRow2][oldCol2].getColor();
+        grid[newRow2][newCol2].setColor(color2);
+        grid[oldRow2][oldCol2].setColor(color1);
+        grid[oldRow1][oldCol1].setColor(null);
     }
 
     public void build(int row, int col){
