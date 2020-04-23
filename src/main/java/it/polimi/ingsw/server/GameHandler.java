@@ -154,7 +154,11 @@ public class GameHandler {
     }
 
     /**
-     * Handles an action received from a single client. It makes several instance checks.
+     * Handles an action received from a single client. It makes several instance checks. It's based on the value of
+     * "started", which represents the current game phase, in this order:
+     *  - 0: challenger phase;
+     *  - 1: players select their god powers;
+     *  - 2: the game has started.
      * @param action the action sent by the client.
      */
     public void makeAction(UserAction action) {
@@ -174,6 +178,8 @@ public class GameHandler {
                                     game.getDeck().getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription()
                                             + "\n").collect(Collectors.joining("\n")) +
                             "Select your god by typing choose <god-name>:"),getCurrentPlayerID());
+                    sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() + " is" +
+                            " choosing his god power...", false), getCurrentPlayerID());
                 }
             }
             else if (started == 1) {
@@ -189,6 +195,8 @@ public class GameHandler {
                                     getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").
                                     collect(Collectors.joining("\n ")) + "Select your god by typing CHOOSE " +
                                     "<god-name>:"), getCurrentPlayerID());
+                    sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() + " is " +
+                            "choosing his god power...", false), getCurrentPlayerID());
                 }
                 else if(game.getDeck().getCards().size()==1) {
                     game.nextPlayer();
