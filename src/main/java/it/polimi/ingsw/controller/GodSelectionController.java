@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 
 /**
  * Controller of the god powers selection, made by the challenger, and the card choosing made by players.
+ *
  * @author Luca Pirovano
  */
 public class GodSelectionController implements PropertyChangeListener {
@@ -22,6 +23,7 @@ public class GodSelectionController implements PropertyChangeListener {
 
     /**
      * Constructor of the class, it receives in input the CardSelectionBoard.
+     *
      * @param model the CardSelectionBoard.
      */
     public GodSelectionController(CardSelectionModel model, Controller mainController, VirtualClient challenger) {
@@ -33,8 +35,7 @@ public class GodSelectionController implements PropertyChangeListener {
     public boolean add(Card arg) {
         try {
             return cardModel.addToDeck(arg);
-        }
-        catch (OutOfBoundException e) {
+        } catch (OutOfBoundException e) {
             mainController.getGameHandler().singleSend(new GodRequest("Error: no more god to be added!"),
                     mainController.getModel().getCurrentPlayer().getClientID());
             return false;
@@ -43,6 +44,7 @@ public class GodSelectionController implements PropertyChangeListener {
 
     /**
      * Triggers the card model for notifying the virtual view about the description of the selected god.
+     *
      * @param arg the selected god which description should be sent to che client.
      */
     public void desc(Card arg) {
@@ -52,26 +54,32 @@ public class GodSelectionController implements PropertyChangeListener {
 
     /**
      * Triggers the card deck for selecting the requested card from the deck.
+     *
      * @param arg the card requested by the client, to be inserted in his player profile.
      * @return true if everything goes fine, false if the card is not present in the deck (not selected by the challenger
      * or already chosen by someone else).
      */
     public boolean choose(Card arg) {
-        if(mainController.getGameHandler().isStarted()==1) {
+        if (mainController.getGameHandler().isStarted() == 1) {
             int clientId = mainController.getModel().getCurrentPlayer().getClientID();
             VirtualClient client = mainController.getGameHandler().getServer().getClientByID(clientId);
-            boolean result = mainController.getModel().getDeck().chooseCard(arg, client);
+            boolean result;
+            if (arg.equals(Card.ATHENA)) {
+                result = mainController.getModel().getDeck().chooseCard(arg, client, mainController.getTurnController());
+            } else {
+                result = mainController.getModel().getDeck().chooseCard(arg, client);
+            }
             if (!result) {
                 mainController.getGameHandler().singleSend(new GodRequest("Error: the selected card has not been" +
-                                " chosen by the challenger or has already been taken by another player."), clientId);
+                        " chosen by the challenger or has already been taken by another player."), clientId);
                 return false;
-            }
-            else {
+            } else {
                 mainController.getGameHandler().sendAllExcept(new CustomMessage("Player " +
-                                mainController.getModel().getCurrentPlayer().getNickname() + " has selected " +
-                                arg.name() + "\n\n" + arg.godsDescription() + "\n", false), clientId);
+                        mainController.getModel().getCurrentPlayer().getNickname() + " has selected " +
+                        arg.name() + "\n\n" + arg.godsDescription() + "\n", false), clientId);
                 return true;
             }
+
         }
         return false;
     }
@@ -79,18 +87,23 @@ public class GodSelectionController implements PropertyChangeListener {
     /**
      * This method triggers when there's only one card left in the deck. It inserts it in the player's deck without
      * asking him any input. It then notifies the players to communicate the "choice".
+     *
      * @return true if everything goes fine, false if it's called outside his scope.
      */
     public boolean lastSelection() {
         int clientId = mainController.getModel().getCurrentPlayer().getClientID();
         VirtualClient client = mainController.getGameHandler().getServer().getClientByID(clientId);
-        if(mainController.getModel().getDeck().getCards().size()!=1) {
+        if (mainController.getModel().getDeck().getCards().size() != 1) {
             mainController.getGameHandler().singleSend(new GodRequest("Error: invalid input."),
                     clientId);
             return false;
         }
         Card card = mainController.getModel().getDeck().getCards().get(0);
-        mainController.getModel().getDeck().chooseCard(card, client);
+        if (card.equals(Card.ATHENA)) {
+            mainController.getModel().getDeck().chooseCard(card, client, mainController.getTurnController());
+        } else {
+            mainController.getModel().getDeck().chooseCard(card, client);
+        }
         mainController.getGameHandler().sendAll(new CustomMessage(Constants.ANSI_RED + "The society decides for player " +
                 mainController.getModel().getCurrentPlayer().getNickname() + "! He obtained " + card.name() +
                 Constants.ANSI_RESET + "\n\n" + card.godsDescription() + "\n", false));
@@ -103,11 +116,12 @@ public class GodSelectionController implements PropertyChangeListener {
      * - getting the description of a single god;
      * - adding a god to the match deck;
      * - choosing a god from the match deck (initial phase).
+     *
      * @param evt the couple action-arg, which represents the case direction and the chosen card.
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        GodSelectionAction cmd = (GodSelectionAction)evt.getNewValue();
+        GodSelectionAction cmd = (GodSelectionAction) evt.getNewValue();
         switch (cmd.action) {
             case "LIST":
                 cardModel.setNameList();
