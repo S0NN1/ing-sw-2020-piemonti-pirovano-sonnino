@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.messages.Disconnect;
-import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
+import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.model.Card;
 
 import java.beans.PropertyChangeEvent;
@@ -22,18 +22,17 @@ public class ActionParser implements PropertyChangeListener {
      * selection before sending it to the server through the socket. It also performs an initial check about the
      * rightness of the captured command.
      */
-    //TODO challenger choose starting player
     public synchronized boolean action(String input) {
         String[] in = input.split(" ");
         String command = in[0];
         try {
             switch (command.toUpperCase()) {
                 case "GODLIST":
-                    connection.send(new GodSelectionAction("LIST"));
+                    connection.send(new ChallengerPhaseAction("LIST"));
                     break;
                 case "GODDESC":
                     try {
-                        connection.send(new GodSelectionAction("DESC", Card.parseInput(in[1])));
+                        connection.send(new ChallengerPhaseAction("DESC", Card.parseInput(in[1])));
                     } catch (IllegalArgumentException e) {
                         System.err.println("Not existing god with your input's name.");
                         return false;
@@ -41,7 +40,7 @@ public class ActionParser implements PropertyChangeListener {
                     break;
                 case "ADDGOD":
                     try {
-                        connection.send(new GodSelectionAction("ADD", Card.parseInput(in[1])));
+                        connection.send(new ChallengerPhaseAction("ADD", Card.parseInput(in[1])));
                     } catch (IllegalArgumentException e) {
                         System.err.println("Not existing god with your input's name.");
                         return false;
@@ -49,7 +48,7 @@ public class ActionParser implements PropertyChangeListener {
                     break;
                 case "CHOOSE":
                     try {
-                        connection.send(new GodSelectionAction("CHOOSE", Card.parseInput(in[1])));
+                        connection.send(new ChallengerPhaseAction("CHOOSE", Card.parseInput(in[1])));
                     } catch (IllegalArgumentException e) {
                         System.err.println("Not existing god with your input's name.");
                         return false;

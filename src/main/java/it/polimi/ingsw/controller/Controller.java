@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
+import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.model.CardSelectionModel;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -55,7 +55,7 @@ public class Controller implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getNewValue() instanceof GodSelectionAction) {
+        if (evt.getNewValue() instanceof ChallengerPhaseAction) {
             controllerListeners.firePropertyChange("GODSELECTION", null, evt.getNewValue());
         }
     }

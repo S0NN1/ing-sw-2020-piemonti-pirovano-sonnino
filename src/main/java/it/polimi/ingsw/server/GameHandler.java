@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
+import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.Controller;
@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.*;
 
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -100,13 +101,13 @@ public class GameHandler {
      * double check (on both client and server sides) of the validity of them (also in case of duplicate colors).
      */
     public void setup() {
-        RequestColor req = new RequestColor("Please insert a color choosing between BLUE, WHITE or GREY");
+        RequestColor req = new RequestColor("Please choose your workers' color.");
         req.addRemaining(PlayerColors.notChosen());
         if(playersNumber==2 && PlayerColors.notChosen().size()>1) {
             String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size() + 1).getNickname();
             singleSend(req, server.getIDByNickname(nickname));
-            //server.getClientByID(server.getIDByNickname(game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size() + 1).getNickname())).send(req);
-            sendAllExcept(new CustomMessage("Please wait, user " + nickname + " is choosing his color!", false), server.getIDByNickname(nickname));
+            sendAllExcept(new CustomMessage(Constants.ANSI_RED + "Please wait, user " + nickname +
+                    " is choosing his color!" + Constants.ANSI_RESET, false), server.getIDByNickname(nickname));
             return;
         }
         else if(playersNumber==3 && PlayerColors.notChosen().size()>0) {
@@ -127,14 +128,14 @@ public class GameHandler {
         //Challenger section
         Random rnd = new Random();
         game.setCurrentPlayer(game.getActivePlayers().get(rnd.nextInt(playersNumber)));
-        singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", you are the challenger!", false),
+        singleSend(new CustomMessage(Constants.ANSI_GREEN + game.getCurrentPlayer().getNickname() +
+                        ", you are the challenger!" + Constants.ANSI_RESET, false), game.getCurrentPlayer().getClientID());
+        singleSend(new ChallengerMessages("You have to choose gods power. Type GODLIST to get a list of available gods, GODDESC " +
+                "<god name> to get a god's description and ADDGOD <god name> to add a God power to deck.\n" + Constants.ANSI_YELLOW +
+                (playersNumber - game.getDeck().getCards().size()) + " gods left." + Constants.ANSI_RESET),
                 game.getCurrentPlayer().getClientID());
-        singleSend(new GodRequest("You have to choose gods power. Type GODLIST to get a list of available gods, GODDESC " +
-                "<god name> to get a god's description and ADDGOD <god name> to add a God power to deck.\n" +
-                (playersNumber - game.getDeck().getCards().size()) + " gods left."),
-                game.getCurrentPlayer().getClientID());
-        sendAllExcept(new CustomMessage(game.getCurrentPlayer().getNickname() + " is the challenger!\nPlease wait while " +
-                "he chooses the god powers.", false), game.getCurrentPlayer().getClientID());
+        sendAllExcept(new CustomMessage(Constants.ANSI_RED + game.getCurrentPlayer().getNickname() + " is the challenger! Please wait while " +
+                "he chooses the god powers." + Constants.ANSI_RESET, false), game.getCurrentPlayer().getClientID());
         controller.setSelectionController(game.getCurrentPlayer().getClientID());
     }
 
@@ -162,51 +163,62 @@ public class GameHandler {
      * @param action the action sent by the client.
      */
     public void makeAction(UserAction action) {
-        if((action instanceof GodSelectionAction)) {
-            GodSelectionAction userAction = (GodSelectionAction)action;
+        if((action instanceof ChallengerPhaseAction)) {
+            ChallengerPhaseAction userAction = (ChallengerPhaseAction)action;
             if (started == 0) {
                 if((userAction.action.equals("CHOOSE"))) {
-                    singleSend(new GodRequest("Error: not in correct game phase for " + "this command!"), getCurrentPlayerID());
+                    singleSend(new ChallengerMessages(Constants.ANSI_RED + "Error: not in correct game phase for " +
+                            "this command!" + Constants.ANSI_RESET), getCurrentPlayerID());
                     return;
                 }
                 controllerListener.firePropertyChange(null, null, action);
                 if (game.getDeck().getCards().size() == playersNumber) {
                     started = 1;
                     game.nextPlayer();
-                    singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
-                                    "god power from one of the list below.\n\n" +
-                                    game.getDeck().getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription()
-                                            + "\n").collect(Collectors.joining("\n")) +
-                            "Select your god by typing choose <god-name>:"),getCurrentPlayerID());
-                    sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() + " is" +
-                            " choosing his god power...", false), getCurrentPlayerID());
+                    singleSend(new ChallengerMessages(Constants.ANSI_GREEN +server.getNicknameByID(getCurrentPlayerID()) +
+                            ", please choose your god power from one of the list below.\n\n" + Constants.ANSI_RESET +
+                            game.getDeck().getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").
+                                    collect(Collectors.joining("\n")) + "Select your god by typing choose <god-name>:"),getCurrentPlayerID());
+                    sendAllExcept(new CustomMessage(Constants.ANSI_RED + "Player " + game.getCurrentPlayer().getNickname() +
+                            " is" + " choosing his god power..." + Constants.ANSI_RESET, false), getCurrentPlayerID());
                 }
             }
             else if (started == 1) {
-                if(userAction.action.equals("DESC") || userAction.action.equals("LIST") || userAction.action.equals("ADD")) {
-                    singleSend(new GodRequest("Error: not in correct game phase for " + "this command!"), getCurrentPlayerID());
-                    return;
+                if(userAction.action.equals("CHOOSE")) {
+                    controllerListener.firePropertyChange(null, null, userAction);
+                    if (game.getDeck().getCards().size() > 1) {
+                        game.nextPlayer();
+                        singleSend(new ChallengerMessages(Constants.ANSI_GREEN + server.getNicknameByID(getCurrentPlayerID()) +
+                                ", please choose your god power from one of the list below.\n\n" + Constants.ANSI_RESET + game.getDeck().
+                                getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +
+                                "Select your god by typing CHOOSE " + "<god-name>:"), getCurrentPlayerID());
+                        sendAllExcept(new CustomMessage(Constants.ANSI_RED + "Player " + game.getCurrentPlayer().getNickname() +
+                                " is choosing his god power..." + Constants.ANSI_RESET, false), getCurrentPlayerID());
+                    } else if (game.getDeck().getCards().size() == 1) {
+                        game.nextPlayer();
+                        controllerListener.firePropertyChange(null, null, new ChallengerPhaseAction("LASTSELECTION"));
+                        game.nextPlayer();
+                        ArrayList<String> players = new ArrayList<>();
+                        game.getActivePlayers().forEach(n -> players.add(n.getNickname()));
+                        game.nextPlayer();
+                        singleSend(new ChallengerMessages(Constants.ANSI_GREEN + game.getCurrentPlayer().getNickname() +
+                                ", choose the starting player!" + Constants.ANSI_RESET, true, players), game.getCurrentPlayer().getClientID());
+                        sendAllExcept(new CustomMessage(Constants.ANSI_RED + "Player " + game.getCurrentPlayer().getNickname() + " is " +
+                                " choosing the starting player, please wait!" + Constants.ANSI_RESET, false), game.getCurrentPlayer().getClientID());
+                        started = 2;
+                    }
                 }
-                controllerListener.firePropertyChange(null, null, userAction);
-                if (game.getDeck().getCards().size() > 1) {
-                    game.nextPlayer();
-                    singleSend(new GodRequest(server.getNicknameByID(getCurrentPlayerID()) + ", please choose your" +
-                                    "god power from one of the list below.\n\n" + game.getDeck().
-                                    getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").
-                                    collect(Collectors.joining("\n ")) + "Select your god by typing CHOOSE " +
-                                    "<god-name>:"), getCurrentPlayerID());
-                    sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() + " is " +
-                            "choosing his god power...", false), getCurrentPlayerID());
+                else {
+                    singleSend(new ChallengerMessages(Constants.ANSI_RED + "Error: not in correct game phase for this command!"
+                            + Constants.ANSI_RESET), getCurrentPlayerID());
                 }
-                else if(game.getDeck().getCards().size()==1) {
-                    game.nextPlayer();
-                    controllerListener.firePropertyChange(null, null, new GodSelectionAction("LASTSELECTION"));
-                    game.nextPlayer();
-                    singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", choose the starting" +
-                            "player!", true), game.getCurrentPlayer().getClientID());
-                    sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() + " is " +
-                            " choosing the starting player, please wait!", false), game.getCurrentPlayer().getClientID());
-                }
+            }
+            else if(userAction.startingPlayer!=null) {
+                game.setCurrentPlayer(game.getActivePlayers().get(userAction.startingPlayer));
+                singleSend(new CustomMessage(Constants.ANSI_GREEN + game.getCurrentPlayer().getNickname() +
+                        ", you are the first player; let's go!" + Constants.ANSI_RESET, false), getCurrentPlayerID());
+                sendAllExcept(new CustomMessage(Constants.ANSI_YELLOW + "Well done! " + game.getCurrentPlayer().getNickname()
+                        + " is the first player!" + Constants.ANSI_RESET, false), getCurrentPlayerID());
             }
         }
         else {
