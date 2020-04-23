@@ -43,7 +43,7 @@ class AtlasTest {
         assertEquals(1,build.getTower().getHeight(),"3");
         assertFalse(build.getTower().isCompleted(),"4");
     }
-
+//TODO LISTENER TEST TEST CHE CON LA NORMAL BUILD DOME SIA FALSE
     /**
      * test the method build: build a dome at any level
      */
@@ -55,4 +55,6 @@ class AtlasTest {
         assertTrue(build.getTower().isCompleted(),"2");
         assertEquals(0,build.getTower().getHeight(),"3");
     }
+
+    //TODO LISTENERS TEST, TEST CHE DOME SIA TRUE
 }

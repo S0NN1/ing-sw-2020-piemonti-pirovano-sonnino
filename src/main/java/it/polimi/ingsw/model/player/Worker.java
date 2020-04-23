@@ -254,7 +254,7 @@ public abstract class Worker {
         } catch (OutOfBoundException e) {
             return false;
         }
-        listeners.firePropertyChange("buildListener",null,space);
+        listeners.firePropertyChange("buildListener",false,space);
         return true;
     }
 

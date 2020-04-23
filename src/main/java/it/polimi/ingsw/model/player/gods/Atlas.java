@@ -25,6 +25,7 @@ public class Atlas extends Worker {
         setNormalPhases();
     }
 
+
     /**
      * build a dome at any level or build a block
      * @param buildDome true if he wants to build a dome instead of a block
@@ -36,6 +37,7 @@ public class Atlas extends Worker {
         if(space == null) throw new IllegalArgumentException();
         if(buildDome){
             space.getTower().setDome(true);
+            listeners.firePropertyChange("buildListener", true, space);
             return true;
         }
         else return super.build(space);

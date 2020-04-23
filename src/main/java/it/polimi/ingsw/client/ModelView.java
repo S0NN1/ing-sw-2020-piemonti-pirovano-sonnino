@@ -43,14 +43,11 @@ public class ModelView {
         grid[oldRow1][oldCol1].setColor(null);
     }
 
-    public void build(int row, int col){
-        grid[row][col].addLevel();
+    public void build(int row, int col, boolean dome){
+        if(dome || grid[row][col].getLevel() == 3){
+            grid[row][col].setDome(true);
+        }
+        else grid[row][col].addLevel();
     }
-
-
-
-
-
-
 
 }

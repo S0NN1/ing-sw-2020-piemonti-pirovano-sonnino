@@ -8,11 +8,8 @@ import it.polimi.ingsw.server.answers.Answer;
  */
 public class AtlasBuildMessage extends BuildMessage {
 
-    String string = "You can build a dome";
-
     public AtlasBuildMessage(Space space) {
-        super(space);
+        super(space,true);
     }
 
-    public String getString(){ return string;}
 }

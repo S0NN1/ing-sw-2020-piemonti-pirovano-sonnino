@@ -23,7 +23,7 @@ public class BuildListener extends WorkerListener{
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        BuildMessage message = new BuildMessage((Space)evt.getNewValue());
+        BuildMessage message = new BuildMessage((Space)evt.getNewValue(), (Boolean) evt.getOldValue());
         virtualClient.send(message);
     }
 }
