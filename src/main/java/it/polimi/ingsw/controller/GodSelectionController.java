@@ -11,9 +11,6 @@ import it.polimi.ingsw.server.answers.GodRequest;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Controller of the god powers selection, made by the challenger, and the card choosing made by players.
