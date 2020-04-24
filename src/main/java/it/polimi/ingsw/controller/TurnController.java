@@ -39,6 +39,7 @@ public class TurnController implements PropertyChangeListener {
     public TurnController(Controller controller, GameHandler gameHandler) {
         this.controller = controller;
         this.gameHandler = gameHandler;
+        //TODO
         actionController = new ActionController(controller.getModel().getGameBoard());
     }
 
@@ -101,7 +102,7 @@ public class TurnController implements PropertyChangeListener {
                 actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1));
             }
         } catch (NullPointerException e) {
-            gameHandler.singleSend(GameError::new, gameHandler.getCurrentPlayerID());
+            gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
         }
 
     }
@@ -113,7 +114,7 @@ public class TurnController implements PropertyChangeListener {
         if (actionController.endAction()) {
             controller.getModel().nextPlayer();
         } else {
-            gameHandler.singleSend(GameError::new, gameHandler.getCurrentPlayerID());
+            gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
         }
     }
 
