@@ -8,7 +8,8 @@ import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
 import it.polimi.ingsw.server.GameHandler;
-import it.polimi.ingsw.server.answers.invalidInputRequest;
+import it.polimi.ingsw.server.answers.ErrorsType;
+import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.turn.workersRequest;
 
 import java.beans.PropertyChangeEvent;
@@ -35,16 +36,14 @@ public class TurnController implements PropertyChangeListener {
     private final GameHandler gameHandler;
 
 
-    public TurnController(Controller controller, ActionController actionController, GameHandler gameHandler) {
-        this.actionController = actionController;
+    public TurnController(Controller controller, GameHandler gameHandler) {
         this.controller = controller;
         this.gameHandler = gameHandler;
+        actionController = new ActionController(controller.getModel().getGameBoard());
     }
 
 
-
-
-    public void propertyChange(PropertyChangeEvent evt){
+    public void propertyChange(PropertyChangeEvent evt) {
         Object arg = evt.getNewValue();
         if (arg instanceof UserAction) {
             if (arg instanceof StartTurnAction) {
@@ -54,25 +53,25 @@ public class TurnController implements PropertyChangeListener {
             if (arg instanceof BuildAction) {
                 BuildAction worker_action = (BuildAction) arg;
                 if (!actionController.readMessage(worker_action)) {
-                    gameHandler.singleSend(invalidInputRequest::new, gameHandler.getCurrentPlayerID());
+                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                 }
             }
             if (arg instanceof MoveAction) {
                 MoveAction worker_action = (MoveAction) arg;
                 if (!actionController.readMessage(worker_action)) {
-                    gameHandler.singleSend(invalidInputRequest::new, gameHandler.getCurrentPlayerID());
+                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                 }
             }
             if (arg instanceof SelectMoveAction) {
                 SelectMoveAction worker_action = (SelectMoveAction) arg;
                 if (!actionController.readMessage(worker_action)) {
-                    gameHandler.singleSend(invalidInputRequest::new, gameHandler.getCurrentPlayerID());
+                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                 }
             }
             if (arg instanceof SelectBuildAction) {
                 SelectBuildAction worker_action = (SelectBuildAction) arg;
                 if (!actionController.readMessage(worker_action)) {
-                    gameHandler.singleSend(invalidInputRequest::new, gameHandler.getCurrentPlayerID());
+                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                 }
             }
             if (arg instanceof EndTurnAction) {
@@ -102,7 +101,7 @@ public class TurnController implements PropertyChangeListener {
                 actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1));
             }
         } catch (NullPointerException e) {
-            gameHandler.singleSend(invalidInputRequest::new, gameHandler.getCurrentPlayerID());
+            gameHandler.singleSend(GameError::new, gameHandler.getCurrentPlayerID());
         }
 
     }
@@ -114,7 +113,7 @@ public class TurnController implements PropertyChangeListener {
         if (actionController.endAction()) {
             controller.getModel().nextPlayer();
         } else {
-            gameHandler.singleSend(invalidInputRequest::new, gameHandler.getCurrentPlayerID());
+            gameHandler.singleSend(GameError::new, gameHandler.getCurrentPlayerID());
         }
     }
 

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.GodSelectionController;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Player;
 
@@ -20,6 +19,10 @@ import java.util.Observable;
  */
 
 public class Game extends Observable {
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
     private GameBoard gameBoard;
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Player> activePlayers = new ArrayList<>();
