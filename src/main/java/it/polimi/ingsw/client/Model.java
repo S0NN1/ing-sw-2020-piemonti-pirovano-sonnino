@@ -53,20 +53,20 @@ public class Model {
     public void answerHandler(Answer answer) {
         serverAnswer = answer;
         if(answer instanceof RequestPlayersNumber) {
-            view.firePropertyChange("response", null, "RequestPlayerNumber");
+            view.firePropertyChange("initialPhase", null, "RequestPlayerNumber");
         }
         else if(answer instanceof RequestColor) {
-            view.firePropertyChange("response", null, "RequestColor");
+            view.firePropertyChange("initialPhase", null, "RequestColor");
         }
         else if(answer instanceof ChallengerMessages) {
-            view.firePropertyChange("response", null, "GodRequest");
+            view.firePropertyChange("initialPhase", null, "GodRequest");
         }
         else if(answer instanceof CustomMessage) {
-            view.firePropertyChange("response", null, "CustomMessage");
+            view.firePropertyChange("customMessage", null, answer.getMessage());
             canInput = ((CustomMessage) answer).canInput();
         }
         else if(answer instanceof ConnectionMessage) {
-            view.firePropertyChange("response", null, "ConnectionClosed");
+            view.firePropertyChange("connectionClosed", null, answer.getMessage());
             cli.toggleActiveGame(false);
         }
     }

@@ -169,41 +169,44 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String value = evt.getNewValue().toString();
-        switch (value) {
-            case "RequestPlayerNumber":
-                output.println(Constants.ANSI_GREEN + ((RequestPlayersNumber)model.getServerAnswer()).getMessage() + Constants.ANSI_RESET);
-                choosePlayerNumber();
-                break;
-            case "RequestColor":
-                output.println(Constants.ANSI_GREEN + ((RequestColor)model.getServerAnswer()).getMessage() + "\nRemaining:" + Constants.ANSI_RESET);
-                ((RequestColor)model.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
-                output.print("\n");
-                chooseColor(((RequestColor)model.getServerAnswer()).getRemaining());
-                break;
-            case "GodRequest":
-                ChallengerMessages req = (ChallengerMessages)model.getServerAnswer();
-                if(req.startingPlayer && req.players!=null) {
-                    output.println(req.message);
-                    req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
-                    chooseStartingPlayer(req.players.size());
-                    return;
+        switch (evt.getPropertyName()) {
+            case "initialPhase" -> {
+                switch (value) {
+                    case "RequestPlayerNumber" -> {
+                        output.println(Constants.ANSI_GREEN + ((RequestPlayersNumber) model.getServerAnswer()).getMessage() + Constants.ANSI_RESET);
+                        choosePlayerNumber();
+                    }
+                    case "RequestColor" -> {
+                        output.println(Constants.ANSI_GREEN + ((RequestColor) model.getServerAnswer()).getMessage() + "\nRemaining:" + Constants.ANSI_RESET);
+                        ((RequestColor) model.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
+                        output.print("\n");
+                        chooseColor(((RequestColor) model.getServerAnswer()).getRemaining());
+                    }
+                    case "GodRequest" -> {
+                        ChallengerMessages req = (ChallengerMessages) model.getServerAnswer();
+                        if (req.startingPlayer && req.players != null) {
+                            output.println(req.message);
+                            req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
+                            chooseStartingPlayer(req.players.size());
+                            return;
+                        } else if (req.godList != null) {
+                            req.godList.forEach(n -> output.print(n + ", "));
+                            output.println();
+                        } else {
+                            output.println(req.message);
+                        }
+                        model.toggleInput();
+                    }
                 }
-                else if (req.godList!=null) {
-                    req.godList.forEach(n -> output.print(n + ", "));
-                    output.println();
-                }
-                else {
-                    output.println(req.message);
-                }
-                model.toggleInput();
-                break;
-            case "CustomMessage":
-                output.println(((CustomMessage)model.getServerAnswer()).getMessage());
-                break;
-            case "ConnectionClosed":
-                output.println(((ConnectionMessage)model.getServerAnswer()).getMessage());
+            }
+            case "customMessage" -> {
+                output.println(evt.getNewValue());
+            }
+            case "connectionClosed" -> {
+                output.println(evt.getNewValue());
                 err.println("Application will now close...");
                 System.exit(0);
+            }
         }
     }
 
