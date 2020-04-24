@@ -155,15 +155,20 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     public void chooseStartingPlayer(int len) {
         output.print("> ");
         String starting = input.nextLine();
-        int startingPlayer = Integer.parseInt(starting);
-        if(0<startingPlayer || startingPlayer<len-1) {
-            connection.send(new ChallengerPhaseAction(startingPlayer));
-        }
-        else {
-            err.println("Error: invalid selection!");
+        int startingPlayer;
+        try {
+            startingPlayer = Integer.parseInt(starting);
+            if(0<startingPlayer || startingPlayer<len-1) {
+                connection.send(new ChallengerPhaseAction(startingPlayer));
+            }
+            else {
+                err.println("Error: invalid selection!");
+                chooseStartingPlayer(len);
+            }
+        } catch (NumberFormatException e) {
+            err.println("Error: it must be a numeric value!");
             chooseStartingPlayer(len);
         }
-
     }
 
     @Override

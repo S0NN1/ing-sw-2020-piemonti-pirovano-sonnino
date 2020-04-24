@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
+import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
@@ -166,10 +167,25 @@ public class GameHandler {
         if((action instanceof ChallengerPhaseAction)) {
             challengerPhase(action);
         }
+        else if(action instanceof WorkerSetupMessage) {
+            workerPlacement((WorkerSetupMessage)action);
+        }
         else {
             controllerListener.firePropertyChange(null, null, action);
             }
+    }
+
+    public void workerPlacement(WorkerSetupMessage action) {
+        if(action!=null) {
+            controllerListener.firePropertyChange("workerPlacement", null, action);
+            if(game.getCurrentPlayer().getWorkers().get(0).getPosition()!=null) {
+                return;
+            }
+            game.nextPlayer();
         }
+        singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", choose your workers position!", true), getCurrentPlayerID());
+        sendAllExcept(new CustomMessage(Constants.ANSI_RED + "Player " + game.getCurrentPlayer().getNickname() + " is choosing workers' position." + Constants.ANSI_RESET, false), getCurrentPlayerID());
+    }
 
     public void challengerPhase(UserAction action) {
         ChallengerPhaseAction userAction = (ChallengerPhaseAction)action;
@@ -179,7 +195,7 @@ public class GameHandler {
                         "this command!" + Constants.ANSI_RESET), getCurrentPlayerID());
                 return;
             }
-            controllerListener.firePropertyChange(null, null, action);
+            controllerListener.firePropertyChange("godSelection", null, action);
             if (game.getDeck().getCards().size() == playersNumber) {
                 started = 1;
                 game.nextPlayer();
@@ -193,7 +209,7 @@ public class GameHandler {
         }
         else if (started == 1) {
             if(userAction.action.equals("CHOOSE")) {
-                controllerListener.firePropertyChange(null, null, userAction);
+                controllerListener.firePropertyChange("godSelection", null, userAction);
                 if (game.getDeck().getCards().size() > 1) {
                     game.nextPlayer();
                     singleSend(new ChallengerMessages(Constants.ANSI_GREEN + server.getNicknameByID(getCurrentPlayerID()) +
@@ -204,7 +220,7 @@ public class GameHandler {
                             " is choosing his god power..." + Constants.ANSI_RESET, false), getCurrentPlayerID());
                 } else if (game.getDeck().getCards().size() == 1) {
                     game.nextPlayer();
-                    controllerListener.firePropertyChange(null, null, new ChallengerPhaseAction("LASTSELECTION"));
+                    controllerListener.firePropertyChange("godSelection", null, new ChallengerPhaseAction("LASTSELECTION"));
                     game.nextPlayer();
                     ArrayList<String> players = new ArrayList<>();
                     game.getActivePlayers().forEach(n -> players.add(n.getNickname()));

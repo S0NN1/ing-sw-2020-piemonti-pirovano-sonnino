@@ -55,8 +55,11 @@ public class Controller implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getNewValue() instanceof ChallengerPhaseAction) {
+        if (evt.getPropertyName().equals("godSelection")) {
             controllerListeners.firePropertyChange("GODSELECTION", null, evt.getNewValue());
+        }
+        else if(evt.getPropertyName().equals("workerPlacement")) {
+            model.getCurrentPlayer().getWorkers().get(0);
         }
     }
 }
