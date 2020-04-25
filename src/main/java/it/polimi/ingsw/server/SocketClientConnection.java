@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.client.messages.*;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
+import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -82,11 +83,11 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     public synchronized void readFromStream() throws IOException, ClassNotFoundException {
         SerializedMessage input = (SerializedMessage)inputStream.readObject();
         if(input.message!=null) {
-            Message command = (Message) input.message;
+            Message command = input.message;
             actionHandler(command);
         }
         else if(input.action!=null) {
-            UserAction action = (UserAction) input.action;
+            UserAction action = input.action;
             actionHandler(action);
         }
     }
@@ -150,11 +151,15 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     }
 
     public void actionHandler(UserAction action) {
+        if(server.getGameByID(clientID).getCurrentPlayerID()!=clientID) {
+            server.getGameByID(clientID).singleSend(new GameError(ErrorsType.NOTYOURTURN), clientID);
+            return;
+        }
         if(action instanceof ChallengerPhaseAction) {
-            if(server.getGameByID(clientID).getCurrentPlayerID()!=clientID) {
-                server.getGameByID(clientID).singleSend(new GameError(ErrorsType.NOTYOURTURN), clientID);
-            }
-            server.getGameByID(clientID).makeAction((ChallengerPhaseAction)action);
+            server.getGameByID(clientID).makeAction(action, "ChallengerPhase");
+        }
+        else if(action instanceof WorkerSetupMessage) {
+            server.getGameByID(clientID).makeAction(action, "WorkerPlacement");
         }
     }
 

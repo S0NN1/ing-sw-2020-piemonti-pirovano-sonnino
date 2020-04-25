@@ -19,17 +19,21 @@ import java.util.Observable;
  */
 
 public class Game extends Observable {
-    public GameBoard getGameBoard() {
-        return gameBoard;
-    }
 
-    private GameBoard gameBoard;
-    private ArrayList<Player> players = new ArrayList<>();
-    private ArrayList<Player> activePlayers = new ArrayList<>();
-    private Deck deck = new Deck(this);
+    private final GameBoard gameBoard;
+    private final ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<Player> activePlayers = new ArrayList<>();
+    private final Deck deck = new Deck(this);
     private Player currentPlayer;
     private int currentPlayerN;
 
+    public Game() {
+        gameBoard = new GameBoard();
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
 
     /**
      * Create a new player in the match. The minimum length of activePlayers array is 2 elements, and the maximum is 3.

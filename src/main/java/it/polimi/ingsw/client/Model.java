@@ -66,6 +66,9 @@ public class Model {
             view.firePropertyChange("customMessage", null, answer.getMessage());
             canInput = ((CustomMessage) answer).canInput();
         }
+        else if(answer instanceof GameError) {
+            view.firePropertyChange("gameError", null, answer);
+        }
         else if(answer instanceof ConnectionMessage) {
             view.firePropertyChange("connectionClosed", null, answer.getMessage());
             cli.toggleActiveGame(false);

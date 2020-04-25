@@ -31,6 +31,8 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     private final Model model;
     private ConnectionSocket connection;
     private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
+    private static final String red = Constants.ANSI_RED;
+    private static final String rst = Constants.ANSI_RESET;
 
     public CLI() {
         input = new Scanner(System.in);
@@ -91,9 +93,9 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
      */
     public void loop() {
         if(model.getCanInput()) {
-               System.out.print(">");
-               String cmd = input.nextLine();
-               observers.firePropertyChange("action", null, cmd);
+            output.print(">");
+            String cmd = input.nextLine();
+            observers.firePropertyChange("action", null, cmd);
         }
     }
 
@@ -120,7 +122,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 selection = input.nextInt();
                 break;
             } catch (InputMismatchException e) {
-                err.println("Invalid parameter, it must be a number.\nApplication will now quit...");
+                output.println(red + "Invalid parameter, it must be a number.\nApplication will now quit..." + rst);
                 System.exit(-1);
             }
         }
@@ -162,11 +164,11 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 connection.send(new ChallengerPhaseAction(startingPlayer));
             }
             else {
-                err.println("Error: invalid selection!");
+                output.println(red + "Error: invalid selection!" + rst);
                 chooseStartingPlayer(len);
             }
         } catch (NumberFormatException e) {
-            err.println("Error: it must be a numeric value!");
+            output.println(red + "Error: it must be a numeric value!" + rst);
             chooseStartingPlayer(len);
         }
     }
@@ -175,6 +177,21 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         String value = evt.getNewValue().toString();
         switch (evt.getPropertyName()) {
+            case "gameError" -> {
+                GameError error = (GameError) evt.getNewValue();
+                switch (error.getError()) {
+                    case CELLOCCUPIED -> {
+                        output.println(red + "The following cells are already occupied, please choose them again." + rst);
+                        error.getCoordinates().forEach(n -> output.print(red + Arrays.toString(n) + ", " + rst));
+                    }
+                    case INVALIDINPUT -> {
+                        if (error.getMessage()!=null) {
+                            output.println(red + error.getMessage() + rst);
+                        }
+                    }
+                }
+                model.toggleInput();
+            }
             case "initialPhase" -> {
                 switch (value) {
                     case "RequestPlayerNumber" -> {
@@ -206,10 +223,11 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
             }
             case "customMessage" -> {
                 output.println(evt.getNewValue());
+                output.flush();
             }
             case "connectionClosed" -> {
                 output.println(evt.getNewValue());
-                err.println("Application will now close...");
+                output.println(red + "Application will now close..." + rst);
                 System.exit(0);
             }
         }

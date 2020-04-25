@@ -163,27 +163,34 @@ public class GameHandler {
      *  - 2: the game has started.
      * @param action the action sent by the client.
      */
-    public void makeAction(UserAction action) {
-        if((action instanceof ChallengerPhaseAction)) {
-            challengerPhase(action);
-        }
-        else if(action instanceof WorkerSetupMessage) {
-            workerPlacement((WorkerSetupMessage)action);
-        }
-        else {
-            controllerListener.firePropertyChange(null, null, action);
+    public void makeAction(UserAction action, String type) {
+        switch (type) {
+            case "ChallengerPhase" -> {
+                challengerPhase(action);
             }
+            case ("WorkerPlacement") -> {
+                workerPlacement((WorkerSetupMessage) action);
+            }
+            default ->{
+                controllerListener.firePropertyChange(null, null, action);
+            }
+        }
     }
 
     public void workerPlacement(WorkerSetupMessage action) {
         if(action!=null) {
             controllerListener.firePropertyChange("workerPlacement", null, action);
-            if(game.getCurrentPlayer().getWorkers().get(0).getPosition()!=null) {
+            if(game.getCurrentPlayer().getWorkers().get(0).getPosition()==null) {
                 return;
             }
             game.nextPlayer();
         }
-        singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", choose your workers position!", true), getCurrentPlayerID());
+        if(game.getCurrentPlayer().getWorkers().get(0).getPosition()!=null) {
+            //TODO match starts
+            return;
+        }
+        singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", choose your workers position by " +
+                "typing SET <x1> <y1> <x2> <y2> where 1 and 2 indicates worker number.", true), getCurrentPlayerID());
         sendAllExcept(new CustomMessage(Constants.ANSI_RED + "Player " + game.getCurrentPlayer().getNickname() + " is choosing workers' position." + Constants.ANSI_RESET, false), getCurrentPlayerID());
     }
 
@@ -243,6 +250,7 @@ public class GameHandler {
                     ", you are the first player; let's go!" + Constants.ANSI_RESET, false), getCurrentPlayerID());
             sendAllExcept(new CustomMessage(Constants.ANSI_YELLOW + "Well done! " + game.getCurrentPlayer().getNickname()
                     + " is the first player!" + Constants.ANSI_RESET, false), getCurrentPlayerID());
+            workerPlacement(null);
         }
     }
 

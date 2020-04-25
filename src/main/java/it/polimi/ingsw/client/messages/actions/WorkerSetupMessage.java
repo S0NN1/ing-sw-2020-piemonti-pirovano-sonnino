@@ -2,17 +2,16 @@ package it.polimi.ingsw.client.messages.actions;
 
 import java.util.ArrayList;
 
-public class WorkerSetupMessage {
+public class WorkerSetupMessage implements UserAction{
 
-    private ArrayList<Integer> xPositions;
-    private ArrayList<Integer> yPositions;
+    private final ArrayList<Integer> xPositions = new ArrayList<>();
+    private final ArrayList<Integer> yPositions = new ArrayList<>();
 
-    public void setxPositions(int x) {
-        xPositions.add(x);
-    }
-
-    public void setyPositions(int y) {
-        yPositions.add(y);
+    public WorkerSetupMessage(String[] in) {
+        xPositions.add(Integer.parseInt(in[1]));
+        yPositions.add(Integer.parseInt(in[2]));
+        xPositions.add(Integer.parseInt(in[3]));
+        yPositions.add(Integer.parseInt(in[4]));
     }
 
     public int getXPosition(int index) {
