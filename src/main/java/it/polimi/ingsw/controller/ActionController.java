@@ -19,23 +19,18 @@ public class ActionController {
     private GameBoard gameBoard;
     private Worker worker;
 
+    private int phase;
+
+    public ActionController(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
     public int getPhase() {
         return phase;
     }
 
     public void setPhase(int phase) {
         this.phase = phase;
-    }
-
-    private int phase;
-    private PropertyChangeListener listener;
-
-    public ActionController(GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
-    }
-
-    public PropertyChangeListener getListener() {
-        return listener;
     }
 
     /**
@@ -163,7 +158,4 @@ public class ActionController {
         }
         return false;
     }
-
-
-
 }

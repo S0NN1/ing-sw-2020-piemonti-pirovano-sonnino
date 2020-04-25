@@ -1,15 +1,8 @@
 package it.polimi.ingsw.model.player.gods;
 
-import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.observer.workerListeners.AtlasBuildListener;
-import it.polimi.ingsw.server.VirtualClient;
-
-import javax.swing.*;
-import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 
 /**
  * @author Alice Piemonti

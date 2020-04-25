@@ -21,14 +21,10 @@ public class ActionHandler {
             modelView.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
                             message.getNewPosition().getX(), message.getNewPosition().getY());
         }
-        //TODO ELIMINARE E INCORPORARE CON BUILDMESSAGE
-        else if(answer instanceof AtlasBuildMessage){
-            Couple message = (Couple) answer.getMessage();
-            modelView.build(message.getX(),message.getY(),true);
-        }
         else if(answer instanceof BuildMessage){
             Couple message = ((BuildMessage) answer).getMessage();
-            modelView.build(message.getX(),message.getY(),false);
+            boolean dome = ((BuildMessage) answer).getDome();
+            modelView.build(message.getX(),message.getY(),dome);
         }
         else if(answer instanceof ApolloMoveMessage){
             Move myMove = ((ApolloMoveMessage) answer).getMessage();
