@@ -14,12 +14,29 @@ public class Model {
     private Answer serverAnswer;
     private CLI cli;
     private boolean canInput;
-    private PropertyChangeSupport view;
+    private int gamePhase;
 
     public Model(CLI cli) {
         this.cli = cli;
-        view = new PropertyChangeSupport(this);
-        view.addPropertyChangeListener(cli);
+        gamePhase = 0;
+    }
+
+    /**
+     * Set the game phase variable to the value provided:
+     * - 0: setup phase
+     * - 1: game phase
+     * - 2: __coming soon__
+     * @param phase the current phase of the game.
+     */
+    public void setGamePhase(int phase) {
+        gamePhase = phase;
+    }
+
+    /**
+     * @return the current game phase.
+     */
+    public int getGamePhase() {
+        return gamePhase;
     }
 
     /**
@@ -46,33 +63,15 @@ public class Model {
     }
 
     /**
-     * Handles the answer received from the server. It calls the client interface passing values relying on the type
-     * of answer the server has sent.
-     * @param answer the answer received from the server.
+     * Set the canInput variable to the value provided.
+     * @param value states if user can make an input or not.
      */
-    public void answerHandler(Answer answer) {
-        //TODO Move to action handler
-        serverAnswer = answer;
-        if(answer instanceof RequestPlayersNumber) {
-            view.firePropertyChange("initialPhase", null, "RequestPlayerNumber");
-        }
-        else if(answer instanceof RequestColor) {
-            view.firePropertyChange("initialPhase", null, "RequestColor");
-        }
-        else if(answer instanceof ChallengerMessages) {
-            view.firePropertyChange("initialPhase", null, "GodRequest");
-        }
-        else if(answer instanceof CustomMessage) {
-            view.firePropertyChange("customMessage", null, answer.getMessage());
-            canInput = ((CustomMessage) answer).canInput();
-        }
-        else if(answer instanceof GameError) {
-            view.firePropertyChange("gameError", null, answer);
-        }
-        else if(answer instanceof ConnectionMessage) {
-            view.firePropertyChange("connectionClosed", null, answer.getMessage());
-            cli.toggleActiveGame(false);
-        }
+    public synchronized void setCanInput(boolean value) {
+        canInput = value;
+    }
+
+    public void setServerAnswer(Answer answer) {
+        this.serverAnswer = answer;
     }
 
     /**

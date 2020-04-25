@@ -39,7 +39,7 @@ public class ConnectionSocket {
      * @param model the game model.
      * @throws DuplicateNicknameException if the selected nickname has already been taken (case-insensitive).
      */
-    public void setup(String nickname, Model model) throws DuplicateNicknameException{
+    public void setup(String nickname, Model model, ActionHandler actionHandler) throws DuplicateNicknameException{
         try {
             System.out.println(Constants.ANSI_YELLOW + "Configuring socket connection..." + Constants.ANSI_RESET);
             System.out.println(Constants.ANSI_YELLOW + "Opening a socket server communication on port " + serverPort + "..." + Constants.ANSI_RESET);
@@ -69,7 +69,7 @@ public class ConnectionSocket {
                     return;
                 }
             }
-            listener = new SocketListener(socket, this, model, input);
+            listener = new SocketListener(socket, this, model, input, actionHandler);
             Thread thread = new Thread(listener);
             thread.start();
         }

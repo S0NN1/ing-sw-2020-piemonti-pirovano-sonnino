@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client.cli;
 
-import it.polimi.ingsw.client.ActionParser;
-import it.polimi.ingsw.client.ConnectionSocket;
-import it.polimi.ingsw.client.Model;
-import it.polimi.ingsw.client.UI;
+import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.messages.ChosenColor;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
@@ -29,6 +26,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     private final PrintStream err;
     private boolean activeGame;
     private final Model model;
+    private final ActionHandler actionHandler;
     private ConnectionSocket connection;
     private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
     private static final String red = Constants.ANSI_RED;
@@ -38,6 +36,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
         model = new Model(this);
+        actionHandler = new ActionHandler(this, model);
         err = new PrintStream(System.err);
         activeGame = true;
     }
@@ -77,7 +76,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         }
         connection = new ConnectionSocket();
         try {
-            connection.setup(nickname, model);
+            connection.setup(nickname, model, actionHandler);
             output.println(Constants.ANSI_GREEN + "Socket Connection setup completed!" + Constants.ANSI_RESET);
         } catch (DuplicateNicknameException e) {
             setup();
@@ -173,57 +172,76 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         }
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        String value = evt.getNewValue().toString();
-        switch (evt.getPropertyName()) {
-            case "gameError" -> {
-                GameError error = (GameError) evt.getNewValue();
-                switch (error.getError()) {
-                    case CELLOCCUPIED -> {
-                        output.println(red + "The following cells are already occupied, please choose them again." + rst);
-                        error.getCoordinates().forEach(n -> output.print(red + Arrays.toString(n) + ", " + rst));
-                    }
-                    case INVALIDINPUT -> {
-                        if (error.getMessage()!=null) {
-                            output.println(red + error.getMessage() + rst);
-                        }
-                    }
+    /**
+     * Handles an error received from the server, following a user action or saying him he cannot perform any action in that moment.
+     * @param error the error received from the server.
+     */
+    public void errorHandling(GameError error) {
+        switch (error.getError()) {
+            case CELLOCCUPIED -> {
+                output.println(red + "The following cells are already occupied, please choose them again." + rst);
+                error.getCoordinates().forEach(n -> output.print(red + Arrays.toString(n) + ", " + rst));
+            }
+            case INVALIDINPUT -> {
+                if (error.getMessage()!=null) {
+                    output.println(red + error.getMessage() + rst);
+                }
+            }
+        }
+        model.toggleInput();
+    }
+
+    /**
+     * Handles the messages received from the server during the initial phase like, for example, the request of the number
+     * of player.
+     * @param value the answer received from the server.
+     */
+    public void initialPhaseHandling(String value) {
+        switch (value) {
+            case "RequestPlayerNumber" -> {
+                output.println(Constants.ANSI_GREEN + ((RequestPlayersNumber) model.getServerAnswer()).getMessage() + Constants.ANSI_RESET);
+                choosePlayerNumber();
+            }
+            case "RequestColor" -> {
+                output.println(Constants.ANSI_GREEN + ((RequestColor) model.getServerAnswer()).getMessage() + "\nRemaining:" + Constants.ANSI_RESET);
+                ((RequestColor) model.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
+                output.print("\n");
+                chooseColor(((RequestColor) model.getServerAnswer()).getRemaining());
+            }
+            case "GodRequest" -> {
+                ChallengerMessages req = (ChallengerMessages) model.getServerAnswer();
+                if (req.startingPlayer && req.players != null) {
+                    output.println(req.message);
+                    req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
+                    chooseStartingPlayer(req.players.size());
+                    return;
+                } else if (req.godList != null) {
+                    req.godList.forEach(n -> output.print(n + ", "));
+                    output.println();
+                } else {
+                    output.println(req.message);
                 }
                 model.toggleInput();
             }
+        }
+    }
+
+    /**
+     * Listener method: it waits for a server response, which is previously processed by the ActionHandler.
+     * @param evt the property change event, containing information about the response type and its new value.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String command = evt.getNewValue().toString();
+        switch (evt.getPropertyName()) {
+            case "gameError" -> {
+                errorHandling((GameError)evt.getNewValue());
+            }
             case "initialPhase" -> {
-                switch (value) {
-                    case "RequestPlayerNumber" -> {
-                        output.println(Constants.ANSI_GREEN + ((RequestPlayersNumber) model.getServerAnswer()).getMessage() + Constants.ANSI_RESET);
-                        choosePlayerNumber();
-                    }
-                    case "RequestColor" -> {
-                        output.println(Constants.ANSI_GREEN + ((RequestColor) model.getServerAnswer()).getMessage() + "\nRemaining:" + Constants.ANSI_RESET);
-                        ((RequestColor) model.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
-                        output.print("\n");
-                        chooseColor(((RequestColor) model.getServerAnswer()).getRemaining());
-                    }
-                    case "GodRequest" -> {
-                        ChallengerMessages req = (ChallengerMessages) model.getServerAnswer();
-                        if (req.startingPlayer && req.players != null) {
-                            output.println(req.message);
-                            req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
-                            chooseStartingPlayer(req.players.size());
-                            return;
-                        } else if (req.godList != null) {
-                            req.godList.forEach(n -> output.print(n + ", "));
-                            output.println();
-                        } else {
-                            output.println(req.message);
-                        }
-                        model.toggleInput();
-                    }
-                }
+                initialPhaseHandling(command);
             }
             case "customMessage" -> {
                 output.println(evt.getNewValue());
-                output.flush();
             }
             case "connectionClosed" -> {
                 output.println(evt.getNewValue());

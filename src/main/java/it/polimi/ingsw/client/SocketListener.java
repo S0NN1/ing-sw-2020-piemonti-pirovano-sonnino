@@ -15,14 +15,16 @@ public class SocketListener implements Runnable{
     private Socket socket;
     private ConnectionSocket connectionSocket;
     private Model model;
+    private ActionHandler actionHandler;
 
     private ObjectInputStream inputStream;
 
-    public SocketListener(Socket socket, ConnectionSocket connectionSocket, Model model, ObjectInputStream inputStream) {
+    public SocketListener(Socket socket, ConnectionSocket connectionSocket, Model model, ObjectInputStream inputStream, ActionHandler actionHandler) {
         this.model = model;
         this.connectionSocket = connectionSocket;
         this.socket = socket;
         this.inputStream = inputStream;
+        this.actionHandler = actionHandler;
     }
 
     /**
@@ -31,7 +33,8 @@ public class SocketListener implements Runnable{
      * @param serverMessage the serialized answer.
      */
     public void process(SerializedAnswer serverMessage) {
-        model.answerHandler(serverMessage.getServerAnswer());
+        model.setServerAnswer(serverMessage.getServerAnswer());
+        actionHandler.answerHandler();
     }
 
     @Override

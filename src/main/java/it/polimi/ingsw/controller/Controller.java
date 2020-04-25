@@ -61,11 +61,14 @@ public class Controller implements PropertyChangeListener {
     }
 
     public void placeWorkers(WorkerSetupMessage msg) {
+        for(int i=0; i<2; i++) {
+            if(msg.getXPosition(i)<0 || msg.getXPosition(i)>6 || msg.getYPosition(i)<0 || msg.getYPosition(i)>6) {
+                gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Error: coordinates out of range!"), getModel().getCurrentPlayer().getClientID());
+            }
+        }
         Space space1 = getModel().getGameBoard().getSpace(msg.getXPosition(0), msg.getYPosition(0));
         Space space2 = getModel().getGameBoard().getSpace(msg.getXPosition(1), msg.getYPosition(1));
-        System.out.println(space1.getX() + ", " + space1.getY());
-        System.out.println(space2.getX() + ", " + space2.getY());
-        if(space1==space2) {
+        if(space1==space2 ) {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Error: position cannot be the same for the two workers!"), getModel().getCurrentPlayer().getClientID());
         }
         else if(space1.isEmpty() && space2.isEmpty()) {
