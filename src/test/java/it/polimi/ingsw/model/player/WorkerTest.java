@@ -426,6 +426,7 @@ class WorkerTest {
             worker.build(build);
             assertEquals(build.getX(),client.build.getX(),"2");
             assertEquals(build.getY(),client.build.getY(),"3");
+            assertFalse(client.isDome());
        }
 
         /**
@@ -451,10 +452,12 @@ class WorkerTest {
      */
     private class VirtualClientStub extends VirtualClient {
 
-        ArrayList<Couple> selectMoves;
-        Move move;
-        Couple build;
-        Worker winWorker;
+        private ArrayList<Couple> selectMoves;
+        private Move move;
+        private Couple build;
+        private Worker winWorker;
+
+        private boolean dome;
 
         /**
          * save the message received in an appropriate field
@@ -470,6 +473,7 @@ class WorkerTest {
             }
             else if(serverAnswer instanceof BuildMessage){
                 build = ((BuildMessage) serverAnswer).getMessage();
+                dome = ((BuildMessage) serverAnswer).getDome();
             }
             else if(serverAnswer instanceof WinMessage){
                 winWorker = ((WinMessage) serverAnswer).getMessage();
@@ -488,6 +492,12 @@ class WorkerTest {
         public Couple getBuild() {
             return build;
         }
+
+        public boolean isDome() {
+            return dome;
+        }
+
+
 
         public Worker getWinWorker() {
             return winWorker;

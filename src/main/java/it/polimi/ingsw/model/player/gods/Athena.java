@@ -13,31 +13,15 @@ import java.beans.PropertyChangeSupport;
  * @author Alice Piemonti
  */
 public class Athena extends Worker  {
-    Object sourceBean;
-    private PropertyChangeSupport support = new PropertyChangeSupport(this) ;
-
-
 
     public Athena(PlayerColors color, TurnController controller) {
         super(color);
-        support.addPropertyChangeListener(controller);
+        listeners.addPropertyChangeListener("moveUpListener",controller);
     }
 
     @Override
     public void setPhases() {
         setNormalPhases();
-    }
-
-    /**
-     * create the Map of listeners
-     *
-     * @param client virtualClient
-     */
-    @Override
-    public void createListeners(VirtualClient client) {
-        super.createListeners(client);
-        listeners.addPropertyChangeListener("moveUpListener",new AthenaMoveUpListener(client));
-        //TODO  aggiungere listener per modificare CanMoveUp dei players
     }
 
     /**
@@ -53,8 +37,7 @@ public class Athena extends Worker  {
         Space oldPosition = position;
         if(super.move(space)){
             if(position.getTower().getHeight() - oldPosition.getTower().getHeight() == 1){
-                listeners.firePropertyChange("moveUpListener", null, null);
-           //TODO  aggiungere listener per modificare CanMoveUp dei players
+                listeners.firePropertyChange("moveUpListener", null, "AthenaMovedUp");
             }
             return true;
         }
