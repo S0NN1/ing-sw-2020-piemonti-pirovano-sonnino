@@ -51,6 +51,7 @@ public class Model {
      * @param answer the answer received from the server.
      */
     public void answerHandler(Answer answer) {
+        //TODO Move to action handler
         serverAnswer = answer;
         if(answer instanceof RequestPlayersNumber) {
             view.firePropertyChange("initialPhase", null, "RequestPlayerNumber");

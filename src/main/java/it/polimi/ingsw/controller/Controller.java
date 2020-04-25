@@ -59,7 +59,6 @@ public class Controller implements PropertyChangeListener {
             controllerListeners.firePropertyChange("GODSELECTION", null, evt.getNewValue());
         }
         else if(evt.getPropertyName().equals("workerPlacement")) {
-            model.getCurrentPlayer().getWorkers().get(0);
         }
     }
 }
