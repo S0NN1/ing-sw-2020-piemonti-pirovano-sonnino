@@ -39,44 +39,55 @@ public class TurnController implements PropertyChangeListener {
     public TurnController(Controller controller, GameHandler gameHandler) {
         this.controller = controller;
         this.gameHandler = gameHandler;
-        //TODO
         actionController = new ActionController(controller.getModel().getGameBoard());
     }
 
 
     public void propertyChange(PropertyChangeEvent evt) {
-        Object arg = evt.getNewValue();
-        if (arg instanceof UserAction) {
-            if (arg instanceof StartTurnAction) {
-                StartTurnAction start_action = (StartTurnAction) arg;
-                startTurn(start_action);
-            }
-            if (arg instanceof BuildAction) {
-                BuildAction worker_action = (BuildAction) arg;
-                if (!actionController.readMessage(worker_action)) {
-                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+        int counter =0;
+        int i=0;
+        if (evt.getNewValue() == "AthenaMovedUp") {
+            while(counter<2){
+                for(i=0; i<2;i++){
+                    if(!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))){
+                        controller.getModel().getActivePlayers().get(i).
+                    }
                 }
             }
-            if (arg instanceof MoveAction) {
-                MoveAction worker_action = (MoveAction) arg;
-                if (!actionController.readMessage(worker_action)) {
-                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+        } else {
+            Object arg = evt.getNewValue();
+            if (arg instanceof UserAction) {
+                if (arg instanceof StartTurnAction) {
+                    StartTurnAction start_action = (StartTurnAction) arg;
+                    startTurn(start_action);
                 }
-            }
-            if (arg instanceof SelectMoveAction) {
-                SelectMoveAction worker_action = (SelectMoveAction) arg;
-                if (!actionController.readMessage(worker_action)) {
-                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                if (arg instanceof BuildAction) {
+                    BuildAction worker_action = (BuildAction) arg;
+                    if (!actionController.readMessage(worker_action)) {
+                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                    }
                 }
-            }
-            if (arg instanceof SelectBuildAction) {
-                SelectBuildAction worker_action = (SelectBuildAction) arg;
-                if (!actionController.readMessage(worker_action)) {
-                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                if (arg instanceof MoveAction) {
+                    MoveAction worker_action = (MoveAction) arg;
+                    if (!actionController.readMessage(worker_action)) {
+                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                    }
                 }
-            }
-            if (arg instanceof EndTurnAction) {
-                endTurn();
+                if (arg instanceof SelectMoveAction) {
+                    SelectMoveAction worker_action = (SelectMoveAction) arg;
+                    if (!actionController.readMessage(worker_action)) {
+                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                    }
+                }
+                if (arg instanceof SelectBuildAction) {
+                    SelectBuildAction worker_action = (SelectBuildAction) arg;
+                    if (!actionController.readMessage(worker_action)) {
+                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                    }
+                }
+                if (arg instanceof EndTurnAction) {
+                    endTurn();
+                }
             }
         }
 
