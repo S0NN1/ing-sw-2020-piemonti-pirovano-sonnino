@@ -58,7 +58,7 @@ public class Model {
         else if(answer instanceof RequestColor) {
             view.firePropertyChange("response", null, "RequestColor");
         }
-        else if(answer instanceof GodRequest) {
+        else if(answer instanceof ChallengerMessages) {
             view.firePropertyChange("response", null, "GodRequest");
         }
         else if(answer instanceof CustomMessage) {

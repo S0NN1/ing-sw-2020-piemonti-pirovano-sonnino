@@ -6,6 +6,8 @@ import it.polimi.ingsw.client.Model;
 import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.messages.ChosenColor;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
+import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.*;
@@ -74,7 +76,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         connection = new ConnectionSocket();
         try {
             connection.setup(nickname, model);
-            output.println("Socket Connection setup completed!");
+            output.println(Constants.ANSI_GREEN + "Socket Connection setup completed!" + Constants.ANSI_RESET);
         } catch (DuplicateNicknameException e) {
             setup();
         }
@@ -150,22 +152,43 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         }
     }
 
+    public void chooseStartingPlayer(int len) {
+        output.print("> ");
+        String starting = input.nextLine();
+        int startingPlayer = Integer.parseInt(starting);
+        if(0<startingPlayer || startingPlayer<len-1) {
+            connection.send(new ChallengerPhaseAction(startingPlayer));
+        }
+        else {
+            err.println("Error: invalid selection!");
+            chooseStartingPlayer(len);
+        }
+
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String value = evt.getNewValue().toString();
         switch (value) {
             case "RequestPlayerNumber":
-                output.println(((RequestPlayersNumber)model.getServerAnswer()).getMessage());
+                output.println(Constants.ANSI_GREEN + ((RequestPlayersNumber)model.getServerAnswer()).getMessage() + Constants.ANSI_RESET);
                 choosePlayerNumber();
                 break;
             case "RequestColor":
-                output.println(((RequestColor)model.getServerAnswer()).getMessage() + "\nRemaining:");
-                ((RequestColor)model.getServerAnswer()).getRemaining().forEach(output::println);
+                output.println(Constants.ANSI_GREEN + ((RequestColor)model.getServerAnswer()).getMessage() + "\nRemaining:" + Constants.ANSI_RESET);
+                ((RequestColor)model.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
+                output.print("\n");
                 chooseColor(((RequestColor)model.getServerAnswer()).getRemaining());
                 break;
             case "GodRequest":
-                GodRequest req = (GodRequest)model.getServerAnswer();
-                if (req.godList!=null) {
+                ChallengerMessages req = (ChallengerMessages)model.getServerAnswer();
+                if(req.startingPlayer && req.players!=null) {
+                    output.println(req.message);
+                    req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
+                    chooseStartingPlayer(req.players.size());
+                    return;
+                }
+                else if (req.godList!=null) {
                     req.godList.forEach(n -> output.print(n + ", "));
                     output.println();
                 }
@@ -189,7 +212,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
      * @param args the standard java main parameters.
      */
     public static void main(String[] args) {
-        System.out.println("Hi, welcome to it.polimi.ingsw.Santorini!");
+        System.out.println("Hi, welcome to Santorini!");
         CLI cli = new CLI();
         cli.run();
     }

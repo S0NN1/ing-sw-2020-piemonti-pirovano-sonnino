@@ -141,10 +141,10 @@ public class Server {
         else if (waiting.size()== totalPlayers) {
             System.err.println(Constants.getInfo() + "Minimum player number reached. The match is starting.");
             for(int i=3; i>0; i--) {
-                currentGame.sendAll(new CustomMessage("Match starting in " + i, false));
+                currentGame.sendAll(new CustomMessage(Constants.ANSI_YELLOW + "Match starting in " + i + Constants.ANSI_RESET, false));
                 TimeUnit.SECONDS.sleep(1);
             }
-            currentGame.sendAll(new CustomMessage("The match has started!", false));
+            currentGame.sendAll(new CustomMessage(Constants.ANSI_YELLOW + "The match has started!" + Constants.ANSI_RESET, false));
             waiting.clear();
             PlayerColors.reset();
             currentGame.setup();
@@ -215,8 +215,6 @@ public class Server {
                 socketClientHandler.sendSocketMessage(ans);
                 return null;
             }
-            //TODO: reconnection handler after a connection drop
-            //client.setSocketClientConnection(socketClientHandler);
         }
         return clientID;
     }

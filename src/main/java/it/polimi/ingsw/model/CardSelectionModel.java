@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.server.answers.CustomMessage;
-import it.polimi.ingsw.server.answers.GodRequest;
+import it.polimi.ingsw.server.answers.ChallengerMessages;
 
 import java.util.Observable;
 
@@ -38,14 +39,15 @@ public class CardSelectionModel extends Observable {
         int result=deck.setCard(god);
         setChanged();
         if (result==0) {
-            notifyObservers(new GodRequest("Error: the selected god has already been added to the deck."));
+            notifyObservers(new ChallengerMessages(Constants.ANSI_RED + "Error: the selected god has already been added to the deck." + Constants.ANSI_RESET));
             return false;
         } else if(result==1) {
-            notifyObservers(new GodRequest("God " + god.name() + " has been added!\nChoose another one!"));
+            notifyObservers(new ChallengerMessages(Constants.ANSI_YELLOW + "God " + god.name() + " has been added; choose another one!" + Constants.ANSI_RESET));
             return true;
         }
         else {
-            notifyObservers(new CustomMessage("God " + god.name() + " has been added!\nAll gods have been added!", false));
+            notifyObservers(new CustomMessage(Constants.ANSI_YELLOW + "God " + god.name() +
+                    " has been added!\nAll gods have been added!" + Constants.ANSI_RESET, false));
             return true;
         }
     }
@@ -63,7 +65,7 @@ public class CardSelectionModel extends Observable {
      */
     public boolean setDescription(String description) {
         setChanged();
-        notifyObservers(new GodRequest(description));
+        notifyObservers(new ChallengerMessages(description));
         return true;
     }
 
@@ -73,7 +75,7 @@ public class CardSelectionModel extends Observable {
      */
     public boolean setNameList() {
         setChanged();
-        notifyObservers(new GodRequest(Card.godsName()));
+        notifyObservers(new ChallengerMessages(Card.godsName()));
         return true;
     }
 

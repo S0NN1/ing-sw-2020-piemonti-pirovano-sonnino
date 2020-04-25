@@ -41,8 +41,8 @@ public class ConnectionSocket {
      */
     public void setup(String nickname, Model model) throws DuplicateNicknameException{
         try {
-            System.out.println("Configuring socket connection...");
-            System.out.println("Opening a socket server communication on port " + serverPort + "...");
+            System.out.println(Constants.ANSI_YELLOW + "Configuring socket connection..." + Constants.ANSI_RESET);
+            System.out.println(Constants.ANSI_YELLOW + "Opening a socket server communication on port " + serverPort + "..." + Constants.ANSI_RESET);
             this.socket = new Socket(serverAddress, serverPort);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());

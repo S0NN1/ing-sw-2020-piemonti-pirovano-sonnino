@@ -1,13 +1,13 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
+import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.CardSelectionModel;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.CustomMessage;
-import it.polimi.ingsw.server.answers.GodRequest;
+import it.polimi.ingsw.server.answers.ChallengerMessages;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -36,7 +36,7 @@ public class GodSelectionController implements PropertyChangeListener {
         try {
             return cardModel.addToDeck(arg);
         } catch (OutOfBoundException e) {
-            mainController.getGameHandler().singleSend(new GodRequest("Error: no more god to be added!"),
+            mainController.getGameHandler().singleSend(new ChallengerMessages("Error: no more god to be added!"),
                     mainController.getModel().getCurrentPlayer().getClientID());
             return false;
         }
@@ -70,7 +70,7 @@ public class GodSelectionController implements PropertyChangeListener {
                 result = mainController.getModel().getDeck().chooseCard(arg, client);
             }
             if (!result) {
-                mainController.getGameHandler().singleSend(new GodRequest("Error: the selected card has not been" +
+                mainController.getGameHandler().singleSend(new ChallengerMessages("Error: the selected card has not been" +
                         " chosen by the challenger or has already been taken by another player."), clientId);
                 return false;
             } else {
@@ -94,7 +94,7 @@ public class GodSelectionController implements PropertyChangeListener {
         int clientId = mainController.getModel().getCurrentPlayer().getClientID();
         VirtualClient client = mainController.getGameHandler().getServer().getClientByID(clientId);
         if (mainController.getModel().getDeck().getCards().size() != 1) {
-            mainController.getGameHandler().singleSend(new GodRequest("Error: invalid input."),
+            mainController.getGameHandler().singleSend(new ChallengerMessages("Error: invalid input."),
                     clientId);
             return false;
         }
@@ -121,7 +121,7 @@ public class GodSelectionController implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        GodSelectionAction cmd = (GodSelectionAction) evt.getNewValue();
+        ChallengerPhaseAction cmd = (ChallengerPhaseAction) evt.getNewValue();
         switch (cmd.action) {
             case "LIST":
                 cardModel.setNameList();

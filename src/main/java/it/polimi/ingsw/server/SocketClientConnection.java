@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.messages.*;
-import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
+import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
@@ -150,11 +150,11 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     }
 
     public void actionHandler(UserAction action) {
-        if(action instanceof GodSelectionAction) {
+        if(action instanceof ChallengerPhaseAction) {
             if(server.getGameByID(clientID).getCurrentPlayerID()!=clientID) {
                 server.getGameByID(clientID).singleSend(new GameError(ErrorsType.NOTYOURTURN), clientID);
             }
-            server.getGameByID(clientID).makeAction((GodSelectionAction)action);
+            server.getGameByID(clientID).makeAction((ChallengerPhaseAction)action);
         }
     }
 

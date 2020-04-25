@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.messages.actions.GodSelectionAction;
+import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.CardSelectionModel;
@@ -12,7 +12,7 @@ import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
 import it.polimi.ingsw.server.answers.CustomMessage;
-import it.polimi.ingsw.server.answers.GodRequest;
+import it.polimi.ingsw.server.answers.ChallengerMessages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,9 +37,9 @@ class GodSelectionControllerTest {
         @Override
         public void update(Observable o, Object arg) {
             notified = true;
-            if (arg instanceof GodRequest) {
-                if (((GodRequest)arg).message!=null) message = ((GodRequest) arg).message;
-                else gods = ((GodRequest) arg).godList;
+            if (arg instanceof ChallengerMessages) {
+                if (((ChallengerMessages)arg).message!=null) message = ((ChallengerMessages) arg).message;
+                else gods = ((ChallengerMessages) arg).godList;
             }
             else {
                 message = ((CustomMessage)arg).getMessage();
@@ -129,11 +129,11 @@ class GodSelectionControllerTest {
         controller.getModel().setCurrentPlayer(controller.getModel().getActivePlayers().get(0));
         //God list and description testing
 
-        selectionController.propertyChange(new PropertyChangeEvent(this, null, null, new GodSelectionAction("LIST", null)));
+        selectionController.propertyChange(new PropertyChangeEvent(this, null, null, new ChallengerPhaseAction("LIST", null)));
         assertTrue(virtualClient.notified);
         assertEquals(Card.godsName(), virtualClient.gods);
         virtualClient.notified = false;
-        selectionController.propertyChange(new PropertyChangeEvent(this, null, null, new GodSelectionAction("DESC", Card.APOLLO)));
+        selectionController.propertyChange(new PropertyChangeEvent(this, null, null, new ChallengerPhaseAction("DESC", Card.APOLLO)));
         assertTrue(virtualClient.notified);
         assertEquals(virtualClient.message, Card.APOLLO.godsDescription());
 
