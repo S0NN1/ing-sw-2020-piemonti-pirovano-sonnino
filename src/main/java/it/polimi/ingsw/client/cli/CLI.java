@@ -91,11 +91,9 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
      * action one and parses the player's input.
      */
     public void loop() {
-        if(modelView.getCanInput()) {
-            output.print(">");
-            String cmd = input.nextLine();
-            observers.firePropertyChange("action", null, cmd);
-        }
+        output.print(">");
+        String cmd = input.nextLine();
+        observers.firePropertyChange("action", null, cmd);
     }
 
     @Override
