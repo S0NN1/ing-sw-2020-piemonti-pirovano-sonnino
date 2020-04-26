@@ -14,24 +14,27 @@ public class SocketListener implements Runnable{
 
     private Socket socket;
     private ConnectionSocket connectionSocket;
-    private Model model;
+    private ModelView modelView;
+    private ActionHandler actionHandler;
 
     private ObjectInputStream inputStream;
 
-    public SocketListener(Socket socket, ConnectionSocket connectionSocket, Model model, ObjectInputStream inputStream) {
-        this.model = model;
+    public SocketListener(Socket socket, ConnectionSocket connectionSocket, ModelView modelView, ObjectInputStream inputStream, ActionHandler actionHandler) {
+        this.modelView = modelView;
         this.connectionSocket = connectionSocket;
         this.socket = socket;
         this.inputStream = inputStream;
+        this.actionHandler = actionHandler;
     }
 
     /**
      * Processes the serialized answer received from the server, passing it to the answer handler.
-     * @see it.polimi.ingsw.client.Model for more information.
+     * @see ModelView for more information.
      * @param serverMessage the serialized answer.
      */
     public void process(SerializedAnswer serverMessage) {
-        model.answerHandler(serverMessage.getServerAnswer());
+        modelView.setServerAnswer(serverMessage.getServerAnswer());
+        actionHandler.answerHandler();
     }
 
     @Override

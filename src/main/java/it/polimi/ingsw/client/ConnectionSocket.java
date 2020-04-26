@@ -36,10 +36,10 @@ public class ConnectionSocket {
      * Initializes a new socket connection and handles the nickname-choice response. It loops until the server confirms
      * the successful connection (with no nickname duplication and with a correctly configured match lobby).
      * @param nickname the username chosen by the user.
-     * @param model the game model.
+     * @param modelView the game model.
      * @throws DuplicateNicknameException if the selected nickname has already been taken (case-insensitive).
      */
-    public void setup(String nickname, Model model) throws DuplicateNicknameException{
+    public void setup(String nickname, ModelView modelView, ActionHandler actionHandler) throws DuplicateNicknameException{
         try {
             System.out.println(Constants.ANSI_YELLOW + "Configuring socket connection..." + Constants.ANSI_RESET);
             System.out.println(Constants.ANSI_YELLOW + "Opening a socket server communication on port " + serverPort + "..." + Constants.ANSI_RESET);
@@ -69,7 +69,7 @@ public class ConnectionSocket {
                     return;
                 }
             }
-            listener = new SocketListener(socket, this, model, input);
+            listener = new SocketListener(socket, this, modelView, input, actionHandler);
             Thread thread = new Thread(listener);
             thread.start();
         }

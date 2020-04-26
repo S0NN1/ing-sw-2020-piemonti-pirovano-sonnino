@@ -79,7 +79,6 @@ public class GodSelectionController implements PropertyChangeListener {
                         arg.name() + "\n\n" + arg.godsDescription() + "\n", false), clientId);
                 return true;
             }
-
         }
         return false;
     }

@@ -2,6 +2,8 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
+import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.Card;
 
 import java.beans.PropertyChangeEvent;
@@ -10,11 +12,13 @@ import java.beans.PropertyChangeListener;
 
 public class ActionParser implements PropertyChangeListener {
     private final ConnectionSocket connection;
-    private final Model model;
+    private final ModelView modelView;
+    private static final String red = Constants.ANSI_RED;
+    private static final String rst = Constants.ANSI_RESET;
 
-    public ActionParser(ConnectionSocket connection, Model model) {
+    public ActionParser(ConnectionSocket connection, ModelView modelView) {
         this.connection = connection;
-        this.model = model;
+        this.modelView = modelView;
     }
 
     /**
@@ -34,7 +38,7 @@ public class ActionParser implements PropertyChangeListener {
                     try {
                         connection.send(new ChallengerPhaseAction("DESC", Card.parseInput(in[1])));
                     } catch (IllegalArgumentException e) {
-                        System.err.println("Not existing god with your input's name.");
+                        System.out.println(red + "Not existing god with your input's name." + rst);
                         return false;
                     }
                     break;
@@ -42,7 +46,7 @@ public class ActionParser implements PropertyChangeListener {
                     try {
                         connection.send(new ChallengerPhaseAction("ADD", Card.parseInput(in[1])));
                     } catch (IllegalArgumentException e) {
-                        System.err.println("Not existing god with your input's name.");
+                        System.out.println(red + "Not existing god with your input's name." + rst);
                         return false;
                     }
                     break;
@@ -50,7 +54,15 @@ public class ActionParser implements PropertyChangeListener {
                     try {
                         connection.send(new ChallengerPhaseAction("CHOOSE", Card.parseInput(in[1])));
                     } catch (IllegalArgumentException e) {
-                        System.err.println("Not existing god with your input's name.");
+                        System.out.println(red + "Not existing god with your input's name." + rst);
+                        return false;
+                    }
+                    break;
+                case "SET":
+                    try {
+                        connection.send(new WorkerSetupMessage(in));
+                    } catch (NumberFormatException e) {
+                        System.out.println(red + "Unknown input, please try again!" + rst);
                         return false;
                     }
                     break;
@@ -59,12 +71,12 @@ public class ActionParser implements PropertyChangeListener {
                     System.err.println("Disconnected from the server.");
                     System.exit(0);
                 default:
-                    System.err.println("Unknown input, please try again!");
+                    System.out.println(red + "Unknown input, please try again!" + rst);
                     return false;
             }
             return true;
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Input error; try again!");
+            System.out.println(red + "Input error; try again!" + rst);
             return false;
         }
     }
@@ -72,10 +84,10 @@ public class ActionParser implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(action(evt.getNewValue().toString())) {
-            model.untoggleInput();
+            modelView.untoggleInput();
         }
         else {
-            model.toggleInput();
+            modelView.toggleInput();
         }
     }
 }

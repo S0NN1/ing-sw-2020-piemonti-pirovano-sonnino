@@ -139,11 +139,11 @@ class GodSelectionControllerTest {
 
         //God deck addition test
         assertTrue(selectionController.add(Card.APOLLO));
-        assertTrue(virtualClient.message.contains("God APOLLO has been added!"));
+        assertTrue(virtualClient.message.contains("God APOLLO has been added"));
         assertFalse(selectionController.add(Card.APOLLO));
 
         assertTrue(selectionController.add(Card.PAN));
-        assertTrue(virtualClient.message.contains("God PAN has been added!"));
+        assertTrue(virtualClient.message.contains("God PAN has been added"));
         assertFalse(selectionController.add(Card.PROMETHEUS));
 
         //God choosing test
