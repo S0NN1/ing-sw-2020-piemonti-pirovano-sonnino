@@ -39,6 +39,7 @@ public class Athena extends Worker  {
             if(position.getTower().getHeight() - oldPosition.getTower().getHeight() == 1){
                 listeners.firePropertyChange("moveUpListener", null, "AthenaMovedUp");
             }
+            else listeners.firePropertyChange("moveUpListener", null, "AthenaNormalMove");
             return true;
         }
         return false;

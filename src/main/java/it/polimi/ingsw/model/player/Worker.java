@@ -22,6 +22,7 @@ public abstract class Worker {
 
     protected Space position;
     protected boolean isBlocked;
+    protected boolean canMoveUp;
     protected final String workerColor;
     protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     protected ArrayList<Phase> phases = new ArrayList<>();
@@ -33,6 +34,7 @@ public abstract class Worker {
     public Worker(PlayerColors color) {
         this.isBlocked = false;
         this.position = null;
+        this.canMoveUp = true;
         switch (color) {
             case RED:
                 this.workerColor = "\u001B[31m";
@@ -47,6 +49,22 @@ public abstract class Worker {
                 throw new IllegalArgumentException();
         }
         setPhases();
+    }
+
+    /**
+     * canMoveUp getter
+     * @return a boolean
+     */
+    public boolean getCanMoveUp() {
+        return canMoveUp;
+    }
+
+    /**
+     * canMoveUp setter
+     * @param canMoveUp boolean
+     */
+    public void setCanMoveUp(boolean canMoveUp) {
+        this.canMoveUp = canMoveUp;
     }
 
     /**
@@ -186,12 +204,22 @@ public abstract class Worker {
      */
     public boolean isSelectable(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
-        return ((space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
+        return isNeighbor(space) &&
+                (space.getTower().getHeight() - position.getTower().getHeight() < 2) &&
+                space.isEmpty();
+    }
+
+    /**
+     * return true if the space is neighbor to worker's position and if it's possible to move to that space
+     * @param space space
+     * @return boolean
+     */
+    protected boolean isNeighbor(Space space){
+        return (space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
                 (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
                 (space.getX() != position.getX() || space.getY() != position.getY()) &&
                 !space.getTower().isCompleted() &&
-                (space.getTower().getHeight() - position.getTower().getHeight() < 2) &&
-                space.isEmpty());
+                !(!canMoveUp &&  space.getTower().getHeight() - position.getTower().getHeight() > 0);
     }
 
     /**
