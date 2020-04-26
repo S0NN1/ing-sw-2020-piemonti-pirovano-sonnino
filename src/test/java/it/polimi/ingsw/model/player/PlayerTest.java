@@ -49,8 +49,12 @@ class PlayerTest {
         for(Card card:Card.values()) {
             Player player = new Player("test", 1);
             player.setColor(PlayerColors.RED);
-            player.addWorker(card, null);
-            assertTrue(player.getWorkers().get(0).getClass().toString().toUpperCase().contains(card.toString()));
+            if(card.equals(Card.ATHENA)) {
+                player.setCard(Card.ATHENA, null);
+            } else {
+                player.addWorker(card, null);
+                assertTrue(player.getWorkers().get(0).getClass().toString().toUpperCase().contains(card.toString()));
+            }
         }
     }
 }

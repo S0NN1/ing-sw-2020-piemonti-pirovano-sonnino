@@ -83,6 +83,9 @@ public class ActionParser implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        if(!modelView.getCanInput()) {
+            System.out.println(red + "Error: ");
+        }
         if(action(evt.getNewValue().toString())) {
             modelView.untoggleInput();
         }
