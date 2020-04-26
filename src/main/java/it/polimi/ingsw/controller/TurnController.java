@@ -36,10 +36,11 @@ public class TurnController implements PropertyChangeListener {
     private final GameHandler gameHandler;
 
 
-    public TurnController(Controller controller, GameHandler gameHandler) {
+    public TurnController(Controller controller, GameHandler gameHandler, ActionController actionController) {
         this.controller = controller;
         this.gameHandler = gameHandler;
-        actionController = new ActionController(controller.getModel().getGameBoard());
+        //actionController = new ActionController(controller.getModel().getGameBoard());
+        this.actionController = actionController;
     }
 
 

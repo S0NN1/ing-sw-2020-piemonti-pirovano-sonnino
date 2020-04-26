@@ -33,7 +33,7 @@ class AthenaTest {
 
         GameBoard gameBoard = new GameBoard();
         GameHandler gameHandler = new GameHandler(null);
-        TurnControllerStub turnController = new TurnControllerStub(new Controller(new Game(), gameHandler),gameHandler);
+        TurnControllerStub turnController = new TurnControllerStub(new Controller(new Game(), gameHandler),gameHandler, new ActionController(gameBoard));
         VirtualClientStub client = new VirtualClientStub();
         Worker athena = new Athena(PlayerColors.BLUE, turnController);
         athena.createListeners(client);
@@ -95,8 +95,8 @@ class AthenaTest {
 
         private String event;
 
-        public TurnControllerStub(Controller controller, GameHandler gameHandler) {
-            super(controller, gameHandler);
+        public TurnControllerStub(Controller controller, GameHandler gameHandler, ActionController actionController) {
+            super(controller, gameHandler, actionController);
         }
 
         public void setEventNull(){

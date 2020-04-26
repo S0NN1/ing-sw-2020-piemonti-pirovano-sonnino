@@ -1,14 +1,11 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
 import it.polimi.ingsw.model.CardSelectionModel;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.GameHandler;
-import it.polimi.ingsw.server.answers.CustomMessage;
 import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
 
@@ -33,6 +30,7 @@ public class Controller implements PropertyChangeListener {
     public Controller(Game model, GameHandler gameHandler) {
         this.model = model;
         this.gameHandler = gameHandler;
+        this.turnController = new TurnController(this, gameHandler, new ActionController(model.getGameBoard()));
     }
 
     public TurnController getTurnController() {
