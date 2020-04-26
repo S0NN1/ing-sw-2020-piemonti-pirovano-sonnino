@@ -4,5 +4,5 @@ target/
 
 GC1.iml
 
-src/main/java/it/polimi/ingsw/model/player/Minotaur.java
-src/test/java/it/polimi/ingsw/model/player/AtlasTest.java
+src/main/java/it/polimi/ingsw/modelView/player/Minotaur.java
+src/test/java/it/polimi/ingsw/modelView/player/AtlasTest.java

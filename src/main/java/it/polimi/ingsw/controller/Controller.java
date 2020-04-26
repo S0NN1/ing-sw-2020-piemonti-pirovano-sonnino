@@ -64,6 +64,7 @@ public class Controller implements PropertyChangeListener {
         for(int i=0; i<2; i++) {
             if(msg.getXPosition(i)<0 || msg.getXPosition(i)>6 || msg.getYPosition(i)<0 || msg.getYPosition(i)>6) {
                 gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Error: coordinates out of range!"), getModel().getCurrentPlayer().getClientID());
+                return;
             }
         }
         Space space1 = getModel().getGameBoard().getSpace(msg.getXPosition(0), msg.getYPosition(0));
@@ -74,6 +75,7 @@ public class Controller implements PropertyChangeListener {
         else if(space1.isEmpty() && space2.isEmpty()) {
             getModel().getCurrentPlayer().getWorkers().get(0).setPosition(space1);
             getModel().getCurrentPlayer().getWorkers().get(1).setPosition(space2);
+
         } else {
             ArrayList<int[]> invalidWorker = new ArrayList<>();
             int[] coords = new int[2];

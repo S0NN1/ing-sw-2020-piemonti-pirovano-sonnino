@@ -1,99 +1,89 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.cli.CLI;
+import it.polimi.ingsw.server.answers.*;
+
+import java.beans.PropertyChangeSupport;
+
 /**
- * @author Alice Piemonti
- * This class is a simplified representation of the gameboard in model.
- * It allows to have the status of the gameboard on client side.
+ * This class contains a small representation of the game model, and contains linking to the main client actions, which
+ * will be invoked after an instance control.
  */
 public class ModelView {
-    private Cell[][] grid;
 
-    public ModelView(){
-        grid = new Cell[5][5];
+    private Answer serverAnswer;
+    private CLI cli;
+    private boolean canInput;
+    private int gamePhase;
+    private ClientBoard clientBoard;
+
+    public ModelView(CLI cli) {
+        this.cli = cli;
+        gamePhase = 0;
+        clientBoard = new ClientBoard();
+    }
+
+    public synchronized ClientBoard getBoard() {
+        return clientBoard;
     }
 
     /**
-     * @return two-dimensional array which represents the status of the game board.
+     * Set the game phase variable to the value provided:
+     * - 0: setup phase
+     * - 1: game phase
+     * - 2: __coming soon__
+     * @param phase the current phase of the game.
      */
-    public Cell[][] getGrid(){
-        return grid;
+    public void setGamePhase(int phase) {
+        gamePhase = phase;
     }
 
     /**
-     * it's a representation of Worker's setWorker method.
-     * @param row of the grid.
-     * @param col of the grid.
-     * @param color of the player/worker.
+     * @return the current game phase.
      */
-    public void setColor(int row, int col, String color){
-        grid[row][col].setColor(color);
+    public int getGamePhase() {
+        return gamePhase;
     }
 
     /**
-     * return the color of the worker into the specified cell of the grid
-     * @param row of the grid.
-     * @param col of the grid.
-     * @return the color of the worker
+     * This method toggles the input of the main user class.
+     * @see it.polimi.ingsw.client.cli.CLI for more information.
      */
-    public String getColor(int row, int col){
-        return grid[row][col].getColor();
+    public synchronized void toggleInput() {
+        canInput = true;
     }
 
     /**
-     * it's a representation of Worker's move method
-     * @param oldRow the row of previous worker's position.
-     * @param oldCol the column of previous worker's position.
-     * @param newRow the row of the actual worker's position.
-     * @param newCol the column of the actual worker's position.
+     * This method untoggles the input of the main user class.
+     * @see it.polimi.ingsw.client.cli.CLI for more information.
      */
-    public void move(int oldRow, int oldCol, int newRow, int newCol){
-        String color = grid[oldRow][oldCol].getColor();
-        grid[oldRow][oldCol].setColor(null);
-        grid[newRow][newCol].setColor(color);
+    public synchronized void untoggleInput() {
+        canInput = false;
     }
 
     /**
-     * it's a representation of Apollo's move method
-     * @param oldRow1 the row of previous Apollo's position (which is other worker's actual position).
-     * @param oldCol1 the column of previous Apollo's position (which is other worker's actual position).
-     * @param oldRow2 the row of previous other worker's position (which is Apollo's actual position).
-     * @param oldCol2 the column of previous other worker's position (which is Apollo's actual position).
+     * @return the value of the input enabler variable.
      */
-    public void apolloDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2){
-        String color1 = grid[oldRow1][oldCol1].getColor();
-        String color2 = grid[oldRow2][oldCol2].getColor();
-        grid[oldRow1][oldCol1].setColor(color2);
-        grid[oldRow2][oldCol2].setColor(color1);
+    public synchronized boolean getCanInput() {
+        return canInput;
     }
 
     /**
-     * it's a representation of Minotaur's move method
-     * @param oldRow1 the row of Minotaur's previous position.
-     * @param oldCol1 the column of Minotaur's previous position.
-     * @param oldRow2 the row of the other worker's previous position (which is Minotaur's actual position).
-     * @param oldCol2 the column of the other worker's previous position (which is Minotaur's actual position).
-     * @param newRow2 the row of the other worker's actual position.
-     * @param newCol2 the column of the other worker's actual position.
+     * Set the canInput variable to the value provided.
+     * @param value states if user can make an input or not.
      */
-    public void minotaurDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2, int newRow2, int newCol2){
-        String color1 = grid[oldRow1][oldCol1].getColor();
-        String color2 = grid[oldRow2][oldCol2].getColor();
-        grid[newRow2][newCol2].setColor(color2);
-        grid[oldRow2][oldCol2].setColor(color1);
-        grid[oldRow1][oldCol1].setColor(null);
+    public synchronized void setCanInput(boolean value) {
+        canInput = value;
+    }
+
+    public void setServerAnswer(Answer answer) {
+        this.serverAnswer = answer;
     }
 
     /**
-     * it's a representation of worker's build method
-     * @param row the row of build position.
-     * @param col the column of build position.
-     * @param dome true if worker wants to build a dome instead of a block. (Only for Atlas workers)
+     * @return the server answer, containing all the information for the client for action-performing.
      */
-    public void build(int row, int col, boolean dome){
-        if(dome || grid[row][col].getLevel() == 3){
-            grid[row][col].setDome(true);
-        }
-        else grid[row][col].addLevel();
+    public Answer getServerAnswer() {
+        return serverAnswer;
     }
-
 }

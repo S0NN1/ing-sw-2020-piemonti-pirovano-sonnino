@@ -25,7 +25,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     private final PrintStream output;
     private final PrintStream err;
     private boolean activeGame;
-    private final Model model;
+    private final ModelView modelView;
     private final ActionHandler actionHandler;
     private ConnectionSocket connection;
     private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
@@ -35,8 +35,8 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     public CLI() {
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
-        model = new Model(this);
-        actionHandler = new ActionHandler(this, model);
+        modelView = new ModelView(this);
+        actionHandler = new ActionHandler(this, modelView);
         err = new PrintStream(System.err);
         activeGame = true;
     }
@@ -76,12 +76,12 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         }
         connection = new ConnectionSocket();
         try {
-            connection.setup(nickname, model, actionHandler);
+            connection.setup(nickname, modelView, actionHandler);
             output.println(Constants.ANSI_GREEN + "Socket Connection setup completed!" + Constants.ANSI_RESET);
         } catch (DuplicateNicknameException e) {
             setup();
         }
-        observers.addPropertyChangeListener(new ActionParser(connection, model));
+        observers.addPropertyChangeListener(new ActionParser(connection, modelView));
     }
 
 
@@ -91,7 +91,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
      * action one and parses the player's input.
      */
     public void loop() {
-        if(model.getCanInput()) {
+        if(modelView.getCanInput()) {
             output.print(">");
             String cmd = input.nextLine();
             observers.firePropertyChange("action", null, cmd);
@@ -188,7 +188,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 }
             }
         }
-        model.toggleInput();
+        modelView.toggleInput();
     }
 
     /**
@@ -199,17 +199,17 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     public void initialPhaseHandling(String value) {
         switch (value) {
             case "RequestPlayerNumber" -> {
-                output.println(Constants.ANSI_GREEN + ((RequestPlayersNumber) model.getServerAnswer()).getMessage() + Constants.ANSI_RESET);
+                output.println(Constants.ANSI_GREEN + ((RequestPlayersNumber) modelView.getServerAnswer()).getMessage() + Constants.ANSI_RESET);
                 choosePlayerNumber();
             }
             case "RequestColor" -> {
-                output.println(Constants.ANSI_GREEN + ((RequestColor) model.getServerAnswer()).getMessage() + "\nRemaining:" + Constants.ANSI_RESET);
-                ((RequestColor) model.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
+                output.println(Constants.ANSI_GREEN + ((RequestColor) modelView.getServerAnswer()).getMessage() + "\nRemaining:" + Constants.ANSI_RESET);
+                ((RequestColor) modelView.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
                 output.print("\n");
-                chooseColor(((RequestColor) model.getServerAnswer()).getRemaining());
+                chooseColor(((RequestColor) modelView.getServerAnswer()).getRemaining());
             }
             case "GodRequest" -> {
-                ChallengerMessages req = (ChallengerMessages) model.getServerAnswer();
+                ChallengerMessages req = (ChallengerMessages) modelView.getServerAnswer();
                 if (req.startingPlayer && req.players != null) {
                     output.println(req.message);
                     req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
@@ -221,7 +221,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 } else {
                     output.println(req.message);
                 }
-                model.toggleInput();
+                modelView.toggleInput();
             }
         }
     }
