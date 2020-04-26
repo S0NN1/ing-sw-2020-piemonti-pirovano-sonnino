@@ -2,5 +2,5 @@ package it.polimi.ingsw.client.messages.actions.turnActions;
 
 import it.polimi.ingsw.client.messages.actions.UserAction;
 
-public abstract class EndTurnAction implements UserAction {
+public class EndTurnAction implements UserAction {
 }
