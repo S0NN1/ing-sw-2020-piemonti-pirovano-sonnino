@@ -243,6 +243,26 @@ class WorkerTest {
             worker.setPosition(gameBoard.getSpace(1,1));
             Exception exception = assertThrows(IllegalStateException.class, () -> {worker.notifyWithMoves(gameBoard);});
         }
+
+        /**
+         * test notifyWithMoves when worker can't move up
+         */
+        @Test
+        @DisplayName("worker can't move up")
+        void getMovesNotMoveUp(){
+            gameBoard = new GameBoard();
+            worker.setPosition(gameBoard.getSpace(1,1));
+            worker.setCanMoveUp(false);
+            for(int i=0; i<5; i++){
+                try {
+                    gameBoard.getSpace(i, 0).getTower().addLevel();
+                } catch (OutOfBoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            assertEquals(5,worker.selectMoves(gameBoard).size(),"1");
+        }
     }
 
     /**

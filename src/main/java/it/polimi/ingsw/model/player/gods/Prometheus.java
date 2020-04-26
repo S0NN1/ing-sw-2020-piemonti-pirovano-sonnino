@@ -17,7 +17,7 @@ public class Prometheus extends Worker {
         super(color);
     }
 
-    private boolean canMoveUp = true;
+    private boolean powerUsed = true;
 
     @Override
     public void setPhases() {
@@ -37,18 +37,16 @@ public class Prometheus extends Worker {
      */
     @Override
     public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard) {
-        if(canMoveUp){   //build before move
-            canMoveUp = false;
+        if(powerUsed){   //build before move
+            powerUsed = false;
             phases.get(1).changeMust(true);
         }
         else {  //build after move
-            canMoveUp = true;
+            powerUsed = true;
             phases.get(1).changeMust(false);
         }
         return super.getBuildableSpaces(gameBoard);
     }
-
-    //TODO voglio modificare player canMoveUp o fare il controllo internamente al worker?
 
     /**
      * return true if the worker can move to the space received
@@ -59,7 +57,7 @@ public class Prometheus extends Worker {
      */
     @Override
     public boolean isSelectable(Space space) throws IllegalArgumentException {
-        if(!canMoveUp && space.getTower().getHeight() - position.getTower().getHeight() == 1) return false;
+        if(!powerUsed && space.getTower().getHeight() - position.getTower().getHeight() == 1) return false;
         return super.isSelectable(space);
     }
 
@@ -74,7 +72,7 @@ public class Prometheus extends Worker {
     @Override
     public boolean move(Space space) throws IllegalArgumentException {
         if(super.move(space)){
-            canMoveUp = false;
+            powerUsed = false;
             return true;
         }
         return false;
