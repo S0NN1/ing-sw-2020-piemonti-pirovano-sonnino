@@ -44,17 +44,27 @@ public class TurnController implements PropertyChangeListener {
 
 
     public void propertyChange(PropertyChangeEvent evt) {
-        int counter =0;
         int i=0;
-        if (evt.getNewValue() == "AthenaMovedUp") {
-            while(counter<2){
-                for(i=0; i<2;i++){
+        if (evt.getNewValue().equals("AthenaMovedUp")) {
+            while(i<=2){
                     if(!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))){
-                        controller.getModel().getActivePlayers().get(i).
+                        controller.getModel().getActivePlayers().get(i).getWorkers().get(0).setCanMoveUp(false);
+                        controller.getModel().getActivePlayers().get(i).getWorkers().get(1).setCanMoveUp(false);
                     }
-                }
+                i++;
             }
-        } else {
+            }
+
+        if (evt.getNewValue().equals("AthenaNormalMove")){
+            while(i<=2){
+                if(!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))){
+                    controller.getModel().getActivePlayers().get(i).getWorkers().get(0).setCanMoveUp(true);
+                    controller.getModel().getActivePlayers().get(i).getWorkers().get(1).setCanMoveUp(true);
+                }
+                i++;
+            }
+        }
+        else {
             Object arg = evt.getNewValue();
             if (arg instanceof UserAction) {
                 if (arg instanceof StartTurnAction) {
