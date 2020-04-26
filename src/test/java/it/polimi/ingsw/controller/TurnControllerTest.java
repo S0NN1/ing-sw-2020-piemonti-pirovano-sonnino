@@ -33,7 +33,6 @@ public class TurnControllerTest {
             super(controller, gameHandler);
         }
 
-        
     }
 
     private class GameHandlerStub extends GameHandler {
@@ -45,7 +44,6 @@ public class TurnControllerTest {
         @Override
         public void singleSend(Answer message, int ID) {
             System.out.println(message.getMessage());
-            //return (String)message.getMessage();
         }
     }
 
@@ -54,63 +52,28 @@ public class TurnControllerTest {
     }
 
     private class WorkerStub extends Worker {
-        private String name;
-
-        public WorkerStub() {
-            super(PlayerColors.RED);
-        }
-
+        /**
+         * Constructor
+         *
+         * @param color player color
+         */
         public WorkerStub(PlayerColors color) {
             super(color);
         }
 
         @Override
         public void setPhases() {
-            System.out.println("set phases");
-        }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
         }
     }
 
     private class PlayerStub extends Player {
-        /**
-         * constructor
-         *
-         * @param nickname player's univocal name
-         * @param clientID
-         */
-
-
-
     public PlayerStub(String nickname, int clientID) {
             super(nickname, clientID);
-        }
-
-        @Override
-        public ArrayList<Worker> getWorkers() {
-            ArrayList<Worker> workers = new ArrayList<Worker>();
-            WorkerStub worker1 = new WorkerStub();
-            worker1.setName("worker1");
-            WorkerStub worker2 = new WorkerStub();
-            worker2.setName("worker2");
-            workers.add(worker1);
-            workers.add(worker2);
-            return workers;
         }
     }
 
     private class GameStub extends Game {
-        @Override
-        public Player getCurrentPlayer() {
-            PlayerStub player = new PlayerStub("kekko", 1);
-            return player;
-        }
     }
 
     @BeforeEach
