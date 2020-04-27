@@ -7,30 +7,37 @@ import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.player.PlayerColors;
-import it.polimi.ingsw.server.answers.*;
+import it.polimi.ingsw.server.answers.ChallengerMessages;
+import it.polimi.ingsw.server.answers.GameError;
+import it.polimi.ingsw.server.answers.RequestColor;
+import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
+ *
  * @author Luca Pirovano
  * @version 1.0.0
  */
 public class CLI implements UI, Runnable, PropertyChangeListener {
+    private static final String red = Constants.ANSI_RED;
+    private static final String rst = Constants.ANSI_RESET;
     private final Scanner input;
     private final PrintStream output;
     private final PrintStream err;
-    private boolean activeGame;
     private final ModelView modelView;
     private final ActionHandler actionHandler;
-    private ConnectionSocket connection;
     private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
-    private static final String red = Constants.ANSI_RED;
-    private static final String rst = Constants.ANSI_RESET;
+    private boolean activeGame;
+    private ConnectionSocket connection;
 
     public CLI() {
         input = new Scanner(System.in);
@@ -42,7 +49,19 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     }
 
     /**
+     * The main class of CLI client. It instantiates a new CLI class, running it.
+     *
+     * @param args the standard java main parameters.
+     */
+    public static void main(String[] args) {
+        System.out.println("Hi, welcome to Santorini!");
+        CLI cli = new CLI();
+        cli.run();
+    }
+
+    /**
      * Change the value of the parameter activeGame, which states if the game is active or if it has finished.
+     *
      * @param activeGame a true or false value based on the status of the game.
      */
     public void toggleActiveGame(boolean activeGame) {
@@ -55,9 +74,9 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
      * a message on the CLI.
      */
     public void setup() {
-        String nickname=null;
+        String nickname = null;
         boolean confirmation = false;
-        while (confirmation==false) {
+        while (confirmation == false) {
             do {
                 output.println(">Insert your nickname: ");
                 output.print(">");
@@ -67,11 +86,10 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
             output.println(">You chose: " + nickname);
             output.println(">Is it ok? [y/n] ");
             output.print(">");
-            if(input.next().equalsIgnoreCase("y")) {
-                confirmation=true;
-            }
-            else {
-                nickname=null;
+            if (input.next().equalsIgnoreCase("y")) {
+                confirmation = true;
+            } else {
+                nickname = null;
             }
         }
         connection = new ConnectionSocket();
@@ -84,13 +102,12 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         observers.addPropertyChangeListener(new ActionParser(connection, modelView));
     }
 
-
-
     /**
      * The main execution loop of the client side. If the input has toggled (through the apposite method) it calls the
      * action one and parses the player's input.
      */
     public void loop() {
+        System.out.println("");
         output.print(">");
         String cmd = input.nextLine();
         observers.firePropertyChange("action", null, cmd);
@@ -100,8 +117,10 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     public void run() {
         setup();
 
-        while(activeGame) {
-            loop();
+        while (activeGame) {
+            if (modelView.getCanInput()) {
+                loop();
+            }
         }
         input.close();
         output.close();
@@ -113,8 +132,9 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
      */
     public void choosePlayerNumber() {
         int selection;
-        while(true) {
+        while (true) {
             try {
+                board();
                 output.print(">");
                 selection = input.nextInt();
                 break;
@@ -129,6 +149,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     /**
      * Lets the player decide his color, relying on the available ones. If the player is the last in a three-players
      * match, the server automatically assign him the last color.
+     *
      * @param available the list of available colors, which will be printed out.
      */
     public void chooseColor(ArrayList<PlayerColors> available) {
@@ -138,14 +159,13 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
             output.print(">");
             try {
                 PlayerColors color = PlayerColors.parseInput(input.nextLine());
-                if(available.contains(color)) {
+                if (available.contains(color)) {
                     connection.send(new ChosenColor(color));
                     return;
-                }
-                else {
+                } else {
                     output.println("Color not available!");
                 }
-            }catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 output.println("Invalid input! Please provide one of the accepted colors.");
             }
         }
@@ -157,10 +177,9 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         int startingPlayer;
         try {
             startingPlayer = Integer.parseInt(starting);
-            if(0<startingPlayer || startingPlayer<len-1) {
+            if (0 < startingPlayer || startingPlayer < len - 1) {
                 connection.send(new ChallengerPhaseAction(startingPlayer));
-            }
-            else {
+            } else {
                 output.println(red + "Error: invalid selection!" + rst);
                 chooseStartingPlayer(len);
             }
@@ -172,6 +191,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
 
     /**
      * Handles an error received from the server, following a user action or saying him he cannot perform any action in that moment.
+     *
      * @param error the error received from the server.
      */
     public void errorHandling(GameError error) {
@@ -181,7 +201,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 error.getCoordinates().forEach(n -> output.print(red + Arrays.toString(n) + ", " + rst));
             }
             case INVALIDINPUT -> {
-                if (error.getMessage()!=null) {
+                if (error.getMessage() != null) {
                     output.println(red + error.getMessage() + rst);
                 }
             }
@@ -192,6 +212,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     /**
      * Handles the messages received from the server during the initial phase like, for example, the request of the number
      * of player.
+     *
      * @param value the answer received from the server.
      */
     public void initialPhaseHandling(String value) {
@@ -226,6 +247,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
 
     /**
      * Listener method: it waits for a server response, which is previously processed by the ActionHandler.
+     *
      * @param evt the property change event, containing information about the response type and its new value.
      */
     @Override
@@ -233,7 +255,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         String command = evt.getNewValue().toString();
         switch (evt.getPropertyName()) {
             case "gameError" -> {
-                errorHandling((GameError)evt.getNewValue());
+                errorHandling((GameError) evt.getNewValue());
             }
             case "initialPhase" -> {
                 initialPhaseHandling(command);
@@ -249,14 +271,35 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         }
     }
 
-    /**
-     * The main class of CLI client. It instantiates a new CLI class, running it.
-     * @param args the standard java main parameters.
-     */
-    public static void main(String[] args) {
-        System.out.println("Hi, welcome to Santorini!");
-        CLI cli = new CLI();
-        cli.run();
+    public void board(){
+        String bg = Constants.ANSI_GREEN + "█" + Constants.ANSI_RESET;
+        String RowWave = new String(Constants.ANSI_BLUE+"≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈"+Constants.ANSI_RESET);
+        String coupleRowWave =new String(Constants.ANSI_BLUE+"≈≈"+Constants.ANSI_RESET);
+        String lvl0 =
+                "███████████████████████████████\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
+                "███████████████████████████████";
+        System.out.println(coupleRowWave.charAt(0));
+        System.out.println(coupleRowWave.charAt(2));
+        System.out.println(coupleRowWave.charAt(3));
+        System.out.println(coupleRowWave.charAt(4));
+        System.out.println(coupleRowWave.charAt(5));
+        System.out.println(coupleRowWave.charAt(6));
     }
+
+
+
 
 }
