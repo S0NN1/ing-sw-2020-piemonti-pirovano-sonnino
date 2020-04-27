@@ -58,7 +58,12 @@ public class ActionHandler {
             view.firePropertyChange("initialPhase", null, "RequestColor");
         } else if (answer instanceof ChallengerMessages) {
             view.firePropertyChange("initialPhase", null, "GodRequest");
+        } else if(answer instanceof SetWorkersMessage) {
+            SetWorkersMessage message = (SetWorkersMessage) answer;
+            modelView.getBoard().setColor(message.getWorker1().getX(), message.getWorker1().getY(), message.getMessage());
+            modelView.getBoard().setColor(message.getWorker2().getX(), message.getWorker2().getY(), message.getMessage());
         }
+
     }
 
     //TODO ADD CALLS TO CLI/GUI'S METHOD

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
@@ -37,13 +38,13 @@ public abstract class Worker {
         this.canMoveUp = true;
         switch (color) {
             case RED:
-                this.workerColor = "\u001B[31m";
+                this.workerColor = Constants.ANSI_RED;
                 break;
             case GREEN:
-                this.workerColor = "\u001B[32m";
+                this.workerColor = Constants.ANSI_GREEN;
                 break;
             case BLUE:
-                this.workerColor = "\u001B[34m";
+                this.workerColor = Constants.ANSI_BLUE;
                 break;
             default:
                 throw new IllegalArgumentException();
