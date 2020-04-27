@@ -15,7 +15,8 @@ public class ModelView {
     private CLI cli;
     private boolean canInput;
     private int gamePhase;
-    private ClientBoard clientBoard;
+    private final ClientBoard clientBoard;
+    private volatile int started;
 
     public ModelView(CLI cli) {
         this.cli = cli;
@@ -25,6 +26,18 @@ public class ModelView {
 
     public synchronized ClientBoard getBoard() {
         return clientBoard;
+    }
+
+    public CLI getCli() {
+        return cli;
+    }
+
+    public synchronized void setStarted(int val) {
+        started = val;
+    }
+
+    public int getStarted() {
+        return started;
     }
 
     /**

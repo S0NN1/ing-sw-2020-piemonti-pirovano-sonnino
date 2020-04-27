@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
+import it.polimi.ingsw.server.answers.SetWorkersMessage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -60,7 +61,7 @@ public class Controller implements PropertyChangeListener {
 
     public void placeWorkers(WorkerSetupMessage msg) {
         for(int i=0; i<2; i++) {
-            if(msg.getXPosition(i)<0 || msg.getXPosition(i)>6 || msg.getYPosition(i)<0 || msg.getYPosition(i)>6) {
+            if(msg.getXPosition(i)<0 || msg.getXPosition(i)>4 || msg.getYPosition(i)<0 || msg.getYPosition(i)>4) {
                 gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Error: coordinates out of range!"), getModel().getCurrentPlayer().getClientID());
                 return;
             }
@@ -73,6 +74,8 @@ public class Controller implements PropertyChangeListener {
         else if(space1.isEmpty() && space2.isEmpty()) {
             getModel().getCurrentPlayer().getWorkers().get(0).setPosition(space1);
             getModel().getCurrentPlayer().getWorkers().get(1).setPosition(space2);
+            gameHandler.sendAll(new SetWorkersMessage(getModel().getCurrentPlayer().getWorkers().get(0).getWorkerColor(),
+                    space1.getX(), space1.getY(), space2.getX(), space2.getY()));
 
         } else {
             ArrayList<int[]> invalidWorker = new ArrayList<>();

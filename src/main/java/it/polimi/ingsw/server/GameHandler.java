@@ -233,7 +233,7 @@ public class GameHandler {
                     game.getActivePlayers().forEach(n -> players.add(n.getNickname()));
                     game.nextPlayer();
                     singleSend(new ChallengerMessages(Constants.ANSI_GREEN + game.getCurrentPlayer().getNickname() +
-                            ", choose the starting player!" + Constants.ANSI_RESET, true, players), game.getCurrentPlayer().getClientID());
+                            ", choose the starting player by typing STARTER <number-of-player>" + Constants.ANSI_RESET, true, players), game.getCurrentPlayer().getClientID());
                     sendAllExcept(new CustomMessage(Constants.ANSI_RED + "Player " + game.getCurrentPlayer().getNickname() + " is " +
                             " choosing the starting player, please wait!" + Constants.ANSI_RESET, false), game.getCurrentPlayer().getClientID());
                     started = 2;
@@ -245,6 +245,10 @@ public class GameHandler {
             }
         }
         else if(userAction.startingPlayer!=null) {
+            if(userAction.startingPlayer < 0 || userAction.startingPlayer > game.getActivePlayers().size()) {
+                singleSend(new GameError(ErrorsType.INVALIDINPUT, "Error: value out of range!"), getCurrentPlayerID());
+                return;
+            }
             game.setCurrentPlayer(game.getActivePlayers().get(userAction.startingPlayer));
             singleSend(new CustomMessage(Constants.ANSI_GREEN + game.getCurrentPlayer().getNickname() +
                     ", you are the first player; let's go!" + Constants.ANSI_RESET, false), getCurrentPlayerID());

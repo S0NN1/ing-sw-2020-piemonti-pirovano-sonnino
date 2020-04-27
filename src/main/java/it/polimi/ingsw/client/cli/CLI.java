@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
@@ -91,7 +92,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
      * action one and parses the player's input.
      */
     public void loop() {
-        output.print(">");
+        input.reset();
         String cmd = input.nextLine();
         observers.firePropertyChange("action", null, cmd);
     }
@@ -99,9 +100,11 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     @Override
     public void run() {
         setup();
-
         while(activeGame) {
-            loop();
+            //TODO match input enabler confirmation (from server)
+            if (modelView.getStarted() == 3) {
+                loop();
+            }
         }
         input.close();
         output.close();
@@ -117,6 +120,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
             try {
                 output.print(">");
                 selection = input.nextInt();
+                input.nextLine();
                 break;
             } catch (InputMismatchException e) {
                 output.println(red + "Invalid parameter, it must be a number.\nApplication will now quit..." + rst);
@@ -124,6 +128,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
             }
         }
         connection.send(new NumberOfPlayers(selection));
+        modelView.setStarted(1);
     }
 
     /**
@@ -140,6 +145,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 PlayerColors color = PlayerColors.parseInput(input.nextLine());
                 if(available.contains(color)) {
                     connection.send(new ChosenColor(color));
+                    modelView.setStarted(2);
                     return;
                 }
                 else {
@@ -211,8 +217,6 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 if (req.startingPlayer && req.players != null) {
                     output.println(req.message);
                     req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
-                    chooseStartingPlayer(req.players.size());
-                    return;
                 } else if (req.godList != null) {
                     req.godList.forEach(n -> output.print(n + ", "));
                     output.println();
@@ -240,6 +244,9 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
             }
             case "customMessage" -> {
                 output.println(evt.getNewValue());
+                if(modelView.getStarted()==2) {
+                    modelView.setStarted(3);
+                }
             }
             case "connectionClosed" -> {
                 output.println(evt.getNewValue());
@@ -256,7 +263,8 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     public static void main(String[] args) {
         System.out.println("Hi, welcome to Santorini!");
         CLI cli = new CLI();
-        cli.run();
+        Thread thread = new Thread(cli);
+        thread.start();
     }
 
 }
