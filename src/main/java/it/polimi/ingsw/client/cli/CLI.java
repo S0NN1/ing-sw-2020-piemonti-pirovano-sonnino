@@ -120,7 +120,6 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
             try {
                 output.print(">");
                 selection = input.nextInt();
-                input.nextLine();
                 break;
             } catch (InputMismatchException e) {
                 output.println(red + "Invalid parameter, it must be a number.\nApplication will now quit..." + rst);

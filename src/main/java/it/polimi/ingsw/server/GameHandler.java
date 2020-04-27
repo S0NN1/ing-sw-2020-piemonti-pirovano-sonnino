@@ -218,7 +218,10 @@ public class GameHandler {
             if(userAction.action.equals("CHOOSE")) {
                 controllerListener.firePropertyChange("godSelection", null, userAction);
                 if (game.getDeck().getCards().size() > 1) {
-                    game.nextPlayer();
+                    if(game.getCurrentPlayer().getWorkers().size()!=0) {
+                        game.nextPlayer();
+                        return;
+                    }
                     singleSend(new ChallengerMessages(Constants.ANSI_GREEN + server.getNicknameByID(getCurrentPlayerID()) +
                             ", please choose your god power from one of the list below.\n\n" + Constants.ANSI_RESET + game.getDeck().
                             getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +

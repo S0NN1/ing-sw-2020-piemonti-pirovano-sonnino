@@ -47,7 +47,7 @@ public class SocketListener implements Runnable{
         }
         catch (IOException e) {
             System.err.println("Connection closed by the server. Quitting...");
-            e.printStackTrace();
+            //e.printStackTrace();
             System.exit(0);
         }
         catch (ClassNotFoundException e) {
