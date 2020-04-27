@@ -3,13 +3,12 @@ package it.polimi.ingsw.observer.workerListeners;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.worker.DoubleMoveMessage;
-import it.polimi.ingsw.server.answers.worker.MinotaurMoveMessage;
 
 import java.beans.PropertyChangeEvent;
 
-public class MinotaurDoubleMoveListener extends WorkerListener {
+public class DoubleMoveListener extends WorkerListener {
 
-    public MinotaurDoubleMoveListener(VirtualClient client) {
+    public DoubleMoveListener(VirtualClient client) {
         super(client);
     }
 
@@ -23,7 +22,9 @@ public class MinotaurDoubleMoveListener extends WorkerListener {
     public void propertyChange(PropertyChangeEvent evt) {
         Move move1 = (Move)evt.getOldValue();
         Move move2 = (Move)evt.getNewValue();
-        MinotaurMoveMessage message = new MinotaurMoveMessage(move1,move2);
+        String god = evt.getPropertyName();
+
+        DoubleMoveMessage message = new DoubleMoveMessage(move1, move2, god);
         virtualClient.send(message);
     }
 }

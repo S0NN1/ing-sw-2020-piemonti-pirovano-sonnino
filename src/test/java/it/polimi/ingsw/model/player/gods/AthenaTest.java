@@ -48,7 +48,7 @@ class AthenaTest {
         turnController.setEventNull(); //restart TurnController
         athena.move(secondPosition);
 
-        //check if moveUpListener has been notified correctly
+        //check if moveUpListener has been notified correctly with AthenaMovedUp
         assertEquals("Athena",turnController.getEvent(),"2");
 
         //check if moveListener has been notified correctly
@@ -57,12 +57,12 @@ class AthenaTest {
         assertEquals(firstPosition.getX(),client.move.getOldPosition().getX(),"5");
         assertEquals(firstPosition.getY(),client.move.getOldPosition().getY(),"6");
 
-        assertTrue(athena.isSelectable(thirdPosition),"7");
+        assertTrue(athena.isSelectable(thirdPosition),"7"); //third position lv0
         turnController.setEventNull(); //restart TurnController
         athena.move(thirdPosition);
 
-        //check if moveUpListener hasn't been notified
-        assertNull(turnController.getEvent(),"8");
+        //check if moveUpListener has been notified with AthenaNormalMove
+        assertEquals("normal",turnController.getEvent(),"8");
 
         //check if moveListener has been notified correctly
         assertEquals(thirdPosition.getX(),client.move.getNewPosition().getX(),"9");
@@ -112,10 +112,9 @@ class AthenaTest {
 
             if(evt.getNewValue().equals("AthenaMovedUp") ){
                 event = "Athena";
-            }
-            else {
-                super.propertyChange(evt);
-            }
+            } else if(evt.getNewValue().equals("AthenaNormalMove")) {
+                event = "normal";
+            } else fail("no string");
         }
 
     }

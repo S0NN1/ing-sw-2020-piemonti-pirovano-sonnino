@@ -4,10 +4,6 @@ import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.observer.workerListeners.AthenaMoveUpListener;
-import it.polimi.ingsw.server.VirtualClient;
-
-import java.beans.PropertyChangeSupport;
 
 /**
  * @author Alice Piemonti

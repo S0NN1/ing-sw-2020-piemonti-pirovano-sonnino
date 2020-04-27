@@ -37,17 +37,20 @@ public class ActionHandler {
             Couple message = ((BuildMessage) answer).getMessage();
             boolean dome = ((BuildMessage) answer).getDome();
             clientBoard.build(message.getX(), message.getY(), dome);
-        } else if (answer instanceof ApolloMoveMessage) {
-            Move myMove = ((ApolloMoveMessage) answer).getMessage();
-            Move otherMove = ((ApolloMoveMessage) answer).getOtherMove();
-            clientBoard.apolloDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
-                    otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY());
-        } else if (answer instanceof MinotaurMoveMessage) {
-            Move myMove = ((MinotaurMoveMessage) answer).getMessage();
-            Move otherMove = ((MinotaurMoveMessage) answer).getOtherMove();
-            clientBoard.minotaurDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
-                    otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY(),
-                    otherMove.getNewPosition().getX(), otherMove.getNewPosition().getY());
+        } else if (answer instanceof DoubleMoveMessage) {
+            String message = ((DoubleMoveMessage) answer).getMessage();
+            if (message.equals("ApolloDoubleMove")) { //type Apollo
+                Move myMove = ((DoubleMoveMessage) answer).getMyMove();
+                Move otherMove = ((DoubleMoveMessage) answer).getOtherMove();
+                clientBoard.apolloDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
+                        otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY());
+            } else if (message.equals("MinotaurDoubleMove")) { //type Minotaur
+                Move myMove = ((DoubleMoveMessage) answer).getMyMove();
+                Move otherMove = ((DoubleMoveMessage) answer).getOtherMove();
+                clientBoard.minotaurDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
+                        otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY(),
+                        otherMove.getNewPosition().getX(), otherMove.getNewPosition().getY());
+            }
         }
     }
 

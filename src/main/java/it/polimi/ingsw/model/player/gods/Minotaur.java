@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.observer.workerListeners.MinotaurDoubleMoveListener;
+import it.polimi.ingsw.observer.workerListeners.DoubleMoveListener;
 import it.polimi.ingsw.server.VirtualClient;
 
 /**
@@ -30,7 +30,7 @@ public class Minotaur extends Worker {
     @Override
     public void createListeners(VirtualClient client) {
         super.createListeners(client);
-        listeners.addPropertyChangeListener("MinotaurDoubleMoveListener",new MinotaurDoubleMoveListener(client));
+        listeners.addPropertyChangeListener("MinotaurDoubleMove",new DoubleMoveListener(client));
     }
 
     /**
@@ -102,7 +102,7 @@ public class Minotaur extends Worker {
         this.setPosition(mySpace);
         Move myMove = new Move(oldPosition.getX(),oldPosition.getY(),position.getX(),position.getY());
         Move otherMove = new Move(position.getX(),position.getY(),otherSpace.getX(),otherSpace.getY());
-        listeners.firePropertyChange("MinotaurDoubleMoveListener", myMove, otherMove);
+        listeners.firePropertyChange("MinotaurDoubleMove", myMove, otherMove);
         return true;
         }
 }

@@ -82,6 +82,8 @@ class ApolloTest {
         apollo.createListeners(client);
         apollo.move(gameBoard.getSpace(3,3));
 
+        assertEquals("ApolloDoubleMove", client.god, "0");
+
         assertEquals(worker.getPosition().getX(),client.myMove.getOldPosition().getX(),"1");
         assertEquals(worker.getPosition().getY(),client.myMove.getOldPosition().getY(),"2");
         assertEquals(apollo.getPosition().getX(),client.myMove.getNewPosition().getX(),"3");
@@ -98,6 +100,8 @@ class ApolloTest {
      */
     private class VirtualClientStub extends VirtualClient {
 
+        String god;
+
         Move myMove;
 
         Move otherMove;
@@ -107,8 +111,9 @@ class ApolloTest {
         @Override
         public void send(Answer serverAnswer) {
             if(serverAnswer instanceof DoubleMoveMessage){
-                myMove = ((DoubleMoveMessage) serverAnswer).getMessage();
+                myMove = ((DoubleMoveMessage) serverAnswer).getMyMove();
                 otherMove = ((DoubleMoveMessage) serverAnswer).getOtherMove();
+                god = ((DoubleMoveMessage) serverAnswer).getMessage();
             }
             else fail("not double move message");
         }

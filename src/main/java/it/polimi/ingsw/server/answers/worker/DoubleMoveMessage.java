@@ -9,20 +9,24 @@ import it.polimi.ingsw.server.answers.Answer;
  */
 public class DoubleMoveMessage implements Answer {
 
+    String god;
     Move myMove;
     Move otherMove;
 
-    public DoubleMoveMessage(Move myMove, Move otherMove){
+    public DoubleMoveMessage(Move myMove, Move otherMove, String god){
         this.myMove = myMove;
         this.otherMove = otherMove;
+        this.god = god;
     }
 
     @Override
-    public Move getMessage() {
-        return myMove;
+    public String getMessage() {
+        return god;
     }
 
     public Move getOtherMove(){
         return otherMove;
     }
+
+    public Move getMyMove(){ return myMove;}
 }

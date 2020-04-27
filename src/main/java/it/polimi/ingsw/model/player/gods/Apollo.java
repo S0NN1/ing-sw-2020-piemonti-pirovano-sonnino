@@ -4,7 +4,7 @@ import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.observer.workerListeners.ApolloDoubleMoveListener;
+import it.polimi.ingsw.observer.workerListeners.DoubleMoveListener;
 import it.polimi.ingsw.server.VirtualClient;
 
 /**
@@ -29,7 +29,7 @@ public class Apollo extends Worker {
     @Override
     public void createListeners(VirtualClient client) {
         super.createListeners(client);
-        listeners.addPropertyChangeListener("ApolloDoubleMoveListener", new ApolloDoubleMoveListener(client));
+        listeners.addPropertyChangeListener("ApolloDoubleMove", new DoubleMoveListener(client));
     }
 
     /**
@@ -61,7 +61,7 @@ public class Apollo extends Worker {
             this.setPosition(space);
             Move myMove = new Move(oldPosition.getX(),oldPosition.getY(),position.getX(),position.getY());
             Move otherMove = new Move(position.getX(),position.getY(),oldPosition.getX(),oldPosition.getY());
-            listeners.firePropertyChange("ApolloDoubleMoveListener", myMove,otherMove);
+            listeners.firePropertyChange("ApolloDoubleMove", myMove,otherMove);
             if(winCondition(oldPosition)){
                 listeners.firePropertyChange("winListener", null, null);
             }
