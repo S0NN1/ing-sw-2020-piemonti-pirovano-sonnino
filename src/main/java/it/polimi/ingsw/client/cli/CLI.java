@@ -16,10 +16,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
@@ -107,8 +105,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
      * action one and parses the player's input.
      */
     public void loop() {
-        System.out.println("");
-        output.print(">");
+        input.reset();
         String cmd = input.nextLine();
         observers.firePropertyChange("action", null, cmd);
     }
@@ -116,9 +113,9 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     @Override
     public void run() {
         setup();
-
-        while (activeGame) {
-            if (modelView.getCanInput()) {
+        while(activeGame) {
+            //TODO match input enabler confirmation (from server)
+            if (modelView.getStarted() == 3) {
                 loop();
             }
         }
@@ -144,6 +141,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
             }
         }
         connection.send(new NumberOfPlayers(selection));
+        modelView.setStarted(1);
     }
 
     /**
@@ -161,6 +159,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 PlayerColors color = PlayerColors.parseInput(input.nextLine());
                 if (available.contains(color)) {
                     connection.send(new ChosenColor(color));
+                    modelView.setStarted(2);
                     return;
                 } else {
                     output.println("Color not available!");
@@ -232,8 +231,6 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 if (req.startingPlayer && req.players != null) {
                     output.println(req.message);
                     req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
-                    chooseStartingPlayer(req.players.size());
-                    return;
                 } else if (req.godList != null) {
                     req.godList.forEach(n -> output.print(n + ", "));
                     output.println();
@@ -262,6 +259,9 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
             }
             case "customMessage" -> {
                 output.println(evt.getNewValue());
+                if(modelView.getStarted()==2) {
+                    modelView.setStarted(3);
+                }
             }
             case "connectionClosed" -> {
                 output.println(evt.getNewValue());
@@ -269,34 +269,6 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
                 System.exit(0);
             }
         }
-    }
-
-    public void board(){
-        String bg = Constants.ANSI_GREEN + "█" + Constants.ANSI_RESET;
-        String RowWave = new String(Constants.ANSI_BLUE+"≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈"+Constants.ANSI_RESET);
-        String coupleRowWave =new String(Constants.ANSI_BLUE+"≈≈"+Constants.ANSI_RESET);
-        String lvl0 =
-                "███████████████████████████████\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "█" + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + bg + "█\n" +
-                "███████████████████████████████";
-        System.out.println(coupleRowWave.charAt(0));
-        System.out.println(coupleRowWave.charAt(2));
-        System.out.println(coupleRowWave.charAt(3));
-        System.out.println(coupleRowWave.charAt(4));
-        System.out.println(coupleRowWave.charAt(5));
-        System.out.println(coupleRowWave.charAt(6));
     }
 
 

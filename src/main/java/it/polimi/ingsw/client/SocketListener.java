@@ -14,7 +14,7 @@ public class SocketListener implements Runnable{
 
     private Socket socket;
     private ConnectionSocket connectionSocket;
-    private ModelView modelView;
+    private final ModelView modelView;
     private ActionHandler actionHandler;
 
     private ObjectInputStream inputStream;
@@ -47,6 +47,7 @@ public class SocketListener implements Runnable{
         }
         catch (IOException e) {
             System.err.println("Connection closed by the server. Quitting...");
+            //e.printStackTrace();
             System.exit(0);
         }
         catch (ClassNotFoundException e) {

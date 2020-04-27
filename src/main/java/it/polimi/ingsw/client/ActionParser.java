@@ -31,48 +31,59 @@ public class ActionParser implements PropertyChangeListener {
         String command = in[0];
         try {
             switch (command.toUpperCase()) {
-                case "GODLIST":
+                case "GODLIST" -> {
                     connection.send(new ChallengerPhaseAction("LIST"));
-                    break;
-                case "GODDESC":
+                }
+                case "GODDESC" -> {
                     try {
                         connection.send(new ChallengerPhaseAction("DESC", Card.parseInput(in[1])));
                     } catch (IllegalArgumentException e) {
                         System.out.println(red + "Not existing god with your input's name." + rst);
                         return false;
                     }
-                    break;
-                case "ADDGOD":
+                }
+                case "ADDGOD" -> {
                     try {
                         connection.send(new ChallengerPhaseAction("ADD", Card.parseInput(in[1])));
                     } catch (IllegalArgumentException e) {
                         System.out.println(red + "Not existing god with your input's name." + rst);
                         return false;
                     }
-                    break;
-                case "CHOOSE":
+                }
+                case "CHOOSE" -> {
                     try {
                         connection.send(new ChallengerPhaseAction("CHOOSE", Card.parseInput(in[1])));
                     } catch (IllegalArgumentException e) {
                         System.out.println(red + "Not existing god with your input's name." + rst);
                         return false;
                     }
-                    break;
-                case "SET":
+                }
+                case "STARTER" -> {
+                    try {
+                        int startingPlayer = Integer.parseInt(in[1]);
+                        connection.send(new ChallengerPhaseAction(startingPlayer));
+                    } catch (NumberFormatException e) {
+                        System.out.println(red + "Error: it must be a numeric value, please try again." + rst);
+                    }
+                }
+                case "SET" -> {
                     try {
                         connection.send(new WorkerSetupMessage(in));
+                        return true;
                     } catch (NumberFormatException e) {
                         System.out.println(red + "Unknown input, please try again!" + rst);
                         return false;
                     }
-                    break;
-                case "QUIT":
+                }
+                case "QUIT" -> {
                     connection.send(new Disconnect());
                     System.err.println("Disconnected from the server.");
                     System.exit(0);
-                default:
+                }
+                default -> {
                     System.out.println(red + "Unknown input, please try again!" + rst);
                     return false;
+                }
             }
             return true;
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -84,7 +95,8 @@ public class ActionParser implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(!modelView.getCanInput()) {
-            System.out.println(red + "Error: ");
+            System.out.println(red + "Error: not your turn!");
+            return;
         }
         if(action(evt.getNewValue().toString())) {
             modelView.untoggleInput();

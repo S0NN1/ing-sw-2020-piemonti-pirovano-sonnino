@@ -1,6 +1,8 @@
 package it.polimi.ingsw.constants;
 
-public class Couple {
+import java.io.Serializable;
+
+public class Couple implements Serializable {
 
     private int x;
     private int y;
