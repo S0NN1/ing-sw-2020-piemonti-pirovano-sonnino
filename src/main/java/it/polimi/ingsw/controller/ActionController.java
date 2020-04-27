@@ -19,18 +19,10 @@ public class ActionController {
     private GameBoard gameBoard;
     private Worker worker;
 
-    private int phase;
+    protected int phase;
 
     public ActionController(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
-    }
-
-    public int getPhase() {
-        return phase;
-    }
-
-    public void setPhase(int phase) {
-        this.phase = phase;
     }
 
     /**

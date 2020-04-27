@@ -200,14 +200,15 @@ class ActionControllerTest {
      * the setter and getter of phase attribute
      */
     private class ActionControllerStub extends ActionController {
+
         public ActionControllerStub(GameBoard gameBoard) {
             super(gameBoard);
         }
         public void setPhase(int phase){
-            super.setPhase(phase);
+            this.phase = phase;
         }
         public int getPhase(){
-            return super.getPhase();
+            return this.phase;
         }
     }
 }
