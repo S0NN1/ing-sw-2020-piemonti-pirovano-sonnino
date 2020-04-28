@@ -23,21 +23,22 @@ import java.util.Scanner;
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
  *
- * @author Luca Pirovano
+ * @author Luca Pirovano, Nicolò Sonnino
  * @version 1.0.0
  */
 public class CLI implements UI, Runnable {
+    public final String green = Constants.ANSI_GREEN;
+    public final String yellow = Constants.ANSI_YELLOW;
     private final String red = Constants.ANSI_RED;
-    private final String rst=Constants.ANSI_RESET;
-    public final String green=Constants.ANSI_GREEN;
-    private Printable printable;
-    private DisplayCell[][] grid;
+    private final String rst = Constants.ANSI_RESET;
     private final PrintStream output;
     private final Scanner input;
     private final PrintStream err;
     private final ModelView modelView;
     private final ActionHandler actionHandler;
     private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
+    private final DisplayCell[][] grid;
+    private Printable printable;
     private boolean activeGame;
     private ConnectionSocket connection;
 
@@ -118,8 +119,7 @@ public class CLI implements UI, Runnable {
     @Override
     public void run() {
         setup();
-        firstBuildBoard(grid);
-        while(activeGame) {
+        while (activeGame) {
             //TODO match input enabler confirmation (from server)
             if (modelView.getStarted() == 3) {
                 loop();
@@ -130,11 +130,11 @@ public class CLI implements UI, Runnable {
     }
 
     private void firstBuildBoard(DisplayCell[][] grid) {
-        int i=0;
-        int j=0;
-        for(i=0;i<=4;i++){
-            for(j=0;j<=4;j++){
-                String[] rows= printable.lvl0.split("\n");
+        int i = 0;
+        int j = 0;
+        for (i = 0; i <= 4; i++) {
+            for (j = 0; j <= 4; j++) {
+                String[] rows = printable.lvl0.split("\n");
                 String[] fifthRow = rows[4].split("u");
                 String[] sixthRow = rows[5].split("u");
                 grid[i][j].setfirstCellRow(rows[0]);
@@ -149,13 +149,85 @@ public class CLI implements UI, Runnable {
                 grid[i][j].settenthCellRow(rows[9]);
                 grid[i][j].seteleventhCellRow(rows[10]);
             }
-            j=0;
+            j = 0;
         }
     }
 
-    private void printBoard(DisplayCell[][] grid){
-
+    private void  boardUpdater(DisplayCell[][] grid){
+    int i=0;
+    int j=0;
     }
+
+    private void printBoard(DisplayCell[][] grid) {
+        int i = 0;
+        int j = 0;
+        System.out.println(printable.rowWave);
+        System.out.println(printable.rowWave);
+        System.out.println(printable.coupleRowWave + yellow + printable.lineBlock + rst + printable.coupleRowWave);
+        for (i = 0; i <= 4; i++) {
+            System.out.print(printable.coupleRowWave + yellow + "█" + rst);
+            for (j = 0; j <= 4; j++) {
+                System.out.print(grid[i][j].getfirstCellRow() + yellow + "█" + rst);
+            }
+            j = 0;
+            System.out.print(printable.coupleRowWave + "\n");
+            for (j = 0; j <= 4; j++) {
+                System.out.print(grid[i][j].getsecondCellRow() + yellow + "█" + rst);
+            }
+            j = 0;
+            System.out.print(printable.coupleRowWave + "\n");
+            for (j = 0; j <= 4; j++) {
+                System.out.print(grid[i][j].getthirdCellRow() + yellow + "█" + rst);
+            }
+            j = 0;
+            System.out.print(printable.coupleRowWave + "\n");
+            for (j = 0; j <= 4; j++) {
+                System.out.print(grid[i][j].getfourthCellRow() + yellow + "█" + rst);
+            }
+            j = 0;
+            System.out.print(printable.coupleRowWave + "\n");
+            for (j = 0; j <= 4; j++) {
+                System.out.print(grid[i][j].getfifthCellRow() + yellow + "█" + rst);
+            }
+            j = 0;
+            System.out.print(printable.coupleRowWave + "\n");
+            for (j = 0; j <= 4; j++) {
+                System.out.print(grid[i][j].getsixthCellRow() + yellow + "█" + rst);
+            }
+            j = 0;
+            System.out.print(printable.coupleRowWave + "\n");
+            for (j = 0; j <= 4; j++) {
+                System.out.print(grid[i][j].getseventhCellRow() + yellow + "█" + rst);
+            }
+            j = 0;
+            System.out.print(printable.coupleRowWave + "\n");
+            for (j = 0; j <= 4; j++) {
+                System.out.print(grid[i][j].geteighthCellRow() + yellow + "█" + rst);
+            }
+            j = 0;
+            System.out.print(printable.coupleRowWave + "\n");
+            for (j = 0; j <= 4; j++) {
+                System.out.print(grid[i][j].getninthCellRow() + yellow + "█" + rst);
+            }
+            j = 0;
+            System.out.print(printable.coupleRowWave + "\n");
+            for (j = 0; j <= 4; j++) {
+                System.out.print(grid[i][j].gettenthCellRow() + yellow + "█" + rst);
+            }
+            j = 0;
+            System.out.print(printable.coupleRowWave + "\n");
+
+            for (j = 0; j <= 4; j++) {
+                System.out.print(grid[i][j].geteleventhCellRow() + yellow + "█" + rst);
+            }
+            j = 0;
+            System.out.print(printable.coupleRowWave + "\n");
+        }
+        System.out.println(printable.coupleRowWave + yellow + printable.lineBlock + rst + printable.coupleRowWave);
+        System.out.println(printable.rowWave);
+        System.out.println(printable.rowWave);
+    }
+
 
     /**
      * This method lets the first-connected user to decides the match capacity.
@@ -292,7 +364,7 @@ public class CLI implements UI, Runnable {
             }
             case "customMessage" -> {
                 output.println(evt.getNewValue());
-                if(modelView.getStarted()==2) {
+                if (modelView.getStarted() == 2) {
                     modelView.setStarted(3);
                 }
             }

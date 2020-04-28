@@ -10,12 +10,13 @@ public class Printable {
     private final String cyan = Constants.ANSI_CYAN;
     private final String purple = Constants.ANSI_PURPLE;
     private final String yellow = Constants.ANSI_YELLOW;
+    public String lineBlock = "█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████";
     public String upperBodyWorker = "u";
     public String lowerBodyWorker = "u";
-    public String RowWave = blue + "≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈" + rst;
+    public String rowWave = blue + "≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈" + rst;
     public String coupleRowWave = blue + "≈≈" + rst;
     public String lvl0 =
-            green + "███████████████████████" + rst + "\n" +
+                    green + "███████████████████████" + rst + "\n" +
                     green + "███████████████████████" + rst + "\n" +
                     green + "███████████████████████" + rst + "\n" +
                     green + "███████████████████████" + rst + "\n" +
@@ -27,7 +28,7 @@ public class Printable {
                     green + "███████████████████████" + rst + "\n" +
                     green + "███████████████████████" + rst + "\n";
     public String lvl1 =
-            "╔═════════════════════╗" + "\n" +
+                    "╔═════════════════════╗" + "\n" +
                     "║█████████████████████║" + "\n" +
                     "║█████████████████████║" + "\n" +
                     "║█████████████████████║" + "\n" +
@@ -39,7 +40,7 @@ public class Printable {
                     "║█████████████████████║" + "\n" +
                     "╚═════════════════════╝";
     public String lvl2 =
-            "╔═════════════════════╗\n" +
+                    "╔═════════════════════╗\n" +
                     "║" + purple + "┌───────────────────┐" + rst + "║\n" +
                     "║" + purple + "│" + rst + "███████████████████" + purple + "│" + rst + "║\n" +
                     "║" + purple + "│" + rst + "███████████████████" + purple + "│" + rst + "║\n" +
@@ -51,7 +52,7 @@ public class Printable {
                     "║" + purple + "└───────────────────┘" + rst + "║\n" +
                     "╚═════════════════════╝";
     public String lvl3 =
-            "╔═════════════════════╗\n" +
+                    "╔═════════════════════╗\n" +
                     "║" + purple + "┌───────────────────┐" + rst + "║\n" +
                     "║" + purple + "│" + rst + "█████" + cyan + "█████████" + rst + "█████" + purple + "│" + rst + "║\n" +
                     "║" + purple + "│" + rst + "███" + cyan + "█████████████" + rst + "███" + purple + "│" + rst + "║\n" +
@@ -63,7 +64,7 @@ public class Printable {
                     "║" + purple + "└───────────────────┘" + rst + "║\n" +
                     "╚═════════════════════╝ ";
     public String lvl4 =
-            "╔═════════════════════╗\n" +
+                    "╔═════════════════════╗\n" +
                     "║" + purple + "┌───────────────────┐" + rst + "║\n" +
                     "║" + purple + "│" + rst + "█████" + cyan + "█████████" + rst + "█████" + purple + "│" + rst + "║\n" +
                     "║" + purple + "│" + rst + "███" + cyan + "█████" + rst + blue + "███" + cyan + "█████" + rst + "███" + purple + "│" + rst + "║\n" +
@@ -75,7 +76,7 @@ public class Printable {
                     "║" + purple + "└───────────────────┘" + rst + "║\n" +
                     "╚═════════════════════╝ ";
     public String lvl0c =
-            green + "███████████████████████" + rst + "\n" +
+                    green + "███████████████████████" + rst + "\n" +
                     green + "███████████████████████" + rst + "\n" +
                     green + "███████████████████████" + rst + "\n" +
                     green + "██████████" + blue + "███" + green + "██████████" + rst + "\n" +
@@ -87,7 +88,7 @@ public class Printable {
                     green + "███████████████████████" + rst + "\n" +
                     green + "███████████████████████" + rst + "\n";
     public String lvl1c =
-            "╔═════════════════════╗" + "\n" +
+                    "╔═════════════════════╗" + "\n" +
                     "║█████████████████████║" + "\n" +
                     "║█████████████████████║" + "\n" +
                     "║█████████" + blue + "███" + rst + "█████████║" + "\n" +
@@ -99,7 +100,7 @@ public class Printable {
                     "║█████████████████████║" + "\n" +
                     "╚═════════════════════╝";
     public String lvl2c =
-            "╔═════════════════════╗\n" +
+                    "╔═════════════════════╗\n" +
                     "║" + purple + "┌───────────────────┐" + rst + "║\n" +
                     "║" + purple + "│" + rst + "███████████████████" + purple + "│" + rst + "║\n" +
                     "║" + purple + "│" + rst + "████████" + blue + "███" + rst + "████████" + purple + "│" + rst + "║\n" +
