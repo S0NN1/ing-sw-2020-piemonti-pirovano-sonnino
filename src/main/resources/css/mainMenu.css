@@ -1,11 +1,11 @@
 
 .mainPanel {
-	-fx-background-image: url("../../../../src/main/resources/graphics/bgs/bg_mainmenu.png");
+	-fx-background-image: url("../graphics/bgs/bg_mainmenu.png");
 	-fx-background-size: stretch;
 }
 
 .actionButton {
-	-fx-background-image: url("../../../../src/main/resources/graphics/btns/cm_btn_blue.png");
+	-fx-background-image: url("../graphics/btns/cm_btn_blue.png");
 	-fx-background-size: stretch;
 	-fx-background-color: transparent;
 }
@@ -15,5 +15,5 @@
 }
 
 .actionButton:pressed {
-	-fx-background-image: url("../../../../src/main/resources/graphics/btns/cm_btn_blue_pressed.png");
+	-fx-background-image: url("../graphics/btns/cm_btn_blue_pressed.png");
 }

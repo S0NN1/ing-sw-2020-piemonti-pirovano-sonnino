@@ -5,7 +5,9 @@ import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
@@ -30,8 +32,11 @@ public class GUI extends Application implements UI {
 
     private static final String GUI = "gui.fxml";
     private static final String MENU = "MainMenu.fxml";
+    private static final String LOADER = "loading.fxml";
     private static final String SETUP = "setup.fxml";
+
     private Scene currentScene;
+    private Stage stage;
 
     public GUI() {
         this.modelView = new ModelView(this);
@@ -39,13 +44,22 @@ public class GUI extends Application implements UI {
         activeGame = true;
     }
 
+    public void run() {
+        stage.setTitle("Santorini");
+        stage.setScene(currentScene);
+        stage.show();
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         setup();
+        this.stage = stage;
+        this.stage.setResizable(false);
+        run();
     }
 
     public void setup() {
-        List<String> fxmlist = new ArrayList<>(Arrays.asList(GUI, MENU, SETUP));
+        List<String> fxmlist = new ArrayList<>(Arrays.asList(/*GUI,*/ MENU, LOADER, SETUP));
         try {
             for (String path : fxmlist) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + path));
@@ -58,11 +72,23 @@ public class GUI extends Application implements UI {
             e.printStackTrace();
         }
         currentScene = nameMAPscene.get(MENU);
-        guiController = (MainGuiController)nameMAPcontroller.get(GUI);
+        //guiController = (MainGuiController)nameMAPcontroller.get(GUI);
     }
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void centerApplication() {
+        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+        stage.setX((screenSize.getWidth() - currentScene.getWidth())/2);
+        stage.setY((screenSize.getHeight() - currentScene.getHeight())/2);
+    }
+
+    public void changeStage(String newScene) {
+        currentScene = nameMAPscene.get(newScene);
+        stage.setScene(currentScene);
+        stage.show();
     }
 
     @Override
