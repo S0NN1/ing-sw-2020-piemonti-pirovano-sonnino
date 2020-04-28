@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
+import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.server.answers.*;
@@ -12,6 +13,7 @@ public class ActionHandler {
 
     private ModelView modelView;
     private CLI cli;
+    private GUI gui;
     private PropertyChangeSupport view = new PropertyChangeSupport(this);
 
     public ActionHandler(CLI cli, ModelView modelView) {
@@ -20,9 +22,11 @@ public class ActionHandler {
         this.modelView = modelView;
     }
 
-    /*public ActionHandler(GUI gui) {
-        //TODO
-    }*/
+    public ActionHandler(GUI gui, ModelView modelView) {
+        this.gui = gui;
+        view.addPropertyChangeListener(gui);
+        this.modelView = modelView;
+    }
 
 
     public void fullGamePhase(Answer answer) {

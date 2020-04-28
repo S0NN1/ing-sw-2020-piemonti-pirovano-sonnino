@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
+import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.server.answers.*;
 
 import java.beans.PropertyChangeSupport;
@@ -12,16 +13,25 @@ import java.beans.PropertyChangeSupport;
 public class ModelView {
 
     private Answer serverAnswer;
-    private CLI cli;
+    private final CLI cli;
     private boolean canInput;
     private int gamePhase;
     private final ClientBoard clientBoard;
+    private final GUI gui;
     private volatile int started;
 
     public ModelView(CLI cli) {
         this.cli = cli;
         gamePhase = 0;
         clientBoard = new ClientBoard();
+        gui = null;
+    }
+
+    public ModelView(GUI gui) {
+        this.gui = gui;
+        this.clientBoard = new ClientBoard();
+        this.cli = null;
+        gamePhase = 0;
     }
 
     public synchronized ClientBoard getBoard() {

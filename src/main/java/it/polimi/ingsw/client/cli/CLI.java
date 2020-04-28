@@ -14,14 +14,13 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
  * @author Luca Pirovano
  * @version 1.0.0
  */
-public class CLI implements UI, Runnable, PropertyChangeListener {
+public class CLI implements UI, Runnable {
     private final Scanner input;
     private final PrintStream output;
     private final PrintStream err;
