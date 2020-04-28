@@ -13,11 +13,12 @@ import it.polimi.ingsw.server.answers.RequestColor;
 import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
@@ -25,11 +26,14 @@ import java.util.concurrent.TimeUnit;
  * @author Luca Pirovano
  * @version 1.0.0
  */
-public class CLI implements UI, Runnable, PropertyChangeListener {
-    private static final String red = Constants.ANSI_RED;
-    private static final String rst = Constants.ANSI_RESET;
-    private final Scanner input;
+public class CLI implements UI, Runnable {
+    private final String red = Constants.ANSI_RED;
+    private final String rst=Constants.ANSI_RESET;
+    public final String green=Constants.ANSI_GREEN;
+    private Printable printable;
+    private DisplayCell[][] grid;
     private final PrintStream output;
+    private final Scanner input;
     private final PrintStream err;
     private final ModelView modelView;
     private final ActionHandler actionHandler;
@@ -44,6 +48,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         actionHandler = new ActionHandler(this, modelView);
         err = new PrintStream(System.err);
         activeGame = true;
+        grid = new DisplayCell[5][5];
     }
 
     /**
@@ -93,7 +98,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         connection = new ConnectionSocket();
         try {
             connection.setup(nickname, modelView, actionHandler);
-            output.println(Constants.ANSI_GREEN + "Socket Connection setup completed!" + Constants.ANSI_RESET);
+            output.println(green + "Socket Connection setup completed!" + rst);
         } catch (DuplicateNicknameException e) {
             setup();
         }
@@ -113,6 +118,7 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     @Override
     public void run() {
         setup();
+        firstBuildBoard(grid);
         while(activeGame) {
             //TODO match input enabler confirmation (from server)
             if (modelView.getStarted() == 3) {
@@ -123,6 +129,34 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         output.close();
     }
 
+    private void firstBuildBoard(DisplayCell[][] grid) {
+        int i=0;
+        int j=0;
+        for(i=0;i<=4;i++){
+            for(j=0;j<=4;j++){
+                String[] rows= printable.lvl0.split("\n");
+                String[] fifthRow = rows[4].split("u");
+                String[] sixthRow = rows[5].split("u");
+                grid[i][j].setfirstCellRow(rows[0]);
+                grid[i][j].setsecondCellRow(rows[1]);
+                grid[i][j].setthirdCellRow(rows[2]);
+                grid[i][j].setfourthCellRow(rows[3]);
+                grid[i][j].setfifthCellRow(fifthRow[0] + "█" + fifthRow[1]);
+                grid[i][j].setsixthCellRow(sixthRow[0] + "█" + sixthRow[1]);
+                grid[i][j].setseventhCellRow(rows[6]);
+                grid[i][j].seteighthCellRow(rows[7]);
+                grid[i][j].setninthCellRow(rows[8]);
+                grid[i][j].settenthCellRow(rows[9]);
+                grid[i][j].seteleventhCellRow(rows[10]);
+            }
+            j=0;
+        }
+    }
+
+    private void printBoard(DisplayCell[][] grid){
+
+    }
+
     /**
      * This method lets the first-connected user to decides the match capacity.
      * Terminates the client if the player inserts an incorrect type of input.
@@ -131,7 +165,6 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
         int selection;
         while (true) {
             try {
-                board();
                 output.print(">");
                 selection = input.nextInt();
                 break;
@@ -217,11 +250,11 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
     public void initialPhaseHandling(String value) {
         switch (value) {
             case "RequestPlayerNumber" -> {
-                output.println(Constants.ANSI_GREEN + ((RequestPlayersNumber) modelView.getServerAnswer()).getMessage() + Constants.ANSI_RESET);
+                output.println(green + ((RequestPlayersNumber) modelView.getServerAnswer()).getMessage() + rst);
                 choosePlayerNumber();
             }
             case "RequestColor" -> {
-                output.println(Constants.ANSI_GREEN + ((RequestColor) modelView.getServerAnswer()).getMessage() + "\nRemaining:" + Constants.ANSI_RESET);
+                output.println(green + ((RequestColor) modelView.getServerAnswer()).getMessage() + "\nRemaining:" + rst);
                 ((RequestColor) modelView.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
                 output.print("\n");
                 chooseColor(((RequestColor) modelView.getServerAnswer()).getRemaining());
@@ -270,8 +303,5 @@ public class CLI implements UI, Runnable, PropertyChangeListener {
             }
         }
     }
-
-
-
 
 }
