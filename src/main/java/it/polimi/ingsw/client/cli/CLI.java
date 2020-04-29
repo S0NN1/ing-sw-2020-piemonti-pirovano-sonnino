@@ -28,9 +28,7 @@ import java.util.Scanner;
  * @version 1.0.0
  */
 public class CLI implements UI, Runnable {
-<<<<<<< HEAD
     private final Scanner input;
-=======
     public final String green = Constants.ANSI_GREEN;
     public final String yellow = Constants.ANSI_YELLOW;
     private final String red = Constants.ANSI_RED;
@@ -38,7 +36,6 @@ public class CLI implements UI, Runnable {
     private final String blue = Constants.ANSI_BLUE;
     private final String cyan = Constants.ANSI_CYAN;
     private final String backgroundBlack = Constants.ANSI_BACKGROUND_BLACK;
->>>>>>> fb4c269f7efcd1acdaf4d7f79d1bf27a61c5a826
     private final PrintStream output;
     private final Scanner input;
     private final PrintStream err;
