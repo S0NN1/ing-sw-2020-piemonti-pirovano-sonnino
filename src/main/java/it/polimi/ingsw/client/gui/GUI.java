@@ -5,15 +5,13 @@ import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.LoaderController;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
 import it.polimi.ingsw.server.answers.GameError;
+import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -65,6 +63,12 @@ public class GUI extends Application implements UI {
         run();
     }
 
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        System.exit(0);
+    }
+
     public void setup() {
         List<String> fxmlist = new ArrayList<>(Arrays.asList(/*GUI,*/ MENU, LOADER, SETUP));
         try {
@@ -102,6 +106,10 @@ public class GUI extends Application implements UI {
         stage.show();
     }
 
+    public ConnectionSocket getConnection() {
+        return connection;
+    }
+
     public void setConnection(ConnectionSocket connection) {
         this.connection = connection;
     }
@@ -121,13 +129,18 @@ public class GUI extends Application implements UI {
     public void errorHandling(GameError error) {}
 
     public void initialPhaseHandling(String cmd) {
+        switch (cmd) {
+            case "RequestPlayerNumber" -> {
+                Platform.runLater(() -> {
+                    LoaderController controller = (LoaderController) getControllerFromName(LOADER);
+                    controller.requestPlayerNumber(((RequestPlayersNumber) modelView.getServerAnswer()).getMessage());
+                });
+            }
+        }
     }
 
-    public void test() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Info");
-        alert.setHeaderText("Message from the server");
-        //alert.setContentText(evt.getNewValue().toString());
+    public void duplicateNickname() {
+
     }
 
     @Override
@@ -141,9 +154,14 @@ public class GUI extends Application implements UI {
             }
             case "customMessage" -> {
                 if(modelView.getGamePhase()==0) {
+                    if(evt.getNewValue().toString().contains("Match starting") || evt.getNewValue().toString().contains("The match has started")) {
+                        LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+                        Platform.runLater(() -> {controller.setText(evt.getNewValue().toString());});
+                        return;
+                    }
                     Platform.runLater(() -> {
                         LoaderController controller = (LoaderController)getControllerFromName(LOADER);
-                        controller.display(evt.getNewValue().toString());
+                        controller.displayCustomMessage(evt.getNewValue().toString());
                     });
                 }
             }

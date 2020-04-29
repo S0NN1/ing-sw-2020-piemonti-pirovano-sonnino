@@ -42,6 +42,10 @@ public class ModelView {
         return cli;
     }
 
+    public GUI getGui() {
+        return gui;
+    }
+
     public synchronized void setStarted(int val) {
         started = val;
     }

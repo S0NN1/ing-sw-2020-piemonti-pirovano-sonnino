@@ -5,13 +5,10 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TextField;
-import javafx.stage.Screen;
 
 import java.awt.*;
 import java.io.IOException;
@@ -59,11 +56,16 @@ public class MainMenuController implements GUIController{
                 loaderController.setText("CONFIGURING SOCKET CONNECTION...");
                 ConnectionSocket connectionSocket = new ConnectionSocket();
                 connectionSocket.setup(username.getText(), gui.getModelView(), gui.getActionHandler());
+                gui.setConnection(connectionSocket);
                 loaderController.setText("SOCKET CONNECTION \nSETUP COMPLETED!");
+                loaderController.setText("WAITING FOR PLAYERS");
 
             } catch (DuplicateNicknameException e) {
-                loaderController.setText("ERROR: NICKNAME IS ALREADY IN USE!");
-                TimeUnit.SECONDS.sleep(2);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Duplicate nickname");
+                alert.setHeaderText("Duplicate nickname!");
+                alert.setContentText("This nickname is already in use! Please choose one other.");
+                alert.showAndWait();
                 gui.changeStage("MainMenu.fxml");
             }
         }
