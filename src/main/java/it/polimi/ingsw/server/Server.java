@@ -205,7 +205,9 @@ public class Server {
             clientToConnection.put(client, socketClientHandler);
             System.out.println(Constants.getInfo() + "Client " + client.getNickname() + ", identified by ID " + client.getClientID() + ", has successfully connected!");
             client.send(new ConnectionMessage("Connection was successfully set-up! You are now connected.", 0));
-            currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " joined the game", false));
+            if(waiting.size()>1) {
+                currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " joined the game", false));
+            }
         }
         else {
             VirtualClient client = IDmapClient.get(clientID);

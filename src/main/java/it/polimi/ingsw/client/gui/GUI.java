@@ -2,11 +2,18 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
+import it.polimi.ingsw.client.gui.controllers.LoaderController;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
+import it.polimi.ingsw.server.answers.GameError;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -79,6 +86,10 @@ public class GUI extends Application implements UI {
         launch(args);
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
     public void centerApplication() {
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
         stage.setX((screenSize.getWidth() - currentScene.getWidth())/2);
@@ -91,8 +102,51 @@ public class GUI extends Application implements UI {
         stage.show();
     }
 
+    public void setConnection(ConnectionSocket connection) {
+        this.connection = connection;
+    }
+
+    public ModelView getModelView() {
+        return modelView;
+    }
+
+    public ActionHandler getActionHandler() {
+        return actionHandler;
+    }
+
+    public GUIController getControllerFromName(String name) {
+        return nameMAPcontroller.get(name);
+    }
+
+    public void errorHandling(GameError error) {}
+
+    public void initialPhaseHandling(String cmd) {
+    }
+
+    public void test() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Info");
+        alert.setHeaderText("Message from the server");
+        //alert.setContentText(evt.getNewValue().toString());
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        switch (evt.getPropertyName()) {
+            case "gameError" -> {
+                errorHandling((GameError)evt.getNewValue());
+            }
+            case "initialPhase" -> {
+                initialPhaseHandling(evt.getNewValue().toString());
+            }
+            case "customMessage" -> {
+                if(modelView.getGamePhase()==0) {
+                    Platform.runLater(() -> {
+                        LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+                        controller.display(evt.getNewValue().toString());
+                    });
+                }
+            }
+        }
     }
 }

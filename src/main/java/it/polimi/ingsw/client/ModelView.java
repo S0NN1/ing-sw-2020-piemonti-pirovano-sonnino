@@ -60,6 +60,7 @@ public class ModelView {
     public void setGamePhase(int phase) {
         gamePhase = phase;
     }
+    //TODO Update gamePhase counter
 
     /**
      * @return the current game phase.
