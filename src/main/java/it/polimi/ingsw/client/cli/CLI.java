@@ -28,7 +28,7 @@ import java.util.Scanner;
  * @version 1.0.0
  */
 public class CLI implements UI, Runnable {
-    private final Scanner input;
+
     public final String green = Constants.ANSI_GREEN;
     public final String yellow = Constants.ANSI_YELLOW;
     private final String red = Constants.ANSI_RED;
