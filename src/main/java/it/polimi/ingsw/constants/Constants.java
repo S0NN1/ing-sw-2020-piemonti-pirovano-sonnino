@@ -20,8 +20,7 @@ public class Constants {
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_FOREGROUND_WHITE ="";
-    public static final String ANSI_BACKGROUND_BLACK ="";
+    public static final String ANSI_BACKGROUND_BLACK="\u001B[40m";
 
 
     //server constants

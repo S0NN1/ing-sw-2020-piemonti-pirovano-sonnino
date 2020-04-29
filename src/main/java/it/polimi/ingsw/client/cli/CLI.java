@@ -31,6 +31,9 @@ public class CLI implements UI, Runnable {
     public final String yellow = Constants.ANSI_YELLOW;
     private final String red = Constants.ANSI_RED;
     private final String rst = Constants.ANSI_RESET;
+    private final String blue = Constants.ANSI_BLUE;
+    private final String cyan = Constants.ANSI_CYAN;
+    private final String backgroundBlack = Constants.ANSI_BACKGROUND_BLACK;
     private final PrintStream output;
     private final Scanner input;
     private final PrintStream err;
@@ -38,7 +41,7 @@ public class CLI implements UI, Runnable {
     private final ActionHandler actionHandler;
     private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
     private final DisplayCell[][] grid;
-    private Printable printable;
+    private final Printable printable;
     private boolean activeGame;
     private ConnectionSocket connection;
 
@@ -50,6 +53,12 @@ public class CLI implements UI, Runnable {
         err = new PrintStream(System.err);
         activeGame = true;
         grid = new DisplayCell[5][5];
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                grid[i][j] = new DisplayCell();
+            }
+        }
+        printable = new Printable();
     }
 
     /**
@@ -130,100 +139,205 @@ public class CLI implements UI, Runnable {
     }
 
     private void firstBuildBoard(DisplayCell[][] grid) {
-        int i = 0;
-        int j = 0;
-        for (i = 0; i <= 4; i++) {
-            for (j = 0; j <= 4; j++) {
-                String[] rows = printable.lvl0.split("\n");
-                String[] fifthRow = rows[4].split("u");
-                String[] sixthRow = rows[5].split("u");
-                grid[i][j].setfirstCellRow(rows[0]);
-                grid[i][j].setsecondCellRow(rows[1]);
-                grid[i][j].setthirdCellRow(rows[2]);
-                grid[i][j].setfourthCellRow(rows[3]);
-                grid[i][j].setfifthCellRow(fifthRow[0] + "█" + fifthRow[1]);
-                grid[i][j].setsixthCellRow(sixthRow[0] + "█" + sixthRow[1]);
-                grid[i][j].setseventhCellRow(rows[6]);
-                grid[i][j].seteighthCellRow(rows[7]);
-                grid[i][j].setninthCellRow(rows[8]);
-                grid[i][j].settenthCellRow(rows[9]);
-                grid[i][j].seteleventhCellRow(rows[10]);
+        String[] rows = printable.lvl0.split("\n");
+        for (int i = 0; i <= 4; i++) {
+            for (int j = 0; j <= 4; j++) {
+                for (int k = 0; k <= 10; k++) {
+                    grid[i][j].setCellRows(k, rows[k]);
+                }
             }
-            j = 0;
         }
     }
 
-    private void  boardUpdater(DisplayCell[][] grid){
-    int i=0;
-    int j=0;
+    private void boardUpdater(DisplayCell[][] grid) {
+        String[] rows = new String[11];
+        for (int i = 0; i <= 4; i++) {
+            for (int j = 0; j <= 4; j++) {
+                for (int k = 0; k <= 10; k++) {
+                    if (modelView.getBoard().getGrid()[i][j].getLevel() == 0) {
+                        if (modelView.getBoard().getGrid()[i][j].isDome()) {
+                            rows = printable.lvl0c.split("\n");
+                            if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
+                                String color = "";
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
+                                    color = red;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
+                                    color = blue;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
+                                    color = green;
+                                }
+                                String temp = rows[4].substring(0, 22) + backgroundBlack + color + "☻" + blue + rows[4].substring(23);
+                                String temp2 = rows[5].substring(0, 22) + backgroundBlack + color + "▲" + blue + rows[4].substring(23);
+                                rows[4] = temp;
+                                rows[5] = temp2;
+                            }
+                        } else {
+                            rows = printable.lvl0.split("\n");
+                            if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
+                                String color = "";
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
+                                    color = red;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
+                                    color = blue;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
+                                    color = green;
+                                }
+                                String temp = rows[4].substring(0, 17) + backgroundBlack + color + "☻" + green + rows[4].substring(18);
+                                String temp2 = rows[5].substring(0, 17) + backgroundBlack + color + "▲" + green + rows[4].substring(18);
+                                rows[4] = temp;
+                                rows[5] = temp2;
+                            }
+                        }
+                    }
+                    if (modelView.getBoard().getGrid()[i][j].getLevel() == 1) {
+                        if (modelView.getBoard().getGrid()[i][j].isDome()) {
+                            rows = printable.lvl1c.split("\n");
+                            if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
+                                String color = "";
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
+                                    color = red;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
+                                    color = blue;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
+                                    color = green;
+                                }
+                                String temp = rows[4].substring(0, 17) + backgroundBlack + color + "☻" + blue + rows[4].substring(18);
+                                String temp2 = rows[5].substring(0, 17) + backgroundBlack + color + "▲" + blue + rows[4].substring(18);
+                                rows[4] = temp;
+                                rows[5] = temp2;
+                            }
+                        } else {
+                            rows = printable.lvl1.split("\n");
+                            if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
+                                String color = "";
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
+                                    color = red;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
+                                    color = blue;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
+                                    color = green;
+                                }
+                                String temp = rows[4].substring(0, 12) + backgroundBlack + color + "☻" + rst + rows[4].substring(13);
+                                String temp2 = rows[5].substring(0, 12) + backgroundBlack + color + "▲" + rst + rows[4].substring(13);
+                                rows[4] = temp;
+                                rows[5] = temp2;
+                            }
+                        }
+                    }
+                    if (modelView.getBoard().getGrid()[i][j].getLevel() == 2) {
+                        if (modelView.getBoard().getGrid()[i][j].isDome()) {
+                            rows = printable.lvl2c.split("\n");
+                            if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
+                                String color = "";
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
+                                    color = red;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
+                                    color = blue;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
+                                    color = green;
+                                }
+                                String temp = rows[4].substring(0, 26) + backgroundBlack + color + "☻" + blue + rows[4].substring(27);
+                                String temp2 = rows[5].substring(0, 26) + backgroundBlack + color + "▲" + blue + rows[4].substring(27);
+                                rows[4] = temp;
+                                rows[5] = temp2;
+                            }
+                        } else {
+                            rows = printable.lvl2.split("\n");
+                            if (modelView.getBoard().getGrid()[i][j].isDome()) {
+                                rows = printable.lvl2c.split("\n");
+                                if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
+                                    String color = "";
+                                    if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
+                                        color = red;
+                                    }
+                                    if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
+                                        color = blue;
+                                    }
+                                    if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
+                                        color = green;
+                                    }
+                                    String temp = rows[4].substring(0, 22) + backgroundBlack + color + "☻" + rst + rows[4].substring(23);
+                                    String temp2 = rows[5].substring(0, 22) + backgroundBlack + color + "▲" + rst + rows[4].substring(23);
+                                    rows[4] = temp;
+                                    rows[5] = temp2;
+                                }
+                            }
+                        }
+                    }
+                    if (modelView.getBoard().getGrid()[i][j].getLevel() == 3) {
+                        rows = printable.lvl3.split("\n");
+                        if (modelView.getBoard().getGrid()[i][j].isDome()) {
+                            rows = printable.lvl2c.split("\n");
+                            if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
+                                String color = "";
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
+                                    color = red;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
+                                    color = blue;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
+                                    color = green;
+                                }
+                                String temp = rows[4].substring(0, 26) + backgroundBlack + color + "☻" + cyan + rows[4].substring(27);
+                                String temp2 = rows[5].substring(0, 22) + backgroundBlack + color + "▲" + cyan + rows[4].substring(23);
+                                rows[4] = temp;
+                                rows[5] = temp2;
+                            }
+                        }
+                    }
+                    if (modelView.getBoard().getGrid()[i][j].getLevel() == 4) {
+                        rows = printable.lvl4.split("\n");
+                        if (modelView.getBoard().getGrid()[i][j].isDome()) {
+                            rows = printable.lvl2c.split("\n");
+                            if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
+                                String color = "";
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
+                                    color = red;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
+                                    color = blue;
+                                }
+                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
+                                    color = green;
+                                }
+                                String temp = rows[4].substring(0, 35) + backgroundBlack + color + "☻" + blue + rows[4].substring(36);
+                                String temp2 = rows[5].substring(0, 31) + backgroundBlack + color + "▲" + blue + rows[4].substring(32);
+                                rows[4] = temp;
+                                rows[5] = temp2;
+                            }
+                        }
+                        grid[i][j].setCellRows(k, rows[k]);
+                    }
+                }
+            }
+        }
     }
 
     private void printBoard(DisplayCell[][] grid) {
-        int i = 0;
-        int j = 0;
         System.out.println(printable.rowWave);
         System.out.println(printable.rowWave);
         System.out.println(printable.coupleRowWave + yellow + printable.lineBlock + rst + printable.coupleRowWave);
-        for (i = 0; i <= 4; i++) {
-            System.out.print(printable.coupleRowWave + yellow + "█" + rst);
-            for (j = 0; j <= 4; j++) {
-                System.out.print(grid[i][j].getfirstCellRow() + yellow + "█" + rst);
+        for (int i = 0; i <= 4; i++) {
+            for (int k = 0; k <= 10; k++) {
+                System.out.print(printable.coupleRowWave + yellow + "█" + rst);
+                for (int j = 0; j <= 4; j++) {
+                    System.out.print(grid[i][j].getCellRows(k) + yellow + "█" + rst);
+                }
+                System.out.print(printable.coupleRowWave + "\n");
             }
-            j = 0;
-            System.out.print(printable.coupleRowWave + "\n");
-            for (j = 0; j <= 4; j++) {
-                System.out.print(grid[i][j].getsecondCellRow() + yellow + "█" + rst);
-            }
-            j = 0;
-            System.out.print(printable.coupleRowWave + "\n");
-            for (j = 0; j <= 4; j++) {
-                System.out.print(grid[i][j].getthirdCellRow() + yellow + "█" + rst);
-            }
-            j = 0;
-            System.out.print(printable.coupleRowWave + "\n");
-            for (j = 0; j <= 4; j++) {
-                System.out.print(grid[i][j].getfourthCellRow() + yellow + "█" + rst);
-            }
-            j = 0;
-            System.out.print(printable.coupleRowWave + "\n");
-            for (j = 0; j <= 4; j++) {
-                System.out.print(grid[i][j].getfifthCellRow() + yellow + "█" + rst);
-            }
-            j = 0;
-            System.out.print(printable.coupleRowWave + "\n");
-            for (j = 0; j <= 4; j++) {
-                System.out.print(grid[i][j].getsixthCellRow() + yellow + "█" + rst);
-            }
-            j = 0;
-            System.out.print(printable.coupleRowWave + "\n");
-            for (j = 0; j <= 4; j++) {
-                System.out.print(grid[i][j].getseventhCellRow() + yellow + "█" + rst);
-            }
-            j = 0;
-            System.out.print(printable.coupleRowWave + "\n");
-            for (j = 0; j <= 4; j++) {
-                System.out.print(grid[i][j].geteighthCellRow() + yellow + "█" + rst);
-            }
-            j = 0;
-            System.out.print(printable.coupleRowWave + "\n");
-            for (j = 0; j <= 4; j++) {
-                System.out.print(grid[i][j].getninthCellRow() + yellow + "█" + rst);
-            }
-            j = 0;
-            System.out.print(printable.coupleRowWave + "\n");
-            for (j = 0; j <= 4; j++) {
-                System.out.print(grid[i][j].gettenthCellRow() + yellow + "█" + rst);
-            }
-            j = 0;
-            System.out.print(printable.coupleRowWave + "\n");
-
-            for (j = 0; j <= 4; j++) {
-                System.out.print(grid[i][j].geteleventhCellRow() + yellow + "█" + rst);
-            }
-            j = 0;
-            System.out.print(printable.coupleRowWave + "\n");
+            System.out.println(printable.coupleRowWave + yellow + printable.lineBlock + rst + printable.coupleRowWave);
         }
-        System.out.println(printable.coupleRowWave + yellow + printable.lineBlock + rst + printable.coupleRowWave);
         System.out.println(printable.rowWave);
         System.out.println(printable.rowWave);
     }
