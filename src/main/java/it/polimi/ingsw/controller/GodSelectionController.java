@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.CardSelectionModel;
@@ -60,7 +59,7 @@ public class GodSelectionController implements PropertyChangeListener {
      * or already chosen by someone else).
      */
     public boolean choose(Card arg) {
-        if (mainController.getGameHandler().isStarted() == 1) {
+        if (mainController.getGameHandler().isStarted() == 2) {
             int clientId = mainController.getModel().getCurrentPlayer().getClientID();
             VirtualClient client = mainController.getGameHandler().getServer().getClientByID(clientId);
             boolean result;
@@ -103,9 +102,9 @@ public class GodSelectionController implements PropertyChangeListener {
         } else {
             mainController.getModel().getDeck().chooseCard(card, client);
         }
-        mainController.getGameHandler().sendAll(new CustomMessage(Constants.ANSI_RED + "The society decides for player " +
+        mainController.getGameHandler().sendAll(new CustomMessage("The society decides for player " +
                 mainController.getModel().getCurrentPlayer().getNickname() + "! He obtained " + card.name() +
-                Constants.ANSI_RESET + "\n\n" + card.godsDescription() + "\n", false));
+                "\n\n" + card.godsDescription() + "\n", false));
         return true;
     }
 

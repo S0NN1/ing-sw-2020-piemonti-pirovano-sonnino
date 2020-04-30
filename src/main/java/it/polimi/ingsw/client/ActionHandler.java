@@ -94,8 +94,10 @@ public class ActionHandler {
             view.firePropertyChange("gameError", null, answer);
         }
         else if(answer instanceof ConnectionMessage) {
-            view.firePropertyChange("connectionClosed", null, answer.getMessage());
-            cli.toggleActiveGame(false);
+            if(cli!=null) {
+                view.firePropertyChange("connectionClosed", null, answer.getMessage());
+                cli.toggleActiveGame(false);
+            }
         }
     }
 }

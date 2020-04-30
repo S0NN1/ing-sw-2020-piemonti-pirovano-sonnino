@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.server.answers.SerializedAnswer;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -47,8 +48,12 @@ public class SocketListener implements Runnable{
         }
         catch (IOException e) {
             System.err.println("Connection closed by the server. Quitting...");
-            //e.printStackTrace();
-            System.exit(0);
+            if(modelView.getGui()!=null) {
+                modelView.getGui().propertyChange(new PropertyChangeEvent(this, "connectionClosed", null, modelView.getServerAnswer().getMessage()));
+            } else {
+                //e.printStackTrace();
+                System.exit(0);
+            }
         }
         catch (ClassNotFoundException e) {
             System.err.println(e.getMessage());

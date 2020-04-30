@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.server.answers.CustomMessage;
 import it.polimi.ingsw.server.answers.ChallengerMessages;
@@ -39,15 +38,14 @@ public class CardSelectionModel extends Observable {
         int result=deck.setCard(god);
         setChanged();
         if (result==0) {
-            notifyObservers(new ChallengerMessages(Constants.ANSI_RED + "Error: the selected god has already been added to the deck." + Constants.ANSI_RESET));
+            notifyObservers(new ChallengerMessages("Error: the selected god has already been added to the deck."));
             return false;
         } else if(result==1) {
-            notifyObservers(new ChallengerMessages(Constants.ANSI_YELLOW + "God " + god.name() + " has been added; choose another one!" + Constants.ANSI_RESET));
+            notifyObservers(new ChallengerMessages("God " + god.name() + " has been added; choose another one!"));
             return true;
         }
         else {
-            notifyObservers(new CustomMessage(Constants.ANSI_YELLOW + "God " + god.name() +
-                    " has been added!\nAll gods have been added!" + Constants.ANSI_RESET, false));
+            notifyObservers(new CustomMessage("God " + god.name() + " has been added!\nAll gods have been added!", false));
             return true;
         }
     }

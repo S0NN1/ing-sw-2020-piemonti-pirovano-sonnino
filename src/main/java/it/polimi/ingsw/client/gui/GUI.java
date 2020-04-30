@@ -65,7 +65,7 @@ public class GUI extends Application implements UI {
 
     @Override
     public void stop() throws Exception {
-        super.stop();
+        //super.stop();
         System.exit(0);
     }
 
@@ -139,10 +139,6 @@ public class GUI extends Application implements UI {
         }
     }
 
-    public void duplicateNickname() {
-
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -159,11 +155,25 @@ public class GUI extends Application implements UI {
                         Platform.runLater(() -> {controller.setText(evt.getNewValue().toString());});
                         return;
                     }
+                    else if(evt.getNewValue().toString().contains("disconnected from the server")) {
+                        LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+                        Platform.runLater(() -> {controller.setText("WAITING FOR PLAYERS");});
+                    }
                     Platform.runLater(() -> {
                         LoaderController controller = (LoaderController)getControllerFromName(LOADER);
                         controller.displayCustomMessage(evt.getNewValue().toString());
                     });
                 }
+            }
+            case "connectionClosed" -> {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Connection closed");
+                    alert.setHeaderText("Connection closed from the server");
+                    alert.setContentText(evt.getNewValue().toString());
+                    alert.showAndWait();
+                    System.exit(0);
+                });
             }
         }
     }
