@@ -1,6 +1,6 @@
 .bg {
-    -fx-background-image: url("../graphics/gods/10_prometheus.png");
-    -fx-background-size: cover;
+    -fx-background-image: url("../graphics/bgs/clp_bg.png");
+    -fx-background-size: stretch;
 }
 
 .button {
@@ -12,4 +12,14 @@
 }
 .button:pressed {
     -fx-background-image: url("../graphics/btns/cm_btn_green_pressed.png");
+}
+
+.name {
+    -fx-font-family: "Britannic Bold";
+    -fx-font-size: 25;
+}
+
+.desc {
+    -fx-font-family: "Britannic Bold";
+    -fx-font-size: 18;
 }
