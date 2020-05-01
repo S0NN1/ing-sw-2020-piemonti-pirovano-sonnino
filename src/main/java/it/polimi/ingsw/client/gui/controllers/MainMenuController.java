@@ -38,7 +38,6 @@ public class MainMenuController implements GUIController{
     }
 
     public void play(MouseEvent event) throws IOException {
-
         gui.changeStage("setup.fxml");
         gui.centerApplication();
     }
