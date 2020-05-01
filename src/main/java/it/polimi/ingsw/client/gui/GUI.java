@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.LoaderController;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
 import it.polimi.ingsw.server.answers.GameError;
+import it.polimi.ingsw.server.answers.RequestColor;
 import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -134,6 +135,12 @@ public class GUI extends Application implements UI {
                 Platform.runLater(() -> {
                     LoaderController controller = (LoaderController) getControllerFromName(LOADER);
                     controller.requestPlayerNumber(((RequestPlayersNumber) modelView.getServerAnswer()).getMessage());
+                });
+            }
+            case "RequestColor" -> {
+                Platform.runLater(() -> {
+                    LoaderController controller = (LoaderController) getControllerFromName(LOADER);
+                    controller.requestColor(((RequestColor) modelView.getServerAnswer()).getRemaining());
                 });
             }
         }

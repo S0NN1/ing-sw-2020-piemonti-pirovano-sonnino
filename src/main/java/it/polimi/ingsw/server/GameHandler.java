@@ -129,10 +129,9 @@ public class GameHandler {
         //Challenger section
         Random rnd = new Random();
         game.setCurrentPlayer(game.getActivePlayers().get(rnd.nextInt(playersNumber)));
-        singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", you are the challenger!", false), game.getCurrentPlayer().getClientID());
-        singleSend(new ChallengerMessages("You have to choose gods power. Type GODLIST to get a list of available gods, GODDESC " +
-                "<god name> to get a god's description and ADDGOD <god name> to add a God power to deck.\n" +
-                (playersNumber - game.getDeck().getCards().size()) + " gods left."),
+        singleSend(new ChallengerMessages(game.getCurrentPlayer().getNickname() + ", you are the challenger!\nYou have to choose gods power. " +
+                        "Type GODLIST to get a list of available gods, GODDESC <god name> to get a god's description and ADDGOD <god name> " +
+                        "to add a God power to deck.\n" + (playersNumber - game.getDeck().getCards().size()) + " gods left."),
                 game.getCurrentPlayer().getClientID());
         sendAllExcept(new CustomMessage(game.getCurrentPlayer().getNickname() + " is the challenger! Please wait while " +
                 "he chooses the god powers.", false), game.getCurrentPlayer().getClientID());
