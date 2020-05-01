@@ -42,6 +42,10 @@ public class ModelView {
         return cli;
     }
 
+    public GUI getGui() {
+        return gui;
+    }
+
     public synchronized void setStarted(int val) {
         started = val;
     }
@@ -60,6 +64,7 @@ public class ModelView {
     public void setGamePhase(int phase) {
         gamePhase = phase;
     }
+    //TODO Update gamePhase counter
 
     /**
      * @return the current game phase.
