@@ -134,17 +134,15 @@ public class Server {
     public synchronized void lobby(SocketClientConnection c) throws InterruptedException{
         waiting.add(c);
         if (waiting.size()==1) {
-            IDmapClient.get(c.getClientID()).send(new CustomMessage(IDmapClient.get(c.getClientID()).getNickname() + ", you are the lobby host.", false));
-            c.setPlayers(new RequestPlayersNumber("Choose the number of players! [2/3]", false));
-            currentGame.sendAll(new CustomMessage((totalPlayers - waiting.size()) + " slots left.", false));
+            c.setPlayers(new RequestPlayersNumber(IDmapClient.get(c.getClientID()).getNickname() + ", you are the lobby host.\nChoose the number of players! [2/3]", false));
         }
         else if (waiting.size()== totalPlayers) {
             System.err.println(Constants.getInfo() + "Minimum player number reached. The match is starting.");
             for(int i=3; i>0; i--) {
-                currentGame.sendAll(new CustomMessage(Constants.ANSI_YELLOW + "Match starting in " + i + Constants.ANSI_RESET, false));
+                currentGame.sendAll(new CustomMessage("Match starting in " + i, false));
                 TimeUnit.SECONDS.sleep(1);
             }
-            currentGame.sendAll(new CustomMessage(Constants.ANSI_YELLOW + "The match has started!" + Constants.ANSI_RESET, false));
+            currentGame.sendAll(new CustomMessage("The match has started!", false));
             waiting.clear();
             PlayerColors.reset();
             currentGame.setup();
@@ -169,7 +167,7 @@ public class Server {
         idMAPname.remove(client.getClientID());
         clientToConnection.remove(client);
         System.out.println(Constants.getInfo() + "Client has been successfully unregistered.");
-        currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " left the game.\n" + (totalPlayers - waiting.size()) + " slots left.", false));
+        //currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " left the game.\n" + (totalPlayers - waiting.size()) + " slots left.", false));
     }
 
     /**
@@ -205,7 +203,9 @@ public class Server {
             clientToConnection.put(client, socketClientHandler);
             System.out.println(Constants.getInfo() + "Client " + client.getNickname() + ", identified by ID " + client.getClientID() + ", has successfully connected!");
             client.send(new ConnectionMessage("Connection was successfully set-up! You are now connected.", 0));
-            currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " joined the game", false));
+            if(waiting.size()>1) {
+                currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " joined the game", false));
+            }
         }
         else {
             VirtualClient client = IDmapClient.get(clientID);

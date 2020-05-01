@@ -101,11 +101,12 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     }
     catch (IOException e) {
         GameHandler game = server.getGameByID(clientID);
-        game.sendAllExcept(new CustomMessage("Client " + server.getNicknameByID(clientID) +
-                " disconnected from the server.", false), clientID);
+        /*game.sendAllExcept(new CustomMessage("Client " + server.getNicknameByID(clientID) +
+                " disconnected from the server.", false), clientID);*/
+        String player = server.getNicknameByID(clientID);
         server.unregisterClient(clientID);
         if(game.isStarted()>0) {
-            game.endGame();
+            game.endGame(player);
         }
         System.err.println(Constants.getInfo() + e.getMessage());
     } catch (ClassNotFoundException e) {
@@ -144,7 +145,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         else if(command instanceof Disconnect) {
             server.getGameByID(clientID).sendAllExcept(new CustomMessage("Client " + server.getNicknameByID(clientID) +
                     " disconnected from the server.", false), clientID);
-            server.getGameByID(clientID).endGame();
+            server.getGameByID(clientID).endGame(server.getNicknameByID(clientID));
             close();
             //server.unregisterClient(clientID);
         }
@@ -156,6 +157,9 @@ public class SocketClientConnection implements ClientConnection, Runnable {
             return;
         }
         if(action instanceof ChallengerPhaseAction) {
+            if (server.getGameByID(clientID).isStarted()>2) {
+                server.getGameByID(clientID).singleSend(new GameError(ErrorsType.INVALIDINPUT, "Not in correct game phase to perform this command!"), clientID);
+            }
             server.getGameByID(clientID).makeAction(action, "ChallengerPhase");
         }
         else if(action instanceof WorkerSetupMessage) {

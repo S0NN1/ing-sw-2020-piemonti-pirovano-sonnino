@@ -1,0 +1,15 @@
+.bg {
+    -fx-background-image: url("../graphics/gods/10_prometheus.png");
+    -fx-background-size: cover;
+}
+
+.button {
+    -fx-font-size: 30;
+    -fx-text-fill: white;
+    -fx-font-family: "Britannic Bold";
+    -fx-background-image: url("../graphics/btns/cm_btn_green.png");
+    -fx-background-size: stretch;
+}
+.button:pressed {
+    -fx-background-image: url("../graphics/btns/cm_btn_green_pressed.png");
+}
