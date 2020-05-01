@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -39,10 +40,9 @@ public class LoaderController implements GUIController {
         GodTile god = new GodTile(getClass().getResource("/graphics/gods/010_prometheus.png").toExternalForm());
         Scene scene = new Scene(god);
         Stage stage = new Stage();
-        stage.setMinHeight(563);
-        stage.setMinWidth(250);
         stage.setTitle("Test");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.showAndWait();
         /*Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Looby capacity");
