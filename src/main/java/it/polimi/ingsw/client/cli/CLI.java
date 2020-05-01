@@ -391,24 +391,6 @@ public class CLI implements UI, Runnable {
         }
     }
 
-    public void chooseStartingPlayer(int len) {
-        output.print("> ");
-        String starting = input.nextLine();
-        int startingPlayer;
-        try {
-            startingPlayer = Integer.parseInt(starting);
-            if (0 < startingPlayer || startingPlayer < len - 1) {
-                connection.send(new ChallengerPhaseAction(startingPlayer));
-            } else {
-                output.println(red + "Error: invalid selection!" + rst);
-                chooseStartingPlayer(len);
-            }
-        } catch (NumberFormatException e) {
-            output.println(red + "Error: it must be a numeric value!" + rst);
-            chooseStartingPlayer(len);
-        }
-    }
-
     /**
      * Handles an error received from the server, following a user action or saying him he cannot perform any action in that moment.
      *

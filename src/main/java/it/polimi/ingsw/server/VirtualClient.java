@@ -78,6 +78,10 @@ public class VirtualClient implements Observer {
         socketClientConnection.sendSocketMessage(message);
     }
 
+    public void sendAll(Answer serverAnswer) {
+        gameHandler.sendAll(serverAnswer);
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         if(arg instanceof ChallengerMessages) {
