@@ -13,6 +13,7 @@ import it.polimi.ingsw.server.answers.*;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -118,6 +119,11 @@ public class GameHandler {
                 singleSend(new CustomMessage("\nThe society decides for you! You have the " +
                         PlayerColors.notChosen().get(0) + " color!\n", false), server.getIDByNickname(nickname));
                 PlayerColors.choose(PlayerColors.notChosen().get(0));
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             else {
                 server.getClientByID(server.getIDByNickname(nickname)).send(req);
@@ -270,8 +276,8 @@ public class GameHandler {
      */
     public void endGame(String leftNickname) {
         sendAll(new ConnectionMessage("Player " + leftNickname + " left the game, the match will now end.\nThanks for playing!", 1));
-        for (Player player:game.getActivePlayers()) {
-            server.getClientByID(player.getClientID()).getConnection().close();
+        while(game.getActivePlayers().size()>0) {
+            server.getClientByID(game.getActivePlayers().get(0).getClientID()).getConnection().close();
         }
     }
 }

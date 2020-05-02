@@ -4,13 +4,13 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.tiles.GodTile;
 import it.polimi.ingsw.client.messages.ChosenColor;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
+import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.player.PlayerColors;
+import it.polimi.ingsw.server.answers.ChallengerMessages;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -36,15 +36,56 @@ public class LoaderController implements GUIController {
         alert.showAndWait();
     }
 
+    public boolean godTile(Card god) {
+        Stage godDetails = new Stage();
+        GodTile godTile = new GodTile(god, godDetails, gui);
+        Scene scene = new Scene(godTile);
+        godDetails.setScene(scene);
+        godDetails.setResizable(false);
+        godDetails.showAndWait();
+        return godTile.getValue();
+    }
+
+    public void challengerPhase(ChallengerMessages req) {
+        gui.getModelView().toggleInput();
+        if (req.startingPlayer && req.players != null) {
+            Alert startingPlayer = new Alert(Alert.AlertType.CONFIRMATION);
+            startingPlayer.setTitle("Choose starting player");
+            startingPlayer.setContentText(req.message);
+            HashMap<String, ButtonType> players = new HashMap<>();
+            req.players.forEach(n -> players.put(n, new ButtonType(n)));
+            startingPlayer.getButtonTypes().setAll(players.values());
+            Optional<ButtonType> result = startingPlayer.showAndWait();
+            System.out.println(result);
+            gui.getObservers().firePropertyChange("action", null, "STARTER " + req.players.indexOf(result.get().getText()));
+        } else if (req.godList != null) {
+            ComboBox<String> godListDropdown;
+            while (true) {
+                Alert godList = new Alert(Alert.AlertType.CONFIRMATION);
+                godList.setTitle("Choose a god");
+                HashMap<String, ButtonType> gods = new HashMap<>();
+                godListDropdown = new ComboBox(FXCollections.observableArrayList(req.godList));
+                godList.getDialogPane().setContent(godListDropdown);
+                ButtonType ok = new ButtonType("SELECT");
+                godList.getButtonTypes().setAll(ok);
+                godList.showAndWait();
+                if (godListDropdown.getValue()!=null) {
+                    if(godTile(Card.parseInput(godListDropdown.getValue()))) break;
+                }
+            }
+        } else {
+            Alert message = new Alert(Alert.AlertType.INFORMATION);
+            message.setTitle("Message from the server");
+            message.setContentText(req.message);
+            ButtonType godList = new ButtonType("GODS' LIST");
+            message.getButtonTypes().setAll(godList);
+            message.showAndWait();
+            gui.getObservers().firePropertyChange("action", null, "GODLIST");
+        }
+    }
+
     public void requestPlayerNumber(String message){
-        GodTile god = new GodTile(getClass().getResource("/graphics/gods/010_prometheus.png").toExternalForm());
-        Scene scene = new Scene(god);
-        Stage stage = new Stage();
-        stage.setTitle("Test");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.showAndWait();
-        /*Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Looby capacity");
         alert.setHeaderText("Choose the number of players.");
         alert.setContentText(message);
@@ -60,7 +101,7 @@ public class LoaderController implements GUIController {
         } else if(result.get() == three) {
             players=3;
         }
-        gui.getConnection().send(new NumberOfPlayers(players));*/
+        gui.getConnection().send(new NumberOfPlayers(players));
     }
 
     public void requestColor(ArrayList<PlayerColors> colors) {
@@ -73,6 +114,14 @@ public class LoaderController implements GUIController {
         alert.getButtonTypes().setAll(buttons.values());
         Optional<ButtonType> result = alert.showAndWait();
         gui.getConnection().send(new ChosenColor(PlayerColors.parseInput(result.get().getText())));
+    }
+
+    public void godDescription(String description) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("God's Description");
+        alert.setContentText(description);
+        alert.getButtonTypes().setAll(new ButtonType("CLOSE"));
+        alert.showAndWait();
     }
 
     @Override
