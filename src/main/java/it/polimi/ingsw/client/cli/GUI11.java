@@ -1,12 +1,9 @@
 package it.polimi.ingsw.client.cli;
 
-import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.client.gui.tiles.GodTile;
 import it.polimi.ingsw.model.Card;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class GUI11 extends Application {
