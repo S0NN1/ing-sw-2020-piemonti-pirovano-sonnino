@@ -15,11 +15,17 @@ public class SocketServer implements Runnable{
     private int port;
     private ExecutorService executorService;
     private Server server;
+    private boolean active;
 
     public SocketServer(int port, Server server) {
         this.server = server;
         this.port = port;
         executorService = Executors.newCachedThreadPool();
+        active = true;
+    }
+
+    public void setActive(boolean value) {
+        active = value;
     }
 
     /**
@@ -29,12 +35,13 @@ public class SocketServer implements Runnable{
      */
     public void acceptConnections(ServerSocket serverSocket) {
         while (true) {
-            try {
-                SocketClientConnection socketClient = new SocketClientConnection(serverSocket.accept(), server);
-                executorService.submit(socketClient);
-            }
-            catch (IOException e) {
-                System.err.println("Error! " + e.getMessage());
+            if (active) {
+                try {
+                    SocketClientConnection socketClient = new SocketClientConnection(serverSocket.accept(), server);
+                    executorService.submit(socketClient);
+                } catch (IOException e) {
+                    System.err.println("Error! " + e.getMessage());
+                }
             }
         }
     }
