@@ -25,7 +25,7 @@ public class GodTile extends HBox {
     private boolean value;
 
     public GodTile(Card card, Stage stage, GUI gui) {
-        this.gui = gui;
+        //this.gui = gui;
         this.stage = stage;
         String styleSheet = getClass().getResource("/css/god.css").toExternalForm();
         this.setPadding(new Insets(5));
