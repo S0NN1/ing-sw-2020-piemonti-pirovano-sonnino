@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.LoaderController;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
+import it.polimi.ingsw.server.answers.ChallengerMessages;
 import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.RequestColor;
 import it.polimi.ingsw.server.answers.RequestPlayersNumber;
@@ -17,6 +18,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +28,7 @@ import java.util.List;
 public class GUI extends Application implements UI {
 
     private ConnectionSocket connection;
-    private ActionParser actionParser;
+    private PropertyChangeSupport observers = new PropertyChangeSupport(this);
     private ModelView modelView;
     private ActionHandler actionHandler;
 
@@ -95,6 +97,10 @@ public class GUI extends Application implements UI {
         return stage;
     }
 
+    public PropertyChangeSupport getObservers() {
+        return observers;
+    }
+
     public void centerApplication() {
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
         stage.setX((screenSize.getWidth() - currentScene.getWidth())/2);
@@ -127,7 +133,15 @@ public class GUI extends Application implements UI {
         return nameMAPcontroller.get(name);
     }
 
-    public void errorHandling(GameError error) {}
+    public void errorHandling(GameError error) {
+        Platform.runLater(() -> {
+            Alert errorDialog = new Alert(Alert.AlertType.ERROR);
+            errorDialog.setTitle("Game Error");
+            errorDialog.setHeaderText("Error!");
+            errorDialog.setContentText(error.getMessage());
+            errorDialog.showAndWait();
+        });
+    }
 
     public void initialPhaseHandling(String cmd) {
         switch (cmd) {
@@ -143,6 +157,39 @@ public class GUI extends Application implements UI {
                     controller.requestColor(((RequestColor) modelView.getServerAnswer()).getRemaining());
                 });
             }
+            case "GodRequest" -> {
+                ChallengerMessages req = (ChallengerMessages) modelView.getServerAnswer();
+                if(req.message!=null && req.message.contains("Property:")) {
+                    Platform.runLater(() -> ((LoaderController)getControllerFromName(LOADER)).godDescription(req.message));
+                } else {
+                    Platform.runLater(() -> {
+                        LoaderController controller = (LoaderController) getControllerFromName(LOADER);
+                        controller.challengerPhase(req);
+                    });
+                }
+            }
+        }
+    }
+
+    public void customMessageHandling(String msg) {
+        if(modelView.getGamePhase()==0) {
+            if(msg.contains("Match starting") || msg.contains("The match has started")) {
+                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+                Platform.runLater(() -> {controller.setText(msg);});
+                return;
+            } else if(msg.contains("is the challenger")) {
+                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+                Platform.runLater(() -> controller.setText(msg.split(" ")[0] + " is the challenger\n" +
+                        "Please wait while he's choosing\ngods power!"));
+            }
+            else if(msg.contains("disconnected from the server")) {
+                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+                Platform.runLater(() -> {controller.setText("WAITING FOR PLAYERS");});
+            }
+            Platform.runLater(() -> {
+                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+                controller.displayCustomMessage(msg);
+            });
         }
     }
 
@@ -156,21 +203,7 @@ public class GUI extends Application implements UI {
                 initialPhaseHandling(evt.getNewValue().toString());
             }
             case "customMessage" -> {
-                if(modelView.getGamePhase()==0) {
-                    if(evt.getNewValue().toString().contains("Match starting") || evt.getNewValue().toString().contains("The match has started")) {
-                        LoaderController controller = (LoaderController)getControllerFromName(LOADER);
-                        Platform.runLater(() -> {controller.setText(evt.getNewValue().toString());});
-                        return;
-                    }
-                    else if(evt.getNewValue().toString().contains("disconnected from the server")) {
-                        LoaderController controller = (LoaderController)getControllerFromName(LOADER);
-                        Platform.runLater(() -> {controller.setText("WAITING FOR PLAYERS");});
-                    }
-                    Platform.runLater(() -> {
-                        LoaderController controller = (LoaderController)getControllerFromName(LOADER);
-                        controller.displayCustomMessage(evt.getNewValue().toString());
-                    });
-                }
+                customMessageHandling(evt.getNewValue().toString());
             }
             case "connectionClosed" -> {
                 Platform.runLater(() -> {

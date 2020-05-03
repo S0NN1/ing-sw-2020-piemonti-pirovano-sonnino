@@ -15,7 +15,7 @@
         </ImageView>
         <ProgressBar prefHeight="50.0" prefWidth="400.0" style="-fx-padding: 8;" StackPane.alignment="BOTTOM_CENTER">
         </ProgressBar>
-        <Label fx:id="displayStatus" text="LOADING..." textFill="WHITE" StackPane.alignment="CENTER">
+        <Label fx:id="displayStatus" alignment="CENTER" prefHeight="48.0" prefWidth="829.0" text="LOADING..." textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER">
          <font>
             <Font name="Britannic Bold" size="48.0" />
          </font>
