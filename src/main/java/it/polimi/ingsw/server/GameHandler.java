@@ -28,6 +28,7 @@ public class GameHandler {
     private int started;
     private int playersNumber;
     private PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
+    private Random rnd = new Random();
 
 
     public GameHandler(Server server) {
@@ -123,6 +124,7 @@ public class GameHandler {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    return;
                 }
             }
             else {
@@ -133,7 +135,6 @@ public class GameHandler {
         }
 
         //Challenger section
-        Random rnd = new Random();
         game.setCurrentPlayer(game.getActivePlayers().get(rnd.nextInt(playersNumber)));
         singleSend(new ChallengerMessages(game.getCurrentPlayer().getNickname() + ", you are the challenger!\nYou have to choose gods power. " +
                         "Type GODLIST to get a list of available gods, GODDESC <god name> to get a god's description and ADDGOD <god name> " +

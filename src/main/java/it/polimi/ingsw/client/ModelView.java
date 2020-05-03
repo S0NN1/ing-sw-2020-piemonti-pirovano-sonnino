@@ -50,7 +50,7 @@ public class ModelView {
         started = val;
     }
 
-    public int getStarted() {
+    public synchronized int getStarted() {
         return started;
     }
 

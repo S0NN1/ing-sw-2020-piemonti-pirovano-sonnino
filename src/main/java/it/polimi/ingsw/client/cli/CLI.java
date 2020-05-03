@@ -127,10 +127,14 @@ public class CLI implements UI, Runnable {
         observers.firePropertyChange("action", null, cmd);
     }
 
+    public synchronized boolean isActiveGame() {
+        return activeGame;
+    }
+
     @Override
     public void run() {
         setup();
-        while (activeGame) {
+        while (isActiveGame()) {
             //TODO match input enabler confirmation (from server)
             if (modelView.getStarted() == 3) {
                 loop();

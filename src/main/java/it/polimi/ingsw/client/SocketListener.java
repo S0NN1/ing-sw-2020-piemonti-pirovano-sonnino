@@ -44,6 +44,9 @@ public class SocketListener implements Runnable{
             while (true) {
                 SerializedAnswer message = (SerializedAnswer) inputStream.readObject();
                 process(message);
+                if(modelView.getCli()!=null && !modelView.getCli().isActiveGame()) {
+                    break;
+                }
             }
         }
         catch (IOException e) {

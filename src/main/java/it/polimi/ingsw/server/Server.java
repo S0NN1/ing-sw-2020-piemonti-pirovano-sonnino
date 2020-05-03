@@ -74,7 +74,7 @@ public class Server {
         nameMAPid = new HashMap<>();
         clientToConnection = new HashMap<>();
         idMAPname = new HashMap<>();
-        totalPlayers =-1;
+        totalPlayers = -1;
     }
 
     /**
