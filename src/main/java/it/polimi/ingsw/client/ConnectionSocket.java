@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class handles the connection between the client and the server.
@@ -22,6 +24,7 @@ import java.net.Socket;
 public class ConnectionSocket {
     private Socket socket;
     private int clientID;
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     private ObjectOutputStream outputStream;
     SocketListener listener;
@@ -77,7 +80,7 @@ public class ConnectionSocket {
         }
         catch (IOException e) {
             System.err.println("Error during socket configuration! Application will now close.");
-            e.printStackTrace();
+            logger.log(Level.SEVERE,e.getMessage(), e);
             System.exit(0);
         }
     }
