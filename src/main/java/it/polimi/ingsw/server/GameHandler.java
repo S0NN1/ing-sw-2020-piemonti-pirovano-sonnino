@@ -124,7 +124,7 @@ public class GameHandler {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    return;
+                    Thread.currentThread().interrupt();
                 }
             }
             else {

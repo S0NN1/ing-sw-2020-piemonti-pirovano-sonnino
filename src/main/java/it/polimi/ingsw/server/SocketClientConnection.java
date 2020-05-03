@@ -131,6 +131,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
                 server.lobby(this);
             } catch (InterruptedException e) {
                 System.err.println(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
         else if(command instanceof ChosenColor) {
