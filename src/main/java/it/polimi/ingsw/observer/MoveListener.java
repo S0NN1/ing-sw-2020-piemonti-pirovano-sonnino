@@ -1,18 +1,18 @@
-package it.polimi.ingsw.observer.workerListeners;
+package it.polimi.ingsw.observer;
 
-import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.server.VirtualClient;
-import it.polimi.ingsw.server.answers.worker.WinMessage;
+import it.polimi.ingsw.server.answers.worker.MoveMessage;
 
 import java.beans.PropertyChangeEvent;
 
 /**
  * @author Alice Piemonti
  */
-public class WinListener extends WorkerListener {
+public class MoveListener extends WorkerListener{
 
-    public WinListener(VirtualClient client) {
-        super(client);
+    public MoveListener(VirtualClient virtualClient) {
+        super(virtualClient);
     }
 
     /**
@@ -23,7 +23,7 @@ public class WinListener extends WorkerListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        WinMessage message = new WinMessage((Worker)evt.getSource());
-        virtualClient.send(message);
+        MoveMessage message = new MoveMessage((Space)evt.getOldValue(),(Space)evt.getNewValue());
+        virtualClient.sendAll(message);
     }
 }

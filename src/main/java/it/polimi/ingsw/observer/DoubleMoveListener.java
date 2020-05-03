@@ -1,4 +1,4 @@
-package it.polimi.ingsw.observer.workerListeners;
+package it.polimi.ingsw.observer;
 
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.server.VirtualClient;
@@ -25,6 +25,6 @@ public class DoubleMoveListener extends WorkerListener {
         String god = evt.getPropertyName();
 
         DoubleMoveMessage message = new DoubleMoveMessage(move1, move2, god);
-        virtualClient.send(message);
+        virtualClient.sendAll(message);
     }
 }

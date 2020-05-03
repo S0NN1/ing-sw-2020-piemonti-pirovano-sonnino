@@ -4,17 +4,14 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
-import it.polimi.ingsw.observer.workerListeners.BuildListener;
-import it.polimi.ingsw.observer.workerListeners.MoveListener;
-import it.polimi.ingsw.observer.workerListeners.SelectSpacesListener;
-import it.polimi.ingsw.observer.workerListeners.WinListener;
+import it.polimi.ingsw.observer.BuildListener;
+import it.polimi.ingsw.observer.MoveListener;
+import it.polimi.ingsw.observer.SelectSpacesListener;
+import it.polimi.ingsw.observer.WinListener;
 import it.polimi.ingsw.server.VirtualClient;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-
-import static it.polimi.ingsw.model.player.Action.SELECTMOVE;
-import static javax.swing.TransferHandler.MOVE;
 
 /**
  * @author Alice Piemonti

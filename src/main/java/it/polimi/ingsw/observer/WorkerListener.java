@@ -1,4 +1,4 @@
-package it.polimi.ingsw.observer.workerListeners;
+package it.polimi.ingsw.observer;
 
 import it.polimi.ingsw.server.VirtualClient;
 

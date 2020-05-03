@@ -32,30 +32,35 @@ public class ActionHandler {
     public void fullGamePhase(Answer answer) {
         ClientBoard clientBoard = modelView.getBoard();
         if (answer instanceof SelectSpacesMessage) {
-            //print list on cli
-        } else if (answer instanceof MoveMessage) {
-            Move message = (Move) answer.getMessage();
-            clientBoard.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
-                    message.getNewPosition().getX(), message.getNewPosition().getY());
-        } else if (answer instanceof BuildMessage) {
-            Couple message = ((BuildMessage) answer).getMessage();
-            boolean dome = ((BuildMessage) answer).getDome();
-            clientBoard.build(message.getX(), message.getY(), dome);
-        } else if (answer instanceof DoubleMoveMessage) {
-            String message = ((DoubleMoveMessage) answer).getMessage();
-            if (message.equals("ApolloDoubleMove")) { //type Apollo
-                Move myMove = ((DoubleMoveMessage) answer).getMyMove();
-                Move otherMove = ((DoubleMoveMessage) answer).getOtherMove();
-                clientBoard.apolloDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
-                        otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY());
-            } else if (message.equals("MinotaurDoubleMove")) { //type Minotaur
-                Move myMove = ((DoubleMoveMessage) answer).getMyMove();
-                Move otherMove = ((DoubleMoveMessage) answer).getOtherMove();
-                clientBoard.minotaurDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
-                        otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY(),
-                        otherMove.getNewPosition().getX(), otherMove.getNewPosition().getY());
-            }
+            view.firePropertyChange("select", null, answer.getMessage());
         }
+        else{
+            if (answer instanceof MoveMessage) {
+                Move message = (Move) answer.getMessage();
+                clientBoard.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
+                        message.getNewPosition().getX(), message.getNewPosition().getY());
+            } else if (answer instanceof BuildMessage) {
+                Couple message = ((BuildMessage) answer).getMessage();
+                boolean dome = ((BuildMessage) answer).getDome();
+                clientBoard.build(message.getX(), message.getY(), dome);
+            } else if (answer instanceof DoubleMoveMessage) {
+                String message = ((DoubleMoveMessage) answer).getMessage();
+                if (message.equals("ApolloDoubleMove")) { //type Apollo
+                    Move myMove = ((DoubleMoveMessage) answer).getMyMove();
+                    Move otherMove = ((DoubleMoveMessage) answer).getOtherMove();
+                    clientBoard.apolloDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
+                            otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY());
+                } else if (message.equals("MinotaurDoubleMove")) { //type Minotaur
+                    Move myMove = ((DoubleMoveMessage) answer).getMyMove();
+                    Move otherMove = ((DoubleMoveMessage) answer).getOtherMove();
+                    clientBoard.minotaurDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
+                            otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY(),
+                            otherMove.getNewPosition().getX(), otherMove.getNewPosition().getY());
+                }
+            }
+            view.firePropertyChange("boardUpdate", null,null);
+        }
+
     }
 
     public void initialGamePhase(Answer answer) {

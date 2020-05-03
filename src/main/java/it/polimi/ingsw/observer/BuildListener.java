@@ -1,4 +1,4 @@
-package it.polimi.ingsw.observer.workerListeners;
+package it.polimi.ingsw.observer;
 
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.server.VirtualClient;
@@ -24,6 +24,6 @@ public class BuildListener extends WorkerListener{
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         BuildMessage message = new BuildMessage((Space)evt.getNewValue(), (Boolean) evt.getOldValue());
-        virtualClient.send(message);
+        virtualClient.sendAll(message);
     }
 }
