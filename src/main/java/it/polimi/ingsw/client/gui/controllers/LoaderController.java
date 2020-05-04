@@ -56,8 +56,7 @@ public class LoaderController implements GUIController {
             req.players.forEach(n -> players.put(n, new ButtonType(n)));
             startingPlayer.getButtonTypes().setAll(players.values());
             Optional<ButtonType> result = startingPlayer.showAndWait();
-            System.out.println(result);
-            gui.getObservers().firePropertyChange("action", null, "STARTER " + req.players.indexOf(result.get().getText()));
+            result.ifPresent(buttonType -> gui.getObservers().firePropertyChange("action", null, "STARTER " + req.players.indexOf(buttonType.getText())));
         } else if (req.godList != null) {
             ComboBox<String> godListDropdown;
             while (true) {
@@ -96,9 +95,9 @@ public class LoaderController implements GUIController {
         alert.getButtonTypes().setAll(two, three);
         Optional<ButtonType> result = alert.showAndWait();
         int players = 0;
-        if(result.get()== two) {
+        if(result.isPresent() && result.get()== two) {
             players=2;
-        } else if(result.get() == three) {
+        } else if(result.isPresent() && result.get() == three) {
             players=3;
         }
         gui.getConnection().send(new NumberOfPlayers(players));
@@ -113,7 +112,7 @@ public class LoaderController implements GUIController {
         colors.forEach(n -> buttons.put(n.toString(), new ButtonType(n.toString())));
         alert.getButtonTypes().setAll(buttons.values());
         Optional<ButtonType> result = alert.showAndWait();
-        gui.getConnection().send(new ChosenColor(PlayerColors.parseInput(result.get().getText())));
+        result.ifPresent(buttonType -> gui.getConnection().send(new ChosenColor(PlayerColors.parseInput(buttonType.getText()))));
     }
 
     public void godDescription(String description) {

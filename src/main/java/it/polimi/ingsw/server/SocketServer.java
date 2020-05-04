@@ -15,7 +15,7 @@ public class SocketServer implements Runnable{
     private int port;
     private ExecutorService executorService;
     private Server server;
-    private boolean active;
+    private volatile boolean active;
 
     public SocketServer(int port, Server server) {
         this.server = server;
@@ -34,15 +34,13 @@ public class SocketServer implements Runnable{
      * @param serverSocket the server socket, which accepts connections.
      */
     public void acceptConnections(ServerSocket serverSocket) {
-        while (true) {
-            if (active) {
+        while (active) {
                 try {
                     SocketClientConnection socketClient = new SocketClientConnection(serverSocket.accept(), server);
                     executorService.submit(socketClient);
                 } catch (IOException e) {
                     System.err.println("Error! " + e.getMessage());
                 }
-            }
         }
     }
 

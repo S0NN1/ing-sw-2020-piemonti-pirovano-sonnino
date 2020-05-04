@@ -64,6 +64,18 @@ public class Server {
      */
     private int totalPlayers;
 
+
+    public void quitter() {
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            if (scanner.next().equalsIgnoreCase("QUIT")) {
+                getSocketServer().setActive(false);
+                System.exit(0);
+                break;
+            }
+        }
+    }
+
     /**
      * Constructor of the class, it creates the instance of the server, based on a socket and the mapping between VirtualClient,
      * nicknames and client ids. It also creates a new game session.
@@ -75,6 +87,12 @@ public class Server {
         clientToConnection = new HashMap<>();
         idMAPname = new HashMap<>();
         totalPlayers = -1;
+        Thread thread = new Thread(this::quitter);
+        thread.start();
+    }
+
+    public synchronized SocketServer getSocketServer() {
+        return socketServer;
     }
 
     /**
