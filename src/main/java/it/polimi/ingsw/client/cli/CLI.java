@@ -484,6 +484,12 @@ public class CLI implements UI, Runnable {
                 output.println(nameMAPcolor.get("RED") + "Application will now close..." + nameMAPcolor.get("RST"));
                 System.exit(0);
             }
+            case "boardUpdate" -> {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+                boardUpdater(grid);
+                printBoard(grid);
+            }
             default -> {
                 output.println("Unrecognized answer");
             }
