@@ -32,6 +32,15 @@ public class CLI implements UI, Runnable {
     private static final String BLUE = Constants.ANSI_BLUE;
     private static final String CYAN = Constants.ANSI_CYAN;
     private static final String BACKGROUND_BLACK = Constants.ANSI_BACKGROUND_BLACK;
+    /*private final HashMap<String, String> nameMAPcolor = new HashMap<String, String>() {{
+        put("GREEN", Constants.ANSI_GREEN);
+        put("YELLOW", Constants.ANSI_YELLOW);
+        put("RED", Constants.ANSI_RED);
+        put("RST", Constants.ANSI_RESET);
+        put("BLUE", Constants.ANSI_BLUE);
+        put("CYAN", Constants.ANSI_CYAN);
+        put("BACKGROUND_BLACK", Constants.ANSI_BACKGROUND_BLACK);
+    }};*/
     private final PrintStream output;
     private final Scanner input;
     private final ModelView modelView;
