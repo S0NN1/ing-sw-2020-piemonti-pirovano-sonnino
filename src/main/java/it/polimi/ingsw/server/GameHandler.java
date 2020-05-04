@@ -14,6 +14,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +30,7 @@ public class GameHandler {
     private int started;
     private int playersNumber;
     private PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
     private Random rnd = new Random();
 
 
@@ -123,7 +126,7 @@ public class GameHandler {
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LOGGER.log(Level.SEVERE, e.getMessage(), e);
                     Thread.currentThread().interrupt();
                 }
             }

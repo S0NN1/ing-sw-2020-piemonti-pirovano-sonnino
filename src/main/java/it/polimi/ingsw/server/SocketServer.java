@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Creates a socket that accept connections from clients, and creates a thread containing them.
@@ -16,6 +18,7 @@ public class SocketServer implements Runnable{
     private ExecutorService executorService;
     private Server server;
     private volatile boolean active;
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
 
     public SocketServer(int port, Server server) {
         this.server = server;
@@ -56,7 +59,7 @@ public class SocketServer implements Runnable{
         }
         catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during Socket initialization, quitting...");
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
             System.exit(0);
         }
     }

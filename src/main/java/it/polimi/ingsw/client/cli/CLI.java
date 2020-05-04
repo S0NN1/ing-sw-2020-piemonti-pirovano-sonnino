@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.cli;
 import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.messages.ChosenColor;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
-import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -16,10 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
@@ -29,16 +25,15 @@ import java.util.Scanner;
  */
 public class CLI implements UI, Runnable {
 
-    public final String green = Constants.ANSI_GREEN;
-    public final String yellow = Constants.ANSI_YELLOW;
-    private final String red = Constants.ANSI_RED;
-    private final String rst = Constants.ANSI_RESET;
-    private final String blue = Constants.ANSI_BLUE;
-    private final String cyan = Constants.ANSI_CYAN;
-    private final String backgroundBlack = Constants.ANSI_BACKGROUND_BLACK;
+    public static final String GREEN = Constants.ANSI_GREEN;
+    public static final String YELLOW = Constants.ANSI_YELLOW;
+    private static final String RED = Constants.ANSI_RED;
+    private static final String RST = Constants.ANSI_RESET;
+    private static final String BLUE = Constants.ANSI_BLUE;
+    private static final String CYAN = Constants.ANSI_CYAN;
+    private static final String BACKGROUND_BLACK = Constants.ANSI_BACKGROUND_BLACK;
     private final PrintStream output;
     private final Scanner input;
-    private final PrintStream err;
     private final ModelView modelView;
     private final ActionHandler actionHandler;
     private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
@@ -52,7 +47,6 @@ public class CLI implements UI, Runnable {
         output = new PrintStream(System.out);
         modelView = new ModelView(this);
         actionHandler = new ActionHandler(this, modelView);
-        err = new PrintStream(System.err);
         activeGame = true;
         grid = new DisplayCell[5][5];
         for (int i = 0; i < 5; i++) {
@@ -91,7 +85,7 @@ public class CLI implements UI, Runnable {
     public void setup() {
         String nickname = null;
         boolean confirmation = false;
-        while (confirmation == false) {
+        while (!confirmation) {
             do {
                 output.println(">Insert your nickname: ");
                 output.print(">");
@@ -110,7 +104,7 @@ public class CLI implements UI, Runnable {
         connection = new ConnectionSocket();
         try {
             connection.setup(nickname, modelView, actionHandler);
-            output.println(green + "Socket Connection setup completed!" + rst);
+            output.println(GREEN + "Socket Connection setup completed!" + RST);
         } catch (DuplicateNicknameException e) {
             setup();
         }
@@ -166,16 +160,16 @@ public class CLI implements UI, Runnable {
                             if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
                                 String color = "";
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = red;
+                                    color = RED;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = blue;
+                                    color = BLUE;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = green;
+                                    color = GREEN;
                                 }
-                                String temp = rows[4].substring(0, 22) + backgroundBlack + color + "☻" + blue + rows[4].substring(23);
-                                String temp2 = rows[5].substring(0, 22) + backgroundBlack + color + "▲" + blue + rows[4].substring(23);
+                                String temp = rows[4].substring(0, 22) + BACKGROUND_BLACK + color + "☻" + BLUE + rows[4].substring(23);
+                                String temp2 = rows[5].substring(0, 22) + BACKGROUND_BLACK + color + "▲" + BLUE + rows[4].substring(23);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -184,16 +178,16 @@ public class CLI implements UI, Runnable {
                             if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
                                 String color = "";
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = red;
+                                    color = RED;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = blue;
+                                    color = BLUE;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = green;
+                                    color = GREEN;
                                 }
-                                String temp = rows[4].substring(0, 17) + backgroundBlack + color + "☻" + green + rows[4].substring(18);
-                                String temp2 = rows[5].substring(0, 17) + backgroundBlack + color + "▲" + green + rows[4].substring(18);
+                                String temp = rows[4].substring(0, 17) + BACKGROUND_BLACK + color + "☻" + GREEN + rows[4].substring(18);
+                                String temp2 = rows[5].substring(0, 17) + BACKGROUND_BLACK + color + "▲" + GREEN + rows[4].substring(18);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -205,16 +199,16 @@ public class CLI implements UI, Runnable {
                             if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
                                 String color = "";
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = red;
+                                    color = RED;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = blue;
+                                    color = BLUE;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = green;
+                                    color = GREEN;
                                 }
-                                String temp = rows[4].substring(0, 17) + backgroundBlack + color + "☻" + blue + rows[4].substring(18);
-                                String temp2 = rows[5].substring(0, 17) + backgroundBlack + color + "▲" + blue + rows[4].substring(18);
+                                String temp = rows[4].substring(0, 17) + BACKGROUND_BLACK + color + "☻" + BLUE + rows[4].substring(18);
+                                String temp2 = rows[5].substring(0, 17) + BACKGROUND_BLACK + color + "▲" + BLUE + rows[4].substring(18);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -223,16 +217,16 @@ public class CLI implements UI, Runnable {
                             if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
                                 String color = "";
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = red;
+                                    color = RED;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = blue;
+                                    color = BLUE;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = green;
+                                    color = GREEN;
                                 }
-                                String temp = rows[4].substring(0, 12) + backgroundBlack + color + "☻" + rst + rows[4].substring(13);
-                                String temp2 = rows[5].substring(0, 12) + backgroundBlack + color + "▲" + rst + rows[4].substring(13);
+                                String temp = rows[4].substring(0, 12) + BACKGROUND_BLACK + color + "☻" + RST + rows[4].substring(13);
+                                String temp2 = rows[5].substring(0, 12) + BACKGROUND_BLACK + color + "▲" + RST + rows[4].substring(13);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -244,16 +238,16 @@ public class CLI implements UI, Runnable {
                             if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
                                 String color = "";
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = red;
+                                    color = RED;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = blue;
+                                    color = BLUE;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = green;
+                                    color = GREEN;
                                 }
-                                String temp = rows[4].substring(0, 26) + backgroundBlack + color + "☻" + blue + rows[4].substring(27);
-                                String temp2 = rows[5].substring(0, 26) + backgroundBlack + color + "▲" + blue + rows[4].substring(27);
+                                String temp = rows[4].substring(0, 26) + BACKGROUND_BLACK + color + "☻" + BLUE + rows[4].substring(27);
+                                String temp2 = rows[5].substring(0, 26) + BACKGROUND_BLACK + color + "▲" + BLUE + rows[4].substring(27);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -264,16 +258,16 @@ public class CLI implements UI, Runnable {
                                 if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
                                     String color = "";
                                     if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                        color = red;
+                                        color = RED;
                                     }
                                     if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                        color = blue;
+                                        color = BLUE;
                                     }
                                     if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                        color = green;
+                                        color = GREEN;
                                     }
-                                    String temp = rows[4].substring(0, 22) + backgroundBlack + color + "☻" + rst + rows[4].substring(23);
-                                    String temp2 = rows[5].substring(0, 22) + backgroundBlack + color + "▲" + rst + rows[4].substring(23);
+                                    String temp = rows[4].substring(0, 22) + BACKGROUND_BLACK + color + "☻" + RST + rows[4].substring(23);
+                                    String temp2 = rows[5].substring(0, 22) + BACKGROUND_BLACK + color + "▲" + RST + rows[4].substring(23);
                                     rows[4] = temp;
                                     rows[5] = temp2;
                                 }
@@ -287,16 +281,16 @@ public class CLI implements UI, Runnable {
                             if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
                                 String color = "";
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = red;
+                                    color = RED;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = blue;
+                                    color = BLUE;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = green;
+                                    color = GREEN;
                                 }
-                                String temp = rows[4].substring(0, 26) + backgroundBlack + color + "☻" + cyan + rows[4].substring(27);
-                                String temp2 = rows[5].substring(0, 22) + backgroundBlack + color + "▲" + cyan + rows[4].substring(23);
+                                String temp = rows[4].substring(0, 26) + BACKGROUND_BLACK + color + "☻" + CYAN + rows[4].substring(27);
+                                String temp2 = rows[5].substring(0, 22) + BACKGROUND_BLACK + color + "▲" + CYAN + rows[4].substring(23);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -309,16 +303,16 @@ public class CLI implements UI, Runnable {
                             if (!(modelView.getBoard().getGrid()[i][j].getColor() == null)) {
                                 String color = "";
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = red;
+                                    color = RED;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = blue;
+                                    color = BLUE;
                                 }
                                 if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = green;
+                                    color = GREEN;
                                 }
-                                String temp = rows[4].substring(0, 35) + backgroundBlack + color + "☻" + blue + rows[4].substring(36);
-                                String temp2 = rows[5].substring(0, 31) + backgroundBlack + color + "▲" + blue + rows[4].substring(32);
+                                String temp = rows[4].substring(0, 35) + BACKGROUND_BLACK + color + "☻" + BLUE + rows[4].substring(36);
+                                String temp2 = rows[5].substring(0, 31) + BACKGROUND_BLACK + color + "▲" + BLUE + rows[4].substring(32);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -333,16 +327,16 @@ public class CLI implements UI, Runnable {
     private void printBoard(DisplayCell[][] grid) {
         System.out.println(printable.rowWave);
         System.out.println(printable.rowWave);
-        System.out.println(printable.coupleRowWave + yellow + printable.lineBlock + rst + printable.coupleRowWave);
+        System.out.println(printable.coupleRowWave + YELLOW + printable.lineBlock + RST + printable.coupleRowWave);
         for (int i = 0; i <= 4; i++) {
             for (int k = 0; k <= 10; k++) {
-                System.out.print(printable.coupleRowWave + yellow + "█" + rst);
+                System.out.print(printable.coupleRowWave + YELLOW + "█" + RST);
                 for (int j = 0; j <= 4; j++) {
-                    System.out.print(grid[i][j].getCellRows(k) + yellow + "█" + rst);
+                    System.out.print(grid[i][j].getCellRows(k) + YELLOW + "█" + RST);
                 }
                 System.out.print(printable.coupleRowWave + "\n");
             }
-            System.out.println(printable.coupleRowWave + yellow + printable.lineBlock + rst + printable.coupleRowWave);
+            System.out.println(printable.coupleRowWave + YELLOW + printable.lineBlock + RST + printable.coupleRowWave);
         }
         System.out.println(printable.rowWave);
         System.out.println(printable.rowWave);
@@ -361,7 +355,7 @@ public class CLI implements UI, Runnable {
                 selection = input.nextInt();
                 break;
             } catch (InputMismatchException e) {
-                output.println(red + "Invalid parameter, it must be a number.\nApplication will now quit..." + rst);
+                output.println(RED + "Invalid parameter, it must be a number.\nApplication will now quit..." + RST);
                 System.exit(-1);
             }
         }
@@ -375,7 +369,7 @@ public class CLI implements UI, Runnable {
      *
      * @param available the list of available colors, which will be printed out.
      */
-    public void chooseColor(ArrayList<PlayerColors> available) {
+    public void chooseColor(List<PlayerColors> available) {
         input.nextLine();
         while (true) {
             output.println(">Make your choice!");
@@ -403,13 +397,16 @@ public class CLI implements UI, Runnable {
     public void errorHandling(GameError error) {
         switch (error.getError()) {
             case CELLOCCUPIED -> {
-                output.println(red + "The following cells are already occupied, please choose them again." + rst);
-                error.getCoordinates().forEach(n -> output.print(red + Arrays.toString(n) + ", " + rst));
+                output.println(RED + "The following cells are already occupied, please choose them again." + RST);
+                error.getCoordinates().forEach(n -> output.print(RED + Arrays.toString(n) + ", " + RST));
             }
             case INVALIDINPUT -> {
                 if (error.getMessage() != null) {
-                    output.println(red + error.getMessage() + rst);
+                    output.println(RED + error.getMessage() + RST);
                 }
+            }
+            default -> {
+                output.println("Generic error!");
             }
         }
         modelView.toggleInput();
@@ -424,11 +421,11 @@ public class CLI implements UI, Runnable {
     public void initialPhaseHandling(String value) {
         switch (value) {
             case "RequestPlayerNumber" -> {
-                output.println(green + ((RequestPlayersNumber) modelView.getServerAnswer()).getMessage() + rst);
+                output.println(GREEN + ((RequestPlayersNumber) modelView.getServerAnswer()).getMessage() + RST);
                 choosePlayerNumber();
             }
             case "RequestColor" -> {
-                output.println(green + ((RequestColor) modelView.getServerAnswer()).getMessage() + "\nRemaining:" + rst);
+                output.println(GREEN + ((RequestColor) modelView.getServerAnswer()).getMessage() + "\nRemaining:" + RST);
                 ((RequestColor) modelView.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
                 output.print("\n");
                 chooseColor(((RequestColor) modelView.getServerAnswer()).getRemaining());
@@ -445,6 +442,9 @@ public class CLI implements UI, Runnable {
                     output.println(req.message);
                 }
                 modelView.toggleInput();
+            }
+            default -> {
+                output.println("Noting to do");
             }
         }
     }
@@ -472,8 +472,11 @@ public class CLI implements UI, Runnable {
             }
             case "connectionClosed" -> {
                 output.println(evt.getNewValue());
-                output.println(red + "Application will now close..." + rst);
+                output.println(RED + "Application will now close..." + RST);
                 System.exit(0);
+            }
+            default -> {
+                output.println("Unrecognized answer");
             }
         }
     }

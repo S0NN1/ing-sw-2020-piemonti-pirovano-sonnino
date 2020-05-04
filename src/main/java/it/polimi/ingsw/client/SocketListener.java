@@ -6,6 +6,8 @@ import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Listens for a server answer on the socket, passing it to the client model class.
@@ -17,7 +19,7 @@ public class SocketListener implements Runnable{
     private ConnectionSocket connectionSocket;
     private final ModelView modelView;
     private ActionHandler actionHandler;
-
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
     private ObjectInputStream inputStream;
 
     public SocketListener(Socket socket, ConnectionSocket connectionSocket, ModelView modelView, ObjectInputStream inputStream, ActionHandler actionHandler) {
@@ -54,7 +56,6 @@ public class SocketListener implements Runnable{
             if(modelView.getGui()!=null) {
                 modelView.getGui().propertyChange(new PropertyChangeEvent(this, "connectionClosed", null, modelView.getServerAnswer().getMessage()));
             } else {
-                //e.printStackTrace();
                 System.exit(0);
             }
         }
@@ -67,7 +68,7 @@ public class SocketListener implements Runnable{
                 socket.close();
             }
             catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, e.getMessage(), e);
             }
         }
     }

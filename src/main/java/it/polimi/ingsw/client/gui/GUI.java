@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GUI extends Application implements UI {
 
@@ -31,6 +33,7 @@ public class GUI extends Application implements UI {
     private PropertyChangeSupport observers = new PropertyChangeSupport(this);
     private ModelView modelView;
     private ActionHandler actionHandler;
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
 
     private boolean activeGame;
     private MainGuiController guiController;
@@ -83,7 +86,7 @@ public class GUI extends Application implements UI {
                 nameMAPcontroller.put(path, controller);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
         currentScene = nameMAPscene.get(MENU);
         //guiController = (MainGuiController)nameMAPcontroller.get(GUI);

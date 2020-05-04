@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This enumeration class contains the god list and parses the input for them.
@@ -35,7 +37,7 @@ public enum Card {
                 result.add(god1.getName());
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            return null;
         }
         return result;
     }
@@ -57,7 +59,7 @@ public enum Card {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            return null;
         }
         return null;
     }
