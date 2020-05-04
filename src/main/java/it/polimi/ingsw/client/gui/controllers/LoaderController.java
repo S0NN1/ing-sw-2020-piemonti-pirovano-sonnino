@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class LoaderController implements GUIController {
 
@@ -57,13 +58,13 @@ public class LoaderController implements GUIController {
             startingPlayer.getButtonTypes().setAll(players.values());
             Optional<ButtonType> result = startingPlayer.showAndWait();
             result.ifPresent(buttonType -> gui.getObservers().firePropertyChange("action", null, "STARTER " + req.players.indexOf(buttonType.getText())));
-        } else if (req.godList != null) {
+        }
+        else if (req.godList != null) {
             ComboBox<String> godListDropdown;
             while (true) {
                 Alert godList = new Alert(Alert.AlertType.CONFIRMATION);
                 godList.setTitle("Choose a god");
-                HashMap<String, ButtonType> gods = new HashMap<>();
-                godListDropdown = new ComboBox<String>(FXCollections.observableArrayList(req.godList));
+                godListDropdown = new ComboBox<>(FXCollections.observableArrayList(req.godList));
                 godList.getDialogPane().setContent(godListDropdown);
                 ButtonType ok = new ButtonType("SELECT");
                 godList.getButtonTypes().setAll(ok);
@@ -72,7 +73,24 @@ public class LoaderController implements GUIController {
                     if(godTile(Card.parseInput(godListDropdown.getValue()))) break;
                 }
             }
-        } else {
+        }
+        else if (req.choosable != null) {
+            while(true) {
+                Alert message = new Alert(Alert.AlertType.INFORMATION);
+                message.setTitle("Choose your god power!");
+                message.setContentText(req.message + "\n" + req.choosable.stream().map(Enum::toString).collect(Collectors.joining("\n")));
+                ComboBox<Card> choices = new ComboBox<>(FXCollections.observableArrayList(req.choosable));
+                message.getDialogPane().setContent(choices);
+                ButtonType choose = new ButtonType("CHOOSE");
+                message.getButtonTypes().setAll(choose);
+                message.showAndWait();
+                if (choices.getValue()!=null) {
+                    //TODO
+                    break;
+                }
+            }
+        }
+        else {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
             message.setTitle("Message from the server");
             message.setContentText(req.message);
