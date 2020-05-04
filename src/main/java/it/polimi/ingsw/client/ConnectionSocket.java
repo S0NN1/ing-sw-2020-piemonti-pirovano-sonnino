@@ -71,6 +71,12 @@ public class ConnectionSocket {
         }
     }
 
+    /**
+     * Handles the nickname validation phase, after the server answer about the availability of the desired username.
+     * @param input the server ObjectStream answer.
+     * @return true if the nickname is available and set, false instead.
+     * @throws DuplicateNicknameException if the nickname has already been chosen.
+     */
     public boolean nicknameChecker(Object input) throws DuplicateNicknameException{
         SerializedAnswer answer = (SerializedAnswer)input ;
         if (answer.getServerAnswer() instanceof ConnectionMessage && ((ConnectionMessage) answer.getServerAnswer()).getType()==0) {

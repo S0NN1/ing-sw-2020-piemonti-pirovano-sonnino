@@ -139,7 +139,6 @@ public class CLI implements UI, Runnable {
     public void run() {
         setup();
         while (isActiveGame()) {
-            //TODO match input enabler confirmation (from server)
             if (modelView.getStarted() == 3) {
                 loop();
             }

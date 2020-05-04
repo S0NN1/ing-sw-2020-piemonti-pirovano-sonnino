@@ -1,16 +1,16 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
-import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.model.Card;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.PrintWriter;
 
-
+/**
+ *  Handles the user input, transforming it in a message for the server. In this case, we decided to make a fatter client,
+ *  in order to pre-check the correctness of the requests and then have minor server flooding.
+ * @author Luca Pirovano
+ */
 public class ActionParser implements PropertyChangeListener {
     private final ConnectionSocket connection;
     private final ModelView modelView;
