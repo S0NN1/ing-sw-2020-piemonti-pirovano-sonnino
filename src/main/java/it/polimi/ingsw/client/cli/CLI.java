@@ -16,7 +16,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
@@ -25,15 +24,7 @@ import java.util.logging.Logger;
  * @version 1.0.0
  */
 public class CLI implements UI, Runnable {
-    private final HashMap<String, String> nameMAPcolor = new HashMap<String, String>() {{
-        put("GREEN", Constants.ANSI_GREEN);
-        put("YELLOW", Constants.ANSI_YELLOW);
-        put("RED", Constants.ANSI_RED);
-        put("RST", Constants.ANSI_RESET);
-        put("BLUE", Constants.ANSI_BLUE);
-        put("CYAN", Constants.ANSI_CYAN);
-        put("BACKGROUND_BLACK", Constants.ANSI_BACKGROUND_BLACK);
-    }};
+    private final HashMap<String, String> nameMAPcolor = new HashMap<>();
     private final PrintStream output;
     private final Scanner input;
     private final ModelView modelView;
@@ -57,6 +48,13 @@ public class CLI implements UI, Runnable {
             }
         }
         printable = new Printable();
+        nameMAPcolor.put("GREEN", Constants.ANSI_GREEN);
+        nameMAPcolor.put("YELLOW", Constants.ANSI_YELLOW);
+        nameMAPcolor.put("RED", Constants.ANSI_RED);
+        nameMAPcolor.put("RST", Constants.ANSI_RESET);
+        nameMAPcolor.put("BLUE", Constants.ANSI_BLUE);
+        nameMAPcolor.put("CYAN", Constants.ANSI_CYAN);
+        nameMAPcolor.put("BACKGROUND_BLACK", Constants.ANSI_BACKGROUND_BLACK);
     }
 
     /**
