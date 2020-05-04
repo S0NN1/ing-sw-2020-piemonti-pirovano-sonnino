@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public class ConnectionSocket {
     private Socket socket;
     private int clientID;
-    private final Logger LOGGER = Logger.getLogger(getClass().getName());
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     private ObjectOutputStream outputStream;
     SocketListener listener;
@@ -49,23 +49,11 @@ public class ConnectionSocket {
             this.socket = new Socket(serverAddress, serverPort);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-
             while(true) {
                 try {
                     send(new SetupConnection(nickname));
-                    SerializedAnswer answer = (SerializedAnswer) input.readObject();
-                    if (answer.getServerAnswer() instanceof ConnectionMessage && ((ConnectionMessage) answer.getServerAnswer()).getType()==0) {
+                    if(nicknameChecker(input.readObject())) {
                         break;
-                    }
-                    else if(answer.getServerAnswer() instanceof GameError) {
-                        if(((GameError) answer.getServerAnswer()).getError().equals(ErrorsType.DUPLICATENICKNAME)) {
-                            System.err.println("This nickname is already in use! Please choose one other.");
-                            throw new DuplicateNicknameException();
-                        }
-                        else if(((GameError)answer.getServerAnswer()).getError().equals(ErrorsType.FULLSERVER)) {
-                            System.err.println("This match is already full, please try again later!\nApplication will now close...");
-                            System.exit(0);
-                        }
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     System.err.println(e.getMessage());
@@ -78,9 +66,27 @@ public class ConnectionSocket {
         }
         catch (IOException e) {
             System.err.println("Error during socket configuration! Application will now close.");
-            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            logger.log(Level.SEVERE,e.getMessage(), e);
             System.exit(0);
         }
+    }
+
+    public boolean nicknameChecker(Object input) throws DuplicateNicknameException{
+        SerializedAnswer answer = (SerializedAnswer)input ;
+        if (answer.getServerAnswer() instanceof ConnectionMessage && ((ConnectionMessage) answer.getServerAnswer()).getType()==0) {
+            return true;
+        }
+        else if(answer.getServerAnswer() instanceof GameError) {
+            if(((GameError) answer.getServerAnswer()).getError().equals(ErrorsType.DUPLICATENICKNAME)) {
+                System.err.println("This nickname is already in use! Please choose one other.");
+                throw new DuplicateNicknameException();
+            }
+            else if(((GameError)answer.getServerAnswer()).getError().equals(ErrorsType.FULLSERVER)) {
+                System.err.println("This match is already full, please try again later!\nApplication will now close...");
+                System.exit(0);
+            }
+        }
+        return false;
     }
 
     /**
@@ -115,7 +121,7 @@ public class ConnectionSocket {
         }
         catch (IOException e) {
             System.err.println("Error during send process.");
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 }
