@@ -63,7 +63,7 @@ public class LoaderController implements GUIController {
                 Alert godList = new Alert(Alert.AlertType.CONFIRMATION);
                 godList.setTitle("Choose a god");
                 HashMap<String, ButtonType> gods = new HashMap<>();
-                godListDropdown = new ComboBox(FXCollections.observableArrayList(req.godList));
+                godListDropdown = new ComboBox<String>(FXCollections.observableArrayList(req.godList));
                 godList.getDialogPane().setContent(godListDropdown);
                 ButtonType ok = new ButtonType("SELECT");
                 godList.getButtonTypes().setAll(ok);
