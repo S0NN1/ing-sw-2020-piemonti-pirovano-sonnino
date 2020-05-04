@@ -14,6 +14,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +30,8 @@ public class GameHandler {
     private int started;
     private int playersNumber;
     private PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
+    private Random rnd = new Random();
 
 
     public GameHandler(Server server) {
@@ -122,7 +126,8 @@ public class GameHandler {
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LOGGER.log(Level.SEVERE, e.getMessage(), e);
+                    Thread.currentThread().interrupt();
                 }
             }
             else {
@@ -133,7 +138,6 @@ public class GameHandler {
         }
 
         //Challenger section
-        Random rnd = new Random();
         game.setCurrentPlayer(game.getActivePlayers().get(rnd.nextInt(playersNumber)));
         singleSend(new ChallengerMessages(game.getCurrentPlayer().getNickname() + ", you are the challenger!\nYou have to choose gods power. " +
                         "Type GODLIST to get a list of available gods, GODDESC <god name> to get a god's description and ADDGOD <god name> " +

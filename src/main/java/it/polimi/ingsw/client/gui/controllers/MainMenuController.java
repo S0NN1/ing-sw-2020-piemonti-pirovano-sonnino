@@ -43,7 +43,7 @@ public class MainMenuController implements GUIController{
         gui.centerApplication();
     }
 
-    public void start(ActionEvent event) throws InterruptedException {
+    public void start(ActionEvent event) {
         if(username.getText().equals("") || address.getText().equals("") || port.getText().equals("")) {
             confirmation.setText("Error: missing paramenters!");
         }
