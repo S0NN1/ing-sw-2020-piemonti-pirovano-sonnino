@@ -23,20 +23,8 @@ import java.util.*;
  * @version 1.0.0
  */
 public class CLI implements UI, Runnable {
-<<<<<<< HEAD
-    private final HashMap<String, String> nameMAPcolor = new HashMap<>() {{
-        put("GREEN", Constants.ANSI_GREEN);
-        put("YELLOW", Constants.ANSI_YELLOW);
-        put("RED", Constants.ANSI_RED);
-        put("RST", Constants.ANSI_RESET);
-        put("BLUE", Constants.ANSI_BLUE);
-        put("CYAN", Constants.ANSI_CYAN);
-        put("BACKGROUND_BLACK", Constants.ANSI_BACKGROUND_BLACK);
-    }};
-=======
     private final String GREEN = "GREEN", YELLOW = "YELLOW", BG_BLACK = "BACKGROUND_BLACK";
     private final HashMap<String, String> nameMAPcolor = new HashMap<>();
->>>>>>> master
     private final PrintStream output;
     private final Scanner input;
     private final ModelView modelView;
