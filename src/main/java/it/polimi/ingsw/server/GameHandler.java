@@ -227,8 +227,7 @@ public class GameHandler {
                 started = 2;
                 game.nextPlayer();
                 singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
-                        ", please choose your god power from one of the list below.\n\n" + game.getDeck().getCards().stream().map(e -> e.toString() +
-                        "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n")) + "Select your god by typing choose <god-name>:"),getCurrentPlayerID());
+                        ", please choose your god power from one of the list below.", game.getDeck().getCards()),getCurrentPlayerID());
                 sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() +
                         " is" + " choosing his god power...", false), getCurrentPlayerID());
             }
