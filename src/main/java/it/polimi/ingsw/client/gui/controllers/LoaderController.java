@@ -47,48 +47,60 @@ public class LoaderController implements GUIController {
         return godTile.getValue();
     }
 
+    protected void startingPlayer(ChallengerMessages req) {
+        Alert startingPlayer = new Alert(Alert.AlertType.CONFIRMATION);
+        startingPlayer.setTitle("Choose starting player");
+        startingPlayer.setContentText(req.message);
+        HashMap<String, ButtonType> players = new HashMap<>();
+        req.players.forEach(n -> players.put(n, new ButtonType(n)));
+        startingPlayer.getButtonTypes().setAll(players.values());
+        Optional<ButtonType> result = startingPlayer.showAndWait();
+        result.ifPresent(buttonType -> gui.getObservers().firePropertyChange("action", null, "STARTER " + req.players.indexOf(buttonType.getText())));
+    }
+
+    protected void displayGodList(ChallengerMessages req) {
+        ComboBox<String> godListDropdown;
+        while (true) {
+            Alert godList = new Alert(Alert.AlertType.CONFIRMATION);
+            godList.setTitle("Choose a god");
+            godListDropdown = new ComboBox<>(FXCollections.observableArrayList(req.godList));
+            godList.getDialogPane().setContent(godListDropdown);
+            ButtonType ok = new ButtonType("SELECT");
+            godList.getButtonTypes().setAll(ok);
+            godList.showAndWait();
+            if (godListDropdown.getValue()!=null) {
+                if(godTile(Card.parseInput(godListDropdown.getValue()))) break;
+            }
+        }
+    }
+
+    protected void chooseGod(ChallengerMessages req) {
+        while(true) {
+            Alert message = new Alert(Alert.AlertType.INFORMATION);
+            message.setTitle("Choose your god power!");
+            message.setContentText(req.message + "\n" + req.choosable.stream().map(Enum::toString).collect(Collectors.joining("\n")));
+            ComboBox<Card> choices = new ComboBox<>(FXCollections.observableArrayList(req.choosable));
+            message.getDialogPane().setContent(choices);
+            ButtonType choose = new ButtonType("CHOOSE");
+            message.getButtonTypes().setAll(choose);
+            message.showAndWait();
+            if (choices.getValue()!=null) {
+                //TODO
+                break;
+            }
+        }
+    }
+
     public void challengerPhase(ChallengerMessages req) {
         gui.getModelView().toggleInput();
         if (req.startingPlayer && req.players != null) {
-            Alert startingPlayer = new Alert(Alert.AlertType.CONFIRMATION);
-            startingPlayer.setTitle("Choose starting player");
-            startingPlayer.setContentText(req.message);
-            HashMap<String, ButtonType> players = new HashMap<>();
-            req.players.forEach(n -> players.put(n, new ButtonType(n)));
-            startingPlayer.getButtonTypes().setAll(players.values());
-            Optional<ButtonType> result = startingPlayer.showAndWait();
-            result.ifPresent(buttonType -> gui.getObservers().firePropertyChange("action", null, "STARTER " + req.players.indexOf(buttonType.getText())));
+            startingPlayer(req);
         }
         else if (req.godList != null) {
-            ComboBox<String> godListDropdown;
-            while (true) {
-                Alert godList = new Alert(Alert.AlertType.CONFIRMATION);
-                godList.setTitle("Choose a god");
-                godListDropdown = new ComboBox<>(FXCollections.observableArrayList(req.godList));
-                godList.getDialogPane().setContent(godListDropdown);
-                ButtonType ok = new ButtonType("SELECT");
-                godList.getButtonTypes().setAll(ok);
-                godList.showAndWait();
-                if (godListDropdown.getValue()!=null) {
-                    if(godTile(Card.parseInput(godListDropdown.getValue()))) break;
-                }
-            }
+            displayGodList(req);
         }
         else if (req.choosable != null) {
-            while(true) {
-                Alert message = new Alert(Alert.AlertType.INFORMATION);
-                message.setTitle("Choose your god power!");
-                message.setContentText(req.message + "\n" + req.choosable.stream().map(Enum::toString).collect(Collectors.joining("\n")));
-                ComboBox<Card> choices = new ComboBox<>(FXCollections.observableArrayList(req.choosable));
-                message.getDialogPane().setContent(choices);
-                ButtonType choose = new ButtonType("CHOOSE");
-                message.getButtonTypes().setAll(choose);
-                message.showAndWait();
-                if (choices.getValue()!=null) {
-                    //TODO
-                    break;
-                }
-            }
+            chooseGod(req);
         }
         else {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
