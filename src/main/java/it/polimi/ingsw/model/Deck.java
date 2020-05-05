@@ -44,6 +44,7 @@ public class Deck {
     /**
      * Remove a card afterwards a player god-power choice.
      * @param card the card selected by the player.
+     * @return true if everything is ok, false otherwise.
      */
     public boolean chooseCard(Card card, VirtualClient client) {
         if(!cards.contains(card)) {
@@ -54,6 +55,13 @@ public class Deck {
         return true;
     }
 
+    /**
+     * Remove a card afterwards a player god-power choice in case of Athena selection.
+     * @param card the selected card.
+     * @param client the client which has selected Athena.
+     * @param controller the game controller.
+     * @return true if everything is ok, false otherwise.
+     */
     public boolean chooseCard(Card card, VirtualClient client, TurnController controller) {
         if (!cards.contains(card)) {
             return false;

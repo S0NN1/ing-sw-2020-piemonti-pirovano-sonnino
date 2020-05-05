@@ -78,6 +78,10 @@ public class VirtualClient implements Observer {
         socketClientConnection.sendSocketMessage(message);
     }
 
+    /**
+     * Send the message to all playing clients, thanks to the GameHandler sendAll method.
+     * @param serverAnswer the message to be sent.
+     */
     public void sendAll(Answer serverAnswer) {
         gameHandler.sendAll(serverAnswer);
     }

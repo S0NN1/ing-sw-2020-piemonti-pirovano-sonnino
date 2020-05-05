@@ -31,6 +31,9 @@ public class Game extends Observable {
         gameBoard = new GameBoard();
     }
 
+    /**
+     * @return the gameboard object.
+     */
     public GameBoard getGameBoard() {
         return gameBoard;
     }

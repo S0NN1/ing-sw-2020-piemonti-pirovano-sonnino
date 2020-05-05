@@ -66,6 +66,9 @@ public class GameHandler {
         game.createNewPlayer(new Player(nickname, clientID));
     }
 
+    /**
+     * @return the current player client ID, getting him from the currentPlayer reference in the Game class.
+     */
     public int getCurrentPlayerID() {
         return game.getCurrentPlayer().getClientID();
     }
@@ -185,6 +188,11 @@ public class GameHandler {
         }
     }
 
+    /**
+     * Handles the worker placement phase by checking the correctness of the user's input and if the selected cell
+     * is free or occupied by someone else.
+     * @param action the move action.
+     */
     public void workerPlacement(WorkerSetupMessage action) {
         if(action!=null) {
             controllerListener.firePropertyChange("workerPlacement", null, action);
@@ -202,6 +210,10 @@ public class GameHandler {
         sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() + " is choosing workers' position.", false), getCurrentPlayerID());
     }
 
+    /**
+     * Handles the challenger gamephase (based on the listener message)
+     * @param action the action to be performed
+     */
     public void challengerPhase(UserAction action) {
         ChallengerPhaseAction userAction = (ChallengerPhaseAction)action;
         if (started < 2 || started>3) {

@@ -155,6 +155,12 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+    /**
+     * Handles an action by receiving a message from the client. The "Action" interface permits splitting the information
+     * into serveral types of action (like move, build, etc). This method invokes the correct part of the server relying on
+     * the action type received.
+     * @param action the Action interface type command received from the client.
+     */
     public void actionHandler(UserAction action) {
         if(server.getGameByID(clientID).getCurrentPlayerID()!=clientID) {
             server.getGameByID(clientID).singleSend(new GameError(ErrorsType.NOTYOURTURN), clientID);

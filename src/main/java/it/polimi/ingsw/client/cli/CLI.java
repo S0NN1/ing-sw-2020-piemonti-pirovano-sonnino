@@ -16,6 +16,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
@@ -138,7 +139,6 @@ public class CLI implements UI, Runnable {
     public void run() {
         setup();
         while (isActiveGame()) {
-            //TODO match input enabler confirmation (from server)
             if (modelView.getStarted() == 3) {
                 loop();
             }
