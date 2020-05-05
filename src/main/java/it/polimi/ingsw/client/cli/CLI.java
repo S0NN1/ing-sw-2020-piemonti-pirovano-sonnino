@@ -14,9 +14,7 @@ import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
@@ -25,15 +23,7 @@ import java.util.logging.Logger;
  * @version 1.0.0
  */
 public class CLI implements UI, Runnable {
-
-    /*public static final String GREEN = Constants.ANSI_GREEN;
-    public static final String YELLOW = Constants.ANSI_YELLOW;
-    private static final String RED = Constants.ANSI_RED;
-    private static final String RST = Constants.ANSI_RESET;
-    private static final String BLUE = Constants.ANSI_BLUE;
-    private static final String CYAN = Constants.ANSI_CYAN;
-    private static final String BACKGROUND_BLACK = Constants.ANSI_BACKGROUND_BLACK;*/
-    private final HashMap<String, String> nameMAPcolor = new HashMap<String, String>() {{
+    private final HashMap<String, String> nameMAPcolor = new HashMap<>() {{
         put("GREEN", Constants.ANSI_GREEN);
         put("YELLOW", Constants.ANSI_YELLOW);
         put("RED", Constants.ANSI_RED);
@@ -147,6 +137,10 @@ public class CLI implements UI, Runnable {
         output.close();
     }
 
+    /**
+     * Create empty board
+     * @param grid printed board
+     */
     private void firstBuildBoard(DisplayCell[][] grid) {
         String[] rows = printable.lvl0.split("\n");
         for (int i = 0; i <= 4; i++) {
@@ -158,8 +152,12 @@ public class CLI implements UI, Runnable {
         }
     }
 
+    /**
+     * Update grid after a change occured in ClientBoard
+     * @param grid printed board
+     */
     private void boardUpdater(DisplayCell[][] grid) {
-        String[] rows = new String[11];
+        String[] rows;
         for (int i = 0; i <= 4; i++) {
             for (int j = 0; j <= 4; j++) {
                 for (int k = 0; k <= 10; k++) {
@@ -168,15 +166,7 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl0c.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                /*if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = RED;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = BLUE;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = GREEN;
-                                }*/
+
                                 String temp = rows[4].substring(0, 22) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
                                 String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
                                 rows[4] = temp;
@@ -186,15 +176,7 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl0.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                /*if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = RED;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = BLUE;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = GREEN;
-                                }*/
+
                                 String temp = rows[4].substring(0, 17) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "☻" + nameMAPcolor.get("GREEN") + rows[4].substring(18);
                                 String temp2 = rows[5].substring(0, 17) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "▲" + nameMAPcolor.get("GREEN") + rows[4].substring(18);
                                 rows[4] = temp;
@@ -207,15 +189,7 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl1c.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                /*if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = RED;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = BLUE;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = GREEN;
-                                }*/
+
                                 String temp = rows[4].substring(0, 17) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(18);
                                 String temp2 = rows[5].substring(0, 17) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(18);
                                 rows[4] = temp;
@@ -225,15 +199,7 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl1.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                /*if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = RED;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = BLUE;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = GREEN;
-                                }*/
+
                                 String temp = rows[4].substring(0, 12) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "☻" + nameMAPcolor.get("RST") + rows[4].substring(13);
                                 String temp2 = rows[5].substring(0, 12) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "▲" + nameMAPcolor.get("RST") + rows[4].substring(13);
                                 rows[4] = temp;
@@ -246,15 +212,6 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl2c.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor());
-                                /*if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = RED;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = BLUE;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = GREEN;
-                                }*/
                                 String temp = rows[4].substring(0, 26) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(27);
                                 String temp2 = rows[5].substring(0, 26) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(27);
                                 rows[4] = temp;
@@ -266,15 +223,6 @@ public class CLI implements UI, Runnable {
                                 rows = printable.lvl2c.split("\n");
                                 if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                     String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                    /*if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                        color = RED;
-                                    }
-                                    if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                        color = BLUE;
-                                    }
-                                    if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                        color = GREEN;
-                                    }*/
                                     String temp = rows[4].substring(0, 22) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "☻" + nameMAPcolor.get("RST") + rows[4].substring(23);
                                     String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "▲" + nameMAPcolor.get("RST") + rows[4].substring(23);
                                     rows[4] = temp;
@@ -289,15 +237,7 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl2c.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                /*if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = RED;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = BLUE;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = GREEN;
-                                }*/
+
                                 String temp = rows[4].substring(0, 26) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "☻" + nameMAPcolor.get("CYAN") + rows[4].substring(27);
                                 String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "▲" + nameMAPcolor.get("CYAN") + rows[4].substring(23);
                                 rows[4] = temp;
@@ -311,15 +251,6 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl2c.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                /*if (modelView.getBoard().getGrid()[i][j].getColor().equals("red")) {
-                                    color = RED;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("blue")) {
-                                    color = BLUE;
-                                }
-                                if (modelView.getBoard().getGrid()[i][j].getColor().equals("green")) {
-                                    color = GREEN;
-                                }*/
                                 String temp = rows[4].substring(0, 35) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(36);
                                 String temp2 = rows[5].substring(0, 31) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(32);
                                 rows[4] = temp;
@@ -333,6 +264,10 @@ public class CLI implements UI, Runnable {
         }
     }
 
+    /**
+     * Print board to the player
+     * @param grid printed board
+     */
     private void printBoard(DisplayCell[][] grid) {
         System.out.println(printable.rowWave);
         System.out.println(printable.rowWave);

@@ -42,6 +42,9 @@ public class TurnControllerTest {
     PropertyChangeEvent evt7 = new PropertyChangeEvent(7, null, null, moveAction);
     PropertyChangeEvent evt8 = new PropertyChangeEvent(8, null, null, buildAction);
 
+    /**
+     * Test if messages are forwarded into the right condition
+     */
     @Test
     public void evtTest() {
         turnController.propertyChange(evt1);
@@ -103,6 +106,7 @@ public class TurnControllerTest {
         }
 
         @Override
+
 
         public boolean readMessage(MoveAction action) {
             System.out.println("MoveAction");
