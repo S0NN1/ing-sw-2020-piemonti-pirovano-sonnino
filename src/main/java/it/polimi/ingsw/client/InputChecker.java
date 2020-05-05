@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.Card;
 
-import java.io.PrintWriter;
 
 /**
  * Check the correctness of the input received from the ActionParser, returning either true or false after his check.

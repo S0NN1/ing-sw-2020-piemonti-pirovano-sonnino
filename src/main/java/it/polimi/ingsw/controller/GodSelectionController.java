@@ -136,6 +136,8 @@ public class GodSelectionController implements PropertyChangeListener {
             case "LASTSELECTION":
                 lastSelection();
                 break;
+            default:
+                System.err.println("No action to be performed!");
         }
     }
 }
