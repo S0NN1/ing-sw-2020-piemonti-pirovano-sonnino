@@ -222,7 +222,7 @@ public class GUI extends Application implements UI {
                 });
             }
             default -> {
-                LOGGER.log(Level.WARNING, "No action to be performed!");
+                LOGGER.log(Level.WARNING, "No actions to be performed");
             }
         }
     }
