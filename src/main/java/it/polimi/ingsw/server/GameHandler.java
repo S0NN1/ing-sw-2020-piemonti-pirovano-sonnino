@@ -216,13 +216,14 @@ public class GameHandler {
      */
     public void challengerPhase(UserAction action) {
         ChallengerPhaseAction userAction = (ChallengerPhaseAction)action;
+        String godSelection = "godSelection";
         if (started < 2 || started>3) {
             if((userAction.action.equals("CHOOSE"))) {
                 singleSend(new ChallengerMessages(Constants.ANSI_RED + "Error: not in correct game phase for " +
                         "this command!" + Constants.ANSI_RESET), getCurrentPlayerID());
                 return;
             }
-            controllerListener.firePropertyChange("godSelection", null, action);
+            controllerListener.firePropertyChange(godSelection, null, action);
             if (game.getDeck().getCards().size() == playersNumber) {
                 started = 2;
                 game.nextPlayer();
@@ -234,7 +235,7 @@ public class GameHandler {
         }
         else if (started == 2) {
             if(userAction.action.equals("CHOOSE")) {
-                controllerListener.firePropertyChange("godSelection", null, userAction);
+                controllerListener.firePropertyChange(godSelection, null, userAction);
                 if (game.getDeck().getCards().size() > 1) {
                     if(game.getCurrentPlayer().getWorkers().size()!=0) {
                         game.nextPlayer();
@@ -248,7 +249,7 @@ public class GameHandler {
                             " is choosing his god power...", false), getCurrentPlayerID());
                 } else if (game.getDeck().getCards().size() == 1) {
                     game.nextPlayer();
-                    controllerListener.firePropertyChange("godSelection", null, new ChallengerPhaseAction("LASTSELECTION"));
+                    controllerListener.firePropertyChange(godSelection, null, new ChallengerPhaseAction("LASTSELECTION"));
                     game.nextPlayer();
                     ArrayList<String> players = new ArrayList<>();
                     game.getActivePlayers().forEach(n -> players.add(n.getNickname()));

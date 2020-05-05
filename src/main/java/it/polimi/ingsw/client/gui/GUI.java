@@ -171,6 +171,9 @@ public class GUI extends Application implements UI {
                     });
                 }
             }
+            default -> {
+                LOGGER.log(Level.WARNING, "No action to be performed!");
+            }
         }
     }
 
@@ -217,6 +220,9 @@ public class GUI extends Application implements UI {
                     alert.showAndWait();
                     System.exit(0);
                 });
+            }
+            default -> {
+                LOGGER.log(Level.WARNING, "No actions to be performed");
             }
         }
     }
