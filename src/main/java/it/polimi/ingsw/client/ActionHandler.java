@@ -82,12 +82,13 @@ public class ActionHandler {
      * @param answer the answer received from the server.
      */
     public void initialGamePhase(Answer answer) {
+        String initial = "initialPhase";
         if (answer instanceof RequestPlayersNumber) {
-            view.firePropertyChange("initialPhase", null, "RequestPlayerNumber");
+            view.firePropertyChange(initial, null, "RequestPlayerNumber");
         } else if (answer instanceof RequestColor) {
-            view.firePropertyChange("initialPhase", null, "RequestColor");
+            view.firePropertyChange(initial, null, "RequestColor");
         } else if (answer instanceof ChallengerMessages) {
-            view.firePropertyChange("initialPhase", null, "GodRequest");
+            view.firePropertyChange(initial, null, "GodRequest");
         } else if(answer instanceof SetWorkersMessage) {
             SetWorkersMessage message = (SetWorkersMessage) answer;
             modelView.getBoard().setColor(message.getWorker1().getX(), message.getWorker1().getY(), message.getMessage());

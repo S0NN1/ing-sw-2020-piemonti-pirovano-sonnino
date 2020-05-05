@@ -164,7 +164,7 @@ public class GUI extends Application implements UI {
                 ChallengerMessages req = (ChallengerMessages) modelView.getServerAnswer();
                 if(req.message!=null && req.message.contains("Property:")) {
                     Platform.runLater(() -> ((LoaderController)getControllerFromName(LOADER)).godDescription(req.message));
-                } else {
+                }else {
                     Platform.runLater(() -> {
                         LoaderController controller = (LoaderController) getControllerFromName(LOADER);
                         controller.challengerPhase(req);

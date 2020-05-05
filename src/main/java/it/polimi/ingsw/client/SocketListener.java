@@ -16,15 +16,13 @@ import java.util.logging.Logger;
 public class SocketListener implements Runnable{
 
     private Socket socket;
-    private ConnectionSocket connectionSocket;
     private final ModelView modelView;
     private ActionHandler actionHandler;
-    private final Logger LOGGER = Logger.getLogger(getClass().getName());
+    private final Logger logger = Logger.getLogger(getClass().getName());
     private ObjectInputStream inputStream;
 
     public SocketListener(Socket socket, ConnectionSocket connectionSocket, ModelView modelView, ObjectInputStream inputStream, ActionHandler actionHandler) {
         this.modelView = modelView;
-        this.connectionSocket = connectionSocket;
         this.socket = socket;
         this.inputStream = inputStream;
         this.actionHandler = actionHandler;
@@ -52,7 +50,7 @@ public class SocketListener implements Runnable{
             }
         }
         catch (IOException e) {
-            System.err.println("Connection closed by the server. Quitting...");
+            logger.log(Level.SEVERE, "Connection closed by the server. Quitting...");
             if(modelView.getGui()!=null) {
                 modelView.getGui().propertyChange(new PropertyChangeEvent(this, "connectionClosed", null, modelView.getServerAnswer().getMessage()));
             } else {
@@ -68,7 +66,7 @@ public class SocketListener implements Runnable{
                 socket.close();
             }
             catch (IOException e) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
+                logger.log(Level.SEVERE, e.getMessage(), e);
             }
         }
     }

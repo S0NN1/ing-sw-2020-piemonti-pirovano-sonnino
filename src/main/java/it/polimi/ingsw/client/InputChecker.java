@@ -15,7 +15,6 @@ import java.io.PrintWriter;
 public class InputChecker {
     private final ConnectionSocket connection;
     private static final String GOD_NOT_FOUND = "Not existing god with your input's name.";
-    private final PrintWriter output = new PrintWriter(System.out);
     private static final String RED = Constants.ANSI_RED;
     private static final String RST = Constants.ANSI_RESET;
 
@@ -32,7 +31,7 @@ public class InputChecker {
         try {
             connection.send(new ChallengerPhaseAction("DESC", Card.parseInput(in[1])));
         } catch (IllegalArgumentException e) {
-            output.println(RED + GOD_NOT_FOUND + RST);
+            System.out.println(RED + GOD_NOT_FOUND + RST);
             return false;
         }
         return true;
@@ -47,7 +46,7 @@ public class InputChecker {
         try {
             connection.send(new ChallengerPhaseAction("ADD", Card.parseInput(in[1])));
         } catch (IllegalArgumentException e) {
-            output.println(RED + GOD_NOT_FOUND + RST);
+            System.out.println(RED + GOD_NOT_FOUND + RST);
             return false;
         }
         return true;
@@ -62,7 +61,7 @@ public class InputChecker {
         try {
             connection.send(new ChallengerPhaseAction("CHOOSE", Card.parseInput(in[1])));
         } catch (IllegalArgumentException e) {
-            output.println(RED + GOD_NOT_FOUND + RST);
+            System.out.println(RED + GOD_NOT_FOUND + RST);
             return false;
         }
         return true;
@@ -78,7 +77,7 @@ public class InputChecker {
             int startingPlayer = Integer.parseInt(in[1]);
             connection.send(new ChallengerPhaseAction(startingPlayer));
         } catch (NumberFormatException e) {
-            output.println(RED + "Error: it must be a numeric value, please try again." + RST);
+            System.out.println(RED + "Error: it must be a numeric value, please try again." + RST);
         }
         return true;
     }
@@ -93,7 +92,7 @@ public class InputChecker {
             connection.send(new WorkerSetupMessage(in));
             return true;
         } catch (NumberFormatException e) {
-            output.println(RED + "Unknown input, please try again!" + RST);
+            System.out.println(RED + "Unknown input, please try again!" + RST);
             return false;
         }
     }
