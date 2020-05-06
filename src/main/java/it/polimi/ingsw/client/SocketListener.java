@@ -6,6 +6,8 @@ import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Listens for a server answer on the socket, passing it to the client model class.
@@ -14,15 +16,13 @@ import java.net.Socket;
 public class SocketListener implements Runnable{
 
     private Socket socket;
-    private ConnectionSocket connectionSocket;
     private final ModelView modelView;
     private ActionHandler actionHandler;
-
+    private final Logger logger = Logger.getLogger(getClass().getName());
     private ObjectInputStream inputStream;
 
     public SocketListener(Socket socket, ConnectionSocket connectionSocket, ModelView modelView, ObjectInputStream inputStream, ActionHandler actionHandler) {
         this.modelView = modelView;
-        this.connectionSocket = connectionSocket;
         this.socket = socket;
         this.inputStream = inputStream;
         this.actionHandler = actionHandler;
@@ -44,14 +44,16 @@ public class SocketListener implements Runnable{
             while (true) {
                 SerializedAnswer message = (SerializedAnswer) inputStream.readObject();
                 process(message);
+                if(modelView.getCli()!=null && !modelView.getCli().isActiveGame()) {
+                    break;
+                }
             }
         }
         catch (IOException e) {
-            System.err.println("Connection closed by the server. Quitting...");
+            logger.log(Level.SEVERE, "Connection closed by the server. Quitting...");
             if(modelView.getGui()!=null) {
                 modelView.getGui().propertyChange(new PropertyChangeEvent(this, "connectionClosed", null, modelView.getServerAnswer().getMessage()));
             } else {
-                //e.printStackTrace();
                 System.exit(0);
             }
         }
@@ -64,7 +66,7 @@ public class SocketListener implements Runnable{
                 socket.close();
             }
             catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.getMessage(), e);
             }
         }
     }

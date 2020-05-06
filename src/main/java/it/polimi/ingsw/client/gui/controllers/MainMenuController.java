@@ -38,12 +38,12 @@ public class MainMenuController implements GUIController{
         System.exit(0);
     }
 
-    public void play(MouseEvent event) throws IOException {
+    public void play(MouseEvent event) {
         gui.changeStage("setup.fxml");
         gui.centerApplication();
     }
 
-    public void start(ActionEvent event) throws InterruptedException {
+    public void start(ActionEvent event) {
         if(username.getText().equals("") || address.getText().equals("") || port.getText().equals("")) {
             confirmation.setText("Error: missing paramenters!");
         }

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Creates a socket that accept connections from clients, and creates a thread containing them.
@@ -15,11 +17,18 @@ public class SocketServer implements Runnable{
     private int port;
     private ExecutorService executorService;
     private Server server;
+    private volatile boolean active;
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
 
     public SocketServer(int port, Server server) {
         this.server = server;
         this.port = port;
         executorService = Executors.newCachedThreadPool();
+        active = true;
+    }
+
+    public void setActive(boolean value) {
+        active = value;
     }
 
     /**
@@ -28,14 +37,13 @@ public class SocketServer implements Runnable{
      * @param serverSocket the server socket, which accepts connections.
      */
     public void acceptConnections(ServerSocket serverSocket) {
-        while (true) {
-            try {
-                SocketClientConnection socketClient = new SocketClientConnection(serverSocket.accept(), server);
-                executorService.submit(socketClient);
-            }
-            catch (IOException e) {
-                System.err.println("Error! " + e.getMessage());
-            }
+        while (active) {
+                try {
+                    SocketClientConnection socketClient = new SocketClientConnection(serverSocket.accept(), server);
+                    executorService.submit(socketClient);
+                } catch (IOException e) {
+                    System.err.println("Error! " + e.getMessage());
+                }
         }
     }
 
@@ -51,7 +59,7 @@ public class SocketServer implements Runnable{
         }
         catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during Socket initialization, quitting...");
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
             System.exit(0);
         }
     }

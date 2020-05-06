@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An instance of this class is created from SocketServer when it accepts a new connection.
@@ -27,6 +29,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     private ObjectOutputStream outputStream;
     private Integer clientID;
     private boolean active;
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
 
     public synchronized boolean isActive() {
         return active;
@@ -110,7 +113,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
         System.err.println(Constants.getInfo() + e.getMessage());
     } catch (ClassNotFoundException e) {
-        e.printStackTrace();
+        LOGGER.log(Level.SEVERE, e.getMessage(), e);
     }
     }
 
@@ -131,6 +134,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
                 server.lobby(this);
             } catch (InterruptedException e) {
                 System.err.println(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
         else if(command instanceof ChosenColor) {
@@ -151,6 +155,12 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+    /**
+     * Handles an action by receiving a message from the client. The "Action" interface permits splitting the information
+     * into serveral types of action (like move, build, etc). This method invokes the correct part of the server relying on
+     * the action type received.
+     * @param action the Action interface type command received from the client.
+     */
     public void actionHandler(UserAction action) {
         if(server.getGameByID(clientID).getCurrentPlayerID()!=clientID) {
             server.getGameByID(clientID).singleSend(new GameError(ErrorsType.NOTYOURTURN), clientID);

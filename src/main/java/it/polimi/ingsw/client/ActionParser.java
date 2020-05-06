@@ -1,24 +1,27 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
-import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.model.Card;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-
+/**
+ *  Handles the user input, transforming it in a message for the server. In this case, we decided to make a fatter client,
+ *  in order to pre-check the correctness of the requests and then have minor server flooding.
+ * @author Luca Pirovano
+ */
 public class ActionParser implements PropertyChangeListener {
     private final ConnectionSocket connection;
     private final ModelView modelView;
-    private static final String red = Constants.ANSI_RED;
-    private static final String rst = Constants.ANSI_RESET;
+    private static final String RED = Constants.ANSI_RED;
+    private static final String RST = Constants.ANSI_RESET;
+    private final InputChecker inputChecker;
 
     public ActionParser(ConnectionSocket connection, ModelView modelView) {
         this.connection = connection;
         this.modelView = modelView;
+        inputChecker = new InputChecker(connection);
     }
 
     /**
@@ -31,63 +34,28 @@ public class ActionParser implements PropertyChangeListener {
         String command = in[0];
         try {
             switch (command.toUpperCase()) {
-                case "GODLIST" -> {
+                case "GODLIST":
                     connection.send(new ChallengerPhaseAction("LIST"));
-                }
-                case "GODDESC" -> {
-                    try {
-                        connection.send(new ChallengerPhaseAction("DESC", Card.parseInput(in[1])));
-                    } catch (IllegalArgumentException e) {
-                        System.out.println(red + "Not existing god with your input's name." + rst);
-                        return false;
-                    }
-                }
-                case "ADDGOD" -> {
-                    try {
-                        connection.send(new ChallengerPhaseAction("ADD", Card.parseInput(in[1])));
-                    } catch (IllegalArgumentException e) {
-                        System.out.println(red + "Not existing god with your input's name." + rst);
-                        return false;
-                    }
-                }
-                case "CHOOSE" -> {
-                    try {
-                        connection.send(new ChallengerPhaseAction("CHOOSE", Card.parseInput(in[1])));
-                    } catch (IllegalArgumentException e) {
-                        System.out.println(red + "Not existing god with your input's name." + rst);
-                        return false;
-                    }
-                }
-                case "STARTER" -> {
-                    try {
-                        int startingPlayer = Integer.parseInt(in[1]);
-                        connection.send(new ChallengerPhaseAction(startingPlayer));
-                    } catch (NumberFormatException e) {
-                        System.out.println(red + "Error: it must be a numeric value, please try again." + rst);
-                    }
-                }
-                case "SET" -> {
-                    try {
-                        connection.send(new WorkerSetupMessage(in));
-                        return true;
-                    } catch (NumberFormatException e) {
-                        System.out.println(red + "Unknown input, please try again!" + rst);
-                        return false;
-                    }
-                }
-                case "QUIT" -> {
-                    connection.send(new Disconnect());
-                    System.err.println("Disconnected from the server.");
-                    System.exit(0);
-                }
-                default -> {
-                    System.out.println(red + "Unknown input, please try again!" + rst);
+                    return true;
+                case "GODDESC":
+                    return inputChecker.desc(in);
+                case "ADDGOD":
+                    return inputChecker.addGod(in);
+                case "CHOOSE":
+                    return inputChecker.choose(in);
+                case "STARTER":
+                    return inputChecker.starter(in);
+                case "SET":
+                    return inputChecker.set(in);
+                case "QUIT":
+                    inputChecker.quit();
+                    return true;
+                default:
+                    System.out.println(RED + "Unknown input, please try again!" + RST);
                     return false;
-                }
             }
-            return true;
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println(red + "Input error; try again!" + rst);
+            System.out.println(RED + "Input error; try again!" + RST);
             return false;
         }
     }
@@ -95,7 +63,7 @@ public class ActionParser implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(!modelView.getCanInput()) {
-            System.out.println(red + "Error: not your turn!");
+            System.out.println(RED + "Error: not your turn!");
             return;
         }
         if(action(evt.getNewValue().toString())) {

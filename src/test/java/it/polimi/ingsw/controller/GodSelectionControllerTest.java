@@ -49,6 +49,7 @@ class GodSelectionControllerTest {
 
     private class GameHandlerStub extends GameHandler {
         public int started = 1;
+
         public GameHandlerStub(Server server) {
             super(server);
         }
@@ -113,7 +114,8 @@ class GodSelectionControllerTest {
 
     Server server = new Server();
     GameStub game = new GameStub();
-    Controller controller = new Controller(game, new GameHandlerStub(server));
+    GameHandlerStub gameHandler = new GameHandlerStub(server);
+    Controller controller = new Controller(game, gameHandler);
     VirtualClientStub virtualClient = new VirtualClientStub();
     GodSelectionController selectionController = new GodSelectionController(new CardSelectionModel(game.getDeck()), controller, virtualClient);
 
@@ -147,6 +149,7 @@ class GodSelectionControllerTest {
         assertFalse(selectionController.add(Card.PROMETHEUS));
 
         //God choosing test
+        gameHandler.started = 2;
         assertFalse(selectionController.lastSelection());
         assertTrue(selectionController.choose(Card.APOLLO));
         assertFalse(selectionController.choose(Card.APOLLO));

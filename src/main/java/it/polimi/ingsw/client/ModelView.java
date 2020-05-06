@@ -4,8 +4,6 @@ import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.server.answers.*;
 
-import java.beans.PropertyChangeSupport;
-
 /**
  * This class contains a small representation of the game model, and contains linking to the main client actions, which
  * will be invoked after an instance control.
@@ -50,7 +48,7 @@ public class ModelView {
         started = val;
     }
 
-    public int getStarted() {
+    public synchronized int getStarted() {
         return started;
     }
 

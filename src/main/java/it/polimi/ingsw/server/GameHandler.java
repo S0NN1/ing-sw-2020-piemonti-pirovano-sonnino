@@ -14,6 +14,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +30,8 @@ public class GameHandler {
     private int started;
     private int playersNumber;
     private PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
+    private Random rnd = new Random();
 
 
     public GameHandler(Server server) {
@@ -62,6 +66,9 @@ public class GameHandler {
         game.createNewPlayer(new Player(nickname, clientID));
     }
 
+    /**
+     * @return the current player client ID, getting him from the currentPlayer reference in the Game class.
+     */
     public int getCurrentPlayerID() {
         return game.getCurrentPlayer().getClientID();
     }
@@ -122,7 +129,8 @@ public class GameHandler {
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LOGGER.log(Level.SEVERE, e.getMessage(), e);
+                    Thread.currentThread().interrupt();
                 }
             }
             else {
@@ -133,7 +141,6 @@ public class GameHandler {
         }
 
         //Challenger section
-        Random rnd = new Random();
         game.setCurrentPlayer(game.getActivePlayers().get(rnd.nextInt(playersNumber)));
         singleSend(new ChallengerMessages(game.getCurrentPlayer().getNickname() + ", you are the challenger!\nYou have to choose gods power. " +
                         "Type GODLIST to get a list of available gods, GODDESC <god name> to get a god's description and ADDGOD <god name> " +
@@ -181,6 +188,11 @@ public class GameHandler {
         }
     }
 
+    /**
+     * Handles the worker placement phase by checking the correctness of the user's input and if the selected cell
+     * is free or occupied by someone else.
+     * @param action the move action.
+     */
     public void workerPlacement(WorkerSetupMessage action) {
         if(action!=null) {
             controllerListener.firePropertyChange("workerPlacement", null, action);
@@ -198,28 +210,32 @@ public class GameHandler {
         sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() + " is choosing workers' position.", false), getCurrentPlayerID());
     }
 
+    /**
+     * Handles the challenger gamephase (based on the listener message)
+     * @param action the action to be performed
+     */
     public void challengerPhase(UserAction action) {
         ChallengerPhaseAction userAction = (ChallengerPhaseAction)action;
+        String godSelection = "godSelection";
         if (started < 2 || started>3) {
             if((userAction.action.equals("CHOOSE"))) {
                 singleSend(new ChallengerMessages(Constants.ANSI_RED + "Error: not in correct game phase for " +
                         "this command!" + Constants.ANSI_RESET), getCurrentPlayerID());
                 return;
             }
-            controllerListener.firePropertyChange("godSelection", null, action);
+            controllerListener.firePropertyChange(godSelection, null, action);
             if (game.getDeck().getCards().size() == playersNumber) {
                 started = 2;
                 game.nextPlayer();
                 singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
-                        ", please choose your god power from one of the list below.\n\n" + game.getDeck().getCards().stream().map(e -> e.toString() +
-                        "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n")) + "Select your god by typing choose <god-name>:"),getCurrentPlayerID());
+                        ", please choose your god power from one of the list below.", game.getDeck().getCards()),getCurrentPlayerID());
                 sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() +
                         " is" + " choosing his god power...", false), getCurrentPlayerID());
             }
         }
         else if (started == 2) {
             if(userAction.action.equals("CHOOSE")) {
-                controllerListener.firePropertyChange("godSelection", null, userAction);
+                controllerListener.firePropertyChange(godSelection, null, userAction);
                 if (game.getDeck().getCards().size() > 1) {
                     if(game.getCurrentPlayer().getWorkers().size()!=0) {
                         game.nextPlayer();
@@ -233,7 +249,7 @@ public class GameHandler {
                             " is choosing his god power...", false), getCurrentPlayerID());
                 } else if (game.getDeck().getCards().size() == 1) {
                     game.nextPlayer();
-                    controllerListener.firePropertyChange("godSelection", null, new ChallengerPhaseAction("LASTSELECTION"));
+                    controllerListener.firePropertyChange(godSelection, null, new ChallengerPhaseAction("LASTSELECTION"));
                     game.nextPlayer();
                     ArrayList<String> players = new ArrayList<>();
                     game.getActivePlayers().forEach(n -> players.add(n.getNickname()));

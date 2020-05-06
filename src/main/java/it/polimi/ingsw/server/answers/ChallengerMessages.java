@@ -9,6 +9,7 @@ import java.util.List;
 public class ChallengerMessages implements Answer {
     public final String message;
     public final List<String> godList;
+    public final List<Card> choosable;
     public final boolean startingPlayer;
     public final ArrayList<String> players;
 
@@ -17,6 +18,7 @@ public class ChallengerMessages implements Answer {
         this.godList = null;
         startingPlayer = false;
         players = null;
+        choosable = null;
     }
 
     public ChallengerMessages(String message, boolean startingPlayer, ArrayList<String> players) {
@@ -24,6 +26,7 @@ public class ChallengerMessages implements Answer {
         this.godList = null;
         this.startingPlayer = true;
         this.players = players;
+        choosable = null;
     }
 
     public ChallengerMessages(List<String> list) {
@@ -31,6 +34,15 @@ public class ChallengerMessages implements Answer {
         this.message = null;
         startingPlayer = false;
         players = null;
+        choosable = null;
+    }
+
+    public ChallengerMessages(String message, List<Card> choosable) {
+        this.godList = null;
+        this.message = message;
+        startingPlayer = false;
+        players = null;
+        this.choosable = choosable;
     }
 
     @Override

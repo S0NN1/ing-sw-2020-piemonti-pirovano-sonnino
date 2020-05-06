@@ -9,6 +9,11 @@ import it.polimi.ingsw.server.answers.worker.*;
 
 import java.beans.PropertyChangeSupport;
 
+/**
+ * Handles the answers from the server, notifying the correct part of the GUI or CLI through property change
+ * listeners.
+ * @author Luca Pirovano, Alice Piemonti
+ */
 public class ActionHandler {
 
     private ModelView modelView;
@@ -16,19 +21,32 @@ public class ActionHandler {
     private GUI gui;
     private PropertyChangeSupport view = new PropertyChangeSupport(this);
 
+    /**
+     * Constructor of the ActionHandler in case players are using the CLI.
+     * @param cli the command line interface reference.
+     * @param modelView the client model of the game.
+     */
     public ActionHandler(CLI cli, ModelView modelView) {
         this.cli = cli;
         view.addPropertyChangeListener(cli);
         this.modelView = modelView;
     }
 
+    /**
+     * Constructor of the ActionHandler in case players are using the GUI.
+     * @param gui the graphical user interface reference.
+     * @param modelView the client model of the game.
+     */
     public ActionHandler(GUI gui, ModelView modelView) {
         this.gui = gui;
         view.addPropertyChangeListener(gui);
         this.modelView = modelView;
     }
 
-
+    /**
+     * Handles an answer of the full game phase (like a move, build or god-use action).
+     * @param answer the answer received from the server.
+     */
     public void fullGamePhase(Answer answer) {
         ClientBoard clientBoard = modelView.getBoard();
         if (answer instanceof SelectSpacesMessage) {
@@ -63,13 +81,19 @@ public class ActionHandler {
 
     }
 
+    /**
+     * Handles the server answers of the initial game phase; notifies the view relying on the server request through
+     * a property change listener.
+     * @param answer the answer received from the server.
+     */
     public void initialGamePhase(Answer answer) {
+        String initial = "initialPhase";
         if (answer instanceof RequestPlayersNumber) {
-            view.firePropertyChange("initialPhase", null, "RequestPlayerNumber");
+            view.firePropertyChange(initial, null, "RequestPlayerNumber");
         } else if (answer instanceof RequestColor) {
-            view.firePropertyChange("initialPhase", null, "RequestColor");
+            view.firePropertyChange(initial, null, "RequestColor");
         } else if (answer instanceof ChallengerMessages) {
-            view.firePropertyChange("initialPhase", null, "GodRequest");
+            view.firePropertyChange(initial, null, "GodRequest");
         } else if(answer instanceof SetWorkersMessage) {
             SetWorkersMessage message = (SetWorkersMessage) answer;
             modelView.getBoard().setColor(message.getWorker1().getX(), message.getWorker1().getY(), message.getMessage());

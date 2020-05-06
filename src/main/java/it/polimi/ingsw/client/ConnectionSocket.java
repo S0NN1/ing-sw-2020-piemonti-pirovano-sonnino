@@ -7,13 +7,13 @@ import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.server.answers.*;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class handles the connection between the client and the server.
@@ -22,6 +22,7 @@ import java.net.Socket;
 public class ConnectionSocket {
     private Socket socket;
     private int clientID;
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     private ObjectOutputStream outputStream;
     SocketListener listener;
@@ -48,23 +49,11 @@ public class ConnectionSocket {
             this.socket = new Socket(serverAddress, serverPort);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-
             while(true) {
                 try {
                     send(new SetupConnection(nickname));
-                    SerializedAnswer answer = (SerializedAnswer) input.readObject();
-                    if (answer.getServerAnswer() instanceof ConnectionMessage && ((ConnectionMessage) answer.getServerAnswer()).getType()==0) {
+                    if(nicknameChecker(input.readObject())) {
                         break;
-                    }
-                    else if(answer.getServerAnswer() instanceof GameError) {
-                        if(((GameError) answer.getServerAnswer()).getError().equals(ErrorsType.DUPLICATENICKNAME)) {
-                            System.err.println("This nickname is already in use! Please choose one other.");
-                            throw new DuplicateNicknameException();
-                        }
-                        else if(((GameError)answer.getServerAnswer()).getError().equals(ErrorsType.FULLSERVER)) {
-                            System.err.println("This match is already full, please try again later!\nApplication will now close...");
-                            System.exit(0);
-                        }
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     System.err.println(e.getMessage());
@@ -77,9 +66,33 @@ public class ConnectionSocket {
         }
         catch (IOException e) {
             System.err.println("Error during socket configuration! Application will now close.");
-            e.printStackTrace();
+            logger.log(Level.SEVERE,e.getMessage(), e);
             System.exit(0);
         }
+    }
+
+    /**
+     * Handles the nickname validation phase, after the server answer about the availability of the desired username.
+     * @param input the server ObjectStream answer.
+     * @return true if the nickname is available and set, false instead.
+     * @throws DuplicateNicknameException if the nickname has already been chosen.
+     */
+    public boolean nicknameChecker(Object input) throws DuplicateNicknameException{
+        SerializedAnswer answer = (SerializedAnswer)input ;
+        if (answer.getServerAnswer() instanceof ConnectionMessage && ((ConnectionMessage) answer.getServerAnswer()).getType()==0) {
+            return true;
+        }
+        else if(answer.getServerAnswer() instanceof GameError) {
+            if(((GameError) answer.getServerAnswer()).getError().equals(ErrorsType.DUPLICATENICKNAME)) {
+                System.err.println("This nickname is already in use! Please choose one other.");
+                throw new DuplicateNicknameException();
+            }
+            else if(((GameError)answer.getServerAnswer()).getError().equals(ErrorsType.FULLSERVER)) {
+                System.err.println("This match is already full, please try again later!\nApplication will now close...");
+                System.exit(0);
+            }
+        }
+        return false;
     }
 
     /**
@@ -114,7 +127,7 @@ public class ConnectionSocket {
         }
         catch (IOException e) {
             System.err.println("Error during send process.");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 }

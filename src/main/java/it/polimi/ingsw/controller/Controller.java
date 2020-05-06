@@ -34,31 +34,61 @@ public class Controller implements PropertyChangeListener {
         this.turnController = new TurnController(this, gameHandler, new ActionController(model.getGameBoard()));
     }
 
+    /**
+     * @return the current turn controller.
+     */
     public TurnController getTurnController() {
         return turnController;
     }
 
+    /**
+     * @param turnController the turn controller to be set.
+     */
     public void setTurnController(TurnController turnController) {
         this.turnController = turnController;
     }
 
+    /**
+     * Set a player color inside the model, after receiving it from the client.
+     * @param color the color to be set.
+     * @param nickname the player's nickname.
+     */
     public void setColor(PlayerColors color, String nickname) {
         model.getPlayerByNickname(nickname).setColor(color);
     }
 
+    /**
+     * Return the reference to gameModel in synchronized way, to prevent multiple accesses to the same class, which may
+     * cause memory conflicts.
+     * @return the game model class.
+     */
     public synchronized Game getModel() {
         return model;
     }
 
+    /**
+     * @return the reference to the game handler.
+     */
     public GameHandler getGameHandler() {
         return gameHandler;
     }
 
+    /**
+     * Set the god selection controller for a specific player.
+     * @param clientID the ID of the challenger client.
+     */
     public void setSelectionController(int clientID) {
         selectionController = new GodSelectionController(new CardSelectionModel(model.getDeck()), this, gameHandler.getServer().getClientByID(clientID));
         controllerListeners.addPropertyChangeListener("GODSELECTION", selectionController);
     }
 
+    /**
+     * Handles the worker placement inside the game grid. It performs a check on the meaningfulness of the request (like
+     * cell [6,6], etc) and also if the desired cell is either free or occupied by someone else. If the check goes well,
+     * the worker is placed and the player notified; otherwise, an INVALIDINPUT error is sent and a new input is
+     * requested to the user.
+     * @param msg the worker setup message type, which contains information about the position of player's workers.
+     */
     public void placeWorkers(WorkerSetupMessage msg) {
         for(int i=0; i<2; i++) {
             if(msg.getXPosition(i)<0 || msg.getXPosition(i)>4 || msg.getYPosition(i)<0 || msg.getYPosition(i)>4) {
