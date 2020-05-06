@@ -18,7 +18,7 @@ public class GUI11 extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Stage godDetails = new Stage();
-        GodTile godTile = new GodTile(Card.PROMETHEUS, godDetails, null);
+        GodTile godTile = new GodTile(Card.PROMETHEUS, godDetails, null, false);
         Scene scene = new Scene(godTile);
         godDetails.setScene(scene);
         godDetails.setResizable(false);

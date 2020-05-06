@@ -17,6 +17,7 @@
 .name {
     -fx-font-family: "Britannic Bold";
     -fx-font-size: 25;
+    -fx-text-fill: white;
 }
 
 .desc {

@@ -36,9 +36,9 @@ public class LoaderController implements GUIController {
         alert.showAndWait();
     }
 
-    public boolean godTile(Card god) {
+    public boolean godTile(Card god, boolean isChoosing) {
         Stage godDetails = new Stage();
-        GodTile godTile = new GodTile(god, godDetails, gui);
+        GodTile godTile = new GodTile(god, godDetails, gui, isChoosing);
         Scene scene = new Scene(godTile);
         godDetails.setScene(scene);
         godDetails.setResizable(false);
@@ -62,13 +62,14 @@ public class LoaderController implements GUIController {
         while (true) {
             Alert godList = new Alert(Alert.AlertType.CONFIRMATION);
             godList.setTitle("Choose a god");
+            godList.setHeaderText("Pick a god!");
             godListDropdown = new ComboBox<>(FXCollections.observableArrayList(req.godList));
             godList.getDialogPane().setContent(godListDropdown);
             ButtonType ok = new ButtonType("SELECT");
             godList.getButtonTypes().setAll(ok);
             godList.showAndWait();
             if (godListDropdown.getValue()!=null) {
-                if(godTile(Card.parseInput(godListDropdown.getValue()))) break;
+                if(godTile(Card.parseInput(godListDropdown.getValue()), false)) break;
             }
         }
     }
@@ -77,15 +78,17 @@ public class LoaderController implements GUIController {
         while(true) {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
             message.setTitle("Choose your god power!");
+            message.setHeaderText("Please choose your god power from one of the list below.");
             message.setContentText(req.message + "\n" + req.choosable.stream().map(Enum::toString).collect(Collectors.joining("\n")));
             ComboBox<Card> choices = new ComboBox<>(FXCollections.observableArrayList(req.choosable));
             message.getDialogPane().setContent(choices);
-            ButtonType choose = new ButtonType("CHOOSE");
+            ButtonType choose = new ButtonType("DETAILS");
             message.getButtonTypes().setAll(choose);
             message.showAndWait();
             if (choices.getValue()!=null) {
-                //TODO
-                break;
+                if(godTile(choices.getValue(), true)) {
+                    break;
+                }
             }
         }
     }
@@ -100,6 +103,17 @@ public class LoaderController implements GUIController {
         }
         else if (req.choosable != null) {
             chooseGod(req);
+        }
+        else if(req.message.contains("you are the challenger")) {
+            Alert message = new Alert(Alert.AlertType.INFORMATION);
+            message.setTitle("Challenger phase");
+            message.setHeaderText("Challenger phase");
+            message.setContentText("You are the challenger! Click below and choose the god power you want to put in" +
+                    " the game deck; you can see property and description of each god by clicking on it!");
+            ButtonType godList = new ButtonType("GODS' LIST");
+            message.getButtonTypes().setAll(godList);
+            message.showAndWait();
+            gui.getObservers().firePropertyChange("action", null, "GODLIST");
         }
         else {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
