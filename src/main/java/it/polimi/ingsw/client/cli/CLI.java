@@ -23,7 +23,9 @@ import java.util.*;
  * @version 1.0.0
  */
 public class CLI implements UI, Runnable {
-    private final String GREEN = "GREEN", YELLOW = "YELLOW", BG_BLACK = "BACKGROUND_BLACK";
+    private final String GREEN = "GREEN";
+    private final String YELLOW = "YELLOW";
+    private final String BG_BLACK = "BACKGROUND_BLACK";
     private final HashMap<String, String> nameMAPcolor = new HashMap<>();
     private final PrintStream output;
     private final Scanner input;
@@ -129,7 +131,7 @@ public class CLI implements UI, Runnable {
     public void run() {
         setup();
         while (isActiveGame()) {
-            if (modelView.getStarted() == 2) {
+            if (modelView.getStarted() >= 2) {
                 loop();
             }
         }
@@ -166,8 +168,8 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl0c.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 22) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
-                                String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get("BACKGROUND_BLACK") + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
+                                String temp = rows[4].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
+                                String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -377,7 +379,7 @@ public class CLI implements UI, Runnable {
                     req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
                 } else if(req.choosable!=null) {
                     output.println(req.getMessage());
-                    req.choosable.forEach(output::println);
+                    req.choosable.forEach(n -> output.println(n.toString() + "\n" + n.godsDescription()));
                     output.println("\nSelect your god by typing choose <god-name>:");
                 } else if (req.godList != null) {
                     req.godList.forEach(n -> output.print(n + ", "));

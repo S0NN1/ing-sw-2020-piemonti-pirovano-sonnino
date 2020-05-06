@@ -77,6 +77,7 @@ public class InputChecker {
             connection.send(new ChallengerPhaseAction(startingPlayer));
         } catch (NumberFormatException e) {
             System.out.println(RED + "Error: it must be a numeric value, please try again." + RST);
+            return false;
         }
         return true;
     }
