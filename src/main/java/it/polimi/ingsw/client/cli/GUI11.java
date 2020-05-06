@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.cli;
 
+import it.polimi.ingsw.client.gui.tiles.GodTile;
 import it.polimi.ingsw.model.Card;
 import javafx.application.Application;
 import javafx.scene.Scene;

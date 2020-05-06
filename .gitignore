@@ -7,6 +7,4 @@ target/
 src/main/java/it/polimi/ingsw/modelView/player/Minotaur.java
 src/test/java/it/polimi/ingsw/modelView/player/AtlasTest.java
 
-src/main/java/it/polimi/ingsw/client/cli/GUI11.java
-
 graphicsResources
