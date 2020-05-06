@@ -32,6 +32,7 @@ public class GameHandler {
     private PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
     private final Logger LOGGER = Logger.getLogger(getClass().getName());
     private Random rnd = new Random();
+    private final String player = "Player";
 
 
     public GameHandler(Server server) {
@@ -207,7 +208,7 @@ public class GameHandler {
         }
         singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", choose your workers position by " +
                 "typing SET <x1> <y1> <x2> <y2> where 1 and 2 indicates worker number.", true), getCurrentPlayerID());
-        sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() + " is choosing workers' position.", false), getCurrentPlayerID());
+        sendAllExcept(new CustomMessage(player + " " + game.getCurrentPlayer().getNickname() + " is choosing workers' position.", false), getCurrentPlayerID());
     }
 
     /**
@@ -229,7 +230,7 @@ public class GameHandler {
                 game.nextPlayer();
                 singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
                         ", please choose your god power from one of the list below.", game.getDeck().getCards()),getCurrentPlayerID());
-                sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() +
+                sendAllExcept(new CustomMessage(player + " " + game.getCurrentPlayer().getNickname() +
                         " is" + " choosing his god power...", false), getCurrentPlayerID());
             }
         }
@@ -245,7 +246,7 @@ public class GameHandler {
                             ", please choose your god power from one of the list below.\n\n" + game.getDeck().
                             getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +
                             "Select your god by typing CHOOSE " + "<god-name>:"), getCurrentPlayerID());
-                    sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() +
+                    sendAllExcept(new CustomMessage(player + " " + game.getCurrentPlayer().getNickname() +
                             " is choosing his god power...", false), getCurrentPlayerID());
                 } else if (game.getDeck().getCards().size() == 1) {
                     game.nextPlayer();
@@ -256,7 +257,7 @@ public class GameHandler {
                     game.nextPlayer();
                     singleSend(new ChallengerMessages(game.getCurrentPlayer().getNickname() + ", choose the " +
                             "starting player by typing STARTER <number-of-player>", true, players), game.getCurrentPlayer().getClientID());
-                    sendAllExcept(new CustomMessage("Player " + game.getCurrentPlayer().getNickname() + " is " +
+                    sendAllExcept(new CustomMessage(player + " " + game.getCurrentPlayer().getNickname() + " is " +
                             " choosing the starting player, please wait!", false), game.getCurrentPlayer().getClientID());
                     started = 3;
                 }
@@ -291,7 +292,7 @@ public class GameHandler {
      * or after a win condition. It also unregisters each client connected to the server, freeing a new lobby.
      */
     public void endGame(String leftNickname) {
-        sendAll(new ConnectionMessage("Player " + leftNickname + " left the game, the match will now end.\nThanks for playing!", 1));
+        sendAll(new ConnectionMessage(player + " " + leftNickname + " left the game, the match will now end.\nThanks for playing!", 1));
         while(game.getActivePlayers().size()>0) {
             server.getClientByID(game.getActivePlayers().get(0).getClientID()).getConnection().close();
         }
