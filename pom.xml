@@ -112,39 +112,39 @@
           <target>14</target>
         </configuration>
       </plugin>
-    <plugin>
-      <groupId>org.jacoco</groupId>
-      <artifactId>jacoco-maven-plugin</artifactId>
-      <version>${jacoco.plugin.version}</version>
-      <configuration>
-        <excludes>
-          <exclude>META-INF/**</exclude>
-          <argLine>
-            --illegal-access=permit
-          </argLine>
-        </excludes>
-      </configuration>
-      <executions>
-        <execution>
-          <id>pre-unit-test</id>
-          <goals>
-            <goal>prepare-agent</goal>
-          </goals>
-        </execution>
-        <execution>
-          <id>post-unit-test</id>
-          <phase>test</phase>
-          <goals>
-            <goal>report</goal>
-            <goal>check</goal>
-          </goals>
-          <configuration>
-            <rules>
-            </rules>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.plugin.version}</version>
+        <configuration>
+          <excludes>
+            <exclude>META-INF/**</exclude>
+            <argLine>
+              --illegal-access=permit
+            </argLine>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>pre-unit-test</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>post-unit-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <rules>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
