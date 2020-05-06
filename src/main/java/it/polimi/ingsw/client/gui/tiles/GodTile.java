@@ -137,7 +137,6 @@ public class GodTile extends HBox {
         thirdLayer.getChildren().add(buttons);
         buttons.setLayoutX(100);
         buttons.setLayoutY(500);
-
     }
 
     public void add(Card card) {
