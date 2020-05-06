@@ -111,6 +111,7 @@ public class CLI implements UI, Runnable {
             setup();
         }
         observers.addPropertyChangeListener(new ActionParser(connection, modelView));
+        input.nextLine();
     }
 
     /**
@@ -302,6 +303,7 @@ public class CLI implements UI, Runnable {
         }
         connection.send(new NumberOfPlayers(selection));
         modelView.setStarted(1);
+        input.nextLine();
     }
 
     /**
@@ -311,7 +313,6 @@ public class CLI implements UI, Runnable {
      * @param available the list of available colors, which will be printed out.
      */
     public void chooseColor(List<PlayerColors> available) {
-        input.nextLine();
         while (true) {
             output.println(">Make your choice!");
             output.print(">");
@@ -388,6 +389,7 @@ public class CLI implements UI, Runnable {
                     output.println(req.message);
                 }
                 modelView.toggleInput();
+                if(modelView.getStarted()<3) modelView.setStarted(3);
             }
             default -> {
                 output.println("Noting to do");
