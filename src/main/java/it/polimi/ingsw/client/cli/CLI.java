@@ -131,7 +131,7 @@ public class CLI implements UI, Runnable {
     public void run() {
         setup();
         while (isActiveGame()) {
-            if (modelView.getStarted() == 2) {
+            if (modelView.getStarted() >= 2) {
                 loop();
             }
         }
@@ -379,7 +379,7 @@ public class CLI implements UI, Runnable {
                     req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
                 } else if(req.choosable!=null) {
                     output.println(req.getMessage());
-                    req.choosable.forEach(output::println);
+                    req.choosable.forEach(n -> output.println(n.toString() + "\n" + n.godsDescription()));
                     output.println("\nSelect your god by typing choose <god-name>:");
                 } else if (req.godList != null) {
                     req.godList.forEach(n -> output.print(n + ", "));
