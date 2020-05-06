@@ -374,7 +374,6 @@ public class CLI implements UI, Runnable {
             }
             case "GodRequest" -> {
                 ChallengerMessages req = (ChallengerMessages) modelView.getServerAnswer();
-                System.out.println(modelView.getStarted());
                 if (req.startingPlayer && req.players != null) {
                     output.println(req.message);
                     req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));

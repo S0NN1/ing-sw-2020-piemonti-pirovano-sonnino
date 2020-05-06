@@ -63,7 +63,7 @@ public class ActionParser implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(!modelView.getCanInput()) {
-            System.out.println(RED + "Error: not your turn!");
+            System.out.println(RED + "Error: not your turn!" + RST);
             return;
         }
         if(action(evt.getNewValue().toString())) {

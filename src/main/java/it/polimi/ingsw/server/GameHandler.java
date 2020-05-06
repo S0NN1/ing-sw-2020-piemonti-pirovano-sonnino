@@ -259,10 +259,8 @@ public class GameHandler {
                 } else if (game.getDeck().getCards().size() == 1) {
                     game.nextPlayer();
                     controllerListener.firePropertyChange(godSelection, null, new ChallengerPhaseAction("LASTSELECTION"));
-                    game.nextPlayer();
                     ArrayList<String> players = new ArrayList<>();
                     game.getActivePlayers().forEach(n -> players.add(n.getNickname()));
-                    game.nextPlayer();
                     singleSend(new ChallengerMessages(game.getCurrentPlayer().getNickname() + ", choose the " +
                             "starting player by typing STARTER <number-of-player>", true, players), game.getCurrentPlayer().getClientID());
                     sendAllExcept(new CustomMessage(player + " " + game.getCurrentPlayer().getNickname() + " is " +
