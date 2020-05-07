@@ -4,10 +4,7 @@ import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.LoaderController;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
-import it.polimi.ingsw.server.answers.ChallengerMessages;
-import it.polimi.ingsw.server.answers.GameError;
-import it.polimi.ingsw.server.answers.RequestColor;
-import it.polimi.ingsw.server.answers.RequestPlayersNumber;
+import it.polimi.ingsw.server.answers.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -171,6 +168,10 @@ public class GUI extends Application implements UI {
                     });
                 }
             }
+            case "WorkerPlacement" -> {
+                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+                Platform.runLater(() -> controller.workerPlacement(((WorkerPlacement)modelView.getServerAnswer()).getAvailableCoordinates()));
+            }
             default -> {
                 LOGGER.log(Level.WARNING, "No action to be performed!");
             }
@@ -185,12 +186,17 @@ public class GUI extends Application implements UI {
                 return;
             } else if(msg.contains("is the challenger")) {
                 LoaderController controller = (LoaderController)getControllerFromName(LOADER);
-                Platform.runLater(() -> controller.setText(msg.split(" ")[0] + " is the challenger\n" +
-                        "Please wait while he's choosing\ngods power!"));
+                Platform.runLater(() -> controller.setText(msg.split(" ")[0] + " is the challenger\nHe's choosing gods power!"));
             }
             else if(msg.contains("disconnected from the server")) {
                 LoaderController controller = (LoaderController)getControllerFromName(LOADER);
                 Platform.runLater(() -> {controller.setText("WAITING FOR PLAYERS");});
+            }
+            else if (msg.contains("is choosing")) {
+                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+                Platform.runLater(() -> {
+                    controller.setFontSize(30);
+                    controller.setText(msg);});
             }
             Platform.runLater(() -> {
                 LoaderController controller = (LoaderController)getControllerFromName(LOADER);

@@ -11,11 +11,10 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class LoaderController implements GUIController {
@@ -25,7 +24,7 @@ public class LoaderController implements GUIController {
     private Label displayStatus;
 
     public void setText(String text) {
-        displayStatus.setText(text);
+        displayStatus.setText(text.toUpperCase());
     }
 
     public void displayCustomMessage(String message) {
@@ -46,10 +45,38 @@ public class LoaderController implements GUIController {
         return godTile.getValue();
     }
 
+    public void workerPlacement(List<int[]> coords) {
+        int i=0;
+        int[] positions = new int[4];
+        HashMap<String, int[]> nameMAPposition = new HashMap<>();
+        coords.forEach(n -> nameMAPposition.put(Arrays.toString(n), n));
+        ArrayList<String> choosable = new ArrayList<>();
+        coords.forEach(n -> choosable.add(Arrays.toString(n)));
+        while (i<2) {
+            Alert workerPositions = new Alert(Alert.AlertType.NONE);
+            workerPositions.setTitle("Choose your workers position");
+            workerPositions.setHeaderText("Choose the position of worker " + i);
+            ComboBox<String> choices = new ComboBox<>(FXCollections.observableArrayList(choosable));
+            workerPositions.getDialogPane().setContent(choices);
+            ButtonType ok = new ButtonType("CHOOSE");
+            workerPositions.getButtonTypes().setAll(ok);
+            workerPositions.showAndWait();
+            if(choices.getValue()!=null) {
+                positions[0] = nameMAPposition.get(choices.getValue())[0];
+                positions[1] = nameMAPposition.get(choices.getValue())[1];
+                choosable.remove(choices.getValue());
+                nameMAPposition.remove(choices.getValue());
+                i++;
+            }
+        }
+        gui.getObservers().firePropertyChange("action", null, "SET " + positions[0] + " " +
+                positions[1] + " " + positions[2] + " " + positions[3]);
+    }
+
     protected void startingPlayer(ChallengerMessages req) {
         Alert startingPlayer = new Alert(Alert.AlertType.CONFIRMATION);
         startingPlayer.setTitle("Choose starting player");
-        startingPlayer.setContentText(req.message);
+        startingPlayer.setContentText("Pick a starting player clicking on his nickname.");
         HashMap<String, ButtonType> players = new HashMap<>();
         req.players.forEach(n -> players.put(n, new ButtonType(n)));
         startingPlayer.getButtonTypes().setAll(players.values());
@@ -59,6 +86,8 @@ public class LoaderController implements GUIController {
 
     protected void displayGodList(ChallengerMessages req) {
         ComboBox<String> godListDropdown;
+        LoaderController controller = (LoaderController)gui.getControllerFromName("loading.fxml");
+        controller.setText("You are the challenger!");
         while (true) {
             Alert godList = new Alert(Alert.AlertType.CONFIRMATION);
             godList.setTitle("Choose a god");
@@ -164,6 +193,10 @@ public class LoaderController implements GUIController {
         alert.setContentText(description);
         alert.getButtonTypes().setAll(new ButtonType("CLOSE"));
         alert.showAndWait();
+    }
+
+    public void setFontSize(int size) {
+        displayStatus.setFont(Font.font(size));
     }
 
     @Override

@@ -94,7 +94,10 @@ public class ActionHandler {
             view.firePropertyChange(initial, null, "RequestColor");
         } else if (answer instanceof ChallengerMessages) {
             view.firePropertyChange(initial, null, "GodRequest");
-        } else if(answer instanceof SetWorkersMessage) {
+        } else if (answer instanceof WorkerPlacement) {
+            view.firePropertyChange(initial, null, "WorkerPlacement");
+        }
+        else if(answer instanceof SetWorkersMessage) {
             SetWorkersMessage message = (SetWorkersMessage) answer;
             modelView.getBoard().setColor(message.getWorker1().getX(), message.getWorker1().getY(), message.getMessage());
             modelView.getBoard().setColor(message.getWorker2().getX(), message.getWorker2().getY(), message.getMessage());

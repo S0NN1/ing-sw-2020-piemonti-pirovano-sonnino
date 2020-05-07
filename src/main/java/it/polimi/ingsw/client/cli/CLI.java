@@ -390,6 +390,10 @@ public class CLI implements UI, Runnable {
                 modelView.toggleInput();
                 if(modelView.getStarted()<3) modelView.setStarted(3);
             }
+            case "WorkerPlacement" -> {
+                output.println(modelView.getServerAnswer().getMessage());
+                modelView.toggleInput();
+            }
             default -> {
                 output.println("Noting to do");
             }

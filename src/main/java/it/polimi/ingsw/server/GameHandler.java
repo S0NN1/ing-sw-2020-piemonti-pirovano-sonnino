@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.answers.*;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -206,8 +207,17 @@ public class GameHandler {
             //TODO match starts
             return;
         }
-        singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", choose your workers position by " +
-                "typing SET <x1> <y1> <x2> <y2> where 1 and 2 indicates worker number.", true), getCurrentPlayerID());
+        List<int[]> spaces = new ArrayList<>();
+        for(int i=0; i<5; i++) {
+            for(int j=0; j<5; j++) {
+                int[] coords = new int[2];
+                coords[0] = game.getGameBoard().getSpace(i, j).getX();
+                coords[1] = game.getGameBoard().getSpace(i, j).getY();
+                spaces.add(coords);
+            }
+        }
+        singleSend(new WorkerPlacement(game.getCurrentPlayer().getNickname() + ", choose your workers position by " +
+                "typing SET <x1> <y1> <x2> <y2> where 1 and 2 indicates worker number.", spaces), getCurrentPlayerID());
         sendAllExcept(new CustomMessage(player + " " + game.getCurrentPlayer().getNickname() + " is choosing workers' position.", false), getCurrentPlayerID());
     }
 
