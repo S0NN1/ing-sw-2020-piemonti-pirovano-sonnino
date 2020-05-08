@@ -7,11 +7,6 @@ public class ConnectionMessage implements Answer {
     public ConnectionMessage(String message, int type) {
         this.message = message;
         this.type = type;
-        header = getClass().getName();
-    }
-
-    public String getHeader() {
-        return null;
     }
 
     public String getMessage() {
