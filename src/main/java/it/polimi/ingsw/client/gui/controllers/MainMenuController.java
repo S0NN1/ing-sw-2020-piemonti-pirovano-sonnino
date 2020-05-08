@@ -27,9 +27,10 @@ public class MainMenuController implements GUIController{
     private TextField port;
     @FXML
     private Label confirmation;
+    private final static String url = "https://sonar.lucapirovano.com";
 
     public void about(ActionEvent evt) throws URISyntaxException, IOException {
-        Desktop.getDesktop().browse(new URI("https://lucapirovano.com"));
+        Desktop.getDesktop().browse(new URI(url));
     }
 
     public void quit(ActionEvent event) {

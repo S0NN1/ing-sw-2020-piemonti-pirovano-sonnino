@@ -96,11 +96,11 @@ public class Server {
 
     /**
      * Return the game handler by having the client ID. It's useful for getting the game handler from the socket handler.
-     * @param ID the client ID.
+     * @param id the client ID.
      * @return the associated game handler.
      */
-    public GameHandler getGameByID(int ID) {
-        return idMapClient.get(ID).getGameHandler();
+    public GameHandler getGameByID(int id) {
+        return idMapClient.get(id).getGameHandler();
     }
 
     /**
@@ -121,20 +121,20 @@ public class Server {
 
     /**
      * Return a link to the desired virtual client, in order to make operations on it (like send, etc).
-     * @param ID the id of the virtual client needed.
+     * @param id the id of the virtual client needed.
      * @return the correct virtual client.
      */
-    public VirtualClient getClientByID(int ID) {
-        return idMapClient.get(ID);
+    public VirtualClient getClientByID(int id) {
+        return idMapClient.get(id);
     }
 
     /**
      * Return the user nickname from the hashmap explained above.
-     * @param ID the id of the client.
+     * @param id the id of the client.
      * @return the nickname of the associated player.
      */
-    public String getNicknameByID(int ID) {
-        return idMapName.get(ID);
+    public String getNicknameByID(int id) {
+        return idMapName.get(id);
     }
 
     public int getIDByNickname(String nickname) { return nameMapId.get(nickname); }
@@ -177,7 +177,6 @@ public class Server {
         getGameByID(clientID).unregisterPlayer(clientID);
         VirtualClient client = idMapClient.get(clientID);
         System.out.println(Constants.getInfo() + "Unregistering client " + client.getNickname() + "...");
-        //client.getGameManager().removePlayer(client.getGameManager().getPlayerByNickname(client.getNickname()));
         idMapClient.remove(clientID);
         nameMapId.remove(client.getNickname());
         waiting.remove(clientToConnection.get(client));

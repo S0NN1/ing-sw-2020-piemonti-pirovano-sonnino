@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.answers;
 
 import it.polimi.ingsw.model.Card;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChallengerMessages implements Answer {

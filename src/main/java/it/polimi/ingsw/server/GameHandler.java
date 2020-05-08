@@ -89,8 +89,8 @@ public class GameHandler {
      * @param message the message to broadcast (at single match participants' level).
      */
     public void sendAll(Answer message) {
-        for(Player player:game.getActivePlayers()) {
-            singleSend(message, server.getIDByNickname(player.getNickname()));
+        for(Player countPlayer:game.getActivePlayers()) {
+            singleSend(message, server.getIDByNickname(countPlayer.getNickname()));
         }
     }
 

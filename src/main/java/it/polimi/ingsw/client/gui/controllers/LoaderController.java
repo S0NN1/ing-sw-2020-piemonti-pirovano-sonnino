@@ -22,6 +22,7 @@ public class LoaderController implements GUIController {
     private GUI gui;
     @FXML
     private Label displayStatus;
+    private static final String action = "action";
 
     public void setText(String text) {
         displayStatus.setText(text.toUpperCase());
@@ -69,7 +70,7 @@ public class LoaderController implements GUIController {
                 i++;
             }
         }
-        gui.getObservers().firePropertyChange("action", null, "SET " + positions[0] + " " +
+        gui.getObservers().firePropertyChange(action, null, "SET " + positions[0] + " " +
                 positions[1] + " " + positions[2] + " " + positions[3]);
     }
 
@@ -81,7 +82,7 @@ public class LoaderController implements GUIController {
         req.players.forEach(n -> players.put(n, new ButtonType(n)));
         startingPlayer.getButtonTypes().setAll(players.values());
         Optional<ButtonType> result = startingPlayer.showAndWait();
-        result.ifPresent(buttonType -> gui.getObservers().firePropertyChange("action", null, "STARTER " + req.players.indexOf(buttonType.getText())));
+        result.ifPresent(buttonType -> gui.getObservers().firePropertyChange(action, null, "STARTER " + req.players.indexOf(buttonType.getText())));
     }
 
     protected void displayGodList(ChallengerMessages req) {
@@ -142,7 +143,7 @@ public class LoaderController implements GUIController {
             ButtonType godList = new ButtonType("GODS' LIST");
             message.getButtonTypes().setAll(godList);
             message.showAndWait();
-            gui.getObservers().firePropertyChange("action", null, "GODLIST");
+            gui.getObservers().firePropertyChange(action, null, "GODLIST");
         }
         else {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
@@ -151,7 +152,7 @@ public class LoaderController implements GUIController {
             ButtonType godList = new ButtonType("GODS' LIST");
             message.getButtonTypes().setAll(godList);
             message.showAndWait();
-            gui.getObservers().firePropertyChange("action", null, "GODLIST");
+            gui.getObservers().firePropertyChange(action, null, "GODLIST");
         }
     }
 

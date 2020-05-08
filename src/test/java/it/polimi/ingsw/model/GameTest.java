@@ -26,20 +26,20 @@ class GameTest {
     @DisplayName("Player clockwise rotation test")
     void setupCreateRemoveNextPlayer() {
         testGame.setCurrentPlayer(testGame.getActivePlayers().get(0));
-        assertEquals(testGame.getCurrentPlayer().getNickname(), "piro");
+        assertEquals("piro", testGame.getCurrentPlayer().getNickname());
         testGame.nextPlayer();
-        assertEquals(testGame.getCurrentPlayer().getNickname(), "alice");
+        assertEquals("alice", testGame.getCurrentPlayer().getNickname());
         testGame.nextPlayer();
-        assertEquals(testGame.getCurrentPlayer().getNickname(), "nico");
+        assertEquals("nico", testGame.getCurrentPlayer().getNickname());
 
         testGame.nextPlayer();
         testGame.removePlayer(testGame.getPlayerByNickname("piro"));
-        assertEquals(testGame.getCurrentPlayer().getNickname(), "alice");
+        assertEquals("alice", testGame.getCurrentPlayer().getNickname());
 
         testGame.nextPlayer();
-        assertEquals(testGame.getCurrentPlayer().getNickname(), "nico");
+        assertEquals("nico", testGame.getCurrentPlayer().getNickname());
         testGame.nextPlayer();
-        assertEquals(testGame.getCurrentPlayer().getNickname(), "alice");
+        assertEquals("alice", testGame.getCurrentPlayer().getNickname());
 
         assertNull(testGame.getPlayerByNickname("lalo"));
 

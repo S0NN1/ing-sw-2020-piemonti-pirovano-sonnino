@@ -30,7 +30,7 @@ public class GUI extends Application implements UI {
     private PropertyChangeSupport observers = new PropertyChangeSupport(this);
     private ModelView modelView;
     private ActionHandler actionHandler;
-    private final Logger LOGGER = Logger.getLogger(getClass().getName());
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     private boolean activeGame;
     private MainGuiController guiController;
@@ -38,7 +38,7 @@ public class GUI extends Application implements UI {
     private HashMap<String, Scene> nameMAPscene = new HashMap<>();
     private HashMap<String, GUIController> nameMAPcontroller = new HashMap<>();
 
-    private static final String GUI = "gui.fxml";
+    private static final String MAINGUI = "gui.fxml";
     private static final String MENU = "MainMenu.fxml";
     private static final String LOADER = "loading.fxml";
     private static final String SETUP = "setup.fxml";
@@ -68,7 +68,6 @@ public class GUI extends Application implements UI {
 
     @Override
     public void stop() throws Exception {
-        //super.stop();
         System.exit(0);
     }
 
@@ -83,10 +82,9 @@ public class GUI extends Application implements UI {
                 nameMAPcontroller.put(path, controller);
             }
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
         currentScene = nameMAPscene.get(MENU);
-        //guiController = (MainGuiController)nameMAPcontroller.get(GUI);
     }
 
     public static void main(String[] args) {
@@ -173,7 +171,7 @@ public class GUI extends Application implements UI {
                 Platform.runLater(() -> controller.workerPlacement(((WorkerPlacement)modelView.getServerAnswer()).getAvailableCoordinates()));
             }
             default -> {
-                LOGGER.log(Level.WARNING, "No action to be performed!");
+                logger.log(Level.WARNING, "No action to be performed!");
             }
         }
     }
@@ -228,7 +226,7 @@ public class GUI extends Application implements UI {
                 });
             }
             default -> {
-                LOGGER.log(Level.WARNING, "No actions to be performed");
+                logger.log(Level.WARNING, "No actions to be performed");
             }
         }
     }

@@ -104,8 +104,6 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     }
     catch (IOException e) {
         GameHandler game = server.getGameByID(clientID);
-        /*game.sendAllExcept(new CustomMessage("Client " + server.getNicknameByID(clientID) +
-                " disconnected from the server.", false), clientID);*/
         String player = server.getNicknameByID(clientID);
         server.unregisterClient(clientID);
         if(game.isStarted()>0) {
@@ -151,7 +149,6 @@ public class SocketClientConnection implements ClientConnection, Runnable {
                     " disconnected from the server.", false), clientID);
             server.getGameByID(clientID).endGame(server.getNicknameByID(clientID));
             close();
-            //server.unregisterClient(clientID);
         }
     }
 
