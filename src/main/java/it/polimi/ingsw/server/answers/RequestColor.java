@@ -3,20 +3,21 @@ package it.polimi.ingsw.server.answers;
 import it.polimi.ingsw.model.player.PlayerColors;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RequestColor implements Answer {
     private final String message;
-    private ArrayList<PlayerColors> remaining = new ArrayList<>();
+    private List<PlayerColors> remaining = new ArrayList<>();
 
     public RequestColor(String message) {
         this.message = message;
     }
 
-    public void addRemaining(ArrayList<PlayerColors> colors) {
+    public void addRemaining(List<PlayerColors> colors) {
         remaining = colors;
     }
 
-    public ArrayList<PlayerColors> getRemaining() {
+    public List<PlayerColors> getRemaining() {
         return remaining;
     }
 

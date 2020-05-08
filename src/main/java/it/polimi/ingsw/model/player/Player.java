@@ -15,10 +15,8 @@ public class Player {
     private final int clientID;
     private PlayerColors color;
     private boolean isActive;
-    private boolean isFirstPlayer;
     private boolean isDead;
-    private boolean canMove, canLevelUp, canBuild;
-    private ArrayList<Worker> workers;
+    private final ArrayList<Worker> workers;
     private Card card;
 
     /**

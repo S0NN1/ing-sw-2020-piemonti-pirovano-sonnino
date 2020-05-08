@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.server.VirtualClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Deck {
     private ArrayList<Card> cards = new ArrayList<>();
@@ -37,7 +38,7 @@ public class Deck {
     /**
      * @return the content of the deck in ArrayList<Card> type.
      */
-    public ArrayList<Card> getCards() {
+    public List<Card> getCards() {
         return cards;
     }
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.answers;
 
 import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,7 @@ public class ChallengerMessages implements Answer {
     public final List<String> godList;
     public final List<Card> choosable;
     public final boolean startingPlayer;
-    public final ArrayList<String> players;
+    public final List<String> players;
 
     public ChallengerMessages(String message) {
         this.message = message;
@@ -21,10 +20,10 @@ public class ChallengerMessages implements Answer {
         choosable = null;
     }
 
-    public ChallengerMessages(String message, boolean startingPlayer, ArrayList<String> players) {
+    public ChallengerMessages(String message, boolean startingPlayer, List<String> players) {
         this.message = message;
         this.godList = null;
-        this.startingPlayer = true;
+        this.startingPlayer = startingPlayer;
         this.players = players;
         choosable = null;
     }

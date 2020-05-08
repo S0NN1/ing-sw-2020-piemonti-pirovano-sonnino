@@ -17,32 +17,31 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0.0
  */
 public class Server {
-    Date date = new Date();
-    private SocketServer socketServer;
+    private final SocketServer socketServer;
 
     /**
      * This hashmap permits identifying a Virtual Client relying on his client ID, which was set at the join.
      * The client has to be connected to the server.
      */
-    private Map<Integer, VirtualClient> IDmapClient;
+    private final Map<Integer, VirtualClient> idMapClient;
 
     /**
      * This hashmap permits finding client ID relying on his unique nickname.
      * The client has to be connected to the server.
      */
-    private Map<String, Integer> nameMAPid;
+    private final Map<String, Integer> nameMapId;
 
     /**
      * This hashmap permits finding client nickname relying on his unique ID.
      * The client has to be connected to the server.
      */
-    private Map<Integer, String> idMAPname;
+    private final Map<Integer, String> idMapName;
 
     /**
      * This hashmap permits identifying a Virtual Client relying on his active connection with the server.
      * The client has to be connected to the server.
      */
-    private Map<VirtualClient, SocketClientConnection> clientToConnection;
+    private final Map<VirtualClient, SocketClientConnection> clientToConnection;
 
     /**
      * Unique Client ID reference, which is used in the ID generation method.
@@ -57,7 +56,7 @@ public class Server {
     /**
      * List of clients waiting in the lobby.
      */
-    private List<SocketClientConnection> waiting = new ArrayList<>();
+    private final List<SocketClientConnection> waiting = new ArrayList<>();
 
     /**
      * Number of players, decided by the first connected user.
@@ -82,10 +81,10 @@ public class Server {
      */
     public Server() {
         socketServer = new SocketServer(Constants.PORT, this);
-        IDmapClient = new HashMap<>();
-        nameMAPid = new HashMap<>();
+        idMapClient = new HashMap<>();
+        nameMapId = new HashMap<>();
         clientToConnection = new HashMap<>();
-        idMAPname = new HashMap<>();
+        idMapName = new HashMap<>();
         totalPlayers = -1;
         Thread thread = new Thread(this::quitter);
         thread.start();
@@ -101,7 +100,7 @@ public class Server {
      * @return the associated game handler.
      */
     public GameHandler getGameByID(int ID) {
-        return IDmapClient.get(ID).getGameHandler();
+        return idMapClient.get(ID).getGameHandler();
     }
 
     /**
@@ -126,7 +125,7 @@ public class Server {
      * @return the correct virtual client.
      */
     public VirtualClient getClientByID(int ID) {
-        return IDmapClient.get(ID);
+        return idMapClient.get(ID);
     }
 
     /**
@@ -135,10 +134,10 @@ public class Server {
      * @return the nickname of the associated player.
      */
     public String getNicknameByID(int ID) {
-        return idMAPname.get(ID);
+        return idMapName.get(ID);
     }
 
-    public int getIDByNickname(String nickname) { return nameMAPid.get(nickname); }
+    public int getIDByNickname(String nickname) { return nameMapId.get(nickname); }
 
     /**
      * Creates or handle a lobby, which is a common room used before a match. In this room, connected players are waiting
@@ -152,7 +151,7 @@ public class Server {
     public synchronized void lobby(SocketClientConnection c) throws InterruptedException{
         waiting.add(c);
         if (waiting.size()==1) {
-            c.setPlayers(new RequestPlayersNumber(IDmapClient.get(c.getClientID()).getNickname() + ", you are the lobby host.\nChoose the number of players! [2/3]", false));
+            c.setPlayers(new RequestPlayersNumber(idMapClient.get(c.getClientID()).getNickname() + ", you are the lobby host.\nChoose the number of players! [2/3]", false));
         }
         else if (waiting.size()== totalPlayers) {
             System.err.println(Constants.getInfo() + "Minimum player number reached. The match is starting.");
@@ -176,13 +175,13 @@ public class Server {
      */
     public synchronized void unregisterClient(int clientID) {
         getGameByID(clientID).unregisterPlayer(clientID);
-        VirtualClient client = IDmapClient.get(clientID);
+        VirtualClient client = idMapClient.get(clientID);
         System.out.println(Constants.getInfo() + "Unregistering client " + client.getNickname() + "...");
         //client.getGameManager().removePlayer(client.getGameManager().getPlayerByNickname(client.getNickname()));
-        IDmapClient.remove(clientID);
-        nameMAPid.remove(client.getNickname());
+        idMapClient.remove(clientID);
+        nameMapId.remove(client.getNickname());
         waiting.remove(clientToConnection.get(client));
-        idMAPname.remove(client.getClientID());
+        idMapName.remove(client.getClientID());
         clientToConnection.remove(client);
         System.out.println(Constants.getInfo() + "Client has been successfully unregistered.");
         //currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " left the game.\n" + (totalPlayers - waiting.size()) + " slots left.", false));
@@ -196,13 +195,13 @@ public class Server {
      * @return the client ID if everything goes fine, null otherwise.
      */
     public synchronized Integer registerConnection(String nickname, SocketClientConnection socketClientHandler) {
-        Integer clientID = nameMAPid.get(nickname);
+        Integer clientID = nameMapId.get(nickname);
 
         if(clientID==null) {    //Player has never connected to the server before.
-            if(waiting.size()==0) {
+            if(waiting.isEmpty()) {
                 currentGame = new GameHandler(this);
             }
-            if(nameMAPid.keySet().stream().anyMatch(nickname::equalsIgnoreCase)) {
+            if(nameMapId.keySet().stream().anyMatch(nickname::equalsIgnoreCase)) {
                 SerializedAnswer error = new SerializedAnswer();
                 error.setServerAnswer(new GameError(ErrorsType.DUPLICATENICKNAME));
                 socketClientHandler.sendSocketMessage(error);
@@ -215,9 +214,9 @@ public class Server {
                 client.send(new GameError(ErrorsType.FULLSERVER));
                 return null;
             }
-            IDmapClient.put(clientID, client);
-            nameMAPid.put(nickname, clientID);
-            idMAPname.put(clientID, nickname);
+            idMapClient.put(clientID, client);
+            nameMapId.put(nickname, clientID);
+            idMapName.put(clientID, nickname);
             clientToConnection.put(client, socketClientHandler);
             System.out.println(Constants.getInfo() + "Client " + client.getNickname() + ", identified by ID " + client.getClientID() + ", has successfully connected!");
             client.send(new ConnectionMessage("Connection was successfully set-up! You are now connected.", 0));
@@ -226,7 +225,7 @@ public class Server {
             }
         }
         else {
-            VirtualClient client = IDmapClient.get(clientID);
+            VirtualClient client = idMapClient.get(clientID);
             if(client.isConnected()) {
                 SerializedAnswer ans = new SerializedAnswer();
                 ans.setServerAnswer(new GameError(ErrorsType.DUPLICATENICKNAME));
@@ -242,9 +241,9 @@ public class Server {
      * of people connected to this server since his startup.
      */
     public synchronized int createClientID() {
-        int ID = nextClientID;
+        int id = nextClientID;
         nextClientID++;
-        return ID;
+        return id;
     }
 
     /**
@@ -253,8 +252,8 @@ public class Server {
      * @param answer the message to transmit.
      */
     public void broadcast(Answer answer) {
-        for(int i: IDmapClient.keySet()) {
-            IDmapClient.get(i).send(answer);
+        for(Map.Entry<Integer, VirtualClient> i: idMapClient.entrySet()) {
+            i.getValue().send(answer);
         }
     }
 

@@ -29,7 +29,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     private ObjectOutputStream outputStream;
     private Integer clientID;
     private boolean active;
-    private final Logger LOGGER = Logger.getLogger(getClass().getName());
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     public synchronized boolean isActive() {
         return active;
@@ -113,7 +113,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
         System.err.println(Constants.getInfo() + e.getMessage());
     } catch (ClassNotFoundException e) {
-        LOGGER.log(Level.SEVERE, e.getMessage(), e);
+        logger.log(Level.SEVERE, e.getMessage(), e);
     }
     }
 

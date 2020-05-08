@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -75,12 +76,12 @@ public class Game extends Observable {
 
     /**
      * Get a player instance relying on his unique ID.
-     * @param ID the id of the player.
+     * @param id the id of the player.
      * @return the player instance.
      */
-    public Player getPlayerByID(int ID) {
+    public Player getPlayerByID(int id) {
         for (Player player: activePlayers){
-            if(player.getClientID() == ID) {
+            if(player.getClientID() == id) {
                 return player;
             }
         }
@@ -90,7 +91,7 @@ public class Game extends Observable {
     /**
      * @return the list of the active players in the match (not dead).
      */
-    public ArrayList<Player> getActivePlayers() {
+    public List<Player> getActivePlayers() {
         return activePlayers;
     }
 

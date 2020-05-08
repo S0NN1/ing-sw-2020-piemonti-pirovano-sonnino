@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,8 +42,8 @@ class DeckTest {
     @Test
     @DisplayName("Insert test in normal conditions")
     void insertNormalTest() {
-        assertEquals(testDeck.getCards().get(0), Card.ATLAS);
-        assertEquals(testDeck.getCards().get(1), Card.ATHENA);
+        assertEquals(Card.ATLAS, testDeck.getCards().get(0));
+        assertEquals(Card.ATHENA, testDeck.getCards().get(1));
     }
 
     /**
@@ -53,7 +54,7 @@ class DeckTest {
     void insertWithDuplicate() throws OutOfBoundException {
         testGame.createNewPlayer(new Player("Sonny", 2));
         testGame.getActivePlayers().get(2).setColor(PlayerColors.BLUE);
-        assertEquals(testDeck.setCard(Card.ATLAS), 0);
+        assertEquals(0, testDeck.setCard(Card.ATLAS));
     }
 
     /**
@@ -75,10 +76,10 @@ class DeckTest {
         testGame.createNewPlayer(new Player("Sonny", 2));
         testGame.getActivePlayers().get(2).setColor(PlayerColors.BLUE);
         testDeck.setCard(Card.APOLLO);
-        ArrayList<Card> cards = testDeck.getCards();
-        assertEquals(cards.get(0), Card.ATLAS);
-        assertEquals(cards.get(1), Card.ATHENA);
-        assertEquals(cards.get(2), Card.APOLLO);
+        List<Card> cards = testDeck.getCards();
+        assertEquals( Card.ATLAS, cards.get(0));
+        assertEquals(Card.ATHENA, cards.get(1));
+        assertEquals(Card.APOLLO, cards.get(2));
         assertThrows(OutOfBoundException.class, ()->testDeck.setCard(Card.ARTEMIS));
     }
 
@@ -89,10 +90,10 @@ class DeckTest {
     @DisplayName("Choose test in normal conditions")
     void removeCardTest() {
         assertTrue(testDeck.chooseCard(Card.ATLAS, null));
-        assertEquals(testDeck.getCards().size(), 1);
+        assertEquals(1, testDeck.getCards().size());
         testGame.nextPlayer();
         assertTrue(testDeck.chooseCard(Card.ATHENA, null));
-        assertEquals(testDeck.getCards().size(), 0);
+        assertEquals(0, testDeck.getCards().size());
     }
 
     /**

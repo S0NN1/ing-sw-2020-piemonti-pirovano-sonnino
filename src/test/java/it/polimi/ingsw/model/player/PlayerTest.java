@@ -24,15 +24,15 @@ class PlayerTest {
     @Test
     @DisplayName("Nickname/client ID getter test")
     void nicknameTest() {
-        assertEquals(testPlayer.getNickname(), nickname);
-        assertEquals(testPlayer.getClientID(), clientID);
+        assertEquals(nickname, testPlayer.getNickname());
+        assertEquals(clientID, testPlayer.getClientID());
     }
 
     @Test
     @DisplayName("Color setting/getting test")
     void colorTest() {
         testPlayer.setColor(PlayerColors.GREEN);
-        assertEquals(testPlayer.getColor(), PlayerColors.GREEN);
+        assertEquals(PlayerColors.GREEN, testPlayer.getColor());
     }
 
     @Test

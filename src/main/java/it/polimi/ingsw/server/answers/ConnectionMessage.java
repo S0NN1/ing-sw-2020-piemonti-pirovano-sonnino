@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.answers;
 public class ConnectionMessage implements Answer {
     private final int type; //0: connection confirmation, 1: connection termination
     private final String message;
-    private final String header;
 
     public ConnectionMessage(String message, int type) {
         this.message = message;

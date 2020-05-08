@@ -41,7 +41,7 @@ public class VirtualClient implements Observer {
      * @return true if the connection with the client is active yet.
      */
     public boolean isConnected() {
-        return(!(socketClientConnection==null));
+        return(socketClientConnection!=null);
     }
 
     public void setSocketClientConnection(SocketClientConnection clientConnection) {

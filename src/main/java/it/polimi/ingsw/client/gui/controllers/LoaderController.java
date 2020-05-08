@@ -14,7 +14,10 @@ import javafx.scene.control.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class LoaderController implements GUIController {
@@ -175,7 +178,7 @@ public class LoaderController implements GUIController {
         gui.getConnection().send(new NumberOfPlayers(players));
     }
 
-    public void requestColor(ArrayList<PlayerColors> colors) {
+    public void requestColor(List<PlayerColors> colors) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Workers' color");
         alert.setHeaderText("Choose your workers' color!");

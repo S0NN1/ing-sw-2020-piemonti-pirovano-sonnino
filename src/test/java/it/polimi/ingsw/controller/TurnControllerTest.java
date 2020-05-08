@@ -128,7 +128,7 @@ public class TurnControllerTest {
         }
 
         @Override
-        public void singleSend(Answer message, int ID) {
+        public void singleSend(Answer message, int id) {
             System.out.println(message.getMessage());
         }
     }

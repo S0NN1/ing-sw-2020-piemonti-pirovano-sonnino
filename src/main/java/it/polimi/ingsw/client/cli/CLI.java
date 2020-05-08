@@ -23,9 +23,9 @@ import java.util.*;
  * @version 1.0.0
  */
 public class CLI implements UI, Runnable {
-    private final String GREEN = "GREEN";
-    private final String YELLOW = "YELLOW";
-    private final String BG_BLACK = "BACKGROUND_BLACK";
+    private static final String GREEN = "GREEN";
+    private static final String YELLOW = "YELLOW";
+    private static final String BG_BLACK = "BACKGROUND_BLACK";
     private final HashMap<String, String> nameMAPcolor = new HashMap<>();
     private final PrintStream output;
     private final Scanner input;
