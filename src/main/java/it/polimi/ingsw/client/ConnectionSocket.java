@@ -20,6 +20,7 @@ import java.util.logging.Logger;
  * @author Luca Pirovano
  */
 public class ConnectionSocket {
+    private Socket socket;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     private ObjectOutputStream outputStream;
@@ -44,7 +45,7 @@ public class ConnectionSocket {
         try {
             System.out.println(Constants.ANSI_YELLOW + "Configuring socket connection..." + Constants.ANSI_RESET);
             System.out.println(Constants.ANSI_YELLOW + "Opening a socket server communication on port " + serverPort + "..." + Constants.ANSI_RESET);
-            Socket socket = new Socket(serverAddress, serverPort);
+            this.socket = new Socket(serverAddress, serverPort);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
             while(true) {
