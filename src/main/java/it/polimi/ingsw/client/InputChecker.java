@@ -26,14 +26,15 @@ public class InputChecker {
      * @param in the user input under array representation.
      * @return true if the input is valid and sent to the server, false otherwise.
      */
-    public boolean desc(String[] in) {
+    public ChallengerPhaseAction desc(String[] in) {
+        ChallengerPhaseAction challengerPhaseAction;
         try {
-            connection.send(new ChallengerPhaseAction("DESC", Card.parseInput(in[1])));
+            challengerPhaseAction = new ChallengerPhaseAction("DESC", Card.parseInput(in[1]));
         } catch (IllegalArgumentException e) {
             System.out.println(RED + GOD_NOT_FOUND + RST);
-            return false;
+            return null;
         }
-        return true;
+        return challengerPhaseAction;
     }
 
     /**
@@ -41,14 +42,15 @@ public class InputChecker {
      * @param in the user input under array representation.
      * @return true if the input is valid and sent to the server, false otherwise.
      */
-    public boolean addGod(String[] in) {
+    public ChallengerPhaseAction addGod(String[] in) {
+        ChallengerPhaseAction action;
         try {
-            connection.send(new ChallengerPhaseAction("ADD", Card.parseInput(in[1])));
+            action = new ChallengerPhaseAction("ADD", Card.parseInput(in[1]));
         } catch (IllegalArgumentException e) {
             System.out.println(RED + GOD_NOT_FOUND + RST);
-            return false;
+            return null;
         }
-        return true;
+        return action;
     }
 
     /**
@@ -56,14 +58,15 @@ public class InputChecker {
      * @param in the user input under array representation.
      * @return true if the input is valid and sent to the server, false otherwise.
      */
-    public boolean choose(String[] in) {
+    public ChallengerPhaseAction choose(String[] in) {
+        ChallengerPhaseAction action;
         try {
-            connection.send(new ChallengerPhaseAction("CHOOSE", Card.parseInput(in[1])));
+            action = new ChallengerPhaseAction("CHOOSE", Card.parseInput(in[1]));
         } catch (IllegalArgumentException e) {
             System.out.println(RED + GOD_NOT_FOUND + RST);
-            return false;
+            return null;
         }
-        return true;
+        return action;
     }
 
     /**
@@ -71,15 +74,16 @@ public class InputChecker {
      * @param in the user input under array representation.
      * @return true if the input is valid and sent to the server, false otherwise.
      */
-    public boolean starter(String[] in){
+    public ChallengerPhaseAction starter(String[] in){
+        ChallengerPhaseAction action;
         try {
             int startingPlayer = Integer.parseInt(in[1]);
-            connection.send(new ChallengerPhaseAction(startingPlayer));
+            action = new ChallengerPhaseAction(startingPlayer);
         } catch (NumberFormatException e) {
             System.out.println(RED + "Error: it must be a numeric value, please try again." + RST);
-            return false;
+            return null;
         }
-        return true;
+        return action;
     }
 
     /**
@@ -87,14 +91,15 @@ public class InputChecker {
      * @param in the user input under array representation.
      * @return true if the input is valid and sent to the server, false otherwise.
      */
-    public boolean set(String[] in) {
+    public WorkerSetupMessage set(String[] in) {
+        WorkerSetupMessage action;
         try {
-            connection.send(new WorkerSetupMessage(in));
-            return true;
+            action = new WorkerSetupMessage(in);
         } catch (NumberFormatException e) {
             System.out.println(RED + "Unknown input, please try again!" + RST);
-            return false;
+            return null;
         }
+        return action;
     }
 
     /**

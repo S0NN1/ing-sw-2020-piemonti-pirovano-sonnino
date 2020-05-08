@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.messages.Message;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
+import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.constants.Constants;
 
 import java.beans.PropertyChangeEvent;
@@ -32,32 +34,36 @@ public class ActionParser implements PropertyChangeListener {
     public synchronized boolean action(String input) {
         String[] in = input.split(" ");
         String command = in[0];
+        UserAction sendMessage;
         try {
             switch (command.toUpperCase()) {
-                case "GODLIST":
+                case "GODLIST" -> {
                     connection.send(new ChallengerPhaseAction("LIST"));
                     return true;
-                case "GODDESC":
-                    return inputChecker.desc(in);
-                case "ADDGOD":
-                    return inputChecker.addGod(in);
-                case "CHOOSE":
-                    return inputChecker.choose(in);
-                case "STARTER":
-                    return inputChecker.starter(in);
-                case "SET":
-                    return inputChecker.set(in);
-                case "QUIT":
+                }
+                case "GODDESC" -> sendMessage = inputChecker.desc(in);
+                case "ADDGOD" -> sendMessage = inputChecker.addGod(in);
+                case "CHOOSE" -> sendMessage = inputChecker.choose(in);
+                case "STARTER" -> sendMessage = inputChecker.starter(in);
+                case "SET" -> sendMessage = inputChecker.set(in);
+                case "QUIT" -> {
                     inputChecker.quit();
                     return true;
-                default:
+                }
+                default -> {
                     System.out.println(RED + "Unknown input, please try again!" + RST);
                     return false;
+                }
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        }catch (ArrayIndexOutOfBoundsException e) {
             System.out.println(RED + "Input error; try again!" + RST);
             return false;
         }
+        if(sendMessage!=null) {
+            connection.send(sendMessage);
+            return true;
+        }
+        return false;
     }
 
     @Override
