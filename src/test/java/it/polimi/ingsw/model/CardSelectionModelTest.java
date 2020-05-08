@@ -38,9 +38,9 @@ class CardSelectionModelTest {
     void testInsertStandard() throws OutOfBoundException{
         testModel.addToDeck(Card.PROMETHEUS);
         testModel.addToDeck(Card.APOLLO);
-        assertEquals(game.getDeck().getCards().size(), 2);
-        assertEquals(game.getDeck().getCards().get(0), Card.PROMETHEUS);
-        assertEquals(game.getDeck().getCards().get(1), Card.APOLLO);
+        assertEquals(2, game.getDeck().getCards().size());
+        assertEquals(Card.PROMETHEUS, game.getDeck().getCards().get(0));
+        assertEquals(Card.APOLLO, game.getDeck().getCards().get(1));
     }
 
     /**
@@ -50,14 +50,14 @@ class CardSelectionModelTest {
     @DisplayName("Insert test with duplicate values")
     void testInsertDuplicate() throws OutOfBoundException {
         testModel.addToDeck(Card.ATHENA);
-        assertEquals(game.getDeck().getCards().size(), 1);
-        assertEquals(game.getDeck().getCards().get(0), Card.ATHENA);
+        assertEquals(1, game.getDeck().getCards().size());
+        assertEquals(Card.ATHENA, game.getDeck().getCards().get(0));
         testModel.addToDeck(Card.ATHENA);
-        assertEquals(game.getDeck().getCards().size(), 1);
-        assertEquals(game.getDeck().getCards().get(0), Card.ATHENA);
+        assertEquals(1, game.getDeck().getCards().size());
+        assertEquals(Card.ATHENA, game.getDeck().getCards().get(0));
         testModel.addToDeck(Card.PAN);
-        assertEquals(game.getDeck().getCards().size(), 2);
-        assertEquals(game.getDeck().getCards().get(1), Card.PAN);
+        assertEquals(2, game.getDeck().getCards().size());
+        assertEquals(Card.PAN, game.getDeck().getCards().get(1));
     }
 
     /**

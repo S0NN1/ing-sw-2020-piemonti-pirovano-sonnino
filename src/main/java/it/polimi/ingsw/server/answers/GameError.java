@@ -1,11 +1,11 @@
 package it.polimi.ingsw.server.answers;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class GameError implements Answer {
     private final ErrorsType error;
     private final String message;
-    private final ArrayList<int[]> coordinates;
+    private final List<int[]> coordinates;
 
     public GameError(ErrorsType error) {
         this.error = error;
@@ -19,7 +19,7 @@ public class GameError implements Answer {
         this.coordinates = null;
     }
 
-    public GameError(ErrorsType  error, String message, ArrayList<int[]> coordinates) {
+    public GameError(ErrorsType  error, String message, List<int[]> coordinates) {
         this.error = error;
         this.message = message;
         this.coordinates = coordinates;
@@ -34,7 +34,7 @@ public class GameError implements Answer {
         return error;
     }
 
-    public ArrayList<int[]> getCoordinates() {
+    public List<int[]> getCoordinates() {
         return coordinates;
     }
 }
