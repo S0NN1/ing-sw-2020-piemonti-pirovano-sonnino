@@ -9,6 +9,8 @@ import java.util.Date;
  */
 public class Constants {
 
+    private Constants() {}
+
     //match constants
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 3;

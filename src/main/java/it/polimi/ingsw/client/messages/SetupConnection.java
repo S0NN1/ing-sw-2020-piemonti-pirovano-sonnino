@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.messages;
 
-import it.polimi.ingsw.model.player.PlayerColors;
-
 public class SetupConnection implements Message {
     private String nickname;
 

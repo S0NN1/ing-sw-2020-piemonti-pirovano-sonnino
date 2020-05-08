@@ -30,9 +30,9 @@ public class GameHandler {
     private int started;
     private int playersNumber;
     private PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
-    private final Logger LOGGER = Logger.getLogger(getClass().getName());
+    private final Logger logger = Logger.getLogger(getClass().getName());
     private Random rnd = new Random();
-    private final String player = "Player";
+    private static final String player = "Player";
 
 
     public GameHandler(Server server) {
@@ -77,10 +77,10 @@ public class GameHandler {
     /**
      * Send to a client, identified by his ID number, a determined message through the server socket.
      * @param message the message to be sent to the client.
-     * @param ID the unique identification number of the client to be contacted.
+     * @param id the unique identification number of the client to be contacted.
      */
-    public void singleSend(Answer message, int ID) {
-        server.getClientByID(ID).send(message);
+    public void singleSend(Answer message, int id) {
+        server.getClientByID(id).send(message);
     }
 
     /**
@@ -99,9 +99,9 @@ public class GameHandler {
      * @param excludedID the client which will not receive the communication.
      */
     public void sendAllExcept(Answer message, int excludedID) {
-        for(Player player:game.getActivePlayers()) {
-            if(server.getIDByNickname(player.getNickname())!=excludedID) {
-                singleSend(message, player.getClientID());
+        for(Player countPlayer:game.getActivePlayers()) {
+            if(server.getIDByNickname(countPlayer.getNickname())!=excludedID) {
+                singleSend(message, countPlayer.getClientID());
             }
         }
     }
@@ -120,7 +120,7 @@ public class GameHandler {
             sendAllExcept(new CustomMessage("Please wait, user " + nickname + " is choosing his color!", false), server.getIDByNickname(nickname));
             return;
         }
-        else if(playersNumber==3 && PlayerColors.notChosen().size()>0) {
+        else if(playersNumber==3 && !PlayerColors.notChosen().isEmpty()) {
             String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size()).getNickname();
             if(PlayerColors.notChosen().size()==1) {
                 game.getPlayerByNickname(nickname).setColor(PlayerColors.notChosen().get(0));
@@ -130,7 +130,7 @@ public class GameHandler {
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
-                    LOGGER.log(Level.SEVERE, e.getMessage(), e);
+                    logger.log(Level.SEVERE, e.getMessage(), e);
                     Thread.currentThread().interrupt();
                 }
             }
@@ -238,7 +238,7 @@ public class GameHandler {
             if(userAction.action.equals("CHOOSE")) {
                 controllerListener.firePropertyChange(godSelection, null, userAction);
                 if (game.getDeck().getCards().size() > 1) {
-                    if(game.getCurrentPlayer().getWorkers().size()!=0 && game.getDeck().getCards().size()>1) {
+                    if(!game.getCurrentPlayer().getWorkers().isEmpty() && game.getDeck().getCards().size()>1) {
                         game.nextPlayer();
                         singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
                                 ", please choose your god power from one of the list below.\n\n" + game.getDeck().
@@ -246,7 +246,7 @@ public class GameHandler {
                                 "Select your god by typing CHOOSE " + "<god-name>:"), getCurrentPlayerID());
                         return;
                     }
-                    else if(game.getCurrentPlayer().getWorkers().size()!=0 && game.getDeck().getCards().size()==1) {
+                    else if(!game.getCurrentPlayer().getWorkers().isEmpty() && game.getDeck().getCards().size()==1) {
                         game.nextPlayer();
                         return;
                     }
@@ -287,10 +287,10 @@ public class GameHandler {
 
     /**
      * Unregister a player identified by his unique ID, after a disconnection event or message.
-     * @param ID the unique id of the client to be unregistered.
+     * @param id the unique id of the client to be unregistered.
      */
-    public void unregisterPlayer(int ID) {
-        game.removePlayer(game.getPlayerByID(ID));
+    public void unregisterPlayer(int id) {
+        game.removePlayer(game.getPlayerByID(id));
     }
 
     /**
@@ -299,7 +299,7 @@ public class GameHandler {
      */
     public void endGame(String leftNickname) {
         sendAll(new ConnectionMessage(player + " " + leftNickname + " left the game, the match will now end.\nThanks for playing!", 1));
-        while(game.getActivePlayers().size()>0) {
+        while(!game.getActivePlayers().isEmpty()) {
             server.getClientByID(game.getActivePlayers().get(0).getClientID()).getConnection().close();
         }
     }

@@ -55,9 +55,9 @@ class GodSelectionControllerTest {
         }
 
         @Override
-        public void singleSend(Answer message, int ID) {
+        public void singleSend(Answer message, int id) {
             System.out.println(Constants.ANSI_RED + "\nSingle message \"" + Constants.ANSI_RESET + message.getMessage() +
-                    Constants.ANSI_RED + "\" sent to "+ Constants.ANSI_RESET + controller.getModel().getPlayerByID(ID).getNickname());
+                    Constants.ANSI_RED + "\" sent to "+ Constants.ANSI_RESET + controller.getModel().getPlayerByID(id).getNickname());
         }
 
         @Override

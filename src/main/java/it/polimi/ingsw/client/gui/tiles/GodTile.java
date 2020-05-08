@@ -112,25 +112,26 @@ public class GodTile extends HBox {
     }
 
     private void createButtons(){
+        final String button = "button";
         //add button
         Button add;
         if(isChoosing) {
             add = new Button("CHOOSE");
             add.getStylesheets().addAll(styleSheet);
-            add.getStyleClass().addAll("button");
+            add.getStyleClass().addAll(button);
             add.setOnMouseClicked(mouseEvent -> choose(card));
         }
         else {
             add = new Button("ADD");
             add.getStylesheets().addAll(styleSheet);
-            add.getStyleClass().addAll("button");
+            add.getStyleClass().addAll(button);
             add.setOnMouseClicked(mouseEvent -> add(card));
         }
 
         //close button
         Button close = new Button("CLOSE");
         close.getStylesheets().addAll(styleSheet);
-        close.getStyleClass().addAll("button");
+        close.getStyleClass().addAll(button);
         close.setOnMouseClicked(mouseEvent -> close());
 
         HBox buttons = new HBox();

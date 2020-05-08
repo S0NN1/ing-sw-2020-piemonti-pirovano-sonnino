@@ -23,9 +23,9 @@ import java.util.*;
  * @version 1.0.0
  */
 public class CLI implements UI, Runnable {
-    private static final String green = "GREEN";
-    private static final String yellow = "YELLOW";
-    private static final String bg_black = "BACKGROUND_BLACK";
+    private static final String GREEN = "GREEN";
+    private static final String YELLOW = "YELLOW";
+    private static final String BG_BLACK = "BACKGROUND_BLACK";
     private final HashMap<String, String> nameMAPcolor = new HashMap<>();
     private final PrintStream output;
     private final Scanner input;
@@ -50,13 +50,13 @@ public class CLI implements UI, Runnable {
             }
         }
         printable = new Printable();
-        nameMAPcolor.put(green, Constants.ANSI_GREEN);
-        nameMAPcolor.put(yellow, Constants.ANSI_YELLOW);
+        nameMAPcolor.put(GREEN, Constants.ANSI_GREEN);
+        nameMAPcolor.put(YELLOW, Constants.ANSI_YELLOW);
         nameMAPcolor.put("RED", Constants.ANSI_RED);
         nameMAPcolor.put("RST", Constants.ANSI_RESET);
         nameMAPcolor.put("BLUE", Constants.ANSI_BLUE);
         nameMAPcolor.put("CYAN", Constants.ANSI_CYAN);
-        nameMAPcolor.put(bg_black, Constants.ANSI_BACKGROUND_BLACK);
+        nameMAPcolor.put(BG_BLACK, Constants.ANSI_BACKGROUND_BLACK);
     }
 
     /**
@@ -106,7 +106,7 @@ public class CLI implements UI, Runnable {
         connection = new ConnectionSocket();
         try {
             connection.setup(nickname, modelView, actionHandler);
-            output.println(nameMAPcolor.get(green) + "Socket Connection setup completed!" + nameMAPcolor.get("RST"));
+            output.println(nameMAPcolor.get(GREEN) + "Socket Connection setup completed!" + nameMAPcolor.get("RST"));
         } catch (DuplicateNicknameException e) {
             setup();
         }
@@ -169,8 +169,8 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl0c.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 22) + nameMAPcolor.get(bg_black) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
-                                String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get(bg_black) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
+                                String temp = rows[4].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
+                                String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -178,8 +178,8 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl0.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 17) + nameMAPcolor.get(bg_black) + color + "☻" + nameMAPcolor.get(green) + rows[4].substring(18);
-                                String temp2 = rows[5].substring(0, 17) + nameMAPcolor.get(bg_black) + color + "▲" + nameMAPcolor.get(green) + rows[4].substring(18);
+                                String temp = rows[4].substring(0, 17) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get(GREEN) + rows[4].substring(18);
+                                String temp2 = rows[5].substring(0, 17) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get(GREEN) + rows[4].substring(18);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -190,8 +190,8 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl1c.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 17) + nameMAPcolor.get(bg_black) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(18);
-                                String temp2 = rows[5].substring(0, 17) + nameMAPcolor.get(bg_black) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(18);
+                                String temp = rows[4].substring(0, 17) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(18);
+                                String temp2 = rows[5].substring(0, 17) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(18);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -199,8 +199,8 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl1.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 12) + nameMAPcolor.get(bg_black) + color + "☻" + nameMAPcolor.get("RST") + rows[4].substring(13);
-                                String temp2 = rows[5].substring(0, 12) + nameMAPcolor.get(bg_black) + color + "▲" + nameMAPcolor.get("RST") + rows[4].substring(13);
+                                String temp = rows[4].substring(0, 12) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("RST") + rows[4].substring(13);
+                                String temp2 = rows[5].substring(0, 12) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("RST") + rows[4].substring(13);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -211,8 +211,8 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl2c.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor());
-                                String temp = rows[4].substring(0, 26) + nameMAPcolor.get(bg_black) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(27);
-                                String temp2 = rows[5].substring(0, 26) + nameMAPcolor.get(bg_black) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(27);
+                                String temp = rows[4].substring(0, 26) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(27);
+                                String temp2 = rows[5].substring(0, 26) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(27);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -222,8 +222,8 @@ public class CLI implements UI, Runnable {
                                 rows = printable.lvl2c.split("\n");
                                 if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                     String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                    String temp = rows[4].substring(0, 22) + nameMAPcolor.get(bg_black) + color + "☻" + nameMAPcolor.get("RST") + rows[4].substring(23);
-                                    String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get(bg_black) + color + "▲" + nameMAPcolor.get("RST") + rows[4].substring(23);
+                                    String temp = rows[4].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("RST") + rows[4].substring(23);
+                                    String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("RST") + rows[4].substring(23);
                                     rows[4] = temp;
                                     rows[5] = temp2;
                                 }
@@ -236,8 +236,8 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl2c.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 26) + nameMAPcolor.get(bg_black) + color + "☻" + nameMAPcolor.get("CYAN") + rows[4].substring(27);
-                                String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get(bg_black) + color + "▲" + nameMAPcolor.get("CYAN") + rows[4].substring(23);
+                                String temp = rows[4].substring(0, 26) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("CYAN") + rows[4].substring(27);
+                                String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("CYAN") + rows[4].substring(23);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -249,8 +249,8 @@ public class CLI implements UI, Runnable {
                             rows = printable.lvl2c.split("\n");
                             if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                                 String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 35) + nameMAPcolor.get(bg_black) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(36);
-                                String temp2 = rows[5].substring(0, 31) + nameMAPcolor.get(bg_black) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(32);
+                                String temp = rows[4].substring(0, 35) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(36);
+                                String temp2 = rows[5].substring(0, 31) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(32);
                                 rows[4] = temp;
                                 rows[5] = temp2;
                             }
@@ -269,16 +269,16 @@ public class CLI implements UI, Runnable {
     private void printBoard(DisplayCell[][] grid) {
         System.out.println(printable.rowWave);
         System.out.println(printable.rowWave);
-        System.out.println(printable.coupleRowWave + nameMAPcolor.get(yellow) + printable.lineBlock + nameMAPcolor.get("RST") + printable.coupleRowWave);
+        System.out.println(printable.coupleRowWave + nameMAPcolor.get(YELLOW) + printable.lineBlock + nameMAPcolor.get("RST") + printable.coupleRowWave);
         for (int i = 0; i <= 4; i++) {
             for (int k = 0; k <= 10; k++) {
-                System.out.print(printable.coupleRowWave + nameMAPcolor.get(yellow) + "█" + nameMAPcolor.get("RST"));
+                System.out.print(printable.coupleRowWave + nameMAPcolor.get(YELLOW) + "█" + nameMAPcolor.get("RST"));
                 for (int j = 0; j <= 4; j++) {
-                    System.out.print(grid[i][j].getCellRows(k) + nameMAPcolor.get(yellow) + "█" + nameMAPcolor.get("RST"));
+                    System.out.print(grid[i][j].getCellRows(k) + nameMAPcolor.get(YELLOW) + "█" + nameMAPcolor.get("RST"));
                 }
                 System.out.print(printable.coupleRowWave + "\n");
             }
-            System.out.println(printable.coupleRowWave + nameMAPcolor.get(yellow) + printable.lineBlock + nameMAPcolor.get("RST") + printable.coupleRowWave);
+            System.out.println(printable.coupleRowWave + nameMAPcolor.get(YELLOW) + printable.lineBlock + nameMAPcolor.get("RST") + printable.coupleRowWave);
         }
         System.out.println(printable.rowWave);
         System.out.println(printable.rowWave);
@@ -363,11 +363,11 @@ public class CLI implements UI, Runnable {
     public void initialPhaseHandling(String value) {
         switch (value) {
             case "RequestPlayerNumber" -> {
-                output.println(nameMAPcolor.get(green) + ((RequestPlayersNumber) modelView.getServerAnswer()).getMessage() + nameMAPcolor.get("RST"));
+                output.println(nameMAPcolor.get(GREEN) + ((RequestPlayersNumber) modelView.getServerAnswer()).getMessage() + nameMAPcolor.get("RST"));
                 choosePlayerNumber();
             }
             case "RequestColor" -> {
-                output.println(nameMAPcolor.get(green) + ((RequestColor) modelView.getServerAnswer()).getMessage() + "\nRemaining:" + nameMAPcolor.get("RST"));
+                output.println(nameMAPcolor.get(GREEN) + ((RequestColor) modelView.getServerAnswer()).getMessage() + "\nRemaining:" + nameMAPcolor.get("RST"));
                 ((RequestColor) modelView.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
                 output.print("\n");
                 chooseColor(((RequestColor) modelView.getServerAnswer()).getRemaining());

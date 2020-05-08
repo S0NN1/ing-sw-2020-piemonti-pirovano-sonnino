@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public enum PlayerColors {
     BLUE, RED, GREEN;
@@ -21,7 +22,7 @@ public enum PlayerColors {
         return !(available.contains(color));
     }
 
-    public static ArrayList<PlayerColors> notChosen() {
+    public static List<PlayerColors> notChosen() {
         return available;
     }
 

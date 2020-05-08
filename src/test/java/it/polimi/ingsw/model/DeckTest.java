@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -75,7 +76,7 @@ class DeckTest {
         testGame.createNewPlayer(new Player("Sonny", 2));
         testGame.getActivePlayers().get(2).setColor(PlayerColors.BLUE);
         testDeck.setCard(Card.APOLLO);
-        ArrayList<Card> cards = testDeck.getCards();
+        List<Card> cards = testDeck.getCards();
         assertEquals(cards.get(0), Card.ATLAS);
         assertEquals(cards.get(1), Card.ATHENA);
         assertEquals(cards.get(2), Card.APOLLO);
