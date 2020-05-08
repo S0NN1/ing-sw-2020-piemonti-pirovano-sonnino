@@ -20,15 +20,13 @@ import java.util.logging.Logger;
  * @author Luca Pirovano
  */
 public class ConnectionSocket {
-    private Socket socket;
-    private int clientID;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     private ObjectOutputStream outputStream;
     SocketListener listener;
 
-    private String serverAddress;
-    private int serverPort;
+    private final String serverAddress;
+    private final int serverPort;
 
     public ConnectionSocket() {
         this.serverAddress = Constants.ADDRESS;
@@ -46,7 +44,7 @@ public class ConnectionSocket {
         try {
             System.out.println(Constants.ANSI_YELLOW + "Configuring socket connection..." + Constants.ANSI_RESET);
             System.out.println(Constants.ANSI_YELLOW + "Opening a socket server communication on port " + serverPort + "..." + Constants.ANSI_RESET);
-            this.socket = new Socket(serverAddress, serverPort);
+            Socket socket = new Socket(serverAddress, serverPort);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
             while(true) {
