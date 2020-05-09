@@ -14,6 +14,7 @@ import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.SocketClientConnection;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
+import it.polimi.ingsw.server.answers.worker.DoubleMoveMessage;
 import it.polimi.ingsw.server.answers.worker.MoveMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,6 +85,13 @@ class AthenaTest {
          */
         @Override
         public void send(Answer serverAnswer) {
+            if(serverAnswer instanceof MoveMessage){
+                move = ((MoveMessage) serverAnswer).getMessage();
+            }
+            else fail("wrong type message");
+        }
+        @Override
+        public void sendAll(Answer serverAnswer) {
             if(serverAnswer instanceof MoveMessage){
                 move = ((MoveMessage) serverAnswer).getMessage();
             }

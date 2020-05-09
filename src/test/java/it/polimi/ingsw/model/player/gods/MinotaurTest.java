@@ -226,5 +226,14 @@ class MinotaurTest {
             }
             else fail("not double move message");
         }
+        @Override
+        public void sendAll(Answer serverAnswer) {
+            if(serverAnswer instanceof DoubleMoveMessage){
+                myMove = ((DoubleMoveMessage) serverAnswer).getMyMove();
+                otherMove = ((DoubleMoveMessage) serverAnswer).getOtherMove();
+                god = ((DoubleMoveMessage) serverAnswer).getMessage();
+            }
+            else fail("not double move message");
+        }
     }
 }
