@@ -210,10 +210,12 @@ public class GameHandler {
         List<int[]> spaces = new ArrayList<>();
         for(int i=0; i<5; i++) {
             for(int j=0; j<5; j++) {
-                int[] coords = new int[2];
-                coords[0] = game.getGameBoard().getSpace(i, j).getX();
-                coords[1] = game.getGameBoard().getSpace(i, j).getY();
-                spaces.add(coords);
+                if(game.getGameBoard().getSpace(i, j).isEmpty()) {
+                    int[] coords = new int[2];
+                    coords[0] = game.getGameBoard().getSpace(i, j).getX();
+                    coords[1] = game.getGameBoard().getSpace(i, j).getY();
+                    spaces.add(coords);
+                }
             }
         }
         singleSend(new WorkerPlacement(game.getCurrentPlayer().getNickname() + ", choose your workers position by " +

@@ -17,6 +17,12 @@ import javafx.stage.Stage;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This is the loading screen controller, which covers the color, challenger and worker placement phases.
+ * With several calls to main GUI class, it has a 360 degree view on the GUI package, and can make modifications relying
+ * on the actual server request.
+ * @author Luca Pirovano
+ */
 public class LoaderController implements GUIController {
 
     private GUI gui;
@@ -46,45 +52,60 @@ public class LoaderController implements GUIController {
         return godTile.getValue();
     }
 
+    /**
+     * List all workers' available positions and make him choose the preferred one.
+     * @param coords the available coordinates.
+     */
     public void workerPlacement(List<int[]> coords) {
+        gui.getModelView().toggleInput();
         int i=0;
         int[] positions = new int[4];
-        HashMap<String, int[]> nameMAPposition = new HashMap<>();
-        coords.forEach(n -> nameMAPposition.put(Arrays.toString(n), n));
-        ArrayList<String> choosable = new ArrayList<>();
-        coords.forEach(n -> choosable.add(Arrays.toString(n)));
-        while (i<2) {
+        HashMap<String, int[]> nameMapPosition = new HashMap<>();
+        coords.forEach(n -> nameMapPosition.put(Arrays.toString(n), n));
+        ArrayList<String> selectable = new ArrayList<>();
+        coords.forEach(n -> selectable.add(Arrays.toString(n)));
+        while (i<4) {
             Alert workerPositions = new Alert(Alert.AlertType.NONE);
             workerPositions.setTitle("Choose your workers position");
             workerPositions.setHeaderText("Choose the position of worker " + i);
-            ComboBox<String> choices = new ComboBox<>(FXCollections.observableArrayList(choosable));
+            ComboBox<String> choices = new ComboBox<>(FXCollections.observableArrayList(selectable));
             workerPositions.getDialogPane().setContent(choices);
             ButtonType ok = new ButtonType("CHOOSE");
             workerPositions.getButtonTypes().setAll(ok);
             workerPositions.showAndWait();
             if(choices.getValue()!=null) {
-                positions[0] = nameMAPposition.get(choices.getValue())[0];
-                positions[1] = nameMAPposition.get(choices.getValue())[1];
-                choosable.remove(choices.getValue());
-                nameMAPposition.remove(choices.getValue());
-                i++;
+                positions[i] = nameMapPosition.get(choices.getValue())[0];
+                positions[i+1] = nameMapPosition.get(choices.getValue())[1];
+                selectable.remove(choices.getValue());
+                nameMapPosition.remove(choices.getValue());
+                i+=2;
             }
         }
         gui.getObservers().firePropertyChange(action, null, "SET " + positions[0] + " " +
                 positions[1] + " " + positions[2] + " " + positions[3]);
     }
 
+    /**
+     * Makes challenger choose the starting player, by simply clicking on his nickname.
+     * @param req the first player request sent from the server.
+     */
     protected void startingPlayer(ChallengerMessages req) {
         Alert startingPlayer = new Alert(Alert.AlertType.CONFIRMATION);
         startingPlayer.setTitle("Choose starting player");
         startingPlayer.setContentText("Pick a starting player clicking on his nickname.");
         HashMap<String, ButtonType> players = new HashMap<>();
+        assert req.players != null;
         req.players.forEach(n -> players.put(n, new ButtonType(n)));
         startingPlayer.getButtonTypes().setAll(players.values());
         Optional<ButtonType> result = startingPlayer.showAndWait();
         result.ifPresent(buttonType -> gui.getObservers().firePropertyChange(action, null, "STARTER " + req.players.indexOf(buttonType.getText())));
     }
 
+    /**
+     * Display the game's gods list received from the server, and makes the challenger choose the god powers to put in
+     * game deck.
+     * @param req the list received from the server
+     */
     protected void displayGodList(ChallengerMessages req) {
         ComboBox<String> godListDropdown;
         LoaderController controller = (LoaderController)gui.getControllerFromName("loading.fxml");
@@ -104,11 +125,17 @@ public class LoaderController implements GUIController {
         }
     }
 
+    /**
+     * Makes user choose his god power, relying on the list received from the server, which contains the cards selected
+     * by the challenger in the previous phase.
+     * @param req the choosing request received from the server.
+     */
     protected void chooseGod(ChallengerMessages req) {
         while(true) {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
             message.setTitle("Choose your god power!");
             message.setHeaderText("Please choose your god power from one of the list below.");
+            assert req.choosable != null;
             message.setContentText(req.message + "\n" + req.choosable.stream().map(Enum::toString).collect(Collectors.joining("\n")));
             ComboBox<Card> choices = new ComboBox<>(FXCollections.observableArrayList(req.choosable));
             message.getDialogPane().setContent(choices);
@@ -123,6 +150,11 @@ public class LoaderController implements GUIController {
         }
     }
 
+    /**
+     * Receives a ChallengerMessage request from the server and calls one of the methods above, relying on his type
+     * and fields.
+     * @param req the ChallengerMessage received from the server.
+     */
     public void challengerPhase(ChallengerMessages req) {
         gui.getModelView().toggleInput();
         if (req.startingPlayer && req.players != null) {
@@ -134,28 +166,33 @@ public class LoaderController implements GUIController {
         else if (req.choosable != null) {
             chooseGod(req);
         }
-        else if(req.message.contains("you are the challenger")) {
-            Alert message = new Alert(Alert.AlertType.INFORMATION);
-            message.setTitle("Challenger phase");
-            message.setHeaderText("Challenger phase");
-            message.setContentText("You are the challenger! Click below and choose the god power you want to put in" +
-                    " the game deck; you can see property and description of each god by clicking on it!");
-            ButtonType godList = new ButtonType("GODS' LIST");
-            message.getButtonTypes().setAll(godList);
-            message.showAndWait();
-            gui.getObservers().firePropertyChange(action, null, "GODLIST");
-        }
         else {
+            assert req.message != null;
             Alert message = new Alert(Alert.AlertType.INFORMATION);
-            message.setTitle("Message from the server");
-            message.setContentText(req.message);
-            ButtonType godList = new ButtonType("GODS' LIST");
-            message.getButtonTypes().setAll(godList);
+            if(req.message.contains("you are the challenger")) {
+                message.setTitle("Challenger phase");
+                message.setHeaderText("Challenger phase");
+                message.setContentText("You are the challenger! Click below and choose the god power you want to put in" +
+                        " the game deck; you can see property and description of each god by clicking on it!");
+                ButtonType godList = new ButtonType("GODS' LIST");
+                message.getButtonTypes().setAll(godList);
+            }
+            else {
+                message.setTitle("Message from the server");
+                message.setContentText(req.message);
+                ButtonType godList = new ButtonType("GODS' LIST");
+                message.getButtonTypes().setAll(godList);
+            }
             message.showAndWait();
             gui.getObservers().firePropertyChange(action, null, "GODLIST");
         }
     }
 
+    /**
+     * Makes the first user who connect to the server choose the number of player that lobby can handles (2 o 3).
+     * The capacity is then set relying on his choice.
+     * @param message the request of players' number.
+     */
     public void requestPlayerNumber(String message){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Looby capacity");
@@ -176,6 +213,11 @@ public class LoaderController implements GUIController {
         gui.getConnection().send(new NumberOfPlayers(players));
     }
 
+    /**
+     * Makes each user choose his workers' color. However, in a match of 3 players, the last one receives
+     * the remaining color.
+     * @param colors the available colors.
+     */
     public void requestColor(List<PlayerColors> colors) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Workers' color");
@@ -188,14 +230,10 @@ public class LoaderController implements GUIController {
         result.ifPresent(buttonType -> gui.getConnection().send(new ChosenColor(PlayerColors.parseInput(buttonType.getText()))));
     }
 
-    public void godDescription(String description) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("God's Description");
-        alert.setContentText(description);
-        alert.getButtonTypes().setAll(new ButtonType("CLOSE"));
-        alert.showAndWait();
-    }
-
+    /**
+     * Resize the status label of the loader screen.
+     * @param size the font size to be set.
+     */
     public void setFontSize(int size) {
         displayStatus.setFont(Font.font(size));
     }

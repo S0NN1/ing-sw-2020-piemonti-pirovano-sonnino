@@ -98,7 +98,7 @@ public class Controller implements PropertyChangeListener {
         }
         Space space1 = getModel().getGameBoard().getSpace(msg.getXPosition(0), msg.getYPosition(0));
         Space space2 = getModel().getGameBoard().getSpace(msg.getXPosition(1), msg.getYPosition(1));
-        if(space1==space2 ) {
+        if(space1==space2) {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Error: position cannot be the same for the two workers!"), getModel().getCurrentPlayer().getClientID());
         }
         else if(space1.isEmpty() && space2.isEmpty()) {
