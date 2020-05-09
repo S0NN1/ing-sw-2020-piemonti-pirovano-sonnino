@@ -286,6 +286,9 @@ public class CLI implements UI, Runnable {
      * @param available the list of available colors, which will be printed out.
      */
     public void chooseColor(List<PlayerColors> available) {
+        firstBuildBoard(grid);
+        printBoard(grid);
+        clearScreen();
         while (true) {
             output.println(">Make your choice!");
             output.print(">");
@@ -400,8 +403,7 @@ public class CLI implements UI, Runnable {
                 System.exit(0);
             }
             case "boardUpdate" -> {
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
+                clearScreen();
                 boardUpdater(grid);
                 printBoard(grid);
             }
@@ -410,5 +412,13 @@ public class CLI implements UI, Runnable {
             }
         }
     }
+    public void printmenu(){
+        System.out.println();
+    }
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
 
 }

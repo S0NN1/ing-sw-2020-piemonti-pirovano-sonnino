@@ -105,4 +105,6 @@ public class InputChecker {
         System.err.println("Disconnected from the server.");
         System.exit(0);
     }
+
+    //public  Build(int turnPhase, )
 }

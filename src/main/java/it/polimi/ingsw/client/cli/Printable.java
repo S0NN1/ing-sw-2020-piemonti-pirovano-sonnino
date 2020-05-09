@@ -7,8 +7,6 @@ public class Printable {
     private final String red = Constants.ANSI_RED;
     private final String rst = Constants.ANSI_RESET;
     private final String blue = Constants.ANSI_BLUE;
-    private final String cyan = Constants.ANSI_CYAN;
-    private final String purple = Constants.ANSI_PURPLE;
     private final String yellow = Constants.ANSI_YELLOW;
     public String lineBlock = "█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████";
     public String rowWave = blue + "≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈" + rst;
@@ -19,6 +17,7 @@ public class Printable {
     public Printable() {
         levels = new String[5];
         levelsC = new String[3];
+        String purple = Constants.ANSI_PURPLE;
         for (int i = 0; i <= 4; i++) {
             if (i == 0) {
                 String lvl0 = green + "███████████████████████" + rst + "\n" +
@@ -62,6 +61,7 @@ public class Printable {
                         "╚═════════════════════╝";
                 levels[i] = lvl2;
             }
+            String cyan = Constants.ANSI_CYAN;
             if (i == 3) {
                 String lvl3 = "╔═════════════════════╗\n" +
                         "║" + purple + "┌───────────────────┐" + rst + "║\n" +
@@ -75,7 +75,7 @@ public class Printable {
                         "║" + purple + "└───────────────────┘" + rst + "║\n" +
                         "╚═════════════════════╝ ";
                 levels[i] = lvl3;
-            } else {
+            } else if(i==4) {
                 String lvl4 = "╔═════════════════════╗\n" +
                         "║" + purple + "┌───────────────────┐" + rst + "║\n" +
                         "║" + purple + "│" + rst + "█████" + cyan + "█████████" + rst + "█████" + purple + "│" + rst + "║\n" +
