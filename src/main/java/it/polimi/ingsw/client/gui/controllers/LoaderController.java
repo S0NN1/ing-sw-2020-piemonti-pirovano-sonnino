@@ -30,10 +30,18 @@ public class LoaderController implements GUIController {
     private Label displayStatus;
     private static final String action = "action";
 
+    /**
+     * Set new text label on the loader screen.
+     * @param text the string to be set as text.
+     */
     public void setText(String text) {
         displayStatus.setText(text.toUpperCase());
     }
 
+    /**
+     * Open a popup to display a custom message that came from the server.
+     * @param message the message to be displayed.
+     */
     public void displayCustomMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Info");
@@ -42,6 +50,13 @@ public class LoaderController implements GUIController {
         alert.showAndWait();
     }
 
+    /**
+     * Opens a new god tile, which displays information about the name, thumbnail and description of a single god.
+     * It's used during the challenger selection phase and during the single user selection phase.
+     * @param god the god tile to be opened.
+     * @param isChoosing value that states if the phase is the challenger or the choosing one.
+     * @return true if the god is chosen / selected, false otherwise.
+     */
     public boolean godTile(Card god, boolean isChoosing) {
         Stage godDetails = new Stage();
         GodTile godTile = new GodTile(god, godDetails, gui, isChoosing);

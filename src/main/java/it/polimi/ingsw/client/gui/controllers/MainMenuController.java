@@ -16,6 +16,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * The main menu controller class, which is bound as a controller to the FXML scene of the main menu and the game setup.
+ * It handles the event of Play button and Quit button.
+ * See the resources MainMenu.fxml file for more details.
+ * @author Luca Pirovano
+ */
 public class MainMenuController implements GUIController{
 
     private GUI gui;
@@ -29,20 +35,39 @@ public class MainMenuController implements GUIController{
     private Label confirmation;
     private final static String url = "https://sonar.lucapirovano.com";
 
+    /**
+     * Opens the project home website.
+     * @param evt the event notification.
+     * @throws URISyntaxException if the URI is not valid.
+     * @throws IOException for the browse function.
+     */
     public void about(ActionEvent evt) throws URISyntaxException, IOException {
         Desktop.getDesktop().browse(new URI(url));
     }
 
+    /**
+     * Quit the application when the "Quit" button is pressed.
+     * @param event the event notification.
+     */
     public void quit(ActionEvent event) {
         System.out.println("Thanks for playing! See you next time!");
         System.exit(0);
     }
 
+    /**
+     * Change the stage scene to the setup one when the button "Play" is pressed.
+     * @param event the mouse click event.
+     */
     public void play(MouseEvent event) {
         gui.changeStage("setup.fxml");
         gui.centerApplication();
     }
 
+    /**
+     * The GUI start methos, which is bound to the setup FXML scene. It instantiates a socket connection with the remote
+     * server and change the scene to the loader one.
+     * @param event the join pressed event.
+     */
     public void start(ActionEvent event) {
         if(username.getText().equals("") || address.getText().equals("") || port.getText().equals("")) {
             confirmation.setText("Error: missing paramenters!");

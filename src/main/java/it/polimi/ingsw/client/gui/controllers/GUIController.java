@@ -7,5 +7,9 @@ import it.polimi.ingsw.client.gui.GUI;
  * @author Luca Pirovano
  */
 public interface GUIController {
-    public void setGui(GUI gui);
+    /**
+     * Set the GUI reference to the local controller.
+     * @param gui the main GUI class.
+     */
+    void setGui(GUI gui);
 }
