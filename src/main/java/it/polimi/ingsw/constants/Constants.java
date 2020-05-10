@@ -23,7 +23,7 @@ public class Constants {
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_BACKGROUND_BLACK="\u001B[40m";
-    public static final String santorini="\n" +
+    public static final String SANTORINI ="\n" +
             "          _____                    _____                    _____                _____                   _______                   _____                    _____                    _____                    _____          \n" +
             "         /\\    \\                  /\\    \\                  /\\    \\              /\\    \\                 /::\\    \\                 /\\    \\                  /\\    \\                  /\\    \\                  /\\    \\         \n" +
             "        /::\\    \\                /::\\    \\                /::\\____\\            /::\\    \\               /::::\\    \\               /::\\    \\                /::\\    \\                /::\\____\\                /::\\    \\        \n" +
