@@ -1,14 +1,12 @@
 package it.polimi.ingsw.server.answers;
 
 import it.polimi.ingsw.constants.Couple;
-import it.polimi.ingsw.model.player.PlayerColors;
-import it.polimi.ingsw.server.answers.Answer;
 
 public class SetWorkersMessage implements Answer {
 
-    private Couple worker1;
-    private Couple worker2;
-    private String color;
+    private final Couple worker1;
+    private final Couple worker2;
+    private final String color;
 
     public SetWorkersMessage(String playerColor, int workerRow1, int workerCol1, int workerRow2, int workerCol2 ){
         worker1 = new Couple(workerRow1, workerCol1);

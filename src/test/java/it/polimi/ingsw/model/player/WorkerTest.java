@@ -501,6 +501,24 @@ class WorkerTest {
             else fail("unknown message");
         }
 
+        @Override
+        public void sendAll(Answer serverAnswer) {
+            if(serverAnswer instanceof SelectSpacesMessage){
+                selectMoves = ((SelectSpacesMessage) serverAnswer).getMessage();
+            }
+            else if(serverAnswer instanceof MoveMessage){
+                move = ((MoveMessage) serverAnswer).getMessage();
+            }
+            else if(serverAnswer instanceof BuildMessage){
+                build = ((BuildMessage) serverAnswer).getMessage();
+                dome = ((BuildMessage) serverAnswer).getDome();
+            }
+            else if(serverAnswer instanceof WinMessage){
+                winWorker = ((WinMessage) serverAnswer).getMessage();
+            }
+            else fail("unknown message");
+        }
+
         public ArrayList<Couple> getSelectMoves() {
             return selectMoves;
         }

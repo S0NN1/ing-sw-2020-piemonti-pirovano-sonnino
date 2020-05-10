@@ -11,7 +11,7 @@ import it.polimi.ingsw.model.player.gods.Apollo;
 import it.polimi.ingsw.server.SocketClientConnection;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
-import it.polimi.ingsw.server.answers.worker.DoubleMoveMessage;
+import it.polimi.ingsw.server.answers.worker.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -110,6 +110,16 @@ class ApolloTest {
          */
         @Override
         public void send(Answer serverAnswer) {
+            if(serverAnswer instanceof DoubleMoveMessage){
+                myMove = ((DoubleMoveMessage) serverAnswer).getMyMove();
+                otherMove = ((DoubleMoveMessage) serverAnswer).getOtherMove();
+                god = ((DoubleMoveMessage) serverAnswer).getMessage();
+            }
+            else fail("not double move message");
+        }
+
+        @Override
+        public void sendAll(Answer serverAnswer) {
             if(serverAnswer instanceof DoubleMoveMessage){
                 myMove = ((DoubleMoveMessage) serverAnswer).getMyMove();
                 otherMove = ((DoubleMoveMessage) serverAnswer).getOtherMove();

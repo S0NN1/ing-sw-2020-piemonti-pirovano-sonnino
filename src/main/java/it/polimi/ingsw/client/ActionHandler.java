@@ -101,6 +101,7 @@ public class ActionHandler {
             SetWorkersMessage message = (SetWorkersMessage) answer;
             modelView.getBoard().setColor(message.getWorker1().getX(), message.getWorker1().getY(), message.getMessage());
             modelView.getBoard().setColor(message.getWorker2().getX(), message.getWorker2().getY(), message.getMessage());
+            view.firePropertyChange("boardUpdate", null, null);
         }
 
     }
