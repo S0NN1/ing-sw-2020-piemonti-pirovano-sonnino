@@ -137,7 +137,7 @@ public class InputChecker {
     public BuildAction build(int turnPhase, int x, int y, int activeWorker){
         Couple w= findWorker(activeWorker, modelView.getColor());
         BuildAction build = new BuildAction(x,y);
-        if(turnPhase==2||modelView.getGod().toUpperCase().equals("ATLAS")||modelView.getGod().toUpperCase().equals("DEMETER")|| modelView.getGod().toUpperCase().equals("PROMETHEUS")) {
+        if(turnPhase==2||modelView.getGod().equalsIgnoreCase("ATLAS")||modelView.getGod().equalsIgnoreCase("DEMETER")|| modelView.getGod().equalsIgnoreCase("PROMETHEUS")) {
             if(x<0||x>=5||y<0||y>=5|| x>= Objects.requireNonNull(w).getX()+2 || x<=w.getX()+2|| y>=w.getY()+2 || y<=w.getY()+2){
                 System.out.println(RED + "Non-existent or unreachable cell, operation not permitted!"+ RST);
                 return null;
@@ -172,14 +172,14 @@ public class InputChecker {
     public MoveAction move(int turnPhase, int x, int y, int activeWorker){
         Couple w= findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(x,y);
-        if(turnPhase == 1 || modelView.getGod().toUpperCase().equals("PROMETHEUS") || modelView.getGod().toUpperCase().equals("ARTEMIS")){
+        if(turnPhase == 1 || modelView.getGod().equalsIgnoreCase("PROMETHEUS") || modelView.getGod().equalsIgnoreCase("ARTEMIS")){
             if(x<0||x>=5||y<0||y>=5|| x>= Objects.requireNonNull(w).getX()+2 || x<=w.getX()+2|| y>=w.getY()+2 || y<=w.getY()+2){
                 System.out.println(RED + "Non-existent or unreachable cell, operation not permitted!"+ RST);
                 return null;
         }
         else{
             if(modelView.getBoard().getGrid()[x][y].getColor()!=null){
-                if(!modelView.getGod().toUpperCase().equals("APOLLO") && (!modelView.getGod().toUpperCase().equals("MINOTAUR") || modelView.getBoard().getGrid()[x][y].getColor().equals(modelView.getColor()))){
+                if(!modelView.getGod().equalsIgnoreCase("APOLLO") && (!modelView.getGod().equalsIgnoreCase("MINOTAUR") || modelView.getBoard().getGrid()[x][y].getColor().equals(modelView.getColor()))){
                     System.out.println(RED + "Cell already occupied, operation not permitted!" + RST);
                     return null;
                 }
@@ -191,7 +191,7 @@ public class InputChecker {
                     return null;
                 }
                 else{
-            if(!(modelView.getBoard().getGrid()[x][y].getLevel() - modelView.getBoard().getGrid()[w.getX()][w.getY()].getLevel() < 2)){
+            if(modelView.getBoard().getGrid()[x][y].getLevel() - modelView.getBoard().getGrid()[w.getX()][w.getY()].getLevel() >= 2){
                 System.out.println(RED + "Trying to move up to unreachable level, operation not permitted!"+ RST);
                 return null;
             }
@@ -205,13 +205,11 @@ public class InputChecker {
     }
     
     private Couple findWorker(int activeWorker, String color){
-        Couple couple = null;
+        Couple couple;
         for(int i =0;i<5;i++){
             for (int j = 0; j < 5; j++) {
                 if(modelView.getBoard().getGrid()[i][j].getWorkerNum()==activeWorker && modelView.getBoard().getGrid()[i][j].getColor().equals(color)){
-                    assert false;
-                    couple.setX(i);
-                    couple.setY(j);
+                    couple = new Couple(i,j);
                     return couple;
                 }
             }
