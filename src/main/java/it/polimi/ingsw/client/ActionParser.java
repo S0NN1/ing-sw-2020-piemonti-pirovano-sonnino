@@ -21,7 +21,7 @@ public class ActionParser implements PropertyChangeListener {
     public ActionParser(ConnectionSocket connection, ModelView modelView) {
         this.connection = connection;
         this.modelView = modelView;
-        inputChecker = new InputChecker(connection);
+        inputChecker = new InputChecker(connection, modelView);
     }
 
     /**

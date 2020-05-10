@@ -17,6 +17,36 @@ public class ModelView {
     private final ClientBoard clientBoard;
     private final GUI gui;
     private volatile int started;
+    private int activeWorker;
+    private String god;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    private String color;
+
+    public String getGod() {
+        return god;
+    }
+
+    public void setGod(String god) {
+        this.god = god;
+    }
+
+    public int getActiveWorker() {
+        return activeWorker;
+    }
+
+    public void setActiveWorker(int activeWorker) {
+        this.activeWorker = activeWorker;
+    }
+
+
 
     public ModelView(CLI cli) {
         this.cli = cli;

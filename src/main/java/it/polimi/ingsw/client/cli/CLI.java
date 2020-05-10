@@ -13,6 +13,7 @@ import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 
@@ -64,11 +65,13 @@ public class CLI implements UI, Runnable {
      *
      * @param args the standard java main parameters.
      */
-    public static void main(String[] args) {
-        System.out.println("Hi, welcome to Santorini!");
+    public static void main(String[] args) throws IOException {
+        System.out.println(Constants.santorini);
         CLI cli = new CLI();
         cli.run();
     }
+
+
 
     /**
      * Change the value of the parameter activeGame, which states if the game is active or if it has finished.
@@ -413,7 +416,7 @@ public class CLI implements UI, Runnable {
         }
     }
     public void printmenu(){
-        System.out.println();
+        System.out.print("");
     }
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
