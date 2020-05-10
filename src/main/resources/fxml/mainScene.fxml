@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainGuiController">
+   <children>
+      <StackPane>
+         <children>
+            <ImageView disable="true" fitHeight="457.0" fitWidth="859.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+               <image>
+                  <Image url="@../graphics/bgs/SantoriniBoard.png" />
+               </image>
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+            <BorderPane>
+               <center>
+                  <AnchorPane disable="true" prefWidth="565.0">
+                     <children>
+                        <GridPane fx:id="grid" alignment="CENTER" prefHeight="330.0" prefWidth="330.0" AnchorPane.leftAnchor="69.0" AnchorPane.topAnchor="66.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                        <HBox alignment="CENTER" layoutX="58.0" layoutY="22.0" prefHeight="38.0" prefWidth="352.0" spacing="70.0">
+                           <children>
+                              <Label text="0" />
+                              <Label text="1" />
+                              <Label text="2" />
+                              <Label text="3" />
+                              <Label text="4" />
+                           </children>
+                        </HBox>
+                        <VBox alignment="CENTER_LEFT" layoutX="421.0" layoutY="60.0" maxWidth="93.0" prefHeight="348.0" prefWidth="93.0" spacing="50.0">
+                           <children>
+                              <Label text="0" />
+                              <Label text="1" />
+                              <Label text="2" />
+                              <Label text="3" />
+                              <Label text="4" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </center>
+               <left>
+                  <AnchorPane prefWidth="173.0" styleClass="playerBoard" stylesheets="@../css/mainScene.css" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox layoutY="50.0" prefHeight="393.0" prefWidth="100.0" AnchorPane.leftAnchor="40.0">
+                           <children>
+                              <Label prefHeight="77.0" prefWidth="173.0" text="Player 1:">
+                                 <graphic>
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                                 </graphic>
+                              </Label>
+                              <Label prefHeight="73.0" prefWidth="170.0" text="Player 2:">
+                                 <graphic>
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f80808" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                                 </graphic>
+                              </Label>
+                              <Label prefHeight="79.0" prefWidth="173.0" text="Player 3:">
+                                 <graphic>
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#18b52b" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                                 </graphic>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </left>
+            </BorderPane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
