@@ -100,7 +100,10 @@ public class ActionHandler {
         else if(answer instanceof SetWorkersMessage) {
             SetWorkersMessage message = (SetWorkersMessage) answer;
             modelView.getBoard().setColor(message.getWorker1().getX(), message.getWorker1().getY(), message.getMessage());
+            modelView.getBoard().setWorkerNum(message.getWorker1().getX(), message.getWorker1().getY(), 1);
             modelView.getBoard().setColor(message.getWorker2().getX(), message.getWorker2().getY(), message.getMessage());
+            modelView.getBoard().setWorkerNum(message.getWorker2().getX(), message.getWorker2().getY(), 2);
+            view.firePropertyChange("boardUpdate", null, null);
         }
 
     }

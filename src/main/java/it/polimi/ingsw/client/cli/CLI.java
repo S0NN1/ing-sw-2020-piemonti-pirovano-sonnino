@@ -386,7 +386,7 @@ public class CLI implements UI, Runnable {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        String command = evt.getNewValue().toString();
+        String command = (evt.getNewValue()!=null) ? evt.getNewValue().toString() : null;
         switch (evt.getPropertyName()) {
             case "gameError" -> {
                 errorHandling((GameError) evt.getNewValue());

@@ -9,11 +9,22 @@ public class Cell {
     private String color;
     private int level;
     private boolean dome;
+    private int workerNum;
 
     public Cell(){
+        workerNum = 0;
         color = null;
         level = 0;
         dome = false;
+    }
+
+    public int getWorkerNum() {
+        return workerNum;
+    }
+
+    public void setWorkerNum(int workerNum) throws IllegalArgumentException {   //0 -> no worker; 1 -> worker n1; 2 -> worker n2
+        if(workerNum < 0 || workerNum > 2) throw new IllegalArgumentException();
+        this.workerNum = workerNum;
     }
 
     public String getColor() {

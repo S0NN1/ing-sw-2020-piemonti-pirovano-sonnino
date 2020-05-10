@@ -92,6 +92,14 @@ class AtlasTest {
             }
             else fail("not build message");
         }
+        @Override
+        public void sendAll(Answer serverAnswer) {
+            if(serverAnswer instanceof BuildMessage){
+                build = ((BuildMessage) serverAnswer).getMessage();
+                dome = ((BuildMessage) serverAnswer).getDome();
+            }
+            else fail("not build message");
+        }
 
         public Couple getBuild() {
             return build;

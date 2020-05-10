@@ -13,22 +13,14 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
-    <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.language>java</sonar.language>
     <maven.compiler.source>1.14</maven.compiler.source>
     <maven.compiler.target>1.14</maven.compiler.target>
-    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.language>java</sonar.language>
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.jacoco</groupId>
-      <artifactId>jacoco-maven-plugin</artifactId>
-      <version>0.8.5</version>
-    </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
@@ -116,36 +108,6 @@
           <source>14</source>
           <target>14</target>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco.plugin.version}</version>
-        <configuration>
-          <excludes>
-            <exclude>META-INF/**</exclude>
-          </excludes>
-        </configuration>
-        <executions>
-          <execution>
-            <id>pre-unit-test</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>post-unit-test</id>
-            <phase>test</phase>
-            <goals>
-              <goal>report</goal>
-              <goal>check</goal>
-            </goals>
-            <configuration>
-              <rules>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
