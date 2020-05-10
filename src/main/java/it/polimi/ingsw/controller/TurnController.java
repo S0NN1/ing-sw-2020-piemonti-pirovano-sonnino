@@ -10,7 +10,7 @@ import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
-import it.polimi.ingsw.server.answers.turn.workersRequest;
+import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -116,7 +116,7 @@ public class TurnController implements PropertyChangeListener {
         try {
             if (arg.option.equals("start")) {
                 if (gameHandler.getCurrentPlayerID() == controller.getModel().getCurrentPlayer().getClientID()) {
-                    gameHandler.singleSend(workersRequest::new, gameHandler.getCurrentPlayerID());
+                    gameHandler.singleSend(WorkersRequestMessage::new, gameHandler.getCurrentPlayerID());
                 }
             }
             if (arg.option.equals("worker1")) {

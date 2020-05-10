@@ -3,6 +3,8 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
+import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
+import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.model.Card;
@@ -99,11 +101,18 @@ public class InputChecker {
         WorkerSetupMessage action;
         try {
             action = new WorkerSetupMessage(in);
+            int x=Integer.parseInt(in[1]);
+            int y=Integer.parseInt(in[2]);
+            int w=Integer.parseInt(in[3]);
+            int z=Integer.parseInt(in[4]);
+            if(x<0||x>=5||y<0||y>=5|| w<0||w>=5|| z<0|| z>=5){
+                return null;
+            }
+            else return action;
         } catch (NumberFormatException e) {
             System.out.println(RED + "Unknown input, please try again!" + RST);
             return null;
         }
-        return action;
     }
 
     /**
@@ -121,19 +130,33 @@ public class InputChecker {
      * @param x int
      * @param y int
      * @param activeWorker int
-     * @return boolean
+     * @return buildAction
      */
-    public boolean build(int turnPhase,int x, int y, int activeWorker){
-        Couple w=findworker(activeWorker, modelView.getColor());
+    public BuildAction build(int turnPhase, int x, int y, int activeWorker){
+        Couple w= findWorker(activeWorker, modelView.getColor());
+        BuildAction build = new BuildAction(x,y);
         if(turnPhase==2||modelView.getGod().toUpperCase().equals("ATLAS")||modelView.getGod().toUpperCase().equals("DEMETER")|| modelView.getGod().toUpperCase().equals("PROMETHEUS")) {
             if(x<0||x>=5||y<0||y>=5|| x>=w.getX()+2 || x<=w.getX()+2|| y>=w.getY()+2 || y<=w.getY()+2){
-                return false;
+                System.out.println(RED + "Non-existent or unreachable cell, operation not permitted!"+ RST);
+                return null;
             }
             else{
-                return modelView.getBoard().getGrid()[x][y].getColor() == null && modelView.getBoard().getGrid()[x][y].getLevel() != 4 && !modelView.getBoard().getGrid()[x][y].isDome();
+                if(modelView.getBoard().getGrid()[x][y].getColor() != null){
+                    System.out.println(RED+"Cell occupied, operation not permitted!"+RST);
+                    return null;
+                }
+                else {
+                    if(modelView.getBoard().getGrid()[x][y].getLevel() == 4 || modelView.getBoard().getGrid()[x][y].isDome()){
+                        System.out.println(RED + "Cell with dome, operation not permitted!" + RST);
+                        return null;
+                    }
+                    else {
+                        return build;
+                    }
+            }
             }
         }
-        else return false;
+        else return null;
     }
 
     /**
@@ -142,28 +165,44 @@ public class InputChecker {
      * @param x int
      * @param y int
      * @param activeWorker int
-     * @return boolean
+     * @return moveAction
      */
-    public boolean move(int turnPhase, int x, int y, int activeWorker){
-        Couple w=findworker(activeWorker, modelView.getColor());
+    public MoveAction move(int turnPhase, int x, int y, int activeWorker){
+        Couple w= findWorker(activeWorker, modelView.getColor());
+        MoveAction move = new MoveAction(x,y);
         if(turnPhase == 1 || modelView.getGod().toUpperCase().equals("PROMETHEUS") || modelView.getGod().toUpperCase().equals("ARTEMIS")){
             if(x<0||x>=5||y<0||y>=5|| x>=w.getX()+2 || x<=w.getX()+2|| y>=w.getY()+2 || y<=w.getY()+2){
-                return false;
+                System.out.println(RED + "Non-existent or unreachable cell, operation not permitted!"+ RST);
+                return null;
         }
         else{
             if(modelView.getBoard().getGrid()[x][y].getColor()!=null){
-                return modelView.getGod().toUpperCase().equals("APOLLO") || (modelView.getGod().toUpperCase().equals("MINOTAUR") && !modelView.getBoard().getGrid()[x][y].getColor().equals(modelView.getColor()));
+                if(!modelView.getGod().toUpperCase().equals("APOLLO") && (!modelView.getGod().toUpperCase().equals("MINOTAUR") || modelView.getBoard().getGrid()[x][y].getColor().equals(modelView.getColor()))){
+                    System.out.println(RED + "Cell already occupied, operation not permitted!" + RST);
+                    return null;
+                }
+                else return move;
             }
             else{
-                return modelView.getBoard().getGrid()[x][y].getLevel() != 4 && modelView.getBoard().getGrid()[x][y].getLevel() - modelView.getBoard().getGrid()[w.getX()][w.getY()].getLevel() < 2;
+                if(modelView.getBoard().getGrid()[x][y].isDome()){
+                    System.out.println(RED + "Dome on cell, operation not permitted"+ RST);
+                    return null;
+                }
+                else{
+            if(!(modelView.getBoard().getGrid()[x][y].getLevel() - modelView.getBoard().getGrid()[w.getX()][w.getY()].getLevel() < 2)){
+                System.out.println(RED + "Trying to move up to unreachable level, operation not permitted!"+ RST);
+                return null;
+            }
+            else return move;
+                }
             }
         }
         }
-        else return false;
+        else return null;
 
     }
     
-    private Couple findworker(int activeWorker, String color){
+    private Couple findWorker(int activeWorker, String color){
         Couple couple = null;
         for(int i =0;i<5;i++){
             for (int j = 0; j < 5; j++) {

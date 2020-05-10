@@ -19,6 +19,15 @@ public class ModelView {
     private volatile int started;
     private int activeWorker;
     private String god;
+    private int turnPhase;
+
+    public int getTurnPhase() {
+        return turnPhase;
+    }
+
+    public void setTurnPhase(int turnPhase) {
+        this.turnPhase = turnPhase;
+    }
 
     public String getColor() {
         return color;
