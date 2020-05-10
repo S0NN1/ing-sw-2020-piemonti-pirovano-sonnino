@@ -9,6 +9,8 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.model.Card;
 
+import java.util.Objects;
+
 
 /**
  * Check the correctness of the input received from the ActionParser, returning either true or false after his check.
@@ -136,7 +138,7 @@ public class InputChecker {
         Couple w= findWorker(activeWorker, modelView.getColor());
         BuildAction build = new BuildAction(x,y);
         if(turnPhase==2||modelView.getGod().toUpperCase().equals("ATLAS")||modelView.getGod().toUpperCase().equals("DEMETER")|| modelView.getGod().toUpperCase().equals("PROMETHEUS")) {
-            if(x<0||x>=5||y<0||y>=5|| x>=w.getX()+2 || x<=w.getX()+2|| y>=w.getY()+2 || y<=w.getY()+2){
+            if(x<0||x>=5||y<0||y>=5|| x>= Objects.requireNonNull(w).getX()+2 || x<=w.getX()+2|| y>=w.getY()+2 || y<=w.getY()+2){
                 System.out.println(RED + "Non-existent or unreachable cell, operation not permitted!"+ RST);
                 return null;
             }
@@ -171,7 +173,7 @@ public class InputChecker {
         Couple w= findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(x,y);
         if(turnPhase == 1 || modelView.getGod().toUpperCase().equals("PROMETHEUS") || modelView.getGod().toUpperCase().equals("ARTEMIS")){
-            if(x<0||x>=5||y<0||y>=5|| x>=w.getX()+2 || x<=w.getX()+2|| y>=w.getY()+2 || y<=w.getY()+2){
+            if(x<0||x>=5||y<0||y>=5|| x>= Objects.requireNonNull(w).getX()+2 || x<=w.getX()+2|| y>=w.getY()+2 || y<=w.getY()+2){
                 System.out.println(RED + "Non-existent or unreachable cell, operation not permitted!"+ RST);
                 return null;
         }
@@ -207,6 +209,7 @@ public class InputChecker {
         for(int i =0;i<5;i++){
             for (int j = 0; j < 5; j++) {
                 if(modelView.getBoard().getGrid()[i][j].getWorkerNum()==activeWorker && modelView.getBoard().getGrid()[i][j].getColor().equals(color)){
+                    assert false;
                     couple.setX(i);
                     couple.setY(j);
                     return couple;
