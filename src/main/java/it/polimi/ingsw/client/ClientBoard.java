@@ -25,6 +25,16 @@ public class ClientBoard {
     }
 
     /**
+     * set the number of player's worker (1 or 2)
+     * @param row of the grid
+     * @param col of the grid
+     * @param num of the worker into player's array
+     */
+    public void setWorkerNum(int row, int col, int num){
+        grid[row][col].setWorkerNum(num);
+    }
+
+    /**
      * it's a representation of Worker's setWorker method.
      * @param row of the grid.
      * @param col of the grid.
@@ -53,8 +63,12 @@ public class ClientBoard {
      */
     public void move(int oldRow, int oldCol, int newRow, int newCol){
         String color = grid[oldRow][oldCol].getColor();
+        int num = grid[oldRow][oldCol].getWorkerNum();
         grid[oldRow][oldCol].setColor(null);
+        grid[oldRow][oldCol].setWorkerNum(0);
         grid[newRow][newCol].setColor(color);
+        grid[newRow][newCol].setWorkerNum(num);
+
     }
 
     /**
@@ -67,8 +81,12 @@ public class ClientBoard {
     public void apolloDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2){
         String color1 = grid[oldRow1][oldCol1].getColor();
         String color2 = grid[oldRow2][oldCol2].getColor();
+        int num1 = grid[oldRow1][oldCol1].getWorkerNum();
+        int num2 = grid[oldRow2][oldCol2].getWorkerNum();
         grid[oldRow1][oldCol1].setColor(color2);
+        grid[oldRow1][oldCol1].setWorkerNum(num2);
         grid[oldRow2][oldCol2].setColor(color1);
+        grid[oldRow2][oldCol2].setWorkerNum(num1);
     }
 
     /**
@@ -83,9 +101,14 @@ public class ClientBoard {
     public void minotaurDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2, int newRow2, int newCol2){
         String color1 = grid[oldRow1][oldCol1].getColor();
         String color2 = grid[oldRow2][oldCol2].getColor();
+        int num1 = grid[oldRow1][oldCol1].getWorkerNum();
+        int num2 = grid[oldRow2][oldCol2].getWorkerNum();
         grid[newRow2][newCol2].setColor(color2);
+        grid[newRow2][newCol2].setWorkerNum(num2);
         grid[oldRow2][oldCol2].setColor(color1);
+        grid[oldRow2][oldCol2].setWorkerNum(num1);
         grid[oldRow1][oldCol1].setColor(null);
+        grid[oldRow1][oldCol1].setWorkerNum(0);
     }
 
     /**
@@ -100,5 +123,4 @@ public class ClientBoard {
         }
         else grid[row][col].addLevel();
     }
-
 }
