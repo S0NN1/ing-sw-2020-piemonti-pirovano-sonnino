@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
+import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
@@ -25,14 +26,14 @@ import java.util.stream.Collectors;
  * @author Luca Pirovano
  */
 public class GameHandler {
-    private Server server;
-    private Controller controller;
-    private Game game;
+    private final Server server;
+    private final Controller controller;
+    private final Game game;
     private int started;
     private int playersNumber;
-    private PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
     private final Logger logger = Logger.getLogger(getClass().getName());
-    private Random rnd = new Random();
+    private final Random rnd = new Random();
     private static final String player = "Player";
 
 
@@ -204,7 +205,7 @@ public class GameHandler {
             game.nextPlayer();
         }
         if(game.getCurrentPlayer().getWorkers().get(0).getPosition()!=null) {
-            //TODO match starts
+            controllerListener.firePropertyChange("turnController", null, new StartTurnAction());
             return;
         }
         List<int[]> spaces = new ArrayList<>();
