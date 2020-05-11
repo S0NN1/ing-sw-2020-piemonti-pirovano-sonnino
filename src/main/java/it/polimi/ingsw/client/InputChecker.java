@@ -5,6 +5,8 @@ import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
 import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
+import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
+import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.model.Card;
@@ -168,6 +170,17 @@ public class InputChecker {
         }
     }
 
+    public SelectBuildAction build(int turnPhase, int activeWorker){
+        SelectBuildAction build;
+        if (activeWorker == 0) {
+            System.err.println("Worker not selected, operation not permitted!");
+            return null;
+        }
+        else if (turnPhase == 1 || modelView.getGod().equalsIgnoreCase("ATLAS") || modelView.getGod().equalsIgnoreCase("DEMETER") || modelView.getGod().equalsIgnoreCase("PROMETHEUS")) {
+            return build =new SelectBuildAction();
+        }
+        else return null;
+        }
     /**
      * Check if move is possible
      *
@@ -211,6 +224,18 @@ public class InputChecker {
             return null;
         }
 
+    }
+
+    public SelectMoveAction move(int turnPhase, int activeWorker){
+        SelectMoveAction move;
+        if (activeWorker == 0) {
+            System.err.println("Worker not selected, operation not permitted!");
+            return null;
+        }
+        else if (turnPhase == 0 || modelView.getGod().equalsIgnoreCase("PROMETHEUS") || modelView.getGod().equalsIgnoreCase("ARTEMIS")) {
+            return move=new SelectMoveAction();
+        }
+        else return null;
     }
 
     private Couple findWorker(int activeWorker, String color) {
