@@ -10,7 +10,7 @@ import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
-import it.polimi.ingsw.server.answers.turn.StartTurnMessage;
+import it.polimi.ingsw.server.answers.turn.WorkerConfirmedMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 
 import java.beans.PropertyChangeEvent;
@@ -118,8 +118,16 @@ public class TurnController implements PropertyChangeListener {
         try {
             switch (arg.option) {
                 case "start" -> gameHandler.singleSend(WorkersRequestMessage::new, gameHandler.getCurrentPlayerID());
-                case "worker1" -> actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0));
-                case "worker2" -> actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1));
+                case "worker1" -> {
+                    if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0))) {
+                        gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
+                    } else gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                }
+                case "worker2" -> {
+                    if(actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1))) {
+                        gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
+                    } else gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                }
             }
         } catch (NullPointerException e) {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
@@ -133,7 +141,7 @@ public class TurnController implements PropertyChangeListener {
     public void endTurn() {
         if (actionController.endAction()) {
             controller.getModel().nextPlayer();
-            controller.getGameHandler().singleSend(new StartTurnMessage(), controller.getGameHandler().getCurrentPlayerID());
+            startTurn(new StartTurnAction());
         } else {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
         }

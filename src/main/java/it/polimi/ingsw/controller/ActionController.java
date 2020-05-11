@@ -30,10 +30,11 @@ public class ActionController {
      *
      * @throws IllegalStateException if worker is blocked
      */
-    public void startAction(Worker currentWorker) throws NullPointerException {
-        if (currentWorker == null) throw new NullPointerException();
+    public boolean startAction(Worker currentWorker) {
+        if (currentWorker == null || currentWorker.isBlocked()) return false;
         worker = currentWorker;
         phase = 0;
+        return true;
     }
 
     /**

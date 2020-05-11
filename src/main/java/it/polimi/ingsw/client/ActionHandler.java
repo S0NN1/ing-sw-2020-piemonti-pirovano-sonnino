@@ -6,7 +6,7 @@ import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.server.answers.MatchStartedMessage;
 import it.polimi.ingsw.server.answers.*;
-import it.polimi.ingsw.server.answers.turn.StartTurnMessage;
+import it.polimi.ingsw.server.answers.turn.WorkerConfirmedMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.*;
 
@@ -55,9 +55,6 @@ public class ActionHandler {
         if (answer instanceof SelectSpacesMessage) {
             view.firePropertyChange("select", null, answer.getMessage());
         }
-        if(answer instanceof WorkersRequestMessage){
-            view.firePropertyChange("selectWorker", null, null);
-        }
         else{
             if (answer instanceof MoveMessage) {
                 Move message = (Move) answer.getMessage();
@@ -66,6 +63,8 @@ public class ActionHandler {
                 if(modelView.isTurnActive()){
                     modelView.setTurnPhase(modelView.getTurnPhase()+1);
                 }
+            } else if(answer instanceof WorkerConfirmedMessage) {
+                view.firePropertyChange("boardUpdate", null, null);
             } else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
@@ -146,9 +145,9 @@ public class ActionHandler {
             view.firePropertyChange("customMessage", null, answer.getMessage());
             modelView.setCanInput(((CustomMessage) answer).canInput());
         }
-        else if(answer instanceof StartTurnMessage) {
-            modelView.setTurnActive(true);
-            view.firePropertyChange("boardUpdate", null, null);
+        else if(answer instanceof WorkersRequestMessage){
+            modelView.toggleInput();
+            view.firePropertyChange("selectWorker", null, null);
         }
         else if(answer instanceof GameError) {
             view.firePropertyChange("gameError", null, answer);

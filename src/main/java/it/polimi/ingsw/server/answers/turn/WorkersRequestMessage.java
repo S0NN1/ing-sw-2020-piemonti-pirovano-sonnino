@@ -7,10 +7,8 @@ import it.polimi.ingsw.server.answers.Answer;
  */
 
 public class WorkersRequestMessage implements Answer {
-    public final String message = "Select which worker you want to move";
-
     @Override
     public Object getMessage() {
-        return message;
+        return null;
     }
 }
