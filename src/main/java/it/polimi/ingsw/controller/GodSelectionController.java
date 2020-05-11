@@ -17,8 +17,8 @@ import java.beans.PropertyChangeListener;
  * @author Luca Pirovano
  */
 public class GodSelectionController implements PropertyChangeListener {
-    private CardSelectionModel cardModel;
-    private Controller mainController;
+    private final CardSelectionModel cardModel;
+    private final Controller mainController;
 
     /**
      * Constructor of the class, it receives in input the CardSelectionBoard.
@@ -76,6 +76,9 @@ public class GodSelectionController implements PropertyChangeListener {
                 mainController.getGameHandler().sendAllExcept(new CustomMessage("Player " +
                         mainController.getModel().getCurrentPlayer().getNickname() + " has selected " +
                         arg.name() + "\n\n" + arg.godsDescription() + "\n", false), clientId);
+                ChallengerMessages selected = new ChallengerMessages(null, null);
+                selected.setChosenGod(arg.name());
+                mainController.getGameHandler().singleSend(selected, mainController.getGameHandler().getCurrentPlayerID());
                 return true;
             }
         }

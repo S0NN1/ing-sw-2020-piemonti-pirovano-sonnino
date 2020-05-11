@@ -3,9 +3,11 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.server.Server;
 
+import java.io.IOException;
+
 public class Santorini {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         switch (args[0].toUpperCase()) {
             case "SERVER":
                 Server.main(null);

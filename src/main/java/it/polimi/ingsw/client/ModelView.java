@@ -17,12 +17,61 @@ public class ModelView {
     private final ClientBoard clientBoard;
     private final GUI gui;
     private volatile int started;
+    private int activeWorker;
+    private String god;
+    private int turnPhase;
+    private boolean turnActive;
+    private boolean buildSelected;
+    private boolean moveSelected;
+
+    public int getTurnPhase() {
+        return turnPhase;
+    }
+
+    public void setTurnPhase(int turnPhase) {
+        this.turnPhase = turnPhase;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    private String color;
+
+    public String getGod() {
+        return god;
+    }
+
+    public void setGod(String god) {
+        this.god = god;
+    }
+
+    public boolean isTurnActive() {
+        return turnActive;
+    }
+
+    public void setTurnActive(boolean turnActive) {
+        this.turnActive = turnActive;
+    }
+
+    public int getActiveWorker() {
+        return activeWorker;
+    }
+
+    public void setActiveWorker(int activeWorker) {
+        this.activeWorker = activeWorker;
+    }
 
     public ModelView(CLI cli) {
         this.cli = cli;
         gamePhase = 0;
         clientBoard = new ClientBoard();
         gui = null;
+        activeWorker = 0;
     }
 
     public ModelView(GUI gui) {
@@ -30,6 +79,7 @@ public class ModelView {
         this.clientBoard = new ClientBoard();
         this.cli = null;
         gamePhase = 0;
+        activeWorker = 0;
     }
 
     public synchronized ClientBoard getBoard() {
@@ -52,6 +102,22 @@ public class ModelView {
         return started;
     }
 
+    public boolean isBuildSelected() {
+        return buildSelected;
+    }
+
+    public void setBuildSelected(boolean buildSelected) {
+        this.buildSelected = buildSelected;
+    }
+
+    public boolean isMoveSelected() {
+        return moveSelected;
+    }
+
+    public void setMoveSelected(boolean moveSelected) {
+        this.moveSelected = moveSelected;
+    }
+
     /**
      * Set the game phase variable to the value provided:
      * - 0: setup phase
@@ -62,7 +128,6 @@ public class ModelView {
     public void setGamePhase(int phase) {
         gamePhase = phase;
     }
-    //TODO Update gamePhase counter
 
     /**
      * @return the current game phase.

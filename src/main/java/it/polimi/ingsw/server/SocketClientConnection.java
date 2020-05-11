@@ -172,6 +172,9 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         else if(action instanceof WorkerSetupMessage) {
             server.getGameByID(clientID).makeAction(action, "WorkerPlacement");
         }
+        else {
+            server.getGameByID(clientID).makeAction(action, "turnController");
+        }
     }
 
     /**

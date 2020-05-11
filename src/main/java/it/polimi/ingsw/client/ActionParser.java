@@ -1,8 +1,9 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.messages.Message;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
+import it.polimi.ingsw.client.messages.actions.turnActions.EndTurnAction;
+import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
 import it.polimi.ingsw.constants.Constants;
 
 import java.beans.PropertyChangeEvent;
@@ -23,7 +24,7 @@ public class ActionParser implements PropertyChangeListener {
     public ActionParser(ConnectionSocket connection, ModelView modelView) {
         this.connection = connection;
         this.modelView = modelView;
-        inputChecker = new InputChecker(connection);
+        inputChecker = new InputChecker(connection, modelView);
     }
 
     /**
@@ -34,7 +35,9 @@ public class ActionParser implements PropertyChangeListener {
     public synchronized boolean action(String input) {
         String[] in = input.split(" ");
         String command = in[0];
+        int turnPhase = modelView.getTurnPhase();
         UserAction sendMessage;
+        String var;
         try {
             switch (command.toUpperCase()) {
                 case "GODLIST" -> {
@@ -46,6 +49,27 @@ public class ActionParser implements PropertyChangeListener {
                 case "CHOOSE" -> sendMessage = inputChecker.choose(in);
                 case "STARTER" -> sendMessage = inputChecker.starter(in);
                 case "SET" -> sendMessage = inputChecker.set(in);
+                case "SELECTWORKER" -> {
+                    modelView.setActiveWorker(Integer.parseInt(in[1]));
+                    if(Integer.parseInt(in[1])==1){
+                         var = "worker1";
+                    }
+                    else { var ="worker2";}
+                    connection.send(new StartTurnAction(var));
+                    return false;
+                }
+                case "MOVE" -> {
+                    sendMessage = (in.length==1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
+                            :inputChecker.move(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                }
+                case "BUILD" -> {
+                    sendMessage = (in.length==1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
+                            :inputChecker.build(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                }
+                case "END" -> {
+                    sendMessage = new EndTurnAction();
+                    modelView.setTurnActive(false);
+                }
                 case "QUIT" -> {
                     inputChecker.quit();
                     return true;

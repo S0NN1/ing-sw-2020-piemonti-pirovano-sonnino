@@ -5,11 +5,12 @@ import it.polimi.ingsw.model.Card;
 import java.util.List;
 
 public class ChallengerMessages implements Answer {
-    public final String message;
-    public final List<String> godList;
-    public final List<Card> choosable;
-    public final boolean startingPlayer;
-    public final List<String> players;
+    private final String message;
+    private final List<String> godList;
+    private final List<Card> choosable;
+    private final boolean startingPlayer;
+    private final List<String> players;
+    private String chosenGod;
 
     public ChallengerMessages(String message) {
         this.message = message;
@@ -17,6 +18,7 @@ public class ChallengerMessages implements Answer {
         startingPlayer = false;
         players = null;
         choosable = null;
+        chosenGod = null;
     }
 
     public ChallengerMessages(String message, boolean startingPlayer, List<String> players) {
@@ -25,6 +27,7 @@ public class ChallengerMessages implements Answer {
         this.startingPlayer = startingPlayer;
         this.players = players;
         choosable = null;
+        chosenGod = null;
     }
 
     public ChallengerMessages(List<String> list) {
@@ -33,6 +36,7 @@ public class ChallengerMessages implements Answer {
         startingPlayer = false;
         players = null;
         choosable = null;
+        chosenGod = null;
     }
 
     public ChallengerMessages(String message, List<Card> choosable) {
@@ -41,6 +45,31 @@ public class ChallengerMessages implements Answer {
         startingPlayer = false;
         players = null;
         this.choosable = choosable;
+        chosenGod = null;
+    }
+
+    public List<String> getGodList() {
+        return godList;
+    }
+
+    public List<Card> getChoosable() {
+        return choosable;
+    }
+
+    public boolean isStartingPlayer() {
+        return startingPlayer;
+    }
+
+    public List<String> getPlayers() {
+        return players;
+    }
+
+    public String getChosenGod() {
+        return chosenGod;
+    }
+
+    public void setChosenGod(String chosenGod) {
+        this.chosenGod = chosenGod;
     }
 
     @Override

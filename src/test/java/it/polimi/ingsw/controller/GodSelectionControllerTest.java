@@ -38,8 +38,8 @@ class GodSelectionControllerTest {
         public void update(Observable o, Object arg) {
             notified = true;
             if (arg instanceof ChallengerMessages) {
-                if (((ChallengerMessages)arg).message!=null) message = ((ChallengerMessages) arg).message;
-                else gods = ((ChallengerMessages) arg).godList;
+                if (((ChallengerMessages)arg).getMessage()!=null) message = ((ChallengerMessages) arg).getMessage();
+                else gods = ((ChallengerMessages) arg).getGodList();
             }
             else {
                 message = ((CustomMessage)arg).getMessage();

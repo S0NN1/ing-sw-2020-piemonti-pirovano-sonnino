@@ -13,8 +13,10 @@ import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
@@ -26,7 +28,7 @@ public class CLI implements UI, Runnable {
     private static final String GREEN = "GREEN";
     private static final String YELLOW = "YELLOW";
     private static final String BG_BLACK = "BACKGROUND_BLACK";
-    private final HashMap<String, String> nameMAPcolor = new HashMap<>();
+    private final HashMap<String, String> nameMapColor = new HashMap<>();
     private final PrintStream output;
     private final Scanner input;
     private final ModelView modelView;
@@ -50,13 +52,13 @@ public class CLI implements UI, Runnable {
             }
         }
         printable = new Printable();
-        nameMAPcolor.put(GREEN, Constants.ANSI_GREEN);
-        nameMAPcolor.put(YELLOW, Constants.ANSI_YELLOW);
-        nameMAPcolor.put("RED", Constants.ANSI_RED);
-        nameMAPcolor.put("RST", Constants.ANSI_RESET);
-        nameMAPcolor.put("BLUE", Constants.ANSI_BLUE);
-        nameMAPcolor.put("CYAN", Constants.ANSI_CYAN);
-        nameMAPcolor.put(BG_BLACK, Constants.ANSI_BACKGROUND_BLACK);
+        nameMapColor.put(GREEN, Constants.ANSI_GREEN);
+        nameMapColor.put(YELLOW, Constants.ANSI_YELLOW);
+        nameMapColor.put("RED", Constants.ANSI_RED);
+        nameMapColor.put("RST", Constants.ANSI_RESET);
+        nameMapColor.put("BLUE", Constants.ANSI_BLUE);
+        nameMapColor.put("CYAN", Constants.ANSI_CYAN);
+        nameMapColor.put(BG_BLACK, Constants.ANSI_BACKGROUND_BLACK);
     }
 
     /**
@@ -64,11 +66,13 @@ public class CLI implements UI, Runnable {
      *
      * @param args the standard java main parameters.
      */
-    public static void main(String[] args) {
-        System.out.println("Hi, welcome to Santorini!");
+    public static void main(String[] args) throws IOException {
+        System.out.println(Constants.SANTORINI);
         CLI cli = new CLI();
         cli.run();
     }
+
+
 
     /**
      * Change the value of the parameter activeGame, which states if the game is active or if it has finished.
@@ -106,7 +110,7 @@ public class CLI implements UI, Runnable {
         connection = new ConnectionSocket();
         try {
             connection.setup(nickname, modelView, actionHandler);
-            output.println(nameMAPcolor.get(GREEN) + "Socket Connection setup completed!" + nameMAPcolor.get("RST"));
+            output.println(nameMapColor.get(GREEN) + "Socket Connection setup completed!" + nameMapColor.get("RST"));
         } catch (DuplicateNicknameException e) {
             setup();
         }
@@ -142,10 +146,11 @@ public class CLI implements UI, Runnable {
 
     /**
      * Create empty board
+     *
      * @param grid printed board
      */
     private void firstBuildBoard(DisplayCell[][] grid) {
-        String[] rows = printable.lvl0.split("\n");
+        String[] rows = printable.levels[0].split("\n");
         for (int i = 0; i <= 4; i++) {
             for (int j = 0; j <= 4; j++) {
                 for (int k = 0; k <= 10; k++) {
@@ -157,6 +162,7 @@ public class CLI implements UI, Runnable {
 
     /**
      * Update grid after a change occured in ClientBoard
+     *
      * @param grid printed board
      */
     private void boardUpdater(DisplayCell[][] grid) {
@@ -164,99 +170,73 @@ public class CLI implements UI, Runnable {
         for (int i = 0; i <= 4; i++) {
             for (int j = 0; j <= 4; j++) {
                 for (int k = 0; k <= 10; k++) {
-                    if (modelView.getBoard().getGrid()[i][j].getLevel() == 0) {
-                        if (modelView.getBoard().getGrid()[i][j].isDome()) {
-                            rows = printable.lvl0c.split("\n");
-                            if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                                String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
-                                String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(23);
-                                rows[4] = temp;
-                                rows[5] = temp2;
-                            }
-                        } else {
-                            rows = printable.lvl0.split("\n");
-                            if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                                String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 17) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get(GREEN) + rows[4].substring(18);
-                                String temp2 = rows[5].substring(0, 17) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get(GREEN) + rows[4].substring(18);
-                                rows[4] = temp;
-                                rows[5] = temp2;
-                            }
+                    int level = modelView.getBoard().getGrid()[i][j].getLevel();
+                    if (modelView.getBoard().getGrid()[i][j].isDome() && level != 4 && level != 3) {
+                        rows = printable.levelsC[level].split("\n");
+                        if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
+                            addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows, "c", level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
+                        }
+                    } else {
+                        rows = printable.levels[level].split("\n");
+                        if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
+                            addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows, "n", level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
                         }
                     }
-                    if (modelView.getBoard().getGrid()[i][j].getLevel() == 1) {
-                        if (modelView.getBoard().getGrid()[i][j].isDome()) {
-                            rows = printable.lvl1c.split("\n");
-                            if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                                String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 17) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(18);
-                                String temp2 = rows[5].substring(0, 17) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(18);
-                                rows[4] = temp;
-                                rows[5] = temp2;
-                            }
-                        } else {
-                            rows = printable.lvl1.split("\n");
-                            if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                                String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 12) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("RST") + rows[4].substring(13);
-                                String temp2 = rows[5].substring(0, 12) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("RST") + rows[4].substring(13);
-                                rows[4] = temp;
-                                rows[5] = temp2;
-                            }
-                        }
+                    grid[i][j].setCellRows(k, rows[k]);
+                }
+            }
+        }
+    }
+
+    /**
+     * Add worker to printable cell
+     *
+     * @param color Worker color
+     * @param rows  string
+     * @param mode  string
+     * @param level int
+     */
+    private void addWorkerToCell(String color, String[] rows, String mode, int level, int type) {
+        String[] temp = new String[2];
+        String[] player = new String[2];
+        int[][] indexes = new int[5][1];
+        int[][] indexesC = new int[3][1];
+        String upperBody = "☻";
+        String upperBody2 ="☺";
+        player[0] = null;
+        player[1] = "▲";
+        indexes[0][0] = 16;
+        indexes[1][0] = 11;
+        indexes[2][0] = 21;
+        indexes[3][0] = 25;
+        indexes[4][0] = 34;
+        indexesC[0][0] = 21;
+        indexesC[1][0] = 16;
+        indexesC[2][0] = 25;
+        if(type==1){player[0]=upperBody;}
+        else{player[0]=upperBody2;}
+        if (mode.equals("c")) {
+            for (int i = 0; i <= 1; i++) {
+                temp[i] = rows[i + 4].substring(0, indexesC[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1);
+                rows[i + 4] = temp[i];
+            }
+        } else {
+            if (level == 4 || level == 3) {
+                for (int i = 0; i <= 1; i++) {
+                    int j;
+                    if (i == 0) {
+                        j = 0;
+                    } else {
+                        j = 4;
                     }
-                    if (modelView.getBoard().getGrid()[i][j].getLevel() == 2) {
-                        if (modelView.getBoard().getGrid()[i][j].isDome()) {
-                            rows = printable.lvl2c.split("\n");
-                            if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                                String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor());
-                                String temp = rows[4].substring(0, 26) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(27);
-                                String temp2 = rows[5].substring(0, 26) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(27);
-                                rows[4] = temp;
-                                rows[5] = temp2;
-                            }
-                        } else {
-                            rows = printable.lvl2.split("\n");
-                            if (modelView.getBoard().getGrid()[i][j].isDome()) {
-                                rows = printable.lvl2c.split("\n");
-                                if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                                    String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                    String temp = rows[4].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("RST") + rows[4].substring(23);
-                                    String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("RST") + rows[4].substring(23);
-                                    rows[4] = temp;
-                                    rows[5] = temp2;
-                                }
-                            }
-                        }
-                    }
-                    if (modelView.getBoard().getGrid()[i][j].getLevel() == 3) {
-                        rows = printable.lvl3.split("\n");
-                        if (modelView.getBoard().getGrid()[i][j].isDome()) {
-                            rows = printable.lvl2c.split("\n");
-                            if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                                String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 26) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("CYAN") + rows[4].substring(27);
-                                String temp2 = rows[5].substring(0, 22) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("CYAN") + rows[4].substring(23);
-                                rows[4] = temp;
-                                rows[5] = temp2;
-                            }
-                        }
-                    }
-                    if (modelView.getBoard().getGrid()[i][j].getLevel() == 4) {
-                        rows = printable.lvl4.split("\n");
-                        if (modelView.getBoard().getGrid()[i][j].isDome()) {
-                            rows = printable.lvl2c.split("\n");
-                            if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                                String color = nameMAPcolor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase());
-                                String temp = rows[4].substring(0, 35) + nameMAPcolor.get(BG_BLACK) + color + "☻" + nameMAPcolor.get("BLUE") + rows[4].substring(36);
-                                String temp2 = rows[5].substring(0, 31) + nameMAPcolor.get(BG_BLACK) + color + "▲" + nameMAPcolor.get("BLUE") + rows[4].substring(32);
-                                rows[4] = temp;
-                                rows[5] = temp2;
-                            }
-                        }
-                        grid[i][j].setCellRows(k, rows[k]);
-                    }
+                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexes[level][0] + 1 - j);
+                    rows[i + 4] = temp[i];
+                }
+            } else {
+                for (int i = 0; i <= 1; i++) {
+                    temp[i] = rows[i + 4].substring(0, indexes[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexes[level][0] + 1);
+                    rows[i + 4] = temp[i];
+
                 }
             }
         }
@@ -264,21 +244,22 @@ public class CLI implements UI, Runnable {
 
     /**
      * Print board to the player
+     *
      * @param grid printed board
      */
     private void printBoard(DisplayCell[][] grid) {
         System.out.println(printable.rowWave);
         System.out.println(printable.rowWave);
-        System.out.println(printable.coupleRowWave + nameMAPcolor.get(YELLOW) + printable.lineBlock + nameMAPcolor.get("RST") + printable.coupleRowWave);
+        System.out.println(printable.coupleRowWave + nameMapColor.get(YELLOW) + printable.lineBlock + nameMapColor.get("RST") + printable.coupleRowWave);
         for (int i = 0; i <= 4; i++) {
             for (int k = 0; k <= 10; k++) {
-                System.out.print(printable.coupleRowWave + nameMAPcolor.get(YELLOW) + "█" + nameMAPcolor.get("RST"));
+                System.out.print(printable.coupleRowWave + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 for (int j = 0; j <= 4; j++) {
-                    System.out.print(grid[i][j].getCellRows(k) + nameMAPcolor.get(YELLOW) + "█" + nameMAPcolor.get("RST"));
+                    System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 }
                 System.out.print(printable.coupleRowWave + "\n");
             }
-            System.out.println(printable.coupleRowWave + nameMAPcolor.get(YELLOW) + printable.lineBlock + nameMAPcolor.get("RST") + printable.coupleRowWave);
+            System.out.println(printable.coupleRowWave + nameMapColor.get(YELLOW) + printable.lineBlock + nameMapColor.get("RST") + printable.coupleRowWave);
         }
         System.out.println(printable.rowWave);
         System.out.println(printable.rowWave);
@@ -297,7 +278,7 @@ public class CLI implements UI, Runnable {
                 selection = input.nextInt();
                 break;
             } catch (InputMismatchException e) {
-                output.println(nameMAPcolor.get("RED") + "Invalid parameter, it must be a number.\nApplication will now quit..." + nameMAPcolor.get("RST"));
+                output.println(nameMapColor.get("RED") + "Invalid parameter, it must be a number.\nApplication will now quit..." + nameMapColor.get("RST"));
                 System.exit(-1);
             }
         }
@@ -313,6 +294,7 @@ public class CLI implements UI, Runnable {
      * @param available the list of available colors, which will be printed out.
      */
     public void chooseColor(List<PlayerColors> available) {
+        firstBuildBoard(grid);
         while (true) {
             output.println(">Make your choice!");
             output.print(">");
@@ -321,6 +303,7 @@ public class CLI implements UI, Runnable {
                 if (available.contains(color)) {
                     connection.send(new ChosenColor(color));
                     modelView.setStarted(2);
+                    modelView.setColor(color.toString());
                     return;
                 } else {
                     output.println("Color not available!");
@@ -339,19 +322,19 @@ public class CLI implements UI, Runnable {
     public void errorHandling(GameError error) {
         switch (error.getError()) {
             case CELLOCCUPIED -> {
-                output.println(nameMAPcolor.get("RED") + "The following cells are already occupied, please choose them again." + nameMAPcolor.get("RST"));
-                error.getCoordinates().forEach(n -> output.print(nameMAPcolor.get("RED") + Arrays.toString(n) + ", " + nameMAPcolor.get("RST")));
+                output.println(nameMapColor.get("RED") + "The following cells are already occupied, please choose them again." + nameMapColor.get("RST"));
+                error.getCoordinates().forEach(n -> output.print(nameMapColor.get("RED") + Arrays.toString(n) + ", " + nameMapColor.get("RST")));
             }
             case INVALIDINPUT -> {
                 if (error.getMessage() != null) {
-                    output.println(nameMAPcolor.get("RED") + error.getMessage() + nameMAPcolor.get("RST"));
+                    output.println(nameMapColor.get("RED") + error.getMessage() + nameMapColor.get("RST"));
                 }
+                modelView.setTurnActive(true);
             }
             default -> {
                 output.println("Generic error!");
             }
         }
-        modelView.toggleInput();
     }
 
     /**
@@ -363,32 +346,36 @@ public class CLI implements UI, Runnable {
     public void initialPhaseHandling(String value) {
         switch (value) {
             case "RequestPlayerNumber" -> {
-                output.println(nameMAPcolor.get(GREEN) + ((RequestPlayersNumber) modelView.getServerAnswer()).getMessage() + nameMAPcolor.get("RST"));
+                output.println(nameMapColor.get(GREEN) + ((RequestPlayersNumber) modelView.getServerAnswer()).getMessage() + nameMapColor.get("RST"));
                 choosePlayerNumber();
             }
             case "RequestColor" -> {
-                output.println(nameMAPcolor.get(GREEN) + ((RequestColor) modelView.getServerAnswer()).getMessage() + "\nRemaining:" + nameMAPcolor.get("RST"));
+                output.println(nameMapColor.get(GREEN) + ((RequestColor) modelView.getServerAnswer()).getMessage() + "\nRemaining:" + nameMapColor.get("RST"));
                 ((RequestColor) modelView.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
                 output.print("\n");
                 chooseColor(((RequestColor) modelView.getServerAnswer()).getRemaining());
             }
             case "GodRequest" -> {
                 ChallengerMessages req = (ChallengerMessages) modelView.getServerAnswer();
-                if (req.startingPlayer && req.players != null) {
-                    output.println(req.message);
-                    req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
-                } else if(req.choosable!=null) {
+                if (req.isStartingPlayer() && req.getPlayers() != null) {
                     output.println(req.getMessage());
-                    req.choosable.forEach(n -> output.println(n.toString() + "\n" + n.godsDescription()));
+                    req.getPlayers().forEach(n -> output.println(req.getPlayers().indexOf(n) + ": " + n + ","));
+                } else if (req.getChoosable() != null) {
+                    output.println(req.getMessage());
+                    req.getChoosable().forEach(n -> output.println(n.toString() + "\n" + n.godsDescription()));
                     output.println("\nSelect your god by typing choose <god-name>:");
-                } else if (req.godList != null) {
-                    req.godList.forEach(n -> output.print(n + ", "));
+                } else if (req.getGodList() != null) {
+                    req.getGodList().forEach(n -> output.print(n + ", "));
                     output.println();
-                } else {
-                    output.println(req.message);
+                } else if(req.getChosenGod()!=null) {
+                    modelView.setGod(req.getChosenGod());
+                    return;
+                }
+                else {
+                    output.println(req.getMessage());
                 }
                 modelView.toggleInput();
-                if(modelView.getStarted()<3) modelView.setStarted(3);
+                if (modelView.getStarted() < 3) modelView.setStarted(3);
             }
             case "WorkerPlacement" -> {
                 output.println(modelView.getServerAnswer().getMessage());
@@ -413,6 +400,7 @@ public class CLI implements UI, Runnable {
                 errorHandling((GameError) evt.getNewValue());
             }
             case "initialPhase" -> {
+                assert command != null;
                 initialPhaseHandling(command);
             }
             case "customMessage" -> {
@@ -423,19 +411,51 @@ public class CLI implements UI, Runnable {
             }
             case "connectionClosed" -> {
                 output.println(evt.getNewValue());
-                output.println(nameMAPcolor.get("RED") + "Application will now close..." + nameMAPcolor.get("RST"));
+                output.println(nameMapColor.get("RED") + "Application will now close..." + nameMapColor.get("RST"));
                 System.exit(0);
             }
             case "boardUpdate" -> {
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
+                clearScreen();
                 boardUpdater(grid);
                 printBoard(grid);
+                try {
+                    printMenu();
+                } catch (InterruptedException e) {
+                    System.err.println(e.getMessage());
+                }
+            }
+            case "selectWorker" -> {
+                selectWorker();
             }
             default -> {
                 output.println("Unrecognized answer");
             }
         }
     }
+    public void selectWorker(){
+        System.out.print("\r\t• SELECTWORKER <1/2>\n");
+        System.out.print(">");
+    }
+    public void printMenu() throws InterruptedException {
+        String active;
+        if(modelView.getGamePhase()!=0) {
+            if (modelView.isTurnActive()) {
+                active = "È ";
+            } else {
+                active = "NON È ";
+            }
+            System.out.println(active + "IL TUO TURNO");
+        }
+        TimeUnit.MILLISECONDS.sleep(500);
+        System.out.print("\t• MOVE\n" +
+                         "\t• BUILD\n" +
+                         "\t• END\n");
+        System.out.print(">");
+    }
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
 
 }

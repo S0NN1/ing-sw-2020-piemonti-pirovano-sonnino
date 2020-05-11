@@ -34,17 +34,10 @@ public abstract class Worker {
         this.position = null;
         this.canMoveUp = true;
         switch (color) {
-            case RED:
-                this.workerColor = Constants.ANSI_RED;
-                break;
-            case GREEN:
-                this.workerColor = Constants.ANSI_GREEN;
-                break;
-            case BLUE:
-                this.workerColor = Constants.ANSI_BLUE;
-                break;
-            default:
-                throw new IllegalArgumentException();
+            case RED -> this.workerColor = "RED";
+            case GREEN -> this.workerColor = "GREEN";
+            case BLUE -> this.workerColor = "BLUE";
+            default -> throw new IllegalArgumentException();
         }
         setPhases();
     }

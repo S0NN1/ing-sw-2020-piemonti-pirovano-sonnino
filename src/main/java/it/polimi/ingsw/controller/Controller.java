@@ -21,17 +21,18 @@ import java.util.ArrayList;
  * @author Luca Pirovano
  */
 public class Controller implements PropertyChangeListener {
-    private Game model;
-    private GameHandler gameHandler;
+    private final Game model;
+    private final GameHandler gameHandler;
     private GodSelectionController selectionController;
-    private TurnController turnController;
-    private PropertyChangeSupport controllerListeners = new PropertyChangeSupport(this);
+    private final TurnController turnController;
+    private final PropertyChangeSupport controllerListeners = new PropertyChangeSupport(this);
 
 
     public Controller(Game model, GameHandler gameHandler) {
         this.model = model;
         this.gameHandler = gameHandler;
         this.turnController = new TurnController(this, gameHandler, new ActionController(model.getGameBoard()));
+        controllerListeners.addPropertyChangeListener("turnController", turnController);
     }
 
     /**
@@ -39,13 +40,6 @@ public class Controller implements PropertyChangeListener {
      */
     public TurnController getTurnController() {
         return turnController;
-    }
-
-    /**
-     * @param turnController the turn controller to be set.
-     */
-    public void setTurnController(TurnController turnController) {
-        this.turnController = turnController;
     }
 
     /**
@@ -106,7 +100,6 @@ public class Controller implements PropertyChangeListener {
             getModel().getCurrentPlayer().getWorkers().get(1).setPosition(space2);
             gameHandler.sendAll(new SetWorkersMessage(getModel().getCurrentPlayer().getWorkers().get(0).getWorkerColor(),
                     space1.getX(), space1.getY(), space2.getX(), space2.getY()));
-
         } else {
             ArrayList<int[]> invalidWorker = new ArrayList<>();
             int[] coords = new int[2];
@@ -127,11 +120,10 @@ public class Controller implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("godSelection")) {
-            controllerListeners.firePropertyChange("GODSELECTION", null, evt.getNewValue());
-        }
-        else if(evt.getPropertyName().equals("workerPlacement")) {
-            placeWorkers((WorkerSetupMessage)evt.getNewValue());
+        switch(evt.getPropertyName()) {
+            case "godSelection" -> controllerListeners.firePropertyChange("GODSELECTION", null, evt.getNewValue());
+            case "workerPlacement" -> placeWorkers((WorkerSetupMessage) evt.getNewValue());
+            case "turnController" -> controllerListeners.firePropertyChange("turnController", null, evt.getNewValue());
         }
     }
 }

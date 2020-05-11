@@ -4,7 +4,10 @@ import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
+import it.polimi.ingsw.server.answers.MatchStartedMessage;
 import it.polimi.ingsw.server.answers.*;
+import it.polimi.ingsw.server.answers.turn.WorkerConfirmedMessage;
+import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.*;
 
 import java.beans.PropertyChangeSupport;
@@ -51,16 +54,34 @@ public class ActionHandler {
         ClientBoard clientBoard = modelView.getBoard();
         if (answer instanceof SelectSpacesMessage) {
             view.firePropertyChange("select", null, answer.getMessage());
+            modelView.toggleInput();
         }
-        else{
+        else if(answer instanceof WorkersRequestMessage){
+            modelView.setTurnActive(true);
+            modelView.toggleInput();
+            view.firePropertyChange("selectWorker", null, null);
+        }
+        else {
             if (answer instanceof MoveMessage) {
                 Move message = (Move) answer.getMessage();
                 clientBoard.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
                         message.getNewPosition().getX(), message.getNewPosition().getY());
+                if(modelView.isTurnActive()){
+                    modelView.setTurnPhase(modelView.getTurnPhase()+1);
+                    modelView.setMoveSelected(false);
+                }
+            } else if(answer instanceof WorkerConfirmedMessage) {
+                view.firePropertyChange("boardUpdate", null, null);
+                modelView.toggleInput();
+                return;
             } else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
                 clientBoard.build(message.getX(), message.getY(), dome);
+                if(modelView.isTurnActive()){
+                    modelView.setTurnPhase(modelView.getTurnPhase()+1);
+                    modelView.setBuildSelected(false);
+                }
             } else if (answer instanceof DoubleMoveMessage) {
                 String message = ((DoubleMoveMessage) answer).getMessage();
                 if (message.equals("ApolloDoubleMove")) { //type Apollo
@@ -68,14 +89,23 @@ public class ActionHandler {
                     Move otherMove = ((DoubleMoveMessage) answer).getOtherMove();
                     clientBoard.apolloDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
                             otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY());
+                    if(modelView.isTurnActive()){
+                        modelView.setTurnPhase(modelView.getTurnPhase()+1);
+                        modelView.setMoveSelected(false);
+                    }
                 } else if (message.equals("MinotaurDoubleMove")) { //type Minotaur
                     Move myMove = ((DoubleMoveMessage) answer).getMyMove();
                     Move otherMove = ((DoubleMoveMessage) answer).getOtherMove();
                     clientBoard.minotaurDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
                             otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY(),
                             otherMove.getNewPosition().getX(), otherMove.getNewPosition().getY());
+                    if(modelView.isTurnActive()){
+                        modelView.setTurnPhase(modelView.getTurnPhase()+1);
+                        modelView.setMoveSelected(false);
+                    }
                 }
             }
+            modelView.toggleInput();
             view.firePropertyChange("boardUpdate", null,null);
         }
 
@@ -97,6 +127,11 @@ public class ActionHandler {
         } else if (answer instanceof WorkerPlacement) {
             view.firePropertyChange(initial, null, "WorkerPlacement");
         }
+        else if(answer instanceof WorkersRequestMessage){
+            modelView.setTurnActive(true);
+            modelView.toggleInput();
+            view.firePropertyChange("selectWorker", null, null);
+        }
         else if(answer instanceof SetWorkersMessage) {
             SetWorkersMessage message = (SetWorkersMessage) answer;
             modelView.getBoard().setColor(message.getWorker1().getX(), message.getWorker1().getY(), message.getMessage());
@@ -105,7 +140,9 @@ public class ActionHandler {
             modelView.getBoard().setWorkerNum(message.getWorker2().getX(), message.getWorker2().getY(), 2);
             view.firePropertyChange("boardUpdate", null, null);
         }
-
+        else if(answer instanceof MatchStartedMessage) {
+            modelView.setGamePhase(1);
+        }
     }
 
     //TODO ADD CALLS TO CLI/GUI'S METHOD
@@ -126,6 +163,7 @@ public class ActionHandler {
             modelView.setCanInput(((CustomMessage) answer).canInput());
         }
         else if(answer instanceof GameError) {
+            modelView.toggleInput();
             view.firePropertyChange("gameError", null, answer);
         }
         else if(answer instanceof ConnectionMessage) {
