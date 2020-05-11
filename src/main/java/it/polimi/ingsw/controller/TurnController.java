@@ -75,31 +75,31 @@ public class TurnController implements PropertyChangeListener {
                     StartTurnAction start_action = (StartTurnAction) arg;
                     startTurn(start_action);
                 }
-                if (arg instanceof BuildAction) {
+                else if (arg instanceof BuildAction) {
                     BuildAction worker_action = (BuildAction) arg;
                     if (!actionController.readMessage(worker_action)) {
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                     }
                 }
-                if (arg instanceof MoveAction) {
+                else if (arg instanceof MoveAction) {
                     MoveAction worker_action = (MoveAction) arg;
                     if (!actionController.readMessage(worker_action)) {
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                     }
                 }
-                if (arg instanceof SelectMoveAction) {
+                else if (arg instanceof SelectMoveAction) {
                     SelectMoveAction worker_action = (SelectMoveAction) arg;
                     if (!actionController.readMessage(worker_action)) {
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                     }
                 }
-                if (arg instanceof SelectBuildAction) {
+                else if (arg instanceof SelectBuildAction) {
                     SelectBuildAction worker_action = (SelectBuildAction) arg;
                     if (!actionController.readMessage(worker_action)) {
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                     }
                 }
-                if (arg instanceof EndTurnAction) {
+                else if (arg instanceof EndTurnAction) {
                     endTurn();
                 }
             }
