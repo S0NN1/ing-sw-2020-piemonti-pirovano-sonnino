@@ -44,6 +44,7 @@ public class ActionController {
      */
     public boolean endAction() {
         int phaseTemp = phase;
+        if (worker==null) return false;
         while (worker.getPhase(phase) != null && !worker.getPhase(phase).isMust()) {
             phase++;
         }

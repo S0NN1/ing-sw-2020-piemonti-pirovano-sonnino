@@ -259,13 +259,4 @@ public class InputChecker {
         }
         return null;
     }
-
-    public EndTurnAction endTurn() {
-        if(!modelView.isMoveSelected() || !modelView.isBuildSelected()) {
-            System.err.println("You still have available actions to perform!");
-            return null;
-        }
-        modelView.setTurnActive(false);
-        return new EndTurnAction();
-    }
 }
