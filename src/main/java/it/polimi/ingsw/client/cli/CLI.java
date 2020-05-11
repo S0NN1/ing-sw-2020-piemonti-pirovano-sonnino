@@ -439,13 +439,14 @@ public class CLI implements UI, Runnable {
     }
     public void printMenu() throws InterruptedException {
         String active;
-        if(modelView.isTurnActive()){
-            active = "È";
+        if(modelView.getGamePhase()!=0) {
+            if (modelView.isTurnActive()) {
+                active = "È ";
+            } else {
+                active = "NON È ";
+            }
+            System.out.println(active + "IL TUO TURNO");
         }
-        else{
-            active="NON È";
-        }
-        System.out.println(active+"IL TUO TURNO");
         TimeUnit.SECONDS.sleep(1);
         System.out.print("\t• MOVE\n" +
                          "\t• BUILD\n" +
