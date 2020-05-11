@@ -21,6 +21,8 @@ public class ModelView {
     private String god;
     private int turnPhase;
     private boolean turnActive;
+    private boolean buildSelected;
+    private boolean moveSelected;
 
     public int getTurnPhase() {
         return turnPhase;
@@ -98,6 +100,22 @@ public class ModelView {
 
     public synchronized int getStarted() {
         return started;
+    }
+
+    public boolean isBuildSelected() {
+        return buildSelected;
+    }
+
+    public void setBuildSelected(boolean buildSelected) {
+        this.buildSelected = buildSelected;
+    }
+
+    public boolean isMoveSelected() {
+        return moveSelected;
+    }
+
+    public void setMoveSelected(boolean moveSelected) {
+        this.moveSelected = moveSelected;
     }
 
     /**

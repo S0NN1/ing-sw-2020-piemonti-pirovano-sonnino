@@ -145,6 +145,10 @@ public class InputChecker {
      * @return buildAction
      */
     public BuildAction build(int turnPhase, int x, int y, int activeWorker) {
+        if(!modelView.isBuildSelected()) {
+            System.err.println("You must run BUILD (no args) command before!");
+            return null;
+        }
         Couple w = findWorker(activeWorker, modelView.getColor());
         BuildAction build = new BuildAction(x, y);
         if (turnPhase == 1 || modelView.getGod().equalsIgnoreCase("ATLAS") || modelView.getGod().equalsIgnoreCase("DEMETER") || modelView.getGod().equalsIgnoreCase("PROMETHEUS")) {
@@ -171,13 +175,13 @@ public class InputChecker {
     }
 
     public SelectBuildAction build(int turnPhase, int activeWorker){
-        SelectBuildAction build;
         if (activeWorker == 0) {
             System.err.println("Worker not selected, operation not permitted!");
             return null;
         }
         else if (turnPhase == 1 || modelView.getGod().equalsIgnoreCase("ATLAS") || modelView.getGod().equalsIgnoreCase("DEMETER") || modelView.getGod().equalsIgnoreCase("PROMETHEUS")) {
-            return build =new SelectBuildAction();
+            modelView.setBuildSelected(true);
+            return new SelectBuildAction();
         }
         else return null;
         }
@@ -191,6 +195,10 @@ public class InputChecker {
      * @return moveAction
      */
     public MoveAction move(int turnPhase, int x, int y, int activeWorker) {
+        if(!modelView.isMoveSelected()) {
+            System.err.println("You must run MOVE (no args) command before!");
+            return null;
+        }
         if (activeWorker == 0) {
             System.err.println("Worker not selected, operation not permitted!");
             return null;
@@ -227,13 +235,13 @@ public class InputChecker {
     }
 
     public SelectMoveAction move(int turnPhase, int activeWorker){
-        SelectMoveAction move;
         if (activeWorker == 0) {
             System.err.println("Worker not selected, operation not permitted!");
             return null;
         }
         else if (turnPhase == 0 || modelView.getGod().equalsIgnoreCase("PROMETHEUS") || modelView.getGod().equalsIgnoreCase("ARTEMIS")) {
-            return move=new SelectMoveAction();
+            modelView.setMoveSelected(true);
+            return new SelectMoveAction();
         }
         else return null;
     }

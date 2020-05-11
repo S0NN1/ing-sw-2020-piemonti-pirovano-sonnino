@@ -62,6 +62,7 @@ public class ActionHandler {
                         message.getNewPosition().getX(), message.getNewPosition().getY());
                 if(modelView.isTurnActive()){
                     modelView.setTurnPhase(modelView.getTurnPhase()+1);
+                    modelView.setMoveSelected(false);
                 }
             } else if(answer instanceof WorkerConfirmedMessage) {
                 view.firePropertyChange("boardUpdate", null, null);
@@ -71,6 +72,7 @@ public class ActionHandler {
                 clientBoard.build(message.getX(), message.getY(), dome);
                 if(modelView.isTurnActive()){
                     modelView.setTurnPhase(modelView.getTurnPhase()+1);
+                    modelView.setBuildSelected(false);
                 }
             } else if (answer instanceof DoubleMoveMessage) {
                 String message = ((DoubleMoveMessage) answer).getMessage();
@@ -81,6 +83,7 @@ public class ActionHandler {
                             otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY());
                     if(modelView.isTurnActive()){
                         modelView.setTurnPhase(modelView.getTurnPhase()+1);
+                        modelView.setMoveSelected(false);
                     }
                 } else if (message.equals("MinotaurDoubleMove")) { //type Minotaur
                     Move myMove = ((DoubleMoveMessage) answer).getMyMove();
@@ -90,6 +93,7 @@ public class ActionHandler {
                             otherMove.getNewPosition().getX(), otherMove.getNewPosition().getY());
                     if(modelView.isTurnActive()){
                         modelView.setTurnPhase(modelView.getTurnPhase()+1);
+                        modelView.setMoveSelected(false);
                     }
                 }
             }

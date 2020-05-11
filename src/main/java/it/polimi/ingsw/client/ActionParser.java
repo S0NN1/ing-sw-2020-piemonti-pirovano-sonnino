@@ -59,9 +59,13 @@ public class ActionParser implements PropertyChangeListener {
                     return false;
                 }
                 case "MOVE" -> {
-                    sendMessage = inputChecker.move(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                    sendMessage = (in.length==1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
+                            :inputChecker.move(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
                 }
-                case "BUILD" -> sendMessage=inputChecker.build(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                case "BUILD" -> {
+                    sendMessage = (in.length==1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
+                            :inputChecker.build(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                }
                 case "END" -> {
                     sendMessage = new EndTurnAction();
                     modelView.setTurnActive(false);
