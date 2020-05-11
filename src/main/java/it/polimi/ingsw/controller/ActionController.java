@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
  */
 public class ActionController {
 
-    private final GameBoard gameBoard;
+    private GameBoard gameBoard;
     private Worker worker;
 
     protected int phase;
