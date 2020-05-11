@@ -114,16 +114,10 @@ public class TurnController implements PropertyChangeListener {
 
     public void startTurn(StartTurnAction arg) {
         try {
-            if (arg.option.equals("start")) {
-                if (gameHandler.getCurrentPlayerID() == controller.getModel().getCurrentPlayer().getClientID()) {
-                    gameHandler.singleSend(WorkersRequestMessage::new, gameHandler.getCurrentPlayerID());
-                }
-            }
-            if (arg.option.equals("worker1")) {
-                actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0));
-            }
-            if (arg.option.equals("worker2")) {
-                actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1));
+            switch (arg.option) {
+                case "start" ->gameHandler.singleSend(WorkersRequestMessage::new, gameHandler.getCurrentPlayerID());
+                case "worker1" ->actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0));
+                case "worker2" ->actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1));
             }
         } catch (NullPointerException e) {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());

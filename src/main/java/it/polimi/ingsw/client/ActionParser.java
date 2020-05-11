@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
+import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
 import it.polimi.ingsw.constants.Constants;
 
 import java.beans.PropertyChangeEvent;
@@ -35,6 +36,7 @@ public class ActionParser implements PropertyChangeListener {
         String command = in[0];
         int turnPhase = modelView.getTurnPhase();
         UserAction sendMessage;
+        String var;
         try {
             switch (command.toUpperCase()) {
                 case "GODLIST" -> {
@@ -48,7 +50,11 @@ public class ActionParser implements PropertyChangeListener {
                 case "SET" -> sendMessage = inputChecker.set(in);
                 case "SELECTWORKER" ->{
                     modelView.setActiveWorker(Integer.parseInt(in[1]));
-                    return true;
+                    if(Integer.parseInt(in[1])==1){
+                         var = "worker1";
+                    }
+                    else { var ="worker2";}
+                    sendMessage = new StartTurnAction(var);
                 }
                 case "MOVE" -> {
                     sendMessage=inputChecker.move(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
