@@ -204,14 +204,14 @@ public class CLI implements UI, Runnable {
         String upperBody2 ="☺";
         player[0] = null;
         player[1] = "▲";
-        indexes[0][0] = 17;
-        indexes[1][0] = 12;
-        indexes[2][0] = 22;
-        indexes[3][0] = 26;
-        indexes[4][0] = 35;
-        indexesC[0][0] = 22;
-        indexesC[1][0] = 17;
-        indexesC[2][0] = 26;
+        indexes[0][0] = 16;
+        indexes[1][0] = 11;
+        indexes[2][0] = 21;
+        indexes[3][0] = 25;
+        indexes[4][0] = 34;
+        indexesC[0][0] = 21;
+        indexesC[1][0] = 16;
+        indexesC[2][0] = 25;
         if(type==1){player[0]=upperBody;}
         else{player[0]=upperBody2;}
         if (mode.equals("c")) {
@@ -228,12 +228,12 @@ public class CLI implements UI, Runnable {
                     } else {
                         j = 4;
                     }
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1 - j);
+                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexes[level][0] + 1 - j);
                     rows[i + 4] = temp[i];
                 }
             } else {
                 for (int i = 0; i <= 1; i++) {
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1);
+                    temp[i] = rows[i + 4].substring(0, indexes[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexes[level][0] + 1);
                     rows[i + 4] = temp[i];
 
                 }
