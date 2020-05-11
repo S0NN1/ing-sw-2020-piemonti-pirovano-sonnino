@@ -16,6 +16,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
@@ -400,6 +401,7 @@ public class CLI implements UI, Runnable {
                 errorHandling((GameError) evt.getNewValue());
             }
             case "initialPhase" -> {
+                assert command != null;
                 initialPhaseHandling(command);
             }
             case "customMessage" -> {
@@ -417,23 +419,36 @@ public class CLI implements UI, Runnable {
                 clearScreen();
                 boardUpdater(grid);
                 printBoard(grid);
-                printmenu();
+                try {
+                    printMenu();
+                } catch (InterruptedException e) {
+                    System.err.println(e.getMessage());
+                }
             }
-            case "selectworkers" -> {
-                selectworker();
+            case "selectWorker" -> {
+                selectWorker();
             }
             default -> {
                 output.println("Unrecognized answer");
             }
         }
     }
-    public void selectworker(){
+    public void selectWorker(){
         System.out.print("\t• SELECTWORKER <1/2>\n");
         System.out.println(">");
     }
-    public void printmenu(){
-        System.out.print("\t• MOVE <x> <y>\n" +
-                         "\t• BUILD <x> <y>\n" +
+    public void printMenu() throws InterruptedException {
+        String active;
+        if(modelView.isTurnActive()){
+            active = "È";
+        }
+        else{
+            active="NON È";
+        }
+        System.out.println(active+"IL TUO TURNO");
+        TimeUnit.SECONDS.sleep(1);
+        System.out.print("\t• MOVE\n" +
+                         "\t• BUILD\n" +
                          "\t• END\n");
         System.out.print(">");
     }

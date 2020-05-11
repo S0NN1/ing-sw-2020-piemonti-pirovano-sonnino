@@ -56,7 +56,7 @@ public class ActionHandler {
             view.firePropertyChange("select", null, answer.getMessage());
         }
         if(answer instanceof WorkersRequestMessage){
-            view.firePropertyChange("selectworker", null, null);
+            view.firePropertyChange("selectWorker", null, null);
         }
         else{
             if (answer instanceof MoveMessage) {
