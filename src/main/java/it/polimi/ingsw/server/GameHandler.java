@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.*;
+import it.polimi.ingsw.server.answers.turn.StartTurnMessage;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -211,7 +212,7 @@ public class GameHandler {
             } catch (InterruptedException e) {
                 System.err.println(e.getMessage());
             }
-            controllerListener.firePropertyChange("turnController", null, new StartTurnAction());
+            singleSend(new StartTurnMessage(), getCurrentPlayerID());
             return;
         }
         List<int[]> spaces = new ArrayList<>();

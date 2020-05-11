@@ -50,7 +50,6 @@ public class ActionParser implements PropertyChangeListener {
                 case "STARTER" -> sendMessage = inputChecker.starter(in);
                 case "SET" -> sendMessage = inputChecker.set(in);
                 case "SELECTWORKER" -> {
-                    modelView.setTurnActive(true);
                     modelView.setActiveWorker(Integer.parseInt(in[1]));
                     if(Integer.parseInt(in[1])==1){
                          var = "worker1";

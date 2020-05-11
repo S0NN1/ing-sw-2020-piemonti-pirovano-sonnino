@@ -6,6 +6,7 @@ import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.server.answers.MatchStartedMessage;
 import it.polimi.ingsw.server.answers.*;
+import it.polimi.ingsw.server.answers.turn.StartTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.*;
 
@@ -144,6 +145,10 @@ public class ActionHandler {
         if(answer instanceof CustomMessage) {
             view.firePropertyChange("customMessage", null, answer.getMessage());
             modelView.setCanInput(((CustomMessage) answer).canInput());
+        }
+        else if(answer instanceof StartTurnMessage) {
+            modelView.setTurnActive(true);
+            view.firePropertyChange("boardUpdate", null, null);
         }
         else if(answer instanceof GameError) {
             view.firePropertyChange("gameError", null, answer);
