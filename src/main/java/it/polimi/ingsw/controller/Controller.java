@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.SetWorkersMessage;
+import javafx.scene.layout.GridPane;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

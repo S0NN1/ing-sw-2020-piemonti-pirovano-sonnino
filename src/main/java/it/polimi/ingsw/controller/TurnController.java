@@ -45,7 +45,7 @@ public class TurnController implements PropertyChangeListener {
 
     /**
      * Receive property changed from a PropertyChangeSupport and pass different arguments to the ActionController
-     * @param evt
+     * @param evt the property change event
      */
     public void propertyChange(PropertyChangeEvent evt) {
         int i = 0;
