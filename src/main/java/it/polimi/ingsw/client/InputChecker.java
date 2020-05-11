@@ -70,6 +70,7 @@ public class InputChecker {
         ChallengerPhaseAction action;
         try {
             action = new ChallengerPhaseAction("CHOOSE", Card.parseInput(in[1]));
+            modelView.setGod(in[1]);
         } catch (IllegalArgumentException e) {
             System.out.println(RED + GOD_NOT_FOUND + RST);
             return null;

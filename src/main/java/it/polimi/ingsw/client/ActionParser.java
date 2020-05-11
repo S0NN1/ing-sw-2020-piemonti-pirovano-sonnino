@@ -54,7 +54,8 @@ public class ActionParser implements PropertyChangeListener {
                          var = "worker1";
                     }
                     else { var ="worker2";}
-                    sendMessage = new StartTurnAction(var);
+                    connection.send(new StartTurnAction(var));
+                    return false;
                 }
                 case "MOVE" -> {
                     sendMessage=inputChecker.move(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
