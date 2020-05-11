@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
+import it.polimi.ingsw.client.messages.actions.turnActions.EndTurnAction;
 import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
 import it.polimi.ingsw.constants.Constants;
 
@@ -48,7 +49,8 @@ public class ActionParser implements PropertyChangeListener {
                 case "CHOOSE" -> sendMessage = inputChecker.choose(in);
                 case "STARTER" -> sendMessage = inputChecker.starter(in);
                 case "SET" -> sendMessage = inputChecker.set(in);
-                case "SELECTWORKER" ->{
+                case "SELECTWORKER" -> {
+                    modelView.setTurnActive(true);
                     modelView.setActiveWorker(Integer.parseInt(in[1]));
                     if(Integer.parseInt(in[1])==1){
                          var = "worker1";
@@ -57,11 +59,11 @@ public class ActionParser implements PropertyChangeListener {
                     connection.send(new StartTurnAction(var));
                     return false;
                 }
-                case "MOVE" -> {
-                    sendMessage=inputChecker.move(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
-                }
-                case "BUILD" -> {
-                    sendMessage=inputChecker.build(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                case "MOVE" -> sendMessage=inputChecker.move(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                case "BUILD" -> sendMessage=inputChecker.build(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                case "END" -> {
+                    sendMessage = new EndTurnAction();
+                    modelView.setTurnActive(false);
                 }
                 case "QUIT" -> {
                     inputChecker.quit();

@@ -62,14 +62,14 @@ public class ActionHandler {
                 Move message = (Move) answer.getMessage();
                 clientBoard.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
                         message.getNewPosition().getX(), message.getNewPosition().getY());
-                if(modelView.getCanInput()){
+                if(modelView.isTurnActive()){
                     modelView.setTurnPhase(modelView.getTurnPhase()+1);
                 }
             } else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
                 clientBoard.build(message.getX(), message.getY(), dome);
-                if(modelView.getCanInput()){
+                if(modelView.isTurnActive()){
                     modelView.setTurnPhase(modelView.getTurnPhase()+1);
                 }
             } else if (answer instanceof DoubleMoveMessage) {
@@ -79,7 +79,7 @@ public class ActionHandler {
                     Move otherMove = ((DoubleMoveMessage) answer).getOtherMove();
                     clientBoard.apolloDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
                             otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY());
-                    if(modelView.getCanInput()){
+                    if(modelView.isTurnActive()){
                         modelView.setTurnPhase(modelView.getTurnPhase()+1);
                     }
                 } else if (message.equals("MinotaurDoubleMove")) { //type Minotaur
@@ -88,7 +88,7 @@ public class ActionHandler {
                     clientBoard.minotaurDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
                             otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY(),
                             otherMove.getNewPosition().getX(), otherMove.getNewPosition().getY());
-                    if(modelView.getCanInput()){
+                    if(modelView.isTurnActive()){
                         modelView.setTurnPhase(modelView.getTurnPhase()+1);
                     }
                 }

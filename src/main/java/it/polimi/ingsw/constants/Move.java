@@ -1,9 +1,11 @@
 package it.polimi.ingsw.constants;
 
-public class Move {
+import java.io.Serializable;
 
-    private Couple oldPosition;
-    private Couple newPosition;
+public class Move implements Serializable {
+
+    private final Couple oldPosition;
+    private final Couple newPosition;
 
     public Move(int oldX, int oldY, int newX, int newY){
         oldPosition = new Couple(oldX, oldY);

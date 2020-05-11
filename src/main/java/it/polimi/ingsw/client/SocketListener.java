@@ -15,11 +15,11 @@ import java.util.logging.Logger;
  */
 public class SocketListener implements Runnable{
 
-    private Socket socket;
+    private final Socket socket;
     private final ModelView modelView;
-    private ActionHandler actionHandler;
+    private final ActionHandler actionHandler;
     private final Logger logger = Logger.getLogger(getClass().getName());
-    private ObjectInputStream inputStream;
+    private final ObjectInputStream inputStream;
 
     public SocketListener(Socket socket, ConnectionSocket connectionSocket, ModelView modelView, ObjectInputStream inputStream, ActionHandler actionHandler) {
         this.modelView = modelView;

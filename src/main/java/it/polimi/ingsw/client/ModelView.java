@@ -20,6 +20,7 @@ public class ModelView {
     private int activeWorker;
     private String god;
     private int turnPhase;
+    private boolean turnActive;
 
     public int getTurnPhase() {
         return turnPhase;
@@ -47,6 +48,14 @@ public class ModelView {
         this.god = god;
     }
 
+    public boolean isTurnActive() {
+        return turnActive;
+    }
+
+    public void setTurnActive(boolean turnActive) {
+        this.turnActive = turnActive;
+    }
+
     public int getActiveWorker() {
         return activeWorker;
     }
@@ -54,8 +63,6 @@ public class ModelView {
     public void setActiveWorker(int activeWorker) {
         this.activeWorker = activeWorker;
     }
-
-
 
     public ModelView(CLI cli) {
         this.cli = cli;

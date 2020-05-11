@@ -328,6 +328,7 @@ public class CLI implements UI, Runnable {
                 if (error.getMessage() != null) {
                     output.println(nameMapColor.get("RED") + error.getMessage() + nameMapColor.get("RST"));
                 }
+                modelView.setTurnActive(true);
             }
             default -> {
                 output.println("Generic error!");

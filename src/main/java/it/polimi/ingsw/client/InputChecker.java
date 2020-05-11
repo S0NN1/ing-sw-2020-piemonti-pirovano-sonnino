@@ -162,7 +162,10 @@ public class InputChecker {
                     }
                 }
             }
-        } else return null;
+        } else {
+            System.err.println("Incorrect action, wrong turn phase!");
+            return null;
+        }
     }
 
     /**
@@ -203,7 +206,10 @@ public class InputChecker {
                     }
                 }
             }
-        } else return null;
+        } else {
+            System.err.println("Incorrect action, wrong turn phase!");
+            return null;
+        }
 
     }
 
