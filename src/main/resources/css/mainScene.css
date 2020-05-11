@@ -1,0 +1,5 @@
+.playerBoard{
+    -fx-background-image: url("../graphics/bgs/player_board.png");
+    -fx-background-size: stretch;
+
+}

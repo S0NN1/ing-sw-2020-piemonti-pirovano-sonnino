@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.Santorini;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -29,13 +30,10 @@ public enum Card {
     public static List<String> godsName() {
         Gson gson = new Gson();
         List<String> result = new ArrayList<>();
-        try {
-            God[] god = gson.fromJson(new FileReader("src/main/resources/json/gods.json"), God[].class);
-            for(God god1:god) {
-                result.add(god1.getName());
-            }
-        } catch (FileNotFoundException e) {
-            return null;
+        Reader reader = new InputStreamReader(Santorini.class.getResourceAsStream("/json/gods.json"));
+        God[] god = gson.fromJson(reader, God[].class);
+        for(God god1:god) {
+            result.add(god1.getName());
         }
         return result;
     }
@@ -47,18 +45,14 @@ public enum Card {
     public String godsDescription() {
 
         Gson gson = new Gson();
-
-        try {
-            God[] god = gson.fromJson(new FileReader("src/main/resources/json/gods.json"), God[].class);
-            for(God god1:god) {
-                if (god1.getName().equalsIgnoreCase(this.toString())) {
-                    return("Property: " + god1.getProperty() + "\nDescription: " + god1.getDesc());
-                }
+        Reader reader = new InputStreamReader(Santorini.class.getResourceAsStream("/json/gods.json"));
+        God[] god = gson.fromJson(reader, God[].class);
+        for(God god1:god) {
+            if (god1.getName().equalsIgnoreCase(this.toString())) {
+                return("Property: " + god1.getProperty() + "\nDescription: " + god1.getDesc());
             }
-
-        } catch (IOException e) {
-            return null;
         }
+
         return null;
     }
 }

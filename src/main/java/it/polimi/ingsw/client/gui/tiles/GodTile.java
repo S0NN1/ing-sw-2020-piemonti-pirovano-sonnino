@@ -6,8 +6,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -71,25 +74,27 @@ public class GodTile extends HBox {
         mainPane.getChildren().add(thirdLayer);
 
         //god description
-        Label descText = new Label();
+        Label descText = new Label(card.godsDescription());
         thirdLayer.getChildren().add(descText);
-        //descText.setFont(new Font("Constantia", 11));
+        descText.setFont(new Font("Constantia", 11));
         descText.setMaxWidth(110);
+        descText.setMaxHeight(USE_PREF_SIZE);
+        if(descText.getMaxHeight() > 150 ) {
+            descText.setFont(new Font("Constantia", 2));
+        }
         descText.setMaxHeight(150);
-        descText.autosize();
-        descText.setText(card.godsDescription());
         descText.setLineSpacing(0);
         descText.setWrapText(true);
         descText.setLayoutX(275);
         descText.setLayoutY(90);
 
         //power stone background
-        ImageView powerBackground = new ImageView(getClass().getResource("/graphics/gods/power/background.png").toExternalForm());
+        ImageView powerBackground = new ImageView(getClass().getResource("/graphics/gods/power/panel_hero.png").toExternalForm());
         thirdLayer.getChildren().add(powerBackground);
-        powerBackground.setFitHeight(71);
-        powerBackground.setPreserveRatio(true);
-        powerBackground.setLayoutX(268);
-        powerBackground.setLayoutY(350);
+        powerBackground.setFitHeight(75);
+        powerBackground.setFitWidth(145);
+        powerBackground.setLayoutX(261);
+        powerBackground.setLayoutY(405);
     }
 
     private void createFourthLayer(){
@@ -105,10 +110,10 @@ public class GodTile extends HBox {
         //power image
         ImageView power = new ImageView(getClass().getResource("/graphics/gods/power/" + card.toString() + ".png" ).toExternalForm());
         fourthLayer.getChildren().add(power);
-        power.setFitHeight(51);
+        power.setFitHeight(38);
         power.setPreserveRatio(true);
-        power.setLayoutX(276);
-        power.setLayoutY(357);
+        power.setLayoutX(283);
+        power.setLayoutY(420);
     }
 
     private void createButtons(){
