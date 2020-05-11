@@ -356,18 +356,22 @@ public class CLI implements UI, Runnable {
             }
             case "GodRequest" -> {
                 ChallengerMessages req = (ChallengerMessages) modelView.getServerAnswer();
-                if (req.startingPlayer && req.players != null) {
-                    output.println(req.message);
-                    req.players.forEach(n -> output.println(req.players.indexOf(n) + ": " + n + ","));
-                } else if (req.choosable != null) {
+                if (req.isStartingPlayer() && req.getPlayers() != null) {
                     output.println(req.getMessage());
-                    req.choosable.forEach(n -> output.println(n.toString() + "\n" + n.godsDescription()));
+                    req.getPlayers().forEach(n -> output.println(req.getPlayers().indexOf(n) + ": " + n + ","));
+                } else if (req.getChoosable() != null) {
+                    output.println(req.getMessage());
+                    req.getChoosable().forEach(n -> output.println(n.toString() + "\n" + n.godsDescription()));
                     output.println("\nSelect your god by typing choose <god-name>:");
-                } else if (req.godList != null) {
-                    req.godList.forEach(n -> output.print(n + ", "));
+                } else if (req.getGodList() != null) {
+                    req.getGodList().forEach(n -> output.print(n + ", "));
                     output.println();
-                } else {
-                    output.println(req.message);
+                } else if(req.getChosenGod()==null) {
+                    modelView.setGod(req.getChosenGod());
+                    return;
+                }
+                else {
+                    output.println(req.getMessage());
                 }
                 modelView.toggleInput();
                 if (modelView.getStarted() < 3) modelView.setStarted(3);

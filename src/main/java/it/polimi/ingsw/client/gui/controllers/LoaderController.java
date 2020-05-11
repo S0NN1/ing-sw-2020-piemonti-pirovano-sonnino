@@ -109,11 +109,11 @@ public class LoaderController implements GUIController {
         startingPlayer.setTitle("Choose starting player");
         startingPlayer.setContentText("Pick a starting player clicking on his nickname.");
         HashMap<String, ButtonType> players = new HashMap<>();
-        assert req.players != null;
-        req.players.forEach(n -> players.put(n, new ButtonType(n)));
+        assert req.getPlayers() != null;
+        req.getPlayers().forEach(n -> players.put(n, new ButtonType(n)));
         startingPlayer.getButtonTypes().setAll(players.values());
         Optional<ButtonType> result = startingPlayer.showAndWait();
-        result.ifPresent(buttonType -> gui.getObservers().firePropertyChange(action, null, "STARTER " + req.players.indexOf(buttonType.getText())));
+        result.ifPresent(buttonType -> gui.getObservers().firePropertyChange(action, null, "STARTER " + req.getPlayers().indexOf(buttonType.getText())));
     }
 
     /**
@@ -129,7 +129,7 @@ public class LoaderController implements GUIController {
             Alert godList = new Alert(Alert.AlertType.CONFIRMATION);
             godList.setTitle("Choose a god");
             godList.setHeaderText("Pick a god!");
-            godListDropdown = new ComboBox<>(FXCollections.observableArrayList(req.godList));
+            godListDropdown = new ComboBox<>(FXCollections.observableArrayList(req.getGodList()));
             godList.getDialogPane().setContent(godListDropdown);
             ButtonType ok = new ButtonType("SELECT");
             godList.getButtonTypes().setAll(ok);
@@ -150,9 +150,9 @@ public class LoaderController implements GUIController {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
             message.setTitle("Choose your god power!");
             message.setHeaderText("Please choose your god power from one of the list below.");
-            assert req.choosable != null;
-            message.setContentText(req.message + "\n" + req.choosable.stream().map(Enum::toString).collect(Collectors.joining("\n")));
-            ComboBox<Card> choices = new ComboBox<>(FXCollections.observableArrayList(req.choosable));
+            assert req.getChoosable() != null;
+            message.setContentText(req.getMessage() + "\n" + req.getChoosable().stream().map(Enum::toString).collect(Collectors.joining("\n")));
+            ComboBox<Card> choices = new ComboBox<>(FXCollections.observableArrayList(req.getChoosable()));
             message.getDialogPane().setContent(choices);
             ButtonType choose = new ButtonType("DETAILS");
             message.getButtonTypes().setAll(choose);
@@ -172,19 +172,19 @@ public class LoaderController implements GUIController {
      */
     public void challengerPhase(ChallengerMessages req) {
         gui.getModelView().toggleInput();
-        if (req.startingPlayer && req.players != null) {
+        if (req.isStartingPlayer() && req.getPlayers() != null) {
             startingPlayer(req);
         }
-        else if (req.godList != null) {
+        else if (req.getGodList() != null) {
             displayGodList(req);
         }
-        else if (req.choosable != null) {
+        else if (req.getChoosable() != null) {
             chooseGod(req);
         }
         else {
-            assert req.message != null;
+            assert req.getMessage() != null;
             Alert message = new Alert(Alert.AlertType.INFORMATION);
-            if(req.message.contains("you are the challenger")) {
+            if(req.getMessage().contains("you are the challenger")) {
                 message.setTitle("Challenger phase");
                 message.setHeaderText("Challenger phase");
                 message.setContentText("You are the challenger! Click below and choose the god power you want to put in" +
@@ -194,7 +194,7 @@ public class LoaderController implements GUIController {
             }
             else {
                 message.setTitle("Message from the server");
-                message.setContentText(req.message);
+                message.setContentText(req.getMessage());
                 ButtonType godList = new ButtonType("GODS' LIST");
                 message.getButtonTypes().setAll(godList);
             }
