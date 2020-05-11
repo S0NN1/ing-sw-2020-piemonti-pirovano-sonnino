@@ -54,8 +54,14 @@ public class ActionHandler {
         ClientBoard clientBoard = modelView.getBoard();
         if (answer instanceof SelectSpacesMessage) {
             view.firePropertyChange("select", null, answer.getMessage());
+            modelView.toggleInput();
         }
-        else{
+        else if(answer instanceof WorkersRequestMessage){
+            modelView.setTurnActive(true);
+            modelView.toggleInput();
+            view.firePropertyChange("selectWorker", null, null);
+        }
+        else {
             if (answer instanceof MoveMessage) {
                 Move message = (Move) answer.getMessage();
                 clientBoard.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
@@ -66,6 +72,8 @@ public class ActionHandler {
                 }
             } else if(answer instanceof WorkerConfirmedMessage) {
                 view.firePropertyChange("boardUpdate", null, null);
+                modelView.toggleInput();
+                return;
             } else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
@@ -119,6 +127,11 @@ public class ActionHandler {
         } else if (answer instanceof WorkerPlacement) {
             view.firePropertyChange(initial, null, "WorkerPlacement");
         }
+        else if(answer instanceof WorkersRequestMessage){
+            modelView.setTurnActive(true);
+            modelView.toggleInput();
+            view.firePropertyChange("selectWorker", null, null);
+        }
         else if(answer instanceof SetWorkersMessage) {
             SetWorkersMessage message = (SetWorkersMessage) answer;
             modelView.getBoard().setColor(message.getWorker1().getX(), message.getWorker1().getY(), message.getMessage());
@@ -149,11 +162,8 @@ public class ActionHandler {
             view.firePropertyChange("customMessage", null, answer.getMessage());
             modelView.setCanInput(((CustomMessage) answer).canInput());
         }
-        else if(answer instanceof WorkersRequestMessage){
-            modelView.toggleInput();
-            view.firePropertyChange("selectWorker", null, null);
-        }
         else if(answer instanceof GameError) {
+            modelView.toggleInput();
             view.firePropertyChange("gameError", null, answer);
         }
         else if(answer instanceof ConnectionMessage) {

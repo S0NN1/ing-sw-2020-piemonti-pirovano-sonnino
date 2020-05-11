@@ -67,8 +67,7 @@ public class ActionParser implements PropertyChangeListener {
                             :inputChecker.build(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
                 }
                 case "END" -> {
-                    sendMessage = new EndTurnAction();
-                    modelView.setTurnActive(false);
+                    sendMessage = inputChecker.endTurn();
                 }
                 case "QUIT" -> {
                     inputChecker.quit();

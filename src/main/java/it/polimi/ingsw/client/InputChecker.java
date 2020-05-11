@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
+import it.polimi.ingsw.client.messages.actions.turnActions.EndTurnAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
@@ -257,5 +258,14 @@ public class InputChecker {
             }
         }
         return null;
+    }
+
+    public EndTurnAction endTurn() {
+        if(!modelView.isMoveSelected() || !modelView.isBuildSelected()) {
+            System.err.println("You still have available actions to perform!");
+            return null;
+        }
+        modelView.setTurnActive(false);
+        return new EndTurnAction();
     }
 }

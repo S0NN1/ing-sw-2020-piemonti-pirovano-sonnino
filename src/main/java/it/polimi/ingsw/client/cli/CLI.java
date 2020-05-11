@@ -335,7 +335,6 @@ public class CLI implements UI, Runnable {
                 output.println("Generic error!");
             }
         }
-        modelView.toggleInput();
     }
 
     /**
@@ -434,8 +433,8 @@ public class CLI implements UI, Runnable {
         }
     }
     public void selectWorker(){
-        System.out.print("\t• SELECTWORKER <1/2>\n");
-        System.out.println(">");
+        System.out.print("\r\t• SELECTWORKER <1/2>\n");
+        System.out.print(">");
     }
     public void printMenu() throws InterruptedException {
         String active;
@@ -447,7 +446,7 @@ public class CLI implements UI, Runnable {
             }
             System.out.println(active + "IL TUO TURNO");
         }
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.MILLISECONDS.sleep(500);
         System.out.print("\t• MOVE\n" +
                          "\t• BUILD\n" +
                          "\t• END\n");

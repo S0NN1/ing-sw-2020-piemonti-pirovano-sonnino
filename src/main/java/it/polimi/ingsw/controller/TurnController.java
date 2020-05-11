@@ -117,7 +117,7 @@ public class TurnController implements PropertyChangeListener {
     public void startTurn(StartTurnAction arg) {
         try {
             switch (arg.option) {
-                case "start" -> gameHandler.singleSend(WorkersRequestMessage::new, gameHandler.getCurrentPlayerID());
+                case "start" -> gameHandler.singleSend(new WorkersRequestMessage(), gameHandler.getCurrentPlayerID());
                 case "worker1" -> {
                     if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0))) {
                         gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
