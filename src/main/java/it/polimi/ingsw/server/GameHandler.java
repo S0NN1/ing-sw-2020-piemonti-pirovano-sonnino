@@ -182,11 +182,11 @@ public class GameHandler {
             case "ChallengerPhase" -> {
                 challengerPhase(action);
             }
-            case ("WorkerPlacement") -> {
+            case "WorkerPlacement" -> {
                 workerPlacement((WorkerSetupMessage) action);
             }
             default ->{
-                controllerListener.firePropertyChange(null, null, action);
+                controllerListener.firePropertyChange(type, null, action);
             }
         }
     }

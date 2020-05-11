@@ -216,7 +216,7 @@ public class CLI implements UI, Runnable {
         else{player[0]=upperBody2;}
         if (mode.equals("c")) {
             for (int i = 0; i <= 1; i++) {
-                temp[i] = rows[i + 4].substring(0, indexesC[level][0]) + nameMapColor.get(BG_BLACK) + color + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1);
+                temp[i] = rows[i + 4].substring(0, indexesC[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1);
                 rows[i + 4] = temp[i];
             }
         } else {
@@ -228,12 +228,12 @@ public class CLI implements UI, Runnable {
                     } else {
                         j = 4;
                     }
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + nameMapColor.get(BG_BLACK) + color + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1 - j);
+                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1 - j);
                     rows[i + 4] = temp[i];
                 }
             } else {
                 for (int i = 0; i <= 1; i++) {
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0]) + nameMapColor.get(BG_BLACK) + color + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1);
+                    temp[i] = rows[i + 4].substring(0, indexes[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1);
                     rows[i + 4] = temp[i];
 
                 }

@@ -171,6 +171,10 @@ public class InputChecker {
      * @return moveAction
      */
     public MoveAction move(int turnPhase, int x, int y, int activeWorker){
+        if(activeWorker==0) {
+            System.err.println("Worker not selected, operation not permitted!");
+            return null;
+        }
         Couple w= findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(x,y);
         if(turnPhase == 1 || modelView.getGod().equalsIgnoreCase("PROMETHEUS") || modelView.getGod().equalsIgnoreCase("ARTEMIS")){

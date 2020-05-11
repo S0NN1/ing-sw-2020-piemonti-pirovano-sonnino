@@ -62,6 +62,7 @@ public class ModelView {
         gamePhase = 0;
         clientBoard = new ClientBoard();
         gui = null;
+        activeWorker = 0;
     }
 
     public ModelView(GUI gui) {
@@ -69,6 +70,7 @@ public class ModelView {
         this.clientBoard = new ClientBoard();
         this.cli = null;
         gamePhase = 0;
+        activeWorker = 0;
     }
 
     public synchronized ClientBoard getBoard() {
