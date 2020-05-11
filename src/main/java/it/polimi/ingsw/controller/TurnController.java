@@ -45,6 +45,7 @@ public class TurnController implements PropertyChangeListener {
 
     /**
      * Receive property changed from a PropertyChangeSupport and pass different arguments to the ActionController
+     *
      * @param evt the property change event
      */
     public void propertyChange(PropertyChangeEvent evt) {
@@ -115,9 +116,9 @@ public class TurnController implements PropertyChangeListener {
     public void startTurn(StartTurnAction arg) {
         try {
             switch (arg.option) {
-                case "start" ->gameHandler.singleSend(WorkersRequestMessage::new, gameHandler.getCurrentPlayerID());
-                case "worker1" ->actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0));
-                case "worker2" ->actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1));
+                case "start" -> gameHandler.singleSend(WorkersRequestMessage::new, gameHandler.getCurrentPlayerID());
+                case "worker1" -> actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0));
+                case "worker2" -> actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1));
             }
         } catch (NullPointerException e) {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());

@@ -366,7 +366,7 @@ public class CLI implements UI, Runnable {
                 } else if (req.getGodList() != null) {
                     req.getGodList().forEach(n -> output.print(n + ", "));
                     output.println();
-                } else if(req.getChosenGod()==null) {
+                } else if(req.getChosenGod()!=null) {
                     modelView.setGod(req.getChosenGod());
                     return;
                 }

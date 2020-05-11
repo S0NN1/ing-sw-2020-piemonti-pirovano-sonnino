@@ -18,6 +18,7 @@ public class ChallengerMessages implements Answer {
         startingPlayer = false;
         players = null;
         choosable = null;
+        chosenGod = null;
     }
 
     public ChallengerMessages(String message, boolean startingPlayer, List<String> players) {
@@ -26,6 +27,7 @@ public class ChallengerMessages implements Answer {
         this.startingPlayer = startingPlayer;
         this.players = players;
         choosable = null;
+        chosenGod = null;
     }
 
     public ChallengerMessages(List<String> list) {
@@ -34,6 +36,7 @@ public class ChallengerMessages implements Answer {
         startingPlayer = false;
         players = null;
         choosable = null;
+        chosenGod = null;
     }
 
     public ChallengerMessages(String message, List<Card> choosable) {
@@ -42,6 +45,7 @@ public class ChallengerMessages implements Answer {
         startingPlayer = false;
         players = null;
         this.choosable = choosable;
+        chosenGod = null;
     }
 
     public List<String> getGodList() {
