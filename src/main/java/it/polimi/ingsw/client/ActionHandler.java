@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
+import it.polimi.ingsw.server.answers.MatchStartedMessage;
 import it.polimi.ingsw.server.answers.*;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.*;
@@ -92,6 +93,7 @@ public class ActionHandler {
                     }
                 }
             }
+            modelView.toggleInput();
             view.firePropertyChange("boardUpdate", null,null);
         }
 
@@ -121,7 +123,9 @@ public class ActionHandler {
             modelView.getBoard().setWorkerNum(message.getWorker2().getX(), message.getWorker2().getY(), 2);
             view.firePropertyChange("boardUpdate", null, null);
         }
-
+        else if(answer instanceof MatchStartedMessage) {
+            modelView.setGamePhase(1);
+        }
     }
 
     //TODO ADD CALLS TO CLI/GUI'S METHOD

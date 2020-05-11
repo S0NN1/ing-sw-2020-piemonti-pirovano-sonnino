@@ -205,6 +205,12 @@ public class GameHandler {
             game.nextPlayer();
         }
         if(game.getCurrentPlayer().getWorkers().get(0).getPosition()!=null) {
+            singleSend(new MatchStartedMessage(), getCurrentPlayerID());
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                System.err.println(e.getMessage());
+            }
             controllerListener.firePropertyChange("turnController", null, new StartTurnAction());
             return;
         }

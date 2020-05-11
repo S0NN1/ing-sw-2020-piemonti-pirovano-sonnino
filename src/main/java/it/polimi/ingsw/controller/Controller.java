@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.SetWorkersMessage;
-import javafx.scene.layout.GridPane;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -25,7 +24,7 @@ public class Controller implements PropertyChangeListener {
     private final Game model;
     private final GameHandler gameHandler;
     private GodSelectionController selectionController;
-    private TurnController turnController;
+    private final TurnController turnController;
     private final PropertyChangeSupport controllerListeners = new PropertyChangeSupport(this);
 
 
@@ -101,7 +100,6 @@ public class Controller implements PropertyChangeListener {
             getModel().getCurrentPlayer().getWorkers().get(1).setPosition(space2);
             gameHandler.sendAll(new SetWorkersMessage(getModel().getCurrentPlayer().getWorkers().get(0).getWorkerColor(),
                     space1.getX(), space1.getY(), space2.getX(), space2.getY()));
-
         } else {
             ArrayList<int[]> invalidWorker = new ArrayList<>();
             int[] coords = new int[2];

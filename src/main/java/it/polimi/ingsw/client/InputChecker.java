@@ -108,6 +108,7 @@ public class InputChecker {
             int w=Integer.parseInt(in[3]);
             int z=Integer.parseInt(in[4]);
             if(x<0||x>=5||y<0||y>=5|| w<0||w>=5|| z<0|| z>=5){
+                System.err.println("Non-existent or unreachable cell, operation not permitted!");
                 return null;
             }
             else return action;

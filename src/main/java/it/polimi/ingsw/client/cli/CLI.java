@@ -302,6 +302,7 @@ public class CLI implements UI, Runnable {
                 if (available.contains(color)) {
                     connection.send(new ChosenColor(color));
                     modelView.setStarted(2);
+                    modelView.setColor(color.toString());
                     return;
                 } else {
                     output.println("Color not available!");
@@ -429,7 +430,7 @@ public class CLI implements UI, Runnable {
         System.out.print("\t• MOVE <x> <y>\n" +
                          "\t• BUILD <x> <y>\n" +
                          "\t• END\n");
-        System.out.println(">");
+        System.out.print(">");
     }
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
