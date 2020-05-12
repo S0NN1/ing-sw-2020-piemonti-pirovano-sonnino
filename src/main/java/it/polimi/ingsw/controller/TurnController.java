@@ -145,7 +145,7 @@ public class TurnController implements PropertyChangeListener {
             controller.getModel().nextPlayer();
             startTurn(new StartTurnAction());
         } else {
-            gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+            gameHandler.singleSend(new GameError(ErrorsType.STILLYOURTURN), gameHandler.getCurrentPlayerID());
         }
     }
 
