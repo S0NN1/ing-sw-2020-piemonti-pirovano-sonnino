@@ -40,7 +40,6 @@ public class TurnController implements PropertyChangeListener {
     public TurnController(Controller controller, GameHandler gameHandler, ActionController actionController) {
         this.controller = controller;
         this.gameHandler = gameHandler;
-        //actionController = new ActionController(controller.getModel().getGameBoard());
         this.actionController = actionController;
     }
 

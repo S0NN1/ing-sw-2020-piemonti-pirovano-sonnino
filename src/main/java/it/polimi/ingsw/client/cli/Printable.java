@@ -3,12 +3,12 @@ package it.polimi.ingsw.client.cli;
 import it.polimi.ingsw.constants.Constants;
 
 public class Printable {
-    public final String green = Constants.ANSI_GREEN;
-    private final String rst = Constants.ANSI_RESET;
-    private final String blue = Constants.ANSI_BLUE;
-    public String lineBlock = "█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████";
-    public String rowWave = blue + "≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈" + rst;
-    public String coupleRowWave = blue + "≈≈" + rst;
+    public final static String green = Constants.ANSI_GREEN;
+    private final static String rst = Constants.ANSI_RESET;
+    private final static String blue = Constants.ANSI_BLUE;
+    public final static String lineBlock = "█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████";
+    public final static String rowWave = blue + "≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈" + rst;
+    public final static String coupleRowWave = blue + "≈≈" + rst;
     public String[] levels;
     public String[] levelsC;
 

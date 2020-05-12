@@ -66,7 +66,7 @@ public class CLI implements UI, Runnable {
      *
      * @param args the standard java main parameters.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         System.out.println(Constants.SANTORINI);
         CLI cli = new CLI();
         cli.run();
