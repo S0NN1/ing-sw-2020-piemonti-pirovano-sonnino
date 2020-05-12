@@ -125,7 +125,7 @@ public class LoaderController implements GUIController {
         ComboBox<String> godListDropdown;
         LoaderController controller = (LoaderController)gui.getControllerFromName("loading.fxml");
         controller.setText("You are the challenger!");
-        while (true) {
+        do {
             Alert godList = new Alert(Alert.AlertType.CONFIRMATION);
             godList.setTitle("Choose a god");
             godList.setHeaderText("Pick a god!");
@@ -134,10 +134,7 @@ public class LoaderController implements GUIController {
             ButtonType ok = new ButtonType("SELECT");
             godList.getButtonTypes().setAll(ok);
             godList.showAndWait();
-            if (godListDropdown.getValue()!=null) {
-                if(godTile(Card.parseInput(godListDropdown.getValue()), false)) break;
-            }
-        }
+        } while (godListDropdown.getValue() == null || !godTile(Card.parseInput(godListDropdown.getValue()), false));
     }
 
     /**
