@@ -367,6 +367,7 @@ public class CLI implements UI, Runnable {
             case "WorkerPlacement" -> {
                 firstUpdateCli();
                 output.println(modelView.getServerAnswer().getMessage());
+                output.print(">");
                 modelView.toggleInput();
             }
             default -> {
@@ -487,7 +488,7 @@ public class CLI implements UI, Runnable {
 
 public void printSpaces(){
     for(int i = 0; i < modelView.getSelectSpaces().size(); i++){
-        System.out.print(modelView.getSelectSpaces().get(i).getX() + ", " + modelView.getSelectSpaces().get(i).getY() + "  ");
+        System.out.print("(" + modelView.getSelectSpaces().get(i).getX() + "," + modelView.getSelectSpaces().get(i).getY() + ")  ");
     }
 System.out.println();
 }

@@ -68,7 +68,6 @@ public class ActionParser implements PropertyChangeListener {
                 }
                 case "END" -> {
                     sendMessage = new EndTurnAction();
-                    modelView.setTurnActive(false);
                 }
                 case "QUIT" -> {
                     inputChecker.quit();
