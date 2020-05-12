@@ -136,6 +136,7 @@ public class ActionHandler {
         } else if (answer instanceof ChallengerMessages) {
             if(((ChallengerMessages)answer).getChosenGod()!=null){
                 modelView.setGod(((ChallengerMessages)answer).getChosenGod());
+                return;
             }
             view.firePropertyChange(initial, null, "GodRequest");
         } else if (answer instanceof WorkerPlacement) {

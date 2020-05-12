@@ -103,7 +103,7 @@ public class GodSelectionController implements PropertyChangeListener {
         } else {
             mainController.getModel().getDeck().chooseCard(card, client);
         }
-        mainController.getGameHandler().singleSend(new ChallengerMessages(card.name()), mainController.getGameHandler().getCurrentPlayerID());
+        mainController.getGameHandler().singleSend(new ChallengerMessages(card), mainController.getGameHandler().getCurrentPlayerID());
         mainController.getGameHandler().sendAll(new CustomMessage("The society decides for player " +
                 mainController.getModel().getCurrentPlayer().getNickname() + "! He obtained " + card.name() +
                 "\n\n" + card.godsDescription() + "\n", false));
