@@ -2,7 +2,10 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.server.answers.*;
+
+import java.util.ArrayList;
 
 /**
  * This class contains a small representation of the game model, and contains linking to the main client actions, which
@@ -23,6 +26,15 @@ public class ModelView {
     private boolean turnActive;
     private boolean buildSelected;
     private boolean moveSelected;
+    private ArrayList<Couple> selectSpaces;
+
+    public ArrayList<Couple> getSelectSpaces() {
+        return selectSpaces;
+    }
+
+    public void setSelectSpaces(ArrayList<Couple> selectSpaces) {
+        this.selectSpaces = selectSpaces;
+    }
 
     public int getTurnPhase() {
         return turnPhase;

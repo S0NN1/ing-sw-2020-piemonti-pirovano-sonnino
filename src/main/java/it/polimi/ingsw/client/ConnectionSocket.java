@@ -59,7 +59,7 @@ public class ConnectionSocket {
                     return;
                 }
             }
-            listener = new SocketListener(socket, this, modelView, input, actionHandler);
+            listener = new SocketListener(socket, modelView, input, actionHandler);
             Thread thread = new Thread(listener);
             thread.start();
         }

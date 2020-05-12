@@ -4,12 +4,15 @@ import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.messages.ChosenColor;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.ChallengerMessages;
 import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.RequestColor;
 import it.polimi.ingsw.server.answers.RequestPlayersNumber;
+import java.util.ArrayList;
+
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
@@ -233,21 +236,21 @@ public class CLI implements UI, Runnable {
      * @param grid printed board
      */
     private void printBoard(DisplayCell[][] grid) {
-        System.out.println(printable.ROW_WAVE);
-        System.out.println(printable.ROW_WAVE);
-        System.out.println(printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + printable.LINE_BLOCK + nameMapColor.get("RST") + printable.COUPLE_ROW_WAVE);
+        System.out.println(Printable.ROW_WAVE);
+        System.out.println(Printable.ROW_WAVE);
+        System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK + nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
         for (int i = 0; i <= 4; i++) {
             for (int k = 0; k <= 10; k++) {
-                System.out.print(printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
+                System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 for (int j = 0; j <= 4; j++) {
                     System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 }
-                System.out.print(printable.COUPLE_ROW_WAVE + "\n");
+                System.out.print(Printable.COUPLE_ROW_WAVE + "\n");
             }
-            System.out.println(printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + printable.LINE_BLOCK + nameMapColor.get("RST") + printable.COUPLE_ROW_WAVE);
+            System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK + nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
         }
-        System.out.println(printable.ROW_WAVE);
-        System.out.println(printable.ROW_WAVE);
+        System.out.println(Printable.ROW_WAVE);
+        System.out.println(Printable.ROW_WAVE);
     }
 
 
@@ -411,6 +414,9 @@ public class CLI implements UI, Runnable {
             case "end" -> {
                 end();
             }
+            case "select" -> {
+                printSpaces();
+            }
             default -> {
                 output.println("Unrecognized answer");
             }
@@ -483,6 +489,12 @@ public class CLI implements UI, Runnable {
         }
 }
 
+public void printSpaces(){
+    for(int i = 0; i < modelView.getSelectSpaces().size(); i++){
+        System.out.print(modelView.getSelectSpaces().get(i).getX() + ", " + modelView.getSelectSpaces().get(i).getY() + "  ");
+    }
+System.out.println();
+}
 
 
 }

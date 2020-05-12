@@ -54,8 +54,9 @@ public class ActionHandler {
     public void fullGamePhase(Answer answer) {
         ClientBoard clientBoard = modelView.getBoard();
         if (answer instanceof SelectSpacesMessage) {
-            view.firePropertyChange("select", null, answer.getMessage());
+            modelView.setSelectSpaces(((SelectSpacesMessage) answer).getMessage());
             modelView.toggleInput();
+            view.firePropertyChange("select", null, null);
         }
         else if(answer instanceof WorkersRequestMessage){
             modelView.setTurnActive(true);
