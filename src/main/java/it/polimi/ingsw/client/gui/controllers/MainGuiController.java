@@ -69,8 +69,8 @@ public class MainGuiController implements GUIController{
             if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col && node instanceof Worker) {
                 worker = (Worker) node;
                 grid.getChildren().remove(node);
+                break;
             }
-            break;
         }
         grid.add(new Block(level), col, row);
         if(worker != null) {
@@ -99,8 +99,9 @@ public class MainGuiController implements GUIController{
         for(Node node: grid.getChildren()) {
             if(GridPane.getRowIndex(node) == oldRow && GridPane.getColumnIndex(node) == oldCol && node instanceof Worker) {
                 grid.getChildren().remove(node);
+                break;
             }
-            break;
+
         }
         grid.add(new Worker(colors.get(color)), newCol, newRow);
     }

@@ -422,6 +422,7 @@ public class CLI implements UI, Runnable {
                     printMenu();
                 } catch (InterruptedException e) {
                     System.err.println(e.getMessage());
+                    Thread.currentThread().interrupt();
                 }
             }
             case "selectWorker" -> {

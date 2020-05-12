@@ -210,6 +210,7 @@ public class GameHandler {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
                 System.err.println(e.getMessage());
+                Thread.currentThread().interrupt();
             }
             controllerListener.firePropertyChange("turnController", null, new StartTurnAction());
             return;
