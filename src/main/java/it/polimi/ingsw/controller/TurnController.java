@@ -76,22 +76,26 @@ public class TurnController implements PropertyChangeListener {
                 } else if (arg instanceof BuildAction) {
                     BuildAction worker_action = (BuildAction) arg;
                     if (!actionController.readMessage(worker_action)) {
-                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't build here " +
+                                        "right now!"), gameHandler.getCurrentPlayerID());
                     }
                 } else if (arg instanceof MoveAction) {
                     MoveAction worker_action = (MoveAction) arg;
                     if (!actionController.readMessage(worker_action)) {
-                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't move here " +
+                                        "right now!"), gameHandler.getCurrentPlayerID());
                     }
                 } else if (arg instanceof SelectMoveAction) {
                     SelectMoveAction worker_action = (SelectMoveAction) arg;
                     if (!actionController.readMessage(worker_action)) {
-                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't move right now!"),
+                                gameHandler.getCurrentPlayerID());
                     }
                 } else if (arg instanceof SelectBuildAction) {
                     SelectBuildAction worker_action = (SelectBuildAction) arg;
                     if (!actionController.readMessage(worker_action)) {
-                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't build right now!"),
+                                gameHandler.getCurrentPlayerID());
                     }
                 } else if (arg instanceof EndTurnAction) {
                     endTurn();
