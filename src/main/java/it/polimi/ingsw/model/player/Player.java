@@ -120,6 +120,7 @@ public class Player {
         this.card = godCard;
         workers.add(new Athena(color, controller));
         workers.add(new Athena(color, controller));
+        workers.forEach(n -> n.createListeners(client));
     }
 
 
