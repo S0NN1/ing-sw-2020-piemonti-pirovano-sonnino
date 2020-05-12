@@ -13,7 +13,6 @@ import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -66,7 +65,7 @@ public class CLI implements UI, Runnable {
      *
      * @param args the standard java main parameters.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         System.out.println(Constants.SANTORINI);
         CLI cli = new CLI();
         cli.run();
@@ -248,21 +247,21 @@ public class CLI implements UI, Runnable {
      * @param grid printed board
      */
     private void printBoard(DisplayCell[][] grid) {
-        System.out.println(printable.rowWave);
-        System.out.println(printable.rowWave);
-        System.out.println(printable.coupleRowWave + nameMapColor.get(YELLOW) + printable.lineBlock + nameMapColor.get("RST") + printable.coupleRowWave);
+        System.out.println(printable.ROW_WAVE);
+        System.out.println(printable.ROW_WAVE);
+        System.out.println(printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + printable.LINE_BLOCK + nameMapColor.get("RST") + printable.COUPLE_ROW_WAVE);
         for (int i = 0; i <= 4; i++) {
             for (int k = 0; k <= 10; k++) {
-                System.out.print(printable.coupleRowWave + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
+                System.out.print(printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 for (int j = 0; j <= 4; j++) {
                     System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 }
-                System.out.print(printable.coupleRowWave + "\n");
+                System.out.print(printable.COUPLE_ROW_WAVE + "\n");
             }
-            System.out.println(printable.coupleRowWave + nameMapColor.get(YELLOW) + printable.lineBlock + nameMapColor.get("RST") + printable.coupleRowWave);
+            System.out.println(printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + printable.LINE_BLOCK + nameMapColor.get("RST") + printable.COUPLE_ROW_WAVE);
         }
-        System.out.println(printable.rowWave);
-        System.out.println(printable.rowWave);
+        System.out.println(printable.ROW_WAVE);
+        System.out.println(printable.ROW_WAVE);
     }
 
 

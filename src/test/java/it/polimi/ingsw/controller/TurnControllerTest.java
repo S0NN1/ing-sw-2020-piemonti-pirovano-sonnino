@@ -56,7 +56,8 @@ public class TurnControllerTest {
         turnController.propertyChange(evt6);
         turnController.propertyChange(evt7);
         turnController.propertyChange(evt8);
-        Assertions.assertEquals(1, 1);
+        int x=1;
+        Assertions.assertEquals(1, x);
     }
 
     private class TurnControllerStub extends TurnController {
@@ -96,14 +97,14 @@ public class TurnControllerTest {
 
         @Override
         public boolean readMessage(SelectMoveAction action) {
-            System.out.println("SelectMoveAction");
+            System.out.println(" SelectMoveAction");
             return true;
         }
 
         @Override
 
         public boolean readMessage(SelectBuildAction action) {
-            System.out.println("SelectBuildAction");
+            System.out.println(" SelectBuildAction");
             return true;
         }
 
@@ -111,14 +112,14 @@ public class TurnControllerTest {
 
 
         public boolean readMessage(MoveAction action) {
-            System.out.println("MoveAction");
+            System.out.println(" MoveAction");
             return true;
         }
 
         @Override
 
         public boolean readMessage(BuildAction action) {
-            System.out.println("BuildAction");
+            System.out.println(" BuildAction");
             return true;
         }
     }

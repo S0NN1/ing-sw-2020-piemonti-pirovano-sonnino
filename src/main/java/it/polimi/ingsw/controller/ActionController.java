@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.player.gods.Atlas;
 import it.polimi.ingsw.model.player.gods.Minotaur;
 
-import java.beans.PropertyChangeListener;
 
 /**
  * @author Alice Piemonti
