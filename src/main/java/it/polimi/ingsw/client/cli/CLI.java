@@ -29,6 +29,7 @@ public class CLI implements UI, Runnable {
     private static final String YELLOW = "YELLOW";
     private static final String BG_BLACK = "BACKGROUND_BLACK";
     private static final String RST = "RST";
+    private static final String WHITE = "WHITE";
     private final HashMap<String, String> nameMapColor = new HashMap<>();
     private final PrintStream output;
     private final Scanner input;
@@ -60,6 +61,7 @@ public class CLI implements UI, Runnable {
         nameMapColor.put("BLUE", Constants.ANSI_BLUE);
         nameMapColor.put("CYAN", Constants.ANSI_CYAN);
         nameMapColor.put(BG_BLACK, Constants.ANSI_BACKGROUND_BLACK);
+        nameMapColor.put(WHITE, Constants.ANSI_WHITE);
     }
 
     /**
@@ -191,13 +193,17 @@ public class CLI implements UI, Runnable {
      * @param level int
      */
     private void addWorkerToCell(String color, String[] rows, int level, int type) {
-        String[] temp = new String[2];
-        String[] player = new String[2];
+        String black;
+        String[] temp = new String[3];
+        String[] player = new String[3];
         int[][] indexes = new int[5][1];
         String upperBody = "☻";
         String upperBody2 = "☺";
+        String lowerBody = nameMapColor.get(WHITE) + "1";
+        String lowerBody2 = nameMapColor.get(WHITE) + "2";
         player[0] = null;
         player[1] = "▲";
+        player[2] = null;
         indexes[0][0] = 16;
         indexes[1][0] = 11;
         indexes[2][0] = 21;
@@ -205,25 +211,29 @@ public class CLI implements UI, Runnable {
         indexes[4][0] = 34;
         if (type == 1) {
             player[0] = upperBody;
+            player[2] = lowerBody;
         } else {
             player[0] = upperBody2;
+            player[2] = lowerBody2;
         }
-            if (level == 4 || level == 3) {
-                for (int i = 0; i <= 1; i++) {
+            if (level == 3) {
+                for (int i = 0; i <= 2; i++) {
                     int j;
                     if (i == 0) {
                         j = 0;
-                    } else {
+                    } else if(i==1){
                         j = 4;
                     }
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0]- j);
+                    else{
+                        j= -2;
+                    }
+                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j);
                     rows[i + 4] = temp[i];
                 }
             } else {
-                for (int i = 0; i <= 1; i++) {
+                for (int i = 0; i <= 2; i++) {
                     temp[i] = rows[i + 4].substring(0, indexes[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(RST) +rows[i + 4].substring(indexes[level][0] + 1);
                     rows[i + 4] = temp[i];
-
                 }
             }
         }
