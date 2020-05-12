@@ -1,22 +1,23 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import it.polimi.ingsw.client.Cell;
 import it.polimi.ingsw.client.ClientBoard;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.shapes.Block;
 import it.polimi.ingsw.client.gui.shapes.Dome;
 import it.polimi.ingsw.client.gui.shapes.Worker;
 import it.polimi.ingsw.constants.Constants;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
-import javafx.geometry.Pos;
+import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 import java.util.HashMap;
 
@@ -32,6 +33,20 @@ public class MainGuiController implements GUIController{
     private ClientBoard board;
     @FXML
     GridPane grid;
+    @FXML
+    Label test;
+    @FXML
+    Button buttonMove, buttonBuild;
+    @FXML
+    AnchorPane anchor;
+
+    EventHandler<MouseEvent> workerClick = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            buttonMove.setVisible(true);
+            buttonBuild.setVisible(true);
+        }
+    };
 
     /**
      * constructor
@@ -46,6 +61,50 @@ public class MainGuiController implements GUIController{
         colors.put(Constants.ANSI_CYAN, Color.CYAN);
     }
 
+   /* public void eventGrid(){
+        grid.getChildren().forEach(node -> node.setOnMouseClicked(new EventHandler <MouseEvent>() {
+                    public void handle(MouseEvent event) {
+                        node.setMouseTransparent(true);
+                        event.setDragDetect(true);
+                    }
+        }));
+    }*/
+
+    public void testDragAndDrop(){
+        Button button = new Button();
+        anchor.getChildren().add(button);
+        final double[] x = new double[1];
+        final double[] y = new double[1];
+        button.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                // record a delta distance for the drag and drop operation.
+                 x[0] = button.getLayoutX() - mouseEvent.getSceneX();
+                 y[0] = button.getLayoutY() - mouseEvent.getSceneY();
+                button.setCursor(Cursor.MOVE);
+            }
+        });
+        button.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                button.setCursor(Cursor.HAND);
+            }
+        });
+        button.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                button.setLayoutX(mouseEvent.getSceneX() + x[0]);
+                button.setLayoutY(mouseEvent.getSceneY() + y[0]);
+            }
+        });
+        button.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                button.setCursor(Cursor.HAND);
+            }
+        });
+    }
+
     /**
      * add a triangle (worker) into gridPane at row/col
      * @param row of the grid
@@ -53,7 +112,7 @@ public class MainGuiController implements GUIController{
      * @param color of the worker
      */
     public void setWorker(int row, int col, String color) {
-        grid.add(new Worker(colors.get(color)),col,row);
+        grid.add(new Worker(colors.get(color), workerClick),col,row);
     }
 
     /**
@@ -103,7 +162,7 @@ public class MainGuiController implements GUIController{
             }
 
         }
-        grid.add(new Worker(colors.get(color)), newCol, newRow);
+        grid.add(new Worker(colors.get(color), workerClick), newCol, newRow);
     }
 
     /**
@@ -145,7 +204,7 @@ public class MainGuiController implements GUIController{
             }
         }
         if(remove != null) grid.getChildren().remove(remove);
-        grid.add(new Worker(colors.get(board.getColor(newRow2, newCol2))), newCol2, newRow2);
+        grid.add(new Worker(colors.get(board.getColor(newRow2, newCol2)), workerClick), newCol2, newRow2);
     }
 
     @Override

@@ -82,9 +82,12 @@ public class GUI11 extends Application {
         gui.getModelView().getBoard().minotaurDoubleMove(2,2,2,1,2,0);
         controller.minotaurDoubleMove(2,2,2,1,2,0);
 
+        //dome
         controller.addDome(2,2);
         controller.addDome(2,4);
 
+        //event
+        controller.testDragAndDrop();
         primaryStage.show();
 
     }

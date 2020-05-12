@@ -1,5 +1,9 @@
-.playerBoard{
+.playerBoard {
     -fx-background-image: url("../graphics/bgs/player_board.png");
     -fx-background-size: stretch;
+}
 
+.rightBoard {
+    -fx-background-image: url("../graphics/btns/cm_btn_blue.png");
+    -fx-background-size: stretch;
 }

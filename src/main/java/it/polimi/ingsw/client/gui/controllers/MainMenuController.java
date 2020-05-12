@@ -64,13 +64,13 @@ public class MainMenuController implements GUIController{
     }
 
     /**
-     * The GUI start methos, which is bound to the setup FXML scene. It instantiates a socket connection with the remote
+     * The GUI start method, which is bound to the setup FXML scene. It instantiates a socket connection with the remote
      * server and change the scene to the loader one.
      * @param event the join pressed event.
      */
     public void start(ActionEvent event) {
         if(username.getText().equals("") || address.getText().equals("") || port.getText().equals("")) {
-            confirmation.setText("Error: missing paramenters!");
+            confirmation.setText("Error: missing parameters!");
         }
         else {
             LoaderController loaderController = null;
