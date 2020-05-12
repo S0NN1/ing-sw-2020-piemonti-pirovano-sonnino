@@ -79,11 +79,12 @@ public class Printable {
             if (i == 3) {
                 String sixLineBlock = "██████";
                 String seventeenLineBlock = "█████████████████";
+                String eightLineBlock = "████████";
                 String lvl3 = upperLvl1 + "\n" +
                         verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + threeLineBlock + cyan + sevenLineBlock + sixLineBlock + RESET + threeLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + singleLineBlock + cyan + nineLineBlock + cyan + sevenLineBlock + RESET + singleLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + singleLineBlock + cyan + nineLineBlock + cyan + eightLineBlock + RESET + singleLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + cyan + nineLineBlock + cyan + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + singleLineBlock + cyan + seventeenLineBlock + RESET + singleLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + threeLineBlock + cyan + sevenLineBlock + sixLineBlock + RESET + threeLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +

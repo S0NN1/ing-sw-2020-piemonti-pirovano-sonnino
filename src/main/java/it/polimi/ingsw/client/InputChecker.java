@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
+import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
@@ -21,9 +22,6 @@ import java.util.Objects;
  */
 public class InputChecker {
     public static final String ERR_NONEXISTENT_UNREACHABLE = "Non-existent or unreachable cell, operation not permitted!";
-    private static final String GOD_NOT_FOUND = "Not existing god with your input's name.";
-    private static final String RED = Constants.ANSI_RED;
-    private static final String RST = Constants.ANSI_RESET;
     public static final String PROMETHEUS = "PROMETHEUS";
     public static final String ATLAS = "ATLAS";
     public static final String DEMETER = "DEMETER";
@@ -34,6 +32,9 @@ public class InputChecker {
     public static final String ERR_INCORRECT_ACTION = "Incorrect action, wrong turn phase!";
     public static final String ERR_WORKER_NOT_SELECTED = "Worker not selected, operation not permitted!";
     public static final String CELL_WITH_DOME = "Cell with dome, operation not permitted!";
+    private static final String GOD_NOT_FOUND = "Not existing god with your input's name.";
+    private static final String RED = Constants.ANSI_RED;
+    private static final String RST = Constants.ANSI_RESET;
     private final ConnectionSocket connection;
     private final ModelView modelView;
 
@@ -155,7 +156,7 @@ public class InputChecker {
      * @return buildAction
      */
     public BuildAction build(int turnPhase, int x, int y, int activeWorker) {
-        if(!modelView.isBuildSelected()) {
+        if (!modelView.isBuildSelected()) {
             System.err.println("You must run BUILD (no args) command before!");
             return null;
         }
@@ -184,20 +185,19 @@ public class InputChecker {
         }
     }
 
-    public SelectBuildAction build(int turnPhase, int activeWorker){
+    public SelectBuildAction build(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        }
-        else if (turnPhase == 1 || modelView.getGod().equalsIgnoreCase(ATLAS) || modelView.getGod().equalsIgnoreCase(DEMETER) || modelView.getGod().equalsIgnoreCase(PROMETHEUS)) {
+        } else if (turnPhase == 1 || modelView.getGod().equalsIgnoreCase(ATLAS) || modelView.getGod().equalsIgnoreCase(DEMETER) || modelView.getGod().equalsIgnoreCase(PROMETHEUS)) {
             modelView.setBuildSelected(true);
             return new SelectBuildAction();
-        }
-        else{
+        } else {
             System.err.println(ERR_INCORRECT_ACTION);
             return null;
         }
-        }
+    }
+
     /**
      * Check if move is possible
      *
@@ -208,7 +208,7 @@ public class InputChecker {
      * @return moveAction
      */
     public MoveAction move(int turnPhase, int x, int y, int activeWorker) {
-        if(!modelView.isMoveSelected()) {
+        if (!modelView.isMoveSelected()) {
             System.err.println("You must run MOVE (no args) command before!");
             return null;
         }
@@ -247,16 +247,14 @@ public class InputChecker {
 
     }
 
-    public SelectMoveAction move(int turnPhase, int activeWorker){
+    public SelectMoveAction move(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        }
-        else if (turnPhase == 0 || modelView.getGod().equalsIgnoreCase(PROMETHEUS) || modelView.getGod().equalsIgnoreCase(ARTEMIS)) {
+        } else if (turnPhase == 0 || modelView.getGod().equalsIgnoreCase(PROMETHEUS) || modelView.getGod().equalsIgnoreCase(ARTEMIS)) {
             modelView.setMoveSelected(true);
             return new SelectMoveAction();
-        }
-        else {
+        } else {
             System.err.println(ERR_INCORRECT_ACTION);
             return null;
         }
@@ -273,5 +271,18 @@ public class InputChecker {
             }
         }
         return null;
+    }
+
+    public StartTurnAction selectWorker(String[] in) {
+        String var;
+        if (Integer.parseInt(in[1]) == 1) {
+            var = "worker1";
+        } else if (Integer.parseInt(in[1]) == 2) {
+            var = "worker2";
+        } else {
+            System.err.println("Non-existent worker, operation not permitted!");
+            return null;
+        }
+        return new StartTurnAction(var);
     }
 }

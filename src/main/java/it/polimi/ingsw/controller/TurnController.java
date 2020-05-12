@@ -52,17 +52,15 @@ public class TurnController implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         int i = 0;
         if (evt.getNewValue().equals("AthenaMovedUp")) {
-            while (i <= 2) {
+            while (i < controller.getModel().getActivePlayers().size()) {
                 if (!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))) {
                     controller.getModel().getActivePlayers().get(i).getWorkers().get(0).setCanMoveUp(false);
                     controller.getModel().getActivePlayers().get(i).getWorkers().get(1).setCanMoveUp(false);
                 }
                 i++;
             }
-        }
-
-        if (evt.getNewValue().equals("AthenaNormalMove")) {
-            while (i <= 2) {
+        } else if (evt.getNewValue().equals("AthenaNormalMove")) {
+            while (i < controller.getModel().getActivePlayers().size()) {
                 if (!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))) {
                     controller.getModel().getActivePlayers().get(i).getWorkers().get(0).setCanMoveUp(true);
                     controller.getModel().getActivePlayers().get(i).getWorkers().get(1).setCanMoveUp(true);
@@ -75,32 +73,27 @@ public class TurnController implements PropertyChangeListener {
                 if (arg instanceof StartTurnAction) {
                     StartTurnAction start_action = (StartTurnAction) arg;
                     startTurn(start_action);
-                }
-                else if (arg instanceof BuildAction) {
+                } else if (arg instanceof BuildAction) {
                     BuildAction worker_action = (BuildAction) arg;
                     if (!actionController.readMessage(worker_action)) {
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                     }
-                }
-                else if (arg instanceof MoveAction) {
+                } else if (arg instanceof MoveAction) {
                     MoveAction worker_action = (MoveAction) arg;
                     if (!actionController.readMessage(worker_action)) {
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                     }
-                }
-                else if (arg instanceof SelectMoveAction) {
+                } else if (arg instanceof SelectMoveAction) {
                     SelectMoveAction worker_action = (SelectMoveAction) arg;
                     if (!actionController.readMessage(worker_action)) {
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                     }
-                }
-                else if (arg instanceof SelectBuildAction) {
+                } else if (arg instanceof SelectBuildAction) {
                     SelectBuildAction worker_action = (SelectBuildAction) arg;
                     if (!actionController.readMessage(worker_action)) {
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                     }
-                }
-                else if (arg instanceof EndTurnAction) {
+                } else if (arg instanceof EndTurnAction) {
                     endTurn();
                 }
             }
@@ -121,12 +114,14 @@ public class TurnController implements PropertyChangeListener {
                 case "worker1" -> {
                     if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0))) {
                         gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
-                    } else gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                    } else
+                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                 }
                 case "worker2" -> {
-                    if(actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1))) {
+                    if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1))) {
                         gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
-                    } else gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                    } else
+                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                 }
                 default -> gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
             }

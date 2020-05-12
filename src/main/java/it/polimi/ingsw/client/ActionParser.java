@@ -37,7 +37,6 @@ public class ActionParser implements PropertyChangeListener {
         String command = in[0];
         int turnPhase = modelView.getTurnPhase();
         UserAction sendMessage;
-        String var;
         try {
             switch (command.toUpperCase()) {
                 case "GODLIST" -> {
@@ -50,13 +49,10 @@ public class ActionParser implements PropertyChangeListener {
                 case "STARTER" -> sendMessage = inputChecker.starter(in);
                 case "SET" -> sendMessage = inputChecker.set(in);
                 case "SELECTWORKER" -> {
-                    modelView.setActiveWorker(Integer.parseInt(in[1]));
-                    if(Integer.parseInt(in[1])==1){
-                         var = "worker1";
+                    sendMessage = inputChecker.selectWorker(in);
+                    if(sendMessage!=null) {
+                        modelView.setActiveWorker(Integer.parseInt(in[1]));
                     }
-                    else { var ="worker2";}
-                    connection.send(new StartTurnAction(var));
-                    return false;
                 }
                 case "MOVE" -> {
                     sendMessage = (in.length==1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
