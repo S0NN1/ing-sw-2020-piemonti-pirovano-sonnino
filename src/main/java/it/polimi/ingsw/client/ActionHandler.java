@@ -141,8 +141,8 @@ public class ActionHandler {
         }
         else if(answer instanceof WorkersRequestMessage){
             modelView.setTurnActive(true);
-            view.firePropertyChange("firstBoardUpdate", null, null);
             modelView.toggleInput();
+            view.firePropertyChange("firstBoardUpdate", null, null);
             view.firePropertyChange("selectWorker", null, null);
         }
         else if(answer instanceof SetWorkersMessage) {
@@ -189,4 +189,8 @@ public class ActionHandler {
             }
         }
     }
+
+
+
+
 }

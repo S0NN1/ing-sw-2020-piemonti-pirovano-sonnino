@@ -370,7 +370,7 @@ public class CLI implements UI, Runnable {
                 modelView.toggleInput();
             }
             default -> {
-                output.println("Noting to do");
+                output.println("Nothing to do");
             }
         }
     }
@@ -454,10 +454,6 @@ public class CLI implements UI, Runnable {
         } else active = "";
         System.out.println(active + "YOUR TURN");
         TimeUnit.MILLISECONDS.sleep(500);
-        System.out.print("\t• MOVE\n" +
-                "\t• BUILD\n" +
-                "\t• END\n");
-        System.out.print(">");
     }
 
     public static void clearScreen() {
