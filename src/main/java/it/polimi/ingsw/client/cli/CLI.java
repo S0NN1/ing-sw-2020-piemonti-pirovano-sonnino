@@ -223,11 +223,11 @@ public class CLI implements UI, Runnable {
                         j = 0;
                         h=j;
                     } else if(i==1){
-                        j = 5;
-                        h=j;
+                        j = 4;
+                        h=j-1;
                     }
                     else{
-                        j= -2;
+                        j= 0;
                         h=0;
                     }
                     temp[i] = rows[i + 4].substring(0, indexes[level][0] - h) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
