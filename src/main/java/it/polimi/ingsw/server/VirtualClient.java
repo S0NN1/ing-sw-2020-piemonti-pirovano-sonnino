@@ -44,10 +44,6 @@ public class VirtualClient implements Observer {
         return(socketClientConnection!=null);
     }
 
-    public void setSocketClientConnection(SocketClientConnection clientConnection) {
-        this.socketClientConnection = clientConnection;
-    }
-
     /**
      * @return the game manager of his match.
      */

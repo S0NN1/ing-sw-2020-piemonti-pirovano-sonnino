@@ -12,7 +12,7 @@ import java.util.Observable;
  */
 public class CardSelectionModel extends Observable {
     private Card selectedGod;
-    private Deck deck;
+    private final Deck deck;
 
     /**
      * Constructor of the class; it receives the deck from the Game, in order to put the chosen cards inside it.
