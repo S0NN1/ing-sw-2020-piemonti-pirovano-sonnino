@@ -128,6 +128,7 @@ public class TurnController implements PropertyChangeListener {
                         gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
                     } else gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                 }
+                default -> gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
             }
         } catch (NullPointerException e) {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
