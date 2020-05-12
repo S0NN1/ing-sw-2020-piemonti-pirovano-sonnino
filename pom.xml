@@ -17,7 +17,6 @@
     <maven.compiler.source>1.14</maven.compiler.source>
     <maven.compiler.target>1.14</maven.compiler.target>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-    <sonar.language>java</sonar.language>
     <sonar.projectKey>ing-sw-2020</sonar.projectKey>
   </properties>
 
@@ -109,6 +108,11 @@
           <source>14</source>
           <target>14</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.6.0.1398</version>
       </plugin>
     </plugins>
   </build>
