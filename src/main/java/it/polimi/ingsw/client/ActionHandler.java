@@ -63,6 +63,7 @@ public class ActionHandler {
             view.firePropertyChange("selectWorker", null, null);
         }
         else {
+            String boardUpdate = "boardUpdate";
             if (answer instanceof MoveMessage) {
                 Move message = (Move) answer.getMessage();
                 clientBoard.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
@@ -72,7 +73,7 @@ public class ActionHandler {
                     modelView.setMoveSelected(false);
                 }
             } else if(answer instanceof WorkerConfirmedMessage) {
-                view.firePropertyChange("boardUpdate", null, null);
+                view.firePropertyChange(boardUpdate, null, null);
                 modelView.toggleInput();
                 return;
             } else if (answer instanceof BuildMessage) {
@@ -107,7 +108,7 @@ public class ActionHandler {
                 }
             }
             modelView.toggleInput();
-            view.firePropertyChange("boardUpdate", null,null);
+            view.firePropertyChange(boardUpdate, null,null);
         }
 
     }
@@ -174,6 +175,9 @@ public class ActionHandler {
             if(cli!=null) {
                 view.firePropertyChange("connectionClosed", null, answer.getMessage());
                 cli.toggleActiveGame(false);
+            }
+            else if(gui!=null) {
+                //TODO
             }
         }
     }
