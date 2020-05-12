@@ -134,6 +134,9 @@ public class ActionHandler {
         } else if (answer instanceof RequestColor) {
             view.firePropertyChange(initial, null, "RequestColor");
         } else if (answer instanceof ChallengerMessages) {
+            if(((ChallengerMessages)answer).getChosenGod()!=null){
+                modelView.setGod(((ChallengerMessages)answer).getChosenGod());
+            }
             view.firePropertyChange(initial, null, "GodRequest");
         } else if (answer instanceof WorkerPlacement) {
             modelView.setTurnActive(true);
