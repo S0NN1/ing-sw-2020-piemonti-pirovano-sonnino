@@ -33,7 +33,7 @@ public class MainMenuController implements GUIController{
     private TextField port;
     @FXML
     private Label confirmation;
-    private final static String url = "https://sonar.lucapirovano.com";
+    private final static String URL = "https://sonar.lucapirovano.com";
 
     /**
      * Opens the project home website.
@@ -42,7 +42,7 @@ public class MainMenuController implements GUIController{
      * @throws IOException for the browse function.
      */
     public void about(ActionEvent evt) throws URISyntaxException, IOException {
-        Desktop.getDesktop().browse(new URI(url));
+        Desktop.getDesktop().browse(new URI(URL));
     }
 
     /**

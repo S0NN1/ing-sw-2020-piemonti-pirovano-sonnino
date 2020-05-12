@@ -28,7 +28,7 @@ public class LoaderController implements GUIController {
     private GUI gui;
     @FXML
     private Label displayStatus;
-    private static final String action = "action";
+    private static final String ACTION = "action";
 
     /**
      * Set new text label on the loader screen.
@@ -96,7 +96,7 @@ public class LoaderController implements GUIController {
                 i+=2;
             }
         }
-        gui.getObservers().firePropertyChange(action, null, "SET " + positions[0] + " " +
+        gui.getObservers().firePropertyChange(ACTION, null, "SET " + positions[0] + " " +
                 positions[1] + " " + positions[2] + " " + positions[3]);
     }
 
@@ -113,7 +113,7 @@ public class LoaderController implements GUIController {
         req.getPlayers().forEach(n -> players.put(n, new ButtonType(n)));
         startingPlayer.getButtonTypes().setAll(players.values());
         Optional<ButtonType> result = startingPlayer.showAndWait();
-        result.ifPresent(buttonType -> gui.getObservers().firePropertyChange(action, null, "STARTER " + req.getPlayers().indexOf(buttonType.getText())));
+        result.ifPresent(buttonType -> gui.getObservers().firePropertyChange(ACTION, null, "STARTER " + req.getPlayers().indexOf(buttonType.getText())));
     }
 
     /**
@@ -199,7 +199,7 @@ public class LoaderController implements GUIController {
                 message.getButtonTypes().setAll(godList);
             }
             message.showAndWait();
-            gui.getObservers().firePropertyChange(action, null, "GODLIST");
+            gui.getObservers().firePropertyChange(ACTION, null, "GODLIST");
         }
     }
 
