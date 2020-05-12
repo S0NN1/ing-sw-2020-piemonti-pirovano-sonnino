@@ -150,7 +150,6 @@ public class ActionHandler {
         }
     }
 
-    //TODO ADD CALLS TO CLI/GUI'S METHOD
     /**
      * Handles the answer received from the server. It calls the client interface passing values relying on the type
      * of answer the server has sent.
