@@ -13,7 +13,6 @@ import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;

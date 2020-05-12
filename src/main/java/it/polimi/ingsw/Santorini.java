@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Santorini {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         switch (args[0].toUpperCase()) {
             case "SERVER":
                 Server.main(null);

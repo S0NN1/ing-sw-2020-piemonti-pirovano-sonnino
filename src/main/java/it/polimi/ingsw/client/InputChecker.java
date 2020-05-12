@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author Luca Pirovano, Nicolò Sonnino
  */
 public class InputChecker {
-    public static final String ERR_UNEXIST_UNREACHABLE = "Non-existent or unreachable cell, operation not permitted!";
+    public static final String ERR_NONEXISTENT_UNREACHABLE = "Non-existent or unreachable cell, operation not permitted!";
     private static final String GOD_NOT_FOUND = "Not existing god with your input's name.";
     private static final String RED = Constants.ANSI_RED;
     private static final String RST = Constants.ANSI_RESET;
@@ -128,7 +128,7 @@ public class InputChecker {
             int w = Integer.parseInt(in[3]);
             int z = Integer.parseInt(in[4]);
             if (x < 0 || x >= 5 || y < 0 || y >= 5 || w < 0 || w >= 5 || z < 0 || z >= 5) {
-                System.err.println(ERR_UNEXIST_UNREACHABLE);
+                System.err.println(ERR_NONEXISTENT_UNREACHABLE);
                 return null;
             } else return action;
         } catch (NumberFormatException e) {
@@ -164,7 +164,7 @@ public class InputChecker {
         BuildAction build = new BuildAction(x, y);
         if (turnPhase == 1 || modelView.getGod().equalsIgnoreCase(ATLAS) || modelView.getGod().equalsIgnoreCase(DEMETER) || modelView.getGod().equalsIgnoreCase(PROMETHEUS)) {
             if (x < 0 || x >= 5 || y < 0 || y >= 5 || x >= Objects.requireNonNull(w).getX() + 2 || x <= w.getX() - 2 || y >= w.getY() + 2 || y <= w.getY() - 2) {
-                System.out.println(RED + ERR_UNEXIST_UNREACHABLE + RST);
+                System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;
             } else {
                 if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
@@ -218,7 +218,7 @@ public class InputChecker {
         MoveAction move = new MoveAction(x, y);
         if (turnPhase == 0 || modelView.getGod().equalsIgnoreCase(PROMETHEUS) || modelView.getGod().equalsIgnoreCase(ARTEMIS)) {
             if (x < 0 || x >= 5 || y < 0 || y >= 5 || x >= Objects.requireNonNull(w).getX() + 2 || x <= w.getX() - 2 || y >= w.getY() + 2 || y <= w.getY() - 2) {
-                System.out.println(RED + ERR_UNEXIST_UNREACHABLE + RST);
+                System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;
             } else {
                 if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
