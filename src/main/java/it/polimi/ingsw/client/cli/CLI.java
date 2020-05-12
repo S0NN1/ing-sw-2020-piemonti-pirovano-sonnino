@@ -4,14 +4,12 @@ import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.messages.ChosenColor;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.ChallengerMessages;
 import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.RequestColor;
 import it.polimi.ingsw.server.answers.RequestPlayersNumber;
-import java.util.ArrayList;
 
 
 import java.beans.PropertyChangeEvent;
@@ -348,9 +346,9 @@ public class CLI implements UI, Runnable {
                 if (req.isStartingPlayer() && req.getPlayers() != null) {
                     output.println(req.getMessage());
                     req.getPlayers().forEach(n -> output.println(req.getPlayers().indexOf(n) + ": " + n + ","));
-                } else if (req.getChoosable() != null) {
+                } else if (req.getSelectable() != null) {
                     output.println(req.getMessage());
-                    req.getChoosable().forEach(n -> output.println(n.toString() + "\n" + n.godsDescription()));
+                    req.getSelectable().forEach(n -> output.println(n.toString() + "\n" + n.godsDescription()));
                     output.println("\nSelect your god by typing choose <god-name>:");
                 } else if (req.getGodList() != null) {
                     req.getGodList().forEach(n -> output.print(n + ", "));

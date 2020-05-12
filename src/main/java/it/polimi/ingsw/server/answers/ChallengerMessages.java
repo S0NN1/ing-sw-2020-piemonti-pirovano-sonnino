@@ -7,17 +7,17 @@ import java.util.List;
 public class ChallengerMessages implements Answer {
     private final String message;
     private final List<String> godList;
-    private final List<Card> choosable;
+    private final List<Card> selectable;
     private final boolean startingPlayer;
     private final List<String> players;
-    private String chosenGod;
+    private final String chosenGod;
 
     public ChallengerMessages(String message) {
         this.message = message;
         this.godList = null;
         startingPlayer = false;
         players = null;
-        choosable = null;
+        selectable = null;
         chosenGod = null;
     }
 
@@ -26,7 +26,7 @@ public class ChallengerMessages implements Answer {
         this.godList = null;
         this.startingPlayer = startingPlayer;
         this.players = players;
-        choosable = null;
+        selectable = null;
         chosenGod = null;
     }
 
@@ -35,25 +35,34 @@ public class ChallengerMessages implements Answer {
         this.message = null;
         startingPlayer = false;
         players = null;
-        choosable = null;
+        selectable = null;
         chosenGod = null;
     }
 
-    public ChallengerMessages(String message, List<Card> choosable) {
+    public ChallengerMessages(String message, List<Card> selectable) {
         this.godList = null;
         this.message = message;
         startingPlayer = false;
         players = null;
-        this.choosable = choosable;
+        this.selectable = selectable;
         chosenGod = null;
+    }
+
+    public ChallengerMessages(Card chosenGod) {
+        this.godList = null;
+        this.message = null;
+        startingPlayer = false;
+        players = null;
+        this.selectable = null;
+        this.chosenGod = chosenGod.name();
     }
 
     public List<String> getGodList() {
         return godList;
     }
 
-    public List<Card> getChoosable() {
-        return choosable;
+    public List<Card> getSelectable() {
+        return selectable;
     }
 
     public boolean isStartingPlayer() {
@@ -66,10 +75,6 @@ public class ChallengerMessages implements Answer {
 
     public String getChosenGod() {
         return chosenGod;
-    }
-
-    public void setChosenGod(String chosenGod) {
-        this.chosenGod = chosenGod;
     }
 
     @Override
