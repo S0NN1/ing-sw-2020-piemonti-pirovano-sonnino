@@ -85,7 +85,7 @@ public class Printable {
                         verticalDoubleLine + purple + verticalLine + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + threeLineBlock + cyan + sevenLineBlock + sixLineBlock + RESET + threeLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + singleLineBlock + cyan + nineLineBlock + cyan + eightLineBlock + RESET + singleLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + cyan + nineLineBlock + cyan + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + cyan + nineLineBlock + cyan + singleLineBlock +cyan + nineLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + singleLineBlock + cyan + seventeenLineBlock + RESET + singleLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + threeLineBlock + cyan + sevenLineBlock + sixLineBlock + RESET + threeLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
