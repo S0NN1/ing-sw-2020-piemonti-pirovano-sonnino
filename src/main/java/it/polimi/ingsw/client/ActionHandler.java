@@ -59,6 +59,7 @@ public class ActionHandler {
         else if(answer instanceof WorkersRequestMessage){
             modelView.setTurnActive(true);
             modelView.toggleInput();
+            view.firePropertyChange("firstBoardUpdate", null, null);
             view.firePropertyChange("selectWorker", null, null);
         }
         else {
@@ -125,10 +126,12 @@ public class ActionHandler {
         } else if (answer instanceof ChallengerMessages) {
             view.firePropertyChange(initial, null, "GodRequest");
         } else if (answer instanceof WorkerPlacement) {
+            modelView.setTurnActive(true);
             view.firePropertyChange(initial, null, "WorkerPlacement");
         }
         else if(answer instanceof WorkersRequestMessage){
             modelView.setTurnActive(true);
+            view.firePropertyChange("firstBoardUpdate", null, null);
             modelView.toggleInput();
             view.firePropertyChange("selectWorker", null, null);
         }
@@ -138,7 +141,8 @@ public class ActionHandler {
             modelView.getBoard().setWorkerNum(message.getWorker1().getX(), message.getWorker1().getY(), 1);
             modelView.getBoard().setColor(message.getWorker2().getX(), message.getWorker2().getY(), message.getMessage());
             modelView.getBoard().setWorkerNum(message.getWorker2().getX(), message.getWorker2().getY(), 2);
-            view.firePropertyChange("boardUpdate", null, null);
+            modelView.setTurnActive(false);
+            view.firePropertyChange("firstBoardUpdate", null, null);
         }
         else if(answer instanceof MatchStartedMessage) {
             modelView.setGamePhase(1);

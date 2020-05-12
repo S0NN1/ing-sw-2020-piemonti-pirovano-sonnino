@@ -72,7 +72,6 @@ public class CLI implements UI, Runnable {
     }
 
 
-
     /**
      * Change the value of the parameter activeGame, which states if the game is active or if it has finished.
      *
@@ -201,7 +200,7 @@ public class CLI implements UI, Runnable {
         int[][] indexes = new int[5][1];
         int[][] indexesC = new int[3][1];
         String upperBody = "☻";
-        String upperBody2 ="☺";
+        String upperBody2 = "☺";
         player[0] = null;
         player[1] = "▲";
         indexes[0][0] = 16;
@@ -212,8 +211,11 @@ public class CLI implements UI, Runnable {
         indexesC[0][0] = 21;
         indexesC[1][0] = 16;
         indexesC[2][0] = 25;
-        if(type==1){player[0]=upperBody;}
-        else{player[0]=upperBody2;}
+        if (type == 1) {
+            player[0] = upperBody;
+        } else {
+            player[0] = upperBody2;
+        }
         if (mode.equals("c")) {
             for (int i = 0; i <= 1; i++) {
                 temp[i] = rows[i + 4].substring(0, indexesC[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1);
@@ -366,17 +368,17 @@ public class CLI implements UI, Runnable {
                 } else if (req.getGodList() != null) {
                     req.getGodList().forEach(n -> output.print(n + ", "));
                     output.println();
-                } else if(req.getChosenGod()!=null) {
+                } else if (req.getChosenGod() != null) {
                     modelView.setGod(req.getChosenGod());
                     return;
-                }
-                else {
+                } else {
                     output.println(req.getMessage());
                 }
                 modelView.toggleInput();
                 if (modelView.getStarted() < 3) modelView.setStarted(3);
             }
             case "WorkerPlacement" -> {
+                firstUpdateCli();
                 output.println(modelView.getServerAnswer().getMessage());
                 modelView.toggleInput();
             }
@@ -393,7 +395,7 @@ public class CLI implements UI, Runnable {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        String command = (evt.getNewValue()!=null) ? evt.getNewValue().toString() : null;
+        String command = (evt.getNewValue() != null) ? evt.getNewValue().toString() : null;
         switch (evt.getPropertyName()) {
             case "gameError" -> {
                 errorHandling((GameError) evt.getNewValue());
@@ -414,15 +416,10 @@ public class CLI implements UI, Runnable {
                 System.exit(0);
             }
             case "boardUpdate" -> {
-                clearScreen();
-                boardUpdater(grid);
-                printBoard(grid);
-                try {
-                    printMenu();
-                } catch (InterruptedException e) {
-                    System.err.println(e.getMessage());
-                    Thread.currentThread().interrupt();
-                }
+                updateCli();
+            }
+            case "firstBoardUpdate" -> {
+                firstUpdateCli();
             }
             case "selectWorker" -> {
                 selectWorker();
@@ -432,30 +429,69 @@ public class CLI implements UI, Runnable {
             }
         }
     }
-    public void selectWorker(){
+
+    public void selectWorker() {
         System.out.print("\r\t• SELECTWORKER <1/2>\n");
         System.out.print(">");
     }
+
     public void printMenu() throws InterruptedException {
         String active;
-        if(modelView.getGamePhase()!=0) {
-            if (modelView.isTurnActive()) {
-                active = "È ";
-            } else {
-                active = "NON È ";
-            }
-            System.out.println(active + "IL TUO TURNO");
+        if (modelView.getGamePhase() != 0) {
+            if (!modelView.isTurnActive()) {
+                active = "NOT ";
+            } else active = "";
+            System.out.println(active + "YOUR TURN");
         }
         TimeUnit.MILLISECONDS.sleep(500);
         System.out.print("\t• MOVE\n" +
-                         "\t• BUILD\n" +
-                         "\t• END\n");
+                "\t• BUILD\n" +
+                "\t• END\n");
         System.out.print(">");
     }
+
+    public void firstPrintMenu() throws InterruptedException {
+        String active;
+        if (!modelView.isTurnActive()) {
+            active = "NOT ";
+        } else active = "";
+        System.out.println(active + "YOUR TURN");
+        TimeUnit.MILLISECONDS.sleep(500);
+        System.out.print("\t• MOVE\n" +
+                "\t• BUILD\n" +
+                "\t• END\n");
+        System.out.print(">");
+    }
+
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
+
+    public void firstUpdateCli() {
+        clearScreen();
+        boardUpdater(grid);
+        printBoard(grid);
+        try {
+            firstPrintMenu();
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void updateCli(){
+        clearScreen();
+        boardUpdater(grid);
+        printBoard(grid);
+        try {
+            printMenu();
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+}
+
 
 
 }
