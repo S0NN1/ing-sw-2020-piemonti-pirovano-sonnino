@@ -55,9 +55,13 @@ class GodSelectionControllerTest {
         }
 
         @Override
+        public int getCurrentPlayerID() {
+            return 0;
+        }
+
+        @Override
         public void singleSend(Answer message, int id) {
-            System.out.println(Constants.ANSI_RED + "\nSingle message \"" + Constants.ANSI_RESET + message.getMessage() +
-                    Constants.ANSI_RED + "\" sent to "+ Constants.ANSI_RESET + controller.getModel().getPlayerByID(id).getNickname());
+            System.out.println("OK");
         }
 
         @Override
@@ -150,6 +154,7 @@ class GodSelectionControllerTest {
 
         //God choosing test
         gameHandler.started = 2;
+        controller.getModel().setCurrentPlayer(controller.getModel().getActivePlayers().get(0));
         assertFalse(selectionController.lastSelection());
         assertTrue(selectionController.choose(Card.APOLLO));
         assertFalse(selectionController.choose(Card.APOLLO));
