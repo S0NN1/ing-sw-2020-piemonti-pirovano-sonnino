@@ -16,11 +16,12 @@ public class Printable {
         levels = new String[5];
         levelsC = new String[3];
         String purple = Constants.ANSI_PURPLE;
-        String simpleLineBlock = "███████████████████████";
+        String twelveLineBlock ="████████████";
+        String elevenLineBlock = "███████████";
         String lvl1LineBlock = "║█████████████████████║";
         String upperLvl1 = "╔═════════════════════╗";
         String bottomLvl1 = "╚═════════════════════╝";
-        String insideLineBlock = "███████████████████";
+        String tenLineBlock = "██████████";
         String upperInsideLvl2 = "┌───────────────────┐";
         String lowerInsideLvl2 = "└───────────────────┘";
         String threeLineBlock = "███";
@@ -32,17 +33,17 @@ public class Printable {
         String sevenLineBlock = "███████";
         for (int i = 0; i <= 4; i++) {
             if (i == 0) {
-                String lvl0 = GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n";
+                String lvl0 = GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n";
                 levels[i] = lvl0;
             }
             if (i == 1) {
@@ -62,13 +63,13 @@ public class Printable {
             if (i == 2) {
                 String lvl2 = upperLvl1 + "\n" +
                         verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + insideLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + insideLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + insideLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + insideLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + insideLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + insideLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + insideLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
                         bottomLvl1;
                 levels[i] = lvl2;
@@ -77,14 +78,13 @@ public class Printable {
             String singleLineBlock = "█";
             if (i == 3) {
                 String thirteenLineBlock = "█████████████";
-                String sixteenLineBlock = "████████████████";
                 String seventeenLineBlock = "█████████████████";
                 String lvl3 = upperLvl1 + "\n" +
                         verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + threeLineBlock + cyan + thirteenLineBlock + RESET + threeLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + singleLineBlock + cyan + sixteenLineBlock + RESET + singleLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + cyan + insideLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + singleLineBlock + cyan + nineLineBlock + cyan + sevenLineBlock + RESET + singleLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + cyan + nineLineBlock + cyan + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + singleLineBlock + cyan + seventeenLineBlock + RESET + singleLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + threeLineBlock + cyan + thirteenLineBlock + RESET + threeLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
@@ -109,18 +109,17 @@ public class Printable {
         for (int i = 0; i <= 2; i++) {
             String eightLineBlock = "████████";
             if (i == 0) {
-                String tenLineBlock = "██████████";
-                String lvl0c = GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
+                String lvl0c = GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
                         GREEN + tenLineBlock + BLUE + threeLineBlock + GREEN + tenLineBlock + RESET + "\n" +
                         GREEN + eightLineBlock + BLUE + sevenLineBlock + GREEN + eightLineBlock + RESET + "\n" +
                         GREEN + sevenLineBlock + BLUE + nineLineBlock + GREEN + sevenLineBlock + RESET + "\n" +
                         GREEN + eightLineBlock + BLUE + sevenLineBlock + GREEN + eightLineBlock + RESET + "\n" +
                         GREEN + tenLineBlock + BLUE + threeLineBlock + GREEN + tenLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n" +
-                        GREEN + simpleLineBlock + RESET + "\n";
+                        GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
+                        GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n";
                 levelsC[i] = lvl0c;
             }
             String sixLineBlock = "██████";
@@ -141,13 +140,13 @@ public class Printable {
             if (i == 2) {
                 String lvl2c = upperLvl1 + "\n" +
                         verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + insideLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + eightLineBlock + BLUE + threeLineBlock + RESET + eightLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + sixLineBlock + BLUE + sevenLineBlock + RESET + sixLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + fiveLineBlock + BLUE + nineLineBlock + RESET + fiveLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + sixLineBlock + BLUE + sevenLineBlock + RESET + sixLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + eightLineBlock + BLUE + threeLineBlock + RESET + eightLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + insideLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
                         bottomLvl1;
                 levelsC[i] = lvl2c;

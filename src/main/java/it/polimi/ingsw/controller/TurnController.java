@@ -10,6 +10,7 @@ import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
+import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkerConfirmedMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 
@@ -140,6 +141,7 @@ public class TurnController implements PropertyChangeListener {
      */
     public void endTurn() {
         if (actionController.endAction()) {
+            gameHandler.singleSend(new EndTurnMessage(), gameHandler.getCurrentPlayerID());
             controller.getModel().nextPlayer();
             startTurn(new StartTurnAction());
         } else {

@@ -27,6 +27,7 @@ public class CLI implements UI, Runnable {
     private static final String GREEN = "GREEN";
     private static final String YELLOW = "YELLOW";
     private static final String BG_BLACK = "BACKGROUND_BLACK";
+    private static final String RST = "RST";
     private final HashMap<String, String> nameMapColor = new HashMap<>();
     private final PrintStream output;
     private final Scanner input;
@@ -54,7 +55,7 @@ public class CLI implements UI, Runnable {
         nameMapColor.put(GREEN, Constants.ANSI_GREEN);
         nameMapColor.put(YELLOW, Constants.ANSI_YELLOW);
         nameMapColor.put("RED", Constants.ANSI_RED);
-        nameMapColor.put("RST", Constants.ANSI_RESET);
+        nameMapColor.put(RST, Constants.ANSI_RESET);
         nameMapColor.put("BLUE", Constants.ANSI_BLUE);
         nameMapColor.put("CYAN", Constants.ANSI_CYAN);
         nameMapColor.put(BG_BLACK, Constants.ANSI_BACKGROUND_BLACK);
@@ -169,17 +170,12 @@ public class CLI implements UI, Runnable {
             for (int j = 0; j <= 4; j++) {
                 for (int k = 0; k <= 10; k++) {
                     int level = modelView.getBoard().getGrid()[i][j].getLevel();
-                    if (modelView.getBoard().getGrid()[i][j].isDome() && level != 4 && level != 3) {
-                        rows = printable.levelsC[level].split("\n");
-                        if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                            addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows, "c", level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
-                        }
-                    } else {
+                    if (!modelView.getBoard().getGrid()[i][j].isDome()) {
                         rows = printable.levels[level].split("\n");
                         if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                            addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows, "n", level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
+                            addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows,level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
                         }
-                    }
+                    } else rows = printable.levelsC[level].split("\n");
                     grid[i][j].setCellRows(k, rows[k]);
                 }
             }
@@ -191,14 +187,12 @@ public class CLI implements UI, Runnable {
      *
      * @param color Worker color
      * @param rows  string
-     * @param mode  string
      * @param level int
      */
-    private void addWorkerToCell(String color, String[] rows, String mode, int level, int type) {
+    private void addWorkerToCell(String color, String[] rows, int level, int type) {
         String[] temp = new String[2];
         String[] player = new String[2];
         int[][] indexes = new int[5][1];
-        int[][] indexesC = new int[3][1];
         String upperBody = "☻";
         String upperBody2 = "☺";
         player[0] = null;
@@ -208,20 +202,11 @@ public class CLI implements UI, Runnable {
         indexes[2][0] = 21;
         indexes[3][0] = 25;
         indexes[4][0] = 34;
-        indexesC[0][0] = 21;
-        indexesC[1][0] = 16;
-        indexesC[2][0] = 25;
         if (type == 1) {
             player[0] = upperBody;
         } else {
             player[0] = upperBody2;
         }
-        if (mode.equals("c")) {
-            for (int i = 0; i <= 1; i++) {
-                temp[i] = rows[i + 4].substring(0, indexesC[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1);
-                rows[i + 4] = temp[i];
-            }
-        } else {
             if (level == 4 || level == 3) {
                 for (int i = 0; i <= 1; i++) {
                     int j;
@@ -230,18 +215,17 @@ public class CLI implements UI, Runnable {
                     } else {
                         j = 4;
                     }
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexes[level][0] + 1 - j);
+                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0]- j);
                     rows[i + 4] = temp[i];
                 }
             } else {
                 for (int i = 0; i <= 1; i++) {
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexes[level][0] + 1);
+                    temp[i] = rows[i + 4].substring(0, indexes[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(RST) +rows[i + 4].substring(indexes[level][0] + 1);
                     rows[i + 4] = temp[i];
 
                 }
             }
         }
-    }
 
     /**
      * Print board to the player
@@ -424,10 +408,17 @@ public class CLI implements UI, Runnable {
             case "selectWorker" -> {
                 selectWorker();
             }
+            case "end" -> {
+                end();
+            }
             default -> {
                 output.println("Unrecognized answer");
             }
         }
+    }
+
+    private void end() {
+        System.out.print("\r Turn ended");
     }
 
     public void selectWorker() {

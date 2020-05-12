@@ -194,7 +194,10 @@ public class InputChecker {
             modelView.setBuildSelected(true);
             return new SelectBuildAction();
         }
-        else return null;
+        else{
+            System.err.println(ERR_INCORRECT_ACTION);
+            return null;
+        }
         }
     /**
      * Check if move is possible
@@ -254,7 +257,10 @@ public class InputChecker {
             modelView.setMoveSelected(true);
             return new SelectMoveAction();
         }
-        else return null;
+        else {
+            System.err.println(ERR_INCORRECT_ACTION);
+            return null;
+        }
     }
 
     private Couple findWorker(int activeWorker, String color) {

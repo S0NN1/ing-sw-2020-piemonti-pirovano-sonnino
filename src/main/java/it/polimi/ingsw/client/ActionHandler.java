@@ -6,6 +6,7 @@ import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.server.answers.MatchStartedMessage;
 import it.polimi.ingsw.server.answers.*;
+import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkerConfirmedMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.*;
@@ -61,6 +62,13 @@ public class ActionHandler {
             modelView.toggleInput();
             view.firePropertyChange("firstBoardUpdate", null, null);
             view.firePropertyChange("selectWorker", null, null);
+        }
+        else if (answer instanceof EndTurnMessage){
+            modelView.setTurnActive(false);
+            modelView.setTurnPhase(0);
+            modelView.untoggleInput();
+            view.firePropertyChange("boardUpdate", null, null);
+            view.firePropertyChange("end", null, null);
         }
         else {
             if (answer instanceof MoveMessage) {
