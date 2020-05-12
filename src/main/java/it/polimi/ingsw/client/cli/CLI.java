@@ -178,7 +178,12 @@ public class CLI implements UI, Runnable {
                         if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                             addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows,level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
                         }
-                    } else rows = printable.levelsC[level].split("\n");
+                    } else if(level==3) {
+                        rows = printable.levels[4].split("\n");
+                    }
+                    else {
+                        rows = printable.levelsC[level].split("\n");
+                    }
                     grid[i][j].setCellRows(k, rows[k]);
                 }
             }
@@ -206,8 +211,8 @@ public class CLI implements UI, Runnable {
         player[2] = null;
         indexes[0][0] = 16;
         indexes[1][0] = 11;
-        indexes[2][0] = 21;
-        indexes[3][0] = 25;
+        indexes[2][0] = 22;
+        indexes[3][0] = 24;
         indexes[4][0] = 34;
         if (type == 1) {
             player[0] = upperBody;
@@ -218,24 +223,25 @@ public class CLI implements UI, Runnable {
         }
             if (level == 3) {
                 for (int i = 0; i <= 2; i++) {
-                    int j, h;
-                    if (i == 0) {
-                        j = 0;
-                        h=j;
-                    } else if(i==1){
-                        j = 4;
-                        h=j-1;
+                    int j;
+                    if (i == 0 || i==2) {
+                        j = -1;
                     }
-                    else{
-                        j= 0;
-                        h=0;
+                    else{       //If i==1
+                        j = 3;
                     }
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - h) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
+                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) +
+                            player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
                     rows[i + 4] = temp[i];
                 }
             } else {
+                int j;
+                if(level==2) {
+                    j=2;
+                } else j=0;
                 for (int i = 0; i <= 2; i++) {
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(RST) +rows[i + 4].substring(indexes[level][0] + 1);
+                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) +
+                            player[i] + nameMapColor.get(RST) +rows[i + 4].substring(indexes[level][0] - j + 1);
                     rows[i + 4] = temp[i];
                 }
             }
@@ -437,7 +443,7 @@ public class CLI implements UI, Runnable {
     }
 
     public void selectWorker() {
-        System.out.print("\r\t• SELECTWORKER <1/2>\n");
+        System.out.print("\r  • SELECTWORKER <1/2>\n");
         System.out.print(">");
     }
 
@@ -445,14 +451,14 @@ public class CLI implements UI, Runnable {
         String active;
         if (modelView.getGamePhase() != 0) {
             if (!modelView.isTurnActive()) {
-                active = "NOT ";
+                active = " NOT ";
             } else active = "";
-            System.out.println(active + "YOUR TURN");
+            System.out.println(active + " YOUR TURN");
         }
         TimeUnit.MILLISECONDS.sleep(500);
-        System.out.print("\t• MOVE\n" +
-                "\t• BUILD\n" +
-                "\t• END\n");
+        System.out.print("  • MOVE\n" +
+                "  • BUILD\n" +
+                "  • END\n");
         System.out.print(">");
     }
 

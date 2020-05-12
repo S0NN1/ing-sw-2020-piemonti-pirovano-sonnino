@@ -51,16 +51,29 @@ public class ActionParser implements PropertyChangeListener {
                 case "SELECTWORKER" -> {
                     sendMessage = inputChecker.selectWorker(in);
                     if(sendMessage!=null) {
-                        modelView.setActiveWorker(Integer.parseInt(in[1]));
+                        try {
+                            modelView.setActiveWorker(Integer.parseInt(in[1]));
+                        } catch (NumberFormatException e) {
+                            System.err.println("Numeric value expected!");
+                            return false;
+                        }
                     }
                 }
                 case "MOVE" -> {
-                    sendMessage = (in.length==1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
-                            :inputChecker.move(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                    try {
+                        sendMessage = (in.length==1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
+                                :inputChecker.move(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
                 }
                 case "BUILD" -> {
-                    sendMessage = (in.length==1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
-                            :inputChecker.build(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                    try {
+                        sendMessage = (in.length==1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
+                                :inputChecker.build(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
                 }
                 case "END" -> {
                     sendMessage = new EndTurnAction();

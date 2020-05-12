@@ -31,6 +31,7 @@ public class Printable {
         String verticalLine = "│";
         String fiveLineBlock = "█████";
         String sevenLineBlock = "███████";
+        String nineteenLineBlock = "███████████████████";
         for (int i = 0; i <= 4; i++) {
             if (i == 0) {
                 String lvl0 = GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
@@ -63,13 +64,13 @@ public class Printable {
             if (i == 2) {
                 String lvl2 = upperLvl1 + "\n" +
                         verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + nineLineBlock + tenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineteenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineteenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineteenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineteenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineteenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineteenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + nineteenLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
                         bottomLvl1;
                 levels[i] = lvl2;
@@ -85,8 +86,8 @@ public class Printable {
                         verticalDoubleLine + purple + verticalLine + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + threeLineBlock + cyan + sevenLineBlock + sixLineBlock + RESET + threeLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + singleLineBlock + cyan + nineLineBlock + cyan + eightLineBlock + RESET + singleLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + cyan + nineLineBlock + cyan + singleLineBlock +cyan + nineLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
-                        verticalDoubleLine + purple + verticalLine + RESET + singleLineBlock + cyan + seventeenLineBlock + RESET + singleLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + cyan + tenLineBlock + cyan + nineLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
+                        verticalDoubleLine + purple + verticalLine + RESET + singleLineBlock + cyan + nineLineBlock + cyan + eightLineBlock + RESET + singleLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + threeLineBlock + cyan + sevenLineBlock + sixLineBlock + RESET + threeLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + verticalLine + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + verticalLine + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +

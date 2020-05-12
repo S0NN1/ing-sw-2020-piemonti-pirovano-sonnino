@@ -25,7 +25,7 @@ public class ClientBoard {
     }
 
     /**
-     * set the number of player's worker (1 or 2)
+     *  the number of player's worker (1 or 2)
      * @param row of the grid
      * @param col of the grid
      * @param num of the worker into player's array
