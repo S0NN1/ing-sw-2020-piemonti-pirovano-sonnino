@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.InvalidInputException;
 import it.polimi.ingsw.model.player.Worker;
 
@@ -37,7 +38,7 @@ public class Space {
      * @exception InvalidInputException input isn't between 0 and 4
      */
     public void setX(int x) throws InvalidInputException {
-        if (x >= 0 && x < 5) {
+        if (x >= Constants.GRID_MIN_SIZE && x < Constants.GRID_MAX_SIZE) {
             this.x = x;
         } else throw new InvalidInputException();
     }
@@ -58,7 +59,7 @@ public class Space {
      * @exception InvalidInputException input isn't between 0 and 4
      */
     public void setY(int y) throws InvalidInputException {
-        if (y >= 0 && y < 5) {
+        if (y >= Constants.GRID_MIN_SIZE && y < Constants.GRID_MAX_SIZE) {
             this.y = y;
         } else {
             throw new InvalidInputException();
