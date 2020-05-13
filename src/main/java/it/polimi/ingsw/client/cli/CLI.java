@@ -283,8 +283,9 @@ public class CLI implements UI, Runnable {
                 selection = input.nextInt();
                 break;
             } catch (InputMismatchException e) {
-                output.println(nameMapColor.get("RED") + "Invalid parameter, it must be a number.\nApplication will now quit..." + nameMapColor.get("RST"));
-                System.exit(-1);
+                output.println(nameMapColor.get("RED") + "Invalid parameter, it must be a numeric value." + nameMapColor.get("RST"));
+                input.nextLine();
+                choosePlayerNumber();
             }
         }
         connection.send(new NumberOfPlayers(selection));

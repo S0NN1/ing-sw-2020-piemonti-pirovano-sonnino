@@ -8,7 +8,7 @@ import it.polimi.ingsw.constants.Constants;
  * It allows to have the status of the gameboard on client side.
  */
 public class ClientBoard {
-    private Cell[][] grid;
+    private final Cell[][] grid;
 
     public ClientBoard(){
         grid = new Cell[5][5];
