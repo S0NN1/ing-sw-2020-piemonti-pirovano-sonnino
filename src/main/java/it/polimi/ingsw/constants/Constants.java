@@ -1,7 +1,9 @@
 package it.polimi.ingsw.constants;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This class contains the most significant constants for an execution of the game.
@@ -52,6 +54,33 @@ public class Constants {
     //server constants
     public static final String ADDRESS = "127.0.0.1";
     public static final int PORT = 2500;
+
+    public int gridMaxSize = 5;
+    public int gridMinSize = 0;
+    /**
+     * Arraylist containing gods with move action with turnPhase != 0
+     */
+    public static final List<String> movePhaseGods = new ArrayList<>(){{
+        add("ARTEMIS");
+        add("PROMETHEUS");
+    }};
+    /**
+     * Arraylist containing gods with build action with turnPhase != 1
+     */
+    public static final List<String> buildPhaseGods = new ArrayList<>(){{
+        add("DEMETER");
+        add("HEPHAESTUS");
+        add("PROMETHEUS");
+    }};
+
+    /**
+     * Arraylist containing gods with move action to cell occupied
+     */
+    public static final List<String> moveToCellOccupiedGods = new ArrayList<>(){{
+        add("APOLLO");
+        add("MINOTAUR");
+    }};
+
 
     //datetime
     public static String getInfo() {

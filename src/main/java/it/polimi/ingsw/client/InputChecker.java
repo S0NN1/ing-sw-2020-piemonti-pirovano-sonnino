@@ -162,7 +162,7 @@ public class InputChecker {
         }
         Couple w = findWorker(activeWorker, modelView.getColor());
         BuildAction build = new BuildAction(x, y);
-        if (turnPhase == 1 || modelView.getGod().equalsIgnoreCase(ATLAS) || modelView.getGod().equalsIgnoreCase(DEMETER) || modelView.getGod().equalsIgnoreCase(PROMETHEUS)) {
+        if (turnPhase == 1 || Constants.buildPhaseGods.contains(modelView.getGod().toUpperCase())) {
             if (x < 0 || x >= 5 || y < 0 || y >= 5 || x >= Objects.requireNonNull(w).getX() + 2 || x <= w.getX() - 2 || y >= w.getY() + 2 || y <= w.getY() - 2) {
                 System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;
@@ -189,7 +189,7 @@ public class InputChecker {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        } else if (turnPhase == 1 || modelView.getGod().equalsIgnoreCase(ATLAS) || modelView.getGod().equalsIgnoreCase(DEMETER) || modelView.getGod().equalsIgnoreCase(PROMETHEUS)) {
+        } else if (turnPhase == 1 || Constants.buildPhaseGods.contains(modelView.getGod().toUpperCase())){
             modelView.setBuildSelected(true);
             return new SelectBuildAction();
         } else {
@@ -218,13 +218,13 @@ public class InputChecker {
         }
         Couple w = findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(x, y);
-        if (turnPhase == 0 || modelView.getGod().equalsIgnoreCase(PROMETHEUS) || modelView.getGod().equalsIgnoreCase(ARTEMIS)) {
+        if (turnPhase == 0 || Constants.movePhaseGods.contains(modelView.getGod().toUpperCase())) {
             if (x < 0 || x >= 5 || y < 0 || y >= 5 || x >= Objects.requireNonNull(w).getX() + 2 || x <= w.getX() - 2 || y >= w.getY() + 2 || y <= w.getY() - 2) {
                 System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;
             } else {
                 if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
-                    if (!modelView.getGod().equalsIgnoreCase(APOLLO) && (!modelView.getGod().equalsIgnoreCase(MINOTAUR) || modelView.getBoard().getGrid()[x][y].getColor().equals(modelView.getColor()))) {
+                    if (Constants.moveToCellOccupiedGods.contains(modelView.getGod().toUpperCase())) {
                         System.out.println(RED + ERR_CELL_OCCUPIED + RST);
                         return null;
                     } else return move;
@@ -251,7 +251,7 @@ public class InputChecker {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        } else if (turnPhase == 0 || modelView.getGod().equalsIgnoreCase(PROMETHEUS) || modelView.getGod().equalsIgnoreCase(ARTEMIS)) {
+        } else if (turnPhase == 0 || Constants.movePhaseGods.contains(modelView.getGod().toUpperCase())) {
             modelView.setMoveSelected(true);
             return new SelectMoveAction();
         } else {
