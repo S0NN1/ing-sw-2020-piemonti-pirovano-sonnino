@@ -80,6 +80,7 @@ public class ActionHandler {
                 if(modelView.isTurnActive()){
                     modelView.setTurnPhase(modelView.getTurnPhase()+1);
                     modelView.setMoveSelected(false);
+                    modelView.toggleInput();
                 }
             } else if(answer instanceof WorkerConfirmedMessage) {
                 view.firePropertyChange(boardUpdate, null, null);
@@ -92,6 +93,7 @@ public class ActionHandler {
                 if(modelView.isTurnActive()){
                     modelView.setTurnPhase(modelView.getTurnPhase()+1);
                     modelView.setBuildSelected(false);
+                    modelView.toggleInput();
                 }
             } else if (answer instanceof DoubleMoveMessage) {
                 String message = ((DoubleMoveMessage) answer).getMessage();
@@ -103,6 +105,7 @@ public class ActionHandler {
                     if(modelView.isTurnActive()){
                         modelView.setTurnPhase(modelView.getTurnPhase()+1);
                         modelView.setMoveSelected(false);
+                        modelView.toggleInput();
                     }
                 } else if (message.equals("MinotaurDoubleMove")) { //type Minotaur
                     Move myMove = ((DoubleMoveMessage) answer).getMyMove();
@@ -113,10 +116,10 @@ public class ActionHandler {
                     if(modelView.isTurnActive()){
                         modelView.setTurnPhase(modelView.getTurnPhase()+1);
                         modelView.setMoveSelected(false);
+                        modelView.toggleInput();
                     }
                 }
             }
-            modelView.toggleInput();
             view.firePropertyChange(boardUpdate, null,null);
         }
 
