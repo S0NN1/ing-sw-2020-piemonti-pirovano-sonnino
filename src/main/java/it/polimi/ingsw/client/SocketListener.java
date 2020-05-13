@@ -48,6 +48,7 @@ public class SocketListener implements Runnable{
         }
         catch (IOException e) {
             logger.log(Level.SEVERE, "Connection closed by the server. Quitting...");
+            e.printStackTrace();
             if(modelView.getGui()!=null) {
                 modelView.getGui().propertyChange(new PropertyChangeEvent(this, "connectionClosed", null, modelView.getServerAnswer().getMessage()));
             } else {

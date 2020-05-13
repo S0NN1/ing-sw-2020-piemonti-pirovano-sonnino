@@ -448,10 +448,12 @@ public class CLI implements UI, Runnable {
             }
             case "win" -> {
                 output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
+                System.exit(0);
             }
             case "lose" -> {
                 output.println(nameMapColor.get(RED) + "YOU LOSE!" + nameMapColor.get(RST));
                 output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has won." + nameMapColor.get(RST));
+                System.exit(0);
             }
             default -> {
                 output.println("Unrecognized answer");

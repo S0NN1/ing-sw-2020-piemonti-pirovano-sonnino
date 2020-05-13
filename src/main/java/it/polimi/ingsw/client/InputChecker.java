@@ -224,7 +224,7 @@ public class InputChecker {
                 return null;
             } else {
                 if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
-                    if (Constants.MOVE_TO_CELL_OCCUPIED_GODS.contains(modelView.getGod().toUpperCase())) {
+                    if (!Constants.MOVE_TO_CELL_OCCUPIED_GODS.contains(modelView.getGod().toUpperCase())) {
                         System.out.println(RED + ERR_CELL_OCCUPIED + RST);
                         return null;
                     } else return move;

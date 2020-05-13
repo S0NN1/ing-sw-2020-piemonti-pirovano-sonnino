@@ -179,7 +179,7 @@ public class ActionHandler {
         else if(modelView.getGamePhase()==1) {
             fullGamePhase(answer);
         }
-        else if(answer instanceof WinMessage) {
+        if(answer instanceof WinMessage) {
             view.firePropertyChange("win", null, null);
         }
         else if(answer instanceof LoseMessage) {

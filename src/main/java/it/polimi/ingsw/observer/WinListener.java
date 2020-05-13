@@ -23,7 +23,7 @@ public class WinListener extends WorkerListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        WinMessage message = new WinMessage((Worker)evt.getSource());
+        WinMessage message = new WinMessage();
         virtualClient.win(message);
     }
 }
