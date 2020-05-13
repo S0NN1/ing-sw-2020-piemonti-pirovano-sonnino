@@ -163,7 +163,7 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Update grid after a change occured in ClientBoard
+     * Update grid after a change occurred in ClientBoard
      *
      * @param grid printed board
      */
