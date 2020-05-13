@@ -280,17 +280,15 @@ public class CLI implements UI, Runnable {
         while (true) {
             try {
                 output.print(">");
-                selection = input.nextInt();
+                selection = Integer.parseInt(input.nextLine());
                 break;
-            } catch (InputMismatchException e) {
+            } catch (NumberFormatException e) {
                 output.println(nameMapColor.get("RED") + "Invalid parameter, it must be a numeric value." + nameMapColor.get("RST"));
-                input.nextLine();
-                choosePlayerNumber();
             }
         }
         connection.send(new NumberOfPlayers(selection));
         modelView.setStarted(1);
-        input.nextLine();
+        //input.nextLine();
     }
 
     /**
