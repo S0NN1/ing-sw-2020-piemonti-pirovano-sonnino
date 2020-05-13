@@ -11,7 +11,6 @@ import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.RequestColor;
 import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
@@ -75,6 +74,10 @@ public class CLI implements UI, Runnable {
         cli.run();
     }
 
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 
     /**
      * Change the value of the parameter activeGame, which states if the game is active or if it has finished.
@@ -176,12 +179,11 @@ public class CLI implements UI, Runnable {
                     if (!modelView.getBoard().getGrid()[i][j].isDome()) {
                         rows = printable.levels[level].split("\n");
                         if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                            addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows,level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
+                            addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows, level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
                         }
-                    } else if(level==3) {
+                    } else if (level == 3) {
                         rows = printable.levels[4].split("\n");
-                    }
-                    else {
+                    } else {
                         rows = printable.levelsC[level].split("\n");
                     }
                     grid[i][j].setCellRows(k, rows[k]);
@@ -221,31 +223,30 @@ public class CLI implements UI, Runnable {
             player[0] = upperBody2;
             player[2] = lowerBody2;
         }
-            if (level == 3) {
-                for (int i = 0; i <= 2; i++) {
-                    int j;
-                    if (i == 0 || i==2) {
-                        j = -1;
-                    }
-                    else{       //If i==1
-                        j = 3;
-                    }
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) +
-                            player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
-                    rows[i + 4] = temp[i];
-                }
-            } else {
+        if (level == 3) {
+            for (int i = 0; i <= 2; i++) {
                 int j;
-                if(level==2) {
-                    j=2;
-                } else j=0;
-                for (int i = 0; i <= 2; i++) {
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) +
-                            player[i] + nameMapColor.get(RST) +rows[i + 4].substring(indexes[level][0] - j + 1);
-                    rows[i + 4] = temp[i];
+                if (i == 0 || i == 2) {
+                    j = -1;
+                } else {       //If i==1
+                    j = 3;
                 }
+                temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) +
+                        player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
+                rows[i + 4] = temp[i];
+            }
+        } else {
+            int j;
+            if (level == 2) {
+                j = 2;
+            } else j = 0;
+            for (int i = 0; i <= 2; i++) {
+                temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) +
+                        player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
+                rows[i + 4] = temp[i];
             }
         }
+    }
 
     /**
      * Print board to the player
@@ -269,7 +270,6 @@ public class CLI implements UI, Runnable {
         System.out.println(Printable.ROW_WAVE);
         System.out.println(Printable.ROW_WAVE);
     }
-
 
     /**
      * This method lets the first-connected user to decides the match capacity.
@@ -457,14 +457,13 @@ public class CLI implements UI, Runnable {
             } else active = "";
             System.out.println(active + " YOUR TURN");
         }
-        if (modelView.getGod().equalsIgnoreCase("ATLAS")){
+        if (modelView.getGod().equalsIgnoreCase("ATLAS")) {
             atlas = "  • PLACEDOME\\n\"";
-        }
-        else atlas="";
+        } else atlas = "";
         TimeUnit.MILLISECONDS.sleep(500);
         System.out.print("  • MOVE\n" +
                 "  • BUILD\n" +
-                    atlas +
+                atlas +
                 "  • END\n");
         System.out.print(">");
     }
@@ -476,11 +475,6 @@ public class CLI implements UI, Runnable {
         } else active = "";
         System.out.println(active + "YOUR TURN");
         TimeUnit.MILLISECONDS.sleep(500);
-    }
-
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
     public void firstUpdateCli() {
@@ -495,7 +489,7 @@ public class CLI implements UI, Runnable {
         }
     }
 
-    public void updateCli(){
+    public void updateCli() {
         clearScreen();
         boardUpdater(grid);
         printBoard(grid);
@@ -505,14 +499,14 @@ public class CLI implements UI, Runnable {
             System.err.println(e.getMessage());
             Thread.currentThread().interrupt();
         }
-}
-
-public void printSpaces(){
-    for(int i = 0; i < modelView.getSelectSpaces().size(); i++){
-        System.out.print("(" + modelView.getSelectSpaces().get(i).getX() + "," + modelView.getSelectSpaces().get(i).getY() + ")  ");
     }
-System.out.println();
-}
+
+    public void printSpaces() {
+        for (int i = 0; i < modelView.getSelectSpaces().size(); i++) {
+            System.out.print("(" + modelView.getSelectSpaces().get(i).getX() + "," + modelView.getSelectSpaces().get(i).getY() + ")  ");
+        }
+        System.out.println();
+    }
 
 
 }
