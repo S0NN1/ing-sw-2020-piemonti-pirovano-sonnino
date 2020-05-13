@@ -227,7 +227,7 @@ public class GameHandler {
             }
         }
         singleSend(new WorkerPlacement(game.getCurrentPlayer().getNickname() + ", choose your workers position by " +
-                "typing SET <x1> <y1> <x2> <y2> where 1 and 2 indicates worker number.", spaces), getCurrentPlayerID());
+                "typing SET <row1 <col1> <row2> <col2> where 1 and 2 indicates worker number.", spaces), getCurrentPlayerID());
         sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() + " is choosing workers' position.", false), getCurrentPlayerID());
     }
 
@@ -323,11 +323,21 @@ public class GameHandler {
     }
 
     /**
-     * Terminates the game, disconnecting all the players. This method can be invoked after a disconnection of a player
-     * or after a win condition. It also unregisters each client connected to the server, freeing a new lobby.
+     * Terminates the game, disconnecting all the players. This method is invoked after a disconnection of a player.
+     * It also unregisters each client connected to the server, freeing a new lobby.
      */
     public void endGame(String leftNickname) {
         sendAll(new ConnectionMessage(PLAYER + " " + leftNickname + " left the game, the match will now end.\nThanks for playing!", 1));
+        while(!game.getActivePlayers().isEmpty()) {
+            server.getClientByID(game.getActivePlayers().get(0).getClientID()).getConnection().close();
+        }
+    }
+
+    /**
+     * Terminates the game, disconnecting all the players. This method is invoked after a player has won.
+     * It also unregisters each client connected to the server, freeing a new lobby.
+     */
+    public void endGame() {
         while(!game.getActivePlayers().isEmpty()) {
             server.getClientByID(game.getActivePlayers().get(0).getClientID()).getConnection().close();
         }

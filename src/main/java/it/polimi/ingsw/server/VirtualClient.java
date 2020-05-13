@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.answers.Answer;
 import it.polimi.ingsw.server.answers.CustomMessage;
 import it.polimi.ingsw.server.answers.ChallengerMessages;
 import it.polimi.ingsw.server.answers.SerializedAnswer;
+import it.polimi.ingsw.server.answers.worker.LoseMessage;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -72,6 +73,14 @@ public class VirtualClient implements Observer {
         SerializedAnswer message = new SerializedAnswer();
         message.setServerAnswer(serverAnswer);
         socketClientConnection.sendSocketMessage(message);
+    }
+
+    public void win(Answer win) {
+        SerializedAnswer winner = new SerializedAnswer();
+        winner.setServerAnswer(win);
+        socketClientConnection.sendSocketMessage(winner);
+        gameHandler.sendAllExcept(new LoseMessage(nickname), clientID);
+        gameHandler.endGame();
     }
 
     /**

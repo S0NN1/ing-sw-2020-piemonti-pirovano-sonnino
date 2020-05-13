@@ -175,8 +175,15 @@ public class ActionHandler {
         Answer answer = modelView.getServerAnswer();
         if(modelView.getGamePhase()==0) {
             initialGamePhase(answer);
-        } else if(modelView.getGamePhase()==1) {
+        }
+        else if(modelView.getGamePhase()==1) {
             fullGamePhase(answer);
+        }
+        else if(answer instanceof WinMessage) {
+            view.firePropertyChange("win", null, null);
+        }
+        else if(answer instanceof LoseMessage) {
+            view.firePropertyChange("lose", null, ((LoseMessage)answer).getWinner());
         }
         if(answer instanceof CustomMessage) {
             view.firePropertyChange("customMessage", null, answer.getMessage());

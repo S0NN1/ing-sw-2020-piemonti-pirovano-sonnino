@@ -16,6 +16,7 @@ public class Constants {
     //match constants
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 3;
+    public static final String ANSI_UNDERLINE = "\u001B[4m";
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -71,6 +72,7 @@ public class Constants {
         add("DEMETER");
         add("HEPHAESTUS");
         add("PROMETHEUS");
+        add("ARTEMIS");
     }};
 
     /**
