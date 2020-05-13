@@ -55,8 +55,8 @@ public class Constants {
     public static final String ADDRESS = "127.0.0.1";
     public static final int PORT = 2500;
 
-    public int gridMaxSize = 5;
-    public int gridMinSize = 0;
+    public static final int GRID_MAX_SIZE = 5;
+    public static final int GRID_MIN_SIZE = 0;
     /**
      * Arraylist containing gods with move action with turnPhase != 0
      */

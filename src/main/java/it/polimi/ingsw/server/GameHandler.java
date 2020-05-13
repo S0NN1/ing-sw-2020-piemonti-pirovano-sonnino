@@ -216,8 +216,8 @@ public class GameHandler {
             return;
         }
         List<int[]> spaces = new ArrayList<>();
-        for(int i=0; i<5; i++) {
-            for(int j=0; j<5; j++) {
+        for(int i = Constants.GRID_MIN_SIZE; i<Constants.GRID_MAX_SIZE; i++) {
+            for(int j = Constants.GRID_MIN_SIZE; j<Constants.GRID_MAX_SIZE; j++) {
                 if(game.getGameBoard().getSpace(i, j).isEmpty()) {
                     int[] coords = new int[2];
                     coords[0] = game.getGameBoard().getSpace(i, j).getX();

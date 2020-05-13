@@ -238,8 +238,8 @@ public abstract class Worker {
      */
     public ArrayList<Space> selectMoves(GameBoard gameBoard) {
         ArrayList<Space> moves = new ArrayList<Space>();
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
+            for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
                 Space space = gameBoard.getSpace(i, j);
                 if (isSelectable(space)) {
                     moves.add(space);
@@ -311,8 +311,8 @@ public abstract class Worker {
      */
     public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard){
         ArrayList<Space> buildable = new ArrayList<Space>();
-        for (int i = 0; i < 5; i++){
-            for(int j = 0; j < 5; j++){
+        for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++){
+            for(int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++){
                 Space space = gameBoard.getSpace(i,j);
                 if(isBuildable(space)){ buildable.add(space);}
             }
