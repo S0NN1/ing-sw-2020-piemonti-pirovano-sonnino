@@ -163,7 +163,7 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Update grid after a change occured in ClientBoard
+     * Update grid after a change occurred in ClientBoard
      *
      * @param grid printed board
      */
@@ -448,15 +448,21 @@ public class CLI implements UI, Runnable {
 
     public void printMenu() throws InterruptedException {
         String active;
+        String atlas;
         if (modelView.getGamePhase() != 0) {
             if (!modelView.isTurnActive()) {
                 active = " NOT ";
             } else active = "";
             System.out.println(active + " YOUR TURN");
         }
+        if (modelView.getGod().equalsIgnoreCase("ATLAS")){
+            atlas = "  • PLACEDOME\\n\"";
+        }
+        else atlas="";
         TimeUnit.MILLISECONDS.sleep(500);
         System.out.print("  • MOVE\n" +
                 "  • BUILD\n" +
+                    atlas +
                 "  • END\n");
         System.out.print(">");
     }
