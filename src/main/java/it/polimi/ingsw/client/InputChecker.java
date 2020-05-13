@@ -4,10 +4,7 @@ import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
 import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
+import it.polimi.ingsw.client.messages.actions.workerActions.*;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.model.Card;
@@ -157,27 +154,13 @@ public class InputChecker {
         Couple w = findWorker(activeWorker, modelView.getColor());
         BuildAction build = new BuildAction(x, y);
         if (turnPhase == 1 || Constants.BUILD_PHASE_GODS.contains(modelView.getGod().toUpperCase())) {
-            if (isReachable(x, y, w)) {
-                System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
-                return null;
-            } else {
-                if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
-                    System.out.println(RED + ERR_CELL_OCCUPIED + RST);
-                    return null;
-                } else {
-                    if (modelView.getBoard().getGrid()[x][y].getLevel() == 4 || modelView.getBoard().getGrid()[x][y].isDome()) {
-                        System.out.println(RED + CELL_WITH_DOME + RST);
-                        return null;
-                    } else {
-                        return build;
-                    }
-                }
-            }
+            return getBuildAction(x, y, w, build);
         } else {
             System.err.println(ERR_INCORRECT_ACTION);
             return null;
         }
     }
+
 
     public SelectBuildAction build(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {
@@ -191,6 +174,29 @@ public class InputChecker {
             return null;
         }
     }
+
+    public AtlasBuildAction atlasBuild(int turnPhase, int x, int y, int activeWorker) {
+        if (modelView.getGod().equalsIgnoreCase("ATLAS")) {
+            Couple w = findWorker(activeWorker, modelView.getColor());
+            AtlasBuildAction build = new AtlasBuildAction(x, y, true);
+            if (!modelView.isBuildSelected()) {
+                System.err.println("You must run BUILD (no args) command before!");
+                return null;
+            } else {
+                if (turnPhase == 1) {
+                    return (AtlasBuildAction) getBuildAction(x, y, w, build);
+                }
+                    else{
+                        System.err.println(ERR_INCORRECT_ACTION);
+                        return null;
+                    }
+                }
+            }
+             else{
+                System.err.println("Current god isn't ATLAS, operation not permitted!");
+                return null;
+            }
+        }
 
     /**
      * Check if move is possible
@@ -213,7 +219,7 @@ public class InputChecker {
         Couple w = findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(x, y);
         if (turnPhase == 0 || Constants.MOVE_PHASE_GODS.contains(modelView.getGod().toUpperCase())) {
-            if (isReachable(x, y, w)) {
+            if (isUnreachable(x, y, w)) {
                 System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;
             } else {
@@ -242,7 +248,27 @@ public class InputChecker {
 
     }
 
-    private boolean isReachable(int x, int y, Couple w) {
+    private BuildAction getBuildAction(int x, int y, Couple w, BuildAction build) {
+        if (isUnreachable(x, y, w)) {
+            System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
+            return null;
+        } else {
+            if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
+                System.out.println(RED + ERR_CELL_OCCUPIED + RST);
+                return null;
+            } else {
+                if (modelView.getBoard().getGrid()[x][y].getLevel() == 4 || modelView.getBoard().getGrid()[x][y].isDome()) {
+                    System.out.println(RED + CELL_WITH_DOME + RST);
+                    return null;
+                } else {
+                    return build;
+                }
+            }
+        }
+    }
+
+
+    private boolean isUnreachable(int x, int y, Couple w) {
         return x < Constants.GRID_MIN_SIZE || x >= Constants.GRID_MAX_SIZE || y < Constants.GRID_MIN_SIZE || y >= Constants.GRID_MAX_SIZE || x >= Objects.requireNonNull(w).getX() + 2 || x <= w.getX() - 2 || y >= w.getY() + 2 || y <= w.getY() - 2;
     }
 

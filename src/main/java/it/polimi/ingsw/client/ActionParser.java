@@ -3,22 +3,22 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.client.messages.actions.turnActions.EndTurnAction;
-import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
 import it.polimi.ingsw.constants.Constants;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- *  Handles the user input, transforming it in a message for the server. In this case, we decided to make a fatter client,
- *  in order to pre-check the correctness of the requests and then have minor server flooding.
+ * Handles the user input, transforming it in a message for the server. In this case, we decided to make a fatter client,
+ * in order to pre-check the correctness of the requests and then have minor server flooding.
+ *
  * @author Luca Pirovano
  */
 public class ActionParser implements PropertyChangeListener {
-    private final ConnectionSocket connection;
-    private final ModelView modelView;
     private static final String RED = Constants.ANSI_RED;
     private static final String RST = Constants.ANSI_RESET;
+    private final ConnectionSocket connection;
+    private final ModelView modelView;
     private final InputChecker inputChecker;
 
     public ActionParser(ConnectionSocket connection, ModelView modelView) {
@@ -50,30 +50,22 @@ public class ActionParser implements PropertyChangeListener {
                 case "SET" -> sendMessage = inputChecker.set(in);
                 case "SELECTWORKER" -> {
                     sendMessage = inputChecker.selectWorker(in);
-                    if(sendMessage!=null) {
-                        try {
-                            modelView.setActiveWorker(Integer.parseInt(in[1]));
-                        } catch (NumberFormatException e) {
-                            System.err.println("Numeric value expected!");
-                            return false;
-                        }
+                    if (sendMessage != null) {
+                        modelView.setActiveWorker(Integer.parseInt(in[1]));
                     }
                 }
                 case "MOVE" -> {
-                    try {
-                        sendMessage = (in.length==1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
-                                :inputChecker.move(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
-                    } catch (NumberFormatException e) {
-                        return false;
-                    }
+                    sendMessage = (in.length == 1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
+                            : inputChecker.move(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
+                            modelView.getActiveWorker());
                 }
                 case "BUILD" -> {
-                    try {
-                        sendMessage = (in.length==1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
-                                :inputChecker.build(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
-                    } catch (NumberFormatException e) {
-                        return false;
-                    }
+                    sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
+                            : inputChecker.build(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
+                            modelView.getActiveWorker());
+                }
+                case "PLACEDOME" -> {
+                    sendMessage = inputChecker.atlasBuild(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]), modelView.getActiveWorker());
                 }
                 case "END" -> {
                     sendMessage = new EndTurnAction();
@@ -87,11 +79,14 @@ public class ActionParser implements PropertyChangeListener {
                     return false;
                 }
             }
-        }catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println(RED + "Input error; try again!" + RST);
             return false;
+        } catch (NumberFormatException e) {
+            System.err.println("Numeric value required, operation not permitted!");
+            return false;
         }
-        if(sendMessage!=null) {
+        if (sendMessage != null) {
             connection.send(sendMessage);
             return true;
         }
@@ -100,14 +95,13 @@ public class ActionParser implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(!modelView.getCanInput()) {
+        if (!modelView.getCanInput()) {
             System.out.println(RED + "Error: not your turn!" + RST);
             return;
         }
-        if(action(evt.getNewValue().toString())) {
+        if (action(evt.getNewValue().toString())) {
             modelView.untoggleInput();
-        }
-        else {
+        } else {
             modelView.toggleInput();
         }
     }
