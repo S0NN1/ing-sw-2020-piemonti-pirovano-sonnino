@@ -127,7 +127,7 @@ public class InputChecker {
             int y = Integer.parseInt(in[2]);
             int w = Integer.parseInt(in[3]);
             int z = Integer.parseInt(in[4]);
-            if (x < 0 || x >= 5 || y < 0 || y >= 5 || w < 0 || w >= 5 || z < 0 || z >= 5) {
+            if (x < Constants.GRID_MIN_SIZE || x >= Constants.GRID_MAX_SIZE || y < Constants.GRID_MIN_SIZE || y >= Constants.GRID_MAX_SIZE || w < Constants.GRID_MIN_SIZE || w >= Constants.GRID_MAX_SIZE || z < Constants.GRID_MIN_SIZE || z >= Constants.GRID_MAX_SIZE) {
                 System.err.println(ERR_NONEXISTENT_UNREACHABLE);
                 return null;
             } else return action;
@@ -162,8 +162,8 @@ public class InputChecker {
         }
         Couple w = findWorker(activeWorker, modelView.getColor());
         BuildAction build = new BuildAction(x, y);
-        if (turnPhase == 1 || Constants.buildPhaseGods.contains(modelView.getGod().toUpperCase())) {
-            if (x < 0 || x >= 5 || y < 0 || y >= 5 || x >= Objects.requireNonNull(w).getX() + 2 || x <= w.getX() - 2 || y >= w.getY() + 2 || y <= w.getY() - 2) {
+        if (turnPhase == 1 || Constants.BUILD_PHASE_GODS.contains(modelView.getGod().toUpperCase())) {
+            if (isReachable(x, y, w)) {
                 System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;
             } else {
@@ -189,7 +189,7 @@ public class InputChecker {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        } else if (turnPhase == 1 || Constants.buildPhaseGods.contains(modelView.getGod().toUpperCase())){
+        } else if (turnPhase == 1 || Constants.BUILD_PHASE_GODS.contains(modelView.getGod().toUpperCase())){
             modelView.setBuildSelected(true);
             return new SelectBuildAction();
         } else {
@@ -218,13 +218,13 @@ public class InputChecker {
         }
         Couple w = findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(x, y);
-        if (turnPhase == 0 || Constants.movePhaseGods.contains(modelView.getGod().toUpperCase())) {
-            if (x < 0 || x >= 5 || y < 0 || y >= 5 || x >= Objects.requireNonNull(w).getX() + 2 || x <= w.getX() - 2 || y >= w.getY() + 2 || y <= w.getY() - 2) {
+        if (turnPhase == 0 || Constants.MOVE_PHASE_GODS.contains(modelView.getGod().toUpperCase())) {
+            if (isReachable(x, y, w)) {
                 System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;
             } else {
                 if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
-                    if (Constants.moveToCellOccupiedGods.contains(modelView.getGod().toUpperCase())) {
+                    if (Constants.MOVE_TO_CELL_OCCUPIED_GODS.contains(modelView.getGod().toUpperCase())) {
                         System.out.println(RED + ERR_CELL_OCCUPIED + RST);
                         return null;
                     } else return move;
@@ -247,11 +247,15 @@ public class InputChecker {
 
     }
 
+    private boolean isReachable(int x, int y, Couple w) {
+        return x < Constants.GRID_MIN_SIZE || x >= Constants.GRID_MAX_SIZE || y < Constants.GRID_MIN_SIZE || y >= Constants.GRID_MAX_SIZE || x >= Objects.requireNonNull(w).getX() + 2 || x <= w.getX() - 2 || y >= w.getY() + 2 || y <= w.getY() - 2;
+    }
+
     public SelectMoveAction move(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        } else if (turnPhase == 0 || Constants.movePhaseGods.contains(modelView.getGod().toUpperCase())) {
+        } else if (turnPhase == 0 || Constants.MOVE_PHASE_GODS.contains(modelView.getGod().toUpperCase())) {
             modelView.setMoveSelected(true);
             return new SelectMoveAction();
         } else {
@@ -262,8 +266,8 @@ public class InputChecker {
 
     private Couple findWorker(int activeWorker, String color) {
         Couple couple;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < Constants.GRID_MAX_SIZE; i++) {
+            for (int j = 0; j < Constants.GRID_MAX_SIZE; j++) {
                 if (modelView.getBoard().getGrid()[i][j].getWorkerNum() == activeWorker && modelView.getBoard().getGrid()[i][j].getColor().equals(color)) {
                     couple = new Couple(i, j);
                     return couple;

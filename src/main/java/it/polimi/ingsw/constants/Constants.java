@@ -55,19 +55,19 @@ public class Constants {
     public static final String ADDRESS = "127.0.0.1";
     public static final int PORT = 2500;
 
-    public int gridMaxSize = 5;
-    public int gridMinSize = 0;
+    public static final int GRID_MAX_SIZE = 5;
+    public static final int GRID_MIN_SIZE = 0;
     /**
      * Arraylist containing gods with move action with turnPhase != 0
      */
-    public static final List<String> movePhaseGods = new ArrayList<>(){{
+    public static final List<String> MOVE_PHASE_GODS = new ArrayList<>(){{
         add("ARTEMIS");
         add("PROMETHEUS");
     }};
     /**
      * Arraylist containing gods with build action with turnPhase != 1
      */
-    public static final List<String> buildPhaseGods = new ArrayList<>(){{
+    public static final List<String> BUILD_PHASE_GODS = new ArrayList<>(){{
         add("DEMETER");
         add("HEPHAESTUS");
         add("PROMETHEUS");
@@ -76,7 +76,7 @@ public class Constants {
     /**
      * Arraylist containing gods with move action to cell occupied
      */
-    public static final List<String> moveToCellOccupiedGods = new ArrayList<>(){{
+    public static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = new ArrayList<>(){{
         add("APOLLO");
         add("MINOTAUR");
     }};

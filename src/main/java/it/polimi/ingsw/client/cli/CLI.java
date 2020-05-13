@@ -47,9 +47,9 @@ public class CLI implements UI, Runnable {
         modelView = new ModelView(this);
         actionHandler = new ActionHandler(this, modelView);
         activeGame = true;
-        grid = new DisplayCell[5][5];
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        grid = new DisplayCell[Constants.GRID_MAX_SIZE][Constants.GRID_MAX_SIZE];
+        for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
+            for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
                 grid[i][j] = new DisplayCell();
             }
         }
@@ -201,7 +201,7 @@ public class CLI implements UI, Runnable {
         String black;
         String[] temp = new String[3];
         String[] player = new String[3];
-        int[][] indexes = new int[5][1];
+        int[][] indexes = new int[Constants.GRID_MAX_SIZE][1];
         String upperBody = "☻";
         String upperBody2 = "☺";
         String lowerBody = nameMapColor.get(WHITE) + "1";

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.constants.Constants;
+
 /**
  * @author Alice Piemonti
  * This class is a simplified representation of the gameboard in model.
@@ -10,8 +12,8 @@ public class ClientBoard {
 
     public ClientBoard(){
         grid = new Cell[5][5];
-        for (int i=0; i<5; i++){
-            for(int j=0; j<5; j++){
+        for (int i = Constants.GRID_MIN_SIZE; i< Constants.GRID_MAX_SIZE; i++){
+            for(int j=Constants.GRID_MIN_SIZE; j<Constants.GRID_MAX_SIZE; j++){
                 grid[i][j] = new Cell();
             }
         }
