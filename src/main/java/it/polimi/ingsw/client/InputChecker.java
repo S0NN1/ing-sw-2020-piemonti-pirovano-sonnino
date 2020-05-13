@@ -183,7 +183,7 @@ public class InputChecker {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        } else if (turnPhase == 1 || Constants.BUILD_PHASE_GODS.contains(modelView.getGod().toUpperCase())){
+        } else if (turnPhase == 1 || Constants.BUILD_PHASE_GODS.contains(modelView.getGod().toUpperCase())) {
             modelView.setBuildSelected(true);
             return new SelectBuildAction();
         } else {
@@ -227,6 +227,7 @@ public class InputChecker {
                         System.out.println(RED + CELL_WITH_DOME + RST);
                         return null;
                     } else {
+                        assert w != null;
                         if (modelView.getBoard().getGrid()[x][y].getLevel() - modelView.getBoard().getGrid()[w.getX()][w.getY()].getLevel() >= 2) {
                             System.out.println(RED + "Trying to move up to unreachable level, operation not permitted!" + RST);
                             return null;
