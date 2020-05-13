@@ -22,12 +22,6 @@ import java.util.Objects;
  */
 public class InputChecker {
     public static final String ERR_NONEXISTENT_UNREACHABLE = "Non-existent or unreachable cell, operation not permitted!";
-    public static final String PROMETHEUS = "PROMETHEUS";
-    public static final String ATLAS = "ATLAS";
-    public static final String DEMETER = "DEMETER";
-    public static final String ARTEMIS = "ARTEMIS";
-    public static final String MINOTAUR = "MINOTAUR";
-    public static final String APOLLO = "APOLLO";
     public static final String ERR_CELL_OCCUPIED = "Cell already occupied, operation not permitted!";
     public static final String ERR_INCORRECT_ACTION = "Incorrect action, wrong turn phase!";
     public static final String ERR_WORKER_NOT_SELECTED = "Worker not selected, operation not permitted!";
