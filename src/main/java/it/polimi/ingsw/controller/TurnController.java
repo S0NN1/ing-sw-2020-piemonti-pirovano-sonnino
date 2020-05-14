@@ -13,6 +13,8 @@ import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkerConfirmedMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
+import it.polimi.ingsw.server.answers.worker.PlayerLostMessage;
+import it.polimi.ingsw.server.answers.worker.WinMessage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -118,14 +120,28 @@ public class TurnController implements PropertyChangeListener {
                 case "worker1" -> {
                     if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0))) {
                         gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
-                    } else
+                    } else if(controller.getModel().getCurrentPlayer().getWorkers().get(0).isBlocked()){
+                        if(controller.getModel().getCurrentPlayer().getWorkers().get(1).isBlocked()) {
+                            endGame();
+                        }
+                        else {
+                            gameHandler.singleSend(new GameError(ErrorsType.WORKERBLOCKED), gameHandler.getCurrentPlayerID());
+                        }
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                }
                 }
                 case "worker2" -> {
                     if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1))) {
                         gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
-                    } else
+                    } else if(controller.getModel().getCurrentPlayer().getWorkers().get(1).isBlocked()){
+                        if(controller.getModel().getCurrentPlayer().getWorkers().get(0).isBlocked()){
+                            endGame();
+                        }
+                        else {
+                            gameHandler.singleSend(new GameError(ErrorsType.WORKERBLOCKED), gameHandler.getCurrentPlayerID());
+                        }
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                }
                 }
                 default -> gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
             }
@@ -133,6 +149,21 @@ public class TurnController implements PropertyChangeListener {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
         }
 
+    }
+
+    private void endGame() {
+        if(controller.getModel().getActivePlayers().size()==2){
+            gameHandler.singleSend(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname()), gameHandler.getCurrentPlayerID());
+            controller.getModel().nextPlayer();
+            gameHandler.singleSend(new WinMessage(), gameHandler.getCurrentPlayerID());
+            gameHandler.endGame();
+        }
+        else{
+            gameHandler.sendAll(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname()));
+            gameHandler.unregisterPlayer(gameHandler.getCurrentPlayerID());
+            gameHandler.getServer().unregisterClient(gameHandler.getCurrentPlayerID());
+            //TODO UPDATE MODELVIEW
+        }
     }
 
     /**

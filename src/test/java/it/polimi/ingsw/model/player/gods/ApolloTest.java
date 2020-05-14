@@ -46,7 +46,7 @@ class ApolloTest {
     }
 
     /**
-     * test the method selectMoves which must return not empty spaces either
+     * test the method selectMoves which must return not empty spaces
      */
     @Test
     void getMovesTest() {
@@ -58,12 +58,11 @@ class ApolloTest {
         GameBoard gameBoard = new GameBoard();
         worker1.setPosition(gameBoard.getSpace(0,1));
         worker2.setPosition(gameBoard.getSpace(0,0));
-        worker3.setPosition(gameBoard.getSpace(2,1));
+        worker3.setPosition(gameBoard.getSpace(2,1));   //selectMoves shouldn't return this space because worker3's color equals Apollo's color
         apollo.setPosition(gameBoard.getSpace(1,1));
 
-        int expectedMoves = 8;
+        int expectedMoves = 7;
         assertEquals(expectedMoves, apollo.selectMoves(gameBoard).size());
-
     }
 
     /**

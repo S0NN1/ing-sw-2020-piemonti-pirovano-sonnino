@@ -34,6 +34,7 @@ public class CLI implements UI, Runnable {
     private static final String RST = "RST";
     private static final String WHITE = "WHITE";
     public static final String RED = "RED";
+    private static final String BG_PURPLE = "BG_PURPLE";
     private final HashMap<String, String> nameMapColor = new HashMap<>();
     private final PrintStream output;
     private final Scanner input;
@@ -64,6 +65,7 @@ public class CLI implements UI, Runnable {
         nameMapColor.put(RST, Constants.ANSI_RESET);
         nameMapColor.put("BLUE", Constants.ANSI_BLUE);
         nameMapColor.put("CYAN", Constants.ANSI_CYAN);
+        nameMapColor.put(BG_PURPLE, Constants.ANSI_BACKGROUND_PURPLE);
         nameMapColor.put(BG_BLACK, Constants.ANSI_BACKGROUND_BLACK);
         nameMapColor.put(WHITE, Constants.ANSI_WHITE);
     }
@@ -204,7 +206,6 @@ public class CLI implements UI, Runnable {
      * @param level int
      */
     private void addWorkerToCell(String color, String[] rows, int level, int type) {
-        String black;
         String[] temp = new String[3];
         String[] player = new String[3];
         int[][] indexes = new int[Constants.GRID_MAX_SIZE][1];
@@ -212,6 +213,7 @@ public class CLI implements UI, Runnable {
         String upperBody2 = "☺";
         String lowerBody = nameMapColor.get(WHITE) + "1";
         String lowerBody2 = nameMapColor.get(WHITE) + "2";
+        String backgroundColor=BG_BLACK;
         player[0] = null;
         player[1] = "▲";
         player[2] = null;
@@ -232,12 +234,10 @@ public class CLI implements UI, Runnable {
                 int j;
                 if (i == 0 || i == 2) {
                     j = -1;
-                } else {       //If i==1
+                } else {
                     j = 3;
                 }
-                temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) +
-                        player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
-                rows[i + 4] = temp[i];
+                insertPlayer(color, rows, level, type, temp, player, indexes, backgroundColor, i, j);
             }
         } else {
             int j;
@@ -245,12 +245,21 @@ public class CLI implements UI, Runnable {
                 j = 2;
             } else j = 0;
             for (int i = 0; i <= 2; i++) {
-                temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) +
-                        player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
-                rows[i + 4] = temp[i];
+                insertPlayer(color, rows, level, type, temp, player, indexes, backgroundColor, i, j);
             }
         }
     }
+
+    private void insertPlayer(String color, String[] rows, int level, int type, String[] temp, String[] player, int[][] indexes, String backgroundColor, int i, int j) {
+        if(i==2 && modelView.getActiveWorker()==type && modelView.isTurnActive()){
+            color = Constants.ANSI_WHITE;
+            backgroundColor = BG_PURPLE;
+        }
+        temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(backgroundColor) +
+                player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
+        rows[i + 4] = temp[i];
+    }
+
 
     /**
      * Print board to the player
@@ -431,6 +440,9 @@ public class CLI implements UI, Runnable {
                 }
                 modelView.setTurnActive(true);
             }
+            case WORKERBLOCKED -> {
+                System.err.println("Selected worker is blocked, select the other one!");
+            }
             default -> {
                 output.println("Generic error!");
             }
@@ -534,6 +546,9 @@ public class CLI implements UI, Runnable {
             case "selectWorker" -> {
                 selectWorker();
             }
+            case "cannotBuild" -> {
+
+            }
             case "end" -> {
                 end();
             }
@@ -548,6 +563,15 @@ public class CLI implements UI, Runnable {
                 output.println(nameMapColor.get(RED) + "YOU LOSE!" + nameMapColor.get(RST));
                 output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has won." + nameMapColor.get(RST));
                 System.exit(0);
+            }
+            case "singleLost" ->{
+                System.err.println("All workers blocked, YOU LOSE!");
+            }
+            case "otherLost" ->{
+                clearScreen();
+                boardUpdater(grid);
+                printBoard(grid);
+                output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has lost." + nameMapColor.get(RST));
             }
             default -> {
                 output.println("Unrecognized answer");

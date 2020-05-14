@@ -33,7 +33,9 @@ public class Hephaestus extends Worker {
     @Override
     public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard) {
         phases.get(5).changeMust(true);
-        return super.getBuildableSpaces(gameBoard);
+        ArrayList<Space> result = super.getBuildableSpaces(gameBoard);
+        if(result.size() == 0) phases.get(5).changeMust(false);
+        return result;
     }
 
     /**
@@ -46,7 +48,7 @@ public class Hephaestus extends Worker {
     @Override
     public boolean isBuildable(Space space) throws IllegalArgumentException {
         if(oldPosition == null) return super.isBuildable(space);
-        return (oldPosition == space && !space.getTower().isCompleted());
+        return (oldPosition == space  && !(space.getTower().getHeight() > 2));
     }
 
     /**
