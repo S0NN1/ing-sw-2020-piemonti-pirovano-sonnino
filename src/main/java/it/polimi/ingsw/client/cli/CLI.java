@@ -14,15 +14,10 @@ import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-<<<<<<< HEAD
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-=======
-import java.lang.reflect.Array;
-import java.util.*;
->>>>>>> 1382a0263c1c45a0a87e203afd7887a9266be062
 import java.util.concurrent.TimeUnit;
 
 /**
