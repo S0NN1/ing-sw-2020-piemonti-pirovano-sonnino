@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player.gods;
 
+import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -144,5 +145,26 @@ class HephaestusTest {
 
         assertTrue(hephaestus.isBuildable(build),"6");
         assertTrue(hephaestus.build(build),"7");
+    }
+
+    @Test
+    @DisplayName("try to build a dome")
+    void twoBuildDome() throws OutOfBoundException {
+
+        gameBoard.getSpace(2,2).getTower().addLevel();
+        gameBoard.getSpace(2,2).getTower().addLevel();
+
+        //first turn - first build = 2,2
+        hephaestus.selectMoves(gameBoard); //restart oldPosition
+        assertTrue(hephaestus.isBuildable(build),"1");
+        assertTrue(hephaestus.build(build),"2");
+
+        //first turn - second build
+        assertEquals(0,hephaestus.getBuildableSpaces(gameBoard).size(),"3"); //select second build
+        assertFalse(hephaestus.getPhase(5).isMust(),"4"); //second build is not a must
+
+        //try to build a dome
+        assertFalse(hephaestus.isBuildable(build),"4a"); //try to build a dome
+        assertFalse(hephaestus.build(build),"4b");
     }
 }
