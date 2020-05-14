@@ -14,10 +14,15 @@ import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
+<<<<<<< HEAD
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+=======
+import java.lang.reflect.Array;
+import java.util.*;
+>>>>>>> 1382a0263c1c45a0a87e203afd7887a9266be062
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,6 +37,7 @@ public class CLI implements UI, Runnable {
     private static final String BG_BLACK = "BACKGROUND_BLACK";
     private static final String RST = "RST";
     private static final String WHITE = "WHITE";
+    public static final String RED = "RED";
     private final HashMap<String, String> nameMapColor = new HashMap<>();
     private final PrintStream output;
     private final Scanner input;
@@ -58,7 +64,7 @@ public class CLI implements UI, Runnable {
         printable = new Printable();
         nameMapColor.put(GREEN, Constants.ANSI_GREEN);
         nameMapColor.put(YELLOW, Constants.ANSI_YELLOW);
-        nameMapColor.put("RED", Constants.ANSI_RED);
+        nameMapColor.put(RED, Constants.ANSI_RED);
         nameMapColor.put(RST, Constants.ANSI_RESET);
         nameMapColor.put("BLUE", Constants.ANSI_BLUE);
         nameMapColor.put("CYAN", Constants.ANSI_CYAN);
@@ -103,12 +109,12 @@ public class CLI implements UI, Runnable {
             do {
                 output.println(">Insert your nickname: ");
                 output.print(">");
-                nickname = input.next();
+                nickname = input.nextLine();
             } while (nickname == null);
             output.println(">You chose: " + nickname);
             output.println(">Is it ok? [y/n] ");
             output.print(">");
-            if (input.next().equalsIgnoreCase("y")) {
+            if (input.nextLine().equalsIgnoreCase("y")) {
                 confirmation = true;
             } else {
                 nickname = null;
@@ -123,7 +129,6 @@ public class CLI implements UI, Runnable {
             setup();
         }
         observers.addPropertyChangeListener(new ActionParser(connection, modelView));
-        input.nextLine();
     }
 
     /**
@@ -374,10 +379,11 @@ public class CLI implements UI, Runnable {
         while (true) {
             try {
                 output.print(">");
-                selection = Integer.parseInt(input.nextLine());
+                String cmd = input.nextLine();
+                selection = Integer.parseInt(cmd);
                 break;
             } catch (NumberFormatException e) {
-                output.println(nameMapColor.get("RED") + "Invalid parameter, it must be a numeric value." + nameMapColor.get("RST"));
+                output.println(nameMapColor.get(RED) + "Invalid parameter, it must be a numeric value." + nameMapColor.get("RST"));
             }
         }
         connection.send(new NumberOfPlayers(selection));
@@ -420,12 +426,12 @@ public class CLI implements UI, Runnable {
     public void errorHandling(GameError error) {
         switch (error.getError()) {
             case CELLOCCUPIED -> {
-                output.println(nameMapColor.get("RED") + "The following cells are already occupied, please choose them again." + nameMapColor.get("RST"));
-                error.getCoordinates().forEach(n -> output.print(nameMapColor.get("RED") + Arrays.toString(n) + ", " + nameMapColor.get("RST")));
+                output.println(nameMapColor.get(RED) + "The following cells are already occupied, please choose them again." + nameMapColor.get("RST"));
+                error.getCoordinates().forEach(n -> output.print(nameMapColor.get(RED) + Arrays.toString(n) + ", " + nameMapColor.get("RST")));
             }
             case INVALIDINPUT -> {
                 if (error.getMessage() != null) {
-                    output.println(nameMapColor.get("RED") + error.getMessage() + nameMapColor.get("RST"));
+                    output.println(nameMapColor.get(RED) + error.getMessage() + nameMapColor.get("RST"));
                 }
                 modelView.setTurnActive(true);
             }
@@ -455,25 +461,13 @@ public class CLI implements UI, Runnable {
             }
             case "GodRequest" -> {
                 ChallengerMessages req = (ChallengerMessages) modelView.getServerAnswer();
-                if (req.isStartingPlayer() && req.getPlayers() != null) {
-                    output.println(req.getMessage());
-                    req.getPlayers().forEach(n -> output.println(req.getPlayers().indexOf(n) + ": " + n + ","));
-                } else if (req.getSelectable() != null) {
-                    output.println(req.getMessage());
-                    req.getSelectable().forEach(n -> output.println(n.toString() + "\n" + n.godsDescription()));
-                    output.println("\nSelect your god by typing choose <god-name>:");
-                } else if (req.getGodList() != null) {
-                    req.getGodList().forEach(n -> output.print(n + ", "));
-                    output.println();
-                } else {
-                    output.println(req.getMessage());
-                }
-                modelView.toggleInput();
-                if (modelView.getStarted() < 3) modelView.setStarted(3);
+                godRequest(req);
             }
             case "WorkerPlacement" -> {
                 firstUpdateCli();
-                output.println(modelView.getServerAnswer().getMessage());
+                String[] msg = modelView.getServerAnswer().getMessage().toString().split(" ");
+                output.println(Constants.ANSI_UNDERLINE + msg[0] + nameMapColor.get(RST) + " choose your workers position by typing" +
+                                nameMapColor.get(YELLOW) + " SET <row1 <col1> <row2> <col2> " + nameMapColor.get(RST) + "where 1 and 2 indicates worker number.");
                 output.print(">");
                 modelView.toggleInput();
             }
@@ -481,6 +475,31 @@ public class CLI implements UI, Runnable {
                 output.println("Nothing to do");
             }
         }
+    }
+
+    private void godRequest(ChallengerMessages req) {
+        if (req.isStartingPlayer() && req.getPlayers() != null) {
+            output.println(req.getMessage().split(" ")[0] + " choose the starting player by typing" +
+                    nameMapColor.get(YELLOW) + " STARTER <number-of-player>" + nameMapColor.get(RST));
+            req.getPlayers().forEach(n -> output.println(req.getPlayers().indexOf(n) + ": " + n + ","));
+        } else if (req.getSelectable() != null) {
+            output.println("\n" + req.getMessage());
+            req.getSelectable().forEach(n -> output.println("\n" + n.toString() + "\n" + n.godsDescription()));
+            output.println("\nSelect your god by typing" + nameMapColor.get(YELLOW) + " choose <god-name>" + nameMapColor.get(RST));
+            output.print(">");
+        } else if (req.getGodList() != null) {
+            output.println();
+            req.getGodList().forEach(n -> output.print(n + ", "));
+            output.println();
+        } else {
+            if(req.getMessage().contains("Description") || req.getMessage().contains("been added")) {
+                output.println();
+            }
+            output.println(req.getMessage());
+            output.print(">");
+        }
+        modelView.toggleInput();
+        if (modelView.getStarted() < 3) modelView.setStarted(3);
     }
 
     /**
@@ -507,7 +526,7 @@ public class CLI implements UI, Runnable {
             }
             case "connectionClosed" -> {
                 output.println(evt.getNewValue());
-                output.println(nameMapColor.get("RED") + "Application will now close..." + nameMapColor.get("RST"));
+                output.println(nameMapColor.get(RED) + "Application will now close..." + nameMapColor.get("RST"));
                 System.exit(0);
             }
             case "boardUpdate" -> {
@@ -524,6 +543,15 @@ public class CLI implements UI, Runnable {
             }
             case "select" -> {
                 printSpaces();
+            }
+            case "win" -> {
+                output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
+                System.exit(0);
+            }
+            case "lose" -> {
+                output.println(nameMapColor.get(RED) + "YOU LOSE!" + nameMapColor.get(RST));
+                output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has won." + nameMapColor.get(RST));
+                System.exit(0);
             }
             default -> {
                 output.println("Unrecognized answer");
@@ -549,6 +577,7 @@ public class CLI implements UI, Runnable {
             } else active = "";
             System.out.println(active + " YOUR TURN");
         }
+<<<<<<< HEAD
         if (modelView.getGod().equalsIgnoreCase("ATLAS")) {
             atlas = "  • PLACEDOME\\n\"";
         } else atlas = "";
@@ -558,6 +587,20 @@ public class CLI implements UI, Runnable {
                 atlas +
                 "  • END\n");
         System.out.print(">");
+=======
+        if (modelView.getGod().equalsIgnoreCase("ATLAS")){
+            atlas = "  • PLACEDOME\n";
+        }
+        else atlas="";
+        if(modelView.isTurnActive()) {
+            TimeUnit.MILLISECONDS.sleep(500);
+            System.out.print("  • MOVE\n" +
+                    "  • BUILD\n" +
+                    atlas +
+                    "  • END\n");
+            System.out.print(">");
+        }
+>>>>>>> 1382a0263c1c45a0a87e203afd7887a9266be062
     }
 
     public void firstPrintMenu() throws InterruptedException {

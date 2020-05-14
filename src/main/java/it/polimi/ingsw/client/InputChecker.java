@@ -153,7 +153,7 @@ public class InputChecker {
         }
         Couple w = findWorker(activeWorker, modelView.getColor());
         BuildAction build = new BuildAction(x, y);
-        if (turnPhase == 1 || Constants.BUILD_PHASE_GODS.contains(modelView.getGod().toUpperCase())) {
+        if (turnPhase == 1 || Constants.getBuildPhaseGods().contains(modelView.getGod().toUpperCase())) {
             return getBuildAction(x, y, w, build);
         } else {
             System.err.println(ERR_INCORRECT_ACTION);
@@ -166,7 +166,7 @@ public class InputChecker {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        } else if (turnPhase == 1 || Constants.BUILD_PHASE_GODS.contains(modelView.getGod().toUpperCase())) {
+        } else if (turnPhase == 1 || Constants.getBuildPhaseGods().contains(modelView.getGod().toUpperCase())) {
             modelView.setBuildSelected(true);
             return new SelectBuildAction();
         } else {
@@ -218,13 +218,13 @@ public class InputChecker {
         }
         Couple w = findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(x, y);
-        if (turnPhase == 0 || Constants.MOVE_PHASE_GODS.contains(modelView.getGod().toUpperCase())) {
+        if (turnPhase == 0 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase())) {
             if (isUnreachable(x, y, w)) {
                 System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;
             } else {
                 if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
-                    if (Constants.MOVE_TO_CELL_OCCUPIED_GODS.contains(modelView.getGod().toUpperCase())) {
+                    if (!Constants.getMoveToCellOccupiedGods().contains(modelView.getGod().toUpperCase())) {
                         System.out.println(RED + ERR_CELL_OCCUPIED + RST);
                         return null;
                     } else return move;
@@ -276,7 +276,7 @@ public class InputChecker {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        } else if (turnPhase == 0 || Constants.MOVE_PHASE_GODS.contains(modelView.getGod().toUpperCase())) {
+        } else if (turnPhase == 0 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase())) {
             modelView.setMoveSelected(true);
             return new SelectMoveAction();
         } else {

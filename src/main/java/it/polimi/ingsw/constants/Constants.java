@@ -16,6 +16,7 @@ public class Constants {
     //match constants
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 3;
+    public static final String ANSI_UNDERLINE = "\u001B[4m";
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -60,26 +61,36 @@ public class Constants {
     /**
      * Arraylist containing gods with move action with turnPhase != 0
      */
-    public static final List<String> MOVE_PHASE_GODS = new ArrayList<>(){{
-        add("ARTEMIS");
-        add("PROMETHEUS");
-    }};
+    private static final List<String> MOVE_PHASE_GODS = new ArrayList<>();
+
+    public static List<String> getMovePhaseGods() {
+        MOVE_PHASE_GODS.add("ARTEMIS");
+        MOVE_PHASE_GODS.add("PROMETHEUS");
+        return MOVE_PHASE_GODS;
+    }
     /**
      * Arraylist containing gods with build action with turnPhase != 1
      */
-    public static final List<String> BUILD_PHASE_GODS = new ArrayList<>(){{
-        add("DEMETER");
-        add("HEPHAESTUS");
-        add("PROMETHEUS");
-    }};
+    private static final List<String> BUILD_PHASE_GODS = new ArrayList<>();
+
+    public static List<String> getBuildPhaseGods() {
+        BUILD_PHASE_GODS.add("DEMETER");
+        BUILD_PHASE_GODS.add("HEPHAESTUS");
+        BUILD_PHASE_GODS.add("PROMETHEUS");
+        BUILD_PHASE_GODS.add("ARTEMIS");
+        return BUILD_PHASE_GODS;
+    }
 
     /**
      * Arraylist containing gods with move action to cell occupied
      */
-    public static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = new ArrayList<>(){{
-        add("APOLLO");
-        add("MINOTAUR");
-    }};
+    private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = new ArrayList<>();
+
+    public static List<String> getMoveToCellOccupiedGods() {
+        MOVE_TO_CELL_OCCUPIED_GODS.add("APOLLO");
+        MOVE_TO_CELL_OCCUPIED_GODS.add("MINOTAUR");
+        return MOVE_TO_CELL_OCCUPIED_GODS;
+    }
 
 
     //datetime
