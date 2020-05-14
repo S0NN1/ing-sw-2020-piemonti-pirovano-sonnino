@@ -85,7 +85,7 @@ public class MainMenuController implements GUIController{
                 gui.setConnection(connectionSocket);
                 loaderController.setText("SOCKET CONNECTION \nSETUP COMPLETED!");
                 loaderController.setText("WAITING FOR PLAYERS");
-                gui.getObservers().addPropertyChangeListener(new ActionParser(connectionSocket, gui.getModelView()));
+                gui.getObservers().addPropertyChangeListener("action", new ActionParser(connectionSocket, gui.getModelView()));
 
             } catch (DuplicateNicknameException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
