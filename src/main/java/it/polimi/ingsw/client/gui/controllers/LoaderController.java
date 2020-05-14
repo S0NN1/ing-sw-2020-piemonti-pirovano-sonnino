@@ -125,7 +125,7 @@ public class LoaderController implements GUIController {
         ComboBox<String> godListDropdown;
         LoaderController controller = (LoaderController)gui.getControllerFromName("loading.fxml");
         controller.setText("You are the challenger!");
-        while (true) {
+        do {
             Alert godList = new Alert(Alert.AlertType.CONFIRMATION);
             godList.setTitle("Choose a god");
             godList.setHeaderText("Pick a god!");
@@ -134,10 +134,7 @@ public class LoaderController implements GUIController {
             ButtonType ok = new ButtonType("SELECT");
             godList.getButtonTypes().setAll(ok);
             godList.showAndWait();
-            if (godListDropdown.getValue()!=null) {
-                if(godTile(Card.parseInput(godListDropdown.getValue()), false)) break;
-            }
-        }
+        } while (godListDropdown.getValue() == null || !godTile(Card.parseInput(godListDropdown.getValue()), false));
     }
 
     /**
@@ -150,9 +147,9 @@ public class LoaderController implements GUIController {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
             message.setTitle("Choose your god power!");
             message.setHeaderText("Please choose your god power from one of the list below.");
-            assert req.getChoosable() != null;
-            message.setContentText(req.getMessage() + "\n" + req.getChoosable().stream().map(Enum::toString).collect(Collectors.joining("\n")));
-            ComboBox<Card> choices = new ComboBox<>(FXCollections.observableArrayList(req.getChoosable()));
+            assert req.getSelectable() != null;
+            message.setContentText(req.getMessage() + "\n" + req.getSelectable().stream().map(Enum::toString).collect(Collectors.joining("\n")));
+            ComboBox<Card> choices = new ComboBox<>(FXCollections.observableArrayList(req.getSelectable()));
             message.getDialogPane().setContent(choices);
             ButtonType choose = new ButtonType("DETAILS");
             message.getButtonTypes().setAll(choose);
@@ -178,7 +175,7 @@ public class LoaderController implements GUIController {
         else if (req.getGodList() != null) {
             displayGodList(req);
         }
-        else if (req.getChoosable() != null) {
+        else if (req.getSelectable() != null) {
             chooseGod(req);
         }
         else {

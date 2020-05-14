@@ -6,6 +6,7 @@ import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.server.answers.MatchStartedMessage;
 import it.polimi.ingsw.server.answers.*;
+import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkerConfirmedMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.*;
@@ -19,7 +20,7 @@ import java.beans.PropertyChangeSupport;
  */
 public class ActionHandler {
 
-    private ModelView modelView;
+    private final ModelView modelView;
     private CLI cli;
     private GUI gui;
     private PropertyChangeSupport view = new PropertyChangeSupport(this);
@@ -53,15 +54,25 @@ public class ActionHandler {
     public void fullGamePhase(Answer answer) {
         ClientBoard clientBoard = modelView.getBoard();
         if (answer instanceof SelectSpacesMessage) {
-            view.firePropertyChange("select", null, answer.getMessage());
+            modelView.setSelectSpaces(((SelectSpacesMessage) answer).getMessage());
             modelView.toggleInput();
+            view.firePropertyChange("select", null, null);
         }
         else if(answer instanceof WorkersRequestMessage){
             modelView.setTurnActive(true);
             modelView.toggleInput();
+            view.firePropertyChange("firstBoardUpdate", null, null);
             view.firePropertyChange("selectWorker", null, null);
         }
+        else if (answer instanceof EndTurnMessage){
+            modelView.setTurnActive(false);
+            modelView.setTurnPhase(0);
+            modelView.untoggleInput();
+            view.firePropertyChange("boardUpdate", null, null);
+            view.firePropertyChange("end", null, null);
+        }
         else {
+            String boardUpdate = "boardUpdate";
             if (answer instanceof MoveMessage) {
                 Move message = (Move) answer.getMessage();
                 clientBoard.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
@@ -69,9 +80,10 @@ public class ActionHandler {
                 if(modelView.isTurnActive()){
                     modelView.setTurnPhase(modelView.getTurnPhase()+1);
                     modelView.setMoveSelected(false);
+                    modelView.toggleInput();
                 }
             } else if(answer instanceof WorkerConfirmedMessage) {
-                view.firePropertyChange("boardUpdate", null, null);
+                view.firePropertyChange(boardUpdate, null, null);
                 modelView.toggleInput();
                 return;
             } else if (answer instanceof BuildMessage) {
@@ -81,6 +93,7 @@ public class ActionHandler {
                 if(modelView.isTurnActive()){
                     modelView.setTurnPhase(modelView.getTurnPhase()+1);
                     modelView.setBuildSelected(false);
+                    modelView.toggleInput();
                 }
             } else if (answer instanceof DoubleMoveMessage) {
                 String message = ((DoubleMoveMessage) answer).getMessage();
@@ -92,6 +105,7 @@ public class ActionHandler {
                     if(modelView.isTurnActive()){
                         modelView.setTurnPhase(modelView.getTurnPhase()+1);
                         modelView.setMoveSelected(false);
+                        modelView.toggleInput();
                     }
                 } else if (message.equals("MinotaurDoubleMove")) { //type Minotaur
                     Move myMove = ((DoubleMoveMessage) answer).getMyMove();
@@ -102,11 +116,11 @@ public class ActionHandler {
                     if(modelView.isTurnActive()){
                         modelView.setTurnPhase(modelView.getTurnPhase()+1);
                         modelView.setMoveSelected(false);
+                        modelView.toggleInput();
                     }
                 }
             }
-            modelView.toggleInput();
-            view.firePropertyChange("boardUpdate", null,null);
+            view.firePropertyChange(boardUpdate, null,null);
         }
 
     }
@@ -123,13 +137,20 @@ public class ActionHandler {
         } else if (answer instanceof RequestColor) {
             view.firePropertyChange(initial, null, "RequestColor");
         } else if (answer instanceof ChallengerMessages) {
+            if(((ChallengerMessages)answer).getChosenGod()!=null){
+                modelView.setGod(((ChallengerMessages)answer).getChosenGod());
+                modelView.setGodDesc(((ChallengerMessages)answer).getGodDesc());
+                return;
+            }
             view.firePropertyChange(initial, null, "GodRequest");
         } else if (answer instanceof WorkerPlacement) {
+            modelView.setTurnActive(true);
             view.firePropertyChange(initial, null, "WorkerPlacement");
         }
         else if(answer instanceof WorkersRequestMessage){
             modelView.setTurnActive(true);
             modelView.toggleInput();
+            view.firePropertyChange("firstBoardUpdate", null, null);
             view.firePropertyChange("selectWorker", null, null);
         }
         else if(answer instanceof SetWorkersMessage) {
@@ -138,14 +159,14 @@ public class ActionHandler {
             modelView.getBoard().setWorkerNum(message.getWorker1().getX(), message.getWorker1().getY(), 1);
             modelView.getBoard().setColor(message.getWorker2().getX(), message.getWorker2().getY(), message.getMessage());
             modelView.getBoard().setWorkerNum(message.getWorker2().getX(), message.getWorker2().getY(), 2);
-            view.firePropertyChange("boardUpdate", null, null);
+            modelView.setTurnActive(false);
+            view.firePropertyChange("firstBoardUpdate", null, null);
         }
         else if(answer instanceof MatchStartedMessage) {
             modelView.setGamePhase(1);
         }
     }
 
-    //TODO ADD CALLS TO CLI/GUI'S METHOD
     /**
      * Handles the answer received from the server. It calls the client interface passing values relying on the type
      * of answer the server has sent.
@@ -155,8 +176,15 @@ public class ActionHandler {
         Answer answer = modelView.getServerAnswer();
         if(modelView.getGamePhase()==0) {
             initialGamePhase(answer);
-        } else if(modelView.getGamePhase()==1) {
+        }
+        else if(modelView.getGamePhase()==1) {
             fullGamePhase(answer);
+        }
+        if(answer instanceof WinMessage) {
+            view.firePropertyChange("win", null, null);
+        }
+        else if(answer instanceof LoseMessage) {
+            view.firePropertyChange("lose", null, ((LoseMessage)answer).getWinner());
         }
         if(answer instanceof CustomMessage) {
             view.firePropertyChange("customMessage", null, answer.getMessage());
@@ -171,6 +199,13 @@ public class ActionHandler {
                 view.firePropertyChange("connectionClosed", null, answer.getMessage());
                 cli.toggleActiveGame(false);
             }
+            else if(gui!=null) {
+                //TODO
+            }
         }
     }
+
+
+
+
 }

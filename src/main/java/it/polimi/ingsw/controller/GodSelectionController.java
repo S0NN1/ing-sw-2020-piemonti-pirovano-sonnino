@@ -73,12 +73,10 @@ public class GodSelectionController implements PropertyChangeListener {
                         " chosen by the challenger or has already been taken by another player."), clientId);
                 return false;
             } else {
+                mainController.getGameHandler().singleSend(new ChallengerMessages(arg), mainController.getGameHandler().getCurrentPlayerID());
                 mainController.getGameHandler().sendAllExcept(new CustomMessage("Player " +
                         mainController.getModel().getCurrentPlayer().getNickname() + " has selected " +
                         arg.name() + "\n\n" + arg.godsDescription() + "\n", false), clientId);
-                ChallengerMessages selected = new ChallengerMessages(null, null);
-                selected.setChosenGod(arg.name());
-                mainController.getGameHandler().singleSend(selected, mainController.getGameHandler().getCurrentPlayerID());
                 return true;
             }
         }
@@ -105,6 +103,7 @@ public class GodSelectionController implements PropertyChangeListener {
         } else {
             mainController.getModel().getDeck().chooseCard(card, client);
         }
+        mainController.getGameHandler().singleSend(new ChallengerMessages(card), mainController.getGameHandler().getCurrentPlayerID());
         mainController.getGameHandler().sendAll(new CustomMessage("The society decides for player " +
                 mainController.getModel().getCurrentPlayer().getNickname() + "! He obtained " + card.name() +
                 "\n\n" + card.godsDescription() + "\n", false));

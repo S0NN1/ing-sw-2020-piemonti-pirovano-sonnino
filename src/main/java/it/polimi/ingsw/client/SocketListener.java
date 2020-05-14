@@ -21,7 +21,7 @@ public class SocketListener implements Runnable{
     private final Logger logger = Logger.getLogger(getClass().getName());
     private final ObjectInputStream inputStream;
 
-    public SocketListener(Socket socket, ConnectionSocket connectionSocket, ModelView modelView, ObjectInputStream inputStream, ActionHandler actionHandler) {
+    public SocketListener(Socket socket, ModelView modelView, ObjectInputStream inputStream, ActionHandler actionHandler) {
         this.modelView = modelView;
         this.socket = socket;
         this.inputStream = inputStream;
@@ -41,13 +41,10 @@ public class SocketListener implements Runnable{
     @Override
     public void run() {
         try {
-            while (true) {
+            do {
                 SerializedAnswer message = (SerializedAnswer) inputStream.readObject();
                 process(message);
-                if(modelView.getCli()!=null && !modelView.getCli().isActiveGame()) {
-                    break;
-                }
-            }
+            } while (modelView.getCli() == null || modelView.getCli().isActiveGame());
         }
         catch (IOException e) {
             logger.log(Level.SEVERE, "Connection closed by the server. Quitting...");

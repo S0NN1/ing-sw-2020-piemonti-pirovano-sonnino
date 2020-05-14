@@ -1,17 +1,19 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.constants.Constants;
+
 /**
  * @author Alice Piemonti
  * This class is a simplified representation of the gameboard in model.
  * It allows to have the status of the gameboard on client side.
  */
 public class ClientBoard {
-    private Cell[][] grid;
+    private final Cell[][] grid;
 
     public ClientBoard(){
         grid = new Cell[5][5];
-        for (int i=0; i<5; i++){
-            for(int j=0; j<5; j++){
+        for (int i = Constants.GRID_MIN_SIZE; i< Constants.GRID_MAX_SIZE; i++){
+            for(int j=Constants.GRID_MIN_SIZE; j<Constants.GRID_MAX_SIZE; j++){
                 grid[i][j] = new Cell();
             }
         }
@@ -25,7 +27,7 @@ public class ClientBoard {
     }
 
     /**
-     * set the number of player's worker (1 or 2)
+     *  the number of player's worker (1 or 2)
      * @param row of the grid
      * @param col of the grid
      * @param num of the worker into player's array

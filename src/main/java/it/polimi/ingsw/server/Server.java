@@ -206,6 +206,12 @@ public class Server {
                 socketClientHandler.sendSocketMessage(error);
                 return null;
             }
+            if(nickname.contains("-")) {
+                SerializedAnswer error = new SerializedAnswer();
+                error.setServerAnswer(new GameError(ErrorsType.INVALIDNICKNAME));
+                socketClientHandler.sendSocketMessage(error);
+                return null;
+            }
             clientID = createClientID();
             currentGame.setupPlayer(nickname, clientID);
             VirtualClient client = new VirtualClient(clientID, nickname, socketClientHandler, currentGame);

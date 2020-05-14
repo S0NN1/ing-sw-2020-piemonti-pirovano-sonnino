@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.InvalidInputException;
 
 /**
@@ -10,14 +11,14 @@ import it.polimi.ingsw.exceptions.InvalidInputException;
  */
 
 public class GameBoard {
-    private Space[][] grid = new Space[5][5];
+    private Space[][] grid = new Space[Constants.GRID_MAX_SIZE][Constants.GRID_MAX_SIZE];
 
     /**
      * Constructor of the board. It creates a grid of 25 spaces and set each space coordinate inside it.
      */
     public GameBoard() {
-        for(int i=0; i<5; i++) {
-            for(int j=0; j<5; j++) {
+        for(int i=Constants.GRID_MIN_SIZE; i<Constants.GRID_MAX_SIZE; i++) {
+            for(int j=Constants.GRID_MIN_SIZE; j<Constants.GRID_MAX_SIZE; j++) {
                 grid[i][j] = new Space();
                 try{
                 grid[i][j].setX(i);

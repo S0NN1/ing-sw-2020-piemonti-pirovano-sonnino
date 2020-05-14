@@ -3,22 +3,22 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.client.messages.actions.turnActions.EndTurnAction;
-import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
 import it.polimi.ingsw.constants.Constants;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- *  Handles the user input, transforming it in a message for the server. In this case, we decided to make a fatter client,
- *  in order to pre-check the correctness of the requests and then have minor server flooding.
+ * Handles the user input, transforming it in a message for the server. In this case, we decided to make a fatter client,
+ * in order to pre-check the correctness of the requests and then have minor server flooding.
+ *
  * @author Luca Pirovano
  */
 public class ActionParser implements PropertyChangeListener {
-    private final ConnectionSocket connection;
-    private final ModelView modelView;
     private static final String RED = Constants.ANSI_RED;
     private static final String RST = Constants.ANSI_RESET;
+    private final ConnectionSocket connection;
+    private final ModelView modelView;
     private final InputChecker inputChecker;
 
     public ActionParser(ConnectionSocket connection, ModelView modelView) {
@@ -37,7 +37,6 @@ public class ActionParser implements PropertyChangeListener {
         String command = in[0];
         int turnPhase = modelView.getTurnPhase();
         UserAction sendMessage;
-        String var;
         try {
             switch (command.toUpperCase()) {
                 case "GODLIST" -> {
@@ -50,25 +49,27 @@ public class ActionParser implements PropertyChangeListener {
                 case "STARTER" -> sendMessage = inputChecker.starter(in);
                 case "SET" -> sendMessage = inputChecker.set(in);
                 case "SELECTWORKER" -> {
-                    modelView.setActiveWorker(Integer.parseInt(in[1]));
-                    if(Integer.parseInt(in[1])==1){
-                         var = "worker1";
+                    sendMessage = inputChecker.selectWorker(in);
+                    if (sendMessage != null) {
+                        modelView.setActiveWorker(Integer.parseInt(in[1]));
                     }
-                    else { var ="worker2";}
-                    connection.send(new StartTurnAction(var));
-                    return false;
                 }
                 case "MOVE" -> {
-                    sendMessage = (in.length==1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
-                            :inputChecker.move(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                    sendMessage = (in.length == 1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
+                            : inputChecker.move(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
+                            modelView.getActiveWorker());
                 }
                 case "BUILD" -> {
-                    sendMessage = (in.length==1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
-                            :inputChecker.build(turnPhase,Integer.parseInt(in[1]), Integer.parseInt(in[2]),modelView.getActiveWorker());
+                    sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
+                            : inputChecker.build(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
+                            modelView.getActiveWorker());
+                }
+                case "PLACEDOME" -> {
+                    sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
+                            : inputChecker.atlasBuild(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]), modelView.getActiveWorker());
                 }
                 case "END" -> {
                     sendMessage = new EndTurnAction();
-                    modelView.setTurnActive(false);
                 }
                 case "QUIT" -> {
                     inputChecker.quit();
@@ -79,11 +80,14 @@ public class ActionParser implements PropertyChangeListener {
                     return false;
                 }
             }
-        }catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println(RED + "Input error; try again!" + RST);
             return false;
+        } catch (NumberFormatException e) {
+            System.err.println("Numeric value required, operation not permitted!");
+            return false;
         }
-        if(sendMessage!=null) {
+        if (sendMessage != null) {
             connection.send(sendMessage);
             return true;
         }
@@ -92,14 +96,13 @@ public class ActionParser implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(!modelView.getCanInput()) {
+        if (!modelView.getCanInput()) {
             System.out.println(RED + "Error: not your turn!" + RST);
             return;
         }
-        if(action(evt.getNewValue().toString())) {
+        if (action(evt.getNewValue().toString())) {
             modelView.untoggleInput();
-        }
-        else {
+        } else {
             modelView.toggleInput();
         }
     }

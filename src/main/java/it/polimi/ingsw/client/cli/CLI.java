@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.messages.ChosenColor;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
+import it.polimi.ingsw.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.ChallengerMessages;
 import it.polimi.ingsw.server.answers.GameError;
@@ -14,7 +15,10 @@ import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,6 +31,9 @@ public class CLI implements UI, Runnable {
     private static final String GREEN = "GREEN";
     private static final String YELLOW = "YELLOW";
     private static final String BG_BLACK = "BACKGROUND_BLACK";
+    private static final String RST = "RST";
+    private static final String WHITE = "WHITE";
+    public static final String RED = "RED";
     private final HashMap<String, String> nameMapColor = new HashMap<>();
     private final PrintStream output;
     private final Scanner input;
@@ -44,20 +51,21 @@ public class CLI implements UI, Runnable {
         modelView = new ModelView(this);
         actionHandler = new ActionHandler(this, modelView);
         activeGame = true;
-        grid = new DisplayCell[5][5];
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        grid = new DisplayCell[Constants.GRID_MAX_SIZE][Constants.GRID_MAX_SIZE];
+        for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
+            for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
                 grid[i][j] = new DisplayCell();
             }
         }
         printable = new Printable();
         nameMapColor.put(GREEN, Constants.ANSI_GREEN);
         nameMapColor.put(YELLOW, Constants.ANSI_YELLOW);
-        nameMapColor.put("RED", Constants.ANSI_RED);
-        nameMapColor.put("RST", Constants.ANSI_RESET);
+        nameMapColor.put(RED, Constants.ANSI_RED);
+        nameMapColor.put(RST, Constants.ANSI_RESET);
         nameMapColor.put("BLUE", Constants.ANSI_BLUE);
         nameMapColor.put("CYAN", Constants.ANSI_CYAN);
         nameMapColor.put(BG_BLACK, Constants.ANSI_BACKGROUND_BLACK);
+        nameMapColor.put(WHITE, Constants.ANSI_WHITE);
     }
 
     /**
@@ -71,7 +79,10 @@ public class CLI implements UI, Runnable {
         cli.run();
     }
 
-
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 
     /**
      * Change the value of the parameter activeGame, which states if the game is active or if it has finished.
@@ -94,27 +105,26 @@ public class CLI implements UI, Runnable {
             do {
                 output.println(">Insert your nickname: ");
                 output.print(">");
-                nickname = input.next();
+                nickname = input.nextLine();
             } while (nickname == null);
-
             output.println(">You chose: " + nickname);
             output.println(">Is it ok? [y/n] ");
             output.print(">");
-            if (input.next().equalsIgnoreCase("y")) {
+            if (input.nextLine().equalsIgnoreCase("y")) {
                 confirmation = true;
             } else {
                 nickname = null;
             }
         }
         connection = new ConnectionSocket();
+        modelView.setPlayerName(nickname);
         try {
             connection.setup(nickname, modelView, actionHandler);
             output.println(nameMapColor.get(GREEN) + "Socket Connection setup completed!" + nameMapColor.get("RST"));
-        } catch (DuplicateNicknameException e) {
+        } catch (DuplicateNicknameException | InvalidNicknameException e) {
             setup();
         }
         observers.addPropertyChangeListener(new ActionParser(connection, modelView));
-        input.nextLine();
     }
 
     /**
@@ -160,7 +170,7 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Update grid after a change occured in ClientBoard
+     * Update grid after a change occurred in ClientBoard
      *
      * @param grid printed board
      */
@@ -170,16 +180,15 @@ public class CLI implements UI, Runnable {
             for (int j = 0; j <= 4; j++) {
                 for (int k = 0; k <= 10; k++) {
                     int level = modelView.getBoard().getGrid()[i][j].getLevel();
-                    if (modelView.getBoard().getGrid()[i][j].isDome() && level != 4 && level != 3) {
-                        rows = printable.levelsC[level].split("\n");
-                        if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                            addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows, "c", level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
-                        }
-                    } else {
+                    if (!modelView.getBoard().getGrid()[i][j].isDome()) {
                         rows = printable.levels[level].split("\n");
                         if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
-                            addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows, "n", level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
+                            addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows, level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
                         }
+                    } else if (level == 3) {
+                        rows = printable.levels[4].split("\n");
+                    } else {
+                        rows = printable.levelsC[level].split("\n");
                     }
                     grid[i][j].setCellRows(k, rows[k]);
                 }
@@ -192,51 +201,53 @@ public class CLI implements UI, Runnable {
      *
      * @param color Worker color
      * @param rows  string
-     * @param mode  string
      * @param level int
      */
-    private void addWorkerToCell(String color, String[] rows, String mode, int level, int type) {
-        String[] temp = new String[2];
-        String[] player = new String[2];
-        int[][] indexes = new int[5][1];
-        int[][] indexesC = new int[3][1];
+    private void addWorkerToCell(String color, String[] rows, int level, int type) {
+        String black;
+        String[] temp = new String[3];
+        String[] player = new String[3];
+        int[][] indexes = new int[Constants.GRID_MAX_SIZE][1];
         String upperBody = "☻";
-        String upperBody2 ="☺";
+        String upperBody2 = "☺";
+        String lowerBody = nameMapColor.get(WHITE) + "1";
+        String lowerBody2 = nameMapColor.get(WHITE) + "2";
         player[0] = null;
         player[1] = "▲";
+        player[2] = null;
         indexes[0][0] = 16;
         indexes[1][0] = 11;
-        indexes[2][0] = 21;
-        indexes[3][0] = 25;
+        indexes[2][0] = 22;
+        indexes[3][0] = 24;
         indexes[4][0] = 34;
-        indexesC[0][0] = 21;
-        indexesC[1][0] = 16;
-        indexesC[2][0] = 25;
-        if(type==1){player[0]=upperBody;}
-        else{player[0]=upperBody2;}
-        if (mode.equals("c")) {
-            for (int i = 0; i <= 1; i++) {
-                temp[i] = rows[i + 4].substring(0, indexesC[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexesC[level][0] + 1);
+        if (type == 1) {
+            player[0] = upperBody;
+            player[2] = lowerBody;
+        } else {
+            player[0] = upperBody2;
+            player[2] = lowerBody2;
+        }
+        if (level == 3) {
+            for (int i = 0; i <= 2; i++) {
+                int j;
+                if (i == 0 || i == 2) {
+                    j = -1;
+                } else {       //If i==1
+                    j = 3;
+                }
+                temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) +
+                        player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
                 rows[i + 4] = temp[i];
             }
         } else {
-            if (level == 4 || level == 3) {
-                for (int i = 0; i <= 1; i++) {
-                    int j;
-                    if (i == 0) {
-                        j = 0;
-                    } else {
-                        j = 4;
-                    }
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexes[level][0] + 1 - j);
-                    rows[i + 4] = temp[i];
-                }
-            } else {
-                for (int i = 0; i <= 1; i++) {
-                    temp[i] = rows[i + 4].substring(0, indexes[level][0]) + color + nameMapColor.get(BG_BLACK) + player[i] + nameMapColor.get(GREEN) + rows[i + 4].substring(indexes[level][0] + 1);
-                    rows[i + 4] = temp[i];
-
-                }
+            int j;
+            if (level == 2) {
+                j = 2;
+            } else j = 0;
+            for (int i = 0; i <= 2; i++) {
+                temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(BG_BLACK) +
+                        player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
+                rows[i + 4] = temp[i];
             }
         }
     }
@@ -247,23 +258,113 @@ public class CLI implements UI, Runnable {
      * @param grid printed board
      */
     private void printBoard(DisplayCell[][] grid) {
-        System.out.println(printable.ROW_WAVE);
-        System.out.println(printable.ROW_WAVE);
-        System.out.println(printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + printable.LINE_BLOCK + nameMapColor.get("RST") + printable.COUPLE_ROW_WAVE);
+        System.out.println(Printable.ROW_WAVE);
+        System.out.println(Printable.ROW_WAVE);
+        String[] sideMenuRows;
+        String[] guideMenuRows;
+        sideMenuRows = buildSideMenu();
+        guideMenuRows = buildSideHelp();
+        int check = 0;
+        System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK + nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[0]);
         for (int i = 0; i <= 4; i++) {
             for (int k = 0; k <= 10; k++) {
-                System.out.print(printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
+                System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 for (int j = 0; j <= 4; j++) {
                     System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 }
-                System.out.print(printable.COUPLE_ROW_WAVE + "\n");
+                if (check == 0) {
+                    System.out.print(Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[k + 1]);
+                } else if (check == 1) {
+                    System.out.println(Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[k]);
+                } else if (check == 2) {
+                    System.out.println(Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[12]);
+                    check++;
+                } else {
+                    System.out.println(Printable.COUPLE_ROW_WAVE);
+                }
             }
-            System.out.println(printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + printable.LINE_BLOCK + nameMapColor.get("RST") + printable.COUPLE_ROW_WAVE);
+            if (check == 1) {
+                System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK + nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[11]);
+            } else {
+                System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK + nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
+            }
+            check++;
         }
-        System.out.println(printable.ROW_WAVE);
-        System.out.println(printable.ROW_WAVE);
+        System.out.println(Printable.ROW_WAVE);
+        System.out.println(Printable.ROW_WAVE);
     }
 
+    private String[] buildSideMenu() {
+        String playerName = modelView.getPlayerName();
+        int max = Math.max(playerName.length(), 10);
+        String color = modelView.getColor();
+        String god = modelView.getGod();
+        String[] sideMenuRows = printable.sideMenu.split("\n");
+        for (int i = 0; i < 12; i++) {
+            String[] temp = sideMenuRows[i].split("-");
+            if (temp.length == 2) {
+                if (i == 0 || i == 2 || i == 5 || i == 8 || i == 11) {
+                    sideMenuRows[i] = temp[0] + addScores(max) + temp[1] + "\n";
+                } else {
+                    String var = null;
+                    if (i == 4) {
+                        var = playerName;
+                    } else if (i == 7) {
+                        var = god;
+                    } else if (i == 10) {
+                        var = nameMapColor.get(color) + addBlocks(max) + nameMapColor.get(RST);
+                    }
+                    assert var != null;
+                    sideMenuRows[i] = temp[0] + var + addSpaces(max, var) + temp[1] + "\n";
+                }
+            } else {
+                sideMenuRows[i] = temp[0] + temp[1] + addSpaces(max, temp[1]) + temp[2] + "\n";
+            }
+        }
+        return sideMenuRows;
+    }
+
+    private String[] buildSideHelp() {
+        String godDesc = modelView.getGodDesc();
+        String[] sideMenuHelp;
+        String menu =
+                nameMapColor.get(YELLOW) + "HELP GUIDE" + nameMapColor.get(RST) + "\n" +
+                        nameMapColor.get(YELLOW) + "GOD DESCRIPTION " + nameMapColor.get(RST) + "\n" +
+                        godDesc + "\n" +
+                        nameMapColor.get(YELLOW) + "SET <row1> <column1> <row2> <column2>" + nameMapColor.get(RST) + ": set workers on specified cells" + "\n" +
+                        nameMapColor.get(YELLOW) + "SELECTWORKER <1/2>" + nameMapColor.get(RST) + ": select which worker you wanna play" + "\n" +
+                        nameMapColor.get(YELLOW) + "MOVE (no arguments)" + nameMapColor.get(RST) + ": print your possible move actions, needed to be run before MOVE with arguments" + "\n" +
+                        nameMapColor.get(YELLOW) + "MOVE <row> <column>" + nameMapColor.get(RST) + ": move worker to specified cell (if permitted)" + "\n" +
+                        nameMapColor.get(YELLOW) + "BUILD (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions, needed to be run before BUILD with arguments" + "\n" +
+                        nameMapColor.get(YELLOW) + "BUILD <row> <column>" + nameMapColor.get(RST) + ": build a block on specified cell (if permitted)" + "\n" +
+                        nameMapColor.get(YELLOW) + "PLACEDOME (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions in order to place a dome [ATLAS ONLY], needed to be run before PLACEDOME with arguments" + "\n" +
+                        nameMapColor.get(YELLOW) + "PLACEDOME <row> <column>" + nameMapColor.get(RST) + ": build dome on specified cell (if permitted) [ATLAS ONLY]" + "\n" +
+                        nameMapColor.get(YELLOW) + "END" + nameMapColor.get(RST) + ": end turn";
+        sideMenuHelp = menu.split("\n");
+        return sideMenuHelp;
+    }
+
+    private StringBuilder addSpaces(int max, String s) {
+        if (max - s.length() == 0) {
+            return new StringBuilder();
+        } else {
+            StringBuilder y = new StringBuilder();
+            y.append(" ".repeat(Math.max(0, max - s.length())));
+            return y;
+        }
+    }
+
+    private StringBuilder addBlocks(int max) {
+        StringBuilder s = new StringBuilder();
+        s.append("█".repeat(Math.max(0, max)));
+        return s;
+    }
+
+    private StringBuilder addScores(int max) {
+        StringBuilder s = new StringBuilder();
+        s.append("-".repeat(Math.max(0, max)));
+        return s;
+    }
 
     /**
      * This method lets the first-connected user to decides the match capacity.
@@ -274,16 +375,16 @@ public class CLI implements UI, Runnable {
         while (true) {
             try {
                 output.print(">");
-                selection = input.nextInt();
+                String cmd = input.nextLine();
+                selection = Integer.parseInt(cmd);
                 break;
-            } catch (InputMismatchException e) {
-                output.println(nameMapColor.get("RED") + "Invalid parameter, it must be a number.\nApplication will now quit..." + nameMapColor.get("RST"));
-                System.exit(-1);
+            } catch (NumberFormatException e) {
+                output.println(nameMapColor.get(RED) + "Invalid parameter, it must be a numeric value." + nameMapColor.get("RST"));
             }
         }
         connection.send(new NumberOfPlayers(selection));
         modelView.setStarted(1);
-        input.nextLine();
+        //input.nextLine();
     }
 
     /**
@@ -321,12 +422,12 @@ public class CLI implements UI, Runnable {
     public void errorHandling(GameError error) {
         switch (error.getError()) {
             case CELLOCCUPIED -> {
-                output.println(nameMapColor.get("RED") + "The following cells are already occupied, please choose them again." + nameMapColor.get("RST"));
-                error.getCoordinates().forEach(n -> output.print(nameMapColor.get("RED") + Arrays.toString(n) + ", " + nameMapColor.get("RST")));
+                output.println(nameMapColor.get(RED) + "The following cells are already occupied, please choose them again." + nameMapColor.get("RST"));
+                error.getCoordinates().forEach(n -> output.print(nameMapColor.get(RED) + Arrays.toString(n) + ", " + nameMapColor.get("RST")));
             }
             case INVALIDINPUT -> {
                 if (error.getMessage() != null) {
-                    output.println(nameMapColor.get("RED") + error.getMessage() + nameMapColor.get("RST"));
+                    output.println(nameMapColor.get(RED) + error.getMessage() + nameMapColor.get("RST"));
                 }
                 modelView.setTurnActive(true);
             }
@@ -356,34 +457,45 @@ public class CLI implements UI, Runnable {
             }
             case "GodRequest" -> {
                 ChallengerMessages req = (ChallengerMessages) modelView.getServerAnswer();
-                if (req.isStartingPlayer() && req.getPlayers() != null) {
-                    output.println(req.getMessage());
-                    req.getPlayers().forEach(n -> output.println(req.getPlayers().indexOf(n) + ": " + n + ","));
-                } else if (req.getChoosable() != null) {
-                    output.println(req.getMessage());
-                    req.getChoosable().forEach(n -> output.println(n.toString() + "\n" + n.godsDescription()));
-                    output.println("\nSelect your god by typing choose <god-name>:");
-                } else if (req.getGodList() != null) {
-                    req.getGodList().forEach(n -> output.print(n + ", "));
-                    output.println();
-                } else if(req.getChosenGod()!=null) {
-                    modelView.setGod(req.getChosenGod());
-                    return;
-                }
-                else {
-                    output.println(req.getMessage());
-                }
-                modelView.toggleInput();
-                if (modelView.getStarted() < 3) modelView.setStarted(3);
+                godRequest(req);
             }
             case "WorkerPlacement" -> {
-                output.println(modelView.getServerAnswer().getMessage());
+                firstUpdateCli();
+                String[] msg = modelView.getServerAnswer().getMessage().toString().split(" ");
+                output.println(Constants.ANSI_UNDERLINE + msg[0] + nameMapColor.get(RST) + " choose your workers position by typing" +
+                                nameMapColor.get(YELLOW) + " SET <row1 <col1> <row2> <col2> " + nameMapColor.get(RST) + "where 1 and 2 indicates worker number.");
+                output.print(">");
                 modelView.toggleInput();
             }
             default -> {
-                output.println("Noting to do");
+                output.println("Nothing to do");
             }
         }
+    }
+
+    private void godRequest(ChallengerMessages req) {
+        if (req.isStartingPlayer() && req.getPlayers() != null) {
+            output.println(req.getMessage().split(" ")[0] + " choose the starting player by typing" +
+                    nameMapColor.get(YELLOW) + " STARTER <number-of-player>" + nameMapColor.get(RST));
+            req.getPlayers().forEach(n -> output.println(req.getPlayers().indexOf(n) + ": " + n + ","));
+        } else if (req.getSelectable() != null) {
+            output.println("\n" + req.getMessage());
+            req.getSelectable().forEach(n -> output.println("\n" + n.toString() + "\n" + n.godsDescription()));
+            output.println("\nSelect your god by typing" + nameMapColor.get(YELLOW) + " choose <god-name>" + nameMapColor.get(RST));
+            output.print(">");
+        } else if (req.getGodList() != null) {
+            output.println();
+            req.getGodList().forEach(n -> output.print(n + ", "));
+            output.println();
+        } else {
+            if(req.getMessage().contains("Description") || req.getMessage().contains("been added")) {
+                output.println();
+            }
+            output.println(req.getMessage());
+            output.print(">");
+        }
+        modelView.toggleInput();
+        if (modelView.getStarted() < 3) modelView.setStarted(3);
     }
 
     /**
@@ -393,7 +505,7 @@ public class CLI implements UI, Runnable {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        String command = (evt.getNewValue()!=null) ? evt.getNewValue().toString() : null;
+        String command = (evt.getNewValue() != null) ? evt.getNewValue().toString() : null;
         switch (evt.getPropertyName()) {
             case "gameError" -> {
                 errorHandling((GameError) evt.getNewValue());
@@ -410,51 +522,106 @@ public class CLI implements UI, Runnable {
             }
             case "connectionClosed" -> {
                 output.println(evt.getNewValue());
-                output.println(nameMapColor.get("RED") + "Application will now close..." + nameMapColor.get("RST"));
+                output.println(nameMapColor.get(RED) + "Application will now close..." + nameMapColor.get("RST"));
                 System.exit(0);
             }
             case "boardUpdate" -> {
-                clearScreen();
-                boardUpdater(grid);
-                printBoard(grid);
-                try {
-                    printMenu();
-                } catch (InterruptedException e) {
-                    System.err.println(e.getMessage());
-                    Thread.currentThread().interrupt();
-                }
+                updateCli();
+            }
+            case "firstBoardUpdate" -> {
+                firstUpdateCli();
             }
             case "selectWorker" -> {
                 selectWorker();
+            }
+            case "end" -> {
+                end();
+            }
+            case "select" -> {
+                printSpaces();
+            }
+            case "win" -> {
+                output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
+                System.exit(0);
+            }
+            case "lose" -> {
+                output.println(nameMapColor.get(RED) + "YOU LOSE!" + nameMapColor.get(RST));
+                output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has won." + nameMapColor.get(RST));
+                System.exit(0);
             }
             default -> {
                 output.println("Unrecognized answer");
             }
         }
     }
-    public void selectWorker(){
-        System.out.print("\r\t• SELECTWORKER <1/2>\n");
+
+    private void end() {
+        System.out.print("\r Turn ended");
+    }
+
+    public void selectWorker() {
+        System.out.print("\r  • SELECTWORKER <1/2>\n");
         System.out.print(">");
     }
+
     public void printMenu() throws InterruptedException {
         String active;
-        if(modelView.getGamePhase()!=0) {
-            if (modelView.isTurnActive()) {
-                active = "È ";
-            } else {
-                active = "NON È ";
-            }
-            System.out.println(active + "IL TUO TURNO");
+        String atlas;
+        if (modelView.getGamePhase() != 0) {
+            if (!modelView.isTurnActive()) {
+                active = " NOT ";
+            } else active = "";
+            System.out.println(active + " YOUR TURN");
         }
+        if (modelView.getGod().equalsIgnoreCase("ATLAS")) {
+            atlas = "  • PLACEDOME\\n\"";
+        } else atlas = "";
         TimeUnit.MILLISECONDS.sleep(500);
-        System.out.print("\t• MOVE\n" +
-                         "\t• BUILD\n" +
-                         "\t• END\n");
+        System.out.print("  • MOVE\n" +
+                "  • BUILD\n" +
+                atlas +
+                "  • END\n");
         System.out.print(">");
     }
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+
+    public void firstPrintMenu() throws InterruptedException {
+        String active;
+        if (!modelView.isTurnActive()) {
+            active = "NOT ";
+        } else active = "";
+        System.out.println(active + "YOUR TURN");
+        TimeUnit.MILLISECONDS.sleep(500);
+    }
+
+    public void firstUpdateCli() {
+        clearScreen();
+        boardUpdater(grid);
+        printBoard(grid);
+        try {
+            firstPrintMenu();
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void updateCli() {
+        clearScreen();
+        boardUpdater(grid);
+        printBoard(grid);
+        try {
+            printMenu();
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void printSpaces() {
+        for (int i = 0; i < modelView.getSelectSpaces().size(); i++) {
+            System.out.print("(" + modelView.getSelectSpaces().get(i).getX() + "," + modelView.getSelectSpaces().get(i).getY() + ")  ");
+        }
+        System.out.println();
     }
 
 

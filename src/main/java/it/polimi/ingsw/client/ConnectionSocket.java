@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.messages.SetupConnection;
 import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
+import it.polimi.ingsw.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.server.answers.*;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class ConnectionSocket {
      * @param modelView the game model.
      * @throws DuplicateNicknameException if the selected nickname has already been taken (case-insensitive).
      */
-    public void setup(String nickname, ModelView modelView, ActionHandler actionHandler) throws DuplicateNicknameException{
+    public void setup(String nickname, ModelView modelView, ActionHandler actionHandler) throws DuplicateNicknameException, InvalidNicknameException{
         try {
             System.out.println(Constants.ANSI_YELLOW + "Configuring socket connection..." + Constants.ANSI_RESET);
             System.out.println(Constants.ANSI_YELLOW + "Opening a socket server communication on port " + serverPort + "..." + Constants.ANSI_RESET);
@@ -59,7 +60,7 @@ public class ConnectionSocket {
                     return;
                 }
             }
-            listener = new SocketListener(socket, this, modelView, input, actionHandler);
+            listener = new SocketListener(socket, modelView, input, actionHandler);
             Thread thread = new Thread(listener);
             thread.start();
         }
@@ -76,7 +77,7 @@ public class ConnectionSocket {
      * @return true if the nickname is available and set, false instead.
      * @throws DuplicateNicknameException if the nickname has already been chosen.
      */
-    public boolean nicknameChecker(Object input) throws DuplicateNicknameException{
+    public boolean nicknameChecker(Object input) throws DuplicateNicknameException, InvalidNicknameException {
         SerializedAnswer answer = (SerializedAnswer)input ;
         if (answer.getServerAnswer() instanceof ConnectionMessage && ((ConnectionMessage) answer.getServerAnswer()).getType()==0) {
             return true;
@@ -85,6 +86,10 @@ public class ConnectionSocket {
             if(((GameError) answer.getServerAnswer()).getError().equals(ErrorsType.DUPLICATENICKNAME)) {
                 System.err.println("This nickname is already in use! Please choose one other.");
                 throw new DuplicateNicknameException();
+            }
+            if(((GameError)answer.getServerAnswer()).getError().equals(ErrorsType.INVALIDNICKNAME)){
+                System.err.println("Nickname can't contain - character");
+                throw new InvalidNicknameException();
             }
             else if(((GameError)answer.getServerAnswer()).getError().equals(ErrorsType.FULLSERVER)) {
                 System.err.println("This match is already full, please try again later!\nApplication will now close...");

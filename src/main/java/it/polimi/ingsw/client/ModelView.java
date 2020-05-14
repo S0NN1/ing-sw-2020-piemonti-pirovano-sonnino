@@ -2,7 +2,10 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.server.answers.*;
+
+import java.util.ArrayList;
 
 /**
  * This class contains a small representation of the game model, and contains linking to the main client actions, which
@@ -18,11 +21,41 @@ public class ModelView {
     private final GUI gui;
     private volatile int started;
     private int activeWorker;
+    private String playerName;
     private String god;
+
+    public String getGodDesc() {
+        return godDesc;
+    }
+
+    public void setGodDesc(String godDesc) {
+        this.godDesc = godDesc;
+    }
+
+    private String godDesc;
     private int turnPhase;
     private boolean turnActive;
     private boolean buildSelected;
     private boolean moveSelected;
+    private ArrayList<Couple> selectSpaces;
+
+    public ArrayList<Couple> getSelectSpaces() {
+        return selectSpaces;
+    }
+
+    public void setSelectSpaces(ArrayList<Couple> selectSpaces) {
+        this.selectSpaces = selectSpaces;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
 
     public int getTurnPhase() {
         return turnPhase;

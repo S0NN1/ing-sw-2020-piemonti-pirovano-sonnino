@@ -216,8 +216,8 @@ public class GameHandler {
             return;
         }
         List<int[]> spaces = new ArrayList<>();
-        for(int i=0; i<5; i++) {
-            for(int j=0; j<5; j++) {
+        for(int i = Constants.GRID_MIN_SIZE; i<Constants.GRID_MAX_SIZE; i++) {
+            for(int j = Constants.GRID_MIN_SIZE; j<Constants.GRID_MAX_SIZE; j++) {
                 if(game.getGameBoard().getSpace(i, j).isEmpty()) {
                     int[] coords = new int[2];
                     coords[0] = game.getGameBoard().getSpace(i, j).getX();
@@ -227,8 +227,53 @@ public class GameHandler {
             }
         }
         singleSend(new WorkerPlacement(game.getCurrentPlayer().getNickname() + ", choose your workers position by " +
-                "typing SET <x1> <y1> <x2> <y2> where 1 and 2 indicates worker number.", spaces), getCurrentPlayerID());
+                "typing SET <row1 <col1> <row2> <col2> where 1 and 2 indicates worker number.", spaces), getCurrentPlayerID());
         sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() + " is choosing workers' position.", false), getCurrentPlayerID());
+    }
+
+    /**
+     * Handles the second game phase: the user chooses his god card.
+     * @param userAction the action of the current player.
+     * @param godSelection the selection of the god card.
+     */
+    public void challengerPhaseChoose(ChallengerPhaseAction userAction, String godSelection) {
+        if(userAction.action.equals("CHOOSE")) {
+            controllerListener.firePropertyChange(godSelection, null, userAction);
+            if (game.getDeck().getCards().size() > 1) {
+                if(!game.getCurrentPlayer().getWorkers().isEmpty() && game.getDeck().getCards().size()>1) {
+                    game.nextPlayer();
+                    singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
+                            ", please choose your god power from one of the list below.\n\n" + game.getDeck().
+                            getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +
+                            "Select your god by typing CHOOSE " + "<god-name>:"), getCurrentPlayerID());
+                    return;
+                }
+                else if(!game.getCurrentPlayer().getWorkers().isEmpty() && game.getDeck().getCards().size()==1) {
+                    game.nextPlayer();
+                    return;
+                }
+                singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
+                        ", please choose your god power from one of the list below.\n\n" + game.getDeck().
+                        getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +
+                        "Select your god by typing CHOOSE " + "<god-name>:"), getCurrentPlayerID());
+                sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() +
+                        " is choosing his god power...", false), getCurrentPlayerID());
+            } else if (game.getDeck().getCards().size() == 1) {
+                game.nextPlayer();
+                controllerListener.firePropertyChange(godSelection, null, new ChallengerPhaseAction("LASTSELECTION"));
+                ArrayList<String> players = new ArrayList<>();
+                game.getActivePlayers().forEach(n -> players.add(n.getNickname()));
+                singleSend(new ChallengerMessages(game.getCurrentPlayer().getNickname() + ", choose the " +
+                        "starting player by typing STARTER <number-of-player>", true, players), game.getCurrentPlayer().getClientID());
+                sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() + " is " +
+                        " choosing the starting player, please wait!", false), game.getCurrentPlayer().getClientID());
+                started = 3;
+            }
+        }
+        else {
+            singleSend(new ChallengerMessages(Constants.ANSI_RED + "Error: not in correct game phase for this command!"
+                    + Constants.ANSI_RESET), getCurrentPlayerID());
+        }
     }
 
     /**
@@ -255,43 +300,7 @@ public class GameHandler {
             }
         }
         else if (started == 2) {
-            if(userAction.action.equals("CHOOSE")) {
-                controllerListener.firePropertyChange(godSelection, null, userAction);
-                if (game.getDeck().getCards().size() > 1) {
-                    if(!game.getCurrentPlayer().getWorkers().isEmpty() && game.getDeck().getCards().size()>1) {
-                        game.nextPlayer();
-                        singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
-                                ", please choose your god power from one of the list below.\n\n" + game.getDeck().
-                                getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +
-                                "Select your god by typing CHOOSE " + "<god-name>:"), getCurrentPlayerID());
-                        return;
-                    }
-                    else if(!game.getCurrentPlayer().getWorkers().isEmpty() && game.getDeck().getCards().size()==1) {
-                        game.nextPlayer();
-                        return;
-                    }
-                    singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
-                            ", please choose your god power from one of the list below.\n\n" + game.getDeck().
-                            getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +
-                            "Select your god by typing CHOOSE " + "<god-name>:"), getCurrentPlayerID());
-                    sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() +
-                            " is choosing his god power...", false), getCurrentPlayerID());
-                } else if (game.getDeck().getCards().size() == 1) {
-                    game.nextPlayer();
-                    controllerListener.firePropertyChange(godSelection, null, new ChallengerPhaseAction("LASTSELECTION"));
-                    ArrayList<String> players = new ArrayList<>();
-                    game.getActivePlayers().forEach(n -> players.add(n.getNickname()));
-                    singleSend(new ChallengerMessages(game.getCurrentPlayer().getNickname() + ", choose the " +
-                            "starting player by typing STARTER <number-of-player>", true, players), game.getCurrentPlayer().getClientID());
-                    sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() + " is " +
-                            " choosing the starting player, please wait!", false), game.getCurrentPlayer().getClientID());
-                    started = 3;
-                }
-            }
-            else {
-                singleSend(new ChallengerMessages(Constants.ANSI_RED + "Error: not in correct game phase for this command!"
-                        + Constants.ANSI_RESET), getCurrentPlayerID());
-            }
+            challengerPhaseChoose(userAction, godSelection);
         }
         else if(userAction.startingPlayer!=null) {
             if(userAction.startingPlayer < 0 || userAction.startingPlayer > game.getActivePlayers().size()) {
@@ -314,11 +323,21 @@ public class GameHandler {
     }
 
     /**
-     * Terminates the game, disconnecting all the players. This method can be invoked after a disconnection of a player
-     * or after a win condition. It also unregisters each client connected to the server, freeing a new lobby.
+     * Terminates the game, disconnecting all the players. This method is invoked after a disconnection of a player.
+     * It also unregisters each client connected to the server, freeing a new lobby.
      */
     public void endGame(String leftNickname) {
         sendAll(new ConnectionMessage(PLAYER + " " + leftNickname + " left the game, the match will now end.\nThanks for playing!", 1));
+        while(!game.getActivePlayers().isEmpty()) {
+            server.getClientByID(game.getActivePlayers().get(0).getClientID()).getConnection().close();
+        }
+    }
+
+    /**
+     * Terminates the game, disconnecting all the players. This method is invoked after a player has won.
+     * It also unregisters each client connected to the server, freeing a new lobby.
+     */
+    public void endGame() {
         while(!game.getActivePlayers().isEmpty()) {
             server.getClientByID(game.getActivePlayers().get(0).getClientID()).getConnection().close();
         }

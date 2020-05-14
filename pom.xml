@@ -9,7 +9,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>GC01</name>
-  <url>https://lucapirovano.com</url>
+  <url>https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

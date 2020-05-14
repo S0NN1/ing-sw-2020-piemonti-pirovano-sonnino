@@ -3,10 +3,8 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
-import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
+import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
+import it.polimi.ingsw.client.messages.actions.workerActions.*;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.model.Card;
@@ -21,19 +19,13 @@ import java.util.Objects;
  */
 public class InputChecker {
     public static final String ERR_NONEXISTENT_UNREACHABLE = "Non-existent or unreachable cell, operation not permitted!";
-    private static final String GOD_NOT_FOUND = "Not existing god with your input's name.";
-    private static final String RED = Constants.ANSI_RED;
-    private static final String RST = Constants.ANSI_RESET;
-    public static final String PROMETHEUS = "PROMETHEUS";
-    public static final String ATLAS = "ATLAS";
-    public static final String DEMETER = "DEMETER";
-    public static final String ARTEMIS = "ARTEMIS";
-    public static final String MINOTAUR = "MINOTAUR";
-    public static final String APOLLO = "APOLLO";
     public static final String ERR_CELL_OCCUPIED = "Cell already occupied, operation not permitted!";
     public static final String ERR_INCORRECT_ACTION = "Incorrect action, wrong turn phase!";
     public static final String ERR_WORKER_NOT_SELECTED = "Worker not selected, operation not permitted!";
     public static final String CELL_WITH_DOME = "Cell with dome, operation not permitted!";
+    private static final String GOD_NOT_FOUND = "Not existing god with your input's name.";
+    private static final String RED = Constants.ANSI_RED;
+    private static final String RST = Constants.ANSI_RESET;
     private final ConnectionSocket connection;
     private final ModelView modelView;
 
@@ -87,7 +79,6 @@ public class InputChecker {
         ChallengerPhaseAction action;
         try {
             action = new ChallengerPhaseAction("CHOOSE", Card.parseInput(in[1]));
-            modelView.setGod(in[1]);
         } catch (IllegalArgumentException e) {
             System.out.println(RED + GOD_NOT_FOUND + RST);
             return null;
@@ -127,7 +118,7 @@ public class InputChecker {
             int y = Integer.parseInt(in[2]);
             int w = Integer.parseInt(in[3]);
             int z = Integer.parseInt(in[4]);
-            if (x < 0 || x >= 5 || y < 0 || y >= 5 || w < 0 || w >= 5 || z < 0 || z >= 5) {
+            if (x < Constants.GRID_MIN_SIZE || x >= Constants.GRID_MAX_SIZE || y < Constants.GRID_MIN_SIZE || y >= Constants.GRID_MAX_SIZE || w < Constants.GRID_MIN_SIZE || w >= Constants.GRID_MAX_SIZE || z < Constants.GRID_MIN_SIZE || z >= Constants.GRID_MAX_SIZE) {
                 System.err.println(ERR_NONEXISTENT_UNREACHABLE);
                 return null;
             } else return action;
@@ -156,46 +147,57 @@ public class InputChecker {
      * @return buildAction
      */
     public BuildAction build(int turnPhase, int x, int y, int activeWorker) {
-        if(!modelView.isBuildSelected()) {
+        if (!modelView.isBuildSelected()) {
             System.err.println("You must run BUILD (no args) command before!");
             return null;
         }
         Couple w = findWorker(activeWorker, modelView.getColor());
         BuildAction build = new BuildAction(x, y);
-        if (turnPhase == 1 || modelView.getGod().equalsIgnoreCase(ATLAS) || modelView.getGod().equalsIgnoreCase(DEMETER) || modelView.getGod().equalsIgnoreCase(PROMETHEUS)) {
-            if (x < 0 || x >= 5 || y < 0 || y >= 5 || x >= Objects.requireNonNull(w).getX() + 2 || x <= w.getX() - 2 || y >= w.getY() + 2 || y <= w.getY() - 2) {
-                System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
-                return null;
-            } else {
-                if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
-                    System.out.println(RED + ERR_CELL_OCCUPIED + RST);
-                    return null;
-                } else {
-                    if (modelView.getBoard().getGrid()[x][y].getLevel() == 4 || modelView.getBoard().getGrid()[x][y].isDome()) {
-                        System.out.println(RED + CELL_WITH_DOME + RST);
-                        return null;
-                    } else {
-                        return build;
-                    }
-                }
-            }
+        if (turnPhase == 1 || Constants.getBuildPhaseGods().contains(modelView.getGod().toUpperCase())) {
+            return getBuildAction(x, y, w, build);
         } else {
             System.err.println(ERR_INCORRECT_ACTION);
             return null;
         }
     }
 
-    public SelectBuildAction build(int turnPhase, int activeWorker){
+
+    public SelectBuildAction build(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        }
-        else if (turnPhase == 1 || modelView.getGod().equalsIgnoreCase(ATLAS) || modelView.getGod().equalsIgnoreCase(DEMETER) || modelView.getGod().equalsIgnoreCase(PROMETHEUS)) {
+        } else if (turnPhase == 1 || Constants.getBuildPhaseGods().contains(modelView.getGod().toUpperCase())) {
             modelView.setBuildSelected(true);
             return new SelectBuildAction();
+        } else {
+            System.err.println(ERR_INCORRECT_ACTION);
+            return null;
         }
-        else return null;
+    }
+
+    public AtlasBuildAction atlasBuild(int turnPhase, int x, int y, int activeWorker) {
+        if (modelView.getGod().equalsIgnoreCase("ATLAS")) {
+            Couple w = findWorker(activeWorker, modelView.getColor());
+            AtlasBuildAction build = new AtlasBuildAction(x, y, true);
+            if (!modelView.isBuildSelected()) {
+                System.err.println("You must run BUILD (no args) command before!");
+                return null;
+            } else {
+                if (turnPhase == 1) {
+                    return (AtlasBuildAction) getBuildAction(x, y, w, build);
+                }
+                    else{
+                        System.err.println(ERR_INCORRECT_ACTION);
+                        return null;
+                    }
+                }
+            }
+             else{
+                System.err.println("Current god isn't ATLAS, operation not permitted!");
+                return null;
+            }
         }
+
     /**
      * Check if move is possible
      *
@@ -206,7 +208,7 @@ public class InputChecker {
      * @return moveAction
      */
     public MoveAction move(int turnPhase, int x, int y, int activeWorker) {
-        if(!modelView.isMoveSelected()) {
+        if (!modelView.isMoveSelected()) {
             System.err.println("You must run MOVE (no args) command before!");
             return null;
         }
@@ -216,13 +218,13 @@ public class InputChecker {
         }
         Couple w = findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(x, y);
-        if (turnPhase == 0 || modelView.getGod().equalsIgnoreCase(PROMETHEUS) || modelView.getGod().equalsIgnoreCase(ARTEMIS)) {
-            if (x < 0 || x >= 5 || y < 0 || y >= 5 || x >= Objects.requireNonNull(w).getX() + 2 || x <= w.getX() - 2 || y >= w.getY() + 2 || y <= w.getY() - 2) {
+        if (turnPhase == 0 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase())) {
+            if (isUnreachable(x, y, w)) {
                 System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;
             } else {
                 if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
-                    if (!modelView.getGod().equalsIgnoreCase(APOLLO) && (!modelView.getGod().equalsIgnoreCase(MINOTAUR) || modelView.getBoard().getGrid()[x][y].getColor().equals(modelView.getColor()))) {
+                    if (!Constants.getMoveToCellOccupiedGods().contains(modelView.getGod().toUpperCase())) {
                         System.out.println(RED + ERR_CELL_OCCUPIED + RST);
                         return null;
                     } else return move;
@@ -231,6 +233,7 @@ public class InputChecker {
                         System.out.println(RED + CELL_WITH_DOME + RST);
                         return null;
                     } else {
+                        assert w != null;
                         if (modelView.getBoard().getGrid()[x][y].getLevel() - modelView.getBoard().getGrid()[w.getX()][w.getY()].getLevel() >= 2) {
                             System.out.println(RED + "Trying to move up to unreachable level, operation not permitted!" + RST);
                             return null;
@@ -245,22 +248,47 @@ public class InputChecker {
 
     }
 
-    public SelectMoveAction move(int turnPhase, int activeWorker){
+    private BuildAction getBuildAction(int x, int y, Couple w, BuildAction build) {
+        if (isUnreachable(x, y, w)) {
+            System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
+            return null;
+        } else {
+            if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
+                System.out.println(RED + ERR_CELL_OCCUPIED + RST);
+                return null;
+            } else {
+                if (modelView.getBoard().getGrid()[x][y].getLevel() == 4 || modelView.getBoard().getGrid()[x][y].isDome()) {
+                    System.out.println(RED + CELL_WITH_DOME + RST);
+                    return null;
+                } else {
+                    return build;
+                }
+            }
+        }
+    }
+
+
+    private boolean isUnreachable(int x, int y, Couple w) {
+        return x < Constants.GRID_MIN_SIZE || x >= Constants.GRID_MAX_SIZE || y < Constants.GRID_MIN_SIZE || y >= Constants.GRID_MAX_SIZE || x >= Objects.requireNonNull(w).getX() + 2 || x <= w.getX() - 2 || y >= w.getY() + 2 || y <= w.getY() - 2;
+    }
+
+    public SelectMoveAction move(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        }
-        else if (turnPhase == 0 || modelView.getGod().equalsIgnoreCase(PROMETHEUS) || modelView.getGod().equalsIgnoreCase(ARTEMIS)) {
+        } else if (turnPhase == 0 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase())) {
             modelView.setMoveSelected(true);
             return new SelectMoveAction();
+        } else {
+            System.err.println(ERR_INCORRECT_ACTION);
+            return null;
         }
-        else return null;
     }
 
     private Couple findWorker(int activeWorker, String color) {
         Couple couple;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < Constants.GRID_MAX_SIZE; i++) {
+            for (int j = 0; j < Constants.GRID_MAX_SIZE; j++) {
                 if (modelView.getBoard().getGrid()[i][j].getWorkerNum() == activeWorker && modelView.getBoard().getGrid()[i][j].getColor().equals(color)) {
                     couple = new Couple(i, j);
                     return couple;
@@ -268,5 +296,18 @@ public class InputChecker {
             }
         }
         return null;
+    }
+
+    public StartTurnAction selectWorker(String[] in) {
+        String var;
+        if (Integer.parseInt(in[1]) == 1) {
+            var = "worker1";
+        } else if (Integer.parseInt(in[1]) == 2) {
+            var = "worker2";
+        } else {
+            System.err.println("Non-existent worker, operation not permitted!");
+            return null;
+        }
+        return new StartTurnAction(var);
     }
 }
