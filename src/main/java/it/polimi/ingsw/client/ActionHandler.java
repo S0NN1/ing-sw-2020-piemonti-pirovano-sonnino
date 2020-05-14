@@ -20,7 +20,7 @@ import java.beans.PropertyChangeSupport;
  */
 public class ActionHandler {
 
-    private ModelView modelView;
+    private final ModelView modelView;
     private CLI cli;
     private GUI gui;
     private PropertyChangeSupport view = new PropertyChangeSupport(this);
@@ -139,6 +139,7 @@ public class ActionHandler {
         } else if (answer instanceof ChallengerMessages) {
             if(((ChallengerMessages)answer).getChosenGod()!=null){
                 modelView.setGod(((ChallengerMessages)answer).getChosenGod());
+                modelView.setGodDesc(((ChallengerMessages)answer).getGodDesc());
                 return;
             }
             view.firePropertyChange(initial, null, "GodRequest");

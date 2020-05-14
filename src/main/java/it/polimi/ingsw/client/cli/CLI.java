@@ -14,7 +14,10 @@ import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -102,7 +105,6 @@ public class CLI implements UI, Runnable {
                 output.print(">");
                 nickname = input.next();
             } while (nickname == null);
-
             output.println(">You chose: " + nickname);
             output.println(">Is it ok? [y/n] ");
             output.print(">");
@@ -113,6 +115,7 @@ public class CLI implements UI, Runnable {
             }
         }
         connection = new ConnectionSocket();
+        modelView.setPlayerName(nickname);
         try {
             connection.setup(nickname, modelView, actionHandler);
             output.println(nameMapColor.get(GREEN) + "Socket Connection setup completed!" + nameMapColor.get("RST"));
@@ -256,19 +259,110 @@ public class CLI implements UI, Runnable {
     private void printBoard(DisplayCell[][] grid) {
         System.out.println(Printable.ROW_WAVE);
         System.out.println(Printable.ROW_WAVE);
-        System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK + nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
+        String[] sideMenuRows;
+        String[] guideMenuRows;
+        sideMenuRows = buildSideMenu();
+        guideMenuRows = buildSideHelp();
+        int check = 0;
+        System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK + nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[0]);
         for (int i = 0; i <= 4; i++) {
             for (int k = 0; k <= 10; k++) {
                 System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 for (int j = 0; j <= 4; j++) {
                     System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 }
-                System.out.print(Printable.COUPLE_ROW_WAVE + "\n");
+                if (check == 0) {
+                    System.out.print(Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[k + 1]);
+                } else if (check == 1) {
+                    System.out.println(Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[k]);
+                } else if (check == 2) {
+                    System.out.println(Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[12]);
+                    check++;
+                } else {
+                    System.out.println(Printable.COUPLE_ROW_WAVE);
+                }
             }
-            System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK + nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
+            if (check == 1) {
+                System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK + nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[11]);
+            } else {
+                System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK + nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
+            }
+            check++;
         }
         System.out.println(Printable.ROW_WAVE);
         System.out.println(Printable.ROW_WAVE);
+    }
+
+    private String[] buildSideMenu() {
+        String playerName = modelView.getPlayerName();
+        int max = Math.max(playerName.length(), 10);
+        String color = modelView.getColor();
+        String god = modelView.getGod();
+        String[] sideMenuRows = printable.sideMenu.split("\n");
+        for (int i = 0; i < 12; i++) {
+            String[] temp = sideMenuRows[i].split("-");
+            if (temp.length == 2) {
+                if (i == 0 || i == 2 || i == 5 || i == 8 || i == 11) {
+                    sideMenuRows[i] = temp[0] + addScores(max) + temp[1] + "\n";
+                } else {
+                    String var = null;
+                    if (i == 4) {
+                        var = playerName;
+                    } else if (i == 7) {
+                        var = god;
+                    } else if (i == 10) {
+                        var = nameMapColor.get(color) + addBlocks(max) + nameMapColor.get(RST);
+                    }
+                    assert var != null;
+                    sideMenuRows[i] = temp[0] + var + addSpaces(max, var) + temp[1] + "\n";
+                }
+            } else {
+                sideMenuRows[i] = temp[0] + temp[1] + addSpaces(max, temp[1]) + temp[2] + "\n";
+            }
+        }
+        return sideMenuRows;
+    }
+
+    private String[] buildSideHelp() {
+        String godDesc = modelView.getGodDesc();
+        String[] sideMenuHelp;
+        String menu =
+                nameMapColor.get(YELLOW) + "HELP GUIDE" + nameMapColor.get(RST) + "\n" +
+                        nameMapColor.get(YELLOW) + "GOD DESCRIPTION " + nameMapColor.get(RST) + "\n" +
+                        godDesc + "\n" +
+                        nameMapColor.get(YELLOW) + "SET <row1> <column1> <row2> <column2>" + nameMapColor.get(RST) + ": set workers on specified cells" + "\n" +
+                        nameMapColor.get(YELLOW) + "SELECTWORKER <1/2>" + nameMapColor.get(RST) + ": select which worker you wanna play" + "\n" +
+                        nameMapColor.get(YELLOW) + "MOVE (no arguments)" + nameMapColor.get(RST) + ": print your possible move actions, needed to be run before MOVE with arguments" + "\n" +
+                        nameMapColor.get(YELLOW) + "MOVE <row> <column>" + nameMapColor.get(RST) + ": move worker to specified cell (if permitted)" + "\n" +
+                        nameMapColor.get(YELLOW) + "BUILD (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions, needed to be run before BUILD with arguments" + "\n" +
+                        nameMapColor.get(YELLOW) + "BUILD <row> <column>" + nameMapColor.get(RST) + ": build a block on specified cell (if permitted)" + "\n" +
+                        nameMapColor.get(YELLOW) + "PLACEDOME (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions in order to place a dome [ATLAS ONLY], needed to be run before PLACEDOME with arguments" + "\n" +
+                        nameMapColor.get(YELLOW) + "PLACEDOME <row> <column>" + nameMapColor.get(RST) + ": build dome on specified cell (if permitted) [ATLAS ONLY]" + "\n" +
+                        nameMapColor.get(YELLOW) + "END" + nameMapColor.get(RST) + ": end turn";
+        sideMenuHelp = menu.split("\n");
+        return sideMenuHelp;
+    }
+
+    private StringBuilder addSpaces(int max, String s) {
+        if (max - s.length() == 0) {
+            return new StringBuilder();
+        } else {
+            StringBuilder y = new StringBuilder();
+            y.append(" ".repeat(Math.max(0, max - s.length())));
+            return y;
+        }
+    }
+
+    private StringBuilder addBlocks(int max) {
+        StringBuilder s = new StringBuilder();
+        s.append("█".repeat(Math.max(0, max)));
+        return s;
+    }
+
+    private StringBuilder addScores(int max) {
+        StringBuilder s = new StringBuilder();
+        s.append("-".repeat(Math.max(0, max)));
+        return s;
     }
 
     /**

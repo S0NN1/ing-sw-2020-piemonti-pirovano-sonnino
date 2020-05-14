@@ -21,7 +21,18 @@ public class ModelView {
     private final GUI gui;
     private volatile int started;
     private int activeWorker;
+    private String playerName;
     private String god;
+
+    public String getGodDesc() {
+        return godDesc;
+    }
+
+    public void setGodDesc(String godDesc) {
+        this.godDesc = godDesc;
+    }
+
+    private String godDesc;
     private int turnPhase;
     private boolean turnActive;
     private boolean buildSelected;
@@ -34,6 +45,16 @@ public class ModelView {
 
     public void setSelectSpaces(ArrayList<Couple> selectSpaces) {
         this.selectSpaces = selectSpaces;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public int getTurnPhase() {
