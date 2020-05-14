@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.ActionParser;
 import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
+import it.polimi.ingsw.exceptions.InvalidNicknameException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -90,7 +91,15 @@ public class MainMenuController implements GUIController{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Duplicate nickname");
                 alert.setHeaderText("Duplicate nickname!");
-                alert.setContentText("This nickname is already in use! Please choose one other.");
+                alert.setContentText("This nickname is already in use! Please choose another one.");
+                alert.showAndWait();
+                gui.changeStage("MainMenu.fxml");
+            }
+            catch (InvalidNicknameException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid character nickname");
+                alert.setHeaderText("Special character contained in nickname!");
+                alert.setContentText("Nickname can't contain - special character! Please choose another one");
                 alert.showAndWait();
                 gui.changeStage("MainMenu.fxml");
             }

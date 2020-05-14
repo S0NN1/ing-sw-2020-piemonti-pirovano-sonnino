@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.messages.ChosenColor;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
+import it.polimi.ingsw.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.ChallengerMessages;
 import it.polimi.ingsw.server.answers.GameError;
@@ -120,7 +121,7 @@ public class CLI implements UI, Runnable {
         try {
             connection.setup(nickname, modelView, actionHandler);
             output.println(nameMapColor.get(GREEN) + "Socket Connection setup completed!" + nameMapColor.get("RST"));
-        } catch (DuplicateNicknameException e) {
+        } catch (DuplicateNicknameException | InvalidNicknameException e) {
             setup();
         }
         observers.addPropertyChangeListener(new ActionParser(connection, modelView));
