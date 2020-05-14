@@ -54,9 +54,15 @@ public class ActionHandler {
     public void fullGamePhase(Answer answer) {
         ClientBoard clientBoard = modelView.getBoard();
         if (answer instanceof SelectSpacesMessage) {
-            modelView.setSelectSpaces(((SelectSpacesMessage) answer).getMessage());
-            modelView.toggleInput();
-            view.firePropertyChange("select", null, null);
+            if(((SelectSpacesMessage)answer).getMessage()==null){
+                modelView.toggleInput();
+                view.firePropertyChange("cannotBuild", null, null);
+            }
+            else {
+                modelView.setSelectSpaces(((SelectSpacesMessage) answer).getMessage());
+                modelView.toggleInput();
+                view.firePropertyChange("select", null, null);
+            }
         }
         else if(answer instanceof WorkersRequestMessage){
             modelView.setTurnActive(true);
@@ -182,6 +188,14 @@ public class ActionHandler {
         }
         if(answer instanceof WinMessage) {
             view.firePropertyChange("win", null, null);
+        }
+        else if(answer instanceof PlayerLostMessage) {
+            if(((PlayerLostMessage) answer).getLoser().equalsIgnoreCase(modelView.getPlayerName())){
+                view.firePropertyChange("singleLost", null, null);
+            }
+            else{
+                view.firePropertyChange("otherLost", null,  ((PlayerLostMessage) answer).getLoser());
+            }
         }
         else if(answer instanceof LoseMessage) {
             view.firePropertyChange("lose", null, ((LoseMessage)answer).getWinner());
