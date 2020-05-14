@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.board.Tower;
 import it.polimi.ingsw.server.SocketClientConnection;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
+import it.polimi.ingsw.server.answers.SerializedAnswer;
 import it.polimi.ingsw.server.answers.worker.BuildMessage;
 import it.polimi.ingsw.server.answers.worker.MoveMessage;
 import it.polimi.ingsw.server.answers.worker.SelectSpacesMessage;
@@ -374,6 +375,8 @@ class WorkerTest {
         }
     }
 
+    VirtualClientStub client;
+
     /**
      * test all the listeners associated to worker
      */
@@ -382,7 +385,6 @@ class WorkerTest {
     class Listeners{
 
         GameBoard gameBoard;
-        VirtualClientStub client;
 
         @BeforeEach
         void init() throws OutOfBoundException {
@@ -463,7 +465,7 @@ class WorkerTest {
            nextPosition.getTower().addLevel(); // 3rd level
            assertTrue(worker.isSelectable(nextPosition),"1");
            worker.move(nextPosition);
-           assertEquals(worker,client.winWorker,"2");
+           assertTrue(client.wins);
        }
     }
 
@@ -476,7 +478,7 @@ class WorkerTest {
         private Move move;
         private Couple build;
         private Worker winWorker;
-
+        public boolean wins = false;
         private boolean dome;
 
         /**
@@ -499,6 +501,13 @@ class WorkerTest {
                 winWorker = ((WinMessage) serverAnswer).getMessage();
             }
             else fail("unknown message");
+        }
+
+        @Override
+        public void win(Answer win) {
+            SerializedAnswer winner = new SerializedAnswer();
+            winner.setServerAnswer(win);
+            wins = true;
         }
 
         @Override
