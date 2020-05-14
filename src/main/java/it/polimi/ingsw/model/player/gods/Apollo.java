@@ -42,8 +42,9 @@ public class Apollo extends Worker {
     @Override
     public boolean isSelectable(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
-        return ( isNeighbor(space) &&
-                (space.getTower().getHeight() - position.getTower().getHeight() < 2));
+        boolean result =  isNeighbor(space) && (space.getTower().getHeight() - position.getTower().getHeight() < 2);
+        if(space.getWorker() == null)   return result;
+        return !space.getWorker().getWorkerColor().equals(this.getWorkerColor()) && result;
     }
 
     /**
