@@ -572,7 +572,6 @@ public class CLI implements UI, Runnable {
             } else active = "";
             System.out.println(active + " YOUR TURN");
         }
-<<<<<<< HEAD
         if (modelView.getGod().equalsIgnoreCase("ATLAS")) {
             atlas = "  • PLACEDOME\\n\"";
         } else atlas = "";
@@ -582,20 +581,6 @@ public class CLI implements UI, Runnable {
                 atlas +
                 "  • END\n");
         System.out.print(">");
-=======
-        if (modelView.getGod().equalsIgnoreCase("ATLAS")){
-            atlas = "  • PLACEDOME\n";
-        }
-        else atlas="";
-        if(modelView.isTurnActive()) {
-            TimeUnit.MILLISECONDS.sleep(500);
-            System.out.print("  • MOVE\n" +
-                    "  • BUILD\n" +
-                    atlas +
-                    "  • END\n");
-            System.out.print(">");
-        }
->>>>>>> 1382a0263c1c45a0a87e203afd7887a9266be062
     }
 
     public void firstPrintMenu() throws InterruptedException {
