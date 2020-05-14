@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.ActionParser;
 import it.polimi.ingsw.client.ClientBoard;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.shapes.Block;
@@ -8,14 +9,10 @@ import it.polimi.ingsw.client.gui.shapes.Worker;
 import it.polimi.ingsw.constants.Constants;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -31,6 +28,7 @@ public class MainGuiController implements GUIController{
     private final HashMap<String, Color> colors;
     private GUI gui;
     private ClientBoard board;
+    private ActionParser actionParser;
     @FXML
     GridPane grid;
     @FXML
@@ -38,15 +36,7 @@ public class MainGuiController implements GUIController{
     @FXML
     Button buttonMove, buttonBuild;
     @FXML
-    AnchorPane anchor;
-
-    EventHandler<MouseEvent> workerClick = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent mouseEvent) {
-            buttonMove.setVisible(true);
-            buttonBuild.setVisible(true);
-        }
-    };
+    AnchorPane mainAnchor, rightAnchor, centerAnchor;
 
     /**
      * constructor
@@ -61,18 +51,13 @@ public class MainGuiController implements GUIController{
         colors.put(Constants.ANSI_CYAN, Color.CYAN);
     }
 
-   /* public void eventGrid(){
-        grid.getChildren().forEach(node -> node.setOnMouseClicked(new EventHandler <MouseEvent>() {
-                    public void handle(MouseEvent event) {
-                        node.setMouseTransparent(true);
-                        event.setDragDetect(true);
-                    }
-        }));
-    }*/
+    public void setActionParser(ActionParser actionParser) {
+        this.actionParser = actionParser;
+    }
 
-    public void testDragAndDrop(){
+    /*public void testDragAndDrop(){
         Button button = new Button();
-        anchor.getChildren().add(button);
+        centerAnchor.getChildren().add(button);
         final double[] x = new double[1];
         final double[] y = new double[1];
         button.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -104,7 +89,7 @@ public class MainGuiController implements GUIController{
             }
         });
     }
-
+*/
     /**
      * add a triangle (worker) into gridPane at row/col
      * @param row of the grid
@@ -112,7 +97,7 @@ public class MainGuiController implements GUIController{
      * @param color of the worker
      */
     public void setWorker(int row, int col, String color) {
-        grid.add(new Worker(colors.get(color), workerClick),col,row);
+        grid.add(new Worker(colors.get(color), grid, rightAnchor),col,row);
     }
 
     /**
@@ -162,7 +147,7 @@ public class MainGuiController implements GUIController{
             }
 
         }
-        grid.add(new Worker(colors.get(color), workerClick), newCol, newRow);
+        grid.add(new Worker(colors.get(color), grid, rightAnchor), newCol, newRow);
     }
 
     /**
@@ -204,7 +189,7 @@ public class MainGuiController implements GUIController{
             }
         }
         if(remove != null) grid.getChildren().remove(remove);
-        grid.add(new Worker(colors.get(board.getColor(newRow2, newCol2)), workerClick), newCol2, newRow2);
+        grid.add(new Worker(colors.get(board.getColor(newRow2, newCol2)), grid, rightAnchor), newCol2, newRow2);
     }
 
     @Override

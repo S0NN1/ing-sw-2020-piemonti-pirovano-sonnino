@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.cli;
 
+import it.polimi.ingsw.client.ActionParser;
 import it.polimi.ingsw.client.Cell;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
@@ -37,6 +38,7 @@ public class GUI11 extends Application {
         primaryStage.setScene(scene);
         MainGuiController controller = fxml.getController();
 
+        controller.setActionParser(new ActionParser(null, gui.getModelView()));
         controller.setGui(gui);
         /*
         Cell cell = gui.getModelView().getBoard().getGrid()[0][1];
@@ -87,7 +89,13 @@ public class GUI11 extends Application {
         controller.addDome(2,4);
 
         //event
-        controller.testDragAndDrop();
+        controller.setWorker(4,4,Constants.ANSI_PURPLE);
+        controller.setWorker(3,4, Constants.ANSI_RED);
+
+        controller.setWorker(2,4,Constants.ANSI_PURPLE);
+        controller.setWorker(0,0, Constants.ANSI_RED);
+
+        //controller.testDragAndDrop();
         primaryStage.show();
 
     }

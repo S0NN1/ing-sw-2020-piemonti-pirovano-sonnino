@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<AnchorPane fx:id="anchor" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainGuiController">
+<AnchorPane fx:id="mainAnchor" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainGuiController">
    <children>
-      <StackPane visible="false">
+      <StackPane>
          <children>
             <ImageView fx:id="image" disable="true" fitHeight="457.0" fitWidth="859.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                <image>
@@ -23,7 +23,7 @@
             </ImageView>
             <BorderPane>
                <center>
-                  <AnchorPane prefWidth="565.0">
+                  <AnchorPane fx:id="centerAnchor" prefWidth="565.0">
                      <children>
                         <GridPane fx:id="grid" alignment="CENTER" prefHeight="330.0" prefWidth="330.0" AnchorPane.leftAnchor="69.0" AnchorPane.topAnchor="66.0">
                           <columnConstraints>
@@ -59,13 +59,22 @@
                               <Label text="4" />
                            </children>
                         </VBox>
-                        <ImageView fitHeight="218.0" fitWidth="193.0" layoutX="461.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../graphics/bgs/clp_bg.png" />
-                           </image>
-                        </ImageView>
-                        <Button fx:id="buttonMove" layoutX="480.0" layoutY="285.0" mnemonicParsing="false" styleClass="rightBoard" stylesheets="@../css/mainScene.css" text="Move" visible="false" />
-                        <Button fx:id="buttonBuild" layoutX="547.0" layoutY="285.0" mnemonicParsing="false" styleClass="rightBoard" stylesheets="@../css/mainScene.css" text="Build" visible="false" />
+                        <AnchorPane fx:id="rightAnchor" layoutX="461.0" layoutY="209.0" AnchorPane.leftAnchor="461.0">
+                           <children>
+                              <ImageView fitHeight="218.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../graphics/bgs/clp_bg.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" text="Labellllllllllllll" textAlignment="CENTER" visible="false" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="40.0" />
+                              <HBox spacing="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="70.0">
+                                 <children>
+                                    <Button fx:id="buttonMove" mnemonicParsing="false" styleClass="rightBoard" stylesheets="@../css/mainScene.css" text="Move" visible="false" />
+                                    <Button fx:id="buttonBuild" mnemonicParsing="false" styleClass="rightBoard" stylesheets="@../css/mainScene.css" text="Build" visible="false" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
                </center>
