@@ -245,7 +245,7 @@ public class GUI extends Application implements UI {
         if(modelView.getGamePhase()==0) {
             if(msg.contains("Match starting") || msg.contains("The match has started")) {
                 LoaderController controller = (LoaderController)getControllerFromName(LOADER);
-                Platform.runLater(() -> {controller.setText(msg);});
+                Platform.runLater(() -> controller.setText(msg));
                 return;
             } else if(msg.contains("is the challenger")) {
                 LoaderController controller = (LoaderController)getControllerFromName(LOADER);
@@ -253,7 +253,7 @@ public class GUI extends Application implements UI {
             }
             else if(msg.contains("disconnected from the server")) {
                 LoaderController controller = (LoaderController)getControllerFromName(LOADER);
-                Platform.runLater(() -> {controller.setText("WAITING FOR PLAYERS");});
+                Platform.runLater(() -> controller.setText("WAITING FOR PLAYERS"));
             }
             else if (msg.contains("is choosing")) {
                 LoaderController controller = (LoaderController)getControllerFromName(LOADER);
@@ -286,19 +286,27 @@ public class GUI extends Application implements UI {
                 customMessageHandling(evt.getNewValue().toString());
             }
             case "connectionClosed" -> {
-                Platform.runLater(() -> {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Connection closed");
-                    alert.setHeaderText("Connection closed from the server");
-                    alert.setContentText(evt.getNewValue().toString());
-                    alert.showAndWait();
-                    System.exit(0);
-                });
+                connectionClosed(evt);
             }
             default -> {
                 logger.log(Level.WARNING, "No actions to be performed");
             }
         }
+    }
+
+    /**
+     * Handles the connection closed event.
+     * @param evt the event above.
+     */
+    private void connectionClosed(PropertyChangeEvent evt) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Connection closed");
+            alert.setHeaderText("Connection closed from the server");
+            alert.setContentText(evt.getNewValue().toString());
+            alert.showAndWait();
+            System.exit(0);
+        });
     }
 
     /**

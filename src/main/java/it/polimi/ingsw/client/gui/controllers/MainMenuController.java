@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
  * @author Luca Pirovano
  */
 public class MainMenuController implements GUIController{
-
+    private final static String URL = "https://sonar.lucapirovano.com";
     private GUI gui;
     @FXML
     private TextField username;
@@ -34,7 +34,6 @@ public class MainMenuController implements GUIController{
     private TextField port;
     @FXML
     private Label confirmation;
-    private final static String URL = "https://sonar.lucapirovano.com";
 
     /**
      * Opens the project home website.
