@@ -183,7 +183,6 @@ public class Server {
         idMapName.remove(client.getClientID());
         clientToConnection.remove(client);
         System.out.println(Constants.getInfo() + "Client has been successfully unregistered.");
-        //currentGame.sendAll(new CustomMessage("Client " + client.getNickname() + " left the game.\n" + (totalPlayers - waiting.size()) + " slots left.", false));
     }
 
     /**

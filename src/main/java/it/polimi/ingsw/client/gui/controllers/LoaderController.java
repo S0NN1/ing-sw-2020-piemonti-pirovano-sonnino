@@ -154,10 +154,8 @@ public class LoaderController implements GUIController {
             ButtonType choose = new ButtonType("DETAILS");
             message.getButtonTypes().setAll(choose);
             message.showAndWait();
-            if (choices.getValue()!=null) {
-                if(godTile(choices.getValue(), true)) {
-                    break;
-                }
+            if (choices.getValue()!=null && godTile(choices.getValue(), true)) {
+                break;
             }
         }
     }
@@ -178,8 +176,7 @@ public class LoaderController implements GUIController {
         else if (req.getSelectable() != null) {
             chooseGod(req);
         }
-        else {
-            assert req.getMessage() != null;
+        else if(req.getMessage() != null) {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
             if(req.getMessage().contains("you are the challenger")) {
                 message.setTitle("Challenger phase");
