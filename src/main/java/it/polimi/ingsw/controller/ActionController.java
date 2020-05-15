@@ -31,6 +31,10 @@ public class ActionController {
      */
     public boolean startAction(Worker currentWorker) {
         if (currentWorker == null || currentWorker.isBlocked()) return false;
+        else if(currentWorker.selectMoves(gameBoard).isEmpty()) {
+            currentWorker.setBlocked(true);
+            return false;
+        }
         worker = currentWorker;
         phase = 0;
         return true;

@@ -126,12 +126,14 @@ public class TurnController implements PropertyChangeListener {
                 case "worker1" -> {
                     if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0))) {
                         gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
-                    } else if(controller.getModel().getCurrentPlayer().getWorkers().get(0).isBlocked()){
+                    }
+                    else if(controller.getModel().getCurrentPlayer().getWorkers().get(0).isBlocked()){
                         if(controller.getModel().getCurrentPlayer().getWorkers().get(1).isBlocked()) {
                             endGame();
                         }
                         else {
                             gameHandler.singleSend(new GameError(ErrorsType.WORKERBLOCKED), gameHandler.getCurrentPlayerID());
+                            return;
                         }
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                 }
@@ -145,6 +147,7 @@ public class TurnController implements PropertyChangeListener {
                         }
                         else {
                             gameHandler.singleSend(new GameError(ErrorsType.WORKERBLOCKED), gameHandler.getCurrentPlayerID());
+                            return;
                         }
                         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                 }

@@ -299,15 +299,19 @@ public class InputChecker {
     }
 
     public StartTurnAction selectWorker(String[] in) {
-        String var;
-        if (Integer.parseInt(in[1]) == 1) {
-            var = "worker1";
-        } else if (Integer.parseInt(in[1]) == 2) {
-            var = "worker2";
-        } else {
-            System.err.println("Non-existent worker, operation not permitted!");
-            return null;
+        if(modelView.getTurnPhase()==0) {
+            String var;
+            if (Integer.parseInt(in[1]) == 1) {
+                var = "worker1";
+            } else if (Integer.parseInt(in[1]) == 2) {
+                var = "worker2";
+            } else {
+                System.err.println("Non-existent worker, operation not permitted!");
+                return null;
+            }
+            return new StartTurnAction(var);
         }
-        return new StartTurnAction(var);
+        System.err.println("You cannot change your worker after an action!");
+        return null;
     }
 }

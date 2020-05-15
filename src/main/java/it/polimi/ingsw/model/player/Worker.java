@@ -155,6 +155,14 @@ public abstract class Worker {
     }
 
     /**
+     * Set the isBlocked attribute if the worker cannot move anymore.
+     * @param isBlocked boolean value
+     */
+    public void setBlocked(boolean isBlocked) {
+        this.isBlocked = isBlocked;
+    }
+
+    /**
      * change the worker's position while check winning condition
      * requires this.isSelectable(space)
      * @throws IllegalArgumentException if space is null
