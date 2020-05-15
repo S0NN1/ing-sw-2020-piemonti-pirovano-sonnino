@@ -544,6 +544,7 @@ public class CLI implements UI, Runnable {
                 output.println(nameMapColor.get(RED) + "Application will now close..." + nameMapColor.get("RST"));
                 System.exit(0);
             }
+            case "noPossibleMoves" -> System.err.println("No possible moves!");
             case "boardUpdate" -> updateCli();
             case "firstBoardUpdate" -> firstUpdateCli();
             case "selectWorker" -> selectWorker();
