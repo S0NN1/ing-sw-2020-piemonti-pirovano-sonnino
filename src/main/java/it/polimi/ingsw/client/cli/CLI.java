@@ -288,6 +288,10 @@ public class CLI implements UI, Runnable {
                 } else if (check == 2) {
                     System.out.println(Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[12]);
                     check++;
+                }
+                else if(check ==3 && guideMenuRows.length==14) {
+                    System.out.println(Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[13]);
+                    check++;
                 } else {
                     System.out.println(Printable.COUPLE_ROW_WAVE);
                 }
@@ -346,7 +350,7 @@ public class CLI implements UI, Runnable {
                         nameMapColor.get(YELLOW) + "MOVE <row> <column>" + nameMapColor.get(RST) + ": move worker to specified cell (if permitted)" + "\n" +
                         nameMapColor.get(YELLOW) + "BUILD (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions, needed to be run before BUILD with arguments" + "\n" +
                         nameMapColor.get(YELLOW) + "BUILD <row> <column>" + nameMapColor.get(RST) + ": build a block on specified cell (if permitted)" + "\n" +
-                        nameMapColor.get(YELLOW) + "PLACEDOME (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions in order to place a dome [ATLAS ONLY], needed to be run before PLACEDOME with arguments" + "\n" +
+                        nameMapColor.get(YELLOW) + "PLACEDOME (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions in order to place a dome [ATLAS ONLY]" + "\n" +
                         nameMapColor.get(YELLOW) + "PLACEDOME <row> <column>" + nameMapColor.get(RST) + ": build dome on specified cell (if permitted) [ATLAS ONLY]" + "\n" +
                         nameMapColor.get(YELLOW) + "END" + nameMapColor.get(RST) + ": end turn";
         sideMenuHelp = menu.split("\n");
