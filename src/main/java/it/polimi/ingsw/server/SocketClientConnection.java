@@ -122,18 +122,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
      */
     public void actionHandler(Message command) {
         if(command instanceof SetupConnection) {
-            try {
-                SetupConnection cmd = (SetupConnection) command;
-                clientID = server.registerConnection(cmd.getNickname(), this);
-                if (clientID == null) {
-                    active = false;
-                    return;
-                }
-                server.lobby(this);
-            } catch (InterruptedException e) {
-                System.err.println(e.getMessage());
-                Thread.currentThread().interrupt();
-            }
+            checkConnection((SetupConnection) command);
         }
         else if(command instanceof ChosenColor) {
             if(PlayerColors.isChosen(((ChosenColor)command).getColor())) {
@@ -149,6 +138,25 @@ public class SocketClientConnection implements ClientConnection, Runnable {
                     " disconnected from the server.", false), clientID);
             server.getGameByID(clientID).endGame(server.getNicknameByID(clientID));
             close();
+        }
+    }
+
+    /**
+     * Check the validity of the connection message received from the client.
+     * @param command the connection command.
+     */
+    private void checkConnection(SetupConnection command) {
+        try {
+            SetupConnection cmd = command;
+            clientID = server.registerConnection(cmd.getNickname(), this);
+            if (clientID == null) {
+                active = false;
+                return;
+            }
+            server.lobby(this);
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
