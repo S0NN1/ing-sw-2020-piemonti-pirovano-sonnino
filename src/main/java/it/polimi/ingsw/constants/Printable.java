@@ -1,6 +1,4 @@
-package it.polimi.ingsw.client.cli;
-
-import it.polimi.ingsw.constants.Constants;
+package it.polimi.ingsw.constants;
 
 public class Printable {
     public static final String GREEN = Constants.ANSI_GREEN;
@@ -12,9 +10,21 @@ public class Printable {
     public static final String COUPLE_ROW_WAVE = BLUE + "≈≈" + RESET;
     public static final String VERTICAL_LINE = "|";
     public static final String PLUS = "+";
-    public String[] levels;
-    public String[] levelsC;
-    public String sideMenu=
+
+    public static String[] getLEVELS() {
+        return LEVELS;
+    }
+
+
+
+    private static final String[] LEVELS = new String[5];
+
+    public static String[] getLevelsWithDome() {
+        return LEVELS_WITH_DOME;
+    }
+
+    private static final String[] LEVELS_WITH_DOME = new  String[3];
+    public static final String SIDE_MENU =
             PLUS + "-" + PLUS +"\n" +
             VERTICAL_LINE + YELLOW + "-" + "STATUS" + "-" + RESET + VERTICAL_LINE + "\n" +
             PLUS + "-" + PLUS + "\n" +
@@ -29,8 +39,6 @@ public class Printable {
             PLUS + "-" + PLUS +"\n";
 
     public Printable() {
-        levels = new String[5];
-        levelsC = new String[3];
         String purple = Constants.ANSI_PURPLE;
         String twelveLineBlock ="████████████";
         String elevenLineBlock = "███████████";
@@ -60,7 +68,7 @@ public class Printable {
                         GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
                         GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
                         GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n";
-                levels[i] = lvl0;
+                LEVELS[i] = lvl0;
             }
             if (i == 1) {
                 String lvl1 = upperLvl1 + "\n" +
@@ -74,7 +82,7 @@ public class Printable {
                         lvl1LineBlock + "\n" +
                         lvl1LineBlock + "\n" +
                         bottomLvl1;
-                levels[i] = lvl1;
+                LEVELS[i] = lvl1;
             }
             if (i == 2) {
                 String lvl2 = upperLvl1 + "\n" +
@@ -88,13 +96,12 @@ public class Printable {
                         verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
                         bottomLvl1;
-                levels[i] = lvl2;
+                LEVELS[i] = lvl2;
             }
             String cyan = Constants.ANSI_CYAN;
             String singleLineBlock = "█";
             if (i == 3) {
                 String sixLineBlock = "██████";
-                String seventeenLineBlock = "█████████████████";
                 String eightLineBlock = "████████";
                 String lvl3 = upperLvl1 + "\n" +
                         verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
@@ -107,7 +114,7 @@ public class Printable {
                         verticalDoubleLine + purple + VERTICAL_LINE + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
                         bottomLvl1;
-                levels[i] = lvl3;
+                LEVELS[i] = lvl3;
             } else if (i == 4) {
                 String lvl4 = upperLvl1 + "\n" +
                         verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
@@ -120,7 +127,7 @@ public class Printable {
                         verticalDoubleLine + purple + VERTICAL_LINE + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
                         bottomLvl1;
-                levels[i] = lvl4;
+                LEVELS[i] = lvl4;
             }
         }
         for (int i = 0; i <= 2; i++) {
@@ -137,7 +144,7 @@ public class Printable {
                         GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
                         GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
                         GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n";
-                levelsC[i] = lvl0c;
+                LEVELS_WITH_DOME[i] = lvl0c;
             }
             String sixLineBlock = "██████";
             if (i == 1) {
@@ -152,7 +159,7 @@ public class Printable {
                         lvl1LineBlock + "\n" +
                         lvl1LineBlock + "\n" +
                         bottomLvl1;
-                levelsC[i] = lvl1c;
+                LEVELS_WITH_DOME[i] = lvl1c;
             }
             if (i == 2) {
                 String lvl2c = upperLvl1 + "\n" +
@@ -166,7 +173,7 @@ public class Printable {
                         verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineLineBlock + tenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
                         verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
                         bottomLvl1;
-                levelsC[i] = lvl2c;
+                LEVELS_WITH_DOME[i] = lvl2c;
             }
         }
     }

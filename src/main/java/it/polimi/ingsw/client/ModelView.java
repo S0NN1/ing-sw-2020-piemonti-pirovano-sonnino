@@ -7,6 +7,7 @@ import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.server.answers.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class contains a small representation of the game model, and contains linking to the main client actions, which
@@ -48,9 +49,9 @@ public class ModelView {
     private boolean turnActive;
     private boolean buildSelected;
     private boolean moveSelected;
-    private ArrayList<Couple> selectSpaces;
+    private List<Couple> selectSpaces= new ArrayList<Couple>();
 
-    public ArrayList<Couple> getSelectSpaces() {
+    public List<Couple> getSelectSpaces() {
         return selectSpaces;
     }
 
