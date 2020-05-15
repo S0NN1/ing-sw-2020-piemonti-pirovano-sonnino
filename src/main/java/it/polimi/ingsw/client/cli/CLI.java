@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.messages.ChosenColor;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -42,7 +43,6 @@ public class CLI implements UI, Runnable {
     private final ActionHandler actionHandler;
     private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
     private final DisplayCell[][] grid;
-    private final Printable printable;
     private boolean activeGame;
     private ConnectionSocket connection;
 
@@ -58,7 +58,6 @@ public class CLI implements UI, Runnable {
                 grid[i][j] = new DisplayCell();
             }
         }
-        printable = new Printable();
         nameMapColor.put(GREEN, Constants.ANSI_GREEN);
         nameMapColor.put(YELLOW, Constants.ANSI_YELLOW);
         nameMapColor.put(RED, Constants.ANSI_RED);
@@ -161,7 +160,7 @@ public class CLI implements UI, Runnable {
      * @param grid printed board
      */
     private void firstBuildBoard(DisplayCell[][] grid) {
-        String[] rows = printable.levels[0].split("\n");
+        String[] rows = Printable.getLEVELS()[0].split("\n");
         for (int i = 0; i <= 4; i++) {
             for (int j = 0; j <= 4; j++) {
                 for (int k = 0; k <= 10; k++) {
@@ -183,14 +182,14 @@ public class CLI implements UI, Runnable {
                 for (int k = 0; k <= 10; k++) {
                     int level = modelView.getBoard().getGrid()[i][j].getLevel();
                     if (!modelView.getBoard().getGrid()[i][j].isDome()) {
-                        rows = printable.levels[level].split("\n");
+                        rows = Printable.getLEVELS()[level].split("\n");
                         if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                             addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows, level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
                         }
                     } else if (level == 3) {
-                        rows = printable.levels[4].split("\n");
+                        rows = Printable.getLEVELS()[4].split("\n");
                     } else {
-                        rows = printable.levelsC[level].split("\n");
+                        rows = Printable.getLevelsWithDome()[level].split("\n");
                     }
                     grid[i][j].setCellRows(k, rows[k]);
                 }
@@ -199,7 +198,7 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Add worker to printable cell
+     * Add worker to Printable cell
      *
      * @param color Worker color
      * @param rows  string
@@ -312,7 +311,7 @@ public class CLI implements UI, Runnable {
         int max = Math.max(playerName.length(), 10);
         String color = modelView.getColor();
         String god = modelView.getGod();
-        String[] sideMenuRows = printable.sideMenu.split("\n");
+        String[] sideMenuRows = Printable.SIDE_MENU.split("\n");
         for (int i = 0; i < 12; i++) {
             String[] temp = sideMenuRows[i].split("-");
             if (temp.length == 2) {
@@ -444,9 +443,7 @@ public class CLI implements UI, Runnable {
                 }
                 modelView.setTurnActive(true);
             }
-            case WORKERBLOCKED -> {
-                System.err.println("Selected worker is blocked, select the other one!");
-            }
+            case WORKERBLOCKED -> System.err.println("Selected worker is blocked, select the other one!");
             default -> {
                 output.println("Generic error!");
             }
@@ -541,24 +538,11 @@ public class CLI implements UI, Runnable {
                 output.println(nameMapColor.get(RED) + "Application will now close..." + nameMapColor.get("RST"));
                 System.exit(0);
             }
-            case "boardUpdate" -> {
-                updateCli();
-            }
-            case "firstBoardUpdate" -> {
-                firstUpdateCli();
-            }
-            case "selectWorker" -> {
-                selectWorker();
-            }
-            case "cannotBuild" -> {
-
-            }
-            case "end" -> {
-                end();
-            }
-            case "select" -> {
-                printSpaces();
-            }
+            case "boardUpdate" -> updateCli();
+            case "firstBoardUpdate" -> firstUpdateCli();
+            case "selectWorker" -> selectWorker();
+            case "end" -> end();
+            case "select" -> printSpaces();
             case "win" -> {
                 output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
                 System.exit(0);
@@ -568,19 +552,19 @@ public class CLI implements UI, Runnable {
                 output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has won." + nameMapColor.get(RST));
                 System.exit(0);
             }
-            case "singleLost" ->{
-                System.err.println("All workers blocked, YOU LOSE!");
-            }
-            case "otherLost" ->{
-                clearScreen();
-                boardUpdater(grid);
-                printBoard(grid);
-                output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has lost." + nameMapColor.get(RST));
-            }
+            case "singleLost" -> System.err.println("All workers blocked, YOU LOSE!");
+            case "otherLost" -> otherPlayerLost(evt);
             default -> {
                 output.println("Unrecognized answer");
             }
         }
+    }
+
+    private void otherPlayerLost(PropertyChangeEvent evt) {
+        clearScreen();
+        boardUpdater(grid);
+        printBoard(grid);
+        output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has lost." + nameMapColor.get(RST));
     }
 
     private void end() {

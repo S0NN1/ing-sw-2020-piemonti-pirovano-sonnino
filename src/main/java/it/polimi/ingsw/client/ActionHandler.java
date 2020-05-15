@@ -21,6 +21,7 @@ import java.beans.PropertyChangeSupport;
  */
 public class ActionHandler {
 
+    public static final String FIRST_BOARD_UPDATE = "firstBoardUpdate";
     private final ModelView modelView;
     private CLI cli;
     private GUI gui;
@@ -74,6 +75,7 @@ public class ActionHandler {
         else if (answer instanceof EndTurnMessage){
             modelView.setTurnActive(false);
             modelView.setTurnPhase(0);
+            modelView.setActiveWorker(0);
             modelView.untoggleInput();
             view.firePropertyChange("boardUpdate", null, null);
             view.firePropertyChange("end", null, null);
@@ -157,7 +159,7 @@ public class ActionHandler {
         else if(answer instanceof WorkersRequestMessage){
             modelView.setTurnActive(true);
             modelView.toggleInput();
-            view.firePropertyChange("firstBoardUpdate", null, null);
+            view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
             view.firePropertyChange("selectWorker", null, null);
         }
         else if(answer instanceof SetWorkersMessage) {

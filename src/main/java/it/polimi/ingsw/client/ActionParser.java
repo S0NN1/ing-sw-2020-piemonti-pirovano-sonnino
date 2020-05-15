@@ -48,29 +48,11 @@ public class ActionParser implements PropertyChangeListener {
                 case "CHOOSE" -> sendMessage = inputChecker.choose(in);
                 case "STARTER" -> sendMessage = inputChecker.starter(in);
                 case "SET" -> sendMessage = inputChecker.set(in);
-                case "SELECTWORKER" -> {
-                    sendMessage = inputChecker.selectWorker(in);
-                    if (sendMessage != null) {
-                        modelView.setActiveWorker(Integer.parseInt(in[1]));
-                    }
-                }
-                case "MOVE" -> {
-                    sendMessage = (in.length == 1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
-                            : inputChecker.move(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
-                            modelView.getActiveWorker());
-                }
-                case "BUILD" -> {
-                    sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
-                            : inputChecker.build(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
-                            modelView.getActiveWorker());
-                }
-                case "PLACEDOME" -> {
-                    sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
-                            : inputChecker.atlasBuild(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]), modelView.getActiveWorker());
-                }
-                case "END" -> {
-                    sendMessage = new EndTurnAction();
-                }
+                case "SELECTWORKER" -> sendMessage = checkSelectWorker(in);
+                case "MOVE" -> sendMessage = checkMove(in, turnPhase);
+                case "BUILD" -> sendMessage = checkBuild(in, turnPhase);
+                case "PLACEDOME" -> sendMessage = checkPlaceDome(in, turnPhase);
+                case "END" -> sendMessage = new EndTurnAction();
                 case "QUIT" -> {
                     inputChecker.quit();
                     return true;
@@ -92,6 +74,36 @@ public class ActionParser implements PropertyChangeListener {
             return true;
         }
         return false;
+    }
+
+    private UserAction checkBuild(String[] in, int turnPhase) {
+        UserAction sendMessage;
+        sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
+                : inputChecker.build(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
+                modelView.getActiveWorker());
+        return sendMessage;
+    }
+
+    private UserAction checkPlaceDome(String[] in, int turnPhase) {
+        UserAction sendMessage;
+        sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
+                : inputChecker.atlasBuild(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]), modelView.getActiveWorker());
+        return sendMessage;
+    }
+
+    private UserAction checkSelectWorker(String[] in) {
+        UserAction sendMessage;
+        sendMessage = inputChecker.selectWorker(in);
+        if (sendMessage != null) {
+            modelView.setActiveWorker(Integer.parseInt(in[1]));
+        }
+        return sendMessage;
+    }
+
+    private UserAction checkMove(String[] in, int turnPhase) {
+        return (in.length == 1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
+                : inputChecker.move(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
+                modelView.getActiveWorker());
     }
 
     @Override

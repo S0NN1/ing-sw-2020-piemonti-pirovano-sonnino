@@ -183,10 +183,6 @@ public class TurnController implements PropertyChangeListener {
         }
     }
 
-    private void getStringColor(PlayerColors color) {
-
-    }
-
     /**
      * Method handling the end of the turn and switching to the next player
      */
