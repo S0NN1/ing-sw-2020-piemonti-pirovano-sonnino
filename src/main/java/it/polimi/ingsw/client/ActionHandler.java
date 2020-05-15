@@ -72,10 +72,7 @@ public class ActionHandler {
         else {
             String boardUpdate = "boardUpdate";
             if (answer instanceof MoveMessage) {
-                Move message = (Move) answer.getMessage();
-                clientBoard.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
-                        message.getNewPosition().getX(), message.getNewPosition().getY());
-                checkTurnActiveMove();
+                updateClientBoardMove(answer, clientBoard);
             } else if(answer instanceof WorkerConfirmedMessage) {
                 view.firePropertyChange(boardUpdate, null, null);
                 modelView.activateInput();
@@ -96,6 +93,13 @@ public class ActionHandler {
             view.firePropertyChange(boardUpdate, null,null);
         }
 
+    }
+
+    private void updateClientBoardMove(Answer answer, ClientBoard clientBoard) {
+        Move message = (Move) answer.getMessage();
+        clientBoard.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
+                message.getNewPosition().getX(), message.getNewPosition().getY());
+        checkTurnActiveMove();
     }
 
     private void fireMinotaurMove(DoubleMoveMessage answer, ClientBoard clientBoard) {
