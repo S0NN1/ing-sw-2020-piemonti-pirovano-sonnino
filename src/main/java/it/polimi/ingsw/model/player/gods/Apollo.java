@@ -4,7 +4,7 @@ import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.observer.DoubleMoveListener;
+import it.polimi.ingsw.listeners.DoubleMoveListener;
 import it.polimi.ingsw.server.VirtualClient;
 
 /**

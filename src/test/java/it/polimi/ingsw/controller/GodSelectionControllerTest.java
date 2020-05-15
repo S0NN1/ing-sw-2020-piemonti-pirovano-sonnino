@@ -35,14 +35,14 @@ class GodSelectionControllerTest {
             return message;
         }
         @Override
-        public void update(Observable o, Object arg) {
+        public void propertyChange(PropertyChangeEvent evt) {
             notified = true;
-            if (arg instanceof ChallengerMessages) {
-                if (((ChallengerMessages)arg).getMessage()!=null) message = ((ChallengerMessages) arg).getMessage();
-                else gods = ((ChallengerMessages) arg).getGodList();
+            if (evt.getNewValue() instanceof ChallengerMessages) {
+                if (((ChallengerMessages)evt.getNewValue()).getMessage()!=null) message = ((ChallengerMessages) evt.getNewValue()).getMessage();
+                else gods = ((ChallengerMessages) evt.getNewValue()).getGodList();
             }
             else {
-                message = ((CustomMessage)arg).getMessage();
+                message = ((CustomMessage)evt.getNewValue()).getMessage();
             }
         }
     }
