@@ -121,9 +121,18 @@ public class Controller implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch(evt.getPropertyName()) {
-            case "godSelection" -> controllerListeners.firePropertyChange("GODSELECTION", null, evt.getNewValue());
-            case "workerPlacement" -> placeWorkers((WorkerSetupMessage) evt.getNewValue());
-            case "turnController" -> controllerListeners.firePropertyChange("turnController", null, evt.getNewValue());
+            case "godSelection" -> {
+                controllerListeners.firePropertyChange("GODSELECTION", null, evt.getNewValue());
+            }
+            case "workerPlacement" -> {
+                placeWorkers((WorkerSetupMessage) evt.getNewValue());
+            }
+            case "turnController" -> {
+                controllerListeners.firePropertyChange("turnController", null, evt.getNewValue());
+            }
+            default -> {
+                System.err.println("Unrecognized message!");
+            }
         }
     }
 }
