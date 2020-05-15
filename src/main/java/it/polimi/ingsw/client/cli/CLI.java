@@ -207,6 +207,7 @@ public class CLI implements UI, Runnable {
     private void addWorkerToCell(String color, String[] rows, int level, int type) {
         String[] temp = new String[3];
         String[] player = new String[3];
+        int[] cellInfos = new int[]{level, type};
         int[][] indexes = new int[Constants.GRID_MAX_SIZE][1];
         String upperBody = "☻";
         String upperBody2 = "☺";
@@ -238,7 +239,7 @@ public class CLI implements UI, Runnable {
                 }
                 HashMap<Integer, String[]> stringMap = createStringMap(temp, player);
                 int[] counters = new int[]{i,j};
-                insertPlayer(color, rows, level, type, stringMap, indexes, backgroundColor,counters);
+                insertPlayer(color, rows, cellInfos, stringMap, indexes, backgroundColor, counters);
             }
         } else {
             int j;
@@ -248,7 +249,7 @@ public class CLI implements UI, Runnable {
             for (int i = 0; i <= 2; i++) {
                 HashMap<Integer, String[]> stringMap = createStringMap(temp, player);
                 int[] counters = new int[]{i,j};
-                insertPlayer(color, rows, level, type, stringMap, indexes, backgroundColor,counters);
+                insertPlayer(color, rows, cellInfos, stringMap, indexes, backgroundColor,counters);
             }
         }
     }
@@ -260,13 +261,13 @@ public class CLI implements UI, Runnable {
         return stringMap;
     }
 
-    private void insertPlayer(String color, String[] rows, int level, int type, HashMap<Integer,String[]> stringMap, int[][] indexes, String backgroundColor, int[] counters) {
-        if(counters[0]==2 && modelView.getActiveWorker()==type && modelView.isTurnActive() && color.equalsIgnoreCase(nameMapColor.get(modelView.getColor().toUpperCase()))){
+    private void insertPlayer(String color, String[] rows, int[] cellInfos, HashMap<Integer,String[]> stringMap, int[][] indexes, String backgroundColor, int[] counters) {
+        if(counters[0]==2 && modelView.getActiveWorker()==cellInfos[1] && modelView.isTurnActive() && color.equalsIgnoreCase(nameMapColor.get(modelView.getColor().toUpperCase()))){
             color = Constants.ANSI_WHITE;
             backgroundColor = BG_PURPLE;
         }
-        stringMap.get(1)[counters[0]] = rows[counters[0] + 4].substring(0, indexes[level][0] - counters[1]) + color + nameMapColor.get(backgroundColor) +
-                stringMap.get(0)[counters[0]] + nameMapColor.get(RST) + rows[counters[0] + 4].substring(indexes[level][0] - counters[1] + 1);
+        stringMap.get(1)[counters[0]] = rows[counters[0] + 4].substring(0, indexes[cellInfos[0]][0] - counters[1]) + color + nameMapColor.get(backgroundColor) +
+                stringMap.get(0)[counters[0]] + nameMapColor.get(RST) + rows[counters[0] + 4].substring(indexes[cellInfos[0]][0] - counters[1] + 1);
         rows[counters[0] + 4] = stringMap.get(1)[counters[0]];
     }
 
