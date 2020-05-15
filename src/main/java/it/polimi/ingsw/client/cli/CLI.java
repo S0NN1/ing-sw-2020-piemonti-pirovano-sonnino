@@ -126,7 +126,7 @@ public class CLI implements UI, Runnable {
         } catch (DuplicateNicknameException | InvalidNicknameException e) {
             setup();
         }
-        observers.addPropertyChangeListener(new ActionParser(connection, modelView));
+        observers.addPropertyChangeListener("action", new ActionParser(connection, modelView));
     }
 
     /**
