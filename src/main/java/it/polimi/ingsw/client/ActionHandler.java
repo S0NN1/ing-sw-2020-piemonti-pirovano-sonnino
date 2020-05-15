@@ -57,7 +57,7 @@ public class ActionHandler {
         if (answer instanceof SelectSpacesMessage) {
             if(((SelectSpacesMessage)answer).getMessage()==null){
                 modelView.activateInput();
-                view.firePropertyChange("cannotBuild", null, null);
+                view.firePropertyChange("noPossibleMoves", null, null);
             }
             else {
                 fireSelectSpaces((SelectSpacesMessage) answer);

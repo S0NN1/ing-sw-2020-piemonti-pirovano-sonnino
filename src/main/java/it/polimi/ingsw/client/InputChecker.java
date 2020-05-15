@@ -224,21 +224,9 @@ public class InputChecker {
                 return null;
             } else {
                 if (modelView.getBoard().getGrid()[x][y].getColor() != null) {
-                    if (!Constants.getMoveToCellOccupiedGods().contains(modelView.getGod().toUpperCase())) {
-                        System.out.println(RED + ERR_CELL_OCCUPIED + RST);
-                        return null;
-                    } else return move;
+                    return canMoveToOccupiedCell(move);
                 } else {
-                    if (modelView.getBoard().getGrid()[x][y].isDome()) {
-                        System.out.println(RED + CELL_WITH_DOME + RST);
-                        return null;
-                    } else {
-                        assert w != null;
-                        if (modelView.getBoard().getGrid()[x][y].getLevel() - modelView.getBoard().getGrid()[w.getX()][w.getY()].getLevel() >= 2) {
-                            System.out.println(RED + "Trying to move up to unreachable level, operation not permitted!" + RST);
-                            return null;
-                        } else return move;
-                    }
+                    return canReachCell(x, y, w, move);
                 }
             }
         } else {
@@ -246,6 +234,26 @@ public class InputChecker {
             return null;
         }
 
+    }
+
+    private MoveAction canReachCell(int x, int y, Couple w, MoveAction move) {
+        if (modelView.getBoard().getGrid()[x][y].isDome()) {
+            System.out.println(RED + CELL_WITH_DOME + RST);
+            return null;
+        } else {
+            assert w != null;
+            if (modelView.getBoard().getGrid()[x][y].getLevel() - modelView.getBoard().getGrid()[w.getX()][w.getY()].getLevel() >= 2) {
+                System.out.println(RED + "Trying to move up to unreachable level, operation not permitted!" + RST);
+                return null;
+            } else return move;
+        }
+    }
+
+    private MoveAction canMoveToOccupiedCell(MoveAction move) {
+        if (!Constants.getMoveToCellOccupiedGods().contains(modelView.getGod().toUpperCase())) {
+            System.out.println(RED + ERR_CELL_OCCUPIED + RST);
+            return null;
+        } else return move;
     }
 
     private BuildAction getBuildAction(int x, int y, Couple w, BuildAction build) {
