@@ -408,7 +408,6 @@ public class CLI implements UI, Runnable {
         }
         connection.send(new NumberOfPlayers(selection));
         modelView.setStarted(1);
-        //input.nextLine();
     }
 
     /**
