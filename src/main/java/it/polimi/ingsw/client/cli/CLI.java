@@ -182,19 +182,25 @@ public class CLI implements UI, Runnable {
                 for (int k = 0; k <= 10; k++) {
                     int level = modelView.getBoard().getGrid()[i][j].getLevel();
                     if (!modelView.getBoard().getGrid()[i][j].isDome()) {
-                        rows = Printable.getLEVELS()[level].split("\n");
+                        rows = generateRows(level, Printable.getLEVELS());
                         if (modelView.getBoard().getGrid()[i][j].getColor() != null) {
                             addWorkerToCell(nameMapColor.get(modelView.getBoard().getGrid()[i][j].getColor().toUpperCase()), rows, level, modelView.getBoard().getGrid()[i][j].getWorkerNum());
                         }
                     } else if (level == 3) {
-                        rows = Printable.getLEVELS()[4].split("\n");
+                        rows = generateRows(4, Printable.getLEVELS());
                     } else {
-                        rows = Printable.getLEVELSWITHDOME()[level].split("\n");
+                        rows = generateRows(level, Printable.getLEVELSWITHDOME());
                     }
                     grid[i][j].setCellRows(k, rows[k]);
                 }
             }
         }
+    }
+
+    private String[] generateRows(int level, String[] levels) {
+        String[] rows;
+        rows = levels[level].split("\n");
+        return rows;
     }
 
     /**
@@ -293,15 +299,15 @@ public class CLI implements UI, Runnable {
                     System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 }
                 if (check == 0) {
-                    System.out.print(Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[k + 1]);
+                    inserSideMenuRows(sideMenuRows[k + 1]);
                 } else if (check == 1) {
-                    System.out.println(Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[k]);
+                    insertGuideMenuRows(guideMenuRows, k);
                 } else if (check == 2) {
-                    System.out.println(Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[12]);
+                    insertGuideMenuRows(guideMenuRows, 12);
                     check++;
                 }
                 else if(check ==3 && guideMenuRows.length==14) {
-                    System.out.println(Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[13]);
+                    insertGuideMenuRows(guideMenuRows, 13);
                     check++;
                 } else {
                     System.out.println(Printable.COUPLE_ROW_WAVE);
@@ -316,6 +322,14 @@ public class CLI implements UI, Runnable {
         }
         System.out.println(Printable.ROW_WAVE);
         System.out.println(Printable.ROW_WAVE);
+    }
+
+    private void inserSideMenuRows(String sideMenuRow) {
+        System.out.print(Printable.COUPLE_ROW_WAVE + "  " + sideMenuRow);
+    }
+
+    private void insertGuideMenuRows(String[] guideMenuRows, int i2) {
+        System.out.println(Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[i2]);
     }
 
     private String[] buildSideMenu() {
