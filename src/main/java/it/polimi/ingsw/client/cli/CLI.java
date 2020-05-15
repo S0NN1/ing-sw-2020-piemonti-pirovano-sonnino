@@ -251,7 +251,7 @@ public class CLI implements UI, Runnable {
     }
 
     private void insertPlayer(String color, String[] rows, int level, int type, String[] temp, String[] player, int[][] indexes, String backgroundColor, int i, int j) {
-        if(i==2 && modelView.getActiveWorker()==type && modelView.isTurnActive() && color.equalsIgnoreCase(modelView.getColor())){
+        if(i==2 && modelView.getActiveWorker()==type && modelView.isTurnActive() && color.equalsIgnoreCase(nameMapColor.get(modelView.getColor().toUpperCase()))){
             color = Constants.ANSI_WHITE;
             backgroundColor = BG_PURPLE;
         }
