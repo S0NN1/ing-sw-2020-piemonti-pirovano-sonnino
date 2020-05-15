@@ -8,8 +8,6 @@ import it.polimi.ingsw.server.answers.worker.LoseMessage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Virtual client interface; this is a representation of the virtual instance of the client, which is connected

@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.answers.ChallengerMessages;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Observable;
 
 /**
  * This class provide a model for card selection phase, which is made by the challenger.
