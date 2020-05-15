@@ -98,9 +98,8 @@ public class ActionParser implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (!modelView.getCanInput()) {
             System.out.println(RED + "Error: not your turn!" + RST);
-            return;
         }
-        if (action(evt.getNewValue().toString())) {
+        else if (action(evt.getNewValue().toString())) {
             modelView.untoggleInput();
         } else {
             modelView.toggleInput();
