@@ -29,6 +29,16 @@ public class ModelView {
     }
 
     public void setGodDesc(String godDesc) {
+    if(godDesc.length()>110){
+        String temp1=godDesc.substring(0, 110);
+        String temp2=godDesc.substring(110);
+        if(Character.toString(temp2.charAt(0)).equals(" ")){
+            godDesc= temp1 + "\n" + temp2.substring(1);
+        }
+        else{
+            godDesc= temp1 + "-" + "\n" + temp2;
+        }
+    }
         this.godDesc = godDesc;
     }
 
