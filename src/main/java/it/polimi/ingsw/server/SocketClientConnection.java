@@ -23,8 +23,8 @@ import java.util.logging.Logger;
  * @author Luca Pirovano
  */
 public class SocketClientConnection implements ClientConnection, Runnable {
-    private Socket socket;
-    private Server server;
+    private final Socket socket;
+    private final Server server;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     private Integer clientID;
