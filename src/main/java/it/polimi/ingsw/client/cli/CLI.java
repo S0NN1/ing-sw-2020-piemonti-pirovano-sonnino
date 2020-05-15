@@ -601,11 +601,13 @@ public class CLI implements UI, Runnable {
             atlas = "  • PLACEDOME\\n\"";
         } else atlas = "";
         TimeUnit.MILLISECONDS.sleep(500);
-        System.out.print("  • MOVE\n" +
-                "  • BUILD\n" +
-                atlas +
-                "  • END\n");
-        System.out.print(">");
+        if(modelView.isTurnActive()) {
+            System.out.print("  • MOVE\n" +
+                    "  • BUILD\n" +
+                    atlas +
+                    "  • END\n");
+            System.out.print(">");
+        }
     }
 
     public void firstPrintMenu() throws InterruptedException {
