@@ -189,7 +189,7 @@ public class CLI implements UI, Runnable {
                     } else if (level == 3) {
                         rows = Printable.getLEVELS()[4].split("\n");
                     } else {
-                        rows = Printable.getLevelsWithDome()[level].split("\n");
+                        rows = Printable.getLEVELSWITHDOME()[level].split("\n");
                     }
                     grid[i][j].setCellRows(k, rows[k]);
                 }
@@ -444,9 +444,7 @@ public class CLI implements UI, Runnable {
                 modelView.setTurnActive(true);
             }
             case WORKERBLOCKED -> System.err.println("Selected worker is blocked, select the other one!");
-            default -> {
-                output.println("Generic error!");
-            }
+            default -> output.println("Generic error!");
         }
     }
 
@@ -480,9 +478,7 @@ public class CLI implements UI, Runnable {
                 output.print(">");
                 modelView.toggleInput();
             }
-            default -> {
-                output.println("Nothing to do");
-            }
+            default -> output.println("Nothing to do");
         }
     }
 
@@ -520,9 +516,7 @@ public class CLI implements UI, Runnable {
     public void propertyChange(PropertyChangeEvent evt) {
         String command = (evt.getNewValue() != null) ? evt.getNewValue().toString() : null;
         switch (evt.getPropertyName()) {
-            case "gameError" -> {
-                errorHandling((GameError) evt.getNewValue());
-            }
+            case "gameError" -> errorHandling((GameError) evt.getNewValue());
             case "initialPhase" -> {
                 assert command != null;
                 initialPhaseHandling(command);
@@ -554,9 +548,7 @@ public class CLI implements UI, Runnable {
             }
             case "singleLost" -> System.err.println("All workers blocked, YOU LOSE!");
             case "otherLost" -> otherPlayerLost(evt);
-            default -> {
-                output.println("Unrecognized answer");
-            }
+            default -> output.println("Unrecognized answer");
         }
     }
 
