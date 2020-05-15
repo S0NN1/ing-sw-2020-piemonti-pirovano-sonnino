@@ -84,15 +84,19 @@ public class ActionHandler {
                 checkTurnActiveBuild();
             } else if (answer instanceof DoubleMoveMessage) {
                 String message = ((DoubleMoveMessage) answer).getMessage();
-                if (message.equals("ApolloDoubleMove")) {
-                    fireApolloMove((DoubleMoveMessage) answer, clientBoard);
-                } else if (message.equals("MinotaurDoubleMove")) {
-                    fireMinotaurMove((DoubleMoveMessage) answer, clientBoard);
-                }
+                defineDoubleMove((DoubleMoveMessage) answer, clientBoard, message);
             }
             view.firePropertyChange(boardUpdate, null,null);
         }
 
+    }
+
+    private void defineDoubleMove(DoubleMoveMessage answer, ClientBoard clientBoard, String message) {
+        if (message.equals("ApolloDoubleMove")) {
+            fireApolloMove(answer, clientBoard);
+        } else if (message.equals("MinotaurDoubleMove")) {
+            fireMinotaurMove(answer, clientBoard);
+        }
     }
 
     private void updateClientBoardMove(Answer answer, ClientBoard clientBoard) {
