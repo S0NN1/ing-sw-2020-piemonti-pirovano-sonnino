@@ -598,7 +598,7 @@ public class CLI implements UI, Runnable {
             System.out.println(active + " YOUR TURN");
         }
         if (modelView.getGod().equalsIgnoreCase("ATLAS")) {
-            atlas = "  • PLACEDOME\\n\"";
+            atlas = "  • PLACEDOME\n";
         } else atlas = "";
         TimeUnit.MILLISECONDS.sleep(500);
         if(modelView.isTurnActive()) {
