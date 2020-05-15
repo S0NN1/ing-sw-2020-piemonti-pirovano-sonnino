@@ -49,13 +49,13 @@ public class ModelView {
     private boolean turnActive;
     private boolean buildSelected;
     private boolean moveSelected;
-    private List<Couple> selectSpaces= new ArrayList<Couple>();
+    private List<Couple> selectSpaces= new ArrayList<>();
 
     public List<Couple> getSelectSpaces() {
         return selectSpaces;
     }
 
-    public void setSelectSpaces(ArrayList<Couple> selectSpaces) {
+    public void setSelectSpaces(List<Couple> selectSpaces) {
         this.selectSpaces = selectSpaces;
     }
 
@@ -182,18 +182,18 @@ public class ModelView {
     }
 
     /**
-     * This method toggles the input of the main user class.
+     * This method activates the input of the main user class.
      * @see it.polimi.ingsw.client.cli.CLI for more information.
      */
-    public synchronized void toggleInput() {
+    public synchronized void activateInput() {
         canInput = true;
     }
 
     /**
-     * This method untoggles the input of the main user class.
+     * This method deactivates the input of the main user class.
      * @see it.polimi.ingsw.client.cli.CLI for more information.
      */
-    public synchronized void untoggleInput() {
+    public synchronized void deactivateInput() {
         canInput = false;
     }
 

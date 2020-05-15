@@ -72,7 +72,7 @@ public class LoaderController implements GUIController {
      * @param coords the available coordinates.
      */
     public void workerPlacement(List<int[]> coords) {
-        gui.getModelView().toggleInput();
+        gui.getModelView().activateInput();
         int i=0;
         int[] positions = new int[4];
         HashMap<String, int[]> nameMapPosition = new HashMap<>();
@@ -168,7 +168,7 @@ public class LoaderController implements GUIController {
      * @param req the ChallengerMessage received from the server.
      */
     public void challengerPhase(ChallengerMessages req) {
-        gui.getModelView().toggleInput();
+        gui.getModelView().activateInput();
         if (req.isStartingPlayer() && req.getPlayers() != null) {
             startingPlayer(req);
         }

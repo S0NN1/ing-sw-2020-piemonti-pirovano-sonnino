@@ -236,7 +236,9 @@ public class CLI implements UI, Runnable {
                 } else {
                     j = 3;
                 }
-                insertPlayer(color, rows, level, type, temp, player, indexes, backgroundColor, i, j);
+                HashMap<Integer, String[]> stringMap = createStringMap(temp, player);
+                int[] counters = new int[]{i,j};
+                insertPlayer(color, rows, level, type, stringMap, indexes, backgroundColor,counters);
             }
         } else {
             int j;
@@ -244,19 +246,28 @@ public class CLI implements UI, Runnable {
                 j = 2;
             } else j = 0;
             for (int i = 0; i <= 2; i++) {
-                insertPlayer(color, rows, level, type, temp, player, indexes, backgroundColor, i, j);
+                HashMap<Integer, String[]> stringMap = createStringMap(temp, player);
+                int[] counters = new int[]{i,j};
+                insertPlayer(color, rows, level, type, stringMap, indexes, backgroundColor,counters);
             }
         }
     }
 
-    private void insertPlayer(String color, String[] rows, int level, int type, String[] temp, String[] player, int[][] indexes, String backgroundColor, int i, int j) {
-        if(i==2 && modelView.getActiveWorker()==type && modelView.isTurnActive() && color.equalsIgnoreCase(nameMapColor.get(modelView.getColor().toUpperCase()))){
+    private HashMap<Integer, String[]> createStringMap(String[] temp, String[] player) {
+        HashMap<Integer, String[]> stringMap = new HashMap<>();
+        stringMap.put(0, player);
+        stringMap.put(1, temp);
+        return stringMap;
+    }
+
+    private void insertPlayer(String color, String[] rows, int level, int type, HashMap<Integer,String[]> stringMap, int[][] indexes, String backgroundColor, int[] counters) {
+        if(counters[0]==2 && modelView.getActiveWorker()==type && modelView.isTurnActive() && color.equalsIgnoreCase(nameMapColor.get(modelView.getColor().toUpperCase()))){
             color = Constants.ANSI_WHITE;
             backgroundColor = BG_PURPLE;
         }
-        temp[i] = rows[i + 4].substring(0, indexes[level][0] - j) + color + nameMapColor.get(backgroundColor) +
-                player[i] + nameMapColor.get(RST) + rows[i + 4].substring(indexes[level][0] - j + 1);
-        rows[i + 4] = temp[i];
+        stringMap.get(1)[counters[0]] = rows[counters[0] + 4].substring(0, indexes[level][0] - counters[1]) + color + nameMapColor.get(backgroundColor) +
+                stringMap.get(0)[counters[0]] + nameMapColor.get(RST) + rows[counters[0] + 4].substring(indexes[level][0] - counters[1] + 1);
+        rows[counters[0] + 4] = stringMap.get(1)[counters[0]];
     }
 
 
@@ -476,7 +487,7 @@ public class CLI implements UI, Runnable {
                 output.println(Constants.ANSI_UNDERLINE + msg[0] + nameMapColor.get(RST) + " choose your workers position by typing" +
                                 nameMapColor.get(YELLOW) + " SET <row1 <col1> <row2> <col2> " + nameMapColor.get(RST) + "where 1 and 2 indicates worker number.");
                 output.print(">");
-                modelView.toggleInput();
+                modelView.activateInput();
             }
             default -> output.println("Nothing to do");
         }
@@ -503,7 +514,7 @@ public class CLI implements UI, Runnable {
             output.println(req.getMessage());
             output.print(">");
         }
-        modelView.toggleInput();
+        modelView.activateInput();
         if (modelView.getStarted() < 3) modelView.setStarted(3);
     }
 

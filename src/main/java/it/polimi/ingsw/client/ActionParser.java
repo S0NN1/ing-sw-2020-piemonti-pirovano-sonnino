@@ -27,55 +27,6 @@ public class ActionParser implements PropertyChangeListener {
         inputChecker = new InputChecker(connection, modelView);
     }
 
-    /**
-     * Synchronized action method; it's called when a player inserts a command in the CLI interface, and manages his
-     * selection before sending it to the server through the socket. It also performs an initial check about the
-     * rightness of the captured command.
-     */
-    public synchronized boolean action(String input) {
-        String[] in = input.split(" ");
-        String command = in[0];
-        int turnPhase = modelView.getTurnPhase();
-        UserAction sendMessage;
-        try {
-            switch (command.toUpperCase()) {
-                case "GODLIST" -> {
-                    connection.send(new ChallengerPhaseAction("LIST"));
-                    return true;
-                }
-                case "GODDESC" -> sendMessage = inputChecker.desc(in);
-                case "ADDGOD" -> sendMessage = inputChecker.addGod(in);
-                case "CHOOSE" -> sendMessage = inputChecker.choose(in);
-                case "STARTER" -> sendMessage = inputChecker.starter(in);
-                case "SET" -> sendMessage = inputChecker.set(in);
-                case "SELECTWORKER" -> sendMessage = checkSelectWorker(in);
-                case "MOVE" -> sendMessage = checkMove(in, turnPhase);
-                case "BUILD" -> sendMessage = checkBuild(in, turnPhase);
-                case "PLACEDOME" -> sendMessage = checkPlaceDome(in, turnPhase);
-                case "END" -> sendMessage = new EndTurnAction();
-                case "QUIT" -> {
-                    inputChecker.quit();
-                    return true;
-                }
-                default -> {
-                    System.out.println(RED + "Unknown input, please try again!" + RST);
-                    return false;
-                }
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println(RED + "Input error; try again!" + RST);
-            return false;
-        } catch (NumberFormatException e) {
-            System.err.println("Numeric value required, operation not permitted!");
-            return false;
-        }
-        if (sendMessage != null) {
-            connection.send(sendMessage);
-            return true;
-        }
-        return false;
-    }
-
     private UserAction checkBuild(String[] in, int turnPhase) {
         UserAction sendMessage;
         sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
@@ -106,15 +57,62 @@ public class ActionParser implements PropertyChangeListener {
                 modelView.getActiveWorker());
     }
 
+    /**
+     * Synchronized action method; it's called when a player inserts a command in the CLI interface, and manages his
+     * selection before sending it to the server through the socket. It also performs an initial check about the
+     * rightness of the captured command.
+     */
+    public synchronized boolean action(String input) {
+        String[] in = input.split(" ");
+        String command = in[0];
+        UserAction sendMessage;
+        try {
+            switch (command.toUpperCase()) {
+                case "GODLIST" -> {
+                    connection.send(new ChallengerPhaseAction("LIST"));
+                    return true;
+                }
+                case "GODDESC" -> sendMessage = inputChecker.desc(in);
+                case "ADDGOD" -> sendMessage = inputChecker.addGod(in);
+                case "CHOOSE" -> sendMessage = inputChecker.choose(in);
+                case "STARTER" -> sendMessage = inputChecker.starter(in);
+                case "SET" -> sendMessage = inputChecker.set(in);
+                case "SELECTWORKER" -> sendMessage = checkSelectWorker(in);
+                case "MOVE" -> sendMessage = checkMove(in, modelView.getTurnPhase());
+                case "BUILD" -> sendMessage = checkBuild(in, modelView.getTurnPhase());
+                case "PLACEDOME" -> sendMessage = checkPlaceDome(in, modelView.getTurnPhase());
+                case "END" -> sendMessage = new EndTurnAction();
+                case "QUIT" -> {
+                    inputChecker.quit();
+                    return true;
+                }
+                default -> {
+                    System.out.println(RED + "Unknown input, please try again!" + RST);
+                    return false;
+                }
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println(RED + "Input error; try again!" + RST);
+            return false;
+        } catch (NumberFormatException e) {
+            System.err.println("Numeric value required, operation not permitted!");
+            return false;
+        }
+        if (sendMessage != null) {
+            connection.send(sendMessage);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (!modelView.getCanInput()) {
             System.out.println(RED + "Error: not your turn!" + RST);
-        }
-        else if (action(evt.getNewValue().toString())) {
-            modelView.untoggleInput();
+        } else if (action(evt.getNewValue().toString())) {
+            modelView.deactivateInput();
         } else {
-            modelView.toggleInput();
+            modelView.activateInput();
         }
     }
 }

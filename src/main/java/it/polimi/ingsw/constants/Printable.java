@@ -141,6 +141,10 @@ public class Printable {
 
     };
 
+    private Printable() {
+
+    }
+
     public static String[] getLEVELS() {
         return LEVELS;
     }
