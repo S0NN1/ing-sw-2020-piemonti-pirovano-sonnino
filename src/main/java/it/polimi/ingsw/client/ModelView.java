@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.server.answers.*;
 
@@ -219,5 +220,15 @@ public class ModelView {
      */
     public Answer getServerAnswer() {
         return serverAnswer;
+    }
+
+    public void unregisterPlayer(String loserColor) {
+        for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
+            for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
+                if(clientBoard.getGrid()[i][j].getColor().equalsIgnoreCase(loserColor)){
+                    clientBoard.getGrid()[i][j].setColor(null);
+                }
+            }
+        }
     }
 }

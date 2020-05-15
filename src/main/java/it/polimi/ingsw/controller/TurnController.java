@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
+import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
@@ -166,11 +167,22 @@ public class TurnController implements PropertyChangeListener {
             gameHandler.endGame();
         }
         else{
-            gameHandler.sendAll(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname()));
+            String loserColor;
+            if(controller.getModel().getCurrentPlayer().getColor()==PlayerColors.BLUE){
+                loserColor = "blue";
+            }
+            else if(controller.getModel().getCurrentPlayer().getColor()==PlayerColors.RED){
+                loserColor = "red";
+            }
+            else loserColor = "green";
+            gameHandler.sendAll(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname(), loserColor));
             gameHandler.unregisterPlayer(gameHandler.getCurrentPlayerID());
             gameHandler.getServer().unregisterClient(gameHandler.getCurrentPlayerID());
-            //TODO UPDATE MODELVIEW
         }
+    }
+
+    private void getStringColor(PlayerColors color) {
+
     }
 
     /**

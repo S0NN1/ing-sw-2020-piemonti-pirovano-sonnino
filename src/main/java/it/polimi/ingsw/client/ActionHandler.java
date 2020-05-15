@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.server.answers.MatchStartedMessage;
 import it.polimi.ingsw.server.answers.*;
 import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
@@ -194,6 +195,7 @@ public class ActionHandler {
                 view.firePropertyChange("singleLost", null, null);
             }
             else{
+                modelView.unregisterPlayer(((PlayerLostMessage)answer).getLoserColor());
                 view.firePropertyChange("otherLost", null,  ((PlayerLostMessage) answer).getLoser());
             }
         }
