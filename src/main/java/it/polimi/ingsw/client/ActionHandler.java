@@ -4,10 +4,11 @@ import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
+import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.server.answers.MatchStartedMessage;
 import it.polimi.ingsw.server.answers.*;
 import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
-import it.polimi.ingsw.server.answers.turn.WorkerConfirmedMessage;
+import it.polimi.ingsw.server.answers.turn.ModifiedTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.*;
 
@@ -62,6 +63,10 @@ public class ActionHandler {
             else {
                 fireSelectSpaces((SelectSpacesMessage) answer);
             }
+            return;
+        }
+        if(answer instanceof ModifiedTurnMessage) {
+            modifiedTurnAction((ModifiedTurnMessage)answer);
         }
         else if(answer instanceof WorkersRequestMessage){
             fireSelectWorker();
@@ -73,11 +78,8 @@ public class ActionHandler {
             String boardUpdate = "boardUpdate";
             if (answer instanceof MoveMessage) {
                 updateClientBoardMove(answer, clientBoard);
-            } else if(answer instanceof WorkerConfirmedMessage) {
-                view.firePropertyChange(boardUpdate, null, null);
-                modelView.activateInput();
-                return;
-            } else if (answer instanceof BuildMessage) {
+            }
+            else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
                 clientBoard.build(message.getX(), message.getY(), dome);
@@ -89,6 +91,20 @@ public class ActionHandler {
             view.firePropertyChange(boardUpdate, null,null);
         }
 
+    }
+
+    private void modifiedTurnAction(ModifiedTurnMessage answer) {
+        if(answer.getAction()==null) {
+            view.firePropertyChange("prometheusMove", null, answer.getMessage());
+        }
+        else if(answer.getAction().equals(Action.SELECTMOVE)) {
+            modelView.activateInput();
+            view.firePropertyChange("doubleMove", null, answer.getMessage());
+        }
+        else if(answer.getAction().equals(Action.SELECTBUILD)) {
+            modelView.activateInput();
+            view.firePropertyChange("doubleBuild", null, answer.getMessage());
+        }
     }
 
     private void defineDoubleMove(DoubleMoveMessage answer, ClientBoard clientBoard, String message) {
@@ -134,8 +150,7 @@ public class ActionHandler {
 
     private void fireSelectSpaces(SelectSpacesMessage answer) {
         modelView.setSelectSpaces(answer.getMessage());
-        modelView.setMoveSelected(true);
-        modelView.setBuildSelected(true);//TODO  NON SONO SICURO CHE RESETTANDO FUNZIONI
+        //TODO  NON SONO SICURO CHE RESETTANDO FUNZIONI
         modelView.activateInput();
         view.firePropertyChange("select", null, null);
     }
@@ -150,7 +165,6 @@ public class ActionHandler {
     private void checkTurnActiveBuild() {
         if(modelView.isTurnActive()){
             modelView.setTurnPhase(modelView.getTurnPhase()+1);
-            modelView.setBuildSelected(false);
             modelView.activateInput();
         }
     }
@@ -158,7 +172,6 @@ public class ActionHandler {
     private void checkTurnActiveMove() {
         if (modelView.isTurnActive()) {
             modelView.setTurnPhase(modelView.getTurnPhase() + 1);
-            modelView.setMoveSelected(false);
             modelView.activateInput();
         }
     }
@@ -212,9 +225,6 @@ public class ActionHandler {
         if(modelView.getGamePhase()==0) {
             initialGamePhase(answer);
         }
-        else if(modelView.getGamePhase()==1) {
-            fullGamePhase(answer);
-        }
         if(answer instanceof WinMessage) {
             view.firePropertyChange("win", null, null);
         }
@@ -242,6 +252,9 @@ public class ActionHandler {
             else if(gui!=null) {
                 //TODO
             }
+        }
+        else if(modelView.getGamePhase()==1) {
+            fullGamePhase(answer);
         }
     }
 

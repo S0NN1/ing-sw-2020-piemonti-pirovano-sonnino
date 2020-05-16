@@ -147,10 +147,10 @@ public class InputChecker {
      * @return buildAction
      */
     public BuildAction build(int turnPhase, int x, int y, int activeWorker) {
-        if (!modelView.isBuildSelected()) {
+        /*if (!modelView.isBuildSelected()) {
             System.err.println("You must run BUILD (no args) command before!");
             return null;
-        }
+        }*/
         Couple w = findWorker(activeWorker, modelView.getColor());
         BuildAction build = new BuildAction(x, y);
         if (turnPhase == 1 || Constants.getBuildPhaseGods().contains(modelView.getGod().toUpperCase())) {
@@ -163,6 +163,10 @@ public class InputChecker {
 
 
     public SelectBuildAction build(int turnPhase, int activeWorker) {
+        /*if(!modelView.isBuildSelected()) {
+            System.err.println("You can't run BUILD (no args).");
+            return null;
+        }*/
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
@@ -208,10 +212,10 @@ public class InputChecker {
      * @return moveAction
      */
     public MoveAction move(int turnPhase, int x, int y, int activeWorker) {
-        if (!modelView.isMoveSelected()) {
+        /*if (!modelView.isMoveSelected()) {
             System.err.println("You must run MOVE (no args) command before!");
             return null;
-        }
+        }*/
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
@@ -281,6 +285,10 @@ public class InputChecker {
     }
 
     public SelectMoveAction move(int turnPhase, int activeWorker) {
+        /*if (modelView.isMoveSelected()) {
+            System.err.println("You can't run MOVE (no args).");
+            return null;
+        }*/
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;

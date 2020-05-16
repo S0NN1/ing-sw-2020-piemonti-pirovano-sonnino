@@ -569,6 +569,7 @@ public class CLI implements UI, Runnable {
                 System.exit(0);
             }
             case "noPossibleMoves" -> System.err.println("No possible moves!");
+            case "doubleMove", "doubleBuild", "prometheusMove" -> output.println(evt.getNewValue());
             case "boardUpdate" -> updateCli();
             case "firstBoardUpdate" -> firstUpdateCli();
             case "selectWorker" -> selectWorker();
