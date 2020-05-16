@@ -76,7 +76,8 @@ public class GUI11 extends Application {
 
         //minotaur move method
         gui.getModelView().getBoard().setColor(2,2,Constants.ANSI_BLUE);
-        controller.setWorker(2,2,Constants.ANSI_BLUE);
+        //TODO
+        /*controller.setWorker(2,2,Constants.ANSI_BLUE, );
         gui.getModelView().getBoard().setColor(2,1, Constants.ANSI_RED);
         controller.setWorker(2,1,Constants.ANSI_RED);
 
@@ -96,6 +97,6 @@ public class GUI11 extends Application {
 
         //controller.testDragAndDrop();
         primaryStage.show();
-
+*/
     }
 }

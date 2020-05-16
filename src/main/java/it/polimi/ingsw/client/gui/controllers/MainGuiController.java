@@ -110,7 +110,8 @@ public class MainGuiController implements GUIController{
      * @param col of the grid
      * @param color of the worker
      */
-    public void setWorker(int row, int col, int workerNumber String color) {
+
+    public void setWorker(int row, int col, int workerNumber, String color) {
         grid.add(new Worker(colors.get(color), workerNumber,this),col,row);
     }
 
