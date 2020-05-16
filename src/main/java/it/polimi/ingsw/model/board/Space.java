@@ -10,7 +10,8 @@ import it.polimi.ingsw.model.player.Worker;
  * <h1>Class describing spaces</h1>
  */
 public class Space {
-    private int x, y;
+    private int x;
+    private int y;
     private Worker workerHere;
     private Tower builtTower;
 

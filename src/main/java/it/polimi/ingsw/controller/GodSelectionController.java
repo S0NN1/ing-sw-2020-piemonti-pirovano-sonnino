@@ -28,7 +28,7 @@ public class GodSelectionController implements PropertyChangeListener {
     public GodSelectionController(CardSelectionModel model, Controller mainController, VirtualClient challenger) {
         this.cardModel = model;
         this.mainController = mainController;
-        model.addObserver(challenger);
+        model.addListener("challengerPhase", challenger);
     }
 
     public boolean add(Card arg) {

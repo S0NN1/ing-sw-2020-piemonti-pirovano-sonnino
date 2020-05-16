@@ -20,10 +20,11 @@ import java.beans.PropertyChangeSupport;
  */
 public class ActionHandler {
 
+    public static final String FIRST_BOARD_UPDATE = "firstBoardUpdate";
     private final ModelView modelView;
     private CLI cli;
     private GUI gui;
-    private PropertyChangeSupport view = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport view = new PropertyChangeSupport(this);
 
     /**
      * Constructor of the ActionHandler in case players are using the CLI.
@@ -55,80 +56,109 @@ public class ActionHandler {
         ClientBoard clientBoard = modelView.getBoard();
         if (answer instanceof SelectSpacesMessage) {
             if(((SelectSpacesMessage)answer).getMessage()==null){
-                modelView.toggleInput();
-                view.firePropertyChange("cannotBuild", null, null);
+                modelView.activateInput();
+                view.firePropertyChange("noPossibleMoves", null, null);
             }
             else {
-                modelView.setSelectSpaces(((SelectSpacesMessage) answer).getMessage());
-                modelView.toggleInput();
-                view.firePropertyChange("select", null, null);
+                fireSelectSpaces((SelectSpacesMessage) answer);
             }
         }
         else if(answer instanceof WorkersRequestMessage){
-            modelView.setTurnActive(true);
-            modelView.toggleInput();
-            view.firePropertyChange("firstBoardUpdate", null, null);
-            view.firePropertyChange("selectWorker", null, null);
+            fireSelectWorker();
         }
         else if (answer instanceof EndTurnMessage){
-            modelView.setTurnActive(false);
-            modelView.setTurnPhase(0);
-            modelView.untoggleInput();
-            view.firePropertyChange("boardUpdate", null, null);
-            view.firePropertyChange("end", null, null);
+            fireEndTurn();
         }
         else {
             String boardUpdate = "boardUpdate";
             if (answer instanceof MoveMessage) {
-                Move message = (Move) answer.getMessage();
-                clientBoard.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
-                        message.getNewPosition().getX(), message.getNewPosition().getY());
-                if(modelView.isTurnActive()){
-                    modelView.setTurnPhase(modelView.getTurnPhase()+1);
-                    modelView.setMoveSelected(false);
-                    modelView.toggleInput();
-                }
+                updateClientBoardMove(answer, clientBoard);
             } else if(answer instanceof WorkerConfirmedMessage) {
                 view.firePropertyChange(boardUpdate, null, null);
-                modelView.toggleInput();
+                modelView.activateInput();
                 return;
             } else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
                 clientBoard.build(message.getX(), message.getY(), dome);
-                if(modelView.isTurnActive()){
-                    modelView.setTurnPhase(modelView.getTurnPhase()+1);
-                    modelView.setBuildSelected(false);
-                    modelView.toggleInput();
-                }
+                checkTurnActiveBuild();
             } else if (answer instanceof DoubleMoveMessage) {
                 String message = ((DoubleMoveMessage) answer).getMessage();
-                if (message.equals("ApolloDoubleMove")) { //type Apollo
-                    Move myMove = ((DoubleMoveMessage) answer).getMyMove();
-                    Move otherMove = ((DoubleMoveMessage) answer).getOtherMove();
-                    clientBoard.apolloDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
-                            otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY());
-                    if(modelView.isTurnActive()){
-                        modelView.setTurnPhase(modelView.getTurnPhase()+1);
-                        modelView.setMoveSelected(false);
-                        modelView.toggleInput();
-                    }
-                } else if (message.equals("MinotaurDoubleMove")) { //type Minotaur
-                    Move myMove = ((DoubleMoveMessage) answer).getMyMove();
-                    Move otherMove = ((DoubleMoveMessage) answer).getOtherMove();
-                    clientBoard.minotaurDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
-                            otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY(),
-                            otherMove.getNewPosition().getX(), otherMove.getNewPosition().getY());
-                    if(modelView.isTurnActive()){
-                        modelView.setTurnPhase(modelView.getTurnPhase()+1);
-                        modelView.setMoveSelected(false);
-                        modelView.toggleInput();
-                    }
-                }
+                defineDoubleMove((DoubleMoveMessage) answer, clientBoard, message);
             }
             view.firePropertyChange(boardUpdate, null,null);
         }
 
+    }
+
+    private void defineDoubleMove(DoubleMoveMessage answer, ClientBoard clientBoard, String message) {
+        if (message.equals("ApolloDoubleMove")) {
+            fireApolloMove(answer, clientBoard);
+        } else if (message.equals("MinotaurDoubleMove")) {
+            fireMinotaurMove(answer, clientBoard);
+        }
+    }
+
+    private void updateClientBoardMove(Answer answer, ClientBoard clientBoard) {
+        Move message = (Move) answer.getMessage();
+        clientBoard.move(message.getOldPosition().getX(), message.getOldPosition().getY(),
+                message.getNewPosition().getX(), message.getNewPosition().getY());
+        checkTurnActiveMove();
+    }
+
+    private void fireMinotaurMove(DoubleMoveMessage answer, ClientBoard clientBoard) {
+        Move myMove = answer.getMyMove();
+        Move otherMove = answer.getOtherMove();
+        clientBoard.minotaurDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
+                otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY(),
+                otherMove.getNewPosition().getX(), otherMove.getNewPosition().getY());
+        checkTurnActiveMove();
+    }
+
+    private void fireApolloMove(DoubleMoveMessage answer, ClientBoard clientBoard) {
+        Move myMove = answer.getMyMove();
+        Move otherMove = answer.getOtherMove();
+        clientBoard.apolloDoubleMove(myMove.getOldPosition().getX(), myMove.getOldPosition().getY(),
+                otherMove.getOldPosition().getX(), otherMove.getOldPosition().getY());
+        checkTurnActiveMove();
+    }
+
+    private void fireEndTurn() {
+        modelView.setTurnActive(false);
+        modelView.setTurnPhase(0);
+        modelView.setActiveWorker(0);
+        modelView.deactivateInput();
+        view.firePropertyChange("boardUpdate", null, null);
+        view.firePropertyChange("end", null, null);
+    }
+
+    private void fireSelectSpaces(SelectSpacesMessage answer) {
+        modelView.setSelectSpaces(answer.getMessage());
+        modelView.activateInput();
+        view.firePropertyChange("select", null, null);
+    }
+
+    private void fireSelectWorker() {
+        modelView.setTurnActive(true);
+        modelView.activateInput();
+        view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
+        view.firePropertyChange("selectWorker", null, null);
+    }
+
+    private void checkTurnActiveBuild() {
+        if(modelView.isTurnActive()){
+            modelView.setTurnPhase(modelView.getTurnPhase()+1);
+            modelView.setBuildSelected(false);
+            modelView.activateInput();
+        }
+    }
+
+    private void checkTurnActiveMove() {
+        if (modelView.isTurnActive()) {
+            modelView.setTurnPhase(modelView.getTurnPhase() + 1);
+            modelView.setMoveSelected(false);
+            modelView.activateInput();
+        }
     }
 
     /**
@@ -154,10 +184,7 @@ public class ActionHandler {
             view.firePropertyChange(initial, null, "WorkerPlacement");
         }
         else if(answer instanceof WorkersRequestMessage){
-            modelView.setTurnActive(true);
-            modelView.toggleInput();
-            view.firePropertyChange("firstBoardUpdate", null, null);
-            view.firePropertyChange("selectWorker", null, null);
+            fireSelectWorker();
         }
         else if(answer instanceof SetWorkersMessage) {
             SetWorkersMessage message = (SetWorkersMessage) answer;
@@ -166,7 +193,7 @@ public class ActionHandler {
             modelView.getBoard().setColor(message.getWorker2().getX(), message.getWorker2().getY(), message.getMessage());
             modelView.getBoard().setWorkerNum(message.getWorker2().getX(), message.getWorker2().getY(), 2);
             modelView.setTurnActive(false);
-            view.firePropertyChange("firstBoardUpdate", null, null);
+            view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
         }
         else if(answer instanceof MatchStartedMessage) {
             modelView.setGamePhase(1);
@@ -194,24 +221,21 @@ public class ActionHandler {
                 view.firePropertyChange("singleLost", null, null);
             }
             else{
-                view.firePropertyChange("otherLost", null,  ((PlayerLostMessage) answer).getLoser());
+                fireOtherPlayerLost((PlayerLostMessage) answer);
             }
         }
         else if(answer instanceof LoseMessage) {
             view.firePropertyChange("lose", null, ((LoseMessage)answer).getWinner());
         }
         if(answer instanceof CustomMessage) {
-            view.firePropertyChange("customMessage", null, answer.getMessage());
-            modelView.setCanInput(((CustomMessage) answer).canInput());
+            fireCustomMessage(answer);
         }
         else if(answer instanceof GameError) {
-            modelView.toggleInput();
-            view.firePropertyChange("gameError", null, answer);
+            fireGameError(answer);
         }
         else if(answer instanceof ConnectionMessage) {
             if(cli!=null) {
-                view.firePropertyChange("connectionClosed", null, answer.getMessage());
-                cli.toggleActiveGame(false);
+                fireClosedConnectionCli(answer);
             }
             else if(gui!=null) {
                 //TODO
@@ -219,7 +243,25 @@ public class ActionHandler {
         }
     }
 
+    private void fireOtherPlayerLost(PlayerLostMessage answer) {
+        modelView.unregisterPlayer(answer.getLoserColor());
+        view.firePropertyChange("otherLost", null,  answer.getLoser());
+    }
 
+    private void fireClosedConnectionCli(Answer answer) {
+        view.firePropertyChange("connectionClosed", null, answer.getMessage());
+        cli.toggleActiveGame(false);
+    }
+
+    private void fireGameError(Answer answer) {
+        modelView.activateInput();
+        view.firePropertyChange("gameError", null, answer);
+    }
+
+    private void fireCustomMessage(Answer answer) {
+        view.firePropertyChange("customMessage", null, answer.getMessage());
+        modelView.setCanInput(((CustomMessage) answer).canInput());
+    }
 
 
 }

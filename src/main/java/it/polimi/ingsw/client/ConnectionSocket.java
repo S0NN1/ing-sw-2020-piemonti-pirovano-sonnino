@@ -50,14 +50,8 @@ public class ConnectionSocket {
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
             while(true) {
-                try {
-                    send(new SetupConnection(nickname));
-                    if(nicknameChecker(input.readObject())) {
-                        break;
-                    }
-                } catch (IOException | ClassNotFoundException e) {
-                    System.err.println(e.getMessage());
-                    return;
+                if(readInput(nickname, input)) {
+                    break;
                 }
             }
             listener = new SocketListener(socket, modelView, input, actionHandler);
@@ -69,6 +63,27 @@ public class ConnectionSocket {
             logger.log(Level.SEVERE,e.getMessage(), e);
             System.exit(0);
         }
+    }
+
+    /**
+     * Handles the input reading, in order to reduce the setup complexity.
+     * @param nickname the chosen nickname.
+     * @param input the input socket stream.
+     * @return true if nickname is available and set, false otherwise.
+     * @throws DuplicateNicknameException if the nickname has already been chosen.
+     * @throws InvalidNicknameException if the nickname contains forbidden characters (like "-").
+     */
+    private boolean readInput(String nickname, ObjectInputStream input) throws DuplicateNicknameException, InvalidNicknameException {
+        try {
+            send(new SetupConnection(nickname));
+            if(nicknameChecker(input.readObject())) {
+                return true;
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     /**

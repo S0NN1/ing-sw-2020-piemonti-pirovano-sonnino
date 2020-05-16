@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
+import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
@@ -78,33 +79,54 @@ public class TurnController implements PropertyChangeListener {
                 } else if (arg instanceof BuildAction) {
                     BuildAction worker_action = (BuildAction) arg;
                     if (!actionController.readMessage(worker_action)) {
-                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't build here " +
-                                        "right now!"), gameHandler.getCurrentPlayerID());
+                        sendBuildError();
                     }
                 } else if (arg instanceof MoveAction) {
                     MoveAction worker_action = (MoveAction) arg;
                     if (!actionController.readMessage(worker_action)) {
-                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't move here " +
-                                        "right now!"), gameHandler.getCurrentPlayerID());
+                        sendMoveError();
                     }
                 } else if (arg instanceof SelectMoveAction) {
                     SelectMoveAction worker_action = (SelectMoveAction) arg;
                     if (!actionController.readMessage(worker_action)) {
-                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't move right now!"),
-                                gameHandler.getCurrentPlayerID());
+                        sendMoveError();
                     }
                 } else if (arg instanceof SelectBuildAction) {
                     SelectBuildAction worker_action = (SelectBuildAction) arg;
                     if (!actionController.readMessage(worker_action)) {
-                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't build right now!"),
-                                gameHandler.getCurrentPlayerID());
+                        sendBuildError();
                     }
                 } else if (arg instanceof EndTurnAction) {
                     endTurn();
                 }
             }
         }
+    }
 
+    public void sendMoveError() {
+        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't move right now!"),
+                gameHandler.getCurrentPlayerID());
+    }
+
+    public void sendBuildError() {
+        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't build right now!"),
+                gameHandler.getCurrentPlayerID());
+    }
+
+    public void startTurnAction(int i, int j) {
+        if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(i))) {
+            gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
+        }
+        else if(controller.getModel().getCurrentPlayer().getWorkers().get(i).isBlocked()){
+            if(controller.getModel().getCurrentPlayer().getWorkers().get(j).isBlocked()) {
+                endGame();
+            }
+            else {
+                gameHandler.singleSend(new GameError(ErrorsType.WORKERBLOCKED), gameHandler.getCurrentPlayerID());
+                return;
+            }
+            gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+        }
     }
 
     /**
@@ -116,32 +138,18 @@ public class TurnController implements PropertyChangeListener {
     public void startTurn(StartTurnAction arg) {
         try {
             switch (arg.option) {
-                case "start" -> gameHandler.singleSend(new WorkersRequestMessage(), gameHandler.getCurrentPlayerID());
-                case "worker1" -> {
-                    if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(0))) {
-                        gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
-                    } else if(controller.getModel().getCurrentPlayer().getWorkers().get(0).isBlocked()){
-                        if(controller.getModel().getCurrentPlayer().getWorkers().get(1).isBlocked()) {
-                            endGame();
-                        }
-                        else {
-                            gameHandler.singleSend(new GameError(ErrorsType.WORKERBLOCKED), gameHandler.getCurrentPlayerID());
-                        }
-                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                case "start" -> {
+                    if(controller.getModel().getCurrentPlayer().getWorkers().get(0).isBlocked() &&
+                            controller.getModel().getCurrentPlayer().getWorkers().get(1).isBlocked()) {
+                        endGame();
+                    }
+                    gameHandler.singleSend(new WorkersRequestMessage(), gameHandler.getCurrentPlayerID());
                 }
+                case "worker1" -> {
+                    startTurnAction(0, 1);
                 }
                 case "worker2" -> {
-                    if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(1))) {
-                        gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
-                    } else if(controller.getModel().getCurrentPlayer().getWorkers().get(1).isBlocked()){
-                        if(controller.getModel().getCurrentPlayer().getWorkers().get(0).isBlocked()){
-                            endGame();
-                        }
-                        else {
-                            gameHandler.singleSend(new GameError(ErrorsType.WORKERBLOCKED), gameHandler.getCurrentPlayerID());
-                        }
-                        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
-                }
+                    startTurnAction(1, 0);
                 }
                 default -> gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
             }
@@ -159,10 +167,17 @@ public class TurnController implements PropertyChangeListener {
             gameHandler.endGame();
         }
         else{
-            gameHandler.sendAll(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname()));
+            String loserColor;
+            if(controller.getModel().getCurrentPlayer().getColor()==PlayerColors.BLUE){
+                loserColor = "blue";
+            }
+            else if(controller.getModel().getCurrentPlayer().getColor()==PlayerColors.RED){
+                loserColor = "red";
+            }
+            else loserColor = "green";
+            gameHandler.sendAll(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname(), loserColor));
             gameHandler.unregisterPlayer(gameHandler.getCurrentPlayerID());
             gameHandler.getServer().unregisterClient(gameHandler.getCurrentPlayerID());
-            //TODO UPDATE MODELVIEW
         }
     }
 

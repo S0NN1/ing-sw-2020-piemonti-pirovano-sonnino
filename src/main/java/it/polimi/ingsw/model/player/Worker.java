@@ -4,10 +4,10 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
-import it.polimi.ingsw.observer.BuildListener;
-import it.polimi.ingsw.observer.MoveListener;
-import it.polimi.ingsw.observer.SelectSpacesListener;
-import it.polimi.ingsw.observer.WinListener;
+import it.polimi.ingsw.listeners.BuildListener;
+import it.polimi.ingsw.listeners.MoveListener;
+import it.polimi.ingsw.listeners.SelectSpacesListener;
+import it.polimi.ingsw.listeners.WinListener;
 import it.polimi.ingsw.server.VirtualClient;
 
 import java.beans.PropertyChangeSupport;
@@ -152,6 +152,14 @@ public abstract class Worker {
      */
     public boolean isBlocked() {
         return this.isBlocked;
+    }
+
+    /**
+     * Set the isBlocked attribute if the worker cannot move anymore.
+     * @param isBlocked boolean value
+     */
+    public void setBlocked(boolean isBlocked) {
+        this.isBlocked = isBlocked;
     }
 
     /**
