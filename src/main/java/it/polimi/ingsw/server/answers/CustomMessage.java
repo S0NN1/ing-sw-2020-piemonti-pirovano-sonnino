@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.answers;
 
 public class CustomMessage implements Answer {
-    private String message;
+    private final String message;
     private final boolean input;
 
     public CustomMessage(String message, boolean input) {

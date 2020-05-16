@@ -7,7 +7,7 @@ import it.polimi.ingsw.constants.Couple;
  */
 public class BuildAction extends WorkerAction {
 
-    private Couple buildSpace;
+    private final Couple buildSpace;
     private boolean dome;
 
     public BuildAction(int x, int y){

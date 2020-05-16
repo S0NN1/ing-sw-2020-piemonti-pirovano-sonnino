@@ -11,7 +11,7 @@ import it.polimi.ingsw.exceptions.InvalidInputException;
  */
 
 public class GameBoard {
-    private Space[][] grid = new Space[Constants.GRID_MAX_SIZE][Constants.GRID_MAX_SIZE];
+    private final Space[][] grid = new Space[Constants.GRID_MAX_SIZE][Constants.GRID_MAX_SIZE];
 
     /**
      * Constructor of the board. It creates a grid of 25 spaces and set each space coordinate inside it.

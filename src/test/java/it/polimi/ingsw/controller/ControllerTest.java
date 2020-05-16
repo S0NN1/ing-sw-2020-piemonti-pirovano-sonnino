@@ -26,7 +26,7 @@ class ControllerTest {
     GameStub game;
 
     private class GameStub extends Game {
-        private ArrayList<PlayerStub> players = new ArrayList<>();
+        private final ArrayList<PlayerStub> players = new ArrayList<>();
         private PlayerStub currentplayer;
 
         public void createNewPlayer(PlayerStub player) {
@@ -35,7 +35,7 @@ class ControllerTest {
     }
 
     private class PlayerStub extends Player {
-        private ArrayList<WorkerStub> workers = new ArrayList<>();
+        private final ArrayList<WorkerStub> workers = new ArrayList<>();
 
         public PlayerStub(String nickname, int clientID) {
             super(nickname, clientID);
