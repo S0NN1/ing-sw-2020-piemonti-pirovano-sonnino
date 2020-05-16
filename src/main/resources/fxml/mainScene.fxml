@@ -66,7 +66,7 @@
                                     <Image url="@../graphics/bgs/clp_bg.png" />
                                  </image>
                               </ImageView>
-                              <Label alignment="CENTER" text="Labellllllllllllll" textAlignment="CENTER" visible="false" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="40.0" />
+                              <Label fx:id="actionsLabel" alignment="CENTER" text="Labellllllllllllll" textAlignment="CENTER" visible="false" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="40.0" />
                               <HBox spacing="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="70.0">
                                  <children>
                                     <Button fx:id="buttonMove" mnemonicParsing="false" styleClass="rightBoard" stylesheets="@../css/mainScene.css" text="Move" visible="false" />

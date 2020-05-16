@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.gui.shapes.Block;
 import it.polimi.ingsw.client.gui.shapes.Dome;
 import it.polimi.ingsw.client.gui.shapes.Worker;
 import it.polimi.ingsw.constants.Constants;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,6 +17,9 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import javax.xml.stream.EventFilter;
+import javax.xml.stream.events.XMLEvent;
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 
 /**
@@ -28,11 +32,11 @@ public class MainGuiController implements GUIController{
     private final HashMap<String, Color> colors;
     private GUI gui;
     private ClientBoard board;
-    private ActionParser actionParser;
+    private HashMap<String, EventHandler> handler = new HashMap<String, EventHandler>();
     @FXML
     GridPane grid;
     @FXML
-    Label test;
+    Label actionsLabel;
     @FXML
     Button buttonMove, buttonBuild;
     @FXML
@@ -41,7 +45,7 @@ public class MainGuiController implements GUIController{
     /**
      * constructor
      */
-    public MainGuiController(){
+    public MainGuiController() {
         super();
         colors = new HashMap<>();
         colors.put(Constants.ANSI_RED, Color.RED);
@@ -51,9 +55,23 @@ public class MainGuiController implements GUIController{
         colors.put(Constants.ANSI_CYAN, Color.CYAN);
     }
 
-    public void setActionParser(ActionParser actionParser) {
-        this.actionParser = actionParser;
-    }
+
+    EventHandler<MouseEvent> workerClicked = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            buttonMove.setVisible(true);
+            buttonBuild.setVisible(true);
+            actionsLabel.setText("Chose an action:");
+            actionsLabel.setVisible(true);
+        }
+    };
+
+    EventHandler<MouseEvent> buttonClicked = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            gui.getObservers().firePropertyChange("action", null, mouseEvent.getButton().name());
+        }
+    };
 
     /*public void testDragAndDrop(){
         Button button = new Button();
@@ -97,7 +115,7 @@ public class MainGuiController implements GUIController{
      * @param color of the worker
      */
     public void setWorker(int row, int col, String color) {
-        grid.add(new Worker(colors.get(color), grid, rightAnchor),col,row);
+        grid.add(new Worker(colors.get(color)),col,row);
     }
 
     /**
@@ -147,7 +165,7 @@ public class MainGuiController implements GUIController{
             }
 
         }
-        grid.add(new Worker(colors.get(color), grid, rightAnchor), newCol, newRow);
+        grid.add(new Worker(colors.get(color)), newCol, newRow);
     }
 
     /**
@@ -189,7 +207,7 @@ public class MainGuiController implements GUIController{
             }
         }
         if(remove != null) grid.getChildren().remove(remove);
-        grid.add(new Worker(colors.get(board.getColor(newRow2, newCol2)), grid, rightAnchor), newCol2, newRow2);
+        grid.add(new Worker(colors.get(board.getColor(newRow2, newCol2))), newCol2, newRow2);
     }
 
     @Override
