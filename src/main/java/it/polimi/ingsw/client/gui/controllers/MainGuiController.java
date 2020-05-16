@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import it.polimi.ingsw.client.ActionParser;
 import it.polimi.ingsw.client.ClientBoard;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.shapes.Block;
@@ -17,9 +16,6 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import javax.xml.stream.EventFilter;
-import javax.xml.stream.events.XMLEvent;
-import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 
 /**

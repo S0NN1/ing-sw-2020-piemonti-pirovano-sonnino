@@ -72,7 +72,7 @@ public class LoaderController implements GUIController {
      * @param coords the available coordinates.
      */
     public void workerPlacement(List<int[]> coords) {
-        gui.getModelView().toggleInput();
+        gui.getModelView().activateInput();
         int i=0;
         int[] positions = new int[4];
         HashMap<String, int[]> nameMapPosition = new HashMap<>();
@@ -154,10 +154,8 @@ public class LoaderController implements GUIController {
             ButtonType choose = new ButtonType("DETAILS");
             message.getButtonTypes().setAll(choose);
             message.showAndWait();
-            if (choices.getValue()!=null) {
-                if(godTile(choices.getValue(), true)) {
-                    break;
-                }
+            if (choices.getValue()!=null && godTile(choices.getValue(), true)) {
+                break;
             }
         }
     }
@@ -168,7 +166,7 @@ public class LoaderController implements GUIController {
      * @param req the ChallengerMessage received from the server.
      */
     public void challengerPhase(ChallengerMessages req) {
-        gui.getModelView().toggleInput();
+        gui.getModelView().activateInput();
         if (req.isStartingPlayer() && req.getPlayers() != null) {
             startingPlayer(req);
         }
@@ -178,8 +176,7 @@ public class LoaderController implements GUIController {
         else if (req.getSelectable() != null) {
             chooseGod(req);
         }
-        else {
-            assert req.getMessage() != null;
+        else if(req.getMessage() != null) {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
             if(req.getMessage().contains("you are the challenger")) {
                 message.setTitle("Challenger phase");

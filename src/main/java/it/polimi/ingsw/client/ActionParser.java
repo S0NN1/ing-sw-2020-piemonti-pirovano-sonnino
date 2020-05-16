@@ -27,6 +27,36 @@ public class ActionParser implements PropertyChangeListener {
         inputChecker = new InputChecker(connection, modelView);
     }
 
+    private UserAction checkBuild(String[] in, int turnPhase) {
+        UserAction sendMessage;
+        sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
+                : inputChecker.build(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
+                modelView.getActiveWorker());
+        return sendMessage;
+    }
+
+    private UserAction checkPlaceDome(String[] in, int turnPhase) {
+        UserAction sendMessage;
+        sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
+                : inputChecker.atlasBuild(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]), modelView.getActiveWorker());
+        return sendMessage;
+    }
+
+    private UserAction checkSelectWorker(String[] in) {
+        UserAction sendMessage;
+        sendMessage = inputChecker.selectWorker(in);
+        if (sendMessage != null) {
+            modelView.setActiveWorker(Integer.parseInt(in[1]));
+        }
+        return sendMessage;
+    }
+
+    private UserAction checkMove(String[] in, int turnPhase) {
+        return (in.length == 1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
+                : inputChecker.move(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
+                modelView.getActiveWorker());
+    }
+
     /**
      * Synchronized action method; it's called when a player inserts a command in the CLI interface, and manages his
      * selection before sending it to the server through the socket. It also performs an initial check about the
@@ -35,7 +65,6 @@ public class ActionParser implements PropertyChangeListener {
     public synchronized boolean action(String input) {
         String[] in = input.split(" ");
         String command = in[0];
-        int turnPhase = modelView.getTurnPhase();
         UserAction sendMessage;
         try {
             switch (command.toUpperCase()) {
@@ -48,29 +77,11 @@ public class ActionParser implements PropertyChangeListener {
                 case "CHOOSE" -> sendMessage = inputChecker.choose(in);
                 case "STARTER" -> sendMessage = inputChecker.starter(in);
                 case "SET" -> sendMessage = inputChecker.set(in);
-                case "SELECTWORKER" -> {
-                    sendMessage = inputChecker.selectWorker(in);
-                    if (sendMessage != null) {
-                        modelView.setActiveWorker(Integer.parseInt(in[1]));
-                    }
-                }
-                case "MOVE" -> {
-                    sendMessage = (in.length == 1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
-                            : inputChecker.move(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
-                            modelView.getActiveWorker());
-                }
-                case "BUILD" -> {
-                    sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
-                            : inputChecker.build(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
-                            modelView.getActiveWorker());
-                }
-                case "PLACEDOME" -> {
-                    sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
-                            : inputChecker.atlasBuild(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]), modelView.getActiveWorker());
-                }
-                case "END" -> {
-                    sendMessage = new EndTurnAction();
-                }
+                case "SELECTWORKER" -> sendMessage = checkSelectWorker(in);
+                case "MOVE" -> sendMessage = checkMove(in, modelView.getTurnPhase());
+                case "BUILD" -> sendMessage = checkBuild(in, modelView.getTurnPhase());
+                case "PLACEDOME" -> sendMessage = checkPlaceDome(in, modelView.getTurnPhase());
+                case "END" -> sendMessage = new EndTurnAction();
                 case "QUIT" -> {
                     inputChecker.quit();
                     return true;
@@ -98,12 +109,10 @@ public class ActionParser implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (!modelView.getCanInput()) {
             System.out.println(RED + "Error: not your turn!" + RST);
-            return;
-        }
-        if (action(evt.getNewValue().toString())) {
-            modelView.untoggleInput();
+        } else if (action(evt.getNewValue().toString())) {
+            modelView.deactivateInput();
         } else {
-            modelView.toggleInput();
+            modelView.activateInput();
         }
     }
 }

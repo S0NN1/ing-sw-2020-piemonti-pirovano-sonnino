@@ -2,10 +2,12 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.server.answers.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class contains a small representation of the game model, and contains linking to the main client actions, which
@@ -29,6 +31,16 @@ public class ModelView {
     }
 
     public void setGodDesc(String godDesc) {
+    if(godDesc.length()>110){
+        String temp1=godDesc.substring(0, 110);
+        String temp2=godDesc.substring(110);
+        if(Character.toString(temp2.charAt(0)).equals(" ")){
+            godDesc= temp1 + "\n" + temp2.substring(1);
+        }
+        else{
+            godDesc= temp1 + "-" + "\n" + temp2;
+        }
+    }
         this.godDesc = godDesc;
     }
 
@@ -37,13 +49,13 @@ public class ModelView {
     private boolean turnActive;
     private boolean buildSelected;
     private boolean moveSelected;
-    private ArrayList<Couple> selectSpaces;
+    private List<Couple> selectSpaces= new ArrayList<>();
 
-    public ArrayList<Couple> getSelectSpaces() {
+    public List<Couple> getSelectSpaces() {
         return selectSpaces;
     }
 
-    public void setSelectSpaces(ArrayList<Couple> selectSpaces) {
+    public void setSelectSpaces(List<Couple> selectSpaces) {
         this.selectSpaces = selectSpaces;
     }
 
@@ -170,18 +182,18 @@ public class ModelView {
     }
 
     /**
-     * This method toggles the input of the main user class.
+     * This method activates the input of the main user class.
      * @see it.polimi.ingsw.client.cli.CLI for more information.
      */
-    public synchronized void toggleInput() {
+    public synchronized void activateInput() {
         canInput = true;
     }
 
     /**
-     * This method untoggles the input of the main user class.
+     * This method deactivates the input of the main user class.
      * @see it.polimi.ingsw.client.cli.CLI for more information.
      */
-    public synchronized void untoggleInput() {
+    public synchronized void deactivateInput() {
         canInput = false;
     }
 
@@ -209,5 +221,15 @@ public class ModelView {
      */
     public Answer getServerAnswer() {
         return serverAnswer;
+    }
+
+    public void unregisterPlayer(String loserColor) {
+        for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
+            for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
+                if(clientBoard.getGrid()[i][j].getColor().equalsIgnoreCase(loserColor)){
+                    clientBoard.getGrid()[i][j].setColor(null);
+                }
+            }
+        }
     }
 }

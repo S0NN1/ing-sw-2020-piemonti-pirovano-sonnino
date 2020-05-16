@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
  * @author Luca Pirovano
  */
 public class MainMenuController implements GUIController{
-
+    private static final String URL = "https://sonar.lucapirovano.com";
     private GUI gui;
     @FXML
     private TextField username;
@@ -34,7 +34,6 @@ public class MainMenuController implements GUIController{
     private TextField port;
     @FXML
     private Label confirmation;
-    private final static String URL = "https://sonar.lucapirovano.com";
 
     /**
      * Opens the project home website.
@@ -85,7 +84,7 @@ public class MainMenuController implements GUIController{
                 gui.setConnection(connectionSocket);
                 loaderController.setText("SOCKET CONNECTION \nSETUP COMPLETED!");
                 loaderController.setText("WAITING FOR PLAYERS");
-                gui.getObservers().addPropertyChangeListener(new ActionParser(connectionSocket, gui.getModelView()));
+                gui.getObservers().addPropertyChangeListener("action", new ActionParser(connectionSocket, gui.getModelView()));
 
             } catch (DuplicateNicknameException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

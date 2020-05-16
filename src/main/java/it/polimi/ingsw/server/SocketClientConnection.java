@@ -23,8 +23,8 @@ import java.util.logging.Logger;
  * @author Luca Pirovano
  */
 public class SocketClientConnection implements ClientConnection, Runnable {
-    private Socket socket;
-    private Server server;
+    private final Socket socket;
+    private final Server server;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     private Integer clientID;
@@ -122,18 +122,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
      */
     public void actionHandler(Message command) {
         if(command instanceof SetupConnection) {
-            try {
-                SetupConnection cmd = (SetupConnection) command;
-                clientID = server.registerConnection(cmd.getNickname(), this);
-                if (clientID == null) {
-                    active = false;
-                    return;
-                }
-                server.lobby(this);
-            } catch (InterruptedException e) {
-                System.err.println(e.getMessage());
-                Thread.currentThread().interrupt();
-            }
+            checkConnection((SetupConnection) command);
         }
         else if(command instanceof ChosenColor) {
             if(PlayerColors.isChosen(((ChosenColor)command).getColor())) {
@@ -153,8 +142,27 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     }
 
     /**
+     * Check the validity of the connection message received from the client.
+     * @param command the connection command.
+     */
+    private void checkConnection(SetupConnection command) {
+        try {
+            SetupConnection cmd = command;
+            clientID = server.registerConnection(cmd.getNickname(), this);
+            if (clientID == null) {
+                active = false;
+                return;
+            }
+            server.lobby(this);
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    /**
      * Handles an action by receiving a message from the client. The "Action" interface permits splitting the information
-     * into serveral types of action (like move, build, etc). This method invokes the correct part of the server relying on
+     * into several types of action (like move, build, etc). This method invokes the correct part of the server relying on
      * the action type received.
      * @param action the Action interface type command received from the client.
      */
