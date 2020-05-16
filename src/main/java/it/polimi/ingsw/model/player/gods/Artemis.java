@@ -2,8 +2,6 @@ package it.polimi.ingsw.model.player.gods;
 
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
-import it.polimi.ingsw.model.player.Action;
-import it.polimi.ingsw.model.player.Phase;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 

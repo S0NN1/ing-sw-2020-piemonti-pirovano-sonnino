@@ -1,18 +1,17 @@
-package it.polimi.ingsw.observer;
+package it.polimi.ingsw.listeners;
 
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.server.VirtualClient;
-import it.polimi.ingsw.server.answers.worker.SelectSpacesMessage;
+import it.polimi.ingsw.server.answers.worker.BuildMessage;
 
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
 
 /**
  * @author Alice Piemonti
  */
-public class SelectSpacesListener extends WorkerListener {
+public class BuildListener extends WorkerListener{
 
-    public SelectSpacesListener(VirtualClient client) {
+    public BuildListener(VirtualClient client) {
         super(client);
     }
 
@@ -24,7 +23,7 @@ public class SelectSpacesListener extends WorkerListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        SelectSpacesMessage message = new SelectSpacesMessage((ArrayList<Space>)evt.getNewValue());
-        virtualClient.send(message);
+        BuildMessage message = new BuildMessage((Space)evt.getNewValue(), (Boolean) evt.getOldValue());
+        virtualClient.sendAll(message);
     }
 }

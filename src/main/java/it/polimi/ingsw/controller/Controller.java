@@ -21,9 +21,9 @@ import java.util.ArrayList;
  * @author Luca Pirovano
  */
 public class Controller implements PropertyChangeListener {
+    public static final String TURN_CONTROLLER = "turnController";
     private final Game model;
     private final GameHandler gameHandler;
-    private GodSelectionController selectionController;
     private final TurnController turnController;
     private final PropertyChangeSupport controllerListeners = new PropertyChangeSupport(this);
 
@@ -32,7 +32,7 @@ public class Controller implements PropertyChangeListener {
         this.model = model;
         this.gameHandler = gameHandler;
         this.turnController = new TurnController(this, gameHandler, new ActionController(model.getGameBoard()));
-        controllerListeners.addPropertyChangeListener("turnController", turnController);
+        controllerListeners.addPropertyChangeListener(TURN_CONTROLLER, turnController);
     }
 
     /**
@@ -72,7 +72,7 @@ public class Controller implements PropertyChangeListener {
      * @param clientID the ID of the challenger client.
      */
     public void setSelectionController(int clientID) {
-        selectionController = new GodSelectionController(new CardSelectionModel(model.getDeck()), this, gameHandler.getServer().getClientByID(clientID));
+        GodSelectionController selectionController = new GodSelectionController(new CardSelectionModel(model.getDeck()), this, gameHandler.getServer().getClientByID(clientID));
         controllerListeners.addPropertyChangeListener("GODSELECTION", selectionController);
     }
 
@@ -127,8 +127,8 @@ public class Controller implements PropertyChangeListener {
             case "workerPlacement" -> {
                 placeWorkers((WorkerSetupMessage) evt.getNewValue());
             }
-            case "turnController" -> {
-                controllerListeners.firePropertyChange("turnController", null, evt.getNewValue());
+            case TURN_CONTROLLER -> {
+                controllerListeners.firePropertyChange(TURN_CONTROLLER, null, evt.getNewValue());
             }
             default -> {
                 System.err.println("Unrecognized message!");

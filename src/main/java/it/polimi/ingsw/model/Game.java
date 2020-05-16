@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * This class contains the main logic of "it.polimi.ingsw.Santorini", which is divided in several macro-areas.
@@ -19,7 +18,7 @@ import java.util.Observable;
  * @version 1.0.1
  */
 
-public class Game extends Observable {
+public class Game {
 
     private final GameBoard gameBoard;
     private final ArrayList<Player> players = new ArrayList<>();

@@ -1,6 +1,5 @@
-package it.polimi.ingsw.observer;
+package it.polimi.ingsw.listeners;
 
-import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.worker.WinMessage;
 

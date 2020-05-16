@@ -6,10 +6,8 @@ import it.polimi.ingsw.server.answers.ChallengerMessages;
 import it.polimi.ingsw.server.answers.SerializedAnswer;
 import it.polimi.ingsw.server.answers.worker.LoseMessage;
 
-import java.sql.Time;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.concurrent.TimeUnit;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * Virtual client interface; this is a representation of the virtual instance of the client, which is connected
@@ -17,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * It's used for preparing an answer for sending and for general operations on the client too.
  * @author Luca Pirovano
  */
-public class VirtualClient implements Observer {
+public class VirtualClient implements PropertyChangeListener {
     private int clientID;
     private String nickname;
     private SocketClientConnection socketClientConnection;
@@ -94,12 +92,12 @@ public class VirtualClient implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        if(arg instanceof ChallengerMessages) {
-            send((ChallengerMessages)arg);
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getNewValue() instanceof ChallengerMessages) {
+            send((ChallengerMessages)evt.getNewValue());
         }
-        else if(arg instanceof CustomMessage){
-            send((CustomMessage)arg);
+        else if(evt.getNewValue() instanceof CustomMessage){
+            send((CustomMessage)evt.getNewValue());
         }
     }
 }
