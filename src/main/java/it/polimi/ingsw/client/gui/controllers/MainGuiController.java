@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.ActionParser;
 import it.polimi.ingsw.client.ClientBoard;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.shapes.Block;
@@ -28,7 +29,6 @@ public class MainGuiController implements GUIController{
     private final HashMap<String, Color> colors;
     private GUI gui;
     private ClientBoard board;
-    private HashMap<String, EventHandler> handler = new HashMap<String, EventHandler>();
     @FXML
     GridPane grid;
     @FXML
@@ -110,8 +110,8 @@ public class MainGuiController implements GUIController{
      * @param col of the grid
      * @param color of the worker
      */
-    public void setWorker(int row, int col, String color) {
-        grid.add(new Worker(colors.get(color)),col,row);
+    public void setWorker(int row, int col, int workerNumber String color) {
+        grid.add(new Worker(colors.get(color), workerNumber,this),col,row);
     }
 
     /**
@@ -154,6 +154,7 @@ public class MainGuiController implements GUIController{
      */
     public void move(int oldRow, int oldCol, int newRow, int newCol) {
         String color = gui.getModelView().getBoard().getColor(newRow, newCol);
+        int workerNumber = gui.getModelView().getBoard().getWorkerNum(newRow, newCol);
         for(Node node: grid.getChildren()) {
             if(GridPane.getRowIndex(node) == oldRow && GridPane.getColumnIndex(node) == oldCol && node instanceof Worker) {
                 grid.getChildren().remove(node);
@@ -161,7 +162,7 @@ public class MainGuiController implements GUIController{
             }
 
         }
-        grid.add(new Worker(colors.get(color)), newCol, newRow);
+        grid.add(new Worker(colors.get(color), workerNumber, this), newCol, newRow);
     }
 
     /**
@@ -175,10 +176,10 @@ public class MainGuiController implements GUIController{
         for(Node node: grid.getChildren()) {
             if (GridPane.getRowIndex(node) == oldRow1 && GridPane.getColumnIndex(node) == oldCol1 && node instanceof Worker) {
                 Worker worker1 = (Worker) node;
-                worker1.setFill(colors.get(board.getGrid()[oldRow1][oldCol1].getColor()));
+                worker1.setFill(colors.get(board.getColor(oldRow1,oldCol1)));
             } else if (GridPane.getRowIndex(node) == oldRow2 && GridPane.getColumnIndex(node) == oldCol2 && node instanceof Worker) {
                 Worker worker2 = (Worker) node;
-                worker2.setFill(colors.get(board.getGrid()[oldRow2][oldCol2].getColor()));
+                worker2.setFill(colors.get(board.getColor(oldRow2, oldCol2)));
             }
         }
     }
@@ -197,13 +198,30 @@ public class MainGuiController implements GUIController{
         for(Node node: grid.getChildren()) {
             if (GridPane.getRowIndex(node) == oldRow2 && GridPane.getColumnIndex(node) == oldCol2 && node instanceof Worker) {
                 Worker worker1 = (Worker) node;
-                worker1.setFill(colors.get(board.getGrid()[oldRow2][oldCol2].getColor()));
+                worker1.setFill(colors.get(board.getColor(oldRow2,oldCol2)));
+                worker1.setWorkerNumber(board.getWorkerNum(oldRow2,oldCol2));
             } else if (GridPane.getRowIndex(node) == oldRow1 && GridPane.getColumnIndex(node) == oldCol1 && node instanceof Worker) {
                 remove = node;
             }
         }
         if(remove != null) grid.getChildren().remove(remove);
-        grid.add(new Worker(colors.get(board.getColor(newRow2, newCol2))), newCol2, newRow2);
+        grid.add(new Worker(colors.get(board.getColor(newRow2, newCol2)),board.getWorkerNum(newRow2,newCol2), this), newCol2, newRow2);
+    }
+
+    public Button getButtonMove() {
+        return buttonMove;
+    }
+
+    public Button getButtonBuild() {
+        return buttonBuild;
+    }
+
+    public Label getActionsLabel() {
+        return actionsLabel;
+    }
+
+    public GUI getGUI() {
+        return gui;
     }
 
     @Override

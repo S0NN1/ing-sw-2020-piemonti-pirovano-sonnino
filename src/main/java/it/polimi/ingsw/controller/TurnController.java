@@ -89,11 +89,19 @@ public class TurnController implements PropertyChangeListener {
                 } else if (arg instanceof SelectMoveAction) {
                     SelectMoveAction worker_action = (SelectMoveAction) arg;
                     if (!actionController.readMessage(worker_action)) {
+                        if (actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
+                            gameHandler.singleSend(new EndTurnMessage("Worker blocked! No possible moves, turn ended"), gameHandler.getCurrentPlayerID());
+                            startTurn(new StartTurnAction());
+                        }
                         sendMoveError();
                     }
                 } else if (arg instanceof SelectBuildAction) {
                     SelectBuildAction worker_action = (SelectBuildAction) arg;
                     if (!actionController.readMessage(worker_action)) {
+                        if (actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
+                            gameHandler.singleSend(new EndTurnMessage("Worker blocked! No possible builds, turn ended"), gameHandler.getCurrentPlayerID());
+                            startTurn(new StartTurnAction());
+                        }
                         sendBuildError();
                     }
                 } else if (arg instanceof EndTurnAction) {
@@ -115,9 +123,9 @@ public class TurnController implements PropertyChangeListener {
 
     public void startTurnAction(int i, int j) {
         if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(i))) {
-            gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
+         //   gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
         }
-        else if(controller.getModel().getCurrentPlayer().getWorkers().get(i).isBlocked()){
+        else{
             if(controller.getModel().getCurrentPlayer().getWorkers().get(j).isBlocked()) {
                 endGame();
             }
@@ -139,10 +147,6 @@ public class TurnController implements PropertyChangeListener {
         try {
             switch (arg.option) {
                 case "start" -> {
-                    if(controller.getModel().getCurrentPlayer().getWorkers().get(0).isBlocked() &&
-                            controller.getModel().getCurrentPlayer().getWorkers().get(1).isBlocked()) {
-                        endGame();
-                    }
                     gameHandler.singleSend(new WorkersRequestMessage(), gameHandler.getCurrentPlayerID());
                 }
                 case "worker1" -> {
@@ -186,7 +190,7 @@ public class TurnController implements PropertyChangeListener {
      */
     public void endTurn() {
         if (actionController.endAction()) {
-            gameHandler.singleSend(new EndTurnMessage(), gameHandler.getCurrentPlayerID());
+            gameHandler.singleSend(new EndTurnMessage(null), gameHandler.getCurrentPlayerID());
             controller.getModel().nextPlayer();
             startTurn(new StartTurnAction());
         } else {

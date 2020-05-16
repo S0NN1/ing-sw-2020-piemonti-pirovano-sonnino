@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.player.gods.Atlas;
 import it.polimi.ingsw.model.player.gods.Minotaur;
+import it.polimi.ingsw.model.player.gods.Prometheus;
 
 
 /**
@@ -31,12 +32,16 @@ public class ActionController {
      */
     public boolean startAction(Worker currentWorker) {
         if (currentWorker == null || currentWorker.isBlocked()) return false;
-        else if(currentWorker.selectMoves(gameBoard).isEmpty()) {
-            currentWorker.setBlocked(true);
-            return false;
-        }
         worker = currentWorker;
         phase = 0;
+        if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECTMOVE && worker.getPhase(phase).isMust()) {
+            try {
+                worker.notifyWithMoves(gameBoard);
+            } catch (IllegalStateException | IllegalArgumentException e) {
+                return false;
+            }
+            phase++;
+        }
         return true;
     }
 
@@ -101,7 +106,7 @@ public class ActionController {
         if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECTBUILD) {
             try {
                 worker.notifyWithBuildable(gameBoard);
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException | IllegalStateException e) {
                 return false;
             }
             phase++;
@@ -154,5 +159,13 @@ public class ActionController {
             return true;
         }
         return false;
+    }
+
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public int getPhase() {
+        return phase;
     }
 }

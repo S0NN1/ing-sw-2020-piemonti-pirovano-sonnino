@@ -67,7 +67,7 @@ public class ActionHandler {
             fireSelectWorker();
         }
         else if (answer instanceof EndTurnMessage){
-            fireEndTurn();
+            fireEndTurn(answer);
         }
         else {
             String boardUpdate = "boardUpdate";
@@ -123,13 +123,13 @@ public class ActionHandler {
         checkTurnActiveMove();
     }
 
-    private void fireEndTurn() {
+    private void fireEndTurn(Answer answer) {
         modelView.setTurnActive(false);
         modelView.setTurnPhase(0);
         modelView.setActiveWorker(0);
         modelView.deactivateInput();
         view.firePropertyChange("boardUpdate", null, null);
-        view.firePropertyChange("end", null, null);
+        view.firePropertyChange("end", null, answer.getMessage());
     }
 
     private void fireSelectSpaces(SelectSpacesMessage answer) {

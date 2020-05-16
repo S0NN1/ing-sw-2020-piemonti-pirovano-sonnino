@@ -37,6 +37,16 @@ public class ClientBoard {
     }
 
     /**
+     * return the number of the worker in the cell at row/col
+     * @param row of cell
+     * @param col of cell
+     * @return int workerNum
+     */
+    public int getWorkerNum(int row, int col) {
+        return grid[row][col].getWorkerNum();
+    }
+
+    /**
      * it's a representation of Worker's setWorker method.
      * @param row of the grid.
      * @param col of the grid.

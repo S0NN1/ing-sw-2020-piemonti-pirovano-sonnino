@@ -572,7 +572,7 @@ public class CLI implements UI, Runnable {
             case "boardUpdate" -> updateCli();
             case "firstBoardUpdate" -> firstUpdateCli();
             case "selectWorker" -> selectWorker();
-            case "end" -> end();
+            case "end" -> end((String)evt.getNewValue());
             case "select" -> printSpaces();
             case "win" -> {
                 output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
@@ -596,8 +596,8 @@ public class CLI implements UI, Runnable {
         output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has lost." + nameMapColor.get(RST));
     }
 
-    private void end() {
-        System.out.print("\r Turn ended");
+    private void end(String message) {
+        System.out.print("\r" + message);
     }
 
     public void selectWorker() {
@@ -661,6 +661,7 @@ public class CLI implements UI, Runnable {
     }
 
     public void printSpaces() {
+        updateCli();
         for (int i = 0; i < modelView.getSelectSpaces().size(); i++) {
             System.out.print("(" + modelView.getSelectSpaces().get(i).getX() + "," + modelView.getSelectSpaces().get(i).getY() + ")  ");
         }
