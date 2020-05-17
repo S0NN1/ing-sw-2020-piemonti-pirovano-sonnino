@@ -217,7 +217,7 @@ public class GUI extends Application implements UI {
             case "RequestColor" -> {
                 Platform.runLater(() -> {
                     LoaderController controller = (LoaderController) getControllerFromName(LOADER);
-                    controller.requestColor(((RequestColor) modelView.getServerAnswer()).getRemaining());
+                    controller.requestColor(((ColorMessage) modelView.getServerAnswer()).getRemaining());
                 });
             }
             case "GodRequest" -> {

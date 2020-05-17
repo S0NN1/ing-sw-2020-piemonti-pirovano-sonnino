@@ -185,8 +185,13 @@ public class ActionHandler {
         String initial = "initialPhase";
         if (answer instanceof RequestPlayersNumber) {
             view.firePropertyChange(initial, null, "RequestPlayerNumber");
-        } else if (answer instanceof RequestColor) {
-            view.firePropertyChange(initial, null, "RequestColor");
+        } else if (answer instanceof ColorMessage) {
+            if(((ColorMessage)answer).getMessage()!=null) {
+                view.firePropertyChange(initial, null, "RequestColor");
+            }
+            else {
+                modelView.setColor(((ColorMessage)answer).getColor());
+            }
         } else if (answer instanceof ChallengerMessages) {
             if(((ChallengerMessages)answer).getChosenGod()!=null){
                 modelView.setGod(((ChallengerMessages)answer).getChosenGod());

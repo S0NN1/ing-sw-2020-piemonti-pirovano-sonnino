@@ -126,11 +126,12 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
         else if(command instanceof ChosenColor) {
             if(PlayerColors.isChosen(((ChosenColor)command).getColor())) {
-                server.getClientByID(clientID).send(new RequestColor("Error! This color is not available anymore. Please choose another one!"));
+                server.getClientByID(clientID).send(new ColorMessage("Error! This color is not available anymore. Please choose another one!"));
                 return;
             }
             server.getGameByID(clientID).getController().setColor(((ChosenColor)command).getColor(), server.getClientByID(clientID).getNickname());
             PlayerColors.choose(((ChosenColor)command).getColor());
+            server.getGameByID(clientID).singleSend(new ColorMessage(null,((ChosenColor) command).getColor().toString()), clientID);
             server.getGameByID(clientID).setup();
         }
         else if(command instanceof Disconnect) {

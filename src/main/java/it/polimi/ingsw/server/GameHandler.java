@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.messages.ChosenColor;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
@@ -114,7 +115,7 @@ public class GameHandler {
      */
     public void setup() {
         if(started==0) started=1;
-        RequestColor req = new RequestColor("Please choose your workers' color.");
+        ColorMessage req = new ColorMessage("Please choose your workers' color.");
         req.addRemaining(PlayerColors.notChosen());
         if(playersNumber==2 && PlayerColors.notChosen().size()>1) {
             String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size() + 1).getNickname();
@@ -125,9 +126,10 @@ public class GameHandler {
         else if(playersNumber==3 && !PlayerColors.notChosen().isEmpty()) {
             String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size()).getNickname();
             if(PlayerColors.notChosen().size()==1) {
-                game.getPlayerByNickname(nickname).setColor(PlayerColors.notChosen().get(0));
+                    game.getPlayerByNickname(nickname).setColor(PlayerColors.notChosen().get(0));
                 singleSend(new CustomMessage("\nThe society decides for you! You have the " +
                         PlayerColors.notChosen().get(0) + " color!\n", false), server.getIDByNickname(nickname));
+                singleSend(new ColorMessage(null, PlayerColors.notChosen().get(0).toString()), server.getIDByNickname(nickname));
                 PlayerColors.choose(PlayerColors.notChosen().get(0));
                 try {
                     TimeUnit.SECONDS.sleep(1);
@@ -246,6 +248,8 @@ public class GameHandler {
                             ", please choose your god power from one of the list below.\n\n" + game.getDeck().
                             getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +
                             "Select your god by typing CHOOSE " + "<god-name>:"), getCurrentPlayerID());
+                    sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() +
+                            " is choosing his god power...", false), getCurrentPlayerID());
                     return;
                 }
                 else if(!game.getCurrentPlayer().getWorkers().isEmpty() && game.getDeck().getCards().size()==1) {

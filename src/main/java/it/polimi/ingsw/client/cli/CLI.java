@@ -10,7 +10,7 @@ import it.polimi.ingsw.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.ChallengerMessages;
 import it.polimi.ingsw.server.answers.GameError;
-import it.polimi.ingsw.server.answers.RequestColor;
+import it.polimi.ingsw.server.answers.ColorMessage;
 import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 
 import java.beans.PropertyChangeEvent;
@@ -76,6 +76,7 @@ public class CLI implements UI, Runnable {
      */
     public static void main(String[] args) {
         System.out.println(Constants.SANTORINI);
+        System.out.println(Constants.authors);
         CLI cli = new CLI();
         cli.run();
     }
@@ -274,7 +275,7 @@ public class CLI implements UI, Runnable {
     }
 
     private void insertPlayer(String color, String[] rows, int[] cellInfos, HashMap<Integer,String[]> stringMap, int[][] indexes, String backgroundColor, int[] counters) {
-        if(counters[0]==2 && modelView.getActiveWorker()==cellInfos[1] && modelView.isTurnActive() && color.equalsIgnoreCase(nameMapColor.get(modelView.getColor().toUpperCase()))){
+            if(counters[0]==2 && modelView.getActiveWorker()==cellInfos[1] && modelView.isTurnActive() && color.equalsIgnoreCase(nameMapColor.get(modelView.getColor().toUpperCase()))){
             color = Constants.ANSI_WHITE;
             backgroundColor = BG_PURPLE;
         }
@@ -451,7 +452,6 @@ public class CLI implements UI, Runnable {
                 if (available.contains(color)) {
                     connection.send(new ChosenColor(color));
                     modelView.setStarted(2);
-                    modelView.setColor(color.toString());
                     return;
                 } else {
                     output.println("Color not available!");
@@ -497,10 +497,10 @@ public class CLI implements UI, Runnable {
                 choosePlayerNumber();
             }
             case "RequestColor" -> {
-                output.println(nameMapColor.get(GREEN) + ((RequestColor) modelView.getServerAnswer()).getMessage() + "\nRemaining:" + nameMapColor.get("RST"));
-                ((RequestColor) modelView.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
+                output.println(nameMapColor.get(GREEN) + ((ColorMessage) modelView.getServerAnswer()).getMessage() + "\nRemaining:" + nameMapColor.get("RST"));
+                ((ColorMessage) modelView.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
                 output.print("\n");
-                chooseColor(((RequestColor) modelView.getServerAnswer()).getRemaining());
+                chooseColor(((ColorMessage) modelView.getServerAnswer()).getRemaining());
             }
             case "GodRequest" -> {
                 ChallengerMessages req = (ChallengerMessages) modelView.getServerAnswer();
