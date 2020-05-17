@@ -1,12 +1,10 @@
 package it.polimi.ingsw.model.player.gods;
 
 import it.polimi.ingsw.constants.Couple;
-import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.model.player.gods.Atlas;
 import it.polimi.ingsw.server.SocketClientConnection;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
@@ -45,7 +43,7 @@ class AtlasTest {
         atlas.createListeners(client);
         assertEquals(8, atlas.getBuildableSpaces(gameBoard).size(),"1");
 
-        assertTrue(atlas.isBuildable(build),"1b");
+        assertTrue(atlas.canBuildOnto(build),"1b");
         assertTrue(atlas.build(build,false),"2"); //build a normal block
         assertEquals(1,build.getTower().getHeight(),"3");
         assertFalse(build.getTower().isCompleted(),"4");

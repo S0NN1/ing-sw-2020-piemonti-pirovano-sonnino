@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Deck {
-    private ArrayList<Card> cards = new ArrayList<>();
-    private Game game;
+    private final ArrayList<Card> cards = new ArrayList<>();
+    private final Game game;
 
     public Deck(Game game) {
         this.game = game;

@@ -41,7 +41,7 @@ public class Minotaur extends Worker {
     @Override
     public boolean isSelectable(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
-        if( isNeighbor(space) &&
+        if( canMoveTo(space) &&
             (space.getTower().getHeight() - position.getTower().getHeight() < 2)){
             if(space.isEmpty()){
                 return true;

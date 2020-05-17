@@ -9,8 +9,8 @@ import it.polimi.ingsw.constants.Couple;
  */
 public class BuildMessage implements Answer {
 
-    private Couple message;
-    private boolean dome;
+    private final Couple message;
+    private final boolean dome;
 
 
     public  BuildMessage(Space space, boolean dome){

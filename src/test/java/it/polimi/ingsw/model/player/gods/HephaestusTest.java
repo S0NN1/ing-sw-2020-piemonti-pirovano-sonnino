@@ -41,7 +41,7 @@ class HephaestusTest {
         hephaestus.getBuildableSpaces(gameBoard); //select build
         assertTrue(hephaestus.getPhase(3).isMust(),"2"); //first build is a must
 
-        assertTrue(hephaestus.isBuildable(build),"3"); //build = 2,2
+        assertTrue(hephaestus.canBuildOnto(build),"3"); //build = 2,2
         assertTrue(hephaestus.build(build),"4");
 
         assertFalse(hephaestus.getPhase(4).isMust(),"4a");
@@ -54,7 +54,7 @@ class HephaestusTest {
         assertTrue(hephaestus.getPhase(3).isMust(),"6");
 
         build = gameBoard.getSpace(2,1);
-        assertTrue(hephaestus.isBuildable(build),"7"); //try to build on another space = 2,1
+        assertTrue(hephaestus.canBuildOnto(build),"7"); //try to build on another space = 2,1
         assertTrue(hephaestus.build(build),"8");
 
         assertFalse(hephaestus.getPhase(4).isMust(),"9a");
@@ -71,7 +71,7 @@ class HephaestusTest {
         //first turn - build = 2,2
         hephaestus.getBuildableSpaces(gameBoard); //select a build
 
-        assertTrue(hephaestus.isBuildable(build),"1");
+        assertTrue(hephaestus.canBuildOnto(build),"1");
         assertTrue(hephaestus.build(build),"2");
 
         //second turn - build in 1,2
@@ -79,7 +79,7 @@ class HephaestusTest {
         build = gameBoard.getSpace(1,2);
         assertTrue(hephaestus.getBuildableSpaces(gameBoard).contains(build),"3");
 
-        assertTrue(hephaestus.isBuildable(build),"4");
+        assertTrue(hephaestus.canBuildOnto(build),"4");
         assertTrue(hephaestus.build(build),"5");
     }
 
@@ -93,7 +93,7 @@ class HephaestusTest {
     void twoCorrectBuild(){
         //first turn - first build = 2,2
         hephaestus.selectMoves(gameBoard); //restart oldPosition
-        assertTrue(hephaestus.isBuildable(build),"1");
+        assertTrue(hephaestus.canBuildOnto(build),"1");
         assertTrue(hephaestus.build(build),"2"); //build = 2,2
 
         //first turn - second build = 2,2 again
@@ -101,7 +101,7 @@ class HephaestusTest {
 
         hephaestus.getBuildableSpaces(gameBoard);
         assertTrue(hephaestus.getPhase(5).isMust(),"4"); //second build is now a must
-        assertTrue(hephaestus.isBuildable(build),"4a");
+        assertTrue(hephaestus.canBuildOnto(build),"4a");
         assertTrue(hephaestus.build(build),"4b"); //build = 2,2
 
         assertFalse(hephaestus.getPhase(5).isMust(),"5");
@@ -112,7 +112,7 @@ class HephaestusTest {
         assertTrue(hephaestus.getPhase(3).isMust(),"6");
 
         build = gameBoard.getSpace(1,2);
-        assertTrue(hephaestus.isBuildable(build),"7");
+        assertTrue(hephaestus.canBuildOnto(build),"7");
         assertTrue(hephaestus.build(build),"8"); //now build in 1,2
 
         assertFalse(hephaestus.getPhase(4).isMust(),"9a");
@@ -129,7 +129,7 @@ class HephaestusTest {
     void twoWrongBuild(){
         //first turn - first build = 2,2
         hephaestus.selectMoves(gameBoard); //restart oldPosition
-        assertTrue(hephaestus.isBuildable(build),"1");
+        assertTrue(hephaestus.canBuildOnto(build),"1");
         assertTrue(hephaestus.build(build),"2");
 
         //first turn - second build
@@ -137,13 +137,13 @@ class HephaestusTest {
         assertTrue(hephaestus.getPhase(5).isMust(),"4"); //second build is now a must
 
         build = gameBoard.getSpace(1,2);
-        assertFalse(hephaestus.isBuildable(build),"4a"); //try to build in 1,2
+        assertFalse(hephaestus.canBuildOnto(build),"4a"); //try to build in 1,2
         assertFalse(hephaestus.build(build),"4b");
 
         assertTrue(hephaestus.getPhase(5).isMust(),"5"); //second build is still a must
         build = gameBoard.getSpace(2,2); //select build = 2,2 again
 
-        assertTrue(hephaestus.isBuildable(build),"6");
+        assertTrue(hephaestus.canBuildOnto(build),"6");
         assertTrue(hephaestus.build(build),"7");
     }
 
@@ -156,7 +156,7 @@ class HephaestusTest {
 
         //first turn - first build = 2,2
         hephaestus.selectMoves(gameBoard); //restart oldPosition
-        assertTrue(hephaestus.isBuildable(build),"1");
+        assertTrue(hephaestus.canBuildOnto(build),"1");
         assertTrue(hephaestus.build(build),"2");
 
         //first turn - second build
@@ -164,7 +164,7 @@ class HephaestusTest {
         assertFalse(hephaestus.getPhase(5).isMust(),"4"); //second build is not a must
 
         //try to build a dome
-        assertFalse(hephaestus.isBuildable(build),"4a"); //try to build a dome
+        assertFalse(hephaestus.canBuildOnto(build),"4a"); //try to build a dome
         assertFalse(hephaestus.build(build),"4b");
     }
 }

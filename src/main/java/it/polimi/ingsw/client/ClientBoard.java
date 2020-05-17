@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.constants.Constants;
 
+
 /**
  * @author Alice Piemonti
  * This class is a simplified representation of the gameboard in model.
@@ -10,6 +11,9 @@ import it.polimi.ingsw.constants.Constants;
 public class ClientBoard {
     private final Cell[][] grid;
 
+    /**
+     * Constructor ClientBoard creates a new ClientBoard instance.
+     */
     public ClientBoard(){
         grid = new Cell[5][5];
         for (int i = Constants.GRID_MIN_SIZE; i< Constants.GRID_MAX_SIZE; i++){
@@ -81,14 +85,7 @@ public class ClientBoard {
      * @param oldCol2 the column of previous other worker's position (which is Apollo's actual position).
      */
     public void apolloDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2){
-        String color1 = grid[oldRow1][oldCol1].getColor();
-        String color2 = grid[oldRow2][oldCol2].getColor();
-        int num1 = grid[oldRow1][oldCol1].getWorkerNum();
-        int num2 = grid[oldRow2][oldCol2].getWorkerNum();
-        grid[oldRow1][oldCol1].setColor(color2);
-        grid[oldRow1][oldCol1].setWorkerNum(num2);
-        grid[oldRow2][oldCol2].setColor(color1);
-        grid[oldRow2][oldCol2].setWorkerNum(num1);
+        setWorkerNumColors(oldRow1, oldCol1, oldRow2, oldCol2, oldRow1, oldCol1);
     }
 
     /**
@@ -101,6 +98,22 @@ public class ClientBoard {
      * @param newCol2 the column of the other worker's actual position.
      */
     public void minotaurDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2, int newRow2, int newCol2){
+        setWorkerNumColors(oldRow1, oldCol1, oldRow2, oldCol2, newRow2, newCol2);
+        grid[oldRow1][oldCol1].setColor(null);
+        grid[oldRow1][oldCol1].setWorkerNum(0);
+    }
+
+    /**
+     * Set workers' numbers and colors for designated cells
+     *
+     * @param oldRow1 of type int
+     * @param oldCol1 of type int
+     * @param oldRow2 of type int
+     * @param oldCol2 of type int
+     * @param newRow2 of type int
+     * @param newCol2 of type int
+     */
+    private void setWorkerNumColors(int oldRow1, int oldCol1, int oldRow2, int oldCol2, int newRow2, int newCol2) {
         String color1 = grid[oldRow1][oldCol1].getColor();
         String color2 = grid[oldRow2][oldCol2].getColor();
         int num1 = grid[oldRow1][oldCol1].getWorkerNum();
@@ -109,8 +122,6 @@ public class ClientBoard {
         grid[newRow2][newCol2].setWorkerNum(num2);
         grid[oldRow2][oldCol2].setColor(color1);
         grid[oldRow2][oldCol2].setWorkerNum(num1);
-        grid[oldRow1][oldCol1].setColor(null);
-        grid[oldRow1][oldCol1].setWorkerNum(0);
     }
 
     /**

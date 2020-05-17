@@ -40,7 +40,7 @@ class DemeterTest {
         demeter.getBuildableSpaces(gameBoard); //select build
         assertTrue(demeter.getPhase(3).isMust(),"2"); //first build is a must
 
-        assertTrue(demeter.isBuildable(build),"3"); //build = 2,2
+        assertTrue(demeter.canBuildOnto(build),"3"); //build = 2,2
         assertTrue(demeter.build(build),"4");
 
         assertFalse(demeter.getPhase(4).isMust(),"4a");
@@ -53,7 +53,7 @@ class DemeterTest {
         assertTrue(demeter.getPhase(3).isMust(),"6");
 
         build = gameBoard.getSpace(2,1);
-        assertTrue(demeter.isBuildable(build),"7"); //try to build on another space = 2,1
+        assertTrue(demeter.canBuildOnto(build),"7"); //try to build on another space = 2,1
         assertTrue(demeter.build(build),"8");
 
         assertFalse(demeter.getPhase(4).isMust(),"9a");
@@ -69,14 +69,14 @@ class DemeterTest {
         //first turn - build = 2,2
         demeter.getBuildableSpaces(gameBoard); //select a build
 
-        assertTrue(demeter.isBuildable(build),"1");
+        assertTrue(demeter.canBuildOnto(build),"1");
         assertTrue(demeter.build(build),"2");
 
         //second turn - build in 2,2 again
         demeter.notifyWithMoves(gameBoard); //restart oldPosition
         assertTrue(demeter.getBuildableSpaces(gameBoard).contains(build),"3");
 
-        assertTrue(demeter.isBuildable(build),"4");
+        assertTrue(demeter.canBuildOnto(build),"4");
         assertTrue(demeter.build(build),"5");
 
     }
@@ -90,7 +90,7 @@ class DemeterTest {
     void twoCorrectBuild(){
         //first turn - first build
         demeter.selectMoves(gameBoard); //restart oldPosition
-        assertTrue(demeter.isBuildable(build),"1");
+        assertTrue(demeter.canBuildOnto(build),"1");
         assertTrue(demeter.build(build),"2"); //build = 2,2
 
         //first turn - second build
@@ -99,7 +99,7 @@ class DemeterTest {
 
         demeter.getBuildableSpaces(gameBoard);
         assertTrue(demeter.getPhase(5).isMust(),"4"); //second build is now a must
-        assertTrue(demeter.isBuildable(build),"4a");
+        assertTrue(demeter.canBuildOnto(build),"4a");
         assertTrue(demeter.build(build),"4b"); //build = 1,2
 
         assertFalse(demeter.getPhase(5).isMust(),"5");
@@ -109,7 +109,7 @@ class DemeterTest {
         assertTrue(demeter.getPhase(2).isMust(),"5b");
         assertTrue(demeter.getPhase(3).isMust(),"6");
 
-        assertTrue(demeter.isBuildable(build),"7");
+        assertTrue(demeter.canBuildOnto(build),"7");
         assertTrue(demeter.build(build),"8"); //build in 1,2 again
 
         assertFalse(demeter.getPhase(4).isMust(),"9a");
@@ -126,20 +126,20 @@ class DemeterTest {
     void twoWrongBuild(){
         //first turn - first build = 2,2
         demeter.selectMoves(gameBoard); //restart oldPosition
-        assertTrue(demeter.isBuildable(build),"1");
+        assertTrue(demeter.canBuildOnto(build),"1");
         assertTrue(demeter.build(build),"2");
 
         //first turn - second build
         demeter.getBuildableSpaces(gameBoard); //select second build
         assertTrue(demeter.getPhase(5).isMust(),"4"); //second build is now a must
 
-        assertFalse(demeter.isBuildable(build),"4a"); //try to build again in 2,2
+        assertFalse(demeter.canBuildOnto(build),"4a"); //try to build again in 2,2
         assertFalse(demeter.build(build),"4b");
 
         assertTrue(demeter.getPhase(5).isMust(),"5"); //second build is still a must
         build = gameBoard.getSpace(1,2); //select another build
 
-        assertTrue(demeter.isBuildable(build),"6");
+        assertTrue(demeter.canBuildOnto(build),"6");
         assertTrue(demeter.build(build),"7");
     }
 }

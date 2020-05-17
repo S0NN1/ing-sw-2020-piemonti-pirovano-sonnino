@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.cli;
 
 public class DisplayCell {
-    private String[] cellRows;
+    private final String[] cellRows;
 
     public DisplayCell(){
         cellRows = new String[11];

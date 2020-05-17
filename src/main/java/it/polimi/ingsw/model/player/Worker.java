@@ -191,6 +191,12 @@ public abstract class Worker {
         return false;
     }
 
+    /**
+     * Check if win condition is satisfied
+     *
+     * @param space of type Space
+     * @return boolean
+     */
     public boolean winCondition(Space space){
         return position.getTower().getHeight() == 3 && space.getTower().getHeight() == 2;
     }
@@ -203,7 +209,7 @@ public abstract class Worker {
      */
     public boolean isSelectable(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
-        return isNeighbor(space) &&
+        return canMoveTo(space) &&
                 (space.getTower().getHeight() - position.getTower().getHeight() < 2) &&
                 space.isEmpty();
     }
@@ -213,13 +219,11 @@ public abstract class Worker {
      * @param space space
      * @return boolean
      */
-    protected boolean isNeighbor(Space space){
-        return (space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
-                (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
-                (space.getX() != position.getX() || space.getY() != position.getY()) &&
-                !space.getTower().isCompleted() &&
-                !(!canMoveUp &&  space.getTower().getHeight() - position.getTower().getHeight() > 0);
+    protected boolean canMoveTo(Space space){
+        return isReachable(space) &&
+                !(!canMoveUp && space.getTower().getHeight() - position.getTower().getHeight() > 0);
     }
+
 
     /**
      * notify the selectSpacesListener with all the moves the worker can do
@@ -245,7 +249,7 @@ public abstract class Worker {
      * @return ArrayList of Spaces
      */
     public ArrayList<Space> selectMoves(GameBoard gameBoard) {
-        ArrayList<Space> moves = new ArrayList<Space>();
+        ArrayList<Space> moves = new ArrayList<>();
         for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
             for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
                 Space space = gameBoard.getSpace(i, j);
@@ -275,7 +279,7 @@ public abstract class Worker {
      */
     public boolean build(Space space) throws IllegalArgumentException{
         if(space == null)throw new IllegalArgumentException();
-        else if(!isBuildable(space)) return false;
+        else if(!canBuildOnto(space)) return false;
         try {
             space.getTower().addLevel();
         } catch (OutOfBoundException e) {
@@ -291,13 +295,23 @@ public abstract class Worker {
      * @param space space of the GameBoard
      * @return boolean value
      */
-    public boolean isBuildable(Space space) throws IllegalArgumentException {
+    public boolean canBuildOnto(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
+        return isReachable(space) &&
+                space.isEmpty();
+    }
+
+    /**
+     * Check if space is reachable
+     *
+     * @param space of type Space
+     * @return boolean
+     */
+    private boolean isReachable(Space space) {
         return (space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
                 (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
                 (space.getX() != position.getX() || space.getY() != position.getY()) &&
-                !space.getTower().isCompleted() &&
-                space.isEmpty();
+                !space.getTower().isCompleted();
     }
 
     /**
@@ -318,11 +332,11 @@ public abstract class Worker {
      * @return an ArrayList of spaces
      */
     public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard){
-        ArrayList<Space> buildable = new ArrayList<Space>();
+        ArrayList<Space> buildable = new ArrayList<>();
         for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++){
             for(int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++){
                 Space space = gameBoard.getSpace(i,j);
-                if(isBuildable(space)){ buildable.add(space);}
+                if(canBuildOnto(space)){ buildable.add(space);}
             }
         }
         return buildable;
