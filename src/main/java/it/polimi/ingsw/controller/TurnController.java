@@ -99,22 +99,19 @@ public class TurnController implements PropertyChangeListener {
                     }
                 } else if (arg instanceof SelectMoveAction) {
                     SelectMoveAction worker_action = (SelectMoveAction) arg;
-                    if (actionController.getWorker().getPhase(actionController.phase)!=null &&
-                            actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTMOVE)) {
-                        if(!actionController.readMessage(worker_action) && actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
+                    if(!actionController.readMessage(worker_action)) {
+                        if (actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
                             endGame();
                         }
+                        else sendMoveError();
                     }
-                    else sendMoveError();
                 } else if (arg instanceof SelectBuildAction) {
                     SelectBuildAction worker_action = (SelectBuildAction) arg;
-                    if (actionController.getWorker().getPhase(actionController.phase)!=null &&
-                            actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTBUILD)) {
-                        if (!actionController.readMessage(worker_action) && actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
+                    if (!actionController.readMessage(worker_action)) {
+                        if (actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
                             endGame();
-                        }
+                        } else sendBuildError();
                     }
-                    else sendBuildError();
                 } else if (arg instanceof EndTurnAction) {
                     endTurn();
                 }

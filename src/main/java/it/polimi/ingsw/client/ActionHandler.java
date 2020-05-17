@@ -95,6 +95,7 @@ public class ActionHandler {
 
     private void modifiedTurnAction(ModifiedTurnMessage answer) {
         if(answer.getAction()==null) {
+            modelView.activateInput();
             view.firePropertyChange("prometheusMove", null, answer.getMessage());
         }
         else if(answer.getAction().equals(Action.SELECTMOVE)) {

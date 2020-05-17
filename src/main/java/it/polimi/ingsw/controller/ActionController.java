@@ -66,6 +66,7 @@ public class ActionController {
             phase++;
         }
         if (worker.getPhase(phase) == null) {
+            phase=0;    //TODO  NON SONO SICURO CHE RESETTANDO FUNZIONI
             return true;
         }
         phase = phaseTemp;  //there's still a must phase: worker can't end the turn now
