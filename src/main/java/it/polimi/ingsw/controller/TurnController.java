@@ -82,7 +82,8 @@ public class TurnController implements PropertyChangeListener {
                     if (!actionController.readMessage(worker_action)) {
                         sendBuildError();
                     }
-                    else if(actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTBUILD)) {
+                    else if(actionController.getWorker().getPhase(actionController.phase)!=null &&
+                            actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTBUILD)) {
                         gameHandler.singleSend(new ModifiedTurnMessage("You may choose to build (no args) again or" +
                                 "end your turn.", Action.SELECTBUILD), gameHandler.getCurrentPlayerID());
                     }
@@ -91,7 +92,8 @@ public class TurnController implements PropertyChangeListener {
                     if (!actionController.readMessage(worker_action)) {
                         sendMoveError();
                     }
-                    else if(actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTMOVE)) {
+                    else if(actionController.getWorker().getPhase(actionController.phase)!=null &&
+                            actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTMOVE)) {
                         gameHandler.singleSend(new ModifiedTurnMessage("You may choose to move (no args) again or" +
                                 " build (no args).", Action.SELECTMOVE), gameHandler.getCurrentPlayerID());
                     }
