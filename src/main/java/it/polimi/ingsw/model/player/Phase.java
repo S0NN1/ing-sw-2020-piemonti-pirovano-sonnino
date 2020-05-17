@@ -5,7 +5,7 @@ package it.polimi.ingsw.model.player;
  */
 public class Phase {
 
-    private Action action;
+    private final Action action;
     private boolean must;
 
     public Phase(Action action, boolean must){

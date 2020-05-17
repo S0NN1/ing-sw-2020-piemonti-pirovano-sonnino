@@ -16,11 +16,16 @@ import it.polimi.ingsw.model.player.gods.Prometheus;
  */
 public class ActionController {
 
-    private GameBoard gameBoard;
+    private final GameBoard gameBoard;
     private Worker worker;
 
     protected int phase;
 
+    /**
+     * Constructor ActionController creates a new ActionController instance.
+     *
+     * @param gameBoard of type GameBoard
+     */
     public ActionController(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
     }

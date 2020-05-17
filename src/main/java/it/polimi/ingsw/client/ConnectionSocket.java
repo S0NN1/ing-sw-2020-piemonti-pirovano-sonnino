@@ -30,6 +30,9 @@ public class ConnectionSocket {
     private final String serverAddress;
     private final int serverPort;
 
+    /**
+     * Constructor ConnectionSocket creates a new ConnectionSocket instance.
+     */
     public ConnectionSocket() {
         this.serverAddress = Constants.ADDRESS;
         this.serverPort = Constants.PORT;

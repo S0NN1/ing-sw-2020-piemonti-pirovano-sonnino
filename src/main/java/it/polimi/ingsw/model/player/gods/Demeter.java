@@ -2,8 +2,6 @@ package it.polimi.ingsw.model.player.gods;
 
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
-import it.polimi.ingsw.model.player.Action;
-import it.polimi.ingsw.model.player.Phase;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 
@@ -65,9 +63,9 @@ public class Demeter extends Worker {
      * @throws IllegalArgumentException if space is null
      */
     @Override
-    public boolean isBuildable(Space space) throws IllegalArgumentException {
+    public boolean canBuildOnto(Space space) throws IllegalArgumentException {
         if(oldPosition == space) return false;
-        return super.isBuildable(space);
+        return super.canBuildOnto(space);
     }
 
     /**

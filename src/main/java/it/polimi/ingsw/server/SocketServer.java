@@ -14,9 +14,9 @@ import java.util.logging.Logger;
  * @author Luca Pirovano
  */
 public class SocketServer implements Runnable{
-    private int port;
-    private ExecutorService executorService;
-    private Server server;
+    private final int port;
+    private final ExecutorService executorService;
+    private final Server server;
     private volatile boolean active;
     private final Logger logger = Logger.getLogger(getClass().getName());
 

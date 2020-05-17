@@ -4,11 +4,9 @@ import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.exceptions.InvalidInputException;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.board.Tower;
-import it.polimi.ingsw.server.SocketClientConnection;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
 import it.polimi.ingsw.server.answers.SerializedAnswer;
@@ -444,7 +442,7 @@ class WorkerTest {
         @DisplayName("buildListener test")
         void buildListenerTest(){
             Space build = gameBoard.getSpace(3,2); //build 3rd level
-            assertTrue(worker.isBuildable(build),"1");
+            assertTrue(worker.canBuildOnto(build),"1");
             worker.build(build);
             assertEquals(build.getX(),client.build.getX(),"2");
             assertEquals(build.getY(),client.build.getY(),"3");
