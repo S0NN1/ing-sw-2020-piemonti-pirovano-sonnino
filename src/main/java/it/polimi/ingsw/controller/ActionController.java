@@ -21,6 +21,11 @@ public class ActionController {
 
     protected int phase;
 
+    /**
+     * Constructor ActionController creates a new ActionController instance.
+     *
+     * @param gameBoard of type GameBoard
+     */
     public ActionController(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
     }

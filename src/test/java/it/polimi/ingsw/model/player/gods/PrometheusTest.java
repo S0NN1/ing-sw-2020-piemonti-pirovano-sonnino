@@ -44,7 +44,7 @@ class PrometheusTest {
 
         prometheus.notifyWithBuildable(gameBoard);
         space = gameBoard.getSpace(1,1);
-        assertTrue(prometheus.isBuildable(space),"5");
+        assertTrue(prometheus.canBuildOnto(space),"5");
         assertTrue(prometheus.build(space),"6");    //build in 1,1
 
         //second turn
@@ -58,7 +58,7 @@ class PrometheusTest {
 
         prometheus.notifyWithBuildable(gameBoard);
         space = gameBoard.getSpace(1,1);
-        assertTrue(prometheus.isBuildable(space),"11");
+        assertTrue(prometheus.canBuildOnto(space),"11");
         assertTrue(prometheus.build(space),"12");    //build in 1,1
 
     }
@@ -82,7 +82,7 @@ class PrometheusTest {
 
         prometheus.notifyWithBuildable(gameBoard);
         space = gameBoard.getSpace(1,1);
-        assertTrue(prometheus.isBuildable(space),"5");
+        assertTrue(prometheus.canBuildOnto(space),"5");
         assertTrue(prometheus.build(space),"6");    //build in 1,1
 
         //second turn
@@ -99,7 +99,7 @@ class PrometheusTest {
 
         prometheus.notifyWithBuildable(gameBoard);
         space = gameBoard.getSpace(1,1);
-        assertTrue(prometheus.isBuildable(space),"11");
+        assertTrue(prometheus.canBuildOnto(space),"11");
         assertTrue(prometheus.build(space),"12");    //build in 1,1
 
     }
@@ -120,7 +120,7 @@ class PrometheusTest {
         assertTrue(prometheus.getPhase(1).isMust(),"3");
 
         Space space = gameBoard.getSpace(1,2);
-        assertTrue(prometheus.isBuildable(space),"5");
+        assertTrue(prometheus.canBuildOnto(space),"5");
         assertTrue(prometheus.build(space),"6");    //build in 1,2
 
 
@@ -131,7 +131,7 @@ class PrometheusTest {
 
         prometheus.notifyWithBuildable(gameBoard);
         space = gameBoard.getSpace(1,1);
-        assertTrue(prometheus.isBuildable(space),"5");
+        assertTrue(prometheus.canBuildOnto(space),"5");
         assertTrue(prometheus.build(space),"6");    //build in 1,1
 
         //second turn
@@ -145,7 +145,7 @@ class PrometheusTest {
 
         prometheus.notifyWithBuildable(gameBoard);
         space = gameBoard.getSpace(1,1);
-        assertTrue(prometheus.isBuildable(space),"11");
+        assertTrue(prometheus.canBuildOnto(space),"11");
         assertTrue(prometheus.build(space),"12");    //build in 1,1
     }
 
@@ -161,7 +161,7 @@ class PrometheusTest {
         prometheus.notifyWithBuildable(gameBoard);
 
         Space space = gameBoard.getSpace(1,2);
-        assertTrue(prometheus.isBuildable(space),"1");
+        assertTrue(prometheus.canBuildOnto(space),"1");
         assertTrue(prometheus.build(space),"2");    //build in 1,2
 
         prometheus.notifyWithMoves(gameBoard);
@@ -173,7 +173,7 @@ class PrometheusTest {
 
         prometheus.notifyWithBuildable(gameBoard);
         space = gameBoard.getSpace(1,1);
-        assertTrue(prometheus.isBuildable(space),"5");
+        assertTrue(prometheus.canBuildOnto(space),"5");
         assertTrue(prometheus.build(space),"6");    //build in 1,1
 
         //second turn
@@ -187,7 +187,7 @@ class PrometheusTest {
 
         prometheus.notifyWithBuildable(gameBoard);
         space = gameBoard.getSpace(1,1);
-        assertTrue(prometheus.isBuildable(space),"11");
+        assertTrue(prometheus.canBuildOnto(space),"11");
         assertTrue(prometheus.build(space),"12");    //build in 1,1
     }
 

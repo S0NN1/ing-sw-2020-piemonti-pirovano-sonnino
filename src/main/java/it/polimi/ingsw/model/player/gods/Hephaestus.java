@@ -2,8 +2,6 @@ package it.polimi.ingsw.model.player.gods;
 
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
-import it.polimi.ingsw.model.player.Action;
-import it.polimi.ingsw.model.player.Phase;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 
@@ -46,8 +44,8 @@ public class Hephaestus extends Worker {
      * @throws IllegalArgumentException if space is null
      */
     @Override
-    public boolean isBuildable(Space space) throws IllegalArgumentException {
-        if(oldPosition == null) return super.isBuildable(space);
+    public boolean canBuildOnto(Space space) throws IllegalArgumentException {
+        if(oldPosition == null) return super.canBuildOnto(space);
         return (oldPosition == space  && !(space.getTower().getHeight() > 2));
     }
 

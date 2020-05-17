@@ -32,24 +32,24 @@ import java.util.logging.Logger;
 public class GUI extends Application implements UI {
 
     private ConnectionSocket connection = null;
-    private PropertyChangeSupport observers = new PropertyChangeSupport(this);
-    private ModelView modelView;
-    private ActionHandler actionHandler;
+    private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
+    private final ModelView modelView;
+    private final ActionHandler actionHandler;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
-    private boolean activeGame;
+    private final boolean activeGame;
     private MainGuiController guiController;
 
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
      */
-    private HashMap<String, Scene> nameMAPscene = new HashMap<>();
+    private final HashMap<String, Scene> nameMAPscene = new HashMap<>();
     /**
      * Maps each scene controller's name to the effective controller object, in order to get the correct controller
      * for modifying operations.
      * @see it.polimi.ingsw.client.gui.controllers for more details.
      */
-    private HashMap<String, GUIController> nameMAPcontroller = new HashMap<>();
+    private final HashMap<String, GUIController> nameMAPcontroller = new HashMap<>();
 
     private static final String MAINGUI = "gui.fxml";
     private static final String MENU = "MainMenu.fxml";

@@ -4,7 +4,7 @@ import it.polimi.ingsw.constants.Couple;
 
 public class MoveAction extends WorkerAction {
 
-    private Couple newPosition;
+    private final Couple newPosition;
 
     public MoveAction(int x, int y){
         newPosition = new Couple(x,y);
