@@ -70,15 +70,15 @@ public class Printable {
                     lvl1LineBlock + "\n" +
                     bottomLvl1,
             upperLvl1 + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
+                    verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
+                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
+                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
+                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
+                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
+                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
+                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
+                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
+                    verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
                     bottomLvl1,
             upperLvl1 + "\n" +
                     verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
