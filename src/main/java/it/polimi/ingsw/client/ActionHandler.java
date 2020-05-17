@@ -134,6 +134,8 @@ public class ActionHandler {
 
     private void fireSelectSpaces(SelectSpacesMessage answer) {
         modelView.setSelectSpaces(answer.getMessage());
+        modelView.setMoveSelected(true);
+        modelView.setBuildSelected(true);//TODO  NON SONO SICURO CHE RESETTANDO FUNZIONI
         modelView.activateInput();
         view.firePropertyChange("select", null, null);
     }
