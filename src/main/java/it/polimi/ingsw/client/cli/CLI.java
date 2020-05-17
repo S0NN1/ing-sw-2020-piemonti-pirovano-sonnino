@@ -77,6 +77,7 @@ public class CLI implements UI, Runnable {
     public static void main(String[] args) {
         System.out.println(Constants.SANTORINI);
         System.out.println(Constants.authors);
+        System.out.println(Constants.rules+ "\n");
         CLI cli = new CLI();
         cli.run();
     }
