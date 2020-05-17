@@ -59,7 +59,7 @@ public class Constants {
           "         __/ |                      | |                                      |/                      | |                                    |/                                                                     \n" +
           "        |___/                       |_|                                                              |_|                                                                                                         ";
 
- public static final String rules="View full rules here: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf";
+    public static final String rules="\nView full rules here: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf";
     //server constants
     public static final String ADDRESS = "127.0.0.1";
     public static final int PORT = 2500;
