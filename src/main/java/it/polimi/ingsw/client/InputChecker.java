@@ -153,7 +153,7 @@ public class InputChecker {
         }*/
         Couple w = findWorker(activeWorker, modelView.getColor());
         BuildAction build = new BuildAction(x, y);
-        if (turnPhase == 1 || Constants.getBuildPhaseGods().contains(modelView.getGod().toUpperCase())) {
+        if (turnPhase == 2 || Constants.getBuildPhaseGods().contains(modelView.getGod().toUpperCase())) {
             return getBuildAction(x, y, w, build);
         } else {
             System.err.println(ERR_INCORRECT_ACTION);
@@ -183,11 +183,11 @@ public class InputChecker {
         if (modelView.getGod().equalsIgnoreCase("ATLAS")) {
             Couple w = findWorker(activeWorker, modelView.getColor());
             AtlasBuildAction build = new AtlasBuildAction(x, y, true);
-            if (!modelView.isBuildSelected()) {
+           /* if (!modelView.isBuildSelected()) {
                 System.err.println("You must run BUILD (no args) command before!");
                 return null;
-            } else {
-                if (turnPhase == 1) {
+            }*/
+                if (turnPhase == 2) {
                     return (AtlasBuildAction) getBuildAction(x, y, w, build);
                 }
                     else{
@@ -195,7 +195,6 @@ public class InputChecker {
                         return null;
                     }
                 }
-            }
              else{
                 System.err.println("Current god isn't ATLAS, operation not permitted!");
                 return null;
@@ -222,7 +221,7 @@ public class InputChecker {
         }
         Couple w = findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(x, y);
-        if (turnPhase == 0 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase())) {
+        if (turnPhase == 1 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase())) {
             if (isUnreachable(x, y, w)) {
                 System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;

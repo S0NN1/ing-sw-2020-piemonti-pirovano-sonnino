@@ -226,8 +226,9 @@ public class ModelView {
     public void unregisterPlayer(String loserColor) {
         for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
             for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
-                if(clientBoard.getGrid()[i][j].getColor().equalsIgnoreCase(loserColor)){
+                if(clientBoard.getGrid()[i][j].getColor()!=null && clientBoard.getGrid()[i][j].getColor().equalsIgnoreCase(loserColor)){
                     clientBoard.getGrid()[i][j].setColor(null);
+                    clientBoard.getGrid()[i][j].setWorkerNum(0);
                 }
             }
         }

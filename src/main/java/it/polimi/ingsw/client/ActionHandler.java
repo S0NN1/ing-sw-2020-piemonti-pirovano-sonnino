@@ -97,15 +97,15 @@ public class ActionHandler {
     private void modifiedTurnAction(ModifiedTurnMessage answer) {
         if(answer.getAction()==null) {
             modelView.activateInput();
-            view.firePropertyChange("select", new boolean[]{true, true, false}, answer.getMessage()); //PROMETHEUS MOVE
+            view.firePropertyChange("boardUpdate", new boolean[]{true, true, false}, answer.getMessage()); //PROMETHEUS MOVE
         }
         else if(answer.getAction().equals(Action.SELECTMOVE)) {
             modelView.activateInput();
-            view.firePropertyChange("select", new boolean[]{true, true, false}, answer.getMessage()); //DOUBLE MOVE INIZIALE
+            view.firePropertyChange("boardUpdate", new boolean[]{true, true, false}, answer.getMessage()); //DOUBLE MOVE INIZIALE
         }
         else if(answer.getAction().equals(Action.SELECTBUILD)) {
             modelView.activateInput();
-            view.firePropertyChange("select", new boolean[]{false, true, true}, answer.getMessage());  //DOUBLE BUILD
+            view.firePropertyChange("boardUpdate", new boolean[]{false, true, true}, answer.getMessage());  //DOUBLE BUILD
         }
     }
 
@@ -146,7 +146,7 @@ public class ActionHandler {
         modelView.setTurnPhase(0);
         modelView.setActiveWorker(0);
         modelView.deactivateInput();
-        view.firePropertyChange("boardUpdate", null, null);
+        view.firePropertyChange("firstBoardUpdate", null, null);
         view.firePropertyChange("end", null, answer.getMessage());
     }
 
@@ -155,10 +155,14 @@ public class ActionHandler {
         //TODO  NON SONO SICURO CHE RESETTANDO FUNZIONI
         modelView.activateInput();
         if(answer.getAction().equals(Action.SELECTBUILD)){
+            checkTurnActiveBuild(); //NEW ADDED
             view.firePropertyChange("select",new boolean[]{false, true, false}, null);
+            modelView.setTurnPhase(modelView.getTurnPhase() + 1);//NEW ADDED
         }
         else if(answer.getAction().equals(Action.SELECTMOVE)){
+            checkTurnActiveMove(); //NEW ADDED
             view.firePropertyChange("select", new boolean[]{true, false, false}, null);
+            modelView.setTurnPhase(modelView.getTurnPhase() + 1);//NEW ADDED
         }
     }
 
@@ -171,14 +175,12 @@ public class ActionHandler {
 
     private void checkTurnActiveBuild() {
         if(modelView.isTurnActive()){
-            modelView.setTurnPhase(modelView.getTurnPhase()+1);
             modelView.activateInput();
         }
     }
 
     private void checkTurnActiveMove() {
         if (modelView.isTurnActive()) {
-            modelView.setTurnPhase(modelView.getTurnPhase() + 1);
             modelView.activateInput();
         }
     }

@@ -453,11 +453,16 @@ public class CLI implements UI, Runnable {
                     return;
                 } else {
                     output.println("Color not available!");
+                    score();
                 }
             } catch (IllegalArgumentException e) {
                 output.println("Invalid input! Please provide one of the accepted colors.");
             }
         }
+    }
+
+    private void score() {
+        output.print(">");
     }
 
     /**
@@ -531,8 +536,18 @@ public class CLI implements UI, Runnable {
             req.getGodList().forEach(n -> output.print(n + ", "));
             output.println();
         } else {
-            if(req.getMessage().contains("Description") || req.getMessage().contains("been added")) {
+            if(req.getMessage().contains("ADDGOD") || req.getMessage().contains("Description") || req.getMessage().contains("been added")) {
                 output.println();
+            }
+            if(req.getMessage().contains("<god-name>")){
+                String temp[]=req.getMessage().split("\n");
+                for(int i=0; i<9; i++){
+                output.print(temp[i] + "\n");
+            }
+                output.println("\nSelect your god by typing" + nameMapColor.get(YELLOW) + " choose <god-name>" + nameMapColor.get(RST));
+                output.print(">");
+                modelView.activateInput();
+                return;
             }
             output.println(req.getMessage());
             output.print(">");
@@ -621,7 +636,7 @@ public class CLI implements UI, Runnable {
 
     public void selectWorker() {
         System.out.print("\r  • SELECTWORKER <1/2>\n");
-        System.out.print(">");
+        score();
     }
 
     public void printMenu(boolean move, boolean build, boolean end, String message) throws InterruptedException {
@@ -644,12 +659,12 @@ public class CLI implements UI, Runnable {
             if(message!=null){
                 output.println(message);
             }
-            System.out.print(">");
+            score();
 
            /* System.out.print("  • MOVE\n" +
                     "  • BUILD" + atlas + "\n" +
                     "  • END\n");
-            System.out.print(">");
+            score();
             */
         }
     }

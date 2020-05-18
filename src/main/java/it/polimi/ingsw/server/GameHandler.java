@@ -215,6 +215,7 @@ public class GameHandler {
                 Thread.currentThread().interrupt();
             }
             controllerListener.firePropertyChange("turnController", null, new StartTurnAction());
+            started = 4;
             return;
         }
         List<int[]> spaces = new ArrayList<>();
@@ -247,7 +248,7 @@ public class GameHandler {
                     singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
                             ", please choose your god power from one of the list below.\n\n" + game.getDeck().
                             getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +
-                            "Select your god by typing CHOOSE " + "<god-name>:"), getCurrentPlayerID());
+                            "Select your god by typing   " + "<god-name>:"), getCurrentPlayerID());
                     sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() +
                             " is choosing his god power...", false), getCurrentPlayerID());
                     return;

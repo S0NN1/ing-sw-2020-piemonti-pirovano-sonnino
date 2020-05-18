@@ -170,7 +170,7 @@ public class Server {
     }
 
     /**
-     * Delete a client from the hashmaps and active lists, deregistering his connection with the server.
+     * Delete a client from the hashmaps and active lists, unregistering his connection with the server.
      * @param clientID the ID of the virtual client to be removed.
      */
     public synchronized void unregisterClient(int clientID) {
