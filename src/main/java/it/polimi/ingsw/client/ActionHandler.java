@@ -86,7 +86,7 @@ public class ActionHandler {
                 String message = ((DoubleMoveMessage) answer).getMessage();
                 defineDoubleMove((DoubleMoveMessage) answer, clientBoard, message);
             }
-            view.firePropertyChange(boardUpdate, null,null);
+            view.firePropertyChange(boardUpdate, null, answer);
         }
 
     }

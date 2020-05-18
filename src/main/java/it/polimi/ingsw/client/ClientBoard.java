@@ -70,6 +70,9 @@ public class ClientBoard {
         return grid[row][col].getColor();
     }
 
+    public int getHeight(int row, int col) {
+        return grid[row][col].getLevel();
+    }
     /**
      * it's a representation of Worker's move method
      * @param oldRow the row of previous worker's position.

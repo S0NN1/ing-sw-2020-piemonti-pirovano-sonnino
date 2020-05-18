@@ -77,9 +77,9 @@ public class GUI11 extends Application {
         //minotaur move method
         gui.getModelView().getBoard().setColor(2,2,Constants.ANSI_BLUE);
         //TODO
-        /*controller.setWorker(2,2,Constants.ANSI_BLUE, );
+        controller.setWorker(2,2,1, Constants.ANSI_BLUE);
         gui.getModelView().getBoard().setColor(2,1, Constants.ANSI_RED);
-        controller.setWorker(2,1,Constants.ANSI_RED);
+        controller.setWorker(2,1,1, Constants.ANSI_RED);
 
         gui.getModelView().getBoard().minotaurDoubleMove(2,2,2,1,2,0);
         controller.minotaurDoubleMove(2,2,2,1,2,0);
@@ -89,14 +89,13 @@ public class GUI11 extends Application {
         controller.addDome(2,4);
 
         //event
-        controller.setWorker(4,4,Constants.ANSI_BLUE);
-        controller.setWorker(3,4, Constants.ANSI_RED);
+        controller.setWorker(4,4,2, Constants.ANSI_BLUE);
+        controller.setWorker(3,4, 2, Constants.ANSI_RED);
 
-        controller.setWorker(1,3,Constants.ANSI_GREEN);
-        controller.setWorker(0,0, Constants.ANSI_RED);
+        controller.setWorker(1,3, 1, Constants.ANSI_GREEN);
+        controller.setWorker(0,0, 2, Constants.ANSI_GREEN);
 
         //controller.testDragAndDrop();
         primaryStage.show();
-*/
     }
 }

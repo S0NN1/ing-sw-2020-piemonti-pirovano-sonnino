@@ -4,7 +4,12 @@ import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.LoaderController;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
+import it.polimi.ingsw.constants.Couple;
+import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.server.answers.*;
+import it.polimi.ingsw.server.answers.worker.BuildMessage;
+import it.polimi.ingsw.server.answers.worker.DoubleMoveMessage;
+import it.polimi.ingsw.server.answers.worker.MoveMessage;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -51,7 +56,7 @@ public class GUI extends Application implements UI {
      */
     private final HashMap<String, GUIController> nameMAPcontroller = new HashMap<>();
 
-    private static final String MAINGUI = "gui.fxml";
+    private static final String MAINGUI = "mainScene.fxml";
     private static final String MENU = "MainMenu.fxml";
     private static final String LOADER = "loading.fxml";
     private static final String SETUP = "setup.fxml";
@@ -96,7 +101,7 @@ public class GUI extends Application implements UI {
      * Each stage scene is put inside an hashmap, which link their name to their fxml filename.
      */
     public void setup() {
-        List<String> fxmlist = new ArrayList<>(Arrays.asList(/*GUI,*/ MENU, LOADER, SETUP));
+        List<String> fxmlist = new ArrayList<>(Arrays.asList(MAINGUI, MENU, LOADER, SETUP));
         try {
             for (String path : fxmlist) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + path));
@@ -288,10 +293,65 @@ public class GUI extends Application implements UI {
             case "connectionClosed" -> {
                 connectionClosed(evt);
             }
+            case "noPossibleMoves" -> System.err.println("No possible moves!");
+            case "select" -> showSpacesList();
+            case "boardUpdate" -> checkAction(evt.getNewValue());
+            /*case "firstBoardUpdate" -> firstUpdateCli();
+            case "selectWorker" -> selectWorker();
+            case "end" -> end((String)evt.getNewValue());
+            case "win" -> {
+                output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
+                System.exit(0);
+            }
+            case "lose" -> {
+                output.println(nameMapColor.get(RED) + "YOU LOSE!" + nameMapColor.get(RST));
+                output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has won." + nameMapColor.get(RST));
+                System.exit(0);
+            }
+            case "singleLost" -> System.err.println("All workers blocked, YOU LOSE!");
+            case "otherLost" -> otherPlayerLost(evt);
+*/
             default -> {
                 logger.log(Level.WARNING, "No actions to be performed");
             }
         }
+    }
+
+    private void checkAction(Object message) {
+        MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
+        if ( message instanceof MoveMessage) {
+            Move move = (Move) ((MoveMessage) message).getMessage();
+            controller.move(move.getOldPosition().getX(), move.getOldPosition().getY(), move.getNewPosition().getX(), move.getNewPosition().getY());
+        }
+        else if ( message instanceof BuildMessage) {
+            boolean dome = ((BuildMessage) message).getDome();
+            Couple build = ((BuildMessage) message).getMessage();
+            controller.build(build.getX(), build.getY(), dome);
+        }
+        else if (message instanceof DoubleMoveMessage) {
+            defineDoubleMove((DoubleMoveMessage) message, controller);
+        }
+    }
+
+    private void defineDoubleMove(DoubleMoveMessage message, MainGuiController controller) {
+        int oldRow1 = message.getMyMove().getOldPosition().getX();
+        int oldCol1 = message.getMyMove().getOldPosition().getY();
+        int oldRow2 = message.getMyMove().getNewPosition().getX();
+        int oldCol2 = message.getMyMove().getNewPosition().getY();
+
+        if (message.getMessage().equals("ApolloDoubleMove")) {
+            controller.apolloDoubleMove(oldRow1, oldCol1, oldRow2, oldCol2);
+        }
+        else if (message.getMessage().equals("MinotaurDoubleMove")) {
+            int newRow2 = message.getOtherMove().getNewPosition().getX();
+            int newCol2 = message.getOtherMove().getNewPosition().getY();
+            controller.minotaurDoubleMove(oldRow1, oldCol1, oldRow2, oldCol2, newRow2, newCol2);
+        }
+    }
+
+    private void showSpacesList() {
+        MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
+        controller.highlightCell();
     }
 
     /**

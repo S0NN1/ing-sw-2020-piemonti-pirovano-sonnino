@@ -2,11 +2,13 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.ActionParser;
 import it.polimi.ingsw.client.ClientBoard;
+import it.polimi.ingsw.client.ModelView;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.shapes.Block;
 import it.polimi.ingsw.client.gui.shapes.Dome;
 import it.polimi.ingsw.client.gui.shapes.Worker;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.constants.Couple;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,7 +19,9 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Alice Piemonti
@@ -29,6 +33,8 @@ public class MainGuiController implements GUIController{
     private final HashMap<String, Color> colors;
     private GUI gui;
     private ClientBoard board;
+    private ModelView modelView;
+
     @FXML
     GridPane grid;
     @FXML
@@ -51,16 +57,6 @@ public class MainGuiController implements GUIController{
         colors.put(Constants.ANSI_CYAN, Color.CYAN);
     }
 
-
-    EventHandler<MouseEvent> workerClicked = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent mouseEvent) {
-            buttonMove.setVisible(true);
-            buttonBuild.setVisible(true);
-            actionsLabel.setText("Chose an action:");
-            actionsLabel.setVisible(true);
-        }
-    };
 
     EventHandler<MouseEvent> buttonClicked = new EventHandler<MouseEvent>() {
         @Override
@@ -112,7 +108,17 @@ public class MainGuiController implements GUIController{
      */
 
     public void setWorker(int row, int col, int workerNumber, String color) {
-        grid.add(new Worker(colors.get(color), workerNumber,this),col,row);
+        grid.add(new Worker(row, col, this), col, row);
+    }
+
+    public void build(int row, int col, boolean dome) {
+        if (!dome) {
+            int height = modelView.getBoard().getHeight(row, col);
+            addBlock(row, col, height);
+        }
+        else {
+            addDome(row, col);
+        }
     }
 
     /**
@@ -154,16 +160,13 @@ public class MainGuiController implements GUIController{
      * @param newCol of worker's actual position
      */
     public void move(int oldRow, int oldCol, int newRow, int newCol) {
-        String color = gui.getModelView().getBoard().getColor(newRow, newCol);
-        int workerNumber = gui.getModelView().getBoard().getWorkerNum(newRow, newCol);
         for(Node node: grid.getChildren()) {
             if(GridPane.getRowIndex(node) == oldRow && GridPane.getColumnIndex(node) == oldCol && node instanceof Worker) {
                 grid.getChildren().remove(node);
                 break;
             }
-
         }
-        grid.add(new Worker(colors.get(color), workerNumber, this), newCol, newRow);
+        grid.add(new Worker(newRow, newCol, this), newCol, newRow);
     }
 
     /**
@@ -200,13 +203,24 @@ public class MainGuiController implements GUIController{
             if (GridPane.getRowIndex(node) == oldRow2 && GridPane.getColumnIndex(node) == oldCol2 && node instanceof Worker) {
                 Worker worker1 = (Worker) node;
                 worker1.setFill(colors.get(board.getColor(oldRow2,oldCol2)));
-                worker1.setWorkerNumber(board.getWorkerNum(oldRow2,oldCol2));
             } else if (GridPane.getRowIndex(node) == oldRow1 && GridPane.getColumnIndex(node) == oldCol1 && node instanceof Worker) {
                 remove = node;
             }
         }
         if(remove != null) grid.getChildren().remove(remove);
-        grid.add(new Worker(colors.get(board.getColor(newRow2, newCol2)),board.getWorkerNum(newRow2,newCol2), this), newCol2, newRow2);
+        Worker worker2 = new Worker(newRow2, newCol2, this);
+        worker2.setFill(colors.get(board.getColor(newRow2, newCol2)));
+        grid.add(worker2, newCol2, newRow2);
+    }
+
+    public void highlightCell() {
+        List<Couple> spaces = modelView.getSelectSpaces();
+        for (Node node: grid.getChildren()) {
+            Couple index = new Couple(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
+            if ( spaces.contains(index) ) {
+                node.setStyle("-fx-background-color: yellow");
+            }
+        }
     }
 
     public Button getButtonMove() {
@@ -229,5 +243,9 @@ public class MainGuiController implements GUIController{
     public void setGui(GUI gui) {
         this.gui = gui;
         board = gui.getModelView().getBoard();
+    }
+
+    public HashMap<String, Color> getColors() {
+        return colors;
     }
 }
