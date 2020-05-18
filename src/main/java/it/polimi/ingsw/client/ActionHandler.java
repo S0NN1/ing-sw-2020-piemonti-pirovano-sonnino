@@ -75,20 +75,21 @@ public class ActionHandler {
             fireEndTurn(answer);
         }
         else {
-            String boardUpdate = "boardUpdate";
             if (answer instanceof MoveMessage) {
                 updateClientBoardMove(answer, clientBoard);
+                view.firePropertyChange("boardUpdate", new boolean[]{false, true, false},null);
             }
             else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
                 clientBoard.build(message.getX(), message.getY(), dome);
                 checkTurnActiveBuild();
+                view.firePropertyChange("boardUpdate", new boolean[]{false, false, true},null);
             } else if (answer instanceof DoubleMoveMessage) {
                 String message = ((DoubleMoveMessage) answer).getMessage();
                 defineDoubleMove((DoubleMoveMessage) answer, clientBoard, message);
+                view.firePropertyChange("boardUpdate", new boolean[]{false, true , false},null);
             }
-            view.firePropertyChange(boardUpdate, null,null);
         }
 
     }
@@ -96,15 +97,15 @@ public class ActionHandler {
     private void modifiedTurnAction(ModifiedTurnMessage answer) {
         if(answer.getAction()==null) {
             modelView.activateInput();
-            view.firePropertyChange("prometheusMove", null, answer.getMessage());
+            view.firePropertyChange("select", new boolean[]{true, true, false}, answer.getMessage()); //PROMETHEUS MOVE
         }
         else if(answer.getAction().equals(Action.SELECTMOVE)) {
             modelView.activateInput();
-            view.firePropertyChange("doubleMove", null, answer.getMessage());
+            view.firePropertyChange("select", new boolean[]{true, true, false}, answer.getMessage()); //DOUBLE MOVE INIZIALE
         }
         else if(answer.getAction().equals(Action.SELECTBUILD)) {
             modelView.activateInput();
-            view.firePropertyChange("doubleBuild", null, answer.getMessage());
+            view.firePropertyChange("select", new boolean[]{false, true, true}, answer.getMessage());  //DOUBLE BUILD
         }
     }
 
@@ -153,7 +154,12 @@ public class ActionHandler {
         modelView.setSelectSpaces(answer.getMessage());
         //TODO  NON SONO SICURO CHE RESETTANDO FUNZIONI
         modelView.activateInput();
-        view.firePropertyChange("select", null, null);
+        if(answer.getAction().equals(Action.SELECTBUILD)){
+            view.firePropertyChange("select",new boolean[]{false, true, false}, null);
+        }
+        else if(answer.getAction().equals(Action.SELECTMOVE)){
+            view.firePropertyChange("select", new boolean[]{true, false, false}, null);
+        }
     }
 
     private void fireSelectWorker() {
