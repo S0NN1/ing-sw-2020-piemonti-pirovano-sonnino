@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
 import it.polimi.ingsw.model.player.Action;
+import it.polimi.ingsw.model.player.Phase;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.ErrorsType;
@@ -99,16 +100,25 @@ public class TurnController implements PropertyChangeListener {
                     }
                 } else if (arg instanceof SelectMoveAction) {
                     SelectMoveAction worker_action = (SelectMoveAction) arg;
+                    Phase phase = actionController.getWorker().getPhase(actionController.phase);
                     if(!actionController.readMessage(worker_action)) {
-                        if (actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
+                        if(phase!=null && (phase.getAction().equals(Action.SELECTBUILD) || phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.MOVE))) {
+                            sendMoveError();          //TODO Controlla se è nella fase corretta (no move dopo ultima build).
+                        }
+                        else if (actionController.getWorker().getPhase(actionController.phase)!=null &&
+                                actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
                             endGame();
                         }
                         else sendMoveError();
                     }
                 } else if (arg instanceof SelectBuildAction) {
                     SelectBuildAction worker_action = (SelectBuildAction) arg;
+                    Phase phase = actionController.getWorker().getPhase(actionController.phase);
                     if (!actionController.readMessage(worker_action)) {
-                        if (actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
+                        if (phase!=null && (phase.getAction().equals(Action.SELECTMOVE) || phase.getAction().equals(Action.MOVE) || phase.getAction().equals(Action.BUILD))) {
+                            sendBuildError();       //TODO Controlla se è nella fase corretta (no build prima di move).
+                        }
+                        else if (phase!=null && phase.isMust()) {
                             endGame();
                         } else sendBuildError();
                     }
@@ -130,13 +140,17 @@ public class TurnController implements PropertyChangeListener {
     }
 
     public void startTurnAction(int i, int j) {
-        if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(i))) {
+        if(actionController.phase!=0) {
+            gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't change your worker!"),
+                    gameHandler.getCurrentPlayerID());
+        }
+        else if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(i))) {
             if (actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTBUILD)) {
                 gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or build (no args) based on your choice."),
                         gameHandler.getCurrentPlayerID());
             }
         }
-        else{
+        else if(actionController.phase==0){
             if(controller.getModel().getCurrentPlayer().getWorkers().get(j).isBlocked()) {
                 endGame();
             }
