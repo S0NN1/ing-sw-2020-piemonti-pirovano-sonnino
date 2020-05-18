@@ -7,12 +7,14 @@ import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
+import it.polimi.ingsw.model.player.Action;
+import it.polimi.ingsw.model.player.Phase;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
-import it.polimi.ingsw.server.answers.turn.WorkerConfirmedMessage;
+import it.polimi.ingsw.server.answers.turn.ModifiedTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.PlayerLostMessage;
 import it.polimi.ingsw.server.answers.worker.WinMessage;
@@ -81,28 +83,44 @@ public class TurnController implements PropertyChangeListener {
                     if (!actionController.readMessage(worker_action)) {
                         sendBuildError();
                     }
+                    else if(actionController.getWorker().getPhase(actionController.phase)!=null &&
+                            actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTBUILD)) {
+                        gameHandler.singleSend(new ModifiedTurnMessage("You may choose to build (no args) again or" +
+                                "end your turn.", Action.SELECTBUILD), gameHandler.getCurrentPlayerID());
+                    }
                 } else if (arg instanceof MoveAction) {
                     MoveAction worker_action = (MoveAction) arg;
                     if (!actionController.readMessage(worker_action)) {
                         sendMoveError();
                     }
+                    else if(actionController.getWorker().getPhase(actionController.phase)!=null &&
+                            actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTMOVE)) {
+                        gameHandler.singleSend(new ModifiedTurnMessage("You may choose to move (no args) again or" +
+                                " build (no args).", Action.SELECTMOVE), gameHandler.getCurrentPlayerID());
+                    }
                 } else if (arg instanceof SelectMoveAction) {
                     SelectMoveAction worker_action = (SelectMoveAction) arg;
-                    if (!actionController.readMessage(worker_action)) {
-                        if (actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
-                            gameHandler.singleSend(new EndTurnMessage("Worker blocked! No possible moves, turn ended"), gameHandler.getCurrentPlayerID());
-                            startTurn(new StartTurnAction());
+                    Phase phase = actionController.getWorker().getPhase(actionController.phase);
+                    if(!actionController.readMessage(worker_action)) {
+                        if(phase!=null && (phase.getAction().equals(Action.SELECTBUILD) || phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.MOVE))) {
+                            sendMoveError();          //TODO Controlla se è nella fase corretta (no move dopo ultima build).
                         }
-                        sendMoveError();
+                        else if (actionController.getWorker().getPhase(actionController.phase)!=null &&
+                                actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
+                            endGame();
+                        }
+                        else sendMoveError();
                     }
                 } else if (arg instanceof SelectBuildAction) {
                     SelectBuildAction worker_action = (SelectBuildAction) arg;
+                    Phase phase = actionController.getWorker().getPhase(actionController.phase);
                     if (!actionController.readMessage(worker_action)) {
-                        if (actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
-                            gameHandler.singleSend(new EndTurnMessage("Worker blocked! No possible builds, turn ended"), gameHandler.getCurrentPlayerID());
-                            startTurn(new StartTurnAction());
+                        if (phase!=null && (phase.getAction().equals(Action.SELECTMOVE) || phase.getAction().equals(Action.MOVE) || phase.getAction().equals(Action.BUILD))) {
+                            sendBuildError();       //TODO Controlla se è nella fase corretta (no build prima di move).
                         }
-                        sendBuildError();
+                        else if (phase!=null && phase.isMust()) {
+                            endGame();
+                        } else sendBuildError();
                     }
                 } else if (arg instanceof EndTurnAction) {
                     endTurn();
@@ -122,10 +140,17 @@ public class TurnController implements PropertyChangeListener {
     }
 
     public void startTurnAction(int i, int j) {
-        if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(i))) {
-         //   gameHandler.singleSend(new WorkerConfirmedMessage(), gameHandler.getCurrentPlayerID());
+        if(actionController.phase!=0) {
+            gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't change your worker!"),
+                    gameHandler.getCurrentPlayerID());
         }
-        else{
+        else if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(i))) {
+            if (actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTBUILD)) {
+                gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or build (no args) based on your choice."),
+                        gameHandler.getCurrentPlayerID());
+            }
+        }
+        else if(actionController.phase==0){
             if(controller.getModel().getCurrentPlayer().getWorkers().get(j).isBlocked()) {
                 endGame();
             }
@@ -180,8 +205,11 @@ public class TurnController implements PropertyChangeListener {
             }
             else loserColor = "green";
             gameHandler.sendAll(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname(), loserColor));
-            gameHandler.unregisterPlayer(gameHandler.getCurrentPlayerID());
-            gameHandler.getServer().unregisterClient(gameHandler.getCurrentPlayerID());
+            int removeId = gameHandler.getCurrentPlayerID();
+            controller.getModel().nextPlayer();
+            gameHandler.unregisterPlayer(removeId);
+            gameHandler.getServer().unregisterClient(removeId);
+            startTurn(new StartTurnAction());
         }
     }
 

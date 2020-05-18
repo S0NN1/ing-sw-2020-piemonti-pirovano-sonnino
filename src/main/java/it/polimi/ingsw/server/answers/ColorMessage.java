@@ -5,12 +5,22 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequestColor implements Answer {
+public class ColorMessage implements Answer {
     private final String message;
+    private final String color;
     private List<PlayerColors> remaining = new ArrayList<>();
 
-    public RequestColor(String message) {
+    public ColorMessage(String message) {
         this.message = message;
+        this.color=null;
+    }
+    public ColorMessage(String message, String color) {
+        this.message = message;
+        this.color=color;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     public void addRemaining(List<PlayerColors> colors) {

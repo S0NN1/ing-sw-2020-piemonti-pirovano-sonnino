@@ -38,6 +38,9 @@ public class ActionController {
     public boolean startAction(Worker currentWorker) {
         if (currentWorker == null || currentWorker.isBlocked()) return false;
         worker = currentWorker;
+        if(phase!=0 && worker.getPhase(phase)!=null) {
+            return false;
+        }
         phase = 0;
         if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECTMOVE && worker.getPhase(phase).isMust()) {
             try {
@@ -46,8 +49,9 @@ public class ActionController {
                 return false;
             }
             phase++;
+            return true;
         }
-        return true;
+        else return worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECTBUILD;
     }
 
     /**
@@ -62,6 +66,7 @@ public class ActionController {
             phase++;
         }
         if (worker.getPhase(phase) == null) {
+            phase=0;    //TODO  NON SONO SICURO CHE RESETTANDO FUNZIONI
             return true;
         }
         phase = phaseTemp;  //there's still a must phase: worker can't end the turn now

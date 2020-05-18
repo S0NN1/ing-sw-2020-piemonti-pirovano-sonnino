@@ -4,10 +4,11 @@ import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
+import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.server.answers.MatchStartedMessage;
 import it.polimi.ingsw.server.answers.*;
 import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
-import it.polimi.ingsw.server.answers.turn.WorkerConfirmedMessage;
+import it.polimi.ingsw.server.answers.turn.ModifiedTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.*;
 
@@ -62,6 +63,10 @@ public class ActionHandler {
             else {
                 fireSelectSpaces((SelectSpacesMessage) answer);
             }
+            return;
+        }
+        if(answer instanceof ModifiedTurnMessage) {
+            modifiedTurnAction((ModifiedTurnMessage)answer);
         }
         else if(answer instanceof WorkersRequestMessage){
             fireSelectWorker();
@@ -70,25 +75,38 @@ public class ActionHandler {
             fireEndTurn(answer);
         }
         else {
-            String boardUpdate = "boardUpdate";
             if (answer instanceof MoveMessage) {
                 updateClientBoardMove(answer, clientBoard);
-            } else if(answer instanceof WorkerConfirmedMessage) {
-                view.firePropertyChange(boardUpdate, null, null);
-                modelView.activateInput();
-                return;
-            } else if (answer instanceof BuildMessage) {
+                view.firePropertyChange("boardUpdate", new boolean[]{false, true, false},null);
+            }
+            else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
                 clientBoard.build(message.getX(), message.getY(), dome);
                 checkTurnActiveBuild();
+                view.firePropertyChange("boardUpdate", new boolean[]{false, false, true},null);
             } else if (answer instanceof DoubleMoveMessage) {
                 String message = ((DoubleMoveMessage) answer).getMessage();
                 defineDoubleMove((DoubleMoveMessage) answer, clientBoard, message);
+                view.firePropertyChange("boardUpdate", new boolean[]{false, true , false},null);
             }
-            view.firePropertyChange(boardUpdate, null, answer);
         }
 
+    }
+
+    private void modifiedTurnAction(ModifiedTurnMessage answer) {
+        if(answer.getAction()==null) {
+            modelView.activateInput();
+            view.firePropertyChange("select", new boolean[]{true, true, false}, answer.getMessage()); //PROMETHEUS MOVE
+        }
+        else if(answer.getAction().equals(Action.SELECTMOVE)) {
+            modelView.activateInput();
+            view.firePropertyChange("select", new boolean[]{true, true, false}, answer.getMessage()); //DOUBLE MOVE INIZIALE
+        }
+        else if(answer.getAction().equals(Action.SELECTBUILD)) {
+            modelView.activateInput();
+            view.firePropertyChange("select", new boolean[]{false, true, true}, answer.getMessage());  //DOUBLE BUILD
+        }
     }
 
     private void defineDoubleMove(DoubleMoveMessage answer, ClientBoard clientBoard, String message) {
@@ -134,10 +152,14 @@ public class ActionHandler {
 
     private void fireSelectSpaces(SelectSpacesMessage answer) {
         modelView.setSelectSpaces(answer.getMessage());
-        modelView.setMoveSelected(true);
-        modelView.setBuildSelected(true);//TODO  NON SONO SICURO CHE RESETTANDO FUNZIONI
+        //TODO  NON SONO SICURO CHE RESETTANDO FUNZIONI
         modelView.activateInput();
-        view.firePropertyChange("select", null, null);
+        if(answer.getAction().equals(Action.SELECTBUILD)){
+            view.firePropertyChange("select",new boolean[]{false, true, false}, null);
+        }
+        else if(answer.getAction().equals(Action.SELECTMOVE)){
+            view.firePropertyChange("select", new boolean[]{true, false, false}, null);
+        }
     }
 
     private void fireSelectWorker() {
@@ -150,7 +172,6 @@ public class ActionHandler {
     private void checkTurnActiveBuild() {
         if(modelView.isTurnActive()){
             modelView.setTurnPhase(modelView.getTurnPhase()+1);
-            modelView.setBuildSelected(false);
             modelView.activateInput();
         }
     }
@@ -158,7 +179,6 @@ public class ActionHandler {
     private void checkTurnActiveMove() {
         if (modelView.isTurnActive()) {
             modelView.setTurnPhase(modelView.getTurnPhase() + 1);
-            modelView.setMoveSelected(false);
             modelView.activateInput();
         }
     }
@@ -172,8 +192,13 @@ public class ActionHandler {
         String initial = "initialPhase";
         if (answer instanceof RequestPlayersNumber) {
             view.firePropertyChange(initial, null, "RequestPlayerNumber");
-        } else if (answer instanceof RequestColor) {
-            view.firePropertyChange(initial, null, "RequestColor");
+        } else if (answer instanceof ColorMessage) {
+            if(((ColorMessage)answer).getMessage()!=null) {
+                view.firePropertyChange(initial, null, "RequestColor");
+            }
+            else {
+                modelView.setColor(((ColorMessage)answer).getColor());
+            }
         } else if (answer instanceof ChallengerMessages) {
             if(((ChallengerMessages)answer).getChosenGod()!=null){
                 modelView.setGod(((ChallengerMessages)answer).getChosenGod());
@@ -212,9 +237,6 @@ public class ActionHandler {
         if(modelView.getGamePhase()==0) {
             initialGamePhase(answer);
         }
-        else if(modelView.getGamePhase()==1) {
-            fullGamePhase(answer);
-        }
         if(answer instanceof WinMessage) {
             view.firePropertyChange("win", null, null);
         }
@@ -242,6 +264,9 @@ public class ActionHandler {
             else if(gui!=null) {
                 //TODO
             }
+        }
+        else if(modelView.getGamePhase()==1) {
+            fullGamePhase(answer);
         }
     }
 
