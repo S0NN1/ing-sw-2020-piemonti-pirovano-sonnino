@@ -187,8 +187,11 @@ public class GameHandler {
             case "WorkerPlacement" -> {
                 workerPlacement((WorkerSetupMessage) action);
             }
-            default ->{
+            case "turnController" ->{
                 controllerListener.firePropertyChange(type, null, action);
+            }
+            default -> {
+                singleSend(new GameError(ErrorsType.INVALIDINPUT), getCurrentPlayerID());
             }
         }
     }
@@ -289,7 +292,11 @@ public class GameHandler {
         ChallengerPhaseAction userAction = (ChallengerPhaseAction)action;
         String godSelection = "godSelection";
         if (started < 2 || started>3) {
-            if((userAction.action.equals("CHOOSE"))) {
+            if(userAction.startingPlayer!=null) {
+                singleSend(new GameError(ErrorsType.INVALIDINPUT), game.getCurrentPlayer().getClientID());
+                return;
+            }
+            else if(userAction.action.equals("CHOOSE")) {
                 singleSend(new ChallengerMessages(Constants.ANSI_RED + "Error: not in correct game phase for " +
                         "this command!" + Constants.ANSI_RESET), getCurrentPlayerID());
                 return;
@@ -305,6 +312,10 @@ public class GameHandler {
             }
         }
         else if (started == 2) {
+            if(userAction.startingPlayer!=null) {
+                singleSend(new GameError(ErrorsType.INVALIDINPUT), game.getCurrentPlayer().getClientID());
+                return;
+            }
             challengerPhaseChoose(userAction, godSelection);
         }
         else if(userAction.startingPlayer!=null) {

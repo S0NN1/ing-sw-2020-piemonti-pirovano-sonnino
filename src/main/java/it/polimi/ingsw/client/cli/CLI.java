@@ -478,7 +478,10 @@ public class CLI implements UI, Runnable {
             }
             case INVALIDINPUT -> {
                 if (error.getMessage() != null) {
-                    output.println(nameMapColor.get(RED) + error.getMessage() + nameMapColor.get("RST"));
+                    output.println(nameMapColor.get(RED) + error.getMessage() + nameMapColor.get(RST));
+                }
+                else {
+                    output.println(nameMapColor.get(RED) + "Input error, please try again!" + nameMapColor.get(RST));
                 }
                 modelView.setTurnActive(true);
             }
