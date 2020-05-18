@@ -16,10 +16,7 @@ import it.polimi.ingsw.server.answers.RequestPlayersNumber;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -573,12 +570,31 @@ public class CLI implements UI, Runnable {
                 System.exit(0);
             }
             case "noPossibleMoves" -> System.err.println("No possible moves!");
-            case "doubleMove", "doubleBuild", "prometheusMove" -> output.println(evt.getNewValue());
-            case "boardUpdate" -> updateCli();
+            case "boardUpdate" -> {
+                if(evt.getOldValue().getClass().isArray()) {
+                    boolean[] checkers = ((boolean[]) evt.getOldValue());
+                    String message;
+                    if(evt.getNewValue()==null){
+                        message=null;
+                    }
+                    else message = evt.getNewValue().toString();
+                    updateCli(checkers[0], checkers[1], checkers[2], message);
+                }
+            }
             case "firstBoardUpdate" -> firstUpdateCli();
-            case "selectWorker" -> selectWorker();
+            case "selectWorker" -> selectWorker();   //TODO
             case "end" -> end((String)evt.getNewValue());
-            case "select" -> printSpaces();
+            case "select" -> {
+                if (evt.getOldValue().getClass().isArray()) {
+                    boolean[] checkers = ((boolean[]) evt.getOldValue());
+                    String message;
+                    if(evt.getNewValue()==null){
+                        message=null;
+                    }
+                    else message = evt.getNewValue().toString();
+                    printSpaces(checkers[0], checkers[1], checkers[2], message);
+                }
+            }
             case "win" -> {
                 output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
                 System.exit(0);
@@ -593,6 +609,7 @@ public class CLI implements UI, Runnable {
             default -> output.println("Unrecognized answer");
         }
     }
+
 
     private void otherPlayerLost(PropertyChangeEvent evt) {
         clearScreen();
@@ -610,7 +627,7 @@ public class CLI implements UI, Runnable {
         System.out.print(">");
     }
 
-    public void printMenu() throws InterruptedException {
+    public void printMenu(boolean move, boolean build, boolean end, String message) throws InterruptedException {
         String active;
         String atlas;
         if (modelView.getGamePhase() != 0) {
@@ -620,15 +637,23 @@ public class CLI implements UI, Runnable {
             System.out.println(active + " YOUR TURN");
         }
         if (modelView.getGod().equalsIgnoreCase("ATLAS")) {
-            atlas = "  • PLACEDOME\n";
+            atlas = "/PLACEDOME\n";
         } else atlas = "";
         TimeUnit.MILLISECONDS.sleep(500);
         if(modelView.isTurnActive()) {
-            System.out.print("  • MOVE\n" +
-                    "  • BUILD\n" +
-                    atlas +
+            output.print(move ? " • MOVE\n":"");
+            output.print(build ? " • BUILD" + atlas + "\n":"");
+            output.print(end ? " • END\n":"");
+            if(message!=null){
+                output.println(message);
+            }
+            System.out.print(">");
+
+           /* System.out.print("  • MOVE\n" +
+                    "  • BUILD" + atlas + "\n" +
                     "  • END\n");
             System.out.print(">");
+            */
         }
     }
 
@@ -653,20 +678,20 @@ public class CLI implements UI, Runnable {
         }
     }
 
-    public void updateCli() {
+    public void updateCli(boolean move, boolean build, boolean end, String message) {
         clearScreen();
         boardUpdater(grid);
         printBoard(grid);
         try {
-            printMenu();
+            printMenu(move, build, end, message);
         } catch (InterruptedException e) {
             System.err.println(e.getMessage());
             Thread.currentThread().interrupt();
         }
     }
 
-    public void printSpaces() {
-        updateCli();
+    public void printSpaces(boolean move, boolean build, boolean end, String message) {
+        updateCli(move, build, end, message);
         for (int i = 0; i < modelView.getSelectSpaces().size(); i++) {
             System.out.print("(" + modelView.getSelectSpaces().get(i).getX() + "," + modelView.getSelectSpaces().get(i).getY() + ")  ");
         }

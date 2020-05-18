@@ -325,7 +325,7 @@ public abstract class Worker {
        if(buildable.isEmpty()) {
             throw new IllegalStateException();
        }
-       listeners.firePropertyChange("selectSpacesListener", Action.SELECTMOVE, buildable);
+       listeners.firePropertyChange("selectSpacesListener", Action.SELECTBUILD, buildable);
 
    }
 
