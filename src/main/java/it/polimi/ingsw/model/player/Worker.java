@@ -238,7 +238,7 @@ public abstract class Worker {
             isBlocked = true;
             throw new IllegalStateException();
         }
-        listeners.firePropertyChange("selectSpacesListener",null,moves);
+        listeners.firePropertyChange("selectSpacesListener", Action.SELECTMOVE, moves);
     }
 
     /**
@@ -325,7 +325,7 @@ public abstract class Worker {
        if(buildable.isEmpty()) {
             throw new IllegalStateException();
        }
-       listeners.firePropertyChange("selectSpacesListener", null, buildable);
+       listeners.firePropertyChange("selectSpacesListener", Action.SELECTMOVE, buildable);
 
    }
 

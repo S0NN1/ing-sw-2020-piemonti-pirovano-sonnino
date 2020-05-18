@@ -1,6 +1,7 @@
 package it.polimi.ingsw.listeners;
 
 import it.polimi.ingsw.model.board.Space;
+import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.worker.SelectSpacesMessage;
 
@@ -24,7 +25,7 @@ public class SelectSpacesListener extends WorkerListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        SelectSpacesMessage message = new SelectSpacesMessage((ArrayList<Space>)evt.getNewValue());
+        SelectSpacesMessage message = new SelectSpacesMessage((ArrayList<Space>)evt.getNewValue(), (Action)evt.getOldValue());
         virtualClient.send(message);
     }
 }
