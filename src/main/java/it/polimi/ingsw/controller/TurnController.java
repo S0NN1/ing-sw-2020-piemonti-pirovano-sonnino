@@ -99,9 +99,9 @@ public class TurnController implements PropertyChangeListener {
                         else sendMoveError();
                     }
                 } else if (arg instanceof SelectBuildAction) {
-                    SelectBuildAction worker_action = (SelectBuildAction) arg;
+                    SelectBuildAction workerAction = (SelectBuildAction) arg;
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
-                    if (!actionController.readMessage(worker_action)) {
+                    if (!actionController.readMessage(workerAction)) {
                         if (phase!=null && (phase.getAction().equals(Action.SELECTMOVE) || phase.getAction().equals(Action.MOVE) || phase.getAction().equals(Action.BUILD))) {
                             sendBuildError();
                         }
@@ -116,8 +116,8 @@ public class TurnController implements PropertyChangeListener {
         }
     }
 
-    private void checkMoveAction(MoveAction worker_action) {
-        if (!actionController.readMessage(worker_action)) {
+    private void checkMoveAction(MoveAction workerAction) {
+        if (!actionController.readMessage(workerAction)) {
             sendMoveError();
         }
         else if(isPhaseRight(Action.SELECTMOVE)) {
@@ -125,8 +125,8 @@ public class TurnController implements PropertyChangeListener {
         }
     }
 
-    private void checkBuildAction(BuildAction worker_action) {
-        if (!actionController.readMessage(worker_action)) {
+    private void checkBuildAction(BuildAction workerAction) {
+        if (!actionController.readMessage(workerAction)) {
             sendBuildError();
         }
         else if(isPhaseRight(Action.SELECTBUILD)) {

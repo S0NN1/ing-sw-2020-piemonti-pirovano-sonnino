@@ -18,6 +18,10 @@ import java.util.ArrayList;
  */
 public abstract class Worker {
 
+    public static final String SELECT_SPACES_LISTENER = "selectSpacesListener";
+    public static final String WIN_LISTENER = "winListener";
+    public static final String MOVE_LISTENER = "moveListener";
+    public static final String BUILD_LISTENER = "buildListener";
     protected Space position;
     protected boolean isBlocked;
     protected boolean canMoveUp;
@@ -112,10 +116,10 @@ public abstract class Worker {
      * @param client virtualClient
      */
     public void createListeners(VirtualClient client){
-        listeners.addPropertyChangeListener("selectSpacesListener", new SelectSpacesListener(client));
-        listeners.addPropertyChangeListener("moveListener", new MoveListener(client));
-        listeners.addPropertyChangeListener("winListener", new WinListener(client));
-        listeners.addPropertyChangeListener("buildListener",new BuildListener(client));
+        listeners.addPropertyChangeListener(SELECT_SPACES_LISTENER, new SelectSpacesListener(client));
+        listeners.addPropertyChangeListener(MOVE_LISTENER, new MoveListener(client));
+        listeners.addPropertyChangeListener(WIN_LISTENER, new WinListener(client));
+        listeners.addPropertyChangeListener(BUILD_LISTENER,new BuildListener(client));
 
     }
 
@@ -174,9 +178,9 @@ public abstract class Worker {
         Space oldPosition = position;
         position.setWorker(space.getWorker());
         setPosition(space);
-        listeners.firePropertyChange("moveListener", oldPosition, position);
+        listeners.firePropertyChange(MOVE_LISTENER, oldPosition, position);
         if(winCondition(oldPosition)) {
-            listeners.firePropertyChange("winListener", null, null);
+            listeners.firePropertyChange(WIN_LISTENER, null, null);
         }
         return true;
     }
@@ -238,7 +242,7 @@ public abstract class Worker {
             isBlocked = true;
             throw new IllegalStateException();
         }
-        listeners.firePropertyChange("selectSpacesListener", Action.SELECTMOVE, moves);
+        listeners.firePropertyChange(SELECT_SPACES_LISTENER, Action.SELECTMOVE, moves);
     }
 
     /**
@@ -285,7 +289,7 @@ public abstract class Worker {
         } catch (OutOfBoundException e) {
             return false;
         }
-        listeners.firePropertyChange("buildListener",false,space);
+        listeners.firePropertyChange(BUILD_LISTENER,false,space);
         return true;
     }
 
@@ -325,7 +329,7 @@ public abstract class Worker {
        if(buildable.isEmpty()) {
             throw new IllegalStateException();
        }
-       listeners.firePropertyChange("selectSpacesListener", Action.SELECTBUILD, buildable);
+       listeners.firePropertyChange(SELECT_SPACES_LISTENER, Action.SELECTBUILD, buildable);
 
    }
 

@@ -10,9 +10,11 @@ import it.polimi.ingsw.model.player.Worker;
  */
 public class Athena extends Worker  {
 
+    public static final String MOVE_UP_LISTENER = "moveUpListener";
+
     public Athena(PlayerColors color, TurnController controller) {
         super(color);
-        listeners.addPropertyChangeListener("moveUpListener",controller);
+        listeners.addPropertyChangeListener(MOVE_UP_LISTENER,controller);
     }
 
     @Override
@@ -33,9 +35,9 @@ public class Athena extends Worker  {
         Space oldPosition = position;
         if(super.move(space)){
             if(position.getTower().getHeight() - oldPosition.getTower().getHeight() == 1){
-                listeners.firePropertyChange("moveUpListener", null, "AthenaMovedUp");
+                listeners.firePropertyChange(MOVE_UP_LISTENER, null, "AthenaMovedUp");
             }
-            else listeners.firePropertyChange("moveUpListener", null, "AthenaNormalMove");
+            else listeners.firePropertyChange(MOVE_UP_LISTENER, null, "AthenaNormalMove");
             return true;
         }
         return false;

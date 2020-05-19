@@ -11,6 +11,11 @@ import java.util.List;
  */
 public class Constants {
 
+    public static final String ARTEMIS = "ARTEMIS";
+    public static final String PROMETHEUS = "PROMETHEUS";
+    public static final String DEMETER = "DEMETER";
+    public static final String HEPHAESTUS = "HEPHAESTUS";
+
     /**
      * Constructor Constants creates a new Constants instance.
      */
@@ -80,7 +85,7 @@ public class Constants {
      * @return the doubleMoveGods (type List<String>) of this Constants object.
      */
     public static List<String> getDoubleMoveGods() {
-        DOUBLE_MOVE_GODS.add("ARTEMIS");
+        DOUBLE_MOVE_GODS.add(ARTEMIS);
         return DOUBLE_MOVE_GODS;
     }
 
@@ -94,7 +99,7 @@ public class Constants {
      * @return the alternatePhaseGods (type List<String>) of this Constants object.
      */
     public static List<String> getAlternatePhaseGods() {
-        ALTERNATE_PHASE_GODS.add("PROMETHEUS");
+        ALTERNATE_PHASE_GODS.add(PROMETHEUS);
         return ALTERNATE_PHASE_GODS;
     }
 
@@ -108,8 +113,8 @@ public class Constants {
      * @return the doubleBuildGods (type List<String>) of this Constants object.
      */
     public static List<String> getDoubleBuildGods() {
-        DOUBLE_BUILD_GODS.add("DEMETER");
-        DOUBLE_BUILD_GODS.add("HEPHAESTUS");
+        DOUBLE_BUILD_GODS.add(DEMETER);
+        DOUBLE_BUILD_GODS.add(HEPHAESTUS);
         return DOUBLE_MOVE_GODS;
     }
 
@@ -119,8 +124,8 @@ public class Constants {
     private static final List<String> MOVE_PHASE_GODS = new ArrayList<>();
 
     public static List<String> getMovePhaseGods() {
-        MOVE_PHASE_GODS.add("ARTEMIS");
-        MOVE_PHASE_GODS.add("PROMETHEUS");
+        MOVE_PHASE_GODS.add(ARTEMIS);
+        MOVE_PHASE_GODS.add(PROMETHEUS);
         return MOVE_PHASE_GODS;
     }
     /**
@@ -129,10 +134,10 @@ public class Constants {
     private static final List<String> BUILD_PHASE_GODS = new ArrayList<>();
 
     public static List<String> getBuildPhaseGods() {
-        BUILD_PHASE_GODS.add("DEMETER");
-        BUILD_PHASE_GODS.add("HEPHAESTUS");
-        BUILD_PHASE_GODS.add("PROMETHEUS");
-        BUILD_PHASE_GODS.add("ARTEMIS");
+        BUILD_PHASE_GODS.add(DEMETER);
+        BUILD_PHASE_GODS.add(HEPHAESTUS);
+        BUILD_PHASE_GODS.add(PROMETHEUS);
+        BUILD_PHASE_GODS.add(ARTEMIS);
         return BUILD_PHASE_GODS;
     }
 

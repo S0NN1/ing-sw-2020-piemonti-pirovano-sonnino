@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.player.gods.Atlas;
 import it.polimi.ingsw.model.player.gods.Minotaur;
-import it.polimi.ingsw.model.player.gods.Prometheus;
 
 
 /**
@@ -95,7 +94,6 @@ public class ActionController {
             phase++;
             return true;
         }
-        //case getPhase == null || (!Action.SELECTMOVE && isMust)
         phase = phaseTemp;
         return false;
     }
@@ -122,7 +120,6 @@ public class ActionController {
             phase++;
             return true;
         }
-        //case getPhase == null || (!Action.SELECTBUILD && isMust)
         phase = phaseTemp;
         return false;
     }
@@ -137,12 +134,10 @@ public class ActionController {
         if (worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.MOVE) return false;
         Couple couple = action.getMessage();
         Space space = gameBoard.getSpace(couple.getX(), couple.getY());
-        if (worker instanceof Minotaur) {
-            if (worker.isSelectable(space) && !space.isEmpty() && worker.move(space, gameBoard)) {
+        if (worker instanceof Minotaur && worker.isSelectable(space) && !space.isEmpty() && worker.move(space, gameBoard)) {
                 phase++;
                 return true;
             }
-        }
         if (worker.isSelectable(space) && worker.move(space)) {
             phase++;
             return true;

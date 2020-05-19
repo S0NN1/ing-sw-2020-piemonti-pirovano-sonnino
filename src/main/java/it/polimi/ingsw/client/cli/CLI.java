@@ -534,12 +534,8 @@ public class CLI implements UI, Runnable {
                 }
                 modelView.setTurnActive(true);
             }
-            case WORKERBLOCKED -> {
-                printError(System.err, "Selected worker is blocked, select the other one!");
-            }
-            default -> {
-                printError(output, "Generic error!");
-            }
+            case WORKERBLOCKED -> printError(System.err, "Selected worker is blocked, select the other one!");
+            default -> printError(output, "Generic error!");
         }
     }
 
@@ -644,15 +640,11 @@ public class CLI implements UI, Runnable {
             }
             case "noPossibleMoves" -> System.err.println("No possible moves!");
             case "modifiedTurnNoUpdate" -> output.println(((Answer)evt.getNewValue()).getMessage().toString());
-            case "boardUpdate" -> {
-                fireBoardUpdate(evt);
-            }
+            case "boardUpdate" -> fireBoardUpdate(evt);
             case "firstBoardUpdate" -> firstUpdateCli();
             case "selectWorker" -> selectWorker();
             case "end" -> end((String)evt.getNewValue());
-            case "select" -> {
-                fireSelectSpaces(evt);
-            }
+            case "select" -> fireSelectSpaces(evt);
             case "win" -> {
                 output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
                 System.exit(0);

@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class SelectSpacesMessage implements Answer {
     private final Action action;
-    ArrayList<Couple> message = new ArrayList<Couple>();
+    private final ArrayList<Couple> message = new ArrayList<>();
 
     public SelectSpacesMessage(ArrayList<Space> moves, Action action){
         moves.forEach(space -> message.add(new Couple(space.getX(), space.getY())));
