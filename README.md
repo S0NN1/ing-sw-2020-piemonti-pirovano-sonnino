@@ -36,7 +36,7 @@ The final version must include:
 | Multiple games | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)|
 | Persistence | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Undo Function | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
-| 5 Advanced Gods | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+| 5 Advanced Gods | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 
 #### Legend
 [![RED](https://placehold.it/15/f03c15/f03c15)](#) Not Implemented 
