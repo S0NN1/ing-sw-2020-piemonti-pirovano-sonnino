@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerColors;
+import it.polimi.ingsw.model.player.gods.Apollo;
+import it.polimi.ingsw.server.VirtualClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,13 +28,25 @@ class GameTest {
      */
     @Test
     @DisplayName("Player clockwise rotation test")
-    void setupCreateRemoveNextPlayer() {
+    void setupCreateRemoveNextPlayer() throws OutOfBoundException {
         testGame.setCurrentPlayer(testGame.getActivePlayers().get(0));
         assertEquals("piro", testGame.getCurrentPlayer().getNickname());
+        testGame.getCurrentPlayer().setColor(PlayerColors.GREEN);
+        testGame.getCurrentPlayer().addWorker(Card.APOLLO, new VirtualClient());
+        testGame.getGameBoard().getSpace(0, 1).setWorker(testGame.getCurrentPlayer().getWorkers().get(0));
+        testGame.getGameBoard().getSpace(1, 1).setWorker(testGame.getCurrentPlayer().getWorkers().get(1));
         testGame.nextPlayer();
         assertEquals("alice", testGame.getCurrentPlayer().getNickname());
+        testGame.getCurrentPlayer().setColor(PlayerColors.RED);
+        testGame.getCurrentPlayer().addWorker(Card.PROMETHEUS, new VirtualClient());
+        testGame.getGameBoard().getSpace(2, 3).setWorker(testGame.getCurrentPlayer().getWorkers().get(0));
+        testGame.getGameBoard().getSpace(4, 4).setWorker(testGame.getCurrentPlayer().getWorkers().get(1));
         testGame.nextPlayer();
         assertEquals("nico", testGame.getCurrentPlayer().getNickname());
+        testGame.getCurrentPlayer().setColor(PlayerColors.BLUE);
+        testGame.getCurrentPlayer().addWorker(Card.ATLAS, new VirtualClient());
+        testGame.getGameBoard().getSpace(2, 2).setWorker(testGame.getCurrentPlayer().getWorkers().get(0));
+        testGame.getGameBoard().getSpace(3, 3).setWorker(testGame.getCurrentPlayer().getWorkers().get(1));
 
         testGame.nextPlayer();
         testGame.removePlayer(testGame.getPlayerByNickname("piro"));
