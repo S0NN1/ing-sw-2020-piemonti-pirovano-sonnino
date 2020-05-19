@@ -5,27 +5,27 @@ public class Printable {
     private static final String RESET = Constants.ANSI_RESET;
     private static final String BLUE = Constants.ANSI_BLUE;
     private static final String YELLOW = Constants.ANSI_YELLOW;
-    static final String purple = Constants.ANSI_PURPLE;
+    static final String PURPLE = Constants.ANSI_PURPLE;
     public static final String LINE_BLOCK = "█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████";
-    static final String twelveLineBlock = "████████████";
-    static final String elevenLineBlock = "███████████";
-    static final String lvl1LineBlock = "║█████████████████████║";
-    static final String upperLvl1 = "╔═════════════════════╗";
-    static final String bottomLvl1 = "╚═════════════════════╝";
-    static final String tenLineBlock = "██████████";
-    static final String upperInsideLvl2 = "┌───────────────────┐";
-    static final String lowerInsideLvl2 = "└───────────────────┘";
-    static final String threeLineBlock = "███";
-    static final String nineLineBlock = "█████████";
-    static final String verticalDoubleLine = "║";
-    static final String verticalDoubleLineRight = "║\n";
-    static final String fiveLineBlock = "█████";
-    static final String sevenLineBlock = "███████";
-    static final String nineteenLineBlock = "███████████████████";
-    static final String cyan = Constants.ANSI_CYAN;
-    static final String singleLineBlock = "█";
-    static final String sixLineBlock = "██████";
-    static final String eightLineBlock = "████████";
+    static final String TWELVE_LINE_BLOCK = "████████████";
+    static final String ELEVEN_LINE_BLOCK = "███████████";
+    static final String LVL_1_LINE_BLOCK = "║█████████████████████║";
+    static final String UPPER_LVL_1 = "╔═════════════════════╗";
+    static final String BOTTOM_LVL_1 = "╚═════════════════════╝";
+    static final String TEN_LINE_BLOCK = "██████████";
+    static final String UPPER_INSIDE_LVL_2 = "┌───────────────────┐";
+    static final String LOWER_INSIDE_LVL_2 = "└───────────────────┘";
+    static final String THREE_LINE_BLOCK = "███";
+    static final String NINE_LINE_BLOCK = "█████████";
+    static final String VERTICAL_DOUBLE_LINE = "║";
+    static final String VERTICAL_DOUBLE_LINE_RIGHT = "║\n";
+    static final String FIVE_LINE_BLOCK = "█████";
+    static final String SEVEN_LINE_BLOCK = "███████";
+    static final String NINETEEN_LINE_BLOCK = "███████████████████";
+    static final String CYAN = Constants.ANSI_CYAN;
+    static final String SINGLE_LINE_BLOCK = "█";
+    static final String SIX_LINE_BLOCK = "██████";
+    static final String EIGHT_LINE_BLOCK = "████████";
     public static final String VERTICAL_LINE = "|";
     public static final String PLUS = "+";
     public static final String ROW_WAVE = BLUE + "≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈" + RESET;
@@ -47,96 +47,96 @@ public class Printable {
 
 
     private static final String[] LEVELS = new String[]{
-            GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + GREEN + elevenLineBlock + RESET + "\n",
-            upperLvl1 + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    bottomLvl1,
-            upperLvl1 + "\n" +
-                    verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineteenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
-                    bottomLvl1,
-            upperLvl1 + "\n" +
-                    verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + threeLineBlock + cyan + sevenLineBlock + sixLineBlock + RESET + threeLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + singleLineBlock + cyan + nineLineBlock + cyan + eightLineBlock + RESET + singleLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + cyan + tenLineBlock + cyan + nineLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + singleLineBlock + cyan + nineLineBlock + cyan + eightLineBlock + RESET + singleLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + threeLineBlock + cyan + sevenLineBlock + sixLineBlock + RESET + threeLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
-                    bottomLvl1,
-            upperLvl1 + "\n" +
-                    verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + threeLineBlock + cyan + fiveLineBlock + RESET + BLUE + threeLineBlock + cyan + fiveLineBlock + RESET + threeLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + singleLineBlock + cyan + fiveLineBlock + RESET + BLUE + sevenLineBlock + cyan + fiveLineBlock + RESET + singleLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + cyan + fiveLineBlock + RESET + BLUE + nineLineBlock + cyan + fiveLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + singleLineBlock + cyan + fiveLineBlock + RESET + BLUE + sevenLineBlock + cyan + fiveLineBlock + RESET + singleLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + threeLineBlock + cyan + fiveLineBlock + RESET + BLUE + threeLineBlock + cyan + fiveLineBlock + RESET + threeLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + fiveLineBlock + cyan + nineLineBlock + RESET + fiveLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
-                    bottomLvl1
+            GREEN + TWELVE_LINE_BLOCK + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + GREEN + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + GREEN + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + GREEN + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + GREEN + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + GREEN + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + GREEN + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + GREEN + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + GREEN + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + GREEN + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + GREEN + ELEVEN_LINE_BLOCK + RESET + "\n",
+            UPPER_LVL_1 + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    BOTTOM_LVL_1,
+            UPPER_LVL_1 + "\n" +
+                    VERTICAL_DOUBLE_LINE + PURPLE + UPPER_INSIDE_LVL_2 + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + NINETEEN_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + NINETEEN_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + NINETEEN_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + NINETEEN_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + NINETEEN_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + NINETEEN_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + NINETEEN_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + LOWER_INSIDE_LVL_2 + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    BOTTOM_LVL_1,
+            UPPER_LVL_1 + "\n" +
+                    VERTICAL_DOUBLE_LINE + PURPLE + UPPER_INSIDE_LVL_2 + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + FIVE_LINE_BLOCK + CYAN + NINE_LINE_BLOCK + RESET + FIVE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + THREE_LINE_BLOCK + CYAN + SEVEN_LINE_BLOCK + SIX_LINE_BLOCK + RESET + THREE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + SINGLE_LINE_BLOCK + CYAN + NINE_LINE_BLOCK + CYAN + EIGHT_LINE_BLOCK + RESET + SINGLE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + CYAN + TEN_LINE_BLOCK + CYAN + NINE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + SINGLE_LINE_BLOCK + CYAN + NINE_LINE_BLOCK + CYAN + EIGHT_LINE_BLOCK + RESET + SINGLE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + THREE_LINE_BLOCK + CYAN + SEVEN_LINE_BLOCK + SIX_LINE_BLOCK + RESET + THREE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + FIVE_LINE_BLOCK + CYAN + NINE_LINE_BLOCK + RESET + FIVE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + LOWER_INSIDE_LVL_2 + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    BOTTOM_LVL_1,
+            UPPER_LVL_1 + "\n" +
+                    VERTICAL_DOUBLE_LINE + PURPLE + UPPER_INSIDE_LVL_2 + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + FIVE_LINE_BLOCK + CYAN + NINE_LINE_BLOCK + RESET + FIVE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + THREE_LINE_BLOCK + CYAN + FIVE_LINE_BLOCK + RESET + BLUE + THREE_LINE_BLOCK + CYAN + FIVE_LINE_BLOCK + RESET + THREE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + SINGLE_LINE_BLOCK + CYAN + FIVE_LINE_BLOCK + RESET + BLUE + SEVEN_LINE_BLOCK + CYAN + FIVE_LINE_BLOCK + RESET + SINGLE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + CYAN + FIVE_LINE_BLOCK + RESET + BLUE + NINE_LINE_BLOCK + CYAN + FIVE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + SINGLE_LINE_BLOCK + CYAN + FIVE_LINE_BLOCK + RESET + BLUE + SEVEN_LINE_BLOCK + CYAN + FIVE_LINE_BLOCK + RESET + SINGLE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + THREE_LINE_BLOCK + CYAN + FIVE_LINE_BLOCK + RESET + BLUE + THREE_LINE_BLOCK + CYAN + FIVE_LINE_BLOCK + RESET + THREE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + FIVE_LINE_BLOCK + CYAN + NINE_LINE_BLOCK + RESET + FIVE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + LOWER_INSIDE_LVL_2 + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    BOTTOM_LVL_1
     };
     private static final String[] LEVELS_WITH_DOME = new String[]{
-            GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
-                    GREEN + tenLineBlock + BLUE + threeLineBlock + GREEN + tenLineBlock + RESET + "\n" +
-                    GREEN + eightLineBlock + BLUE + sevenLineBlock + GREEN + eightLineBlock + RESET + "\n" +
-                    GREEN + sevenLineBlock + BLUE + nineLineBlock + GREEN + sevenLineBlock + RESET + "\n" +
-                    GREEN + eightLineBlock + BLUE + sevenLineBlock + GREEN + eightLineBlock + RESET + "\n" +
-                    GREEN + tenLineBlock + BLUE + threeLineBlock + GREEN + tenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n" +
-                    GREEN + twelveLineBlock + elevenLineBlock + RESET + "\n",
-            upperLvl1 + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    verticalDoubleLine + nineLineBlock + BLUE + threeLineBlock + RESET + nineLineBlock + verticalDoubleLine + "\n" +
-                    verticalDoubleLine + sevenLineBlock + BLUE + sevenLineBlock + RESET + sevenLineBlock + verticalDoubleLine + "\n" +
-                    verticalDoubleLine + sixLineBlock + BLUE + nineLineBlock + RESET + sixLineBlock + verticalDoubleLine + "\n" +
-                    verticalDoubleLine + sevenLineBlock + BLUE + sevenLineBlock + RESET + sevenLineBlock + verticalDoubleLine + "\n" +
-                    verticalDoubleLine + nineLineBlock + BLUE + threeLineBlock + RESET + nineLineBlock + verticalDoubleLine + "\n" +
-                    lvl1LineBlock + "\n" +
-                    lvl1LineBlock + "\n" +
-                    bottomLvl1,
-            upperLvl1 + "\n" +
-                    verticalDoubleLine + purple + upperInsideLvl2 + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineLineBlock + tenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + eightLineBlock + BLUE + threeLineBlock + RESET + eightLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + sixLineBlock + BLUE + sevenLineBlock + RESET + sixLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + fiveLineBlock + BLUE + nineLineBlock + RESET + fiveLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + sixLineBlock + BLUE + sevenLineBlock + RESET + sixLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + eightLineBlock + BLUE + threeLineBlock + RESET + eightLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + VERTICAL_LINE + RESET + nineLineBlock + tenLineBlock + purple + VERTICAL_LINE + RESET + verticalDoubleLineRight +
-                    verticalDoubleLine + purple + lowerInsideLvl2 + RESET + verticalDoubleLineRight +
-                    bottomLvl1
+            GREEN + TWELVE_LINE_BLOCK + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TEN_LINE_BLOCK + BLUE + THREE_LINE_BLOCK + GREEN + TEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + EIGHT_LINE_BLOCK + BLUE + SEVEN_LINE_BLOCK + GREEN + EIGHT_LINE_BLOCK + RESET + "\n" +
+                    GREEN + SEVEN_LINE_BLOCK + BLUE + NINE_LINE_BLOCK + GREEN + SEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + EIGHT_LINE_BLOCK + BLUE + SEVEN_LINE_BLOCK + GREEN + EIGHT_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TEN_LINE_BLOCK + BLUE + THREE_LINE_BLOCK + GREEN + TEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + ELEVEN_LINE_BLOCK + RESET + "\n" +
+                    GREEN + TWELVE_LINE_BLOCK + ELEVEN_LINE_BLOCK + RESET + "\n",
+            UPPER_LVL_1 + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    VERTICAL_DOUBLE_LINE + NINE_LINE_BLOCK + BLUE + THREE_LINE_BLOCK + RESET + NINE_LINE_BLOCK + VERTICAL_DOUBLE_LINE + "\n" +
+                    VERTICAL_DOUBLE_LINE + SEVEN_LINE_BLOCK + BLUE + SEVEN_LINE_BLOCK + RESET + SEVEN_LINE_BLOCK + VERTICAL_DOUBLE_LINE + "\n" +
+                    VERTICAL_DOUBLE_LINE + SIX_LINE_BLOCK + BLUE + NINE_LINE_BLOCK + RESET + SIX_LINE_BLOCK + VERTICAL_DOUBLE_LINE + "\n" +
+                    VERTICAL_DOUBLE_LINE + SEVEN_LINE_BLOCK + BLUE + SEVEN_LINE_BLOCK + RESET + SEVEN_LINE_BLOCK + VERTICAL_DOUBLE_LINE + "\n" +
+                    VERTICAL_DOUBLE_LINE + NINE_LINE_BLOCK + BLUE + THREE_LINE_BLOCK + RESET + NINE_LINE_BLOCK + VERTICAL_DOUBLE_LINE + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    LVL_1_LINE_BLOCK + "\n" +
+                    BOTTOM_LVL_1,
+            UPPER_LVL_1 + "\n" +
+                    VERTICAL_DOUBLE_LINE + PURPLE + UPPER_INSIDE_LVL_2 + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + NINE_LINE_BLOCK + TEN_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + EIGHT_LINE_BLOCK + BLUE + THREE_LINE_BLOCK + RESET + EIGHT_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + SIX_LINE_BLOCK + BLUE + SEVEN_LINE_BLOCK + RESET + SIX_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + FIVE_LINE_BLOCK + BLUE + NINE_LINE_BLOCK + RESET + FIVE_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + SIX_LINE_BLOCK + BLUE + SEVEN_LINE_BLOCK + RESET + SIX_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + EIGHT_LINE_BLOCK + BLUE + THREE_LINE_BLOCK + RESET + EIGHT_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + VERTICAL_LINE + RESET + NINE_LINE_BLOCK + TEN_LINE_BLOCK + PURPLE + VERTICAL_LINE + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    VERTICAL_DOUBLE_LINE + PURPLE + LOWER_INSIDE_LVL_2 + RESET + VERTICAL_DOUBLE_LINE_RIGHT +
+                    BOTTOM_LVL_1
 
 
     };
