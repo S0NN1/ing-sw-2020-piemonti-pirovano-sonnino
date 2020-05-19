@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.model.player.Action;
@@ -77,14 +78,17 @@ public class ActionHandler {
         else {
             if (answer instanceof MoveMessage) {
                 updateClientBoardMove(answer, clientBoard);
-                view.firePropertyChange("boardUpdate", new boolean[]{false, true, false},null);
+                if(Constants.getDoubleMoveGods().contains(modelView.getGod()) && modelView.getTurnPhase()==1) {
+                    view.firePropertyChange("boardUpdate", new boolean[]{true, true, false}, null);
+                }
+                else view.firePropertyChange("boardUpdate", new boolean[]{false, true, false},null);
             }
             else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
                 clientBoard.build(message.getX(), message.getY(), dome);
                 checkTurnActiveBuild();
-                view.firePropertyChange("boardUpdate", new boolean[]{false, false, true},null);
+                fireBuildMenu();
             } else if (answer instanceof DoubleMoveMessage) {
                 String message = ((DoubleMoveMessage) answer).getMessage();
                 defineDoubleMove((DoubleMoveMessage) answer, clientBoard, message);
@@ -94,6 +98,21 @@ public class ActionHandler {
 
     }
 
+    private void fireBuildMenu() {
+        if(Constants.getDoubleBuildGods().contains(modelView.getGod()) && modelView.getTurnPhase()==3) {
+            view.firePropertyChange("boardUpdate", new boolean[]{false, false, true}, null);
+        }
+        else if(Constants.getDoubleBuildGods().contains(modelView.getGod())) {
+            view.firePropertyChange("boardUpdate", new boolean[]{false, true, true}, null);
+        }
+        else if(Constants.getAlternatePhaseGods().contains(modelView.getGod()) && modelView.getTurnPhase()==1) {
+            view.firePropertyChange("boardUpdate", new boolean[]{true, false, false}, null);
+        }
+        else {
+            view.firePropertyChange("boardUpdate", new boolean[]{false, false, true}, null);
+        }
+    }
+
     private void modifiedTurnAction(ModifiedTurnMessage answer) {
         if(answer.getAction()==null) {
             modelView.activateInput();
@@ -101,11 +120,11 @@ public class ActionHandler {
         }
         else if(answer.getAction().equals(Action.SELECTMOVE)) {
             modelView.activateInput();
-            view.firePropertyChange("boardUpdate", new boolean[]{true, true, false}, answer.getMessage()); //DOUBLE MOVE INIZIALE
+            view.firePropertyChange("modifiedTurnNoUpdate", new boolean[]{true, true, false}, answer); //DOUBLE MOVE INIZIALE
         }
         else if(answer.getAction().equals(Action.SELECTBUILD)) {
             modelView.activateInput();
-            view.firePropertyChange("boardUpdate", new boolean[]{false, true, true}, answer.getMessage());  //DOUBLE BUILD
+            view.firePropertyChange("modifiedTurnNoUpdate", new boolean[]{false, true, true}, answer);  //DOUBLE BUILD
         }
     }
 

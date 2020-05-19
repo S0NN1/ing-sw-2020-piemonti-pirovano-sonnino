@@ -66,6 +66,29 @@ public class Constants {
 
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
+
+    private static final List<String> DOUBLE_MOVE_GODS = new ArrayList<>();
+
+    public static List<String> getDoubleMoveGods() {
+        DOUBLE_MOVE_GODS.add("ARTEMIS");
+        return DOUBLE_MOVE_GODS;
+    }
+
+    private static final List<String> ALTERNATE_PHASE_GODS = new ArrayList<>();
+
+    public static List<String> getAlternatePhaseGods() {
+        ALTERNATE_PHASE_GODS.add("PROMETHEUS");
+        return ALTERNATE_PHASE_GODS;
+    }
+
+    private static final List<String> DOUBLE_BUILD_GODS = new ArrayList<>();
+
+    public static List<String> getDoubleBuildGods() {
+        DOUBLE_BUILD_GODS.add("DEMETER");
+        DOUBLE_BUILD_GODS.add("HEPHAESTUS");
+        return DOUBLE_MOVE_GODS;
+    }
+
     /**
      * Arraylist containing gods with move action with turnPhase != 0
      */

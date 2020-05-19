@@ -8,10 +8,7 @@ import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.model.player.PlayerColors;
-import it.polimi.ingsw.server.answers.ChallengerMessages;
-import it.polimi.ingsw.server.answers.GameError;
-import it.polimi.ingsw.server.answers.ColorMessage;
-import it.polimi.ingsw.server.answers.RequestPlayersNumber;
+import it.polimi.ingsw.server.answers.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
@@ -585,6 +582,7 @@ public class CLI implements UI, Runnable {
                 System.exit(0);
             }
             case "noPossibleMoves" -> System.err.println("No possible moves!");
+            case "modifiedTurnNoUpdate" -> output.println(((Answer)evt.getNewValue()).getMessage().toString());
             case "boardUpdate" -> {
                 if(evt.getOldValue().getClass().isArray()) {
                     boolean[] checkers = ((boolean[]) evt.getOldValue());
