@@ -34,9 +34,9 @@ The final version must include:
 | GUI | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 | CLI |[![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
 | Multiple games | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)|
+| 5 Advanced Gods | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 | Persistence | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Undo Function | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
-| 5 Advanced Gods | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 
 #### Legend
 [![RED](https://placehold.it/15/f03c15/f03c15)](#) Not Implemented 
