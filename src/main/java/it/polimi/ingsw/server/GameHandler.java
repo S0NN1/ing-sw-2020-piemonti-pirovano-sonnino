@@ -324,6 +324,7 @@ public class GameHandler {
             game.setCurrentPlayer(game.getActivePlayers().get(userAction.startingPlayer));
             singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", you are the first player; let's go!", false), getCurrentPlayerID());
             sendAllExcept(new CustomMessage("Well done! " + game.getCurrentPlayer().getNickname() + " is the first player!", false), getCurrentPlayerID());
+            started = 5;
             workerPlacement(null);
         }
     }

@@ -180,7 +180,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
             server.getGameByID(clientID).makeAction(action, "ChallengerPhase");
         }
         else if(action instanceof WorkerSetupMessage) {
-            if (server.getGameByID(clientID).isStarted()>3) {
+            if (server.getGameByID(clientID).isStarted()!=5) {
                 server.getGameByID(clientID).singleSend(new GameError(ErrorsType.INVALIDINPUT, "Not in correct game phase to perform this command!"), clientID);
                 return;
             }
