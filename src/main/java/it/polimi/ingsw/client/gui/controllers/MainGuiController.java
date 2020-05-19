@@ -33,7 +33,6 @@ public class MainGuiController implements GUIController{
     private final HashMap<String, Color> colors;
     private GUI gui;
     private ClientBoard board;
-    private ModelView modelView;
 
     @FXML
     GridPane grid;
@@ -113,7 +112,7 @@ public class MainGuiController implements GUIController{
 
     public void build(int row, int col, boolean dome) {
         if (!dome) {
-            int height = modelView.getBoard().getHeight(row, col);
+            int height = board.getHeight(row, col);
             addBlock(row, col, height);
         }
         else {
@@ -214,13 +213,20 @@ public class MainGuiController implements GUIController{
     }
 
     public void highlightCell() {
-        List<Couple> spaces = modelView.getSelectSpaces();
+        List<Couple> spaces = getGUI().getModelView().getSelectSpaces();
         for (Node node: grid.getChildren()) {
             Couple index = new Couple(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
             if ( spaces.contains(index) ) {
                 node.setStyle("-fx-background-color: yellow");
             }
         }
+    }
+
+    public void workerSelected() {
+        getButtonMove().setVisible(true);
+        getButtonBuild().setVisible(true);
+        getActionsLabel().setText("Select Action:");
+        getActionsLabel().setVisible(true);
     }
 
     public Button getButtonMove() {

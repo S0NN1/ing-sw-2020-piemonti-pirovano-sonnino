@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.Cell;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.player.PlayerColors;
 import javafx.application.Application;
@@ -13,6 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GUI11 extends Application {
 
@@ -95,6 +99,11 @@ public class GUI11 extends Application {
         controller.setWorker(1,3, 1, Constants.ANSI_GREEN);
         controller.setWorker(0,0, 2, Constants.ANSI_GREEN);
 
+        List<Couple> list = new ArrayList<Couple>();
+        list.add(new Couple(1,1));
+        list.add(new Couple(3,3));
+        controller.getGUI().getModelView().setSelectSpaces(list);
+        controller.highlightCell();
         //controller.testDragAndDrop();
         primaryStage.show();
     }

@@ -42,10 +42,7 @@ public class Worker extends Polygon {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 controller.getGUI().getObservers().firePropertyChange("action", null, "SELECT WORKER "+ getWorkingNumber());
-                controller.getButtonMove().setVisible(true);
-                controller.getButtonBuild().setVisible(true);
-                controller.getActionsLabel().setText("Select Action:");
-                controller.getActionsLabel().setVisible(true);
+                controller.workerSelected();
             }
         });
     }
