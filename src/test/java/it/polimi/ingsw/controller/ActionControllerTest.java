@@ -201,7 +201,7 @@ class ActionControllerTest {
      * class used to test ActionController methods (which are all inherited) with the help of
      * the setter and getter of phase attribute
      */
-    private class ActionControllerStub extends ActionController {
+    private static class ActionControllerStub extends ActionController {
 
         public ActionControllerStub(GameBoard gameBoard) {
             super(gameBoard);

@@ -74,7 +74,7 @@ class WorkerTest {
         assertEquals(expX, worker.getPosition().getX());
         assertEquals(expY, worker.getPosition().getY());
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {worker.setPosition(null);});
+        assertThrows(IllegalArgumentException.class, () -> worker.setPosition(null));
 
     }
 
@@ -90,7 +90,7 @@ class WorkerTest {
     @DisplayName("move method, exception and winning condition")
     void move() {
         Space nullSpace = null;
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {worker.move(nullSpace);});
+        assertThrows(IllegalArgumentException.class, () -> worker.move(nullSpace));
 
         Space init = new Space();
         Space spaceFin = new Space();
@@ -241,7 +241,7 @@ class WorkerTest {
                 }
             }
             worker.setPosition(gameBoard.getSpace(1,1));
-            Exception exception = assertThrows(IllegalStateException.class, () -> {worker.notifyWithMoves(gameBoard);});
+            assertThrows(IllegalStateException.class, () -> worker.notifyWithMoves(gameBoard));
         }
 
         /**
@@ -471,7 +471,7 @@ class WorkerTest {
     /**
      * this class receives messages from different listeners
      */
-    private class VirtualClientStub extends VirtualClient {
+    private static class VirtualClientStub extends VirtualClient {
 
         private ArrayList<Couple> selectMoves;
         private Move move;
@@ -535,19 +535,12 @@ class WorkerTest {
             return move;
         }
 
-        public Couple getBuild() {
-            return build;
-        }
 
         public boolean isDome() {
             return dome;
         }
 
 
-
-        public Worker getWinWorker() {
-            return winWorker;
-        }
 
     }
 

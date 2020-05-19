@@ -4,8 +4,6 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**

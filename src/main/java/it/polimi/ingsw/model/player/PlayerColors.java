@@ -6,10 +6,6 @@ import java.util.List;
 public enum PlayerColors {
     BLUE, RED, GREEN;
 
-    public static List<PlayerColors> getAvailable() {
-        return available;
-    }
-
     private static final ArrayList<PlayerColors> available = new ArrayList<>();
 
     public static void reset() {

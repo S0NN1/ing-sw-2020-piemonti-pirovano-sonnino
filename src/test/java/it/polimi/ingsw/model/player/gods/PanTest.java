@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.player.gods;
 
 import it.polimi.ingsw.exceptions.OutOfBoundException;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;

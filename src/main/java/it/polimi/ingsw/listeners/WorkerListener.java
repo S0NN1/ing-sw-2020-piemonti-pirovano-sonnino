@@ -9,7 +9,7 @@ import java.beans.PropertyChangeListener;
  */
 public abstract class WorkerListener implements PropertyChangeListener {
 
-    VirtualClient virtualClient;
+    final VirtualClient virtualClient;
 
     public WorkerListener(VirtualClient client){
         virtualClient = client;

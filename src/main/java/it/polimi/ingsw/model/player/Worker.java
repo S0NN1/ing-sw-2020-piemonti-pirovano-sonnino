@@ -27,8 +27,8 @@ public abstract class Worker {
     protected boolean isBlocked;
     protected boolean canMoveUp;
     protected final String workerColor;
-    protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-    protected ArrayList<Phase> phases = new ArrayList<>();
+    protected final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
+    protected final ArrayList<Phase> phases = new ArrayList<>();
 
     /**
      * Constructor

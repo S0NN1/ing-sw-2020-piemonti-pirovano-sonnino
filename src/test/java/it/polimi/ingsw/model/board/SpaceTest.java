@@ -2,13 +2,11 @@ package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exceptions.InvalidInputException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SpaceTest {
-    Space space = new Space();
+    final Space space = new Space();
 
     @Test
     void isEmptywithoutworker() {
@@ -28,9 +26,7 @@ class SpaceTest {
      */
     @Test
     void incorrect_positionTest() {
-        InvalidInputException e = Assertions.assertThrows(InvalidInputException.class, () -> {
-            space.setX(5);
-        });
+        Assertions.assertThrows(InvalidInputException.class, () -> space.setX(5));
         assertThrows(InvalidInputException.class, () -> space.setY(5));
         }
 

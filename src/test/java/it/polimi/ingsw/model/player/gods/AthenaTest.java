@@ -14,7 +14,6 @@ import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.SocketClientConnection;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
-import it.polimi.ingsw.server.answers.worker.DoubleMoveMessage;
 import it.polimi.ingsw.server.answers.worker.MoveMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +33,7 @@ class AthenaTest {
 
         GameBoard gameBoard = new GameBoard();
         GameHandler gameHandler = new GameHandler(null);
-        TurnControllerStub turnController = new TurnControllerStub(new Controller(new Game(), gameHandler),gameHandler, new ActionController(gameBoard));
+        TurnControllerStub turnController = new TurnControllerStub(new Controller(new Game(), gameHandler), gameHandler, new ActionController(gameBoard));
         VirtualClientStub client = new VirtualClientStub();
         Worker athena = new Athena(PlayerColors.BLUE, turnController);
         athena.createListeners(client);
@@ -73,7 +72,7 @@ class AthenaTest {
 
     }
 
-    private class VirtualClientStub extends VirtualClient{
+    private static class VirtualClientStub extends VirtualClient{
         Move move;
 
         /**
@@ -99,7 +98,7 @@ class AthenaTest {
         }
     }
 
-    private class TurnControllerStub extends TurnController{
+    private static class TurnControllerStub extends TurnController{
 
         private String event;
 

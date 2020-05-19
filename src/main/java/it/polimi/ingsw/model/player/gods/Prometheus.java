@@ -6,8 +6,6 @@ import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Phase;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**

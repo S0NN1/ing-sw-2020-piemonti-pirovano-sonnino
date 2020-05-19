@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TowerTest {
-    Tower tower = new Tower();
+    final Tower tower = new Tower();
 
     @BeforeEach
     void addlevelCorrect() throws OutOfBoundException {
@@ -16,7 +16,7 @@ class TowerTest {
     }
 
     @Test
-    void addlevelIncorrectTest() throws OutOfBoundException {
+    void addlevelIncorrectTest() {
         OutOfBoundException e = Assertions.assertThrows(OutOfBoundException.class, () -> tower.addLevel());
         System.out.println(e.getMessage());
 

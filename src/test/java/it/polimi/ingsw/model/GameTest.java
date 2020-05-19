@@ -3,12 +3,10 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
-import it.polimi.ingsw.model.player.gods.Apollo;
 import it.polimi.ingsw.server.VirtualClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
@@ -28,7 +26,7 @@ class GameTest {
      */
     @Test
     @DisplayName("Player clockwise rotation test")
-    void setupCreateRemoveNextPlayer() throws OutOfBoundException {
+    void setupCreateRemoveNextPlayer() {
         testGame.setCurrentPlayer(testGame.getActivePlayers().get(0));
         assertEquals("piro", testGame.getCurrentPlayer().getNickname());
         testGame.getCurrentPlayer().setColor(PlayerColors.GREEN);

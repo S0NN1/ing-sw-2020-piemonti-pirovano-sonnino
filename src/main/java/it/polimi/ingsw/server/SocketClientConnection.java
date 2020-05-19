@@ -148,8 +148,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
      */
     private void checkConnection(SetupConnection command) {
         try {
-            SetupConnection cmd = command;
-            clientID = server.registerConnection(cmd.getNickname(), this);
+            clientID = server.registerConnection(command.getNickname(), this);
             if (clientID == null) {
                 active = false;
                 return;

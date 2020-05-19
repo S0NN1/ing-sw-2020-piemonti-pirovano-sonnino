@@ -147,16 +147,8 @@ public class ModelView {
         return started;
     }
 
-    public boolean isBuildSelected() {
-        return buildSelected;
-    }
-
     public void setBuildSelected(boolean buildSelected) {
         this.buildSelected = buildSelected;
-    }
-
-    public boolean isMoveSelected() {
-        return moveSelected;
     }
 
     public void setMoveSelected(boolean moveSelected) {

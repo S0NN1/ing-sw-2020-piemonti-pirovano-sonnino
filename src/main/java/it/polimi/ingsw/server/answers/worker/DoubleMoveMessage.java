@@ -8,9 +8,9 @@ import it.polimi.ingsw.server.answers.Answer;
  */
 public class DoubleMoveMessage implements Answer {
 
-    String god;
-    Move myMove;
-    Move otherMove;
+    private final String god;
+    private final Move myMove;
+    private final Move otherMove;
 
     public DoubleMoveMessage(Move myMove, Move otherMove, String god){
         this.myMove = myMove;

@@ -123,23 +123,14 @@ public class GodSelectionController implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         ChallengerPhaseAction cmd = (ChallengerPhaseAction) evt.getNewValue();
         switch (cmd.action) {
-            case "LIST":
-                cardModel.setNameList();
-                break;
-            case "DESC":
-                desc(cmd.arg);
-                break;
-            case "ADD":
-                add(cmd.arg);
-                break;
-            case "CHOOSE":
-                choose(cmd.arg);
-                break;
-            case "LASTSELECTION":
-                lastSelection();
-                break;
-            default:
+            case "LIST" -> cardModel.setNameList();
+            case "DESC" -> desc(cmd.arg);
+            case "ADD" -> add(cmd.arg);
+            case "CHOOSE" -> choose(cmd.arg);
+            case "LASTSELECTION" -> lastSelection();
+            default ->{
                 System.err.println("No action to be performed!");
+            }
         }
     }
 }

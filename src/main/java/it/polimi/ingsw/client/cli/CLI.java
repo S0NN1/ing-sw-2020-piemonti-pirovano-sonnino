@@ -526,12 +526,11 @@ public class CLI implements UI, Runnable {
             case INVALIDINPUT -> {
                 if (error.getMessage() != null) {
                     output.println(nameMapColor.get(RED) + error.getMessage() + nameMapColor.get(RST));
-                    greaterThan();
                 }
                 else {
                     output.println(nameMapColor.get(RED) + "Input error, please try again!" + nameMapColor.get(RST));
-                    greaterThan();
                 }
+                greaterThan();
                 modelView.setTurnActive(true);
             }
             case WORKERBLOCKED -> printError(System.err, "Selected worker is blocked, select the other one!");
@@ -663,7 +662,7 @@ public class CLI implements UI, Runnable {
     private void fireSelectSpaces(PropertyChangeEvent evt) {
         if (evt.getOldValue().getClass().isArray()) {
             boolean[] checkers = ((boolean[]) evt.getOldValue());
-            String message = getRightMessage(evt.getNewValue() == null, null, Objects.requireNonNull(evt.getNewValue()).toString());
+            String message = getRightMessage(evt.getNewValue() == null, Objects.requireNonNull(evt.getNewValue()).toString());
             printSpaces(checkers[0], checkers[1], checkers[2], message);
         }
     }
@@ -671,15 +670,15 @@ public class CLI implements UI, Runnable {
     private void fireBoardUpdate(PropertyChangeEvent evt) {
         if(evt.getOldValue().getClass().isArray()) {
             boolean[] checkers = ((boolean[]) evt.getOldValue());
-            String message = getRightMessage(evt.getNewValue() == null, null, Objects.requireNonNull(evt.getNewValue()).toString());
+            String message = getRightMessage(evt.getNewValue() == null, Objects.requireNonNull(evt.getNewValue()).toString());
             updateCli(checkers[0], checkers[1], checkers[2], message);
         }
     }
 
-    private String getRightMessage(boolean b, String o, String s) {
+    private String getRightMessage(boolean b, String s) {
         String message;
         if (b) {
-            message = o;
+            message = null;
         } else message = s;
         return message;
     }

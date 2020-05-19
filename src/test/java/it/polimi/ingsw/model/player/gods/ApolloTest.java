@@ -1,14 +1,11 @@
 package it.polimi.ingsw.model.player.gods;
 
 import it.polimi.ingsw.constants.Move;
-import it.polimi.ingsw.exceptions.InvalidInputException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.player.WorkerForTest;
-import it.polimi.ingsw.model.player.gods.Apollo;
-import it.polimi.ingsw.server.SocketClientConnection;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
 import it.polimi.ingsw.server.answers.worker.*;
@@ -97,7 +94,7 @@ class ApolloTest {
     /**
      * this class receives messages from a DoubleMoveListener
      */
-    private class VirtualClientStub extends VirtualClient {
+    private static class VirtualClientStub extends VirtualClient {
 
         String god;
 
@@ -127,12 +124,5 @@ class ApolloTest {
             else fail("not double move message");
         }
 
-        public Move getMyMove() {
-            return myMove;
-        }
-
-        public Move getOtherMove() {
-            return otherMove;
-        }
     }
 }

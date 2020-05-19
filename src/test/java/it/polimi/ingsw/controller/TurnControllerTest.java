@@ -25,30 +25,30 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class TurnControllerTest {
-    Prometheus prometheus = new Prometheus(PlayerColors.BLUE);
-    Apollo apollo = new Apollo(PlayerColors.RED);
-    PlayerStub piro = new PlayerStub("piro", 1);
-    PlayerStub ali = new PlayerStub("ali", 2);
-    PlayerStub sonny = new PlayerStub("sonny", 3);
-    Socket socket = new Socket();
-    ServerStub server = new ServerStub();
-    GameHandlerStub handler = new GameHandlerStub(server);
-    SocketClientConnectionStub socketClientConnectionStub = new SocketClientConnectionStub(socket, server);
-    VirtualClient virtualClient = new VirtualClient(1,"piro", socketClientConnectionStub,handler);
-    VirtualClient virtualClient2 = new VirtualClient(2,"ali", socketClientConnectionStub,handler);
-    VirtualClient virtualClient3 = new VirtualClient(3,"sonny", socketClientConnectionStub,handler);
-    HashMap<Integer, VirtualClient> idMapID = new HashMap<>(){
+    final Prometheus prometheus = new Prometheus(PlayerColors.BLUE);
+    final Apollo apollo = new Apollo(PlayerColors.RED);
+    final PlayerStub piro = new PlayerStub("piro", 1);
+    final PlayerStub ali = new PlayerStub("ali", 2);
+    final PlayerStub sonny = new PlayerStub("sonny", 3);
+    final Socket socket = new Socket();
+    final ServerStub server = new ServerStub();
+    final GameHandlerStub handler = new GameHandlerStub(server);
+    final SocketClientConnectionStub socketClientConnectionStub = new SocketClientConnectionStub(socket, server);
+    final VirtualClient virtualClient = new VirtualClient(1,"piro", socketClientConnectionStub,handler);
+    final VirtualClient virtualClient2 = new VirtualClient(2,"ali", socketClientConnectionStub,handler);
+    final VirtualClient virtualClient3 = new VirtualClient(3,"sonny", socketClientConnectionStub,handler);
+    final HashMap<Integer, VirtualClient> idMapID = new HashMap<>(){
         {
             put(1, virtualClient);
             put(2, virtualClient2);
             put(3, virtualClient3);
         }
     };
-    GameBoardStub board = new GameBoardStub();
-    GameStub game = new GameStub();
-    ActionControllerStub actionControllerStub =new ActionControllerStub(board);
-    ControllerStub controllerStub = new ControllerStub(game, handler);
-    TurnControllerStub turnController = new TurnControllerStub(new Controller(game, handler), handler, actionControllerStub);
+    final GameBoardStub board = new GameBoardStub();
+    final GameStub game = new GameStub();
+    final ActionControllerStub actionControllerStub = new ActionControllerStub(board);
+    final ControllerStub controllerStub = new ControllerStub(game, handler);
+    final TurnControllerStub turnController = new TurnControllerStub(new Controller(game, handler), handler, actionControllerStub);
     PropertyChangeEvent evt1;
     PropertyChangeEvent evt2;
     PropertyChangeEvent evt3;
@@ -171,11 +171,11 @@ public class TurnControllerTest {
     }
 
 
-    public class GameStub extends Game {
+    public static class GameStub extends Game {
 
     }
 
-    public class ActionControllerStub extends ActionController {
+    public static class ActionControllerStub extends ActionController {
         private Worker worker;
 
         public ActionControllerStub(GameBoard gameBoard) {
@@ -261,36 +261,36 @@ public class TurnControllerTest {
         }
     }
 
-    public class GameBoardStub extends GameBoard {
+    public static class GameBoardStub extends GameBoard {
 
     }
 
-    public class ControllerStub extends Controller{
+    public static class ControllerStub extends Controller{
 
         public ControllerStub(Game model, GameHandler gameHandler) {
             super(model, gameHandler);
         }
     }
-    public class PlayerStub extends Player{
+    public static class PlayerStub extends Player{
 
         public PlayerStub(String nickname, int clientID) {
             super(nickname, clientID);
         }
     }
-    public class ServerStub extends Server {
-        private final HashMap <Integer, VirtualClient>idMapID;
+    public static class ServerStub extends Server {
+        private HashMap <Integer, VirtualClient>idMapID;
         public ServerStub(){
             this.idMapID = null;
         }
         public void setIdMapID(HashMap idMapID){
-
+            this.idMapID = idMapID;
         }
         @Override
         public VirtualClient getClientByID(int id) {
             return idMapID.get(id);
         }
     }
-    public class SocketClientConnectionStub extends SocketClientConnection{
+    public static class SocketClientConnectionStub extends SocketClientConnection{
 
         /**
          * Constructor of the class: it instantiates an input/output stream from the socket received as parameters, and
