@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alice Piemonti
@@ -29,10 +30,10 @@ public class Hephaestus extends Worker {
      * @return an ArrayList of spaces
      */
     @Override
-    public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard) {
+    public List<Space> getBuildableSpaces(GameBoard gameBoard) {
         phases.get(5).changeMust(true);
-        ArrayList<Space> result = super.getBuildableSpaces(gameBoard);
-        if(result.size() == 0) phases.get(5).changeMust(false);
+        List<Space> result = super.getBuildableSpaces(gameBoard);
+        if(result.isEmpty()) phases.get(5).changeMust(false);
         return result;
     }
 
@@ -46,7 +47,7 @@ public class Hephaestus extends Worker {
     @Override
     public boolean canBuildOnto(Space space) throws IllegalArgumentException {
         if(oldPosition == null) return super.canBuildOnto(space);
-        return (oldPosition == space  && !(space.getTower().getHeight() > 2));
+        return (oldPosition == space  && space.getTower().getHeight() <= 2);
     }
 
     /**

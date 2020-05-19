@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.VirtualClient;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alice Piemonti
@@ -237,7 +238,7 @@ public abstract class Worker {
      */
     public void notifyWithMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
         if(gameBoard == null) throw new IllegalArgumentException();
-        ArrayList<Space> moves = selectMoves(gameBoard);
+        List<Space> moves = selectMoves(gameBoard);
         if(moves.isEmpty()) {
             isBlocked = true;
             throw new IllegalStateException();
@@ -252,7 +253,7 @@ public abstract class Worker {
      * @param gameBoard GameBoard of the game
      * @return ArrayList of Spaces
      */
-    public ArrayList<Space> selectMoves(GameBoard gameBoard) {
+    public List<Space> selectMoves(GameBoard gameBoard) {
         ArrayList<Space> moves = new ArrayList<>();
         for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
             for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
@@ -325,7 +326,7 @@ public abstract class Worker {
      */
    public void notifyWithBuildable(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
        if(gameBoard == null) throw new IllegalArgumentException();
-       ArrayList<Space> buildable = getBuildableSpaces(gameBoard);
+       List<Space> buildable = getBuildableSpaces(gameBoard);
        if(buildable.isEmpty()) {
             throw new IllegalStateException();
        }
@@ -338,7 +339,7 @@ public abstract class Worker {
      * @param gameBoard gameBoard
      * @return an ArrayList of spaces
      */
-    public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard){
+    public List<Space> getBuildableSpaces(GameBoard gameBoard){
         ArrayList<Space> buildable = new ArrayList<>();
         for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++){
             for(int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++){

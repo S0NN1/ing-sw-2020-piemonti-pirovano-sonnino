@@ -23,6 +23,7 @@ import java.beans.PropertyChangeSupport;
 public class ActionHandler {
 
     public static final String FIRST_BOARD_UPDATE = "firstBoardUpdate";
+    public static final String BOARD_UPDATE = "boardUpdate";
     private final ModelView modelView;
     private CLI cli;
     private GUI gui;
@@ -79,9 +80,9 @@ public class ActionHandler {
             if (answer instanceof MoveMessage) {
                 updateClientBoardMove(answer, clientBoard);
                 if(Constants.getDoubleMoveGods().contains(modelView.getGod()) && modelView.getTurnPhase()==1) {
-                    view.firePropertyChange("boardUpdate", new boolean[]{true, true, false}, null);
+                    view.firePropertyChange(BOARD_UPDATE, new boolean[]{true, true, false}, null);
                 }
-                else view.firePropertyChange("boardUpdate", new boolean[]{false, true, false},null);
+                else view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, true, false},null);
             }
             else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
@@ -92,7 +93,7 @@ public class ActionHandler {
             } else if (answer instanceof DoubleMoveMessage) {
                 String message = ((DoubleMoveMessage) answer).getMessage();
                 defineDoubleMove((DoubleMoveMessage) answer, clientBoard, message);
-                view.firePropertyChange("boardUpdate", new boolean[]{false, true , false},null);
+                view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, true , false},null);
             }
         }
 
@@ -100,23 +101,23 @@ public class ActionHandler {
 
     private void fireBuildMenu() {
         if(Constants.getDoubleBuildGods().contains(modelView.getGod()) && modelView.getTurnPhase()==3) {
-            view.firePropertyChange("boardUpdate", new boolean[]{false, false, true}, null);
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, false, true}, null);
         }
         else if(Constants.getDoubleBuildGods().contains(modelView.getGod())) {
-            view.firePropertyChange("boardUpdate", new boolean[]{false, true, true}, null);
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, true, true}, null);
         }
         else if(Constants.getAlternatePhaseGods().contains(modelView.getGod()) && modelView.getTurnPhase()==1) {
-            view.firePropertyChange("boardUpdate", new boolean[]{true, false, false}, null);
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{true, false, false}, null);
         }
         else {
-            view.firePropertyChange("boardUpdate", new boolean[]{false, false, true}, null);
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, false, true}, null);
         }
     }
 
     private void modifiedTurnAction(ModifiedTurnMessage answer) {
         if(answer.getAction()==null) {
             modelView.activateInput();
-            view.firePropertyChange("boardUpdate", new boolean[]{true, true, false}, answer.getMessage()); //PROMETHEUS MOVE
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{true, true, false}, answer.getMessage()); //PROMETHEUS MOVE
         }
         else if(answer.getAction().equals(Action.SELECTMOVE)) {
             modelView.activateInput();

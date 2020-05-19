@@ -77,18 +77,18 @@ public class TurnController implements PropertyChangeListener {
             Object arg = evt.getNewValue();
             if (arg instanceof UserAction) {
                 if (arg instanceof StartTurnAction) {
-                    StartTurnAction start_action = (StartTurnAction) arg;
-                    startTurn(start_action);
+                    StartTurnAction startAction = (StartTurnAction) arg;
+                    startTurn(startAction);
                 } else if (arg instanceof BuildAction) {
-                    BuildAction worker_action = (BuildAction) arg;
-                    checkBuildAction(worker_action);
+                    BuildAction buildAction = (BuildAction) arg;
+                    checkBuildAction(buildAction);
                 } else if (arg instanceof MoveAction) {
-                    MoveAction worker_action = (MoveAction) arg;
-                    checkMoveAction(worker_action);
+                    MoveAction moveAction = (MoveAction) arg;
+                    checkMoveAction(moveAction);
                 } else if (arg instanceof SelectMoveAction) {
-                    SelectMoveAction worker_action = (SelectMoveAction) arg;
+                    SelectMoveAction selectMoveAction = (SelectMoveAction) arg;
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
-                    if(!actionController.readMessage(worker_action)) {
+                    if(!actionController.readMessage(selectMoveAction)) {
                         if(phase!=null && (phase.getAction().equals(Action.SELECTBUILD) || phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.MOVE))) {
                             sendMoveError();
                         }

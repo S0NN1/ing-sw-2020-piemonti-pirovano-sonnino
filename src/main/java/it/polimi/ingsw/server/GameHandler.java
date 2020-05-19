@@ -180,15 +180,9 @@ public class GameHandler {
      */
     public void makeAction(UserAction action, String type) {
         switch (type) {
-            case "ChallengerPhase" -> {
-                challengerPhase(action);
-            }
-            case "WorkerPlacement" -> {
-                workerPlacement((WorkerSetupMessage) action);
-            }
-            case "turnController" ->{
-                controllerListener.firePropertyChange(type, null, action);
-            }
+            case "ChallengerPhase" -> challengerPhase(action);
+            case "WorkerPlacement" -> workerPlacement((WorkerSetupMessage) action);
+            case "turnController" -> controllerListener.firePropertyChange(type, null, action);
             default -> {
                 singleSend(new GameError(ErrorsType.INVALIDINPUT), getCurrentPlayerID());
             }

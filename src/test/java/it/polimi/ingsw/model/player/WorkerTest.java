@@ -17,6 +17,7 @@ import it.polimi.ingsw.server.answers.worker.WinMessage;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -404,13 +405,13 @@ class WorkerTest {
         @DisplayName("selectSpacesListener test")
         void selectSpacesListenerTest(){
             worker.notifyWithMoves(gameBoard);
-            ArrayList<Space> moves = worker.selectMoves(gameBoard);
+            List<Space> moves = worker.selectMoves(gameBoard);
             for(int i=0; i<moves.size(); i++){
                 assertEquals(moves.get(i).getX(), client.getSelectMoves().get(i).getX(),"x"+ i);
                 assertEquals(moves.get(i).getY(), client.getSelectMoves().get(i).getY(), "y" + i);
             }
             worker.notifyWithBuildable(gameBoard);
-            ArrayList<Space> build = worker.getBuildableSpaces(gameBoard);
+            List<Space> build = worker.getBuildableSpaces(gameBoard);
             for(int i=0; i<build.size(); i++){
                 assertEquals(build.get(i).getX(), client.getSelectMoves().get(i).getX(),"x"+ i);
                 assertEquals(build.get(i).getY(), client.getSelectMoves().get(i).getY(), "y" + i);

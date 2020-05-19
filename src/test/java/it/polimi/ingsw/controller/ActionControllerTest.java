@@ -67,7 +67,7 @@ class ActionControllerTest {
        //test correct behavior: right message on the right phase
         actionController.setPhase(4);
         assertTrue(actionController.readMessage(message),"2");
-        assertEquals(worker.getPhase(actionController.getPhase()).getAction(), Action.BUILD ,"3");
+        assertEquals(Action.BUILD,worker.getPhase(actionController.getPhase()).getAction(),"3");
 
        //test wrong behavior: message when turn should be ended
         actionController.setPhase(7);

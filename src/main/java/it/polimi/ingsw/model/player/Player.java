@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.gods.*;
 import it.polimi.ingsw.server.VirtualClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alice Piemonti
@@ -29,7 +30,7 @@ public class Player {
         workers = new ArrayList<>();
     }
 
-    public ArrayList<Worker> getWorkers() {
+    public List<Worker> getWorkers() {
         return workers;
     }
 

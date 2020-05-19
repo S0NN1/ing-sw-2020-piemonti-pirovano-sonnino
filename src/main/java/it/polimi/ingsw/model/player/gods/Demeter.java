@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alice Piemonti
@@ -30,7 +31,7 @@ public class Demeter extends Worker {
      * @return an ArrayList of spaces
      */
     @Override
-    public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard) {
+    public List<Space> getBuildableSpaces(GameBoard gameBoard) {
         phases.get(5).changeMust(true);
         return super.getBuildableSpaces(gameBoard);
     }
