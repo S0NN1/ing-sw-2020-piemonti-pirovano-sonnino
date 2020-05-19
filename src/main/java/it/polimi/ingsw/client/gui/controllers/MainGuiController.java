@@ -12,6 +12,7 @@ import it.polimi.ingsw.constants.Couple;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -63,50 +64,45 @@ public class MainGuiController implements GUIController{
             gui.getObservers().firePropertyChange("action", null, mouseEvent.getButton().name());
         }
     };
-
-    /*public void testDragAndDrop(){
-        Button button = new Button();
-        centerAnchor.getChildren().add(button);
+    public void testDragAndDrop(){
+        Button button = new Button("dragMe");
+        grid.add(button, 4,0);
         final double[] x = new double[1];
         final double[] y = new double[1];
-        button.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                // record a delta distance for the drag and drop operation.
-                 x[0] = button.getLayoutX() - mouseEvent.getSceneX();
-                 y[0] = button.getLayoutY() - mouseEvent.getSceneY();
-                button.setCursor(Cursor.MOVE);
-            }
+        button.setOnMousePressed(mouseEvent -> {
+            // record a delta distance for the drag and drop operation.
+            AnchorPane tempPane = new AnchorPane(button);
+            centerAnchor.getChildren().add(tempPane);
+            AnchorPane.setTopAnchor(tempPane, 66.0);
+            AnchorPane.setLeftAnchor(tempPane, 69.0);
+            tempPane.setMaxSize(330.0,330.0);
+            grid.getChildren().remove(button);
+             x[0] = button.getLayoutX() - mouseEvent.getSceneX();
+             y[0] = button.getLayoutY() - mouseEvent.getSceneY();
+            button.setCursor(Cursor.MOVE);
         });
-        button.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                button.setCursor(Cursor.HAND);
-            }
+        button.setOnMouseReleased(mouseEvent -> {
+            button.setCursor(Cursor.DEFAULT);
+            int row = (int) (Constants.GRID_MAX_SIZE - ((grid.getHeight() - button.getLayoutY())/(grid.getHeight()/Constants.GRID_MAX_SIZE)));
+            int col = (int) (Constants.GRID_MAX_SIZE - ((grid.getWidth() - button.getLayoutX())/(grid.getWidth()/Constants.GRID_MAX_SIZE)));
+            grid.add(button, col, row);
+                }
+        );
+        button.setOnMouseDragged(mouseEvent -> {
+            button.setLayoutX(mouseEvent.getSceneX() + x[0]);
+            button.setLayoutY(mouseEvent.getSceneY() + y[0]);
         });
-        button.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                button.setLayoutX(mouseEvent.getSceneX() + x[0]);
-                button.setLayoutY(mouseEvent.getSceneY() + y[0]);
-            }
-        });
-        button.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                button.setCursor(Cursor.HAND);
-            }
-        });
+        button.setOnMouseEntered(mouseEvent -> button.setCursor(Cursor.HAND));
+        button.setOnMouseExited(mouseEvent -> button.setCursor(Cursor.DISAPPEAR));
     }
-*/
+
     /**
      * add a triangle (worker) into gridPane at row/col
      * @param row of the grid
      * @param col of the grid
-     * @param color of the worker
      */
 
-    public void setWorker(int row, int col, int workerNumber, String color) {
+    public void setWorker(int row, int col) {
         grid.add(new Worker(row, col, this), col, row);
     }
 
@@ -213,13 +209,30 @@ public class MainGuiController implements GUIController{
     }
 
     public void highlightCell() {
+        getActionsLabel().setText("Move your worker!");
+        getActionsLabel().setVisible(true);
         List<Couple> spaces = getGUI().getModelView().getSelectSpaces();
-        for (Node node: grid.getChildren()) {
-            Couple index = new Couple(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
-            if ( spaces.contains(index) ) {
-                node.setStyle("-fx-background-color: yellow");
+        for (int i=Constants.GRID_MIN_SIZE; i<Constants.GRID_MAX_SIZE; i++) {
+            for (int j=Constants.GRID_MIN_SIZE; j<Constants.GRID_MAX_SIZE; j++) {
+                grid.add(new AnchorPane(), i,j);
             }
         }
+        for (Node node: grid.getChildren()) {
+            Couple index = new Couple(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
+            for (Couple element: spaces) {
+                if (element.getX() == index.getX() && element.getY() == index.getY()) {
+                    node.setStyle("-fx-background-color: yellow");
+                    node.setOpacity(0.4);
+                    node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
+                    node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
+                    node.setOnMouseReleased(mouseEvent -> node.setCursor(Cursor.DEFAULT));
+                }
+            }
+        }
+        //TODO prendersi dal model la row/col del worker selezionato;
+        Worker worker = null;
+        //Worker worker = getGUI().getModelView().getActiveWorker()...
+        worker.move();
     }
 
     public void workerSelected() {
@@ -241,8 +254,20 @@ public class MainGuiController implements GUIController{
         return actionsLabel;
     }
 
+    public GridPane getGrid() {
+        return grid;
+    }
+
+    public AnchorPane getCenterAnchor() {
+        return centerAnchor;
+    }
+
     public GUI getGUI() {
         return gui;
+    }
+
+    public AnchorPane getMainAnchor() {
+        return mainAnchor;
     }
 
     @Override

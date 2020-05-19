@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.gui.shapes;
 
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
+import it.polimi.ingsw.constants.Constants;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -31,20 +33,54 @@ public class Worker extends Polygon {
         this.controller = controller;
         setFill(this.getColor());
 
-        setOnMouseEntered( new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                setCursor(Cursor.HAND);
-            }
-        });
+        setOnMouseEntered(mouseEvent -> setCursor(Cursor.HAND));
 
-        setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                controller.getGUI().getObservers().firePropertyChange("action", null, "SELECT WORKER "+ getWorkingNumber());
-                controller.workerSelected();
-            }
+        setOnMouseClicked(mouseEvent -> {
+            controller.getGUI().getObservers().firePropertyChange("action", null, "SELECT WORKER "+ getWorkingNumber());
+            controller.workerSelected();
         });
+    }
+
+    public void move(){
+        int oldRow = row;
+        int oldCol = col;
+        GridPane grid = controller.getGrid();
+        AnchorPane tempPane = new AnchorPane();
+        AnchorPane.setTopAnchor(tempPane, 66.0);
+        AnchorPane.setLeftAnchor(tempPane, 69.0);
+        AnchorPane mainAnchor = controller.getMainAnchor();
+        final double[] x = new double[1];
+        final double[] y = new double[1];
+        this.setOnMousePressed(mouseEvent -> {
+            // record a delta distance for the drag and drop operation.
+            tempPane.getChildren().add(this);
+            controller.getCenterAnchor().getChildren().add(tempPane);
+            grid.getChildren().remove(this);
+            x[0] = this.getLayoutX() - mouseEvent.getSceneX();
+            y[0] = this.getLayoutY() - mouseEvent.getSceneY();
+            this.setCursor(Cursor.MOVE);
+        });
+        this.setOnMouseReleased(mouseEvent -> {
+                    this.setCursor(Cursor.DEFAULT);
+                    int newRow = (int) (Constants.GRID_MAX_SIZE - ((grid.getHeight() - this.getLayoutY())/(grid.getHeight()/Constants.GRID_MAX_SIZE)));
+                    int newCol = (int) (Constants.GRID_MAX_SIZE - ((grid.getWidth() - this.getLayoutX())/(grid.getWidth()/Constants.GRID_MAX_SIZE)));
+                    if( newRow < Constants.GRID_MIN_SIZE || newRow > Constants.GRID_MAX_SIZE || newCol < Constants.GRID_MIN_SIZE || newCol > Constants.GRID_MAX_SIZE) {
+                        grid.add(this, oldCol, oldRow);
+                        this.setPosition(oldRow, oldCol);
+                    }
+                    else {
+                        grid.add(this, newCol, newRow);
+                        this.setPosition(newRow, newCol);
+                        controller.getGUI().getObservers().firePropertyChange("action", null, "MOVE "+ this.row + this.col);
+                    }
+                    mainAnchor.getChildren().remove(tempPane);
+                }
+        );
+        this.setOnMouseDragged(mouseEvent -> {
+            this.setLayoutX(mouseEvent.getSceneX() + x[0]);
+            this.setLayoutY(mouseEvent.getSceneY() + y[0]);
+        });
+        this.setOnMouseEntered(mouseEvent -> this.setCursor(Cursor.HAND));
     }
 
     public void setPosition(int row, int col) {
