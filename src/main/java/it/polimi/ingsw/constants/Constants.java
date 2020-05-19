@@ -69,8 +69,8 @@ public class Constants {
 
     public static final String RULES ="\nView full rules here: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf";
     //server constants
-    public static final String ADDRESS = "127.0.0.1";
-    public static final int PORT = 2500;
+    public static String ADDRESS;
+    public static int PORT;
 
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
@@ -162,5 +162,11 @@ public class Constants {
         return(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " ERR: ");
     }
 
+    public static void setADDRESS(String ADDRESS) {
+        Constants.ADDRESS = ADDRESS;
+    }
 
+    public static void setPORT(int PORT) {
+        Constants.PORT = PORT;
+    }
 }

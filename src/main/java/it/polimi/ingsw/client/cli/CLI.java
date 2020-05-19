@@ -75,6 +75,15 @@ public class CLI implements UI, Runnable {
         System.out.println(Constants.SANTORINI);
         System.out.println(Constants.AUTHORS);
         System.out.println(Constants.RULES + "\n");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(">Insert the server IP address");
+        System.out.print(">");
+        String ip = scanner.nextLine();
+        System.out.println(">Insert the server port");
+        System.out.print(">");
+        int port = scanner.nextInt();
+        Constants.setADDRESS(ip);
+        Constants.setPORT(port);
         CLI cli = new CLI();
         cli.run();
     }
@@ -662,7 +671,10 @@ public class CLI implements UI, Runnable {
     private void fireSelectSpaces(PropertyChangeEvent evt) {
         if (evt.getOldValue().getClass().isArray()) {
             boolean[] checkers = ((boolean[]) evt.getOldValue());
-            String message = getRightMessage(evt.getNewValue() == null, Objects.requireNonNull(evt.getNewValue()).toString());
+            String message = null;
+            if(evt.getNewValue()!=null) {
+                message = evt.getNewValue().toString();
+            }
             printSpaces(checkers[0], checkers[1], checkers[2], message);
         }
     }
@@ -670,19 +682,13 @@ public class CLI implements UI, Runnable {
     private void fireBoardUpdate(PropertyChangeEvent evt) {
         if(evt.getOldValue().getClass().isArray()) {
             boolean[] checkers = ((boolean[]) evt.getOldValue());
-            String message = getRightMessage(evt.getNewValue() == null, Objects.requireNonNull(evt.getNewValue()).toString());
+            String message = null;
+            if(evt.getNewValue()!=null) {
+                message = evt.getNewValue().toString();
+            }
             updateCli(checkers[0], checkers[1], checkers[2], message);
         }
     }
-
-    private String getRightMessage(boolean b, String s) {
-        String message;
-        if (b) {
-            message = null;
-        } else message = s;
-        return message;
-    }
-
 
     private void otherPlayerLost(PropertyChangeEvent evt) {
         clearScreen();
