@@ -50,7 +50,7 @@ class PlayerTest {
             Player player = new Player("test", 1);
             player.setColor(PlayerColors.RED);
             if(card.equals(Card.ATHENA)) {
-                player.setCard(Card.ATHENA, null);
+                player.setCard(Card.ATHENA, null, null);
             } else {
                 player.addWorker(card, null);
                 assertTrue(player.getWorkers().get(0).getClass().toString().toUpperCase().contains(card.toString()));

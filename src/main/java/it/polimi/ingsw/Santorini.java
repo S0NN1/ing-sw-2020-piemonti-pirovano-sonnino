@@ -7,13 +7,8 @@ public class Santorini {
 
     public static void main(String[] args){
         switch (args[0].toUpperCase()) {
-            case "SERVER" -> {
-                Server.main(null);
-            }
-            case "CLI" -> {
-                //TODO insert server IP
-                CLI.main(null);
-            }
+            case "SERVER" -> Server.main(null);
+            case "CLI" -> CLI.main(null); //TODO insert server IP
             case "GUI" -> {
                 //TODO insert server IP and launch GUI interface
             }

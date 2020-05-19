@@ -92,7 +92,7 @@ class DeckTest {
         assertTrue(testDeck.chooseCard(Card.ATLAS, null));
         assertEquals(1, testDeck.getCards().size());
         testGame.nextPlayer();
-        assertTrue(testDeck.chooseCard(Card.ATHENA, null));
+        assertTrue(testDeck.chooseCard(Card.ATHENA, null, null));
         assertEquals(0, testDeck.getCards().size());
     }
 
