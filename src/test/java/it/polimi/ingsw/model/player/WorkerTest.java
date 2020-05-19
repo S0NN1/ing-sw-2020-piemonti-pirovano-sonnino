@@ -39,9 +39,9 @@ class WorkerTest {
         Worker workerBlue = new WorkerForTest(PlayerColors.BLUE);
         Worker workerRed = new WorkerForTest(PlayerColors.RED);
         Worker workerGreen = new WorkerForTest(PlayerColors.GREEN);
-        assertEquals(workerBlue.getWorkerColor().toLowerCase(), "blue");
-        assertEquals(workerRed.getWorkerColor().toLowerCase(), "red");
-        assertEquals(workerGreen.getWorkerColor().toLowerCase(), "green");
+        assertEquals("blue", workerBlue.getWorkerColor().toLowerCase());
+        assertEquals("red", workerRed.getWorkerColor().toLowerCase());
+        assertEquals("green", workerGreen.getWorkerColor().toLowerCase());
     }
 
     /**

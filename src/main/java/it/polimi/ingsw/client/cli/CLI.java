@@ -606,7 +606,7 @@ public class CLI implements UI, Runnable {
                 }
             }
             case "firstBoardUpdate" -> firstUpdateCli();
-            case "selectWorker" -> selectWorker();   //TODO
+            case "selectWorker" -> selectWorker();
             case "end" -> end((String)evt.getNewValue());
             case "select" -> {
                 if (evt.getOldValue().getClass().isArray()) {

@@ -8,7 +8,6 @@ import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
 import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.GameBoard;
-import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
@@ -95,12 +94,13 @@ public class TurnControllerTest {
         evt7 = new PropertyChangeEvent(7, null, null, new MoveAction(1, 1));
         evt8 = new PropertyChangeEvent(8, null, null, new BuildAction(1, 1));
         evt9 = new PropertyChangeEvent(9, null, null, "AthenaMovedUp");
-        evt10 = new PropertyChangeEvent(9, null, null, "AthenaNormalMove");
+        evt10 = new PropertyChangeEvent(10, null, null, "AthenaNormalMove");
 
     }
 
     @Test
     public void endTurnActionTest(){
+        Assertions.assertTrue(evt4.getNewValue() instanceof EndTurnAction);
         actionControllerStub.setPhase(5);
         turnController.propertyChange(evt4);
     }
@@ -108,6 +108,9 @@ public class TurnControllerTest {
     @Test
     @DisplayName("StartTurnActionTest")
     public void startTurnActionTest(){
+        Assertions.assertTrue(evt1.getNewValue() instanceof StartTurnAction);
+        Assertions.assertTrue(evt2.getNewValue() instanceof StartTurnAction);
+        Assertions.assertTrue(evt3.getNewValue() instanceof StartTurnAction);
         turnController.propertyChange(evt1);
         controllerStub.getModel().getCurrentPlayer().getWorkers().get(0).setBlocked(true);
         turnController.propertyChange(evt3);
@@ -119,12 +122,18 @@ public class TurnControllerTest {
     @Test
     @DisplayName("Testing Athena moves")
     public void AthenaMovesTest(){
+        Assertions.assertEquals(evt9.getNewValue(), "AthenaMovedUp");
+        Assertions.assertEquals(evt10.getNewValue(), "AthenaNormalMove");
         turnController.propertyChange(evt9);
         turnController.propertyChange(evt10);
     }
     @Test
     @DisplayName("Testing all actions")
     public void actionsTest() {
+        Assertions.assertTrue(evt5.getNewValue() instanceof SelectBuildAction);
+        Assertions.assertTrue(evt6.getNewValue() instanceof SelectMoveAction);
+        Assertions.assertTrue(evt7.getNewValue() instanceof MoveAction);
+        Assertions.assertTrue(evt8.getNewValue() instanceof BuildAction);
         actionControllerStub.setPhase(2);
         game.setCurrentPlayer(ali);
         controllerStub.getModel().setCurrentPlayer(ali);

@@ -171,7 +171,6 @@ public class ActionHandler {
 
     private void fireSelectSpaces(SelectSpacesMessage answer) {
         modelView.setSelectSpaces(answer.getMessage());
-        //TODO  NON SONO SICURO CHE RESETTANDO FUNZIONI
         modelView.activateInput();
         if(answer.getAction().equals(Action.SELECTBUILD)){
             checkTurnActiveBuild(); //NEW ADDED

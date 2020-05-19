@@ -103,11 +103,11 @@ public class TurnController implements PropertyChangeListener {
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
                     if(!actionController.readMessage(worker_action)) {
                         if(phase!=null && (phase.getAction().equals(Action.SELECTBUILD) || phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.MOVE))) {
-                            sendMoveError();          //TODO Controlla se è nella fase corretta (no move dopo ultima build).
+                            sendMoveError();
                         }
                         else if (actionController.getWorker().getPhase(actionController.phase)!=null &&
                                 actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
-                            endGame(); //TODO PHASE 0 ENDGAME FOR NO REASONS
+                            endGame();
                         }
                         else sendMoveError();
                     }
@@ -116,7 +116,7 @@ public class TurnController implements PropertyChangeListener {
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
                     if (!actionController.readMessage(worker_action)) {
                         if (phase!=null && (phase.getAction().equals(Action.SELECTMOVE) || phase.getAction().equals(Action.MOVE) || phase.getAction().equals(Action.BUILD))) {
-                            sendBuildError();       //TODO Controlla se è nella fase corretta (no build prima di move).
+                            sendBuildError();
                         }
                         else if (phase!=null && phase.isMust()) {
                             endGame();
@@ -171,10 +171,18 @@ public class TurnController implements PropertyChangeListener {
     public void startTurn(StartTurnAction arg) {
         try {
             switch (arg.option) {
-                case "start" -> gameHandler.singleSend(new WorkersRequestMessage(), gameHandler.getCurrentPlayerID());
-                case "worker1" -> startTurnAction(0, 1);
-                case "worker2" -> startTurnAction(1, 0);
-                default -> gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                case "start" -> {
+                    gameHandler.singleSend(new WorkersRequestMessage(), gameHandler.getCurrentPlayerID());
+                }
+                case "worker1" -> {
+                    startTurnAction(0, 1);
+                }
+                case "worker2" -> {
+                    startTurnAction(1, 0);
+                }
+                default -> {
+                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+                }
             }
         } catch (NullPointerException e) {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
