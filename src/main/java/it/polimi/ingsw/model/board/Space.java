@@ -53,11 +53,15 @@ public class Space {
         return y;
     }
 
+
     /**
-     * Set y value
+     * Method setY sets the y of this Space object.
      *
-     * @param y position
-     * @exception InvalidInputException input isn't between 0 and 4
+     *
+     *
+     * @param y the y of this Space object.
+     *
+     * @throws InvalidInputException when
      */
     public void setY(int y) throws InvalidInputException {
         if (y >= Constants.GRID_MIN_SIZE && y < Constants.GRID_MAX_SIZE) {

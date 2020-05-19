@@ -175,10 +175,15 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         if(action instanceof ChallengerPhaseAction) {
             if (server.getGameByID(clientID).isStarted()>3) {
                 server.getGameByID(clientID).singleSend(new GameError(ErrorsType.INVALIDINPUT, "Not in correct game phase to perform this command!"), clientID);
+                return;
             }
             server.getGameByID(clientID).makeAction(action, "ChallengerPhase");
         }
         else if(action instanceof WorkerSetupMessage) {
+            if (server.getGameByID(clientID).isStarted()>3) {
+                server.getGameByID(clientID).singleSend(new GameError(ErrorsType.INVALIDINPUT, "Not in correct game phase to perform this command!"), clientID);
+                return;
+            }
             server.getGameByID(clientID).makeAction(action, "WorkerPlacement");
         }
         else {

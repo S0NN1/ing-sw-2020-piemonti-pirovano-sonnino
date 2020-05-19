@@ -381,9 +381,9 @@ public class CLI implements UI, Runnable {
                         godDesc + "\n" +
                         nameMapColor.get(YELLOW) + "SET <row1> <column1> <row2> <column2>" + nameMapColor.get(RST) + ": set workers on specified cells" + "\n" +
                         nameMapColor.get(YELLOW) + "SELECTWORKER <1/2>" + nameMapColor.get(RST) + ": select which worker you wanna play" + "\n" +
-                        nameMapColor.get(YELLOW) + "MOVE (no arguments)" + nameMapColor.get(RST) + ": print your possible move actions, needed to be run before MOVE with arguments, except for the first command" + "\n" +
+                        nameMapColor.get(YELLOW) + "MOVE (no arguments)" + nameMapColor.get(RST) + ": print your possible move actions, except for the first command" + "\n" +
                         nameMapColor.get(YELLOW) + "MOVE <row> <column>" + nameMapColor.get(RST) + ": move worker to specified cell (if permitted)" + "\n" +
-                        nameMapColor.get(YELLOW) + "BUILD (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions, needed to be run before BUILD with arguments" + "\n" +
+                        nameMapColor.get(YELLOW) + "BUILD (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions" + "\n" +
                         nameMapColor.get(YELLOW) + "BUILD <row> <column>" + nameMapColor.get(RST) + ": build a block on specified cell (if permitted)" + "\n" +
                         nameMapColor.get(YELLOW) + "PLACEDOME (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions in order to place a dome [ATLAS ONLY]" + "\n" +
                         nameMapColor.get(YELLOW) + "PLACEDOME <row> <column>" + nameMapColor.get(RST) + ": build dome on specified cell (if permitted) [ATLAS ONLY]" + "\n" +
@@ -453,11 +453,16 @@ public class CLI implements UI, Runnable {
                     return;
                 } else {
                     output.println("Color not available!");
+                    score();
                 }
             } catch (IllegalArgumentException e) {
                 output.println("Invalid input! Please provide one of the accepted colors.");
             }
         }
+    }
+
+    private void score() {
+        output.print(">");
     }
 
     /**
@@ -473,7 +478,10 @@ public class CLI implements UI, Runnable {
             }
             case INVALIDINPUT -> {
                 if (error.getMessage() != null) {
-                    output.println(nameMapColor.get(RED) + error.getMessage() + nameMapColor.get("RST"));
+                    output.println(nameMapColor.get(RED) + error.getMessage() + nameMapColor.get(RST));
+                }
+                else {
+                    output.println(nameMapColor.get(RED) + "Input error, please try again!" + nameMapColor.get(RST));
                 }
                 modelView.setTurnActive(true);
             }
@@ -531,8 +539,18 @@ public class CLI implements UI, Runnable {
             req.getGodList().forEach(n -> output.print(n + ", "));
             output.println();
         } else {
-            if(req.getMessage().contains("Description") || req.getMessage().contains("been added")) {
+            if(req.getMessage().contains("ADDGOD") || req.getMessage().contains("Description") || req.getMessage().contains("been added")) {
                 output.println();
+            }
+            if(req.getMessage().contains("<god-name>")){
+                String temp[]=req.getMessage().split("\n");
+                for(int i=0; i<9; i++){
+                output.print(temp[i] + "\n");
+            }
+                output.println("\nSelect your god by typing" + nameMapColor.get(YELLOW) + " choose <god-name>" + nameMapColor.get(RST));
+                output.print(">");
+                modelView.activateInput();
+                return;
             }
             output.println(req.getMessage());
             output.print(">");
@@ -621,7 +639,7 @@ public class CLI implements UI, Runnable {
 
     public void selectWorker() {
         System.out.print("\r  • SELECTWORKER <1/2>\n");
-        System.out.print(">");
+        score();
     }
 
     public void printMenu(boolean move, boolean build, boolean end, String message) throws InterruptedException {
@@ -644,12 +662,12 @@ public class CLI implements UI, Runnable {
             if(message!=null){
                 output.println(message);
             }
-            System.out.print(">");
+            score();
 
            /* System.out.print("  • MOVE\n" +
                     "  • BUILD" + atlas + "\n" +
                     "  • END\n");
-            System.out.print(">");
+            score();
             */
         }
     }

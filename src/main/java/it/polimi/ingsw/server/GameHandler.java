@@ -187,8 +187,11 @@ public class GameHandler {
             case "WorkerPlacement" -> {
                 workerPlacement((WorkerSetupMessage) action);
             }
-            default ->{
+            case "turnController" ->{
                 controllerListener.firePropertyChange(type, null, action);
+            }
+            default -> {
+                singleSend(new GameError(ErrorsType.INVALIDINPUT), getCurrentPlayerID());
             }
         }
     }
@@ -215,6 +218,7 @@ public class GameHandler {
                 Thread.currentThread().interrupt();
             }
             controllerListener.firePropertyChange("turnController", null, new StartTurnAction());
+            started = 4;
             return;
         }
         List<int[]> spaces = new ArrayList<>();
@@ -247,7 +251,7 @@ public class GameHandler {
                     singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
                             ", please choose your god power from one of the list below.\n\n" + game.getDeck().
                             getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +
-                            "Select your god by typing CHOOSE " + "<god-name>:"), getCurrentPlayerID());
+                            "Select your god by typing   " + "<god-name>:"), getCurrentPlayerID());
                     sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() +
                             " is choosing his god power...", false), getCurrentPlayerID());
                     return;
@@ -288,7 +292,11 @@ public class GameHandler {
         ChallengerPhaseAction userAction = (ChallengerPhaseAction)action;
         String godSelection = "godSelection";
         if (started < 2 || started>3) {
-            if((userAction.action.equals("CHOOSE"))) {
+            if(userAction.startingPlayer!=null) {
+                singleSend(new GameError(ErrorsType.INVALIDINPUT), game.getCurrentPlayer().getClientID());
+                return;
+            }
+            else if(userAction.action.equals("CHOOSE")) {
                 singleSend(new ChallengerMessages(Constants.ANSI_RED + "Error: not in correct game phase for " +
                         "this command!" + Constants.ANSI_RESET), getCurrentPlayerID());
                 return;
@@ -304,6 +312,10 @@ public class GameHandler {
             }
         }
         else if (started == 2) {
+            if(userAction.startingPlayer!=null) {
+                singleSend(new GameError(ErrorsType.INVALIDINPUT), game.getCurrentPlayer().getClientID());
+                return;
+            }
             challengerPhaseChoose(userAction, godSelection);
         }
         else if(userAction.startingPlayer!=null) {

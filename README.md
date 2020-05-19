@@ -33,7 +33,7 @@ The final version must include:
 | Socket |[![GREEN](https://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/server) |
 | GUI | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 | CLI |[![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
-| Multiple games | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)|
+| Multiple games | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)|
 | Persistence | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Undo Function | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | 5 Advanced Gods | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |

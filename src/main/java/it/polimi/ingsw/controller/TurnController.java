@@ -86,7 +86,7 @@ public class TurnController implements PropertyChangeListener {
                     else if(actionController.getWorker().getPhase(actionController.phase)!=null &&
                             actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTBUILD)) {
                         gameHandler.singleSend(new ModifiedTurnMessage("You may choose to build (no args) again or" +
-                                "end your turn.", Action.SELECTBUILD), gameHandler.getCurrentPlayerID());
+                                " end your turn.", Action.SELECTBUILD), gameHandler.getCurrentPlayerID());
                     }
                 } else if (arg instanceof MoveAction) {
                     MoveAction worker_action = (MoveAction) arg;
@@ -107,7 +107,7 @@ public class TurnController implements PropertyChangeListener {
                         }
                         else if (actionController.getWorker().getPhase(actionController.phase)!=null &&
                                 actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
-                            endGame();
+                            endGame(); //TODO PHASE 0 ENDGAME FOR NO REASONS
                         }
                         else sendMoveError();
                     }
@@ -206,9 +206,7 @@ public class TurnController implements PropertyChangeListener {
             else loserColor = "green";
             gameHandler.sendAll(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname(), loserColor));
             int removeId = gameHandler.getCurrentPlayerID();
-            controller.getModel().nextPlayer();
-            gameHandler.unregisterPlayer(removeId);
-            gameHandler.getServer().unregisterClient(removeId);
+            gameHandler.getServer().getClientByID(removeId).getConnection().close();
             startTurn(new StartTurnAction());
         }
     }

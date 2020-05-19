@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Player;
 
@@ -52,6 +53,13 @@ public class Game {
      * @param player we want to remove from the match.
      */
     public void removePlayer(Player player) {
+        for (int i = Constants.GRID_MIN_SIZE; i <Constants.GRID_MAX_SIZE ; i++) {
+            for (int j = Constants.GRID_MIN_SIZE; j <Constants.GRID_MAX_SIZE ; j++) {
+                if(gameBoard.getSpace(i,j).getWorker()==player.getWorkers().get(0) || gameBoard.getSpace(i,j).getWorker()==player.getWorkers().get(1)){
+                    gameBoard.getSpace(i,j).setWorker(null);
+                }
+            }
+        }
         activePlayers.remove(player);
         if(!activePlayers.isEmpty()) {
             if(currentPlayerN==activePlayers.size()) currentPlayerN=0;
