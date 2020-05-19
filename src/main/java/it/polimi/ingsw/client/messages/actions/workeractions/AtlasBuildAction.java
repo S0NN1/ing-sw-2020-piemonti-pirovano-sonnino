@@ -1,6 +1,4 @@
-package it.polimi.ingsw.client.messages.actions.workerActions;
-
-import it.polimi.ingsw.client.messages.actions.workerActions.WorkerAction;
+package it.polimi.ingsw.client.messages.actions.workeractions;
 
 /**
  * @author Alice Piemonti

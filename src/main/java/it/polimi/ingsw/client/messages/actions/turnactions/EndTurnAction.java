@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.messages.actions.turnActions;
+package it.polimi.ingsw.client.messages.actions.turnactions;
 
 import it.polimi.ingsw.client.messages.actions.UserAction;
 

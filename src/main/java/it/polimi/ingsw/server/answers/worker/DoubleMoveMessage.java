@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.answers.worker;
 
 import it.polimi.ingsw.constants.Move;
-import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.server.answers.Answer;
 
 /**

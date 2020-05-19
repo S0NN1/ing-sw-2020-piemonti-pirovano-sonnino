@@ -3,7 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
-import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
+import it.polimi.ingsw.client.messages.actions.turnactions.StartTurnAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;

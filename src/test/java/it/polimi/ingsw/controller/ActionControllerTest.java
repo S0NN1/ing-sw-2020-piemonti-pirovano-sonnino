@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.messages.actions.workerActions.*;
+import it.polimi.ingsw.client.messages.actions.workeractions.*;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.PlayerColors;

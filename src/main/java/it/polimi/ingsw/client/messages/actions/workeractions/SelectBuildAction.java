@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.messages.actions.workerActions;
+package it.polimi.ingsw.client.messages.actions.workeractions;
 
 /**
  * @author Alice Piemonti

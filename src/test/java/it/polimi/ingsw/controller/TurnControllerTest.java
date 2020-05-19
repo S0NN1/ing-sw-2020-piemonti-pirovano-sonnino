@@ -1,11 +1,11 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.messages.actions.turnActions.EndTurnAction;
-import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
+import it.polimi.ingsw.client.messages.actions.turnactions.EndTurnAction;
+import it.polimi.ingsw.client.messages.actions.turnactions.StartTurnAction;
+import it.polimi.ingsw.client.messages.actions.workeractions.BuildAction;
+import it.polimi.ingsw.client.messages.actions.workeractions.MoveAction;
+import it.polimi.ingsw.client.messages.actions.workeractions.SelectBuildAction;
+import it.polimi.ingsw.client.messages.actions.workeractions.SelectMoveAction;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Player;
@@ -23,7 +23,6 @@ import org.junit.jupiter.api.*;
 import java.beans.PropertyChangeEvent;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.Map;
 
 public class TurnControllerTest {
     Prometheus prometheus = new Prometheus(PlayerColors.BLUE);
