@@ -498,12 +498,10 @@ public class CLI implements UI, Runnable {
                     modelView.setStarted(2);
                     return;
                 } else {
-                    output.println("Color not available!");
-                    greaterThan();
+                    printError(output, "Color not available!");
                 }
             } catch (IllegalArgumentException e) {
-                output.println("Invalid input! Please provide one of the accepted colors.");
-                greaterThan();
+                printError(output, "Invalid input! Please provide one of the accepted colors.");
             }
         }
     }
@@ -537,14 +535,17 @@ public class CLI implements UI, Runnable {
                 modelView.setTurnActive(true);
             }
             case WORKERBLOCKED -> {
-                System.err.println("Selected worker is blocked, select the other one!");
-                greaterThan();
+                printError(System.err, "Selected worker is blocked, select the other one!");
             }
             default -> {
-                output.println("Generic error!");
-                greaterThan();
+                printError(output, "Generic error!");
             }
         }
+    }
+
+    private void printError(PrintStream err, String s) {
+        err.println(s);
+        greaterThan();
     }
 
     /**
@@ -600,7 +601,7 @@ public class CLI implements UI, Runnable {
                 output.println();
             }
             if(req.getMessage().contains("<god-name>")){
-                String temp[]=req.getMessage().split("\n");
+                String[] temp=req.getMessage().split("\n");
                 for(int i=0; i<9; i++){
                 output.print(temp[i] + "\n");
             }
@@ -644,21 +645,13 @@ public class CLI implements UI, Runnable {
             case "noPossibleMoves" -> System.err.println("No possible moves!");
             case "modifiedTurnNoUpdate" -> output.println(((Answer)evt.getNewValue()).getMessage().toString());
             case "boardUpdate" -> {
-                if(evt.getOldValue().getClass().isArray()) {
-                    boolean[] checkers = ((boolean[]) evt.getOldValue());
-                    String message = getRightMessage(evt.getNewValue() == null, null, Objects.requireNonNull(evt.getNewValue()).toString());
-                    updateCli(checkers[0], checkers[1], checkers[2], message);
-                }
+                fireBoardUpdate(evt);
             }
             case "firstBoardUpdate" -> firstUpdateCli();
             case "selectWorker" -> selectWorker();
             case "end" -> end((String)evt.getNewValue());
             case "select" -> {
-                if (evt.getOldValue().getClass().isArray()) {
-                    boolean[] checkers = ((boolean[]) evt.getOldValue());
-                    String message = getRightMessage(evt.getNewValue() == null, null, Objects.requireNonNull(evt.getNewValue()).toString());
-                    printSpaces(checkers[0], checkers[1], checkers[2], message);
-                }
+                fireSelectSpaces(evt);
             }
             case "win" -> {
                 output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
@@ -672,6 +665,22 @@ public class CLI implements UI, Runnable {
             case "singleLost" -> System.err.println("All workers blocked, YOU LOSE!");
             case "otherLost" -> otherPlayerLost(evt);
             default -> output.println("Unrecognized answer");
+        }
+    }
+
+    private void fireSelectSpaces(PropertyChangeEvent evt) {
+        if (evt.getOldValue().getClass().isArray()) {
+            boolean[] checkers = ((boolean[]) evt.getOldValue());
+            String message = getRightMessage(evt.getNewValue() == null, null, Objects.requireNonNull(evt.getNewValue()).toString());
+            printSpaces(checkers[0], checkers[1], checkers[2], message);
+        }
+    }
+
+    private void fireBoardUpdate(PropertyChangeEvent evt) {
+        if(evt.getOldValue().getClass().isArray()) {
+            boolean[] checkers = ((boolean[]) evt.getOldValue());
+            String message = getRightMessage(evt.getNewValue() == null, null, Objects.requireNonNull(evt.getNewValue()).toString());
+            updateCli(checkers[0], checkers[1], checkers[2], message);
         }
     }
 

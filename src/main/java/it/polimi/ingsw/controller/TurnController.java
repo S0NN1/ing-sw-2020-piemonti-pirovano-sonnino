@@ -81,24 +81,10 @@ public class TurnController implements PropertyChangeListener {
                     startTurn(start_action);
                 } else if (arg instanceof BuildAction) {
                     BuildAction worker_action = (BuildAction) arg;
-                    if (!actionController.readMessage(worker_action)) {
-                        sendBuildError();
-                    }
-                    else if(actionController.getWorker().getPhase(actionController.phase)!=null &&
-                            actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTBUILD)) {
-                        gameHandler.singleSend(new ModifiedTurnMessage("You may choose to build (no args) again or" +
-                                " end your turn.", Action.SELECTBUILD), gameHandler.getCurrentPlayerID());
-                    }
+                    checkBuildAction(worker_action);
                 } else if (arg instanceof MoveAction) {
                     MoveAction worker_action = (MoveAction) arg;
-                    if (!actionController.readMessage(worker_action)) {
-                        sendMoveError();
-                    }
-                    else if(actionController.getWorker().getPhase(actionController.phase)!=null &&
-                            actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTMOVE)) {
-                        gameHandler.singleSend(new ModifiedTurnMessage("You may choose to move (no args) again or" +
-                                " build (no args).", Action.SELECTMOVE), gameHandler.getCurrentPlayerID());
-                    }
+                    checkMoveAction(worker_action);
                 } else if (arg instanceof SelectMoveAction) {
                     SelectMoveAction worker_action = (SelectMoveAction) arg;
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
@@ -128,6 +114,34 @@ public class TurnController implements PropertyChangeListener {
                 }
             }
         }
+    }
+
+    private void checkMoveAction(MoveAction worker_action) {
+        if (!actionController.readMessage(worker_action)) {
+            sendMoveError();
+        }
+        else if(isPhaseRight(Action.SELECTMOVE)) {
+            sendModifiedTurnMessage("You may choose to move (no args) again or", " build (no args).", Action.SELECTMOVE);
+        }
+    }
+
+    private void checkBuildAction(BuildAction worker_action) {
+        if (!actionController.readMessage(worker_action)) {
+            sendBuildError();
+        }
+        else if(isPhaseRight(Action.SELECTBUILD)) {
+            sendModifiedTurnMessage("You may choose to build (no args) again or", " end your turn.", Action.SELECTBUILD);
+        }
+    }
+
+    private void sendModifiedTurnMessage(String s, String s2, Action selectbuild) {
+        gameHandler.singleSend(new ModifiedTurnMessage(s +
+                s2, selectbuild), gameHandler.getCurrentPlayerID());
+    }
+
+    private boolean isPhaseRight(Action selectmove) {
+        return actionController.getWorker().getPhase(actionController.phase) != null &&
+                actionController.getWorker().getPhase(actionController.phase).getAction().equals(selectmove);
     }
 
     private void setMoveUp(int i, boolean b) {
@@ -194,9 +208,7 @@ public class TurnController implements PropertyChangeListener {
                 case "worker2" -> {
                     startTurnAction(1, 0);
                 }
-                default -> {
-                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
-                }
+                default -> gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
             }
         } catch (NullPointerException e) {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
