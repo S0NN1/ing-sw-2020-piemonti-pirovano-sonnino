@@ -171,15 +171,9 @@ public class TurnController implements PropertyChangeListener {
     public void startTurn(StartTurnAction arg) {
         try {
             switch (arg.option) {
-                case "start" -> {
-                    gameHandler.singleSend(new WorkersRequestMessage(), gameHandler.getCurrentPlayerID());
-                }
-                case "worker1" -> {
-                    startTurnAction(0, 1);
-                }
-                case "worker2" -> {
-                    startTurnAction(1, 0);
-                }
+                case "start" -> gameHandler.singleSend(new WorkersRequestMessage(), gameHandler.getCurrentPlayerID());
+                case "worker1" -> startTurnAction(0, 1);
+                case "worker2" -> startTurnAction(1, 0);
                 default -> gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
             }
         } catch (NullPointerException e) {

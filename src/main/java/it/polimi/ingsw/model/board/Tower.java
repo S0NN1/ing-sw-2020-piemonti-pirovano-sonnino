@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 
-public class Tower {
+public class    Tower {
     private int height;
     private boolean dome;
 

@@ -453,15 +453,16 @@ public class CLI implements UI, Runnable {
                     return;
                 } else {
                     output.println("Color not available!");
-                    score();
+                    greaterThan();
                 }
             } catch (IllegalArgumentException e) {
                 output.println("Invalid input! Please provide one of the accepted colors.");
+                greaterThan();
             }
         }
     }
 
-    private void score() {
+    private void greaterThan() {
         output.print(">");
     }
 
@@ -475,18 +476,28 @@ public class CLI implements UI, Runnable {
             case CELLOCCUPIED -> {
                 output.println(nameMapColor.get(RED) + "The following cells are already occupied, please choose them again." + nameMapColor.get("RST"));
                 error.getCoordinates().forEach(n -> output.print(nameMapColor.get(RED) + Arrays.toString(n) + ", " + nameMapColor.get("RST")));
+                output.println();
+                greaterThan();
             }
             case INVALIDINPUT -> {
                 if (error.getMessage() != null) {
                     output.println(nameMapColor.get(RED) + error.getMessage() + nameMapColor.get(RST));
+                    greaterThan();
                 }
                 else {
                     output.println(nameMapColor.get(RED) + "Input error, please try again!" + nameMapColor.get(RST));
+                    greaterThan();
                 }
                 modelView.setTurnActive(true);
             }
-            case WORKERBLOCKED -> System.err.println("Selected worker is blocked, select the other one!");
-            default -> output.println("Generic error!");
+            case WORKERBLOCKED -> {
+                System.err.println("Selected worker is blocked, select the other one!");
+                greaterThan();
+            }
+            default -> {
+                output.println("Generic error!");
+                greaterThan();
+            }
         }
     }
 
@@ -548,12 +559,12 @@ public class CLI implements UI, Runnable {
                 output.print(temp[i] + "\n");
             }
                 output.println("\nSelect your god by typing" + nameMapColor.get(YELLOW) + " choose <god-name>" + nameMapColor.get(RST));
-                output.print(">");
+                greaterThan();
                 modelView.activateInput();
                 return;
             }
             output.println(req.getMessage());
-            output.print(">");
+            greaterThan();
         }
         modelView.activateInput();
         if (modelView.getStarted() < 3) modelView.setStarted(3);
@@ -639,7 +650,7 @@ public class CLI implements UI, Runnable {
 
     public void selectWorker() {
         System.out.print("\r  • SELECTWORKER <1/2>\n");
-        score();
+        greaterThan();
     }
 
     public void printMenu(boolean move, boolean build, boolean end, String message) throws InterruptedException {
@@ -662,13 +673,7 @@ public class CLI implements UI, Runnable {
             if(message!=null){
                 output.println(message);
             }
-            score();
-
-           /* System.out.print("  • MOVE\n" +
-                    "  • BUILD" + atlas + "\n" +
-                    "  • END\n");
-            score();
-            */
+            greaterThan();
         }
     }
 
@@ -705,6 +710,14 @@ public class CLI implements UI, Runnable {
         }
     }
 
+    /**
+     * Method printSpaces ...
+     *
+     * @param move of type boolean
+     * @param build of type boolean
+     * @param end of type boolean
+     * @param message of type String
+     */
     public void printSpaces(boolean move, boolean build, boolean end, String message) {
         updateCli(move, build, end, message);
         for (int i = 0; i < modelView.getSelectSpaces().size(); i++) {
