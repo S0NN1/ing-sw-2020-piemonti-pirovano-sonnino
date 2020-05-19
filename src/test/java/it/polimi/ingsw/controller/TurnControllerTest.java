@@ -101,7 +101,7 @@ public class TurnControllerTest {
 
     @Test
     public void endTurnActionTest(){
-        actionControllerStub.phase=5;
+        actionControllerStub.setPhase(5);
         turnController.propertyChange(evt4);
     }
 
@@ -113,7 +113,7 @@ public class TurnControllerTest {
         turnController.propertyChange(evt3);
         controllerStub.getModel().getCurrentPlayer().getWorkers().get(0).setBlocked(false);
         turnController.propertyChange(evt3);
-        actionControllerStub.phase=1;
+        actionControllerStub.setPhase(1);
         turnController.propertyChange(evt2);
     }
     @Test
@@ -125,10 +125,15 @@ public class TurnControllerTest {
     @Test
     @DisplayName("Testing all actions")
     public void actionsTest() {
-        actionControllerStub.phase=0;
-        controllerStub.getModel().setCurrentPlayer(piro);
-        game.setCurrentPlayer(piro);
+        actionControllerStub.setPhase(2);
+        game.setCurrentPlayer(ali);
         controllerStub.getModel().setCurrentPlayer(ali);
+        game.getCurrentPlayer().getWorkers().get(0).setBlocked(false);
+        game.getCurrentPlayer().getWorkers().get(1).setBlocked(false);
+        actionControllerStub.setWorker(ali.getWorkers().get(0));
+        turnController.propertyChange(evt5);
+        actionControllerStub.setPhase(2);
+        actionControllerStub.getWorker().setBlocked(true);
         turnController.propertyChange(evt5);
         turnController.propertyChange(evt6);
         turnController.propertyChange(evt7);
@@ -147,7 +152,14 @@ public class TurnControllerTest {
             System.out.println(" Entered endAction ");
         }
 
-
+        @Override
+        public void sendBuildError() {
+            System.out.println("Build error");
+        }
+        @Override
+        public void sendMoveError() {
+            System.out.println("Move error");
+        }
     }
 
 
@@ -156,13 +168,27 @@ public class TurnControllerTest {
     }
 
     public class ActionControllerStub extends ActionController {
+        private Worker worker;
+
         public ActionControllerStub(GameBoard gameBoard) {
             super(gameBoard);
             phase = 0;
+            worker = null;
         }
 
-        public void setAction(Action action){
+        @Override
+        public Worker getWorker() {
+            return worker;
+        }
 
+        public void setPhase(int phase){
+            if(phase<0){
+                this.phase= Integer.parseInt(null);
+            }
+            else this.phase = phase;
+        }
+        public void setWorker(Worker worker){
+            this.worker=worker;
         }
 
         @Override
