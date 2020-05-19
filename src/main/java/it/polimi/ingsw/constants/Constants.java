@@ -11,6 +11,9 @@ import java.util.List;
  */
 public class Constants {
 
+    /**
+     * Constructor Constants creates a new Constants instance.
+     */
     private Constants() {}
 
     //match constants
@@ -50,7 +53,7 @@ public class Constants {
             "        \\::/    /                \\::/    /                \\::/    /                                      ~~                      \\:|   |                  \\::/    /                \\::/    /                \\::/    /        \n" +
             "         \\/____/                  \\/____/                  \\/____/                                                                \\|___|                   \\/____/                  \\/____/                  \\/____/         \n" +
             "                                                                                                                                                                                                                             \n";
-    public static final String authors = "  _                   _ _                  _                            _   _     _                         _                                          _           _       _                         _             \n" +
+    public static final String AUTHORS = "  _                   _ _                  _                            _   _     _                         _                                          _           _       _                         _             \n" +
           " | |                 | (_)                (_)                          | | (_)   | |                       (_)                                        (_)         | |     ( )                       (_)            \n" +
           " | |__  _   _    __ _| |_  ___ ___   _ __  _  ___ _ __ ___   ___  _ __ | |_ _    | |_   _  ___ __ _   _ __  _ _ __ _____   ____ _ _ __   ___     _ __  _  ___ ___ | | ___ |/   ___  ___  _ __  _ __  _ _ __   ___  \n" +
           " | '_ \\| | | |  / _` | | |/ __/ _ \\ | '_ \\| |/ _ \\ '_ ` _ \\ / _ \\| '_ \\| __| |   | | | | |/ __/ _` | | '_ \\| | '__/ _ \\ \\ / / _` | '_ \\ / _ \\   | '_ \\| |/ __/ _ \\| |/ _ \\    / __|/ _ \\| '_ \\| '_ \\| | '_ \\ / _ \\ \n" +
@@ -59,7 +62,7 @@ public class Constants {
           "         __/ |                      | |                                      |/                      | |                                    |/                                                                     \n" +
           "        |___/                       |_|                                                              |_|                                                                                                         ";
 
-    public static final String rules="\nView full rules here: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf";
+    public static final String RULES ="\nView full rules here: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf";
     //server constants
     public static final String ADDRESS = "127.0.0.1";
     public static final int PORT = 2500;
@@ -69,6 +72,13 @@ public class Constants {
 
     private static final List<String> DOUBLE_MOVE_GODS = new ArrayList<>();
 
+    /**
+     * Method getDoubleMoveGods returns the doubleMoveGods of this Constants object.
+     *
+     *
+     *
+     * @return the doubleMoveGods (type List<String>) of this Constants object.
+     */
     public static List<String> getDoubleMoveGods() {
         DOUBLE_MOVE_GODS.add("ARTEMIS");
         return DOUBLE_MOVE_GODS;
@@ -76,6 +86,13 @@ public class Constants {
 
     private static final List<String> ALTERNATE_PHASE_GODS = new ArrayList<>();
 
+    /**
+     * Method getAlternatePhaseGods returns the alternatePhaseGods of this Constants object.
+     *
+     *
+     *
+     * @return the alternatePhaseGods (type List<String>) of this Constants object.
+     */
     public static List<String> getAlternatePhaseGods() {
         ALTERNATE_PHASE_GODS.add("PROMETHEUS");
         return ALTERNATE_PHASE_GODS;
@@ -83,6 +100,13 @@ public class Constants {
 
     private static final List<String> DOUBLE_BUILD_GODS = new ArrayList<>();
 
+    /**
+     * Method getDoubleBuildGods returns the doubleBuildGods of this Constants object.
+     *
+     *
+     *
+     * @return the doubleBuildGods (type List<String>) of this Constants object.
+     */
     public static List<String> getDoubleBuildGods() {
         DOUBLE_BUILD_GODS.add("DEMETER");
         DOUBLE_BUILD_GODS.add("HEPHAESTUS");

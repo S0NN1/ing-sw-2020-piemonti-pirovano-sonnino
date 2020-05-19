@@ -165,7 +165,7 @@ public class ActionHandler {
         modelView.setTurnPhase(0);
         modelView.setActiveWorker(0);
         modelView.deactivateInput();
-        view.firePropertyChange("firstBoardUpdate", null, null);
+        view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
         view.firePropertyChange("end", null, answer.getMessage());
     }
 

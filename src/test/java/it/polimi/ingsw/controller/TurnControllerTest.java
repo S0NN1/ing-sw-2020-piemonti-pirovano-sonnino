@@ -122,8 +122,8 @@ public class TurnControllerTest {
     @Test
     @DisplayName("Testing Athena moves")
     public void AthenaMovesTest(){
-        Assertions.assertEquals(evt9.getNewValue(), "AthenaMovedUp");
-        Assertions.assertEquals(evt10.getNewValue(), "AthenaNormalMove");
+        Assertions.assertEquals("AthenaMovedUp", evt9.getNewValue());
+        Assertions.assertEquals("AthenaNormalMove", evt10.getNewValue());
         turnController.propertyChange(evt9);
         turnController.propertyChange(evt10);
     }

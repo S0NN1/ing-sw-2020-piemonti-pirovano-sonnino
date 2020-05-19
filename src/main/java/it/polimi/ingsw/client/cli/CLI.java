@@ -40,6 +40,9 @@ public class CLI implements UI, Runnable {
     private boolean activeGame;
     private ConnectionSocket connection;
 
+    /**
+     * Constructor CLI creates a new CLI instance.
+     */
     public CLI() {
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
@@ -70,12 +73,15 @@ public class CLI implements UI, Runnable {
      */
     public static void main(String[] args) {
         System.out.println(Constants.SANTORINI);
-        System.out.println(Constants.authors);
-        System.out.println(Constants.rules+ "\n");
+        System.out.println(Constants.AUTHORS);
+        System.out.println(Constants.RULES + "\n");
         CLI cli = new CLI();
         cli.run();
     }
 
+    /**
+     * Method clearScreen flushes terminal's screen
+     */
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -134,10 +140,20 @@ public class CLI implements UI, Runnable {
         observers.firePropertyChange("action", null, cmd);
     }
 
+    /**
+     * Method isActiveGame returns the activeGame of this CLI object.
+     *
+     *
+     *
+     * @return the activeGame (type boolean) of this CLI object.
+     */
     public synchronized boolean isActiveGame() {
         return activeGame;
     }
 
+    /**
+     * Method run loops waiting for a message
+     */
     @Override
     public void run() {
         setup();
@@ -184,6 +200,14 @@ public class CLI implements UI, Runnable {
         }
     }
 
+    /**
+     * Method generateTypeOfLevel ...
+     *
+     * @param i of type int counter
+     * @param j of type int counter
+     * @param level of type int indicates the level to print
+     * @return String[] grid's level row
+     */
     private String[] generateTypeOfLevel(int i, int j, int level) {
         String[] rows;
         if (!modelView.getBoard().getGrid()[i][j].isDome()) {
@@ -199,6 +223,13 @@ public class CLI implements UI, Runnable {
         return rows;
     }
 
+    /**
+     * Method generateRows splits levels array into multiple Strings
+     *
+     * @param level of type int indicates level
+     * @param levels of type String[] represents all possible levels printable
+     * @return String[] rows generated
+     */
     private String[] generateRows(int level, String[] levels) {
         String[] rows;
         rows = levels[level].split("\n");
@@ -240,20 +271,13 @@ public class CLI implements UI, Runnable {
         if (level == 3) {
             for (int i = 0; i <= 2; i++) {
                 int j;
-                if (i == 0 || i == 2) {
-                    j = -1;
-                } else {
-                    j = 3;
-                }
+                j = getRightIndex(i == 0 || i == 2, -1, 3);
                 HashMap<Integer, String[]> stringMap = createStringMap(temp, player);
                 int[] counters = new int[]{i,j};
                 insertPlayer(color, rows, cellInfos, stringMap, indexes, backgroundColor, counters);
             }
         } else {
-            int j;
-            if (level == 2) {
-                j = 2;
-            } else j = 0;
+            int j = getRightIndex(level == 2, 2, 0);
             for (int i = 0; i <= 2; i++) {
                 HashMap<Integer, String[]> stringMap = createStringMap(temp, player);
                 int[] counters = new int[]{i,j};
@@ -262,6 +286,31 @@ public class CLI implements UI, Runnable {
         }
     }
 
+    /**
+     * Method getRightIndex gets right index in order to print levels on the grid
+     *
+     * @param b of type boolean  defines the two cases
+     * @param i2 of type int first type of counter
+     * @param i3 of type int second type of counters
+     * @return int counter
+     */
+    private int getRightIndex(boolean b, int i2, int i3) {
+        int j;
+        if (b) {
+            j = i2;
+        } else {
+            j = i3;
+        }
+        return j;
+    }
+
+    /**
+     * Method createStringMap encapsulates player and temp arrays used for addWorkerToCell method for complaints reasons
+     *
+     * @param temp of type String[] temporary cell's rows in which player is inserted
+     * @param player of type String[] needed to be inserted
+     * @return HashMap<Integer, String [ ]>
+     */
     private HashMap<Integer, String[]> createStringMap(String[] temp, String[] player) {
         HashMap<Integer, String[]> stringMap = new HashMap<>();
         stringMap.put(0, player);
@@ -597,11 +646,7 @@ public class CLI implements UI, Runnable {
             case "boardUpdate" -> {
                 if(evt.getOldValue().getClass().isArray()) {
                     boolean[] checkers = ((boolean[]) evt.getOldValue());
-                    String message;
-                    if(evt.getNewValue()==null){
-                        message=null;
-                    }
-                    else message = evt.getNewValue().toString();
+                    String message = getRightMessage(evt.getNewValue() == null, null, Objects.requireNonNull(evt.getNewValue()).toString());
                     updateCli(checkers[0], checkers[1], checkers[2], message);
                 }
             }
@@ -611,11 +656,7 @@ public class CLI implements UI, Runnable {
             case "select" -> {
                 if (evt.getOldValue().getClass().isArray()) {
                     boolean[] checkers = ((boolean[]) evt.getOldValue());
-                    String message;
-                    if(evt.getNewValue()==null){
-                        message=null;
-                    }
-                    else message = evt.getNewValue().toString();
+                    String message = getRightMessage(evt.getNewValue() == null, null, Objects.requireNonNull(evt.getNewValue()).toString());
                     printSpaces(checkers[0], checkers[1], checkers[2], message);
                 }
             }
@@ -632,6 +673,14 @@ public class CLI implements UI, Runnable {
             case "otherLost" -> otherPlayerLost(evt);
             default -> output.println("Unrecognized answer");
         }
+    }
+
+    private String getRightMessage(boolean b, String o, String s) {
+        String message;
+        if (b) {
+            message = o;
+        } else message = s;
+        return message;
     }
 
 

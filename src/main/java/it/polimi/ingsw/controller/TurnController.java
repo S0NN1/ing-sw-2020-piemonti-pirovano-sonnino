@@ -43,6 +43,13 @@ public class TurnController implements PropertyChangeListener {
     private final GameHandler gameHandler;
 
 
+    /**
+     * Constructor TurnController creates a new TurnController instance.
+     *
+     * @param controller of type Controller
+     * @param gameHandler of type GameHandler
+     * @param actionController of type ActionController
+     */
     public TurnController(Controller controller, GameHandler gameHandler, ActionController actionController) {
         this.controller = controller;
         this.gameHandler = gameHandler;
@@ -58,18 +65,12 @@ public class TurnController implements PropertyChangeListener {
         int i = 0;
         if (evt.getNewValue().equals("AthenaMovedUp")) {
             while (i < controller.getModel().getActivePlayers().size()) {
-                if (!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))) {
-                    controller.getModel().getActivePlayers().get(i).getWorkers().get(0).setCanMoveUp(false);
-                    controller.getModel().getActivePlayers().get(i).getWorkers().get(1).setCanMoveUp(false);
-                }
+                setMoveUp(i, false);
                 i++;
             }
         } else if (evt.getNewValue().equals("AthenaNormalMove")) {
             while (i < controller.getModel().getActivePlayers().size()) {
-                if (!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))) {
-                    controller.getModel().getActivePlayers().get(i).getWorkers().get(0).setCanMoveUp(true);
-                    controller.getModel().getActivePlayers().get(i).getWorkers().get(1).setCanMoveUp(true);
-                }
+                setMoveUp(i, true);
                 i++;
             }
         } else {
@@ -129,11 +130,24 @@ public class TurnController implements PropertyChangeListener {
         }
     }
 
+    private void setMoveUp(int i, boolean b) {
+        if (!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))) {
+            controller.getModel().getActivePlayers().get(i).getWorkers().get(0).setCanMoveUp(b);
+            controller.getModel().getActivePlayers().get(i).getWorkers().get(1).setCanMoveUp(b);
+        }
+    }
+
+    /**
+     * Method sendMoveError sends move error message
+     */
     public void sendMoveError() {
         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't move right now!"),
                 gameHandler.getCurrentPlayerID());
     }
 
+    /**
+     * Method sendBuildError sends build error message
+     */
     public void sendBuildError() {
         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't build right now!"),
                 gameHandler.getCurrentPlayerID());
