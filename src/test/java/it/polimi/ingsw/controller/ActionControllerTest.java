@@ -61,15 +61,15 @@ class ActionControllerTest {
         actionController.startAction(worker);
         SelectBuildAction message = new SelectBuildAction();
 
-        //test wrong behaviour: message on wrong phase
+        //test wrong behavior: message on wrong phase
         assertFalse(actionController.readMessage(message), "1");
 
-       //test correct behaviour: right message on the right phase
-        actionController.setPhase(2);
+       //test correct behavior: right message on the right phase
+        actionController.setPhase(4);
         assertTrue(actionController.readMessage(message),"2");
         assertEquals(worker.getPhase(actionController.getPhase()).getAction(), Action.BUILD ,"3");
 
-       //test wrong behaviour: message when turn should be ended
+       //test wrong behavior: message when turn should be ended
         actionController.setPhase(7);
         assertFalse(actionController.readMessage(message), "4");
     }
@@ -80,31 +80,33 @@ class ActionControllerTest {
     @Test
     @DisplayName("move action test")
     void moveActionTest(){
-        worker = new Minotaur(PlayerColors.BLUE);
+        worker = new Prometheus(PlayerColors.BLUE);
         worker.setPosition(gameBoard.getSpace(4,3));
         actionController.startAction(worker);
         MoveAction messageWrong = new MoveAction(2,3);
         MoveAction messageRight = new MoveAction(4,2);
 
-        //test wrong behaviour: message on wrong phase
+        //test wrong behavior: message on wrong phase
         assertFalse(actionController.readMessage(messageRight),"1");
 
-        //test wrong behaviour: wrong message on right phase
-        actionController.setPhase(1);
+        //test wrong behavior: wrong message on right phase
+        actionController.setPhase(3); //phase move for Prometheus
         assertFalse(actionController.readMessage(messageWrong),"5");
         assertEquals(worker.getPosition(),gameBoard.getSpace(4,3),"6");
-        assertEquals(1,actionController.getPhase(),"7");
+        assertEquals(3,actionController.getPhase(),"7");
 
-        //test right behaviour: right message on right phase (space where to move is empty -> normal move)
+        //test right behavior: right message on right phase (space where to move is empty -> normal move)
         assertTrue(actionController.readMessage(messageRight),"2");
         assertEquals(gameBoard.getSpace(4,2), worker.getPosition(),"3");
-        assertEquals(2, actionController.getPhase(),"4");
+        assertEquals(4, actionController.getPhase(),"4");
 
-        //test right behaviour: right message n right phase (space where to move in not empty ->
+        //test right behavior: right message on right phase (space where to move in not empty ->
         // Minotaur's powered move)
-        actionController.setPhase(1);
+        worker = new Minotaur(PlayerColors.BLUE);
         worker.setPosition(gameBoard.getSpace(4,3));
         gameBoard.getSpace(4,2).setWorker(new Minotaur(PlayerColors.RED));
+        actionController.startAction(worker);
+        actionController.setPhase(1);
         assertTrue(actionController.readMessage(messageRight),"8");
         assertEquals(gameBoard.getSpace(4,2), worker.getPosition(),"9");
         assertFalse(gameBoard.getSpace(4,1).isEmpty(),"10");
@@ -151,7 +153,7 @@ class ActionControllerTest {
     @Test
     @DisplayName("test normal sequence of actions")
     void sequenceActionsTest(){
-        worker = new WorkerForTest(PlayerColors.RED);
+        worker = new Prometheus(PlayerColors.RED);
         worker.setPosition(gameBoard.getSpace(2,4));
         actionController.startAction(worker);
         SelectMoveAction message1 = new SelectMoveAction();

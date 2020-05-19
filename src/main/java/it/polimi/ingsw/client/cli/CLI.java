@@ -8,10 +8,7 @@ import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.model.player.PlayerColors;
-import it.polimi.ingsw.server.answers.ChallengerMessages;
-import it.polimi.ingsw.server.answers.GameError;
-import it.polimi.ingsw.server.answers.ColorMessage;
-import it.polimi.ingsw.server.answers.RequestPlayersNumber;
+import it.polimi.ingsw.server.answers.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
@@ -381,9 +378,9 @@ public class CLI implements UI, Runnable {
                         godDesc + "\n" +
                         nameMapColor.get(YELLOW) + "SET <row1> <column1> <row2> <column2>" + nameMapColor.get(RST) + ": set workers on specified cells" + "\n" +
                         nameMapColor.get(YELLOW) + "SELECTWORKER <1/2>" + nameMapColor.get(RST) + ": select which worker you wanna play" + "\n" +
-                        nameMapColor.get(YELLOW) + "MOVE (no arguments)" + nameMapColor.get(RST) + ": print your possible move actions, needed to be run before MOVE with arguments, except for the first command" + "\n" +
+                        nameMapColor.get(YELLOW) + "MOVE (no arguments)" + nameMapColor.get(RST) + ": print your possible move actions, except for the first command" + "\n" +
                         nameMapColor.get(YELLOW) + "MOVE <row> <column>" + nameMapColor.get(RST) + ": move worker to specified cell (if permitted)" + "\n" +
-                        nameMapColor.get(YELLOW) + "BUILD (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions, needed to be run before BUILD with arguments" + "\n" +
+                        nameMapColor.get(YELLOW) + "BUILD (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions" + "\n" +
                         nameMapColor.get(YELLOW) + "BUILD <row> <column>" + nameMapColor.get(RST) + ": build a block on specified cell (if permitted)" + "\n" +
                         nameMapColor.get(YELLOW) + "PLACEDOME (no arguments)" + nameMapColor.get(RST) + ": print your possible build actions in order to place a dome [ATLAS ONLY]" + "\n" +
                         nameMapColor.get(YELLOW) + "PLACEDOME <row> <column>" + nameMapColor.get(RST) + ": build dome on specified cell (if permitted) [ATLAS ONLY]" + "\n" +
@@ -596,6 +593,7 @@ public class CLI implements UI, Runnable {
                 System.exit(0);
             }
             case "noPossibleMoves" -> System.err.println("No possible moves!");
+            case "modifiedTurnNoUpdate" -> output.println(((Answer)evt.getNewValue()).getMessage().toString());
             case "boardUpdate" -> {
                 if(evt.getOldValue().getClass().isArray()) {
                     boolean[] checkers = ((boolean[]) evt.getOldValue());
