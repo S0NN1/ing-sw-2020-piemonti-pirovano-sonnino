@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 /**
  * Creates a socket that accept connections from clients, and creates a thread containing them.
  * @author Luca Pirovano
+ * @version 1.0.0
  */
 public class SocketServer implements Runnable{
     private final int port;

@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  * It handles a connection between client and server, permitting sending and receiving messages and doing other
  * class-useful operations too.
  * @author Luca Pirovano
+ * @version 1.0.1
  */
 public class SocketClientConnection implements ClientConnection, Runnable {
     private final Socket socket;
