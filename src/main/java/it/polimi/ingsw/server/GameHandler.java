@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  * This class handles a single match, instantiating a game mode (Game class) and a main controller (Controller class).
  * It also manages the startup phase, like the marker's color selection.
  * @author Luca Pirovano
+ * @version 2.0.0
  */
 public class GameHandler {
     private final Server server;
@@ -35,7 +36,6 @@ public class GameHandler {
     private final Logger logger = Logger.getLogger(getClass().getName());
     private final Random rnd = new Random();
     private static final String PLAYER = "Player";
-
 
     public GameHandler(Server server) {
         this.server = server;
@@ -173,9 +173,11 @@ public class GameHandler {
     /**
      * Handles an action received from a single client. It makes several instance checks. It's based on the value of
      * "started", which represents the current game phase, in this order:
-     *  - 0: challenger phase;
-     *  - 1: players select their god powers;
-     *  - 2: the game has started.
+     *  - 0: color phase
+     *  - 1: challenger phase;
+     *  - 2: players select their god powers;
+     *  - 3: board worker placement;
+     *  - 4: the game has started.
      * @param action the action sent by the client.
      */
     public void makeAction(UserAction action, String type) {
@@ -232,6 +234,8 @@ public class GameHandler {
 
     /**
      * Handles the second game phase: the user chooses his god card.
+     * If he is in the wrong turn phase (checked by the "started" int value) an error message in created and sent to the
+     * client, who is requested to send another command.
      * @param userAction the action of the current player.
      * @param godSelection the selection of the god card.
      */
@@ -278,7 +282,8 @@ public class GameHandler {
     }
 
     /**
-     * Handles the challenger gamephase (based on the listener message)
+     * Handles the challenger game phase (based on the listener message). It triggers the correct method relying on
+     * the started value.
      * @param action the action to be performed
      */
     public void challengerPhase(UserAction action) {

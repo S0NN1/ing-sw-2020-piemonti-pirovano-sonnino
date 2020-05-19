@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * This class is the main one of the server side. The server allows clients to connect and play together.
  * It also starts the match.
  * @author Luca Pirovano
- * @version 1.0.0
+ * @version 1.3.0
  */
 public class Server {
     private final SocketServer socketServer;
