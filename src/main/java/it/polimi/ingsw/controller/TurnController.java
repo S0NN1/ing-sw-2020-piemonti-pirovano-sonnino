@@ -155,7 +155,7 @@ public class TurnController implements PropertyChangeListener {
      * Method sendMoveError sends move error message
      */
     public void sendMoveError() {
-        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't move right now!"),
+        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Move not allowed!"),
                 gameHandler.getCurrentPlayerID());
     }
 
@@ -163,7 +163,7 @@ public class TurnController implements PropertyChangeListener {
      * Method sendBuildError sends build error message
      */
     public void sendBuildError() {
-        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't build right now!"),
+        gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Build not allowed!"),
                 gameHandler.getCurrentPlayerID());
     }
 
