@@ -3,8 +3,9 @@ package it.polimi.ingsw.client.messages;
 import java.io.Serializable;
 
 /**
- * This interface represents a message type which is sent to the server. It's implemented by several message types,
- * relying on the situation.
+ * Class Message defines an interface representing a message type which is sent by teh client to the server.
+ It triggers a particular server action based on the type of the message.
  * @author Luca Pirovano
+ * @see Serializable
  */
 public interface Message extends Serializable {}

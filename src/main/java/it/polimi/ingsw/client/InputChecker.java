@@ -16,6 +16,7 @@ import java.util.Objects;
  * Check the correctness of the input received from the ActionParser, returning either true or false after his check.
  *
  * @author Luca Pirovano, Nicolò Sonnino
+ * @version 2.0.0
  */
 public class InputChecker {
     public static final String ERR_NONEXISTENT_UNREACHABLE = "Non-existent or unreachable cell, operation not permitted!";
