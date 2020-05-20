@@ -54,13 +54,13 @@ public class MainGuiController implements GUIController{
         colors.put(Constants.ANSI_CYAN, Color.CYAN);
     }
 
+    public void showActions() {
+        buttonMove.setVisible(true);
+        buttonBuild.setVisible(true);
+        getActionsLabel().setText("Select Action:");
+        EventHandler<MouseEvent> buttonClicked = mouseEvent -> gui.getObservers().firePropertyChange("action", null, mouseEvent.getButton().name());
+    }
 
-    EventHandler<MouseEvent> buttonClicked = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent mouseEvent) {
-            gui.getObservers().firePropertyChange("action", null, mouseEvent.getButton().name());
-        }
-    };
     /*public void testDragAndDrop(){
         Button button = new Button("dragMe");
         grid.add(button, 4,0);
@@ -221,35 +221,53 @@ public class MainGuiController implements GUIController{
         grid.add(worker2, newCol2, newRow2);
     }
 
-    public void highlightCell() {
+    /**
+     * highlight some cell of the grid in order to show to the user in which spaces he can move or build into
+     */
+    public void highlightCell(boolean build) {
         getActionsLabel().setText("Move your worker!");
         getActionsLabel().setVisible(true);
         List<Couple> spaces = getGUI().getModelView().getSelectSpaces();
-        for (int i=Constants.GRID_MIN_SIZE; i<Constants.GRID_MAX_SIZE; i++) {
-            for (int j=Constants.GRID_MIN_SIZE; j<Constants.GRID_MAX_SIZE; j++) {
-                grid.add(new AnchorPane(), i,j);
-            }
-        }
-        for (Node node: grid.getChildren()) {
-            Couple index = new Couple(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
-            for (Couple element: spaces) {
-                if (element.getX() == index.getX() && element.getY() == index.getY()) {
-                    node.setStyle("-fx-background-color: yellow");
-                    node.setOpacity(0.4);
-                    node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
-                    node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
-                    node.setOnMouseReleased(mouseEvent -> node.setCursor(Cursor.DEFAULT));
-                }
-            }
-        }
+        for (Couple element: spaces) {
+              AnchorPane node = new AnchorPane();
+              grid.add(node, element.getY(), element.getX());
+              node.setStyle("-fx-background-color: yellow");
+              node.setOpacity(0.4);
+              if (build) {
+                  node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
+                  node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
+                  int row = GridPane.getRowIndex(node);
+                  int col = GridPane.getColumnIndex(node);
+                  node.setOnMouseClicked(mouseEvent -> getGUI().getObservers().firePropertyChange("action", null, "BUILD "+ row + col));
+              }
+          }
         Couple position = getGUI().getModelView().getActiveWorkerPosition();
         getWorkerFromGrid(position.getX(), position.getY()).move();
     }
 
+    /**
+     * stop highlighting cells
+     */
+    public void normalCell(){
+        for (int i = 0; i < grid.getChildren().size(); i++) {
+            Node node = grid.getChildren().get(i);
+            if (node instanceof AnchorPane) {
+                grid.getChildren().remove(node);
+                i--;
+            }
+        }
+    }
+
     public void workerSelected() {
-        getButtonMove().setVisible(true);
-        getButtonBuild().setVisible(true);
-        getActionsLabel().setText("Select Action:");
+        String playerColor = getGUI().getModelView().getColor();
+        Couple worker1 = board.getWorkerPosition(playerColor, 1);
+        Couple worker2 = board.getWorkerPosition(playerColor, 2);
+        getWorkerFromGrid(worker1.getX(), worker1.getY()).setOnMouseEntered(null);
+        getWorkerFromGrid(worker2.getX(), worker2.getY()).setOnMouseEntered(null);
+        //if not Prometheus
+        getActionsLabel().setText("Move your worker!");
+        //if Prometheus
+        //showActions()
         getActionsLabel().setVisible(true);
     }
 

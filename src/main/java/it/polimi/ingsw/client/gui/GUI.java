@@ -357,7 +357,7 @@ public class GUI extends Application implements UI {
 
     private void showSpacesList() {
         MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
-        controller.highlightCell();
+        controller.highlightCell(false);
     }
 
     /**

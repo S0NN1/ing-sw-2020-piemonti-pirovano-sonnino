@@ -10,6 +10,8 @@ import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.player.PlayerColors;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -27,6 +29,9 @@ import java.util.List;
 public class GUI11 extends Application {
 
     Button button;
+    int count;
+    MainGuiController controller;
+    private ArrayList<Couple> buildList;
 
     public static void main(String[] args){
         launch(args);
@@ -46,7 +51,7 @@ public class GUI11 extends Application {
         FXMLLoader fxml = new FXMLLoader(getClass().getResource("/fxml/mainScene.fxml"));
         Scene scene = new Scene(fxml.load());
         primaryStage.setScene(scene);
-        MainGuiController controller = fxml.getController();
+        controller = fxml.getController();
 
         controller.setGui(gui);
         /*
@@ -144,7 +149,13 @@ public class GUI11 extends Application {
         controller.getGUI().getModelView().setSelectSpaces(list);
         controller.highlightCell();*/
 
+
         //test phases
+        Button phase = new Button("next");
+        phase.setOnAction(actionEvent -> { incrementCount();
+        });
+        controller.getCenterAnchor().getChildren().add(phase);
+
         gui.getModelView().getBoard().setColor(2,2,Constants.ANSI_BLUE);
         gui.getModelView().getBoard().setWorkerNum(2,2,1);
         controller.setWorker(2,2);
@@ -170,10 +181,62 @@ public class GUI11 extends Application {
         controller.setWorker(1,0);
 
         controller.getGUI().getModelView().setColor(Constants.ANSI_RED);
-        controller.selectWorker();
 
+        List<Couple> list = new ArrayList<Couple>();
+        list.add(new Couple(2,3));
+        list.add(new Couple(2,4));
+        list.add(new Couple(3,3));
+        list.add(new Couple(4,3));
+        list.add(new Couple(4,4));
+        controller.getGUI().getModelView().setSelectSpaces(list);
 
+        controller.getGUI().getModelView().setActiveWorker(2);
+
+        buildList = new ArrayList<Couple>();
+        buildList.add(new Couple(2,2));
+        buildList.add(new Couple(2,3));
+        buildList.add(new Couple(2,4));
+        buildList.add(new Couple(3,2));
+        buildList.add(new Couple(3,4));
+        buildList.add(new Couple(4,2));
+        buildList.add(new Couple(4,3));
+        buildList.add(new Couple(4,4));
 
         primaryStage.show();
+    }
+    public void incrementCount() {
+        switch (count) {
+            case 0 -> controller.selectWorker();
+            case 1 -> controller.highlightCell(false);
+            case 2 -> controller.normalCell();
+            case 3 -> {
+                controller.getGUI().getModelView().getBoard().move(3,4,3,3);
+                controller.move(3,4,3,3);
+            }
+            case 4 -> controller.showActions();
+            case 5 -> {
+                controller.getGUI().getModelView().setSelectSpaces(buildList);
+                controller.highlightCell(true);
+            }
+            case 6-> controller.normalCell();
+            case 7 -> {
+                controller.getGUI().getModelView().getBoard().build(2,4,false);
+                controller.build(2,4,false);
+            }
+            case 8 -> {
+                controller.getGUI().getModelView().getBoard().build(2,4,false);
+                controller.build(2,4,false);
+            }
+            case 9 -> {
+                controller.getGUI().getModelView().getBoard().build(2,4,false);
+                controller.build(2,4,false);
+            }
+            case 10 -> {
+                controller.getGUI().getModelView().getBoard().build(2,4,false);
+                controller.build(2,4,false);
+            }
+        }
+        count ++;
+
     }
 }

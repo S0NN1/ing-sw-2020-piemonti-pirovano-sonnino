@@ -66,15 +66,10 @@ public class Worker extends Polygon {
                     this.setCursor(Cursor.DEFAULT);
                     int newRow = (int) (Constants.GRID_MAX_SIZE - ((grid.getHeight() - this.getLayoutY())/(grid.getHeight()/Constants.GRID_MAX_SIZE)));
                     int newCol = (int) (Constants.GRID_MAX_SIZE - ((grid.getWidth() - this.getLayoutX())/(grid.getWidth()/Constants.GRID_MAX_SIZE)));
-                    if( newRow < Constants.GRID_MIN_SIZE || newRow > Constants.GRID_MAX_SIZE || newCol < Constants.GRID_MIN_SIZE || newCol > Constants.GRID_MAX_SIZE) {
                         grid.add(this, oldCol, oldRow);
                         this.setPosition(oldRow, oldCol);
-                    }
-                    else {
-                        grid.add(this, newCol, newRow);
-                        this.setPosition(newRow, newCol);
-                        controller.getGUI().getObservers().firePropertyChange("action", null, "MOVE "+ this.row + this.col);
-                    }
+                        controller.getGUI().getObservers().firePropertyChange("action", null, "MOVE "+ newRow + newCol);
+
                     mainAnchor.getChildren().remove(tempPane);
                 }
         );
