@@ -1,15 +1,12 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import it.polimi.ingsw.client.ActionParser;
 import it.polimi.ingsw.client.ClientBoard;
-import it.polimi.ingsw.client.ModelView;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.shapes.Block;
 import it.polimi.ingsw.client.gui.shapes.Dome;
 import it.polimi.ingsw.client.gui.shapes.Worker;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -20,7 +17,6 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,6 +30,7 @@ public class MainGuiController implements GUIController{
     private final HashMap<String, Color> colors;
     private GUI gui;
     private ClientBoard board;
+    private Worker selectedWorker;
 
     @FXML
     GridPane grid;
@@ -64,7 +61,7 @@ public class MainGuiController implements GUIController{
             gui.getObservers().firePropertyChange("action", null, mouseEvent.getButton().name());
         }
     };
-    public void testDragAndDrop(){
+    /*public void testDragAndDrop(){
         Button button = new Button("dragMe");
         grid.add(button, 4,0);
         final double[] x = new double[1];
@@ -94,18 +91,34 @@ public class MainGuiController implements GUIController{
         });
         button.setOnMouseEntered(mouseEvent -> button.setCursor(Cursor.HAND));
         button.setOnMouseExited(mouseEvent -> button.setCursor(Cursor.DISAPPEAR));
-    }
+    }*/
 
     /**
      * add a triangle (worker) into gridPane at row/col
      * @param row of the grid
      * @param col of the grid
      */
-
     public void setWorker(int row, int col) {
         grid.add(new Worker(row, col, this), col, row);
     }
 
+    /**
+     * make the two workers selectable
+     */
+    public void selectWorker() {
+        String playerColor = getGUI().getModelView().getColor();
+        Couple worker1 = board.getWorkerPosition(playerColor, 1);
+        Couple worker2 = board.getWorkerPosition(playerColor, 2);
+        getWorkerFromGrid(worker1.getX(), worker1.getY()).makeSelectable();
+        getWorkerFromGrid(worker2.getX(), worker2.getY()).makeSelectable();
+    }
+
+    /**
+     * choose if to build a block or a dome
+     * @param row where to build
+     * @param col where to build
+     * @param dome if user want to build a dome
+     */
     public void build(int row, int col, boolean dome) {
         if (!dome) {
             int height = board.getHeight(row, col);
@@ -139,6 +152,23 @@ public class MainGuiController implements GUIController{
     }
 
     /**
+     * return the node of the grid which represents a worker at a specific row/col
+     * @param row int
+     * @param col int
+     * @return node
+     */
+    public Worker getWorkerFromGrid(int row, int col) {
+        Worker worker = null;
+        for (Node node : grid.getChildren()) {
+            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col && node instanceof Worker) {
+                worker = (Worker) node;
+                break;
+            }
+        }
+        return worker;
+    }
+
+    /**
      * add a dome into gird at row/col position
      * @param row of the grid
      * @param col of the grid
@@ -155,12 +185,7 @@ public class MainGuiController implements GUIController{
      * @param newCol of worker's actual position
      */
     public void move(int oldRow, int oldCol, int newRow, int newCol) {
-        for(Node node: grid.getChildren()) {
-            if(GridPane.getRowIndex(node) == oldRow && GridPane.getColumnIndex(node) == oldCol && node instanceof Worker) {
-                grid.getChildren().remove(node);
-                break;
-            }
-        }
+        grid.getChildren().remove(getWorkerFromGrid(oldRow, oldCol));
         grid.add(new Worker(newRow, newCol, this), newCol, newRow);
     }
 
@@ -172,15 +197,10 @@ public class MainGuiController implements GUIController{
      * @param oldCol2 of the other worker's old position (Apollo's new position)
      */
     public void apolloDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2) {
-        for(Node node: grid.getChildren()) {
-            if (GridPane.getRowIndex(node) == oldRow1 && GridPane.getColumnIndex(node) == oldCol1 && node instanceof Worker) {
-                Worker worker1 = (Worker) node;
-                worker1.setFill(colors.get(board.getColor(oldRow1,oldCol1)));
-            } else if (GridPane.getRowIndex(node) == oldRow2 && GridPane.getColumnIndex(node) == oldCol2 && node instanceof Worker) {
-                Worker worker2 = (Worker) node;
-                worker2.setFill(colors.get(board.getColor(oldRow2, oldCol2)));
-            }
-        }
+        Worker worker1 = (Worker) getWorkerFromGrid(oldRow1, oldCol1);
+        worker1.setFill(colors.get(board.getColor(oldRow1,oldCol1)));
+        Worker worker2 = (Worker) getWorkerFromGrid(oldRow2, oldCol2);
+        worker2.setFill(colors.get(board.getColor(oldRow2, oldCol2)));
     }
 
     /**
@@ -193,16 +213,9 @@ public class MainGuiController implements GUIController{
      * @param newCol2 of the other worker's new position
      */
     public void minotaurDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2, int newRow2, int newCol2) {
-        Node remove = null;
-        for(Node node: grid.getChildren()) {
-            if (GridPane.getRowIndex(node) == oldRow2 && GridPane.getColumnIndex(node) == oldCol2 && node instanceof Worker) {
-                Worker worker1 = (Worker) node;
-                worker1.setFill(colors.get(board.getColor(oldRow2,oldCol2)));
-            } else if (GridPane.getRowIndex(node) == oldRow1 && GridPane.getColumnIndex(node) == oldCol1 && node instanceof Worker) {
-                remove = node;
-            }
-        }
-        if(remove != null) grid.getChildren().remove(remove);
+        Worker worker1 = (Worker) getWorkerFromGrid(oldRow2, oldCol2);
+        worker1.setFill(colors.get(board.getColor(oldRow2,oldCol2)));
+        grid.getChildren().remove(getWorkerFromGrid(oldRow1, oldCol1));
         Worker worker2 = new Worker(newRow2, newCol2, this);
         worker2.setFill(colors.get(board.getColor(newRow2, newCol2)));
         grid.add(worker2, newCol2, newRow2);
@@ -229,10 +242,8 @@ public class MainGuiController implements GUIController{
                 }
             }
         }
-        //TODO prendersi dal model la row/col del worker selezionato;
-        Worker worker = null;
-        //Worker worker = getGUI().getModelView().getActiveWorker()...
-        worker.move();
+        Couple position = getGUI().getModelView().getActiveWorkerPosition();
+        getWorkerFromGrid(position.getX(), position.getY()).move();
     }
 
     public void workerSelected() {

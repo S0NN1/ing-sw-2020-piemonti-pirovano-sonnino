@@ -111,6 +111,10 @@ public class ModelView {
         this.activeWorker = activeWorker;
     }
 
+    public Couple getActiveWorkerPosition() {
+        return getBoard().getWorkerPosition(getColor(), getActiveWorker());
+    }
+
     public ModelView(CLI cli) {
         this.cli = cli;
         gamePhase = 0;

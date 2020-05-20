@@ -32,7 +32,9 @@ public class Worker extends Polygon {
         this.col = col;
         this.controller = controller;
         setFill(this.getColor());
+    }
 
+    public void makeSelectable() {
         setOnMouseEntered(mouseEvent -> setCursor(Cursor.HAND));
 
         setOnMouseClicked(mouseEvent -> {

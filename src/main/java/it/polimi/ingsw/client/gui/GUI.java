@@ -296,8 +296,9 @@ public class GUI extends Application implements UI {
             case "noPossibleMoves" -> System.err.println("No possible moves!");
             case "select" -> showSpacesList();
             case "boardUpdate" -> checkAction(evt.getNewValue());
-            /*case "firstBoardUpdate" -> firstUpdateCli();
             case "selectWorker" -> selectWorker();
+
+            /*case "firstBoardUpdate" -> firstUpdateCli();
             case "end" -> end((String)evt.getNewValue());
             case "win" -> {
                 output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
@@ -315,6 +316,11 @@ public class GUI extends Application implements UI {
                 logger.log(Level.WARNING, "No actions to be performed");
             }
         }
+    }
+
+    private void selectWorker() {
+        MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
+        controller.selectWorker();
     }
 
     private void checkAction(Object message) {

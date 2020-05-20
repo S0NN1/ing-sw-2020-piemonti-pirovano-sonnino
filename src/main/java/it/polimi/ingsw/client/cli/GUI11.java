@@ -69,9 +69,9 @@ public class GUI11 extends Application {
         gui.getModelView().getBoard().getGrid()[0][2].setColor(Constants.ANSI_RED);
 */
         //add block
-        controller.addBlock(2,2,1);
+        /*controller.addBlock(2,2,1);
         controller.addBlock(2,1,1);
-        controller.addBlock(2,1,2);
+        controller.addBlock(2,1,2);*/
 
         //apollo move method
         /*gui.getModelView().getBoard().getGrid()[2][2].addLevel();
@@ -85,34 +85,26 @@ public class GUI11 extends Application {
         controller.apolloDoubleMove(2,2,2,1);*/
 
         //minotaur move method
-        gui.getModelView().getBoard().setColor(2,2,Constants.ANSI_BLUE);
+        /*gui.getModelView().getBoard().setColor(2,2,Constants.ANSI_BLUE);
         controller.setWorker(2,2);
         gui.getModelView().getBoard().setColor(2,1, Constants.ANSI_RED);
         controller.setWorker(2,1);
 
         gui.getModelView().getBoard().minotaurDoubleMove(2,2,2,1,2,0);
-        controller.minotaurDoubleMove(2,2,2,1,2,0);
+        controller.minotaurDoubleMove(2,2,2,1,2,0);*/
 
         //dome
-        controller.addDome(2,2);
-        controller.addDome(2,4);
+        /*controller.addDome(2,2);
+        controller.addDome(2,4);*/
 
         //event
-        gui.getModelView().getBoard().setColor(4,4, Constants.ANSI_RED);
+        /*gui.getModelView().getBoard().setColor(4,4, Constants.ANSI_RED);
         controller.setWorker(4,4);
         gui.getModelView().getBoard().setColor(3,4, Constants.ANSI_BLUE);
         controller.setWorker(3,4);
 
         gui.getModelView().getBoard().setColor(1,3, Constants.ANSI_CYAN);
-        controller.setWorker(1,3);
-
-        //highlight
-        List<Couple> list = new ArrayList<Couple>();
-        list.add(new Couple(1,1));
-        list.add(new Couple(3,3));
-        list.add(new Couple(0,1));
-        controller.getGUI().getModelView().setSelectSpaces(list);
-        controller.highlightCell();
+        controller.setWorker(1,3);*/
 
         //gridPane test
         /*GridPane grid = new GridPane();
@@ -137,8 +129,51 @@ public class GUI11 extends Application {
 
         //controller.testDragAndDrop();
 
-        gui.getModelView().getBoard().setColor(0,0, Constants.ANSI_CYAN);
+        /*gui.getModelView().getBoard().setColor(0,0, Constants.ANSI_CYAN);
         controller.setWorker(0,0);
+        gui.getModelView().getBoard().move(0,0,0,1);
+        controller.move(0,0,0,1);*/
+
+        //highlight
+        /*List<Couple> list = new ArrayList<Couple>();
+        list.add(new Couple(1,1));
+        list.add(new Couple(3,3));
+        list.add(new Couple(0,1));
+        list.add(new Couple(2,2));
+        list.add(new Couple(2,1));
+        controller.getGUI().getModelView().setSelectSpaces(list);
+        controller.highlightCell();*/
+
+        //test phases
+        gui.getModelView().getBoard().setColor(2,2,Constants.ANSI_BLUE);
+        gui.getModelView().getBoard().setWorkerNum(2,2,1);
+        controller.setWorker(2,2);
+
+        gui.getModelView().getBoard().setColor(2,1, Constants.ANSI_RED);
+        gui.getModelView().getBoard().setWorkerNum(2,1,1);
+        controller.setWorker(2,1);
+
+        gui.getModelView().getBoard().setColor(0,0, Constants.ANSI_CYAN);
+        gui.getModelView().getBoard().setWorkerNum(0,0,1);
+        controller.setWorker(0,0);
+
+        gui.getModelView().getBoard().setColor(4,4,Constants.ANSI_BLUE);
+        gui.getModelView().getBoard().setWorkerNum(4,4,2);
+        controller.setWorker(4,4);
+
+        gui.getModelView().getBoard().setColor(3,4, Constants.ANSI_RED);
+        gui.getModelView().getBoard().setWorkerNum(3,4,2);
+        controller.setWorker(3,4);
+
+        gui.getModelView().getBoard().setColor(1,0, Constants.ANSI_CYAN);
+        gui.getModelView().getBoard().setWorkerNum(1,0,2);
+        controller.setWorker(1,0);
+
+        controller.getGUI().getModelView().setColor(Constants.ANSI_RED);
+        controller.selectWorker();
+
+
+
         primaryStage.show();
     }
 }

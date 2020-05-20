@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.constants.Couple;
 
 
 /**
@@ -68,6 +69,23 @@ public class ClientBoard {
      */
     public String getColor(int row, int col){
         return grid[row][col].getColor();
+    }
+
+    /**
+     * get worker's position from his color and workerNum
+     * @param color string
+     * @param workerNum int
+     * @return worker's position (Couple of int)
+     */
+    public Couple getWorkerPosition(String color, int workerNum) {
+        for (int row = Constants.GRID_MIN_SIZE; row < Constants.GRID_MAX_SIZE; row++) {
+            for (int col = Constants.GRID_MIN_SIZE; col < Constants.GRID_MAX_SIZE; col++) {
+                if (getColor(row,col)!= null && getColor(row, col).equals(color) && getWorkerNum(row, col) == workerNum) {
+                    return new Couple(row, col);
+                }
+            }
+        }
+        return null;
     }
 
     public int getHeight(int row, int col) {
