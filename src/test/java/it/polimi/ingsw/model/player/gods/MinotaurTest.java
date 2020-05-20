@@ -209,7 +209,7 @@ class MinotaurTest {
     /**
      * this class receives messages from a DoubleMoveListener
      */
-    private class VirtualClientStub extends VirtualClient {
+    private static class VirtualClientStub extends VirtualClient {
 
         String god;
         Move myMove;

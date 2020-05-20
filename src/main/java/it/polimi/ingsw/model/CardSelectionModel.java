@@ -72,18 +72,16 @@ public class CardSelectionModel {
      * Set description inside the model, in order to print it in the RemoteView.
      * @param description the description of the god.
      */
-    public boolean setDescription(String description) {
+    public void setDescription(String description) {
         virtualClient.firePropertyChange(CHALLENGER_PHASE, null, new ChallengerMessages(description));
-        return true;
     }
 
     /**
      * Set the gods' name list and notifies the virtual client class, which sends them to the user.
      * @see it.polimi.ingsw.server.VirtualClient
      */
-    public boolean setNameList() {
+    public void setNameList() {
         virtualClient.firePropertyChange(CHALLENGER_PHASE, null, new ChallengerMessages(Card.godsName()));
-        return true;
     }
 
 }

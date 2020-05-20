@@ -12,7 +12,7 @@ public class Couple implements Serializable {
     }
 
     public void setY(int y) {
-        this.y = y;
+        this.y = y; //TODO ALI PLOX
     }
 
     public Couple(int x, int y){

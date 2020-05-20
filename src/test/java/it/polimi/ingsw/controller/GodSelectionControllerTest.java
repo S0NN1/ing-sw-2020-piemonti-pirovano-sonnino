@@ -16,24 +16,18 @@ import it.polimi.ingsw.server.answers.ChallengerMessages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.util.List;
-import java.util.Observable;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GodSelectionControllerTest {
 
-    private class VirtualClientStub extends VirtualClient {
+    private static class VirtualClientStub extends VirtualClient {
         private boolean notified = false;
         private List<String> gods;
         private String message;
 
-        public String getMessage() {
-            return message;
-        }
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             notified = true;
@@ -47,7 +41,7 @@ class GodSelectionControllerTest {
         }
     }
 
-    private class GameHandlerStub extends GameHandler {
+    private static class GameHandlerStub extends GameHandler {
         public int started = 1;
 
         public GameHandlerStub(Server server) {
@@ -82,7 +76,7 @@ class GodSelectionControllerTest {
     }
 
     private class GameStub extends Game {
-        DeckStub deck;
+        private final DeckStub deck;
         public GameStub() {
             this.deck = new DeckStub(this);
         }
@@ -93,19 +87,10 @@ class GodSelectionControllerTest {
         }
     }
 
-    private class DeckStub extends Deck {
+    private static class DeckStub extends Deck {
         public DeckStub(Game game) {
             super(game);
         }
-
-        public boolean chooseCard(Card card) {
-            if(!super.getCards().contains(card)) {
-                return false;
-            }
-            super.getCards().remove(card);
-            return true;
-        }
-
         @Override
         public boolean chooseCard(Card card, VirtualClient client) {
             if(!super.getCards().contains(card)) {
@@ -116,12 +101,12 @@ class GodSelectionControllerTest {
         }
     }
 
-    Server server = new Server();
-    GameStub game = new GameStub();
-    GameHandlerStub gameHandler = new GameHandlerStub(server);
-    Controller controller = new Controller(game, gameHandler);
-    VirtualClientStub virtualClient = new VirtualClientStub();
-    GodSelectionController selectionController = new GodSelectionController(new CardSelectionModel(game.getDeck()), controller, virtualClient);
+    final Server server = new Server();
+    final GameStub game = new GameStub();
+    final GameHandlerStub gameHandler = new GameHandlerStub(server);
+    final Controller controller = new Controller(game, gameHandler);
+    final VirtualClientStub virtualClient = new VirtualClientStub();
+    final GodSelectionController selectionController = new GodSelectionController(new CardSelectionModel(game.getDeck()), controller, virtualClient);
 
     @BeforeEach
     void setUp() {
@@ -131,7 +116,7 @@ class GodSelectionControllerTest {
 
     @Test
     @DisplayName("God Selection flow management test, all cases")
-    void selectionFlowTest() throws IOException {
+    void selectionFlowTest() {
         controller.getModel().setCurrentPlayer(controller.getModel().getActivePlayers().get(0));
         //God list and description testing
 

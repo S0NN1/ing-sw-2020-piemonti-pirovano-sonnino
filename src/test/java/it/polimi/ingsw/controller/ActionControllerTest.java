@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.messages.actions.workerActions.*;
+import it.polimi.ingsw.client.messages.actions.workeractions.*;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -67,7 +67,7 @@ class ActionControllerTest {
        //test correct behavior: right message on the right phase
         actionController.setPhase(4);
         assertTrue(actionController.readMessage(message),"2");
-        assertEquals(worker.getPhase(actionController.getPhase()).getAction(), Action.BUILD ,"3");
+        assertEquals(Action.BUILD,worker.getPhase(actionController.getPhase()).getAction(),"3");
 
        //test wrong behavior: message when turn should be ended
         actionController.setPhase(7);
@@ -201,7 +201,7 @@ class ActionControllerTest {
      * class used to test ActionController methods (which are all inherited) with the help of
      * the setter and getter of phase attribute
      */
-    private class ActionControllerStub extends ActionController {
+    private static class ActionControllerStub extends ActionController {
 
         public ActionControllerStub(GameBoard gameBoard) {
             super(gameBoard);

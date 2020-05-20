@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * This class is the main one of the server side. The server allows clients to connect and play together.
  * It also starts the match.
  * @author Luca Pirovano
- * @version 1.0.0
+ * @version 1.3.0
  */
 public class Server {
     private final SocketServer socketServer;
@@ -267,6 +267,21 @@ public class Server {
      */
     public static void main(String[] args) {
         System.out.println("Santorini Server | Welcome!");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(">Insert the port which server will listen on.");
+        System.out.print(">");
+        int port = 0;
+        try {
+            port = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.err.println("Numeric format requested, application will now close...");
+            System.exit(-1);
+        }
+        if(port<0 || (port>0 && port<1024)) {
+            System.err.println("Error: ports accepted started from 1024! Please insert a new value.");
+            main(null);
+        }
+        Constants.setPORT(port);
         System.err.println(Constants.getInfo() + "Starting Socket Server");
         Server server = new Server();
         ExecutorService executor = Executors.newCachedThreadPool();

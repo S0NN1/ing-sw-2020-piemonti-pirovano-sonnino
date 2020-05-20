@@ -6,8 +6,6 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -92,7 +90,7 @@ class DeckTest {
         assertTrue(testDeck.chooseCard(Card.ATLAS, null));
         assertEquals(1, testDeck.getCards().size());
         testGame.nextPlayer();
-        assertTrue(testDeck.chooseCard(Card.ATHENA, null));
+        assertTrue(testDeck.chooseCard(Card.ATHENA, null, null));
         assertEquals(0, testDeck.getCards().size());
     }
 

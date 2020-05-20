@@ -4,8 +4,7 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alice Piemonti
@@ -32,7 +31,7 @@ public class Artemis extends Worker {
      * @throws IllegalThreadStateException if the worker is blocked, so it cannot move
      */
     @Override
-    public ArrayList<Space> selectMoves(GameBoard gameBoard) {
+    public List<Space> selectMoves(GameBoard gameBoard) {
         phases.get(3).changeMust(true);
         return super.selectMoves(gameBoard);
     }

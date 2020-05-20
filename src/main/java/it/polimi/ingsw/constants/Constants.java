@@ -11,6 +11,14 @@ import java.util.List;
  */
 public class Constants {
 
+    public static final String ARTEMIS = "ARTEMIS";
+    public static final String PROMETHEUS = "PROMETHEUS";
+    public static final String DEMETER = "DEMETER";
+    public static final String HEPHAESTUS = "HEPHAESTUS";
+
+    /**
+     * Constructor Constants creates a new Constants instance.
+     */
     private Constants() {}
 
     //match constants
@@ -50,7 +58,7 @@ public class Constants {
             "        \\::/    /                \\::/    /                \\::/    /                                      ~~                      \\:|   |                  \\::/    /                \\::/    /                \\::/    /        \n" +
             "         \\/____/                  \\/____/                  \\/____/                                                                \\|___|                   \\/____/                  \\/____/                  \\/____/         \n" +
             "                                                                                                                                                                                                                             \n";
-    public static final String authors = "  _                   _ _                  _                            _   _     _                         _                                          _           _       _                         _             \n" +
+    public static final String AUTHORS = "  _                   _ _                  _                            _   _     _                         _                                          _           _       _                         _             \n" +
           " | |                 | (_)                (_)                          | | (_)   | |                       (_)                                        (_)         | |     ( )                       (_)            \n" +
           " | |__  _   _    __ _| |_  ___ ___   _ __  _  ___ _ __ ___   ___  _ __ | |_ _    | |_   _  ___ __ _   _ __  _ _ __ _____   ____ _ _ __   ___     _ __  _  ___ ___ | | ___ |/   ___  ___  _ __  _ __  _ _ __   ___  \n" +
           " | '_ \\| | | |  / _` | | |/ __/ _ \\ | '_ \\| |/ _ \\ '_ ` _ \\ / _ \\| '_ \\| __| |   | | | | |/ __/ _` | | '_ \\| | '__/ _ \\ \\ / / _` | '_ \\ / _ \\   | '_ \\| |/ __/ _ \\| |/ _ \\    / __|/ _ \\| '_ \\| '_ \\| | '_ \\ / _ \\ \n" +
@@ -59,21 +67,65 @@ public class Constants {
           "         __/ |                      | |                                      |/                      | |                                    |/                                                                     \n" +
           "        |___/                       |_|                                                              |_|                                                                                                         ";
 
-    public static final String rules="\nView full rules here: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf";
+    public static final String RULES ="\nView full rules here: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf";
     //server constants
-    public static final String ADDRESS = "127.0.0.1";
-    public static final int PORT = 2500;
+    public static String ADDRESS;
+    public static int PORT;
 
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
+
+    private static final List<String> DOUBLE_MOVE_GODS = new ArrayList<>();
+
+    /**
+     * Method getDoubleMoveGods returns the doubleMoveGods of this Constants object.
+     *
+     *
+     *
+     * @return the doubleMoveGods (type List<String>) of this Constants object.
+     */
+    public static List<String> getDoubleMoveGods() {
+        DOUBLE_MOVE_GODS.add(ARTEMIS);
+        return DOUBLE_MOVE_GODS;
+    }
+
+    private static final List<String> ALTERNATE_PHASE_GODS = new ArrayList<>();
+
+    /**
+     * Method getAlternatePhaseGods returns the alternatePhaseGods of this Constants object.
+     *
+     *
+     *
+     * @return the alternatePhaseGods (type List<String>) of this Constants object.
+     */
+    public static List<String> getAlternatePhaseGods() {
+        ALTERNATE_PHASE_GODS.add(PROMETHEUS);
+        return ALTERNATE_PHASE_GODS;
+    }
+
+    private static final List<String> DOUBLE_BUILD_GODS = new ArrayList<>();
+
+    /**
+     * Method getDoubleBuildGods returns the doubleBuildGods of this Constants object.
+     *
+     *
+     *
+     * @return the doubleBuildGods (type List<String>) of this Constants object.
+     */
+    public static List<String> getDoubleBuildGods() {
+        DOUBLE_BUILD_GODS.add(DEMETER);
+        DOUBLE_BUILD_GODS.add(HEPHAESTUS);
+        return DOUBLE_MOVE_GODS;
+    }
+
     /**
      * Arraylist containing gods with move action with turnPhase != 0
      */
     private static final List<String> MOVE_PHASE_GODS = new ArrayList<>();
 
     public static List<String> getMovePhaseGods() {
-        MOVE_PHASE_GODS.add("ARTEMIS");
-        MOVE_PHASE_GODS.add("PROMETHEUS");
+        MOVE_PHASE_GODS.add(ARTEMIS);
+        MOVE_PHASE_GODS.add(PROMETHEUS);
         return MOVE_PHASE_GODS;
     }
     /**
@@ -82,10 +134,10 @@ public class Constants {
     private static final List<String> BUILD_PHASE_GODS = new ArrayList<>();
 
     public static List<String> getBuildPhaseGods() {
-        BUILD_PHASE_GODS.add("DEMETER");
-        BUILD_PHASE_GODS.add("HEPHAESTUS");
-        BUILD_PHASE_GODS.add("PROMETHEUS");
-        BUILD_PHASE_GODS.add("ARTEMIS");
+        BUILD_PHASE_GODS.add(DEMETER);
+        BUILD_PHASE_GODS.add(HEPHAESTUS);
+        BUILD_PHASE_GODS.add(PROMETHEUS);
+        BUILD_PHASE_GODS.add(ARTEMIS);
         return BUILD_PHASE_GODS;
     }
 
@@ -110,5 +162,11 @@ public class Constants {
         return(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " ERR: ");
     }
 
+    public static void setADDRESS(String ADDRESS) {
+        Constants.ADDRESS = ADDRESS;
+    }
 
+    public static void setPORT(int PORT) {
+        Constants.PORT = PORT;
+    }
 }

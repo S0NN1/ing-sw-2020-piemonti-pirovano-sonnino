@@ -1,12 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.messages.actions.UserAction;
-import it.polimi.ingsw.client.messages.actions.turnActions.EndTurnAction;
-import it.polimi.ingsw.client.messages.actions.turnActions.StartTurnAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.BuildAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.MoveAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.SelectBuildAction;
-import it.polimi.ingsw.client.messages.actions.workerActions.SelectMoveAction;
+import it.polimi.ingsw.client.messages.actions.turnactions.EndTurnAction;
+import it.polimi.ingsw.client.messages.actions.turnactions.StartTurnAction;
+import it.polimi.ingsw.client.messages.actions.workeractions.BuildAction;
+import it.polimi.ingsw.client.messages.actions.workeractions.MoveAction;
+import it.polimi.ingsw.client.messages.actions.workeractions.SelectBuildAction;
+import it.polimi.ingsw.client.messages.actions.workeractions.SelectMoveAction;
 import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Phase;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -43,6 +43,13 @@ public class TurnController implements PropertyChangeListener {
     private final GameHandler gameHandler;
 
 
+    /**
+     * Constructor TurnController creates a new TurnController instance.
+     *
+     * @param controller of type Controller
+     * @param gameHandler of type GameHandler
+     * @param actionController of type ActionController
+     */
     public TurnController(Controller controller, GameHandler gameHandler, ActionController actionController) {
         this.controller = controller;
         this.gameHandler = gameHandler;
@@ -58,65 +65,45 @@ public class TurnController implements PropertyChangeListener {
         int i = 0;
         if (evt.getNewValue().equals("AthenaMovedUp")) {
             while (i < controller.getModel().getActivePlayers().size()) {
-                if (!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))) {
-                    controller.getModel().getActivePlayers().get(i).getWorkers().get(0).setCanMoveUp(false);
-                    controller.getModel().getActivePlayers().get(i).getWorkers().get(1).setCanMoveUp(false);
-                }
+                setMoveUp(i, false);
                 i++;
             }
         } else if (evt.getNewValue().equals("AthenaNormalMove")) {
             while (i < controller.getModel().getActivePlayers().size()) {
-                if (!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))) {
-                    controller.getModel().getActivePlayers().get(i).getWorkers().get(0).setCanMoveUp(true);
-                    controller.getModel().getActivePlayers().get(i).getWorkers().get(1).setCanMoveUp(true);
-                }
+                setMoveUp(i, true);
                 i++;
             }
         } else {
             Object arg = evt.getNewValue();
             if (arg instanceof UserAction) {
                 if (arg instanceof StartTurnAction) {
-                    StartTurnAction start_action = (StartTurnAction) arg;
-                    startTurn(start_action);
+                    StartTurnAction startAction = (StartTurnAction) arg;
+                    startTurn(startAction);
                 } else if (arg instanceof BuildAction) {
-                    BuildAction worker_action = (BuildAction) arg;
-                    if (!actionController.readMessage(worker_action)) {
-                        sendBuildError();
-                    }
-                    else if(actionController.getWorker().getPhase(actionController.phase)!=null &&
-                            actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTBUILD)) {
-                        gameHandler.singleSend(new ModifiedTurnMessage("You may choose to build (no args) again or" +
-                                " end your turn.", Action.SELECTBUILD), gameHandler.getCurrentPlayerID());
-                    }
+                    BuildAction buildAction = (BuildAction) arg;
+                    checkBuildAction(buildAction);
                 } else if (arg instanceof MoveAction) {
-                    MoveAction worker_action = (MoveAction) arg;
-                    if (!actionController.readMessage(worker_action)) {
-                        sendMoveError();
-                    }
-                    else if(actionController.getWorker().getPhase(actionController.phase)!=null &&
-                            actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTMOVE)) {
-                        gameHandler.singleSend(new ModifiedTurnMessage("You may choose to move (no args) again or" +
-                                " build (no args).", Action.SELECTMOVE), gameHandler.getCurrentPlayerID());
-                    }
+                    MoveAction moveAction = (MoveAction) arg;
+                    checkMoveAction(moveAction);
                 } else if (arg instanceof SelectMoveAction) {
-                    SelectMoveAction worker_action = (SelectMoveAction) arg;
+                    SelectMoveAction selectMoveAction = (SelectMoveAction) arg;
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
-                    if(!actionController.readMessage(worker_action)) {
+                    if(!actionController.readMessage(selectMoveAction)) {
                         if(phase!=null && (phase.getAction().equals(Action.SELECTBUILD) || phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.MOVE))) {
-                            sendMoveError();          //TODO Controlla se è nella fase corretta (no move dopo ultima build).
+                            sendMoveError();
                         }
                         else if (actionController.getWorker().getPhase(actionController.phase)!=null &&
                                 actionController.getWorker().getPhase(actionController.getPhase()).isMust()) {
-                            endGame(); //TODO PHASE 0 ENDGAME FOR NO REASONS
+                            endGame();
                         }
                         else sendMoveError();
                     }
                 } else if (arg instanceof SelectBuildAction) {
-                    SelectBuildAction worker_action = (SelectBuildAction) arg;
+                    SelectBuildAction workerAction = (SelectBuildAction) arg;
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
-                    if (!actionController.readMessage(worker_action)) {
+                    if (!actionController.readMessage(workerAction)) {
                         if (phase!=null && (phase.getAction().equals(Action.SELECTMOVE) || phase.getAction().equals(Action.MOVE) || phase.getAction().equals(Action.BUILD))) {
-                            sendBuildError();       //TODO Controlla se è nella fase corretta (no build prima di move).
+                            sendBuildError();
                         }
                         else if (phase!=null && phase.isMust()) {
                             endGame();
@@ -129,11 +116,52 @@ public class TurnController implements PropertyChangeListener {
         }
     }
 
+    private void checkMoveAction(MoveAction workerAction) {
+        if (!actionController.readMessage(workerAction)) {
+            sendMoveError();
+        }
+        else if(isPhaseRight(Action.SELECTMOVE)) {
+            sendModifiedTurnMessage("You may choose to move (no args) again or", " build (no args).", Action.SELECTMOVE);
+        }
+    }
+
+    private void checkBuildAction(BuildAction workerAction) {
+        if (!actionController.readMessage(workerAction)) {
+            sendBuildError();
+        }
+        else if(isPhaseRight(Action.SELECTBUILD)) {
+            sendModifiedTurnMessage("You may choose to build (no args) again or", " end your turn.", Action.SELECTBUILD);
+        }
+    }
+
+    private void sendModifiedTurnMessage(String s, String s2, Action selectbuild) {
+        gameHandler.singleSend(new ModifiedTurnMessage(s +
+                s2, selectbuild), gameHandler.getCurrentPlayerID());
+    }
+
+    private boolean isPhaseRight(Action selectmove) {
+        return actionController.getWorker().getPhase(actionController.phase) != null &&
+                actionController.getWorker().getPhase(actionController.phase).getAction().equals(selectmove);
+    }
+
+    private void setMoveUp(int i, boolean b) {
+        if (!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))) {
+            controller.getModel().getActivePlayers().get(i).getWorkers().get(0).setCanMoveUp(b);
+            controller.getModel().getActivePlayers().get(i).getWorkers().get(1).setCanMoveUp(b);
+        }
+    }
+
+    /**
+     * Method sendMoveError sends move error message
+     */
     public void sendMoveError() {
         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't move right now!"),
                 gameHandler.getCurrentPlayerID());
     }
 
+    /**
+     * Method sendBuildError sends build error message
+     */
     public void sendBuildError() {
         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't build right now!"),
                 gameHandler.getCurrentPlayerID());
@@ -171,16 +199,12 @@ public class TurnController implements PropertyChangeListener {
     public void startTurn(StartTurnAction arg) {
         try {
             switch (arg.option) {
-                case "start" -> {
-                    gameHandler.singleSend(new WorkersRequestMessage(), gameHandler.getCurrentPlayerID());
+                case "start" -> gameHandler.singleSend(new WorkersRequestMessage(), gameHandler.getCurrentPlayerID());
+                case "worker1" -> startTurnAction(0, 1);
+                case "worker2" -> startTurnAction(1, 0);
+                default -> {
+                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
                 }
-                case "worker1" -> {
-                    startTurnAction(0, 1);
-                }
-                case "worker2" -> {
-                    startTurnAction(1, 0);
-                }
-                default -> gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
             }
         } catch (NullPointerException e) {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());

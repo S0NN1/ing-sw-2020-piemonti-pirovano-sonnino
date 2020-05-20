@@ -48,7 +48,7 @@ class ControllerTest {
         }
     }
 
-    private class WorkerStub extends Worker {
+    private static class WorkerStub extends Worker {
         private boolean value;
 
         public WorkerStub(PlayerColors color) {

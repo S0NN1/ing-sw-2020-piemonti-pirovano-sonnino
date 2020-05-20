@@ -71,7 +71,7 @@ class AtlasTest {
         assertTrue(client.isDome(),"6");
     }
 
-    private class VirtualClientStub extends VirtualClient {
+    private static class VirtualClientStub extends VirtualClient {
 
        private Couple build;
        private boolean dome;

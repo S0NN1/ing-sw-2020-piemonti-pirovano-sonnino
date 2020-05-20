@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.answers.Answer;
  * @author Alice Piemonti
  */
 public class MoveMessage implements Answer {
-    Move message;
+    private final Move message;
 
     public MoveMessage(Space oldPosition, Space newPosition){
         message = new Move(oldPosition.getX(), oldPosition.getY(), newPosition.getX(),newPosition.getY());

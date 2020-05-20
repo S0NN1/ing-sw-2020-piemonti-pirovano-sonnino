@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.model.player.Action;
@@ -22,6 +23,7 @@ import java.beans.PropertyChangeSupport;
 public class ActionHandler {
 
     public static final String FIRST_BOARD_UPDATE = "firstBoardUpdate";
+    public static final String BOARD_UPDATE = "boardUpdate";
     private final ModelView modelView;
     private CLI cli;
     private GUI gui;
@@ -77,35 +79,53 @@ public class ActionHandler {
         else {
             if (answer instanceof MoveMessage) {
                 updateClientBoardMove(answer, clientBoard);
-                view.firePropertyChange("boardUpdate", new boolean[]{false, true, false},null);
+                if(Constants.getDoubleMoveGods().contains(modelView.getGod()) && modelView.getTurnPhase()==1) {
+                    view.firePropertyChange(BOARD_UPDATE, new boolean[]{true, true, false}, null);
+                }
+                else view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, true, false},null);
             }
             else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
                 clientBoard.build(message.getX(), message.getY(), dome);
                 checkTurnActiveBuild();
-                view.firePropertyChange("boardUpdate", new boolean[]{false, false, true},null);
+                fireBuildMenu();
             } else if (answer instanceof DoubleMoveMessage) {
                 String message = ((DoubleMoveMessage) answer).getMessage();
                 defineDoubleMove((DoubleMoveMessage) answer, clientBoard, message);
-                view.firePropertyChange("boardUpdate", new boolean[]{false, true , false},null);
+                view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, true , false},null);
             }
         }
 
     }
 
+    private void fireBuildMenu() {
+        if(Constants.getDoubleBuildGods().contains(modelView.getGod()) && modelView.getTurnPhase()==3) {
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, false, true}, null);
+        }
+        else if(Constants.getDoubleBuildGods().contains(modelView.getGod())) {
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, true, true}, null);
+        }
+        else if(Constants.getAlternatePhaseGods().contains(modelView.getGod()) && modelView.getTurnPhase()==1) {
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{true, false, false}, null);
+        }
+        else {
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, false, true}, null);
+        }
+    }
+
     private void modifiedTurnAction(ModifiedTurnMessage answer) {
         if(answer.getAction()==null) {
             modelView.activateInput();
-            view.firePropertyChange("boardUpdate", new boolean[]{true, true, false}, answer.getMessage()); //PROMETHEUS MOVE
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{true, true, false}, answer.getMessage()); //PROMETHEUS MOVE
         }
         else if(answer.getAction().equals(Action.SELECTMOVE)) {
             modelView.activateInput();
-            view.firePropertyChange("boardUpdate", new boolean[]{true, true, false}, answer.getMessage()); //DOUBLE MOVE INIZIALE
+            view.firePropertyChange("modifiedTurnNoUpdate", new boolean[]{true, true, false}, answer); //DOUBLE MOVE INIZIALE
         }
         else if(answer.getAction().equals(Action.SELECTBUILD)) {
             modelView.activateInput();
-            view.firePropertyChange("boardUpdate", new boolean[]{false, true, true}, answer.getMessage());  //DOUBLE BUILD
+            view.firePropertyChange("modifiedTurnNoUpdate", new boolean[]{false, true, true}, answer);  //DOUBLE BUILD
         }
     }
 
@@ -146,13 +166,12 @@ public class ActionHandler {
         modelView.setTurnPhase(0);
         modelView.setActiveWorker(0);
         modelView.deactivateInput();
-        view.firePropertyChange("firstBoardUpdate", null, null);
+        view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
         view.firePropertyChange("end", null, answer.getMessage());
     }
 
     private void fireSelectSpaces(SelectSpacesMessage answer) {
         modelView.setSelectSpaces(answer.getMessage());
-        //TODO  NON SONO SICURO CHE RESETTANDO FUNZIONI
         modelView.activateInput();
         if(answer.getAction().equals(Action.SELECTBUILD)){
             checkTurnActiveBuild(); //NEW ADDED

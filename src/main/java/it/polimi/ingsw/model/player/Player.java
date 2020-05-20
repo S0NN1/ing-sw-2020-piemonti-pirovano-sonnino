@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.gods.*;
 import it.polimi.ingsw.server.VirtualClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alice Piemonti
@@ -14,8 +15,6 @@ public class Player {
     private final String nickname;
     private final int clientID;
     private PlayerColors color;
-    private boolean isActive;
-    private boolean isDead;
     private final ArrayList<Worker> workers;
     private Card card;
 
@@ -31,7 +30,7 @@ public class Player {
         workers = new ArrayList<>();
     }
 
-    public ArrayList<Worker> getWorkers() {
+    public List<Worker> getWorkers() {
         return workers;
     }
 
@@ -70,38 +69,43 @@ public class Player {
      */
     public void addWorker(Card card, VirtualClient client) {
         switch (card) {
-            case APOLLO:
+            case APOLLO -> {
                 workers.add(new Apollo(color));
                 workers.add(new Apollo(color));
-                break;
-            case ARTEMIS:
+            }
+            case ARTEMIS -> {
                 workers.add(new Artemis(color));
                 workers.add(new Artemis(color));
-                break;
-            case ATLAS:
+            }
+
+            case ATLAS -> {
                 workers.add(new Atlas(color));
                 workers.add(new Atlas(color));
-                break;
-            case DEMETER:
+            }
+            case DEMETER -> {
                 workers.add(new Demeter(color));
                 workers.add(new Demeter(color));
-                break;
-            case HEPHAESTUS:
+            }
+            case HEPHAESTUS -> {
                 workers.add(new Hephaestus(color));
                 workers.add(new Hephaestus(color));
-                break;
-            case MINOTAUR:
+            }
+            case MINOTAUR -> {
                 workers.add(new Minotaur(color));
                 workers.add(new Minotaur(color));
-                break;
-            case PAN:
+            }
+            case PAN -> {
                 workers.add(new Pan(color));
                 workers.add(new Pan(color));
-                break;
-            case PROMETHEUS:
+            }
+            case PROMETHEUS -> {
                 workers.add(new Prometheus(color));
                 workers.add(new Prometheus(color));
-                break;
+            }
+             default -> {
+                workers.add(null);
+                workers.add(null);
+            }
         }
         workers.forEach(n -> n.createListeners(client));
     }

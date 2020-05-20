@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  * It handles a connection between client and server, permitting sending and receiving messages and doing other
  * class-useful operations too.
  * @author Luca Pirovano
+ * @version 1.0.1
  */
 public class SocketClientConnection implements ClientConnection, Runnable {
     private final Socket socket;
@@ -148,8 +149,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
      */
     private void checkConnection(SetupConnection command) {
         try {
-            SetupConnection cmd = command;
-            clientID = server.registerConnection(cmd.getNickname(), this);
+            clientID = server.registerConnection(command.getNickname(), this);
             if (clientID == null) {
                 active = false;
                 return;
@@ -180,7 +180,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
             server.getGameByID(clientID).makeAction(action, "ChallengerPhase");
         }
         else if(action instanceof WorkerSetupMessage) {
-            if (server.getGameByID(clientID).isStarted()>3) {
+            if (server.getGameByID(clientID).isStarted()!=5) {
                 server.getGameByID(clientID).singleSend(new GameError(ErrorsType.INVALIDINPUT, "Not in correct game phase to perform this command!"), clientID);
                 return;
             }

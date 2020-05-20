@@ -17,6 +17,7 @@ import it.polimi.ingsw.server.answers.worker.WinMessage;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,9 +40,9 @@ class WorkerTest {
         Worker workerBlue = new WorkerForTest(PlayerColors.BLUE);
         Worker workerRed = new WorkerForTest(PlayerColors.RED);
         Worker workerGreen = new WorkerForTest(PlayerColors.GREEN);
-        assertEquals(workerBlue.getWorkerColor().toLowerCase(), "blue");
-        assertEquals(workerRed.getWorkerColor().toLowerCase(), "red");
-        assertEquals(workerGreen.getWorkerColor().toLowerCase(), "green");
+        assertEquals("blue", workerBlue.getWorkerColor().toLowerCase());
+        assertEquals("red", workerRed.getWorkerColor().toLowerCase());
+        assertEquals("green", workerGreen.getWorkerColor().toLowerCase());
     }
 
     /**
@@ -73,7 +74,7 @@ class WorkerTest {
         assertEquals(expX, worker.getPosition().getX());
         assertEquals(expY, worker.getPosition().getY());
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {worker.setPosition(null);});
+        assertThrows(IllegalArgumentException.class, () -> worker.setPosition(null));
 
     }
 
@@ -89,7 +90,7 @@ class WorkerTest {
     @DisplayName("move method, exception and winning condition")
     void move() {
         Space nullSpace = null;
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {worker.move(nullSpace);});
+        assertThrows(IllegalArgumentException.class, () -> worker.move(nullSpace));
 
         Space init = new Space();
         Space spaceFin = new Space();
@@ -240,7 +241,7 @@ class WorkerTest {
                 }
             }
             worker.setPosition(gameBoard.getSpace(1,1));
-            Exception exception = assertThrows(IllegalStateException.class, () -> {worker.notifyWithMoves(gameBoard);});
+            assertThrows(IllegalStateException.class, () -> worker.notifyWithMoves(gameBoard));
         }
 
         /**
@@ -404,13 +405,13 @@ class WorkerTest {
         @DisplayName("selectSpacesListener test")
         void selectSpacesListenerTest(){
             worker.notifyWithMoves(gameBoard);
-            ArrayList<Space> moves = worker.selectMoves(gameBoard);
+            List<Space> moves = worker.selectMoves(gameBoard);
             for(int i=0; i<moves.size(); i++){
                 assertEquals(moves.get(i).getX(), client.getSelectMoves().get(i).getX(),"x"+ i);
                 assertEquals(moves.get(i).getY(), client.getSelectMoves().get(i).getY(), "y" + i);
             }
             worker.notifyWithBuildable(gameBoard);
-            ArrayList<Space> build = worker.getBuildableSpaces(gameBoard);
+            List<Space> build = worker.getBuildableSpaces(gameBoard);
             for(int i=0; i<build.size(); i++){
                 assertEquals(build.get(i).getX(), client.getSelectMoves().get(i).getX(),"x"+ i);
                 assertEquals(build.get(i).getY(), client.getSelectMoves().get(i).getY(), "y" + i);
@@ -470,7 +471,7 @@ class WorkerTest {
     /**
      * this class receives messages from different listeners
      */
-    private class VirtualClientStub extends VirtualClient {
+    private static class VirtualClientStub extends VirtualClient {
 
         private ArrayList<Couple> selectMoves;
         private Move move;
@@ -534,19 +535,12 @@ class WorkerTest {
             return move;
         }
 
-        public Couple getBuild() {
-            return build;
-        }
 
         public boolean isDome() {
             return dome;
         }
 
 
-
-        public Worker getWinWorker() {
-            return winWorker;
-        }
 
     }
 

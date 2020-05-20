@@ -12,18 +12,23 @@ import it.polimi.ingsw.server.VirtualClient;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alice Piemonti
  */
 public abstract class Worker {
 
+    public static final String SELECT_SPACES_LISTENER = "selectSpacesListener";
+    public static final String WIN_LISTENER = "winListener";
+    public static final String MOVE_LISTENER = "moveListener";
+    public static final String BUILD_LISTENER = "buildListener";
     protected Space position;
     protected boolean isBlocked;
     protected boolean canMoveUp;
     protected final String workerColor;
-    protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-    protected ArrayList<Phase> phases = new ArrayList<>();
+    protected final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
+    protected final ArrayList<Phase> phases = new ArrayList<>();
 
     /**
      * Constructor
@@ -112,10 +117,10 @@ public abstract class Worker {
      * @param client virtualClient
      */
     public void createListeners(VirtualClient client){
-        listeners.addPropertyChangeListener("selectSpacesListener", new SelectSpacesListener(client));
-        listeners.addPropertyChangeListener("moveListener", new MoveListener(client));
-        listeners.addPropertyChangeListener("winListener", new WinListener(client));
-        listeners.addPropertyChangeListener("buildListener",new BuildListener(client));
+        listeners.addPropertyChangeListener(SELECT_SPACES_LISTENER, new SelectSpacesListener(client));
+        listeners.addPropertyChangeListener(MOVE_LISTENER, new MoveListener(client));
+        listeners.addPropertyChangeListener(WIN_LISTENER, new WinListener(client));
+        listeners.addPropertyChangeListener(BUILD_LISTENER,new BuildListener(client));
 
     }
 
@@ -174,9 +179,9 @@ public abstract class Worker {
         Space oldPosition = position;
         position.setWorker(space.getWorker());
         setPosition(space);
-        listeners.firePropertyChange("moveListener", oldPosition, position);
+        listeners.firePropertyChange(MOVE_LISTENER, oldPosition, position);
         if(winCondition(oldPosition)) {
-            listeners.firePropertyChange("winListener", null, null);
+            listeners.firePropertyChange(WIN_LISTENER, null, null);
         }
         return true;
     }
@@ -233,12 +238,12 @@ public abstract class Worker {
      */
     public void notifyWithMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
         if(gameBoard == null) throw new IllegalArgumentException();
-        ArrayList<Space> moves = selectMoves(gameBoard);
+        List<Space> moves = selectMoves(gameBoard);
         if(moves.isEmpty()) {
             isBlocked = true;
             throw new IllegalStateException();
         }
-        listeners.firePropertyChange("selectSpacesListener", Action.SELECTMOVE, moves);
+        listeners.firePropertyChange(SELECT_SPACES_LISTENER, Action.SELECTMOVE, moves);
     }
 
     /**
@@ -248,7 +253,7 @@ public abstract class Worker {
      * @param gameBoard GameBoard of the game
      * @return ArrayList of Spaces
      */
-    public ArrayList<Space> selectMoves(GameBoard gameBoard) {
+    public List<Space> selectMoves(GameBoard gameBoard) {
         ArrayList<Space> moves = new ArrayList<>();
         for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
             for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
@@ -285,7 +290,7 @@ public abstract class Worker {
         } catch (OutOfBoundException e) {
             return false;
         }
-        listeners.firePropertyChange("buildListener",false,space);
+        listeners.firePropertyChange(BUILD_LISTENER,false,space);
         return true;
     }
 
@@ -321,11 +326,11 @@ public abstract class Worker {
      */
    public void notifyWithBuildable(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
        if(gameBoard == null) throw new IllegalArgumentException();
-       ArrayList<Space> buildable = getBuildableSpaces(gameBoard);
+       List<Space> buildable = getBuildableSpaces(gameBoard);
        if(buildable.isEmpty()) {
             throw new IllegalStateException();
        }
-       listeners.firePropertyChange("selectSpacesListener", Action.SELECTBUILD, buildable);
+       listeners.firePropertyChange(SELECT_SPACES_LISTENER, Action.SELECTBUILD, buildable);
 
    }
 
@@ -334,7 +339,7 @@ public abstract class Worker {
      * @param gameBoard gameBoard
      * @return an ArrayList of spaces
      */
-    public ArrayList<Space> getBuildableSpaces(GameBoard gameBoard){
+    public List<Space> getBuildableSpaces(GameBoard gameBoard){
         ArrayList<Space> buildable = new ArrayList<>();
         for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++){
             for(int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++){
