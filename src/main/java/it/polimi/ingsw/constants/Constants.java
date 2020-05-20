@@ -69,8 +69,8 @@ public class Constants {
 
     public static final String RULES ="\nView full rules here: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf";
     //server constants
-    public static String ADDRESS;
-    public static int PORT;
+    private static String ADDRESS;
+    private static int PORT;
 
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
@@ -168,5 +168,13 @@ public class Constants {
 
     public static void setPORT(int PORT) {
         Constants.PORT = PORT;
+    }
+
+    public static String getADDRESS() {
+        return ADDRESS;
+    }
+
+    public static int getPORT() {
+        return PORT;
     }
 }
