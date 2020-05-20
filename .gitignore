@@ -3,6 +3,7 @@ target/
 .vscode/
 out/
 *.iml
+javadocs/
 src/**/META-INF
 src/main/java/it/polimi/ingsw/modelView/player/Minotaur.java
 src/test/java/it/polimi/ingsw/modelView/player/AtlasTest.java
