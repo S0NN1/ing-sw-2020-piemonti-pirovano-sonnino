@@ -55,9 +55,14 @@ public abstract class Worker {
         return canMoveUp;
     }
 
+
     /**
-     * canMoveUp setter
-     * @param canMoveUp boolean
+     * Method setCanMoveUp sets the canMoveUp of this Worker object.
+     *
+     *
+     *
+     * @param canMoveUp the canMoveUp of this Worker object.
+     *
      */
     public void setCanMoveUp(boolean canMoveUp) {
         this.canMoveUp = canMoveUp;
@@ -306,13 +311,14 @@ public abstract class Worker {
                 space.isEmpty();
     }
 
+
     /**
-     * Check if space is reachable
+     * Method isReachable ...
      *
      * @param space of type Space
      * @return boolean
      */
-    private boolean isReachable(Space space) {
+    protected boolean isReachable(Space space) {
         return (space.getRow() - position.getRow() < 2) && (position.getRow() - space.getRow() < 2) &&
                 (space.getColumn() - position.getColumn() < 2) && (position.getColumn() - space.getColumn() < 2) &&
                 (space.getRow() != position.getRow() || space.getColumn() != position.getColumn()) &&

@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.model.player.gods.Atlas;
-import it.polimi.ingsw.model.player.gods.Minotaur;
+import it.polimi.ingsw.model.player.gods.simplegods.Atlas;
+import it.polimi.ingsw.model.player.gods.simplegods.Minotaur;
 
 
 /**

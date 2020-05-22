@@ -1,10 +1,10 @@
-package it.polimi.ingsw.model.player.gods;
+package it.polimi.ingsw.model.player.gods.simplegods;
 
-import it.polimi.ingsw.exceptions.InvalidInputException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.model.player.gods.simplegods.Artemis;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

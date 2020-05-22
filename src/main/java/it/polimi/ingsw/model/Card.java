@@ -13,7 +13,7 @@ import java.util.List;
  * @author Luca Pirovano
  */
 public enum Card {
-    APOLLO, ARTEMIS, ATHENA, ATLAS, DEMETER, HEPHAESTUS, MINOTAUR, PAN, PROMETHEUS;
+    APOLLO, ARES, ARTEMIS, ATHENA, ATLAS, CHARON, DEMETER, HEPHAESTUS, HESTIA, MINOTAUR, PAN, PROMETHEUS, TRITON, ZEUS;
 
     /**
      * Parse the input of the challenger player to get a valid god.

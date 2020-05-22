@@ -5,6 +5,11 @@
       "desc": "Your Move: Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated."
     },
     {
+      "name": "Ares",
+      "property": "God of War",
+      "desc": "End of Your Turn: You may remove an unoccupied block (not dome) neighboring your unmoved Worker."
+    },
+    {
       "name": "Artemis",
       "property": "Goddess of the Hunt",
       "desc": "Your Move: Your Worker may move one additional time, but not back to its initial space."
@@ -20,6 +25,11 @@
       "desc": "Your Build: Your Worker may build a dome at any level."
     },
     {
+      "name": "Charon",
+      "property": "Ferryman to the Underworld",
+      "desc": "Your Move: Before your Worker moves, you may force a neighboring opponent Worker to the space directly on the other side of your Worker, if that space is unoccupied."
+    },
+    {
       "name": "Demeter",
       "property": "Goddess of the Harvest",
       "desc": "Your Build: Your Worker may build one additional time, but not on the same space."
@@ -28,6 +38,11 @@
       "name": "Hephaestus",
       "property": "God of Blacksmiths",
       "desc": "Your Build: Your Worker may build one additional block (not dome) on top of your first block."
+    },
+    {
+      "name": "Hestia",
+      "property": "Goddess of Hear th and Home",
+      "desc": "Your Build: Your Worker may build one additional time, but this cannot be on a perimeter space."
     },
     {
       "name": "Minotaur",
@@ -43,5 +58,15 @@
       "name": "Prometheus",
       "property": "Titan Benefactor of Mankind",
       "desc": "Your Turn: If your Worker does not move up, it may build both before and after moving."
+    },
+    {
+      "name": "Triton",
+      "property": "God of the Waves",
+      "desc": "Your Move: Each time your Worker moves into a perimeter space, it may immediately move again."
+    },
+    {
+      "name": "Zeus",
+      "property": "God of the Sky",
+      "desc": "Your Build: Your Worker may build a block under itself."
     }
   ]

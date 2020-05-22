@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.player.gods.*;
+import it.polimi.ingsw.model.player.gods.simplegods.*;
 import it.polimi.ingsw.server.VirtualClient;
 
 import java.util.ArrayList;
