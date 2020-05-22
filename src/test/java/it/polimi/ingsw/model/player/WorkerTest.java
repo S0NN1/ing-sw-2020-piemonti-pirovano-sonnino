@@ -66,13 +66,13 @@ class WorkerTest {
     void setPositionTest() throws InvalidInputException {
 
         Space space = new Space();
-        space.setX(2);
-        space.setY(1);
+        space.setRow(2);
+        space.setColumn(1);
         worker.setPosition(space);
         int expX = 2;
         int expY = 1;
-        assertEquals(expX, worker.getPosition().getX());
-        assertEquals(expY, worker.getPosition().getY());
+        assertEquals(expX, worker.getPosition().getRow());
+        assertEquals(expY, worker.getPosition().getColumn());
 
         assertThrows(IllegalArgumentException.class, () -> worker.setPosition(null));
 
@@ -161,8 +161,8 @@ class WorkerTest {
             worker.move(gameBoard.getSpace(3, 0));
             assertEquals(expectedMovesBorder, worker.selectMoves(gameBoard).size(),"3");
             worker.move(gameBoard.getSpace(1, 4));
-            assertEquals(1, worker.getPosition().getX(),"x");
-            assertEquals(4, worker.getPosition().getY(),"y");
+            assertEquals(1, worker.getPosition().getRow(),"x");
+            assertEquals(4, worker.getPosition().getColumn(),"y");
             assertEquals(expectedMovesBorder, worker.selectMoves(gameBoard).size(),"4");
 
             int expectedMovesCorner = 3;
@@ -407,14 +407,14 @@ class WorkerTest {
             worker.notifyWithMoves(gameBoard);
             List<Space> moves = worker.selectMoves(gameBoard);
             for(int i=0; i<moves.size(); i++){
-                assertEquals(moves.get(i).getX(), client.getSelectMoves().get(i).getX(),"x"+ i);
-                assertEquals(moves.get(i).getY(), client.getSelectMoves().get(i).getY(), "y" + i);
+                assertEquals(moves.get(i).getRow(), client.getSelectMoves().get(i).getRow(),"x"+ i);
+                assertEquals(moves.get(i).getColumn(), client.getSelectMoves().get(i).getColumn(), "y" + i);
             }
             worker.notifyWithBuildable(gameBoard);
             List<Space> build = worker.getBuildableSpaces(gameBoard);
             for(int i=0; i<build.size(); i++){
-                assertEquals(build.get(i).getX(), client.getSelectMoves().get(i).getX(),"x"+ i);
-                assertEquals(build.get(i).getY(), client.getSelectMoves().get(i).getY(), "y" + i);
+                assertEquals(build.get(i).getRow(), client.getSelectMoves().get(i).getRow(),"x"+ i);
+                assertEquals(build.get(i).getColumn(), client.getSelectMoves().get(i).getColumn(), "y" + i);
             }
        }
 
@@ -429,10 +429,10 @@ class WorkerTest {
             Space nextPosition = gameBoard.getSpace(3,0);
             assertTrue(worker.isSelectable(nextPosition),"1");
             worker.move(nextPosition);
-            assertEquals(oldPosition.getX(),client.move.getOldPosition().getX(),"2");
-            assertEquals(oldPosition.getY(),client.move.getOldPosition().getY(),"3");
-            assertEquals(nextPosition.getX(),client.move.getNewPosition().getX(),"4");
-            assertEquals(nextPosition.getY(),client.move.getNewPosition().getY(),"5");
+            assertEquals(oldPosition.getRow(),client.move.getOldPosition().getRow(),"2");
+            assertEquals(oldPosition.getColumn(),client.move.getOldPosition().getColumn(),"3");
+            assertEquals(nextPosition.getRow(),client.move.getNewPosition().getRow(),"4");
+            assertEquals(nextPosition.getColumn(),client.move.getNewPosition().getColumn(),"5");
        }
 
         /**
@@ -445,8 +445,8 @@ class WorkerTest {
             Space build = gameBoard.getSpace(3,2); //build 3rd level
             assertTrue(worker.canBuildOnto(build),"1");
             worker.build(build);
-            assertEquals(build.getX(),client.build.getX(),"2");
-            assertEquals(build.getY(),client.build.getY(),"3");
+            assertEquals(build.getRow(),client.build.getRow(),"2");
+            assertEquals(build.getColumn(),client.build.getColumn(),"3");
             assertFalse(client.isDome());
        }
 

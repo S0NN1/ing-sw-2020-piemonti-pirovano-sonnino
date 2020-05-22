@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class contains the most significant constants for an execution of the game.
- * @author Luca Pirovano, Alice Piemonti, Sonny
+ * Constants class contains the most significant constants used in the project.
+ * @author Luca Pirovano, Alice Piemonti, Nicolò Sonnino
  */
 public class Constants {
 
@@ -123,6 +123,13 @@ public class Constants {
      */
     private static final List<String> MOVE_PHASE_GODS = new ArrayList<>();
 
+    /**
+     * Method getMovePhaseGods returns the movePhaseGods of this Constants object.
+     *
+     *
+     *
+     * @return the movePhaseGods (type List<String>) of this Constants object.
+     */
     public static List<String> getMovePhaseGods() {
         MOVE_PHASE_GODS.add(ARTEMIS);
         MOVE_PHASE_GODS.add(PROMETHEUS);
@@ -133,6 +140,13 @@ public class Constants {
      */
     private static final List<String> BUILD_PHASE_GODS = new ArrayList<>();
 
+    /**
+     * Method getBuildPhaseGods returns the buildPhaseGods of this Constants object.
+     *
+     *
+     *
+     * @return the buildPhaseGods (type List<String>) of this Constants object.
+     */
     public static List<String> getBuildPhaseGods() {
         BUILD_PHASE_GODS.add(DEMETER);
         BUILD_PHASE_GODS.add(HEPHAESTUS);
@@ -146,6 +160,13 @@ public class Constants {
      */
     private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = new ArrayList<>();
 
+    /**
+     * Method getMoveToCellOccupiedGods returns the moveToCellOccupiedGods of this Constants object.
+     *
+     *
+     *
+     * @return the moveToCellOccupiedGods (type List<String>) of this Constants object.
+     */
     public static List<String> getMoveToCellOccupiedGods() {
         MOVE_TO_CELL_OCCUPIED_GODS.add("APOLLO");
         MOVE_TO_CELL_OCCUPIED_GODS.add("MINOTAUR");
@@ -153,27 +174,71 @@ public class Constants {
     }
 
 
+    /**
+     * Method getInfo returns the info of this Constants object.
+     *
+     *
+     *
+     * @return the info (type String) of this Constants object.
+     */
     //datetime
     public static String getInfo() {
         return(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " INFO: ");
     }
 
+    /**
+     * Method getErr returns the err of this Constants object.
+     *
+     *
+     *
+     * @return the err (type String) of this Constants object.
+     */
     public static String getErr() {
         return(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " ERR: ");
     }
 
+    /**
+     * Method setADDRESS sets the ADDRESS of this Constants object.
+     *
+     *
+     *
+     * @param ADDRESS the ADDRESS of this Constants object.
+     *
+     */
     public static void setADDRESS(String ADDRESS) {
         Constants.ADDRESS = ADDRESS;
     }
 
+    /**
+     * Method setPORT sets the PORT of this Constants object.
+     *
+     *
+     *
+     * @param PORT the PORT of this Constants object.
+     *
+     */
     public static void setPORT(int PORT) {
         Constants.PORT = PORT;
     }
 
+    /**
+     * Method getADDRESS returns the ADDRESS of this Constants object.
+     *
+     *
+     *
+     * @return the ADDRESS (type String) of this Constants object.
+     */
     public static String getADDRESS() {
         return ADDRESS;
     }
 
+    /**
+     * Method getPORT returns the PORT of this Constants object.
+     *
+     *
+     *
+     * @return the PORT (type int) of this Constants object.
+     */
     public static int getPORT() {
         return PORT;
     }

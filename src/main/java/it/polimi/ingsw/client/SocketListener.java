@@ -10,8 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Listens for a server answer on the socket, passing it to the client model class.
+ * Method SocketListeners listens for a server answer on the socket, passing it to the client model class.
  * @author Luca Pirovano
+ * @see Runnable
  */
 public class SocketListener implements Runnable{
 
@@ -21,7 +22,16 @@ public class SocketListener implements Runnable{
     private final Logger logger = Logger.getLogger(getClass().getName());
     private final ObjectInputStream inputStream;
 
-    public SocketListener(Socket socket, ModelView modelView, ObjectInputStream inputStream, ActionHandler actionHandler) {
+    /**
+     * Constructor SocketListener creates a new SocketListener instance.
+     *
+     * @param socket of type Socket
+     * @param modelView of type ModelView
+     * @param inputStream of type ObjectInputStream
+     * @param actionHandler of type ActionHandler
+     */
+    public SocketListener(Socket socket, ModelView modelView, ObjectInputStream inputStream, ActionHandler
+            actionHandler) {
         this.modelView = modelView;
         this.socket = socket;
         this.inputStream = inputStream;
@@ -29,15 +39,17 @@ public class SocketListener implements Runnable{
     }
 
     /**
-     * Processes the serialized answer received from the server, passing it to the answer handler.
-     * @see ModelView for more information.
-     * @param serverMessage the serialized answer.
+     * Method process processes the serialized answer received from the server, passing it to the answer handler.
+     * @param serverMessage of type SerializedAnswer the serialized answer.
      */
     public void process(SerializedAnswer serverMessage) {
         modelView.setServerAnswer(serverMessage.getServerAnswer());
         actionHandler.answerHandler();
     }
 
+    /**
+     * Method run loops and sends messages..
+     */
     @Override
     public void run() {
         try {
@@ -49,7 +61,8 @@ public class SocketListener implements Runnable{
         catch (IOException e) {
             logger.log(Level.SEVERE, "Connection closed by the server. Quitting...");
             if(modelView.getGui()!=null) {
-                modelView.getGui().propertyChange(new PropertyChangeEvent(this, "connectionClosed", null, modelView.getServerAnswer().getMessage()));
+                modelView.getGui().propertyChange(new PropertyChangeEvent(this, "connectionClosed",
+                        null, modelView.getServerAnswer().getMessage()));
             } else {
                 System.exit(0);
             }

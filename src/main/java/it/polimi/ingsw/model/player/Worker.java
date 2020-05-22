@@ -313,9 +313,9 @@ public abstract class Worker {
      * @return boolean
      */
     private boolean isReachable(Space space) {
-        return (space.getX() - position.getX() < 2) && (position.getX() - space.getX() < 2) &&
-                (space.getY() - position.getY() < 2) && (position.getY() - space.getY() < 2) &&
-                (space.getX() != position.getX() || space.getY() != position.getY()) &&
+        return (space.getRow() - position.getRow() < 2) && (position.getRow() - space.getRow() < 2) &&
+                (space.getColumn() - position.getColumn() < 2) && (position.getColumn() - space.getColumn() < 2) &&
+                (space.getRow() != position.getRow() || space.getColumn() != position.getColumn()) &&
                 !space.getTower().isCompleted();
     }
 

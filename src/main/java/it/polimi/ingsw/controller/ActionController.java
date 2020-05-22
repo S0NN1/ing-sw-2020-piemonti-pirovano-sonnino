@@ -134,8 +134,8 @@ public class ActionController {
      * @return boolean true if the cell is reachable, boolean false otherwise.
      */
     protected boolean minotaurDiagonalMove(Space space, int i, int j) {
-        return gameBoard.getSpace(space.getX() + i, space.getY() + j).isEmpty() &&
-                !gameBoard.getSpace(space.getX() + i, space.getY() + j).getTower().isCompleted();
+        return gameBoard.getSpace(space.getRow() + i, space.getColumn() + j).isEmpty() &&
+                !gameBoard.getSpace(space.getRow() + i, space.getColumn() + j).getTower().isCompleted();
     }
 
     /**
@@ -145,36 +145,36 @@ public class ActionController {
      */
     protected boolean minotaurCheckMove(Space space) {
         Space position = worker.getPosition();
-        if(space.getX() == position.getX()) {   // SAME ROW MOVEMENT
-            if(space.getY() > position.getY() && (!gameBoard.getSpace(space.getX(), space.getY() + 1).isEmpty() ||
-                    gameBoard.getSpace(space.getX(), space.getY() + 1).getTower().isCompleted())) {     //WEST-EAST
+        if(space.getRow() == position.getRow()) {   // SAME ROW MOVEMENT
+            if(space.getColumn() > position.getColumn() && (!gameBoard.getSpace(space.getRow(), space.getColumn() + 1).isEmpty() ||
+                    gameBoard.getSpace(space.getRow(), space.getColumn() + 1).getTower().isCompleted())) {     //WEST-EAST
                 return false;
             }
-            else if(space.getY() < position.getY() && (!gameBoard.getSpace(space.getX(), space.getY() - 1).isEmpty() ||
-                    gameBoard.getSpace(space.getX(), space.getY() - 1).getTower().isCompleted())) {     //EAST-WEST
-                return false;
-            }
-        }
-        else if(space.getY() == position.getY()) {  //SAME COLUMN MOVEMENT
-            if(space.getX() > position.getX() && (!gameBoard.getSpace(space.getX() + 1, space.getY()).isEmpty() ||
-                    gameBoard.getSpace(space.getX() + 1, space.getY()).getTower().isCompleted())) {     //NORTH-SOUTH
-                return false;
-            }
-            else if(space.getX() < position.getX() && (!gameBoard.getSpace(space.getX() - 1, space.getY()).isEmpty() ||
-                    !gameBoard.getSpace(space.getX() - 1, space.getY()).getTower().isCompleted())) {    //SOUTH-NORTH
+            else if(space.getColumn() < position.getColumn() && (!gameBoard.getSpace(space.getRow(), space.getColumn() - 1).isEmpty() ||
+                    gameBoard.getSpace(space.getRow(), space.getColumn() - 1).getTower().isCompleted())) {     //EAST-WEST
                 return false;
             }
         }
-        else if(space.getX() > position.getX() && space.getY() > position.getY()) {     //SOUTH-EAST
+        else if(space.getColumn() == position.getColumn()) {  //SAME COLUMN MOVEMENT
+            if(space.getRow() > position.getRow() && (!gameBoard.getSpace(space.getRow() + 1, space.getColumn()).isEmpty() ||
+                    gameBoard.getSpace(space.getRow() + 1, space.getColumn()).getTower().isCompleted())) {     //NORTH-SOUTH
+                return false;
+            }
+            else if(space.getRow() < position.getRow() && (!gameBoard.getSpace(space.getRow() - 1, space.getColumn()).isEmpty() ||
+                    !gameBoard.getSpace(space.getRow() - 1, space.getColumn()).getTower().isCompleted())) {    //SOUTH-NORTH
+                return false;
+            }
+        }
+        else if(space.getRow() > position.getRow() && space.getColumn() > position.getColumn()) {     //SOUTH-EAST
             return minotaurDiagonalMove(space, 1, 1);
         }
-        else if(space.getX() < position.getX() && space.getY() > position.getY()) {       //NORTH-EAST
+        else if(space.getRow() < position.getRow() && space.getColumn() > position.getColumn()) {       //NORTH-EAST
             return minotaurDiagonalMove(space,  -1, 1);
         }
-        else if(space.getX() > position.getX() && space.getY() < position.getY()) {       //SOUTH-WEST
+        else if(space.getRow() > position.getRow() && space.getColumn() < position.getColumn()) {       //SOUTH-WEST
             return minotaurDiagonalMove(space, 1, -1);
         }
-        else if(space.getX() < position.getX() && space.getY() < position.getY()) {       // NORTH-WEST
+        else if(space.getRow() < position.getRow() && space.getColumn() < position.getColumn()) {       // NORTH-WEST
             return minotaurDiagonalMove(space,  -1, -1);
         }
         return true;
@@ -189,7 +189,7 @@ public class ActionController {
     public boolean readMessage(MoveAction action) {
         if (worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.MOVE) return false;
         Couple couple = action.getMessage();
-        Space space = gameBoard.getSpace(couple.getX(), couple.getY());
+        Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());
         if (worker instanceof Minotaur && worker.isSelectable(space) && !space.isEmpty()) {
             if(minotaurCheckMove(space) && worker.move(space, gameBoard)) {
                 phase++;
@@ -214,11 +214,11 @@ public class ActionController {
         Couple couple = action.getMessage();
         if (worker instanceof Atlas && action instanceof AtlasBuildAction) {     //if Atlas worker, he can build a dome instead of a block
             boolean dome = ((AtlasBuildAction) action).isDome();
-            if (worker.build(gameBoard.getSpace(couple.getX(), couple.getY()), dome)) {
+            if (worker.build(gameBoard.getSpace(couple.getRow(), couple.getColumn()), dome)) {
                 phase++;
                 return true;
             }
-        } else if (worker.build(gameBoard.getSpace(couple.getX(), couple.getY()))) {
+        } else if (worker.build(gameBoard.getSpace(couple.getRow(), couple.getColumn()))) {
             phase++;
             return true;
         }

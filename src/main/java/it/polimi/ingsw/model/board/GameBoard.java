@@ -21,8 +21,8 @@ public class GameBoard {
             for(int j=Constants.GRID_MIN_SIZE; j<Constants.GRID_MAX_SIZE; j++) {
                 grid[i][j] = new Space();
                 try{
-                grid[i][j].setX(i);
-                grid[i][j].setY(j);
+                grid[i][j].setRow(i);
+                grid[i][j].setColumn(j);
                 }
                 catch(InvalidInputException e){
                     System.out.println(e.getMessage());

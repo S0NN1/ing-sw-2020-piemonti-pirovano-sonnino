@@ -912,8 +912,8 @@ public class CLI implements UI, Runnable {
     public void printSpaces(boolean move, boolean build, boolean end, String message) {
         updateCli(move, build, end, message);
         for (int i = 0; i < modelView.getSelectSpaces().size(); i++) {
-            System.out.print("(" + modelView.getSelectSpaces().get(i).getX() + "," +
-                    modelView.getSelectSpaces().get(i).getY() + ")  ");
+            System.out.print("(" + modelView.getSelectSpaces().get(i).getRow() + "," +
+                    modelView.getSelectSpaces().get(i).getColumn() + ")  ");
         }
         System.out.println();
     }

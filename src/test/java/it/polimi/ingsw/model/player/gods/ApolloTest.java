@@ -80,15 +80,15 @@ class ApolloTest {
 
         assertEquals("ApolloDoubleMove", client.god, "0");
 
-        assertEquals(worker.getPosition().getX(),client.myMove.getOldPosition().getX(),"1");
-        assertEquals(worker.getPosition().getY(),client.myMove.getOldPosition().getY(),"2");
-        assertEquals(apollo.getPosition().getX(),client.myMove.getNewPosition().getX(),"3");
-        assertEquals(apollo.getPosition().getX(),client.myMove.getNewPosition().getY(),"4");
+        assertEquals(worker.getPosition().getRow(),client.myMove.getOldPosition().getRow(),"1");
+        assertEquals(worker.getPosition().getColumn(),client.myMove.getOldPosition().getColumn(),"2");
+        assertEquals(apollo.getPosition().getRow(),client.myMove.getNewPosition().getRow(),"3");
+        assertEquals(apollo.getPosition().getRow(),client.myMove.getNewPosition().getColumn(),"4");
 
-        assertEquals(apollo.getPosition().getX(),client.otherMove.getOldPosition().getX(),"5");
-        assertEquals(apollo.getPosition().getY(),client.otherMove.getOldPosition().getY(),"6");
-        assertEquals(worker.getPosition().getX(),client.otherMove.getNewPosition().getX(),"7");
-        assertEquals(worker.getPosition().getY(),client.otherMove.getNewPosition().getY(),"8");
+        assertEquals(apollo.getPosition().getRow(),client.otherMove.getOldPosition().getRow(),"5");
+        assertEquals(apollo.getPosition().getColumn(),client.otherMove.getOldPosition().getColumn(),"6");
+        assertEquals(worker.getPosition().getRow(),client.otherMove.getNewPosition().getRow(),"7");
+        assertEquals(worker.getPosition().getColumn(),client.otherMove.getNewPosition().getColumn(),"8");
     }
 
     /**

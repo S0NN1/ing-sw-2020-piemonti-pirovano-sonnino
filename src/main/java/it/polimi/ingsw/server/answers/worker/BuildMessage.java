@@ -14,7 +14,7 @@ public class BuildMessage implements Answer {
 
 
     public  BuildMessage(Space space, boolean dome){
-        message = new Couple(space.getX(), space.getY());
+        message = new Couple(space.getRow(), space.getColumn());
         this.dome = dome;
     }
 

@@ -86,7 +86,7 @@ public class ActionHandler {
       } else if (answer instanceof BuildMessage) {
         Couple message = ((BuildMessage) answer).getMessage();
         boolean dome = ((BuildMessage) answer).getDome();
-        clientBoard.build(message.getX(), message.getY(), dome);
+        clientBoard.build(message.getRow(), message.getColumn(), dome);
         checkTurnActive();
         fireBuildMenu();
       } else if (answer instanceof DoubleMoveMessage) {
@@ -164,10 +164,10 @@ public class ActionHandler {
   private void updateClientBoardMove(Answer answer, ClientBoard clientBoard) {
     Move message = (Move) answer.getMessage();
     clientBoard.move(
-        message.getOldPosition().getX(),
-        message.getOldPosition().getY(),
-        message.getNewPosition().getX(),
-        message.getNewPosition().getY());
+        message.getOldPosition().getRow(),
+        message.getOldPosition().getColumn(),
+        message.getNewPosition().getRow(),
+        message.getNewPosition().getColumn());
     checkTurnActive();
   }
 
@@ -181,12 +181,12 @@ public class ActionHandler {
     Move myMove = answer.getMyMove();
     Move otherMove = answer.getOtherMove();
     clientBoard.minotaurDoubleMove(
-        myMove.getOldPosition().getX(),
-        myMove.getOldPosition().getY(),
-        otherMove.getOldPosition().getX(),
-        otherMove.getOldPosition().getY(),
-        otherMove.getNewPosition().getX(),
-        otherMove.getNewPosition().getY());
+        myMove.getOldPosition().getRow(),
+        myMove.getOldPosition().getColumn(),
+        otherMove.getOldPosition().getRow(),
+        otherMove.getOldPosition().getColumn(),
+        otherMove.getNewPosition().getRow(),
+        otherMove.getNewPosition().getColumn());
     checkTurnActive();
   }
 
@@ -200,10 +200,10 @@ public class ActionHandler {
     Move myMove = answer.getMyMove();
     Move otherMove = answer.getOtherMove();
     clientBoard.apolloDoubleMove(
-        myMove.getOldPosition().getX(),
-        myMove.getOldPosition().getY(),
-        otherMove.getOldPosition().getX(),
-        otherMove.getOldPosition().getY());
+        myMove.getOldPosition().getRow(),
+        myMove.getOldPosition().getColumn(),
+        otherMove.getOldPosition().getRow(),
+        otherMove.getOldPosition().getColumn());
     checkTurnActive();
   }
 
@@ -287,16 +287,16 @@ public class ActionHandler {
       SetWorkersMessage message = (SetWorkersMessage) answer;
       modelView
           .getBoard()
-          .setColor(message.getWorker1().getX(), message.getWorker1().getY(), message.getMessage());
+          .setColor(message.getWorker1().getRow(), message.getWorker1().getColumn(), message.getMessage());
       modelView
           .getBoard()
-          .setWorkerNum(message.getWorker1().getX(), message.getWorker1().getY(), 1);
+          .setWorkerNum(message.getWorker1().getRow(), message.getWorker1().getColumn(), 1);
       modelView
           .getBoard()
-          .setColor(message.getWorker2().getX(), message.getWorker2().getY(), message.getMessage());
+          .setColor(message.getWorker2().getRow(), message.getWorker2().getColumn(), message.getMessage());
       modelView
           .getBoard()
-          .setWorkerNum(message.getWorker2().getX(), message.getWorker2().getY(), 2);
+          .setWorkerNum(message.getWorker2().getRow(), message.getWorker2().getColumn(), 2);
       modelView.setTurnActive(false);
       view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
     } else if (answer instanceof MatchStartedMessage) {

@@ -60,8 +60,8 @@ public class Apollo extends Worker {
             Space oldPosition = position;
             space.getWorker().setPosition(oldPosition);
             this.setPosition(space);
-            Move myMove = new Move(oldPosition.getX(),oldPosition.getY(),position.getX(),position.getY());
-            Move otherMove = new Move(position.getX(),position.getY(),oldPosition.getX(),oldPosition.getY());
+            Move myMove = new Move(oldPosition.getRow(),oldPosition.getColumn(),position.getRow(),position.getColumn());
+            Move otherMove = new Move(position.getRow(),position.getColumn(),oldPosition.getRow(),oldPosition.getColumn());
             listeners.firePropertyChange("ApolloDoubleMove", myMove,otherMove);
             if(winCondition(oldPosition)){
                 listeners.firePropertyChange("winListener", null, null);

@@ -25,7 +25,7 @@ import java.beans.PropertyChangeListener;
 /**
  * Turn controller handling turn's moves and routing actions to the Action Controller
  *
- * @author Sonny
+ * @author Nicolò Sonnino
  */
 
 public class TurnController implements PropertyChangeListener {

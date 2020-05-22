@@ -16,7 +16,7 @@ public class SelectSpacesMessage implements Answer {
     private final ArrayList<Couple> message = new ArrayList<>();
 
     public SelectSpacesMessage(List<Space> moves, Action action){
-        moves.forEach(space -> message.add(new Couple(space.getX(), space.getY())));
+        moves.forEach(space -> message.add(new Couple(space.getRow(), space.getColumn())));
         this.action = action;
     }
 

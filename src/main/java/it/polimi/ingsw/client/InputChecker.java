@@ -64,7 +64,7 @@ public class InputChecker {
     }
 
     /**
-     * Validates an "ADDGOD <god-name>" message type.
+     * Method addGod validates an "ADDGOD <god-name>" message type.
      *
      * @param in of type String[] the user input under array representation.
      * @return ChallengerPhaseAction the correct ChallengerPhaseAction, null otherwise.
@@ -200,6 +200,16 @@ public class InputChecker {
         }
     }
 
+    /**
+     * Method atlasBuild checks if atlasBuild action is permitted.
+     *
+     * @param turnPhase of type int the number indicating turn's phase.
+     * @param row of type int the row of the selected cell.
+     * @param column of type int the column of the selected cell.
+     * @param activeWorker of type int the number indicating which worker was selected by player at the start of the
+     *                     turn.
+     * @return AtlasBuildAction the correct AtlasBuildAction, null otherwise.
+     */
     public AtlasBuildAction atlasBuild(int turnPhase, int row, int column, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
@@ -222,14 +232,16 @@ public class InputChecker {
             }
         }
 
+
     /**
-     * Check if move is possible
+     * Method move checks if move action is permitted.
      *
-     * @param turnPhase    int
-     * @param row            int
-     * @param column            int
-     * @param activeWorker int
-     * @return moveAction
+     * @param turnPhase of type int the number indicating turn's phase.
+     * @param row of type int the row of the selected cell.
+     * @param column of type int the column of the selected cell.
+     * @param activeWorker of type int the number indicating which worker was selected by player at the start of the
+     *                     turn.
+     * @return MoveAction the correct MoveAction, null otherwise.
      */
     public MoveAction move(int turnPhase, int row, int column, int activeWorker) {
         if (activeWorker == 0) {
@@ -256,6 +268,15 @@ public class InputChecker {
 
     }
 
+    /**
+     * Method canReachCell checks if cell is reachable (no dome built or higher than current cell of one level).
+     *
+     * @param row of type int the row of the selected cell.
+     * @param column of type int the column of the selected cell.
+     * @param worker of type Couple worker's position.
+     * @param move of type MoveAction the MoveAction parsed.
+     * @return MoveAction the correct MoveAction, null otherwise.
+     */
     private MoveAction canReachCell(int row, int column, Couple worker, MoveAction move) {
         if (modelView.getBoard().getGrid()[row][column].isDome()) {
             System.out.println(RED + CELL_WITH_DOME + RST);
@@ -263,13 +284,20 @@ public class InputChecker {
         } else {
             assert worker != null;
             if (modelView.getBoard().getGrid()[row][column].getLevel() -
-                    modelView.getBoard().getGrid()[worker.getX()][worker.getY()].getLevel() >= 2) {
+                    modelView.getBoard().getGrid()[worker.getRow()][worker.getColumn()].getLevel() >= 2) {
                 System.out.println(RED + "Trying to move up to unreachable level, operation not permitted!" + RST);
                 return null;
             } else return move;
         }
     }
 
+    /**
+     * Method canMoveToOccupiedCell checks if moving to occupied cell is permitted by checking if the player's god is
+     * one with this particular effect.
+     *
+     * @param move of type MoveAction the MoveAction parsed.
+     * @return MoveAction the correct MoveAction, null otherwise.
+     */
     private MoveAction canMoveToOccupiedCell(MoveAction move) {
         if (!Constants.getMoveToCellOccupiedGods().contains(modelView.getGod().toUpperCase())) {
             System.out.println(RED + ERR_CELL_OCCUPIED + RST);
@@ -277,6 +305,15 @@ public class InputChecker {
         } else return move;
     }
 
+    /**
+     * Method getBuildAction checks if BuildAction isn't permitted by firing various errors based on their types.
+     *
+     * @param row of type int the row of the selected cell.
+     * @param column of type int the column of the selected cell.
+     * @param worker of type Couple worker's position.
+     * @param build of type BuildAction the BuildAction parsed.
+     * @return BuildAction the correct BuildAction, null otherwise.
+     */
     private BuildAction getBuildAction(int row, int column, Couple worker, BuildAction build) {
         if (isUnreachable(row, column, worker)) {
             System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
@@ -298,12 +335,29 @@ public class InputChecker {
     }
 
 
+    /**
+     * Method isUnreachable checks if selected cell is within a distance of 1 cell from the worker or if the player is
+     * trying to access outside the grid.
+     *
+     * @param row of type int the row of the selected cell.
+     * @param column of type int the column of the selected cell.
+     * @param worker of type Couple worker's position.
+     * @return boolean true if is unreachable, false otherwise.
+     */
     private boolean isUnreachable(int row, int column, Couple worker) {
         return row < Constants.GRID_MIN_SIZE || row >= Constants.GRID_MAX_SIZE || column < Constants.GRID_MIN_SIZE ||
-                column >= Constants.GRID_MAX_SIZE || row >= Objects.requireNonNull(worker).getX() + 2 ||
-                row <= worker.getX() - 2 || column >= worker.getY() + 2 || column <= worker.getY() - 2;
+                column >= Constants.GRID_MAX_SIZE || row >= Objects.requireNonNull(worker).getRow() + 2 ||
+                row <= worker.getRow() - 2 || column >= worker.getColumn() + 2 || column <= worker.getColumn() - 2;
     }
 
+    /**
+     * Method move checks if select build action is permitted.
+     *
+     * @param turnPhase of type int the number indicating turn's phase.
+     * @param activeWorker of type int the number indicating which worker was selected by player at the start of the
+     *                     turn.
+     * @return SelectMoveAction the correct SelectMoveAction, null otherwise.
+     */
     public SelectMoveAction move(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
@@ -317,6 +371,14 @@ public class InputChecker {
         }
     }
 
+    /**
+     * Method findWorker finds worker's current position.
+     *
+     * @param activeWorker of type int the number indicating which worker was selected by player at the start of the
+     *                     turn.
+     * @param color of type String the worker's color.
+     * @return Couple the correct worker's position, null otherwise.
+     */
     private Couple findWorker(int activeWorker, String color) {
         Couple couple;
         for (int row = 0; row < Constants.GRID_MAX_SIZE; row++) {
@@ -331,6 +393,12 @@ public class InputChecker {
         return null;
     }
 
+    /**
+     * Method selectWorker checks input and select right worker.
+     *
+     * @param in of type String[] the user input under array representation.
+     * @return StartTurnAction the correct StartTurnAction, null otherwise.
+     */
     public StartTurnAction selectWorker(String[] in) {
         if(modelView.getTurnPhase()==0) {
             String var;

@@ -3,7 +3,8 @@ package it.polimi.ingsw.client;
 import java.beans.PropertyChangeListener;
 
 /**
- * The main user interface, implemented by the CLI and GUI ones.
- * @author Everybody!
+ * Class UI defines an interface for both CLI and GUI.
+ * @author Alice Piemonti, Luca Pirovano, Nicolò Sonnino
+ * @see PropertyChangeListener
  */
 public interface UI extends PropertyChangeListener {}

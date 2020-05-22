@@ -5,13 +5,13 @@ import it.polimi.ingsw.exceptions.InvalidInputException;
 import it.polimi.ingsw.model.player.Worker;
 
 /**
- * @author Sonny
+ * @author Nicolò Sonnino
  * @version 1.0
  * <h1>Class describing spaces</h1>
  */
 public class Space {
-    private int x;
-    private int y;
+    private int row;
+    private int column;
     private Worker workerHere;
     private Tower builtTower;
 
@@ -28,19 +28,19 @@ public class Space {
      *
      * @return x position
      */
-    public int getX() {
-        return x;
+    public int getRow() {
+        return row;
     }
 
     /**
      * Set x value
      *
-     * @param x position
+     * @param row position
      * @exception InvalidInputException input isn't between 0 and 4
      */
-    public void setX(int x) throws InvalidInputException {
-        if (x >= Constants.GRID_MIN_SIZE && x < Constants.GRID_MAX_SIZE) {
-            this.x = x;
+    public void setRow(int row) throws InvalidInputException {
+        if (row >= Constants.GRID_MIN_SIZE && row < Constants.GRID_MAX_SIZE) {
+            this.row = row;
         } else throw new InvalidInputException();
     }
 
@@ -49,8 +49,8 @@ public class Space {
      *
      * @return y position
      */
-    public int getY() {
-        return y;
+    public int getColumn() {
+        return column;
     }
 
 
@@ -59,13 +59,13 @@ public class Space {
      *
      *
      *
-     * @param y the y of this Space object.
+     * @param column the y of this Space object.
      *
      * @throws InvalidInputException when
      */
-    public void setY(int y) throws InvalidInputException {
-        if (y >= Constants.GRID_MIN_SIZE && y < Constants.GRID_MAX_SIZE) {
-            this.y = y;
+    public void setColumn(int column) throws InvalidInputException {
+        if (column >= Constants.GRID_MIN_SIZE && column < Constants.GRID_MAX_SIZE) {
+            this.column = column;
         } else {
             throw new InvalidInputException();
         }
