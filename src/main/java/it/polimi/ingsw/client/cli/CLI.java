@@ -741,7 +741,7 @@ public class CLI implements UI, Runnable {
             case "boardUpdate" -> fireBoardUpdate(evt);
             case "firstBoardUpdate" -> firstUpdateCli();
             case "selectWorker" -> selectWorker();
-            case "end" -> end((String) evt.getNewValue());
+            case "end" -> end(((Answer)evt.getNewValue()).getMessage().toString());
             case "select" -> fireSelectSpaces(evt);
             case "win" -> {
                 output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
@@ -785,7 +785,7 @@ public class CLI implements UI, Runnable {
             boolean[] checkers = ((boolean[]) evt.getOldValue());
             String message = null;
             if(evt.getNewValue()!=null) {
-                message = evt.getNewValue().toString();
+                message = ((Answer)evt.getNewValue()).getMessage().toString();
             }
             updateCli(checkers[0], checkers[1], checkers[2], message);
         }

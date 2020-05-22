@@ -125,7 +125,7 @@ public class ActionHandler {
     if (answer.getAction() == null) {
       modelView.activateInput();
       view.firePropertyChange(
-          BOARD_UPDATE, new boolean[] {true, true, false}, answer.getMessage()); // PROMETHEUS MOVE
+          BOARD_UPDATE, new boolean[] {true, true, false}, answer); // PROMETHEUS MOVE
     } else if (answer.getAction().equals(Action.SELECTMOVE)) {
       modelView.activateInput();
       view.firePropertyChange(
@@ -218,7 +218,7 @@ public class ActionHandler {
     modelView.setActiveWorker(0);
     modelView.deactivateInput();
     view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
-    view.firePropertyChange("end", null, answer.getMessage());
+    view.firePropertyChange("end", null, answer);
   }
 
   /**

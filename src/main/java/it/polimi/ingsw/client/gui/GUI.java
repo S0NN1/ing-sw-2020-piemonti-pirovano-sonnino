@@ -295,10 +295,9 @@ public class GUI extends Application implements UI {
             }
             case "noPossibleMoves" -> System.err.println("No possible moves!");
             case "select" -> showSpacesList();
-            case "boardUpdate" -> checkAction(evt.getNewValue());
+            case "boardUpdate" -> checkAction((Answer)evt.getNewValue());
             case "selectWorker" -> selectWorker();
-
-            /*case "firstBoardUpdate" -> firstUpdateCli();
+            /*
             case "end" -> end((String)evt.getNewValue());
             case "win" -> {
                 output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
@@ -323,7 +322,7 @@ public class GUI extends Application implements UI {
         controller.selectWorker();
     }
 
-    private void checkAction(Object message) {
+    private void checkAction(Answer message) {
         MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
         if ( message instanceof MoveMessage) {
             Move move = (Move) ((MoveMessage) message).getMessage();
