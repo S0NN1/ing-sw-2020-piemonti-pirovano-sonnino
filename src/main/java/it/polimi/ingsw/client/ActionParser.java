@@ -4,15 +4,16 @@ import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.client.messages.actions.turnactions.EndTurnAction;
 import it.polimi.ingsw.constants.Constants;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * Handles the user input, transforming it in a message for the server. In this case, we decided to make a fatter client,
- * in order to pre-check the correctness of the requests and then have minor server flooding.
+ * ActionParser class handles the user input, converting it in a message for the server. In this case, we decided to
+ * make a thicker client, in order to pre-check the correctness of the requests and then have minor server flooding.
  *
- * @author Luca Pirovano
+ * @author Luca Pirovano, Nicolò Sonnino
+ * @version 2.0.0
+ * @see PropertyChangeListener
  */
 public class ActionParser implements PropertyChangeListener {
     private static final String RED = Constants.ANSI_RED;
@@ -21,12 +22,26 @@ public class ActionParser implements PropertyChangeListener {
     private final ModelView modelView;
     private final InputChecker inputChecker;
 
+    /**
+     * Constructor ActionParser creates a new ActionParser instance.
+     *
+     * @param connection of type ConnectionSocket the socket used for the connection.
+     * @param modelView of type ModelView the structure, stored into the client, containing simple logic of the model.
+     */
     public ActionParser(ConnectionSocket connection, ModelView modelView) {
         this.connection = connection;
         this.modelView = modelView;
         inputChecker = new InputChecker(connection, modelView);
     }
 
+    /**
+     * Method checkBuild checks build input inserted from cli, if it contains no arguments it refers to a
+     * SelectBuildAction otherwise to a BuildAction.
+     *
+     * @param in of type String[] the input from the player.
+     * @param turnPhase of type int the number defining turn's phase.
+     * @return UserAction the correct action.
+     */
     private UserAction checkBuild(String[] in, int turnPhase) {
         UserAction sendMessage;
         sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
@@ -35,6 +50,14 @@ public class ActionParser implements PropertyChangeListener {
         return sendMessage;
     }
 
+    /**
+     * Method checkPlaceDome checks placedome input inserted from cli, if it contains no arguments it refers to a
+     * SelectBuildAction otherwise to a BuildAction (ATLAS ONLY).
+     *
+     * @param in of type String[] the input from the player.
+     * @param turnPhase of type int the number defining turn's phase.
+     * @return UserAction the correct action.
+     */
     private UserAction checkPlaceDome(String[] in, int turnPhase) {
         UserAction sendMessage;
         sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
@@ -42,6 +65,13 @@ public class ActionParser implements PropertyChangeListener {
         return sendMessage;
     }
 
+    /**
+     * Method checkSelectWorker checks if selectworker input it's correct and set the chosen worker in modelView as
+     * active.
+     *
+     * @param in of type String[] the input from the player.
+     * @return UserAction the correct action.
+     */
     private UserAction checkSelectWorker(String[] in) {
         UserAction sendMessage;
         sendMessage = inputChecker.selectWorker(in);
@@ -51,6 +81,14 @@ public class ActionParser implements PropertyChangeListener {
         return sendMessage;
     }
 
+    /**
+     * Method checkPlaceDome checks move input inserted from cli, if it contains no arguments it refers to a
+     * SelectMoveAction otherwise to a MoveAction.
+     *
+     * @param in of type String[] the input from the player.
+     * @param turnPhase of type int the number defining turn's phase.
+     * @return UserAction the correct action.
+     */
     private UserAction checkMove(String[] in, int turnPhase) {
         return (in.length == 1) ? inputChecker.move(turnPhase, modelView.getActiveWorker())
                 : inputChecker.move(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
@@ -58,9 +96,11 @@ public class ActionParser implements PropertyChangeListener {
     }
 
     /**
-     * Synchronized action method; it's called when a player inserts a command in the CLI interface, and manages his
-     * selection before sending it to the server through the socket. It also performs an initial check about the
-     * rightness of the captured command.
+     * Synchronized action method, called when a player inserts a command in the CLI interface, manages its selection
+     * before sending it to the server through the socket. It also performs an initial check of the rightness of the
+     * captured command.
+     * @param input of type String  the input from the player.
+     * @return boolean true if sendMessage != null, unless false.
      */
     public synchronized boolean action(String input) {
         String[] in = input.split(" ");
@@ -105,6 +145,9 @@ public class ActionParser implements PropertyChangeListener {
         return false;
     }
 
+    /**
+     * @see PropertyChangeListener#propertyChange(PropertyChangeEvent)
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (!modelView.getCanInput()) {

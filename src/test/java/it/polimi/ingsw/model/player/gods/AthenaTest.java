@@ -52,10 +52,10 @@ class AthenaTest {
         assertEquals("Athena",turnController.getEvent(),"2");
 
         //check if moveListener has been notified correctly
-        assertEquals(secondPosition.getX(),client.move.getNewPosition().getX(),"3");
-        assertEquals(secondPosition.getY(),client.move.getNewPosition().getY(),"4");
-        assertEquals(firstPosition.getX(),client.move.getOldPosition().getX(),"5");
-        assertEquals(firstPosition.getY(),client.move.getOldPosition().getY(),"6");
+        assertEquals(secondPosition.getRow(),client.move.getNewPosition().getRow(),"3");
+        assertEquals(secondPosition.getColumn(),client.move.getNewPosition().getColumn(),"4");
+        assertEquals(firstPosition.getRow(),client.move.getOldPosition().getRow(),"5");
+        assertEquals(firstPosition.getColumn(),client.move.getOldPosition().getColumn(),"6");
 
         assertTrue(athena.isSelectable(thirdPosition),"7"); //third position lv0
         turnController.setEventNull(); //restart TurnController
@@ -65,10 +65,10 @@ class AthenaTest {
         assertEquals("normal",turnController.getEvent(),"8");
 
         //check if moveListener has been notified correctly
-        assertEquals(thirdPosition.getX(),client.move.getNewPosition().getX(),"9");
-        assertEquals(thirdPosition.getY(),client.move.getNewPosition().getY(),"10");
-        assertEquals(secondPosition.getX(),client.move.getOldPosition().getX(),"11");
-        assertEquals(secondPosition.getY(),client.move.getOldPosition().getY(),"12");
+        assertEquals(thirdPosition.getRow(),client.move.getNewPosition().getRow(),"9");
+        assertEquals(thirdPosition.getColumn(),client.move.getNewPosition().getColumn(),"10");
+        assertEquals(secondPosition.getRow(),client.move.getOldPosition().getRow(),"11");
+        assertEquals(secondPosition.getColumn(),client.move.getOldPosition().getColumn(),"12");
 
     }
 

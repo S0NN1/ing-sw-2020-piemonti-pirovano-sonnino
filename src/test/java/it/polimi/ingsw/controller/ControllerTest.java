@@ -93,13 +93,13 @@ class ControllerTest {
                 int[] coords = new int[2];
                 int[] coords2 = new int[2];
                 if(!space1.isEmpty()) {
-                    coords[0] = space1.getX();
-                    coords[1] = space1.getY();
+                    coords[0] = space1.getRow();
+                    coords[1] = space1.getColumn();
                     invalidWorker.add(coords);
                 }
                 if(!space2.isEmpty()) {
-                    coords2[0] = space2.getX();
-                    coords2[1] = space2.getY();
+                    coords2[0] = space2.getRow();
+                    coords2[1] = space2.getColumn();
                     invalidWorker.add(coords2);
                 }
                 value = false;

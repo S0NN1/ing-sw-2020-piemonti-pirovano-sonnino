@@ -15,9 +15,9 @@ class SpaceTest {
 
     @Test
     void correct_positionTest() throws InvalidInputException {
-        space.setX(2);
-        space.setY(4);
-        assertEquals(2, space.getX());
+        space.setRow(2);
+        space.setColumn(4);
+        assertEquals(2, space.getRow());
         System.out.println("correct_positionTest completed");
     }
 
@@ -26,8 +26,8 @@ class SpaceTest {
      */
     @Test
     void incorrect_positionTest() {
-        Assertions.assertThrows(InvalidInputException.class, () -> space.setX(5));
-        assertThrows(InvalidInputException.class, () -> space.setY(5));
+        Assertions.assertThrows(InvalidInputException.class, () -> space.setRow(5));
+        assertThrows(InvalidInputException.class, () -> space.setColumn(5));
         }
 
 }

@@ -80,7 +80,7 @@ public class Server {
      * nicknames and client ids. It also creates a new game session.
      */
     public Server() {
-        socketServer = new SocketServer(Constants.PORT, this);
+        socketServer = new SocketServer(Constants.getPORT(), this);
         idMapClient = new HashMap<>();
         nameMapId = new HashMap<>();
         clientToConnection = new HashMap<>();

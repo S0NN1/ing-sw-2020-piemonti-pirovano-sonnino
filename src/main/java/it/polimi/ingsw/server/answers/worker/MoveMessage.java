@@ -11,7 +11,7 @@ public class MoveMessage implements Answer {
     private final Move message;
 
     public MoveMessage(Space oldPosition, Space newPosition){
-        message = new Move(oldPosition.getX(), oldPosition.getY(), newPosition.getX(),newPosition.getY());
+        message = new Move(oldPosition.getRow(), oldPosition.getColumn(), newPosition.getRow(),newPosition.getColumn());
     }
 
     @Override

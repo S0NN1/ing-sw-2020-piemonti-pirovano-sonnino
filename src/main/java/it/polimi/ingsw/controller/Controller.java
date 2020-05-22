@@ -99,19 +99,19 @@ public class Controller implements PropertyChangeListener {
             getModel().getCurrentPlayer().getWorkers().get(0).setPosition(space1);
             getModel().getCurrentPlayer().getWorkers().get(1).setPosition(space2);
             gameHandler.sendAll(new SetWorkersMessage(getModel().getCurrentPlayer().getWorkers().get(0).getWorkerColor(),
-                    space1.getX(), space1.getY(), space2.getX(), space2.getY()));
+                    space1.getRow(), space1.getColumn(), space2.getRow(), space2.getColumn()));
         } else {
             ArrayList<int[]> invalidWorker = new ArrayList<>();
             int[] coords = new int[2];
             int[] coords2 = new int[2];
             if(!space1.isEmpty()) {
-                coords[0] = space1.getX();
-                coords[1] = space1.getY();
+                coords[0] = space1.getRow();
+                coords[1] = space1.getColumn();
                 invalidWorker.add(coords);
             }
             if(!space2.isEmpty()) {
-                coords2[0] = space2.getX();
-                coords2[1] = space2.getY();
+                coords2[0] = space2.getRow();
+                coords2[1] = space2.getColumn();
                 invalidWorker.add(coords2);
             }
             gameHandler.singleSend(new GameError(ErrorsType.CELLOCCUPIED, null, invalidWorker), getModel().getCurrentPlayer().getClientID());

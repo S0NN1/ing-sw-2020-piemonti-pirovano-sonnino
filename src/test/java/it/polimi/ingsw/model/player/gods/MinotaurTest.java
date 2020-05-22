@@ -193,15 +193,15 @@ class MinotaurTest {
 
             assertEquals("MinotaurDoubleMove", client.god, "0");
 
-            assertEquals(minotaur.getPosition().getX(),client.myMove.getNewPosition().getX(),"1");
-            assertEquals(minotaur.getPosition().getY(),client.myMove.getNewPosition().getY(),"2");
-            assertEquals(oldPosition.getX(),client.myMove.getOldPosition().getX(),"3");
-            assertEquals(oldPosition.getY(),client.myMove.getOldPosition().getY(),"4");
+            assertEquals(minotaur.getPosition().getRow(),client.myMove.getNewPosition().getRow(),"1");
+            assertEquals(minotaur.getPosition().getColumn(),client.myMove.getNewPosition().getColumn(),"2");
+            assertEquals(oldPosition.getRow(),client.myMove.getOldPosition().getRow(),"3");
+            assertEquals(oldPosition.getColumn(),client.myMove.getOldPosition().getColumn(),"4");
 
-            assertEquals(otherPosition.getX(),client.otherMove.getNewPosition().getX(),"5");
-            assertEquals(otherPosition.getY(),client.otherMove.getNewPosition().getY(),"6");
-            assertEquals(minotaur.getPosition().getX(),client.otherMove.getOldPosition().getX(),"7");
-            assertEquals(minotaur.getPosition().getY(),client.otherMove.getOldPosition().getY(),"8");
+            assertEquals(otherPosition.getRow(),client.otherMove.getNewPosition().getRow(),"5");
+            assertEquals(otherPosition.getColumn(),client.otherMove.getNewPosition().getColumn(),"6");
+            assertEquals(minotaur.getPosition().getRow(),client.otherMove.getOldPosition().getRow(),"7");
+            assertEquals(minotaur.getPosition().getColumn(),client.otherMove.getOldPosition().getColumn(),"8");
         }
         else fail("space not selectable");
     }

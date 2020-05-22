@@ -109,8 +109,8 @@ public class MainGuiController implements GUIController{
         String playerColor = getGUI().getModelView().getColor();
         Couple worker1 = board.getWorkerPosition(playerColor, 1);
         Couple worker2 = board.getWorkerPosition(playerColor, 2);
-        getWorkerFromGrid(worker1.getX(), worker1.getY()).makeSelectable();
-        getWorkerFromGrid(worker2.getX(), worker2.getY()).makeSelectable();
+        getWorkerFromGrid(worker1.getRow(), worker1.getColumn()).makeSelectable();
+        getWorkerFromGrid(worker2.getRow(), worker2.getColumn()).makeSelectable();
     }
 
     /**
@@ -230,7 +230,7 @@ public class MainGuiController implements GUIController{
         List<Couple> spaces = getGUI().getModelView().getSelectSpaces();
         for (Couple element: spaces) {
               AnchorPane node = new AnchorPane();
-              grid.add(node, element.getY(), element.getX());
+              grid.add(node, element.getColumn(), element.getRow());
               node.setStyle("-fx-background-color: yellow");
               node.setOpacity(0.4);
               if (build) {
@@ -242,7 +242,7 @@ public class MainGuiController implements GUIController{
               }
           }
         Couple position = getGUI().getModelView().getActiveWorkerPosition();
-        getWorkerFromGrid(position.getX(), position.getY()).move();
+        getWorkerFromGrid(position.getRow(), position.getColumn()).move();
     }
 
     /**
@@ -262,8 +262,8 @@ public class MainGuiController implements GUIController{
         String playerColor = getGUI().getModelView().getColor();
         Couple worker1 = board.getWorkerPosition(playerColor, 1);
         Couple worker2 = board.getWorkerPosition(playerColor, 2);
-        getWorkerFromGrid(worker1.getX(), worker1.getY()).setOnMouseEntered(null);
-        getWorkerFromGrid(worker2.getX(), worker2.getY()).setOnMouseEntered(null);
+        getWorkerFromGrid(worker1.getRow(), worker1.getColumn()).setOnMouseEntered(null);
+        getWorkerFromGrid(worker2.getRow(), worker2.getColumn()).setOnMouseEntered(null);
         //if not Prometheus
         getActionsLabel().setText("Move your worker!");
         //if Prometheus

@@ -47,14 +47,14 @@ public class Minotaur extends Worker {
                 return true;
             }
             else{
-                if(space.getX() == 0 || space.getX() == 4) {
-                    if (space.getY() == 0 || space.getY() == 4) {   //space is a corner
+                if(space.getRow() == 0 || space.getRow() == 4) {
+                    if (space.getColumn() == 0 || space.getColumn() == 4) {   //space is a corner
                         return false;
                     }
-                    return space.getX() == position.getX(); //space is on border: position must be on the same border
+                    return space.getRow() == position.getRow(); //space is on border: position must be on the same border
                 }
-                else if(space.getY() == 0 || space.getY() == 4){
-                     return space.getY() == position.getY();   //space is on border
+                else if(space.getColumn() == 0 || space.getColumn() == 4){
+                     return space.getColumn() == position.getColumn();   //space is on border
                 }
                 else return true;   //space is not on border
             }
@@ -88,20 +88,20 @@ public class Minotaur extends Worker {
         Space otherSpace;
         int x;
         int y;
-        if(mySpace.getX() > position.getX()) x = mySpace.getX() + 1;    //find coordinates of otherSpace
-        else if(mySpace.getX() < position.getX()) x = mySpace.getX() - 1;
-        else x = mySpace.getX();
-        if(mySpace.getY() > position.getY()) y = mySpace.getY() + 1;
-        else if(mySpace.getY() < position.getY()) y = mySpace.getY() - 1;
-        else y = mySpace.getY();
+        if(mySpace.getRow() > position.getRow()) x = mySpace.getRow() + 1;    //find coordinates of otherSpace
+        else if(mySpace.getRow() < position.getRow()) x = mySpace.getRow() - 1;
+        else x = mySpace.getRow();
+        if(mySpace.getColumn() > position.getColumn()) y = mySpace.getColumn() + 1;
+        else if(mySpace.getColumn() < position.getColumn()) y = mySpace.getColumn() - 1;
+        else y = mySpace.getColumn();
 
         otherSpace = gameBoard.getSpace(x,y);       //move Minotaur and force other worker
         mySpace.getWorker().setPosition(otherSpace);
         Space oldPosition = position;
         oldPosition.setWorker(null);
         this.setPosition(mySpace);
-        Move myMove = new Move(oldPosition.getX(),oldPosition.getY(),position.getX(),position.getY());
-        Move otherMove = new Move(position.getX(),position.getY(),otherSpace.getX(),otherSpace.getY());
+        Move myMove = new Move(oldPosition.getRow(),oldPosition.getColumn(),position.getRow(),position.getColumn());
+        Move otherMove = new Move(position.getRow(),position.getColumn(),otherSpace.getRow(),otherSpace.getColumn());
         listeners.firePropertyChange("MinotaurDoubleMove", myMove, otherMove);
         return true;
         }

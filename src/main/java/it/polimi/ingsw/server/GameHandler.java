@@ -221,8 +221,8 @@ public class GameHandler {
             for(int j = Constants.GRID_MIN_SIZE; j<Constants.GRID_MAX_SIZE; j++) {
                 if(game.getGameBoard().getSpace(i, j).isEmpty()) {
                     int[] coords = new int[2];
-                    coords[0] = game.getGameBoard().getSpace(i, j).getX();
-                    coords[1] = game.getGameBoard().getSpace(i, j).getY();
+                    coords[0] = game.getGameBoard().getSpace(i, j).getRow();
+                    coords[1] = game.getGameBoard().getSpace(i, j).getColumn();
                     spaces.add(coords);
                 }
             }

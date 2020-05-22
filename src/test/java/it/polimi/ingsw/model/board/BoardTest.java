@@ -17,8 +17,8 @@ class BoardTest {
         GameBoard board = new GameBoard();
         for(int i=0; i<5; i++) {
             for(int j=0; j<5; j++) {
-                assertEquals(i, board.getSpace(i, j).getX());
-                assertEquals(j, board.getSpace(i,j).getY());
+                assertEquals(i, board.getSpace(i, j).getRow());
+                assertEquals(j, board.getSpace(i,j).getColumn());
             }
         }
     }

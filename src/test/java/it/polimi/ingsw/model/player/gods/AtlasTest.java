@@ -48,8 +48,8 @@ class AtlasTest {
         assertEquals(1,build.getTower().getHeight(),"3");
         assertFalse(build.getTower().isCompleted(),"4");
 
-        assertEquals(build.getX(),client.getBuild().getX(),"5");
-        assertEquals(build.getY(),client.getBuild().getY(),"6");
+        assertEquals(build.getRow(),client.getBuild().getRow(),"5");
+        assertEquals(build.getColumn(),client.getBuild().getColumn(),"6");
         assertFalse(client.isDome(),"7");
     }
 
@@ -66,8 +66,8 @@ class AtlasTest {
         assertTrue(build.getTower().isCompleted(),"2");
         assertEquals(0,build.getTower().getHeight(),"3");
 
-        assertEquals(build.getX(),client.getBuild().getX(),"4");
-        assertEquals(build.getY(),client.getBuild().getY(),"5");
+        assertEquals(build.getRow(),client.getBuild().getRow(),"4");
+        assertEquals(build.getColumn(),client.getBuild().getColumn(),"5");
         assertTrue(client.isDome(),"6");
     }
 

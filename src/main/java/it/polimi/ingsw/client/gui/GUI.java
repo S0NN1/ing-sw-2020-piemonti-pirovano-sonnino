@@ -327,12 +327,12 @@ public class GUI extends Application implements UI {
         MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
         if ( message instanceof MoveMessage) {
             Move move = (Move) ((MoveMessage) message).getMessage();
-            controller.move(move.getOldPosition().getX(), move.getOldPosition().getY(), move.getNewPosition().getX(), move.getNewPosition().getY());
+            controller.move(move.getOldPosition().getRow(), move.getOldPosition().getColumn(), move.getNewPosition().getRow(), move.getNewPosition().getColumn());
         }
         else if ( message instanceof BuildMessage) {
             boolean dome = ((BuildMessage) message).getDome();
             Couple build = ((BuildMessage) message).getMessage();
-            controller.build(build.getX(), build.getY(), dome);
+            controller.build(build.getRow(), build.getColumn(), dome);
         }
         else if (message instanceof DoubleMoveMessage) {
             defineDoubleMove((DoubleMoveMessage) message, controller);
@@ -340,17 +340,17 @@ public class GUI extends Application implements UI {
     }
 
     private void defineDoubleMove(DoubleMoveMessage message, MainGuiController controller) {
-        int oldRow1 = message.getMyMove().getOldPosition().getX();
-        int oldCol1 = message.getMyMove().getOldPosition().getY();
-        int oldRow2 = message.getMyMove().getNewPosition().getX();
-        int oldCol2 = message.getMyMove().getNewPosition().getY();
+        int oldRow1 = message.getMyMove().getOldPosition().getRow();
+        int oldCol1 = message.getMyMove().getOldPosition().getColumn();
+        int oldRow2 = message.getMyMove().getNewPosition().getRow();
+        int oldCol2 = message.getMyMove().getNewPosition().getColumn();
 
         if (message.getMessage().equals("ApolloDoubleMove")) {
             controller.apolloDoubleMove(oldRow1, oldCol1, oldRow2, oldCol2);
         }
         else if (message.getMessage().equals("MinotaurDoubleMove")) {
-            int newRow2 = message.getOtherMove().getNewPosition().getX();
-            int newCol2 = message.getOtherMove().getNewPosition().getY();
+            int newRow2 = message.getOtherMove().getNewPosition().getRow();
+            int newCol2 = message.getOtherMove().getNewPosition().getColumn();
             controller.minotaurDoubleMove(oldRow1, oldCol1, oldRow2, oldCol2, newRow2, newCol2);
         }
     }
