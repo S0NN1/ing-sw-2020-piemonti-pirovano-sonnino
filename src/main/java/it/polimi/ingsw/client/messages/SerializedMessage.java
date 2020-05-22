@@ -4,6 +4,11 @@ import it.polimi.ingsw.client.messages.actions.UserAction;
 
 import java.io.Serializable;
 
+/**
+ * SerializedMessage class is used to serialize messages.
+ * @author Luca Pirovano
+ * @see Serializable
+ */
 public class SerializedMessage implements Serializable {
     public final Message message;
     public final UserAction action;
