@@ -8,7 +8,6 @@ import it.polimi.ingsw.constants.Couple;
 public class BuildAction extends WorkerAction {
 
     private final Couple buildSpace;
-    private boolean dome; //TODO ALI PLOX
 
     public BuildAction(int x, int y){
         buildSpace = new Couple(x,y);

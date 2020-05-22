@@ -4,16 +4,8 @@ import java.io.Serializable;
 
 public class Couple implements Serializable {
 
-    private int x;
-    private int y;
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y; //TODO ALI PLOX
-    }
+    private final int x;
+    private final int y;
 
     public Couple(int x, int y){
         this.x = x;
