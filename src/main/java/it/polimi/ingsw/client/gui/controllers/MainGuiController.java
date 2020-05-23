@@ -47,10 +47,10 @@ public class MainGuiController implements GUIController{
     public MainGuiController() {
         super();
         colors = new HashMap<>();
-        colors.put(Constants.ANSI_RED, Color.RED);
+        colors.put("RED", Color.RED);
         colors.put(Constants.ANSI_YELLOW, Color.YELLOW);
-        colors.put(Constants.ANSI_BLUE, Color.DARKBLUE);
-        colors.put(Constants.ANSI_GREEN, Color.GREEN);
+        colors.put("BLUE", Color.DARKBLUE);
+        colors.put("GREEN", Color.GREEN);
         colors.put(Constants.ANSI_CYAN, Color.CYAN);
     }
 
@@ -238,7 +238,7 @@ public class MainGuiController implements GUIController{
                   node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
                   int row = GridPane.getRowIndex(node);
                   int col = GridPane.getColumnIndex(node);
-                  node.setOnMouseClicked(mouseEvent -> getGUI().getObservers().firePropertyChange("action", null, "BUILD "+ row + col));
+                  node.setOnMouseClicked(mouseEvent -> getGUI().getObservers().firePropertyChange("action", null, "BUILD "+ row + " " + col));
               }
           }
         Couple position = getGUI().getModelView().getActiveWorkerPosition();

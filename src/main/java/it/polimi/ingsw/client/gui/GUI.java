@@ -296,6 +296,7 @@ public class GUI extends Application implements UI {
             case "noPossibleMoves" -> noPossibleMoves();
             case "select" -> showSpacesList();
             case "boardUpdate" -> checkAction((Answer)evt.getNewValue());
+            case "firstBoardUpdate" -> firstBoardUpdate();
             case "selectWorker" -> selectWorker();
 
             case "win" -> winner();
@@ -308,6 +309,14 @@ public class GUI extends Application implements UI {
                 logger.log(Level.WARNING, "No actions to be performed");
             }
         }
+    }
+
+    private void firstBoardUpdate() {
+        /*MainGuiController controller = (MainGuiController)getControllerFromName(MAINGUI);
+        for(int i=1; i<3; i++) {
+            controller.setWorker(modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getRow(),
+                    modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getRow());
+        }*/
     }
 
     private void matchStarted() {

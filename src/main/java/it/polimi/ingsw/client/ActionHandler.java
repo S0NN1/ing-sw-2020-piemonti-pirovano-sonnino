@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.controllers.MainGuiController;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
@@ -24,6 +25,7 @@ public class ActionHandler {
 
   public static final String FIRST_BOARD_UPDATE = "firstBoardUpdate";
   public static final String BOARD_UPDATE = "boardUpdate";
+  private static final String MAINGUI = "mainScene.fxml";
   private final ModelView modelView;
   private final PropertyChangeSupport view = new PropertyChangeSupport(this);
   private CLI cli;
@@ -288,6 +290,7 @@ public class ActionHandler {
       modelView
           .getBoard()
           .setColor(message.getWorker1().getRow(), message.getWorker1().getColumn(), message.getMessage());
+
       modelView
           .getBoard()
           .setWorkerNum(message.getWorker1().getRow(), message.getWorker1().getColumn(), 1);
@@ -297,6 +300,8 @@ public class ActionHandler {
       modelView
           .getBoard()
           .setWorkerNum(message.getWorker2().getRow(), message.getWorker2().getColumn(), 2);
+      ((MainGuiController)gui.getControllerFromName(MAINGUI)).setWorker(message.getWorker1().getRow(), message.getWorker1().getColumn());
+      ((MainGuiController)gui.getControllerFromName(MAINGUI)).setWorker(message.getWorker2().getRow(), message.getWorker2().getColumn());
       modelView.setTurnActive(false);
       view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
     } else if (answer instanceof MatchStartedMessage) {
