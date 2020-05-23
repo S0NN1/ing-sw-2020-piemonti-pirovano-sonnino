@@ -293,49 +293,105 @@ public class GUI extends Application implements UI {
             case "connectionClosed" -> {
                 connectionClosed(evt);
             }
-            case "noPossibleMoves" -> System.err.println("No possible moves!");
+            case "noPossibleMoves" -> noPossibleMoves();
             case "select" -> showSpacesList();
             case "boardUpdate" -> checkAction((Answer)evt.getNewValue());
             case "selectWorker" -> selectWorker();
-            /*
-            case "end" -> end((String)evt.getNewValue());
-            case "win" -> {
-                output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
-                System.exit(0);
-            }
-            case "lose" -> {
-                output.println(nameMapColor.get(RED) + "YOU LOSE!" + nameMapColor.get(RST));
-                output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has won." + nameMapColor.get(RST));
-                System.exit(0);
-            }
-            case "singleLost" -> System.err.println("All workers blocked, YOU LOSE!");
-            case "otherLost" -> otherPlayerLost(evt);
-*/
+
+            case "win" -> winner();
+
+            case "lose" -> loser(evt.getNewValue().toString());
+            case "singleLost" -> singleLoser();
+            case "otherLost" -> otherLoser(evt.getNewValue().toString());
+            case "matchStarted" -> matchStarted();
             default -> {
                 logger.log(Level.WARNING, "No actions to be performed");
             }
         }
     }
 
+    private void matchStarted() {
+        Platform.runLater(() -> {
+            changeStage(MAINGUI);
+        });
+    }
+
+    private void otherLoser(String loser) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("A player left the game.");
+            alert.setHeaderText("Lose condition active.");
+            alert.setContentText("Player " + loser + "has loose!");
+            alert.showAndWait();
+        });
+    }
+
+    private void singleLoser() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("End of the game");
+            alert.setHeaderText("YOU LOSE!");
+            alert.setContentText("All of your workers are blocked, YOU LOSE!\nApplication will now close.");
+            alert.showAndWait();
+            System.exit(0);
+        });
+    }
+
+    private void loser(String winner) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("End of the game");
+            alert.setHeaderText("YOU LOSE!");
+            alert.setContentText("The game has ended, player" + winner + "has won! \nApplication will now close.");
+            alert.showAndWait();
+            System.exit(0);
+        });
+    }
+
+    private void winner() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("End of the game");
+            alert.setHeaderText("YOU WIN!");
+            alert.setContentText("The game has ended, you win!\nApplication will now close.");
+            alert.showAndWait();
+            System.exit(0);
+        });
+    }
+
+    private void noPossibleMoves() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No move available!");
+            alert.setContentText("No possible moves! \nPlease select another worker");
+            alert.showAndWait();
+            MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
+            controller.selectWorker();
+        });
+    }
+
     private void selectWorker() {
-        MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
-        controller.selectWorker();
+        Platform.runLater(() -> {
+            MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
+            controller.selectWorker();
+        });
     }
 
     private void checkAction(Answer message) {
-        MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
-        if ( message instanceof MoveMessage) {
-            Move move = (Move) ((MoveMessage) message).getMessage();
-            controller.move(move.getOldPosition().getRow(), move.getOldPosition().getColumn(), move.getNewPosition().getRow(), move.getNewPosition().getColumn());
-        }
-        else if ( message instanceof BuildMessage) {
-            boolean dome = ((BuildMessage) message).getDome();
-            Couple build = ((BuildMessage) message).getMessage();
-            controller.build(build.getRow(), build.getColumn(), dome);
-        }
-        else if (message instanceof DoubleMoveMessage) {
-            defineDoubleMove((DoubleMoveMessage) message, controller);
-        }
+        Platform.runLater(() -> {
+            MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
+            if (message instanceof MoveMessage) {
+                Move move = ((MoveMessage) message).getMessage();
+                controller.move(move.getOldPosition().getRow(), move.getOldPosition().getColumn(), move.getNewPosition().getRow(), move.getNewPosition().getColumn());
+            } else if (message instanceof BuildMessage) {
+                boolean dome = ((BuildMessage) message).getDome();
+                Couple build = ((BuildMessage) message).getMessage();
+                controller.build(build.getRow(), build.getColumn(), dome);
+            } else if (message instanceof DoubleMoveMessage) {
+                defineDoubleMove((DoubleMoveMessage) message, controller);
+            }
+        });
     }
 
     private void defineDoubleMove(DoubleMoveMessage message, MainGuiController controller) {
@@ -355,8 +411,10 @@ public class GUI extends Application implements UI {
     }
 
     private void showSpacesList() {
-        MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
-        controller.highlightCell(false);
+        Platform.runLater(() -> {
+            MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
+            controller.highlightCell(false);
+        });
     }
 
     /**

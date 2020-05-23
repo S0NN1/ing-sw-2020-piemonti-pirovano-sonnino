@@ -755,6 +755,7 @@ public class CLI implements UI, Runnable {
             }
             case "singleLost" -> System.err.println("All workers blocked, YOU LOSE!");
             case "otherLost" -> otherPlayerLost(evt);
+            case "matchStarted" -> output.println("The match has started!");
             default -> output.println("Unrecognized answer");
         }
     }

@@ -300,6 +300,7 @@ public class ActionHandler {
       modelView.setTurnActive(false);
       view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
     } else if (answer instanceof MatchStartedMessage) {
+      view.firePropertyChange("matchStarted", null, null);
       modelView.setGamePhase(1);
     }
   }

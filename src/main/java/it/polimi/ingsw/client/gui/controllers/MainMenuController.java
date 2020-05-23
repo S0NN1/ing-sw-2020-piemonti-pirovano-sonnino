@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.ActionParser;
 import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.exceptions.InvalidNicknameException;
 import javafx.event.ActionEvent;
@@ -73,7 +74,14 @@ public class MainMenuController implements GUIController{
             confirmation.setText("Error: missing parameters!");
         }
         else {
-            LoaderController loaderController = null;
+            LoaderController loaderController;
+            try {
+                Constants.setADDRESS(address.getText());
+                Constants.setPORT(Integer.parseInt(port.getText()));
+            } catch (NumberFormatException e) {
+                confirmation.setText("Error: missing parameters!");
+                return;
+            }
             try {
                 gui.changeStage("loading.fxml");
                 gui.centerApplication();
