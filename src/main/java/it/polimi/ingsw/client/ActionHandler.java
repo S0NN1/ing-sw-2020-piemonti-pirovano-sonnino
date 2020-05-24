@@ -244,7 +244,7 @@ public class ActionHandler {
     }
   }
 
-  /** Method fireSelectWorker updates CLI after worker selection answer. */
+  /** Method fireSelectWorker updates CLI after a StartTurnMessage. */
   private void fireSelectWorker() {
     modelView.setTurnActive(true);
     modelView.activateInput();

@@ -7,8 +7,23 @@
     -fx-background-image: url("../graphics/btns/cm_btn_blue.png");
     -fx-background-size: stretch;
     -fx-text-fill: white;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
 }
 
 .rightBoard:pressed {
     -fx-background-image: url("../graphics/btns/cm_btn_green_pressed.png");
+}
+
+.grayedOut {
+    -fx-background-image: url("../graphics/btns/cm_btn_grey.png");
+    -fx-background-size: stretch;
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.grayedOut:pressed {
+    -fx-background-image: url("../graphics/btns/cm_btn_grey.png");
+    -fx-background-size: stretch;
 }
