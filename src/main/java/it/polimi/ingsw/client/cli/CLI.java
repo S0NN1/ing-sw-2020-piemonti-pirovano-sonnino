@@ -72,7 +72,7 @@ public class CLI implements UI, Runnable {
     /**
      * The main class of CLI client. It instantiates a new CLI class, running it.
      *
-     * @param args the standard java main parameters.
+     * @param args - the standard java main parameters.
      */
     public static void main(String[] args) {
         System.out.println(Constants.SANTORINI);
@@ -103,7 +103,7 @@ public class CLI implements UI, Runnable {
      * Method toggleActiveGame changes the value of the parameter activeGame, which states if the game is active or if
      * it has finished.
      *
-     * @param activeGame the value (type boolean) based on the status of the game.
+     * @param activeGame - the value (type boolean) based on the status of the game.
      */
     public void toggleActiveGame(boolean activeGame) {
         this.activeGame = activeGame;
@@ -156,7 +156,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method isActiveGame returns the activeGame of this CLI object.
      *
-     * @return the activeGame (type boolean) of this CLI object.
+     * @return - the activeGame (type boolean) of this CLI object.
      */
     public synchronized boolean isActiveGame() {
         return activeGame;
@@ -180,7 +180,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method firstBuildBoard creates empty board.
      *
-     * @param grid the printed board (type DisplayCell[][]).
+     * @param grid - the printed board (type DisplayCell[][]).
      */
     private void firstBuildBoard(DisplayCell[][] grid) {
         String[] rows = Printable.getLEVELS()[0].split("\n");
@@ -214,10 +214,10 @@ public class CLI implements UI, Runnable {
     /**
      * Method generateTypeOfLevel generates right levels for CLI use.
      *
-     * @param i    counter of type int a counter.
-     * @param j     cof type int a counter.
-     * @param level of type int the level to print.
-     * @return String[] grid's level row.
+     * @param i     of type int - a counter.
+     * @param j     of type int - a counter.
+     * @param level of type int - the level to print.
+     * @return String[] - grid's level row.
      */
     private String[] generateTypeOfLevel(int i, int j, int level) {
         String[] rows;

@@ -1,5 +1,9 @@
 package it.polimi.ingsw.constants;
 
+/**
+ * Printable class stores all grid assets for the CLI.
+ * @author Nicolò Sonnino
+ */
 public class Printable {
     public static final String GREEN = Constants.ANSI_GREEN;
     private static final String RESET = Constants.ANSI_RESET;
@@ -141,14 +145,26 @@ public class Printable {
 
     };
 
-    private Printable() {
 
-    }
 
+    /**
+     * Method getLEVELS returns the LEVELS of this Printable object.
+     *
+     *
+     *
+     * @return the LEVELS (type String[]) of this Printable object.
+     */
     public static String[] getLEVELS() {
         return LEVELS;
     }
 
+    /**
+     * Method getLEVELSWITHDOME returns the LEVELSWITHDOME of this Printable object.
+     *
+     *
+     *
+     * @return the LEVELSWITHDOME (type String[]) of this Printable object.
+     */
     public static String[] getLEVELSWITHDOME() {
         return LEVELS_WITH_DOME;
     }
