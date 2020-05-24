@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.player.gods.Minotaur;
 
 
 /**
+ * ActionController class calls model's method after receiving right turn's actions from TurnController.
  * @author Alice Piemonti
  */
 public class ActionController {
@@ -29,10 +30,12 @@ public class ActionController {
         this.gameBoard = gameBoard;
     }
 
+
     /**
-     * this method menages the sequence of worker's action
+     * Method startAction checks if selected worker is blocked or in a wrong turn phase.
      *
-     * @throws IllegalStateException if worker is blocked
+     * @param currentWorker of type Worker the value stored identifying selected worker if assigned.
+     * @return boolean true if selection is correct, false otherwise.
      */
     public boolean startAction(Worker currentWorker) {
         if (currentWorker == null || currentWorker.isBlocked()) return false;
@@ -53,10 +56,10 @@ public class ActionController {
         else return worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECTBUILD;
     }
 
+
     /**
-     * check if there are must phases left
-     *
-     * @return true if it's allowed to end the turn
+     * Method endAction checks if player can end turn.
+     * @return boolean true if result is positive, false otherwise.
      */
     public boolean endAction() {
         int phaseTemp = phase;
@@ -225,10 +228,24 @@ public class ActionController {
         return false;
     }
 
+    /**
+     * Method getWorker returns the worker of this ActionController object.
+     *
+     *
+     *
+     * @return the worker (type Worker) of this ActionController object.
+     */
     public Worker getWorker() {
         return worker;
     }
 
+    /**
+     * Method getPhase returns the phase of this ActionController object.
+     *
+     *
+     *
+     * @return the phase (type int) of this ActionController object.
+     */
     public int getPhase() {
         return phase;
     }
