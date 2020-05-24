@@ -416,7 +416,7 @@ public class GUI extends Application implements UI {
             controller.normalCell();
             if(modelView.isTurnActive()) {
                 controller.showActions(actionCheckers);
-                //deselectWorkers(controller);
+                deselectWorkers(controller);
             }
         });
     }
@@ -441,16 +441,16 @@ public class GUI extends Application implements UI {
         Platform.runLater(() -> {
             MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
             controller.highlightCell(actionCheckers[1]);
-            //deselectWorkers(controller);
+            deselectWorkers(controller);
         });
     }
 
-    /*private void deselectWorkers(MainGuiController controller) {
+    private void deselectWorkers(MainGuiController controller) {
         for(int i=1; i<3; i++) {
             controller.getWorkerFromGrid(modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getRow(),
                     modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getColumn()).deselect();
         }
-    }*/
+    }
 
     /**
      * Handles the connection closed event.

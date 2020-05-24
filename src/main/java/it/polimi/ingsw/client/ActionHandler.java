@@ -133,7 +133,7 @@ public class ActionHandler {
       view.firePropertyChange(
           "modifiedTurnNoUpdate",
           new boolean[] {true, true, false},
-          answer); // DOUBLE MOVE INIZIALE
+          answer); // DOUBLE MOVE
     } else if (answer.getAction().equals(Action.SELECTBUILD)) {
       modelView.activateInput();
       view.firePropertyChange(
