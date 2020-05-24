@@ -302,6 +302,7 @@ public class GUI extends Application implements UI {
             case "select" -> showSpacesList();
             case "boardUpdate" -> checkAction((Answer)evt.getNewValue());
             case "selectWorker" -> selectWorker();
+            case "modifiedTurnNoUpdate" -> modifiedTurnHandling();
             case "end" -> endTurn();
 
             case "win" -> winner();
@@ -314,6 +315,13 @@ public class GUI extends Application implements UI {
                 logger.log(Level.WARNING, "No actions to be performed");
             }
         }
+    }
+
+    private void modifiedTurnHandling() {
+        Platform.runLater(() -> {
+            MainGuiController controller = (MainGuiController)getControllerFromName(MAINGUI);
+            controller.showActions(actionCheckers);
+        });
     }
 
     private void endTurn() {
@@ -408,7 +416,7 @@ public class GUI extends Application implements UI {
             controller.normalCell();
             if(modelView.isTurnActive()) {
                 controller.showActions(actionCheckers);
-                deselectWorkers(controller);
+                //deselectWorkers(controller);
             }
         });
     }
@@ -432,17 +440,17 @@ public class GUI extends Application implements UI {
     private void showSpacesList() {
         Platform.runLater(() -> {
             MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
-            deselectWorkers(controller);
             controller.highlightCell(actionCheckers[1]);
+            //deselectWorkers(controller);
         });
     }
 
-    private void deselectWorkers(MainGuiController controller) {
+    /*private void deselectWorkers(MainGuiController controller) {
         for(int i=1; i<3; i++) {
             controller.getWorkerFromGrid(modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getRow(),
                     modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getColumn()).deselect();
         }
-    }
+    }*/
 
     /**
      * Handles the connection closed event.

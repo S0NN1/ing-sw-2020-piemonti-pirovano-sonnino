@@ -15,7 +15,6 @@ public class Worker extends Polygon {
     int row;
     int col;
     MainGuiController controller;
-    Cursor cursor;
 
     public Worker(int row, int col, MainGuiController controller) {
         super(0.0, 10.0,
@@ -23,7 +22,6 @@ public class Worker extends Polygon {
                         10.0, -10.0);
         setStroke(Color.BLACK);
 
-        this.cursor= Cursor.DEFAULT;
         this.row = row;
         this.col = col;
         this.controller = controller;
@@ -37,15 +35,11 @@ public class Worker extends Polygon {
             controller.getGUI().getObservers().firePropertyChange("action", null, "SELECTWORKER "+ getWorkingNumber());
             controller.workerSelected();
         });
-        cursor = Cursor.HAND;
     }
 
     public void deselect() {
-        if(cursor.equals(Cursor.HAND)) {
-            setOnMouseEntered(mouseEvent -> setCursor(Cursor.DEFAULT));
-            cursor = Cursor.DEFAULT;
-            setOnMouseClicked(mouseEvent -> {});
-        }
+        setOnMouseEntered(null);
+        setOnMouseClicked(null);
     }
 
     public void move(){

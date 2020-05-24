@@ -176,6 +176,7 @@ public class MainGuiController implements GUIController{
      */
     public void apolloDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2) {
         Worker worker1 = (Worker) getWorkerFromGrid(oldRow1, oldCol1);
+        worker1.deselect();
         worker1.setFill(colors.get(board.getColor(oldRow1,oldCol1)));
         Worker worker2 = (Worker) getWorkerFromGrid(oldRow2, oldCol2);
         worker2.setFill(colors.get(board.getColor(oldRow2, oldCol2)));
@@ -246,7 +247,9 @@ public class MainGuiController implements GUIController{
         Couple worker1 = board.getWorkerPosition(playerColor, 1);
         Couple worker2 = board.getWorkerPosition(playerColor, 2);
         getWorkerFromGrid(worker1.getRow(), worker1.getColumn()).setOnMouseEntered(null);
+        getWorkerFromGrid(worker1.getRow(), worker1.getColumn()).setOnMouseClicked(null);
         getWorkerFromGrid(worker2.getRow(), worker2.getColumn()).setOnMouseEntered(null);
+        getWorkerFromGrid(worker2.getRow(), worker2.getColumn()).setOnMouseClicked(null);
         //if not Prometheus
         getActionsLabel().setText("Move your worker!");
         //if Prometheus
