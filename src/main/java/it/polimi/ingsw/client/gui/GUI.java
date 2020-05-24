@@ -387,12 +387,14 @@ public class GUI extends Application implements UI {
         });
     }
 
-    private void checkAction(Answer message) {
+    private void checkAction(Answer answer) {
         Platform.runLater(() -> {
+            Answer message = modelView.getServerAnswer();
             MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
             if (message instanceof MoveMessage) {
                 Move move = ((MoveMessage) message).getMessage();
                 controller.move(move.getOldPosition().getRow(), move.getOldPosition().getColumn(), move.getNewPosition().getRow(), move.getNewPosition().getColumn());
+                controller.normalCell();
             } else if (message instanceof BuildMessage) {
                 boolean dome = ((BuildMessage) message).getDome();
                 Couple build = ((BuildMessage) message).getMessage();
