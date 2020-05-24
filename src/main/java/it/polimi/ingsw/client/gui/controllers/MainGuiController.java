@@ -114,7 +114,7 @@ public class MainGuiController implements GUIController{
      * @param col of the cell
      * @param level of the block
      */
-    public void addBlock(int row, int col, int level){
+    public void addBlock(int row, int col, int level) {
         Worker worker = null;
         for(Node node: grid.getChildren()) {
             if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col && node instanceof Worker) {
@@ -219,9 +219,16 @@ public class MainGuiController implements GUIController{
                   int col = GridPane.getColumnIndex(node);
                   node.setOnMouseClicked(mouseEvent -> getGUI().getObservers().firePropertyChange("action", null, "BUILD "+ row + " " + col));
               }
+              else {
+                  node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
+                  node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
+                  int row = GridPane.getRowIndex(node);
+                  int col = GridPane.getColumnIndex(node);
+                  node.setOnMouseClicked(mouseEvent -> getGUI().getObservers().firePropertyChange("action", null, "MOVE "+ row + " " + col));
+              }
           }
-        Couple position = getGUI().getModelView().getActiveWorkerPosition();
-        getWorkerFromGrid(position.getRow(), position.getColumn()).move();
+        //Couple position = getGUI().getModelView().getActiveWorkerPosition();
+        //getWorkerFromGrid(position.getRow(), position.getColumn()).move();
     }
 
     /**
