@@ -7,13 +7,11 @@ import it.polimi.ingsw.client.gui.shapes.Dome;
 import it.polimi.ingsw.client.gui.shapes.Worker;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -37,9 +35,17 @@ public class MainGuiController implements GUIController{
     @FXML
     Label actionsLabel;
     @FXML
-    Button buttonMove, buttonBuild;
+    Button buttonMove;
     @FXML
-    AnchorPane mainAnchor, rightAnchor, centerAnchor;
+    Button buttonBuild;
+    @FXML
+    Button buttonEnd;
+    @FXML
+    AnchorPane mainAnchor;
+    @FXML
+    AnchorPane rightAnchor;
+    @FXML
+    AnchorPane centerAnchor;
 
     /**
      * constructor
@@ -54,44 +60,15 @@ public class MainGuiController implements GUIController{
         colors.put(Constants.ANSI_CYAN, Color.CYAN);
     }
 
-    public void showActions() {
-        buttonMove.setVisible(true);
-        buttonBuild.setVisible(true);
+    public void showActions(boolean[] checkers) {
+        buttonMove.setVisible(checkers[0]);
+        buttonBuild.setVisible(checkers[1]);
+        buttonEnd.setVisible(checkers[2]);
         getActionsLabel().setText("Select Action:");
-        EventHandler<MouseEvent> buttonClicked = mouseEvent -> gui.getObservers().firePropertyChange("action", null, mouseEvent.getButton().name());
+        buttonMove.setOnAction(event -> gui.getObservers().firePropertyChange("action", null, "MOVE"));
+        buttonBuild.setOnAction(event -> gui.getObservers().firePropertyChange("action", null, "BUILD"));
+        buttonEnd.setOnAction(event -> gui.getObservers().firePropertyChange("action", null, "END"));
     }
-
-    /*public void testDragAndDrop(){
-        Button button = new Button("dragMe");
-        grid.add(button, 4,0);
-        final double[] x = new double[1];
-        final double[] y = new double[1];
-        button.setOnMousePressed(mouseEvent -> {
-            // record a delta distance for the drag and drop operation.
-            AnchorPane tempPane = new AnchorPane(button);
-            centerAnchor.getChildren().add(tempPane);
-            AnchorPane.setTopAnchor(tempPane, 66.0);
-            AnchorPane.setLeftAnchor(tempPane, 69.0);
-            tempPane.setMaxSize(330.0,330.0);
-            grid.getChildren().remove(button);
-             x[0] = button.getLayoutX() - mouseEvent.getSceneX();
-             y[0] = button.getLayoutY() - mouseEvent.getSceneY();
-            button.setCursor(Cursor.MOVE);
-        });
-        button.setOnMouseReleased(mouseEvent -> {
-            button.setCursor(Cursor.DEFAULT);
-            int row = (int) (Constants.GRID_MAX_SIZE - ((grid.getHeight() - button.getLayoutY())/(grid.getHeight()/Constants.GRID_MAX_SIZE)));
-            int col = (int) (Constants.GRID_MAX_SIZE - ((grid.getWidth() - button.getLayoutX())/(grid.getWidth()/Constants.GRID_MAX_SIZE)));
-            grid.add(button, col, row);
-                }
-        );
-        button.setOnMouseDragged(mouseEvent -> {
-            button.setLayoutX(mouseEvent.getSceneX() + x[0]);
-            button.setLayoutY(mouseEvent.getSceneY() + y[0]);
-        });
-        button.setOnMouseEntered(mouseEvent -> button.setCursor(Cursor.HAND));
-        button.setOnMouseExited(mouseEvent -> button.setCursor(Cursor.DISAPPEAR));
-    }*/
 
     /**
      * add a triangle (worker) into gridPane at row/col
@@ -106,6 +83,7 @@ public class MainGuiController implements GUIController{
      * make the two workers selectable
      */
     public void selectWorker() {
+        actionsLabel.setText("Select your worker.");
         String playerColor = getGUI().getModelView().getColor();
         Couple worker1 = board.getWorkerPosition(playerColor, 1);
         Couple worker2 = board.getWorkerPosition(playerColor, 2);
@@ -256,6 +234,11 @@ public class MainGuiController implements GUIController{
                 i--;
             }
         }
+    }
+
+    public void endTurn() {
+        showActions(new boolean[]{false, false, false});
+        actionsLabel.setText("Turn ended! :)");
     }
 
     public void workerSelected() {

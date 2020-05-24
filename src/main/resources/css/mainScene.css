@@ -6,4 +6,9 @@
 .rightBoard {
     -fx-background-image: url("../graphics/btns/cm_btn_blue.png");
     -fx-background-size: stretch;
+    -fx-text-fill: white;
+}
+
+.rightBoard:pressed {
+    -fx-background-image: url("../graphics/btns/cm_btn_green_pressed.png");
 }

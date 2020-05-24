@@ -204,7 +204,7 @@ public class LoaderController implements GUIController {
      */
     public void requestPlayerNumber(String message){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Looby capacity");
+        alert.setTitle("Lobby capacity");
         alert.setHeaderText("Choose the number of players.");
         alert.setContentText(message);
 

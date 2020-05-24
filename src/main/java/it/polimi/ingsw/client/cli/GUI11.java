@@ -213,7 +213,7 @@ public class GUI11 extends Application {
                 controller.getGUI().getModelView().getBoard().move(3,4,3,3);
                 controller.move(3,4,3,3);
             }
-            case 4 -> controller.showActions();
+            case 4 -> controller.showActions(new boolean[] {true, false, true});
             case 5 -> {
                 controller.getGUI().getModelView().setSelectSpaces(buildList);
                 controller.highlightCell(true);

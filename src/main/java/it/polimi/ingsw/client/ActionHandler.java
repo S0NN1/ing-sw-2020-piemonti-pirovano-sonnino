@@ -127,7 +127,7 @@ public class ActionHandler {
     if (answer.getAction() == null) {
       modelView.activateInput();
       view.firePropertyChange(
-          BOARD_UPDATE, new boolean[] {true, true, false}, answer); // PROMETHEUS MOVE
+          BOARD_UPDATE, new boolean[] {true, true, false}, answer); // PROMETHEUS ACTION
     } else if (answer.getAction().equals(Action.SELECTMOVE)) {
       modelView.activateInput();
       view.firePropertyChange(
@@ -219,7 +219,9 @@ public class ActionHandler {
     modelView.setTurnPhase(0);
     modelView.setActiveWorker(0);
     modelView.deactivateInput();
-    view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
+    if(cli!=null) {
+      view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
+    }
     view.firePropertyChange("end", null, answer);
   }
 
@@ -246,7 +248,9 @@ public class ActionHandler {
   private void fireSelectWorker() {
     modelView.setTurnActive(true);
     modelView.activateInput();
-    view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
+    if(cli!=null) {
+      view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
+    }
     view.firePropertyChange("selectWorker", null, null);
   }
 
@@ -303,7 +307,9 @@ public class ActionHandler {
       ((MainGuiController)gui.getControllerFromName(MAINGUI)).setWorker(message.getWorker1().getRow(), message.getWorker1().getColumn());
       ((MainGuiController)gui.getControllerFromName(MAINGUI)).setWorker(message.getWorker2().getRow(), message.getWorker2().getColumn());
       modelView.setTurnActive(false);
-      view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
+      if(cli!=null) {
+        view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
+      }
     } else if (answer instanceof MatchStartedMessage) {
       view.firePropertyChange("matchStarted", null, null);
       modelView.setGamePhase(1);

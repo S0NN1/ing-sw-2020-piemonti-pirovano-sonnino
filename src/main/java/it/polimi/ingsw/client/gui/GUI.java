@@ -64,6 +64,8 @@ public class GUI extends Application implements UI {
     private Scene currentScene;
     private Stage stage;
 
+    private boolean[] actionCheckers;
+
     public GUI() {
         this.modelView = new ModelView(this);
         actionHandler = new ActionHandler(this, modelView);
@@ -266,10 +268,10 @@ public class GUI extends Application implements UI {
                     controller.setFontSize(30);
                     controller.setText(msg);});
             }
-            Platform.runLater(() -> {
+            /*Platform.runLater(() -> {
                 LoaderController controller = (LoaderController)getControllerFromName(LOADER);
                 controller.displayCustomMessage(msg);
-            });
+            });*/   //TODO NON SONO SICURO CHE RESETTANDO FUNZIONI
         }
     }
 
@@ -280,6 +282,9 @@ public class GUI extends Application implements UI {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getOldValue()!=null) {
+            actionCheckers = (boolean[])evt.getOldValue();
+        } else actionCheckers = null;
         switch (evt.getPropertyName()) {
             case "gameError" -> {
                 errorHandling((GameError)evt.getNewValue());
@@ -296,8 +301,8 @@ public class GUI extends Application implements UI {
             case "noPossibleMoves" -> noPossibleMoves();
             case "select" -> showSpacesList();
             case "boardUpdate" -> checkAction((Answer)evt.getNewValue());
-            case "firstBoardUpdate" -> firstBoardUpdate();
             case "selectWorker" -> selectWorker();
+            case "end" -> endTurn();
 
             case "win" -> winner();
 
@@ -311,12 +316,11 @@ public class GUI extends Application implements UI {
         }
     }
 
-    private void firstBoardUpdate() {
-        /*MainGuiController controller = (MainGuiController)getControllerFromName(MAINGUI);
-        for(int i=1; i<3; i++) {
-            controller.setWorker(modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getRow(),
-                    modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getRow());
-        }*/
+    private void endTurn() {
+        Platform.runLater(() -> {
+            MainGuiController controller = (MainGuiController)getControllerFromName(MAINGUI);
+            controller.endTurn();
+        });
     }
 
     private void matchStarted() {
@@ -394,13 +398,17 @@ public class GUI extends Application implements UI {
             if (message instanceof MoveMessage) {
                 Move move = ((MoveMessage) message).getMessage();
                 controller.move(move.getOldPosition().getRow(), move.getOldPosition().getColumn(), move.getNewPosition().getRow(), move.getNewPosition().getColumn());
-                controller.normalCell();
             } else if (message instanceof BuildMessage) {
                 boolean dome = ((BuildMessage) message).getDome();
                 Couple build = ((BuildMessage) message).getMessage();
                 controller.build(build.getRow(), build.getColumn(), dome);
             } else if (message instanceof DoubleMoveMessage) {
                 defineDoubleMove((DoubleMoveMessage) message, controller);
+            }
+            controller.normalCell();
+            if(modelView.isTurnActive()) {
+                controller.showActions(actionCheckers);
+                deselectWorkers(controller);
             }
         });
     }
@@ -424,8 +432,16 @@ public class GUI extends Application implements UI {
     private void showSpacesList() {
         Platform.runLater(() -> {
             MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
-            controller.highlightCell(false);
+            deselectWorkers(controller);
+            controller.highlightCell(actionCheckers[1]);
         });
+    }
+
+    private void deselectWorkers(MainGuiController controller) {
+        for(int i=1; i<3; i++) {
+            controller.getWorkerFromGrid(modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getRow(),
+                    modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getColumn()).deselect();
+        }
     }
 
     /**
