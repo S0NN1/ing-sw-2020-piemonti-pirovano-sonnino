@@ -57,7 +57,7 @@ public class MainGuiController implements GUIController{
         colors.put(Constants.ANSI_YELLOW, Color.YELLOW);
         colors.put("BLUE", Color.DARKBLUE);
         colors.put("GREEN", Color.GREEN);
-        colors.put(Constants.ANSI_CYAN, Color.CYAN);
+        colors.put("CYAN", Color.CYAN);
     }
 
     public void showActions(boolean[] checkers) {
