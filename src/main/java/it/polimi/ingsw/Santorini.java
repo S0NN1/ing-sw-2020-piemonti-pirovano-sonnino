@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.cli.CLI;
+import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.server.Server;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -34,9 +35,10 @@ public class Santorini {
         }
         switch (input) {
             case 0 -> Server.main(null);
-            case 1 -> CLI.main(null); //TODO insert server IP
+            case 1 -> CLI.main(null);
             case 2 -> {
-                //TODO insert server IP and launch GUI interface
+                System.out.println("You selected the GUI interface, have fun!\nStarting...");
+                GUI.main(null);
             }
             default -> System.err.println("Invalid argument, please run the executable again with one of these options:\n1.server\n2.client");
         }

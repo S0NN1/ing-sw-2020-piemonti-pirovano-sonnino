@@ -2,19 +2,13 @@ package it.polimi.ingsw.client.gui.shapes;
 
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
 import it.polimi.ingsw.constants.Constants;
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 
-import javax.xml.stream.EventFilter;
-import java.beans.PropertyChangeSupport;
-import java.util.HashMap;
 
 public class Worker extends Polygon {
 
@@ -38,9 +32,14 @@ public class Worker extends Polygon {
         setOnMouseEntered(mouseEvent -> setCursor(Cursor.HAND));
 
         setOnMouseClicked(mouseEvent -> {
-            controller.getGUI().getObservers().firePropertyChange("action", null, "SELECT WORKER "+ getWorkingNumber());
+            controller.getGUI().getObservers().firePropertyChange("action", null, "SELECTWORKER "+ getWorkingNumber());
             controller.workerSelected();
         });
+    }
+
+    public void deselect() {
+        setOnMouseEntered(null);
+        setOnMouseClicked(null);
     }
 
     public void move(){
@@ -68,7 +67,7 @@ public class Worker extends Polygon {
                     int newCol = (int) (Constants.GRID_MAX_SIZE - ((grid.getWidth() - this.getLayoutX())/(grid.getWidth()/Constants.GRID_MAX_SIZE)));
                         grid.add(this, oldCol, oldRow);
                         this.setPosition(oldRow, oldCol);
-                        controller.getGUI().getObservers().firePropertyChange("action", null, "MOVE "+ newRow + newCol);
+                        controller.getGUI().getObservers().firePropertyChange("action", null, "MOVE "+ newRow + " " + newCol);
 
                     mainAnchor.getChildren().remove(tempPane);
                 }
