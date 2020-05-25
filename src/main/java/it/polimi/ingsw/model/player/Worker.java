@@ -355,5 +355,16 @@ public abstract class Worker {
         }
         return buildable;
     }
+
+    /**
+     * Method isPerimetric indicates whether the space is a perimeter space or not.
+     *
+     * @param space of type Space
+     * @return boolean true if space is a perimeter space, false if it is not.
+     */
+    public boolean isPerimetric(Space space) {
+        return (space.getRow() == Constants.GRID_MIN_SIZE || space.getRow() == (Constants.GRID_MAX_SIZE - 1) ||
+                (space.getColumn() == Constants.GRID_MIN_SIZE || space.getColumn() == (Constants.GRID_MAX_SIZE - 1)));
+    }
 }
 

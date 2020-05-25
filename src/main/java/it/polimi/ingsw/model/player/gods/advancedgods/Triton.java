@@ -87,15 +87,4 @@ public class Triton extends Worker {
         resetMoves();
         return super.build(space);
     }
-
-    /**
-     * Method isPerimetric indicates whether the space is a perimeter space or not.
-     *
-     * @param space of type Space
-     * @return boolean true if space is a perimeter space, false if it is not.
-     */
-    private boolean isPerimetric(Space space) {
-        return (space.getRow() == Constants.GRID_MIN_SIZE || space.getRow() == (Constants.GRID_MAX_SIZE - 1) ||
-                (space.getColumn() == Constants.GRID_MIN_SIZE || space.getColumn() == (Constants.GRID_MAX_SIZE - 1)));
-    }
 }
