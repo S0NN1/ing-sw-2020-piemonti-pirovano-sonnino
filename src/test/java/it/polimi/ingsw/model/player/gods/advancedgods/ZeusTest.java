@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.player.gods.simplegods;
+package it.polimi.ingsw.model.player.gods.advancedgods;
 
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
