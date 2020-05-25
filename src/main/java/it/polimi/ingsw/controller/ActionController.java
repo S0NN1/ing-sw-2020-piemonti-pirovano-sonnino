@@ -126,83 +126,11 @@ public class ActionController {
 
 
     /**
-     * Method minotaurDiagonalMove states if diagonal move is permitted, checking if it's occupied or contains a dome.
-     *
-     * @param space of type Space the cell in which the worker wants to move.
-     * @param i of type int the index needed for cardinal points check.
-     * @param j of type int the index needed for cardinal points check.
-     * @return boolean true if the cell is reachable, boolean false otherwise.
-     */
-    protected boolean minotaurDiagonalMove(Space space, int i, int j) {
-        return gameBoard.getSpace(space.getRow() + i, space.getColumn() + j).isEmpty() &&
-                !gameBoard.getSpace(space.getRow() + i, space.getColumn() + j).getTower().isCompleted();
-    }
-
-    /**
-     * Method minotaurCheckMove checks if the neighbour cells are selectable.
-     * @param space of type Space the cell in which the worker wants to move.
-     * @return boolean true if the cell is reachable, boolean false otherwise.
-     */
-    protected boolean minotaurCheckMove(Space space) {
-        Space position = worker.getPosition();
-        if(space.getRow() == position.getRow()) {   // SAME ROW MOVEMENT
-            if(space.getColumn() > position.getColumn() && (!gameBoard.getSpace(space.getRow(), space.getColumn() + 1).isEmpty() ||
-                    gameBoard.getSpace(space.getRow(), space.getColumn() + 1).getTower().isCompleted())) {     //WEST-EAST
-                return false;
-            }
-            else if(space.getColumn() < position.getColumn() && (!gameBoard.getSpace(space.getRow(), space.getColumn() - 1).isEmpty() ||
-                    gameBoard.getSpace(space.getRow(), space.getColumn() - 1).getTower().isCompleted())) {     //EAST-WEST
-                return false;
-            }
-        }
-        else if(space.getColumn() == position.getColumn()) {  //SAME COLUMN MOVEMENT
-            if(space.getRow() > position.getRow() && (!gameBoard.getSpace(space.getRow() + 1, space.getColumn()).isEmpty() ||
-                    gameBoard.getSpace(space.getRow() + 1, space.getColumn()).getTower().isCompleted())) {     //NORTH-SOUTH
-                return false;
-            }
-            else if(space.getRow() < position.getRow() && (!gameBoard.getSpace(space.getRow() - 1, space.getColumn()).isEmpty() ||
-                    !gameBoard.getSpace(space.getRow() - 1, space.getColumn()).getTower().isCompleted())) {    //SOUTH-NORTH
-                return false;
-            }
-        }
-        else if(space.getRow() > position.getRow() && space.getColumn() > position.getColumn()) {     //SOUTH-EAST
-            return minotaurDiagonalMove(space, 1, 1);
-        }
-        else if(space.getRow() < position.getRow() && space.getColumn() > position.getColumn()) {       //NORTH-EAST
-            return minotaurDiagonalMove(space,  -1, 1);
-        }
-        else if(space.getRow() > position.getRow() && space.getColumn() < position.getColumn()) {       //SOUTH-WEST
-            return minotaurDiagonalMove(space, 1, -1);
-        }
-        else if(space.getRow() < position.getRow() && space.getColumn() < position.getColumn()) {       // NORTH-WEST
-            return minotaurDiagonalMove(space,  -1, -1);
-        }
-        return true;
-    }
-
-    /**
      * move the worker into the space received
      *
      * @param action a couple of int which refers to the space
      * @return false if it isn't the correct phase or if the worker cannot move into this space
      */
-   /* public boolean readMessage(MoveAction action) {
-        if (worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.MOVE) return false;
-        Couple couple = action.getMessage();
-        Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());
-        if (worker instanceof Minotaur && worker.isSelectable(space) && !space.isEmpty()) {
-            if(minotaurCheckMove(space) && worker.move(space, gameBoard)) {
-                phase++;
-                return true;
-            }
-            return false;
-        }
-        else if (worker.isSelectable(space) && worker.move(space)) {
-            phase++;
-            return true;
-        } else return false;
-    }*/
-
     public boolean readMessage(MoveAction action) {
         if (worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.MOVE) return false;
         Couple couple = action.getMessage();
@@ -242,10 +170,24 @@ public class ActionController {
         return false;
     }
 
+    /**
+     * Method getWorker returns the worker of this ActionController object.
+     *
+     *
+     *
+     * @return the worker (type Worker) of this ActionController object.
+     */
     public Worker getWorker() {
         return worker;
     }
 
+    /**
+     * Method getPhase returns the phase of this ActionController object.
+     *
+     *
+     *
+     * @return the phase (type int) of this ActionController object.
+     */
     public int getPhase() {
         return phase;
     }
