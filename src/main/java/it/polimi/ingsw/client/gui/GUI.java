@@ -334,6 +334,8 @@ public class GUI extends Application implements UI {
     private void matchStarted() {
         Platform.runLater(() -> {
             changeStage(MAINGUI);
+            MainGuiController controller = (MainGuiController)getControllerFromName(MAINGUI);
+            controller.init();
         });
     }
 

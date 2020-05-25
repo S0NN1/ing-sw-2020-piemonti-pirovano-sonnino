@@ -7,7 +7,9 @@ import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.server.answers.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ModelView class contains a small representation of the game model, and contains linking to the main client actions,
@@ -26,6 +28,8 @@ public class ModelView {
     private int activeWorker;
     private String playerName;
     private String god;
+    private Map<String, String> playerMapColor;
+    private Map<String, String> playerMapGod;
 
     /**
      * Method getGodDesc returns the godDesc of this ModelView object.
@@ -66,6 +70,52 @@ public class ModelView {
     private boolean buildSelected;
     private boolean moveSelected;
     private List<Couple> selectSpaces= new ArrayList<>();
+
+    /**
+     * Method setPlayerMapColor sets the playerMapColor of this ModelView object.
+     *
+     *
+     *
+     * @param playerMapColor the playerMapColor of this ModelView object.
+     *
+     */
+    public void setPlayerMapColor(Map<String, String> playerMapColor) {
+        this.playerMapColor = playerMapColor;
+    }
+
+    /**
+     * Method setPlayerMapGod sets the playerMapGod of this ModelView object.
+     *
+     *
+     *
+     * @param playerMapGod the playerMapGod of this ModelView object.
+     *
+     */
+    public void setPlayerMapGod(Map<String, String> playerMapGod) {
+        this.playerMapGod = playerMapGod;
+    }
+
+    /**
+     * Method getPlayerMapColor returns the playerMapColor of this ModelView object.
+     *
+     *
+     *
+     * @return the playerMapColor (type Map<String, String>) of this ModelView object.
+     */
+    public Map<String, String> getPlayerMapColor() {
+        return playerMapColor;
+    }
+
+    /**
+     * Method getPlayerMapGod returns the playerMapGod of this ModelView object.
+     *
+     *
+     *
+     * @return the playerMapGod (type Map<String, String>) of this ModelView object.
+     */
+    public Map<String, String> getPlayerMapGod() {
+        return playerMapGod;
+    }
 
     /**
      * Method getSelectSpaces returns the selectSpaces of this ModelView object.

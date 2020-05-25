@@ -7,15 +7,21 @@ import it.polimi.ingsw.client.gui.shapes.Dome;
 import it.polimi.ingsw.client.gui.shapes.Worker;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
+import it.polimi.ingsw.model.Card;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,21 +37,36 @@ public class MainGuiController implements GUIController{
     private Worker selectedWorker;
 
     @FXML
-    GridPane grid;
+    private GridPane grid;
     @FXML
-    Label actionsLabel;
+    private Label actionsLabel;
     @FXML
-    Button buttonMove;
+    private Button buttonMove;
     @FXML
-    Button buttonBuild;
+    private Button buttonBuild;
     @FXML
-    Button buttonEnd;
+    private Button buttonEnd;
     @FXML
-    AnchorPane mainAnchor;
+    private AnchorPane mainAnchor;
     @FXML
-    AnchorPane rightAnchor;
+    private AnchorPane rightAnchor;
     @FXML
-    AnchorPane centerAnchor;
+    private AnchorPane centerAnchor;
+    @FXML
+    private Label player1;
+    @FXML
+    private Label player2;
+    @FXML
+    private Label player3;
+    @FXML
+    private Rectangle rect1;
+    @FXML
+    private Rectangle rect2;
+    @FXML
+    private Rectangle rect3;
+
+    private HashMap<Integer, Label> playerMapLabel = new HashMap<>();
+    private HashMap<Integer, Rectangle> playerMapRect = new HashMap<>();
 
     /**
      * constructor
@@ -58,6 +79,49 @@ public class MainGuiController implements GUIController{
         colors.put("BLUE", Color.DARKBLUE);
         colors.put("GREEN", Color.GREEN);
         colors.put("CYAN", Color.CYAN);
+    }
+
+    public void init() {
+        playerHashmapFill();
+        Collection players = gui.getModelView().getPlayerMapColor().keySet();
+        Iterator iterator = players.iterator();
+        for(int i=0; i<gui.getModelView().getPlayerMapColor().size(); i++) {
+            String nickname = iterator.next().toString();
+            playerMapLabel.get(i).setText(nickname);
+            playerMapRect.get(i).setFill(colors.get(gui.getModelView().getPlayerMapColor().get(nickname).toUpperCase()));
+            playerMapLabel.get(i).setVisible(true);
+        }
+    }
+
+    @FXML
+    public void getGod(ActionEvent event) {
+        Alert description = new Alert(Alert.AlertType.INFORMATION);
+        description.setTitle(gui.getModelView().getPlayerMapGod().get(((Label)event.getSource()).getText()));
+        description.setHeaderText("Description");
+        description.setContentText(Card.parseInput(gui.getModelView().getPlayerMapGod().get(((Label)event.getSource()).getText())).godsDescription());
+        description.show();
+
+    }
+
+    private void setMousePlayerAction(int i) {
+        playerMapLabel.get(i).setOnMouseEntered(event -> playerMapLabel.get(i).setCursor(Cursor.HAND));
+        playerMapLabel.get(i).setOnMouseClicked(event -> {
+            Alert description = new Alert(Alert.AlertType.INFORMATION);
+            description.setTitle(gui.getModelView().getPlayerMapGod().get(playerMapLabel.get(i).getText()));
+            description.setHeaderText("Description");
+            description.setContentText(Card.parseInput(gui.getModelView().getPlayerMapGod().
+                    get(playerMapLabel.get(i).getText())).godsDescription());
+            description.show();
+        });
+    }
+
+    private void playerHashmapFill() {
+        playerMapLabel.put(0, player1);
+        playerMapLabel.put(1, player2);
+        playerMapLabel.put(2, player3);
+        playerMapRect.put(0, rect1);
+        playerMapRect.put(1, rect2);
+        playerMapRect.put(2, rect3);
     }
 
     public void showActions(boolean[] checkers) {

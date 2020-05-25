@@ -205,7 +205,10 @@ public class GameHandler {
             game.nextPlayer();
         }
         if(game.getCurrentPlayer().getWorkers().get(0).getPosition()!=null) {
-            sendAll(new MatchStartedMessage());
+            MatchStartedMessage startedMessage = new MatchStartedMessage();
+            game.getActivePlayers().forEach(n -> startedMessage.setPlayerMapColor(n.getNickname(), n.getColor().toString()));
+            game.getActivePlayers().forEach(n -> startedMessage.setPlayerMapGod(n.getNickname(), n.getCard().toString()));
+            sendAll(startedMessage);
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
