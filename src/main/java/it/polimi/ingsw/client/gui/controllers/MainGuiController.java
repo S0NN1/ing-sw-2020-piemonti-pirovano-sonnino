@@ -57,13 +57,16 @@ public class MainGuiController implements GUIController{
         colors.put(Constants.ANSI_YELLOW, Color.YELLOW);
         colors.put("BLUE", Color.DARKBLUE);
         colors.put("GREEN", Color.GREEN);
-        colors.put(Constants.ANSI_CYAN, Color.CYAN);
+        colors.put("CYAN", Color.CYAN);
     }
 
     public void showActions(boolean[] checkers) {
-        buttonMove.setVisible(checkers[0]);
-        buttonBuild.setVisible(checkers[1]);
-        buttonEnd.setVisible(checkers[2]);
+        buttonMove.getStyleClass().clear();
+        buttonBuild.getStyleClass().clear();
+        buttonEnd.getStyleClass().clear();
+        buttonMove.getStyleClass().add(checkers[0] ? "rightBoard" : "grayedOut");
+        buttonBuild.getStyleClass().add(checkers[1] ? "rightBoard" : "grayedOut");
+        buttonEnd.getStyleClass().add(checkers[2] ? "rightBoard" : "grayedOut");
         getActionsLabel().setText("Select Action:");
         buttonMove.setOnAction(event -> gui.getObservers().firePropertyChange("action", null, "MOVE"));
         buttonBuild.setOnAction(event -> gui.getObservers().firePropertyChange("action", null, "BUILD"));
@@ -84,6 +87,7 @@ public class MainGuiController implements GUIController{
      */
     public void selectWorker() {
         actionsLabel.setText("Select your worker.");
+        actionsLabel.setVisible(true);
         String playerColor = getGUI().getModelView().getColor();
         Couple worker1 = board.getWorkerPosition(playerColor, 1);
         Couple worker2 = board.getWorkerPosition(playerColor, 2);
@@ -114,7 +118,7 @@ public class MainGuiController implements GUIController{
      * @param col of the cell
      * @param level of the block
      */
-    public void addBlock(int row, int col, int level){
+    public void addBlock(int row, int col, int level) {
         Worker worker = null;
         for(Node node: grid.getChildren()) {
             if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col && node instanceof Worker) {
@@ -219,9 +223,16 @@ public class MainGuiController implements GUIController{
                   int col = GridPane.getColumnIndex(node);
                   node.setOnMouseClicked(mouseEvent -> getGUI().getObservers().firePropertyChange("action", null, "BUILD "+ row + " " + col));
               }
+              else {
+                  node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
+                  node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
+                  int row = GridPane.getRowIndex(node);
+                  int col = GridPane.getColumnIndex(node);
+                  node.setOnMouseClicked(mouseEvent -> getGUI().getObservers().firePropertyChange("action", null, "MOVE "+ row + " " + col));
+              }
           }
-        Couple position = getGUI().getModelView().getActiveWorkerPosition();
-        getWorkerFromGrid(position.getRow(), position.getColumn()).move();
+        //Couple position = getGUI().getModelView().getActiveWorkerPosition();
+        //getWorkerFromGrid(position.getRow(), position.getColumn()).move();
     }
 
     /**
