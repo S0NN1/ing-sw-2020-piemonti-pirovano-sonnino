@@ -304,8 +304,11 @@ public class ActionHandler {
       modelView
           .getBoard()
           .setWorkerNum(message.getWorker2().getRow(), message.getWorker2().getColumn(), 2);
-      ((MainGuiController)gui.getControllerFromName(MAINGUI)).setWorker(message.getWorker1().getRow(), message.getWorker1().getColumn());
-      ((MainGuiController)gui.getControllerFromName(MAINGUI)).setWorker(message.getWorker2().getRow(), message.getWorker2().getColumn());
+      if (gui != null) {
+        ((MainGuiController)gui.getControllerFromName(MAINGUI)).setWorker(message.getWorker1().getRow(), message.getWorker1().getColumn());
+        ((MainGuiController)gui.getControllerFromName(MAINGUI)).setWorker(message.getWorker2().getRow(), message.getWorker2().getColumn());
+      }
+
       modelView.setTurnActive(false);
       if(cli!=null) {
         view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
