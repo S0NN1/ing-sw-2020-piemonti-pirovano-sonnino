@@ -113,8 +113,8 @@ public abstract class Worker {
      * @return phase
      */
     public Phase getPhase(int index){
-        if(phases.size() <= index) return null;
-        return phases.get(index);
+        if (index < phases.size()) return phases.get(index);
+        return null;
     }
 
     /**

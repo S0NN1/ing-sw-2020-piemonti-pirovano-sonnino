@@ -12,23 +12,34 @@ public class Athena extends Worker  {
 
     public static final String MOVE_UP_LISTENER = "moveUpListener";
 
+    /**
+     * Constructor Athena creates a new Athena instance.
+     *
+     * @param color of type PlayerColors
+     * @param controller of type TurnController
+     */
     public Athena(PlayerColors color, TurnController controller) {
         super(color);
         listeners.addPropertyChangeListener(MOVE_UP_LISTENER,controller);
     }
 
+    /**
+     * Method setPhases
+     * @see Worker#setPhases()
+     */
     @Override
     public void setPhases() {
         setNormalPhases();
     }
 
     /**
-     * change the worker's position while check winning condition
+     * change the worker's position while check winning condition.
      * requires this.isSelectable(space)
      *
      * @param space the new position
      * @return false if the worker can't move into this space
      * @throws IllegalArgumentException if space is null
+     * @see Worker#move(Space)
      */
     @Override
     public boolean move(Space space) throws IllegalArgumentException {

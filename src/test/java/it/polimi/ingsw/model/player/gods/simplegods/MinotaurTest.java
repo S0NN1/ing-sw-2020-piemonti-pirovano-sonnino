@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.player.gods.simplegods;
 
 import it.polimi.ingsw.constants.Move;
+import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -24,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class MinotaurTest {
 
-    Worker minotaur;
+    Minotaur minotaur;
     GameBoard gameBoard;
     ArrayList<Worker> workers;
 
@@ -141,7 +142,7 @@ class MinotaurTest {
             assertEquals(7, minotaur.selectMoves(gameBoard).size(),"1");
 
             Space move = gameBoard.getSpace(1, 0);
-            assertFalse(minotaur.isSelectable(move),"2"); //can't push worker0 out of the gameBoard
+            assertFalse(minotaur.isSelectable(move, gameBoard),"2"); //can't push worker0 out of the gameBoard
 
             move = gameBoard.getSpace(1, 2);
             minotaur.move(move, gameBoard); //push worker1
@@ -164,7 +165,7 @@ class MinotaurTest {
             assertEquals(4, minotaur.selectMoves(gameBoard).size(),"1");
 
             Space move = gameBoard.getSpace(4, 4);
-            assertFalse(minotaur.isSelectable(move),"2"); //can't push worker1 out of the gameBoard
+            assertFalse(minotaur.isSelectable(move, gameBoard),"2"); //can't push worker1 out of the gameBoard
 
             move = gameBoard.getSpace(2, 4);
             minotaur.move(move, gameBoard); //push worker0
@@ -172,6 +173,55 @@ class MinotaurTest {
             assertEquals(workers.get(0), gameBoard.getSpace(1, 4).getWorker(),"4");
             assertEquals(move, minotaur.getPosition(),"5");
             assertEquals(minotaur, gameBoard.getSpace(2, 4).getWorker(),"6");
+        }
+    }
+
+    @Nested
+    @DisplayName("bugs tests")
+    class bugDoubleMove {
+
+        /**
+         * Method domeBugDoubleMoveTest tests whether Minotaur can force a worker into a space with a completed tower.
+         * @throws OutOfBoundException when add level is not possible.
+         */
+        @Test
+        @DisplayName("worker on a dome")
+        void domeBugDoubleMoveTest() throws OutOfBoundException {
+            minotaur.setPosition(gameBoard.getSpace(3,2));
+            Space move = gameBoard.getSpace(3,1);
+            workers.get(0).setPosition(move);
+            Space spaceWithDome = gameBoard.getSpace(3,0);
+            spaceWithDome.getTower().setDome(true);
+
+            assertFalse(minotaur.isSelectable(move, gameBoard),"1");    //Minotaur can not force the worker into a space with dome
+            assertEquals(7, minotaur.selectMoves(gameBoard).size(),"2");
+
+            move = gameBoard.getSpace(2,3);
+            workers.get(1).setPosition(move);
+            spaceWithDome = gameBoard.getSpace(1,4);
+            spaceWithDome.getTower().addLevel();
+            spaceWithDome.getTower().addLevel();
+            spaceWithDome.getTower().addLevel();
+            spaceWithDome.getTower().addLevel();
+
+            assertFalse(minotaur.isSelectable(move, gameBoard),"3");    //Minotaur can not force the worker into a space with dome
+            assertEquals(6, minotaur.selectMoves(gameBoard).size(),"4");
+        }
+
+        /**
+         * Method onWorkerBugDoubleMoveTest tests whether Minotaur can force a worker into a not empty space.
+         */
+        @Test
+        @DisplayName("worker on a worker")
+        void onWorkerBugDoubleMoveTest() {
+            minotaur.setPosition(gameBoard.getSpace(4,0));
+            Space move = gameBoard.getSpace(4,1);
+            workers.get(0).setPosition(move);
+            workers.get(1).setPosition(gameBoard.getSpace(3,0));
+            workers.get(2).setPosition(gameBoard.getSpace(4,2));
+
+            assertFalse(minotaur.isSelectable(move,gameBoard),"5");
+            assertEquals(2, minotaur.selectMoves(gameBoard).size(),"6");
         }
     }
 
@@ -189,7 +239,7 @@ class MinotaurTest {
         VirtualClientStub client = new VirtualClientStub();
         minotaur.createListeners(client);
 
-        if(minotaur.isSelectable(gameBoard.getSpace(2,3))){
+        if(minotaur.isSelectable(gameBoard.getSpace(2,3), gameBoard)){
             minotaur.move(gameBoard.getSpace(2,3),gameBoard);
 
             assertEquals("MinotaurDoubleMove", client.god, "0");

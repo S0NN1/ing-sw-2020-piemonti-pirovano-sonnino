@@ -186,12 +186,29 @@ public class ActionController {
      * @param action a couple of int which refers to the space
      * @return false if it isn't the correct phase or if the worker cannot move into this space
      */
-    public boolean readMessage(MoveAction action) {
+   /* public boolean readMessage(MoveAction action) {
         if (worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.MOVE) return false;
         Couple couple = action.getMessage();
         Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());
         if (worker instanceof Minotaur && worker.isSelectable(space) && !space.isEmpty()) {
             if(minotaurCheckMove(space) && worker.move(space, gameBoard)) {
+                phase++;
+                return true;
+            }
+            return false;
+        }
+        else if (worker.isSelectable(space) && worker.move(space)) {
+            phase++;
+            return true;
+        } else return false;
+    }*/
+
+    public boolean readMessage(MoveAction action) {
+        if (worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.MOVE) return false;
+        Couple couple = action.getMessage();
+        Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());
+        if (worker instanceof Minotaur && ((Minotaur) worker).isSelectable(space, gameBoard) && !space.isEmpty()) {
+            if(worker.move(space, gameBoard)) {
                 phase++;
                 return true;
             }

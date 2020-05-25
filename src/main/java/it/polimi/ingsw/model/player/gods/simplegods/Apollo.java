@@ -12,10 +12,19 @@ import it.polimi.ingsw.server.VirtualClient;
  */
 public class Apollo extends Worker {
 
+    /**
+     * Constructor Apollo creates a new Apollo instance.
+     *
+     * @param color of type PlayerColors
+     */
     public Apollo(PlayerColors color) {
         super(color);
     }
 
+    /**
+     * Method setPhases
+     * @see Worker#setPhases()
+     */
     @Override
     public void setPhases() {
         setNormalPhases();
@@ -25,6 +34,7 @@ public class Apollo extends Worker {
      * create the Map of listeners
      *
      * @param client virtualClient
+     * @see Worker#createListeners(VirtualClient)
      */
     @Override
     public void createListeners(VirtualClient client) {
@@ -36,14 +46,15 @@ public class Apollo extends Worker {
      * return true if the worker can move to the space received
      *
      * @param space a space of the GameBoard
-     * @return boolean value
+     * @return boolean value true if the worker can move to the space received, false if he can not
      * @throws IllegalArgumentException if space is null
+     * @see Worker#isSelectable(Space)
      */
     @Override
     public boolean isSelectable(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
         boolean result =  canMoveTo(space) && (space.getTower().getHeight() - position.getTower().getHeight() < 2);
-        if(space.getWorker() == null)   return result;
+        if(space.isEmpty())   return result;
         return !space.getWorker().getWorkerColor().equals(this.getWorkerColor()) && result;
     }
 
@@ -51,7 +62,8 @@ public class Apollo extends Worker {
      * change the worker's position while check winning condition. This worker can also change his position with a neighboring worker
      * @param space the new position
      * @throws IllegalArgumentException if space is null
-     * @return super
+     * @return boolean value true if the worker moved correctly to the space received, false if he did not
+     * @see Worker#move(Space)
      */
     @Override
     public boolean move(Space space) throws IllegalArgumentException {

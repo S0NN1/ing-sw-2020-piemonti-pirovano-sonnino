@@ -13,10 +13,19 @@ public class Artemis extends Worker {
 
     private Space oldPosition;
 
+    /**
+     * Constructor Artemis creates a new Artemis instance.
+     *
+     * @param color of type PlayerColors
+     */
     public Artemis(PlayerColors color) {
         super(color);
     }
 
+    /**
+     * Method setPhases set the order of the actions allowed by this worker. This worker can move twice.
+     * @see Worker#setPhases()
+     */
     @Override
     public void setPhases() {
         setTwoMovePhases();
@@ -29,6 +38,7 @@ public class Artemis extends Worker {
      * @return ArrayList of Spaces
      * @throws IllegalArgumentException    if gameBoard is null
      * @throws IllegalThreadStateException if the worker is blocked, so it cannot move
+     * @see Worker#selectMoves(GameBoard)
      */
     @Override
     public List<Space> selectMoves(GameBoard gameBoard) {
@@ -37,12 +47,13 @@ public class Artemis extends Worker {
     }
 
     /**
-     * change the worker's position while check winning condition
-     * requires this.isSelectable(space)
+     * change the worker's position while check winning condition.
+     * requires this.isSelectable(space).
      *
-     * @param space the new position
-     * @return false if the worker can't move into this space
-     * @throws IllegalArgumentException if space is null
+     * @param space the new position.
+     * @return boolean value true if the worker moved correctly to space, false if the worker did not move to space.
+     * @throws IllegalArgumentException if space is null.
+     * @see Worker#move(Space)
      */
     @Override
     public boolean move(Space space) throws IllegalArgumentException {
@@ -67,11 +78,11 @@ public class Artemis extends Worker {
     }
 
     /**
-     * return true if the worker can move to the space received
-     * can't select oldPosition
-     * @param space a space of the GameBoard
-     * @return boolean value
-     * @throws IllegalArgumentException if space is null
+     * return if the worker can move to the space received. This worker can move twice but can not select oldPosition (the space where he was previously) as second move.
+     * @param space a space of the GameBoard.
+     * @return boolean value true if the worker can move to space.
+     * @throws IllegalArgumentException if space is null.
+     * @see Worker#isSelectable(Space)
      */
     @Override
     public boolean isSelectable(Space space) throws IllegalArgumentException {
@@ -80,10 +91,11 @@ public class Artemis extends Worker {
     }
 
     /**
-     * notify the selectSpaceListener with all the spaces on which the worker can build
+     * notify the selectSpaceListener with all the spaces on which the worker can build.
      *
      * @param gameBoard gameBoard of the game
      * @throws IllegalArgumentException if gameBoard is null
+     * @see Worker#notifyWithBuildable(GameBoard)
      */
     @Override
     public void notifyWithBuildable(GameBoard gameBoard) {

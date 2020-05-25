@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.player.gods.simplegods;
 
+import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
@@ -7,6 +9,9 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.listeners.DoubleMoveListener;
 import it.polimi.ingsw.server.VirtualClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alice Piemonti
@@ -38,8 +43,7 @@ public class Minotaur extends Worker {
      * @return true if the worker can move to the space received
      * @throws IllegalArgumentException if space is null
      */
-    @Override
-    public boolean isSelectable(Space space) throws IllegalArgumentException {
+    public boolean isSelectable(Space space, GameBoard gameBoard) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
         if( canMoveTo(space) &&
             (space.getTower().getHeight() - position.getTower().getHeight() < 2)){
@@ -47,19 +51,90 @@ public class Minotaur extends Worker {
                 return true;
             }
             else{
-                if(space.getRow() == 0 || space.getRow() == 4) {
-                    if (space.getColumn() == 0 || space.getColumn() == 4) {   //space is a corner
-                        return false;
-                    }
-                    return space.getRow() == position.getRow(); //space is on border: position must be on the same border
-                }
-                else if(space.getColumn() == 0 || space.getColumn() == 4){
-                     return space.getColumn() == position.getColumn();   //space is on border
-                }
-                else return true;   //space is not on border
+                Couple coordinates = calculateCoordinates(space);
+                return exists(coordinates) && canForceOn(gameBoard.getSpace(coordinates.getRow(), coordinates.getColumn()));
             }
         }
         else  return false;
+    }
+
+
+    /**
+     * Method calculateCoordinates gets the coordinates where the opponent worker is forced to move
+     *
+     * @param space of type Space
+     * @return Couple of coordinates
+     */
+    private Couple calculateCoordinates(Space space) {
+        int row;
+        int column;
+        //calculate row
+        if (space.getRow() == position.getRow()) {
+            row = position.getRow();
+        }
+        else if (space.getRow() > position.getRow()) { //move toward south
+            row = space.getRow() + 1;
+        }
+        else { //move toward north
+            row = space.getRow() - 1;
+        }
+        //calculate column
+        if (space.getColumn() == position.getColumn()) {
+            column = position.getColumn();
+        }
+        else if (space.getColumn() > position.getColumn()) { //move toward east
+            column = space.getColumn() + 1;
+        }
+        else {  //move toward west
+            column = space.getColumn() - 1;
+        }
+
+        return new Couple(row, column);
+    }
+
+    /**
+     * Method exists indicates whether the coordinates exists into the gameBoard
+     *
+     * @param coordinates of type Couple
+     * @return boolean true if a space is associated to the coordinates, false if coordinates exceed gameBoard bounds
+     */
+    private boolean exists( Couple coordinates) {
+        return coordinates.getRow() >= Constants.GRID_MIN_SIZE
+                && coordinates.getRow() < Constants.GRID_MAX_SIZE
+                && coordinates.getColumn() >= Constants.GRID_MIN_SIZE
+                && coordinates.getColumn() < Constants.GRID_MAX_SIZE;
+    }
+
+    /**
+     * Method canForceOn indicates whether Minotaur can force the opponent worker into the space
+     *
+     * @param space of type Space
+     * @return boolean true if the opponent worker can be forced into the space, false if it can not (for example, whether the space is not empty or there is a completed tower on it)
+     */
+    private boolean canForceOn(Space space) {
+        return space.isEmpty() && !space.getTower().isCompleted();
+    }
+
+    /**
+     * return an ArrayList that contains the spaces which the worker can move to
+     *
+     * @param gameBoard GameBoard of the game
+     * @return ArrayList of Spaces
+     * @throws IllegalArgumentException    if gameBoard is null
+     * @throws IllegalThreadStateException if the worker is blocked, so it cannot move
+     */
+    @Override
+    public List<Space> selectMoves(GameBoard gameBoard) {
+        ArrayList<Space> moves = new ArrayList<>();
+        for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
+            for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
+                Space space = gameBoard.getSpace(i, j);
+                if (isSelectable(space, gameBoard)) {
+                    moves.add(space);
+                }
+            }
+        }
+        return moves;
     }
 
     /**
@@ -86,16 +161,9 @@ public class Minotaur extends Worker {
     public boolean move(Space mySpace, GameBoard gameBoard) throws IllegalArgumentException {
         if (mySpace == null) throw new IllegalArgumentException();
         Space otherSpace;
-        int x;
-        int y;
-        if(mySpace.getRow() > position.getRow()) x = mySpace.getRow() + 1;    //find coordinates of otherSpace
-        else if(mySpace.getRow() < position.getRow()) x = mySpace.getRow() - 1;
-        else x = mySpace.getRow();
-        if(mySpace.getColumn() > position.getColumn()) y = mySpace.getColumn() + 1;
-        else if(mySpace.getColumn() < position.getColumn()) y = mySpace.getColumn() - 1;
-        else y = mySpace.getColumn();
+        Couple coordinates = calculateCoordinates(mySpace);
 
-        otherSpace = gameBoard.getSpace(x,y);       //move Minotaur and force other worker
+        otherSpace = gameBoard.getSpace(coordinates.getRow(), coordinates.getColumn());       //move Minotaur and force other worker
         mySpace.getWorker().setPosition(otherSpace);
         Space oldPosition = position;
         oldPosition.setWorker(null);

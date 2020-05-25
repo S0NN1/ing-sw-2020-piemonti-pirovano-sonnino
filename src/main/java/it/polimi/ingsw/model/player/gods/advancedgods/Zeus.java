@@ -27,20 +27,6 @@ public class Zeus extends Worker {
     }
 
     /**
-     * Method isReachable ...
-     *
-     * @param space of type Space
-     * @return boolean
-     */
-    @Override
-    protected boolean isReachable(Space space) {
-        return (space.getRow() - position.getRow() < 2) && (position.getRow() - space.getRow() < 2) &&
-                (space.getColumn() - position.getColumn() < 2) && (position.getColumn() - space.getColumn() < 2) &&
-                !(space.getRow() == position.getRow() && space.getColumn() == position.getColumn() && space.getTower().getHeight() == 3) &&
-                !space.getTower().isCompleted();
-    }
-
-    /**
      * return true if the worker can build into the space received
      *
      * @param space space of the GameBoard
@@ -51,6 +37,7 @@ public class Zeus extends Worker {
     @Override
     public boolean canBuildOnto(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
-        return isReachable(space);
+        if (space.getRow() == position.getRow() && space.getColumn() == position.getColumn()) return space.getTower().getHeight() < 3;
+        return super.canBuildOnto(space);
     }
 }
