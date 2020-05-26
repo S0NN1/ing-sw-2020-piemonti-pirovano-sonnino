@@ -16,6 +16,7 @@ import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
 import it.polimi.ingsw.server.answers.turn.ModifiedTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
+import it.polimi.ingsw.server.answers.worker.CharonForceWorkerMessage;
 import it.polimi.ingsw.server.answers.worker.PlayerLostMessage;
 import it.polimi.ingsw.server.answers.worker.WinMessage;
 
@@ -175,6 +176,10 @@ public class TurnController implements PropertyChangeListener {
         else if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(i))) {
             if (actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECTBUILD)) {
                 gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or build (no args) based on your choice."),
+                        gameHandler.getCurrentPlayerID());
+            }
+            else if(actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.FORCEWORKER)){
+                gameHandler.singleSend(new CharonForceWorkerMessage("You can either type move (no args) or forceworker (no args) based on your choice."),
                         gameHandler.getCurrentPlayerID());
             }
         }
