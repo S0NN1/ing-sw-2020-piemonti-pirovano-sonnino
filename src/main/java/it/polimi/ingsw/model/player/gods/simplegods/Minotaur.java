@@ -93,29 +93,6 @@ public class Minotaur extends Worker {
     }
 
     /**
-     * Method exists indicates whether the coordinates exists into the gameBoard
-     *
-     * @param coordinates of type Couple
-     * @return boolean true if a space is associated to the coordinates, false if coordinates exceed gameBoard bounds
-     */
-    private boolean exists( Couple coordinates) {
-        return coordinates.getRow() >= Constants.GRID_MIN_SIZE
-                && coordinates.getRow() < Constants.GRID_MAX_SIZE
-                && coordinates.getColumn() >= Constants.GRID_MIN_SIZE
-                && coordinates.getColumn() < Constants.GRID_MAX_SIZE;
-    }
-
-    /**
-     * Method canForceOn indicates whether Minotaur can force the opponent worker into the space
-     *
-     * @param space of type Space
-     * @return boolean true if the opponent worker can be forced into the space, false if it can not (for example, whether the space is not empty or there is a completed tower on it)
-     */
-    private boolean canForceOn(Space space) {
-        return space.isEmpty() && !space.getTower().isCompleted();
-    }
-
-    /**
      * return an ArrayList that contains the spaces which the worker can move to
      *
      * @param gameBoard GameBoard of the game

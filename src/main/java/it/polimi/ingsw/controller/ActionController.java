@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.model.player.gods.advancedgods.Charon;
 import it.polimi.ingsw.model.player.gods.simplegods.Atlas;
 import it.polimi.ingsw.model.player.gods.simplegods.Minotaur;
 
@@ -173,6 +174,18 @@ public class ActionController {
         return false;
     }
 
+    /**
+     * Method readMessage force the worker from the space received with Charon power
+     *
+     * @param action of type CharonForceWorkerAction
+     * @return boolean true if Charon forced the worker, false if it could not
+     */
+    public boolean readMessage(CharonForceWorkerAction action) {
+        if ( !(worker instanceof Charon) || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.FORCEWORKER) return false;
+        Couple coordinates = action.getMessage();
+        Space space = gameBoard.getSpace(coordinates.getRow(), coordinates.getColumn());
+        return ((Charon) worker).forceWorker(space, gameBoard);
+    }
     /**
      * Method getWorker returns the worker of this ActionController object.
      *

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
@@ -365,6 +366,31 @@ public abstract class Worker {
     public boolean isPerimetric(Space space) {
         return (space.getRow() == Constants.GRID_MIN_SIZE || space.getRow() == (Constants.GRID_MAX_SIZE - 1) ||
                 (space.getColumn() == Constants.GRID_MIN_SIZE || space.getColumn() == (Constants.GRID_MAX_SIZE - 1)));
+    }
+
+
+    /**
+     * Method exists indicates whether the coordinates exists into the gameBoard
+     *
+     * @param coordinates of type Couple
+     * @return boolean true if a space is associated to the coordinates, false if coordinates exceed gameBoard bounds
+     */
+    public boolean exists( Couple coordinates) {
+        return coordinates.getRow() >= Constants.GRID_MIN_SIZE
+                && coordinates.getRow() < Constants.GRID_MAX_SIZE
+                && coordinates.getColumn() >= Constants.GRID_MIN_SIZE
+                && coordinates.getColumn() < Constants.GRID_MAX_SIZE;
+    }
+
+
+    /**
+     * Method canForceOn indicates whether an opponent worker can be forced into the space
+     *
+     * @param space of type Space
+     * @return boolean true if the opponent worker can be forced into the space, false if it can not (for example, whether the space is not empty or there is a completed tower on it)
+     */
+    public boolean canForceOn(Space space) {
+        return space.isEmpty() && !space.getTower().isCompleted();
     }
 }
 
