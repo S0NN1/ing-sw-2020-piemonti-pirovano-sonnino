@@ -90,6 +90,7 @@ public class MainGuiController implements GUIController{
             playerMapLabel.get(i).setText(nickname);
             playerMapRect.get(i).setFill(colors.get(gui.getModelView().getPlayerMapColor().get(nickname).toUpperCase()));
             playerMapLabel.get(i).setVisible(true);
+            setMousePlayerAction(i);
         }
     }
 
@@ -104,8 +105,8 @@ public class MainGuiController implements GUIController{
     }
 
     private void setMousePlayerAction(int i) {
-        playerMapLabel.get(i).setOnMouseEntered(event -> playerMapLabel.get(i).setCursor(Cursor.HAND));
-        playerMapLabel.get(i).setOnMouseClicked(event -> {
+        playerMapLabel.get(i).setOnMouseEntered(mouseEvent -> playerMapLabel.get(i).setCursor(Cursor.HAND));
+        playerMapLabel.get(i).setOnMouseClicked(mouseEvent -> {
             Alert description = new Alert(Alert.AlertType.INFORMATION);
             description.setTitle(gui.getModelView().getPlayerMapGod().get(playerMapLabel.get(i).getText()));
             description.setHeaderText("Description");

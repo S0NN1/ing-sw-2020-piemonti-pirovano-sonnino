@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane fx:id="mainAnchor" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainGuiController">
+<AnchorPane fx:id="mainAnchor" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainGuiController">
    <children>
       <StackPane>
          <children>
@@ -81,19 +91,28 @@
                      <children>
                         <VBox layoutY="50.0" prefHeight="393.0" prefWidth="100.0" AnchorPane.leftAnchor="40.0">
                            <children>
-                              <Label fx:id="player1" onMouseClicked="#getGod" prefHeight="77.0" prefWidth="173.0" text="Player 1" visible="false">
+                              <Label fx:id="player1" onMouseClicked="#getGod" prefHeight="20.0" prefWidth="100.0" text="Player 1" visible="false">
                                  <graphic>
                                     <Rectangle fx:id="rect1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
-                                 </graphic></Label>
-                              <Label fx:id="player2" onMouseClicked="#getGod" prefHeight="73.0" prefWidth="170.0" text="Player 2:" visible="false">
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets top="40.0" />
+                                 </VBox.margin></Label>
+                              <Label fx:id="player2" onMouseClicked="#getGod" prefHeight="20.0" prefWidth="101.0" text="Player 2:" visible="false">
                                  <graphic>
                                     <Rectangle fx:id="rect2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                                  </graphic>
+                                 <VBox.margin>
+                                    <Insets top="40.0" />
+                                 </VBox.margin>
                               </Label>
-                              <Label fx:id="player3" onMouseClicked="#getGod" prefHeight="79.0" prefWidth="173.0" text="Player 3:" visible="false">
+                              <Label fx:id="player3" onMouseClicked="#getGod" prefHeight="20.0" prefWidth="106.0" text="Player 3:" visible="false">
                                  <graphic>
                                     <Rectangle fx:id="rect3" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                                  </graphic>
+                                 <VBox.margin>
+                                    <Insets top="40.0" />
+                                 </VBox.margin>
                               </Label>
                            </children>
                         </VBox>
