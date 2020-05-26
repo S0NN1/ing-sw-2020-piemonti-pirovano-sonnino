@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.player.gods.advancedgods.Charon;
 import it.polimi.ingsw.model.player.gods.advancedgods.Hestia;
 import it.polimi.ingsw.model.player.gods.advancedgods.Triton;
 import it.polimi.ingsw.model.player.gods.advancedgods.Zeus;
@@ -93,7 +94,8 @@ public class Player {
                 workers.add(new Demeter(color));
             }
             case CHARON -> {
-                //TODO
+                workers.add(new Charon(color));
+                workers.add(new Charon(color));
             }
             case HEPHAESTUS -> {
                 workers.add(new Hephaestus(color));
