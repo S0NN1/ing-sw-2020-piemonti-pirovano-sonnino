@@ -14,6 +14,12 @@ public class Constants {
     public static final String PROMETHEUS = "PROMETHEUS";
     public static final String DEMETER = "DEMETER";
     public static final String HEPHAESTUS = "HEPHAESTUS";
+    public static final String HESTIA = "HESTIA";
+    public static final String TRITON = "TRITON";
+    public static final String APOLLO = "APOLLO";
+    public static final String MINOTAUR = "MINOTAUR";
+    public static final String ZEUS = "ZEUS";
+
 
     /**
      * Constructor Constants creates a new Constants instance.
@@ -74,7 +80,14 @@ public class Constants {
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
 
-    private static final List<String> DOUBLE_MOVE_GODS = Collections.singletonList(ARTEMIS);
+
+    private static final List<String> BUILD_SAME_BLOCK = Collections.singletonList(ZEUS);
+
+    public static List<String> getBuildSameBlock() {
+        return BUILD_SAME_BLOCK;
+    }
+
+    private static final List<String> DOUBLE_MOVE_GODS = Arrays.asList(ARTEMIS, TRITON);
 
     /**
      * Method getDoubleMoveGods returns the doubleMoveGods of this Constants object.
@@ -100,7 +113,7 @@ public class Constants {
         return ALTERNATE_PHASE_GODS;
     }
 
-    private static final List<String> DOUBLE_BUILD_GODS = Arrays.asList(DEMETER, HEPHAESTUS);
+    private static final List<String> DOUBLE_BUILD_GODS = Arrays.asList(DEMETER, HEPHAESTUS, HESTIA);
 
     /**
      * Method getDoubleBuildGods returns the doubleBuildGods of this Constants object.
@@ -116,7 +129,7 @@ public class Constants {
     /**
      * Arraylist containing gods with move action with turnPhase != 0
      */
-    private static final List<String> MOVE_PHASE_GODS = Arrays.asList(ARTEMIS, PROMETHEUS);
+    private static final List<String> MOVE_PHASE_GODS = Arrays.asList(ARTEMIS, PROMETHEUS, TRITON);
 
     /**
      * Method getMovePhaseGods returns the movePhaseGods of this Constants object.
@@ -131,7 +144,8 @@ public class Constants {
     /**
      * Arraylist containing gods with build action with turnPhase != 1
      */
-    private static final List<String> BUILD_PHASE_GODS = Arrays.asList(DEMETER, HEPHAESTUS, PROMETHEUS, ARTEMIS);
+    private static final List<String> BUILD_PHASE_GODS = Arrays.asList(DEMETER, HEPHAESTUS, PROMETHEUS, ARTEMIS, HESTIA
+            , TRITON);
 
     /**
      * Method getBuildPhaseGods returns the buildPhaseGods of this Constants object.
@@ -147,7 +161,7 @@ public class Constants {
     /**
      * Arraylist containing gods with move action to cell occupied
      */
-    private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = Arrays.asList("APOLLO", "MINOTAUR");
+    private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = Arrays.asList(APOLLO, MINOTAUR);
 
     /**
      * Method getMoveToCellOccupiedGods returns the moveToCellOccupiedGods of this Constants object.
@@ -181,7 +195,8 @@ public class Constants {
      * @return the err (type String) of this Constants object.
      */
     public static String getErr() {
-        return(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " ERR: ");
+        return(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) +
+                " ERR: ");
     }
 
     /**
