@@ -126,4 +126,8 @@ public class Player {
         workers.add(new Athena(color, controller));
         workers.forEach(n -> n.createListeners(client));
     }
+
+    public Card getCard() {
+        return card;
+    }
 }

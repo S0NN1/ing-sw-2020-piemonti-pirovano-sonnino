@@ -1,9 +1,8 @@
 package it.polimi.ingsw.constants;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Constants class contains the most significant constants used in the project.
@@ -75,7 +74,7 @@ public class Constants {
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
 
-    private static final List<String> DOUBLE_MOVE_GODS = new ArrayList<>();
+    private static final List<String> DOUBLE_MOVE_GODS = Collections.singletonList(ARTEMIS);
 
     /**
      * Method getDoubleMoveGods returns the doubleMoveGods of this Constants object.
@@ -85,11 +84,10 @@ public class Constants {
      * @return the doubleMoveGods (type List<String>) of this Constants object.
      */
     public static List<String> getDoubleMoveGods() {
-        DOUBLE_MOVE_GODS.add(ARTEMIS);
         return DOUBLE_MOVE_GODS;
     }
 
-    private static final List<String> ALTERNATE_PHASE_GODS = new ArrayList<>();
+    private static final List<String> ALTERNATE_PHASE_GODS = Collections.singletonList(PROMETHEUS);
 
     /**
      * Method getAlternatePhaseGods returns the alternatePhaseGods of this Constants object.
@@ -99,11 +97,10 @@ public class Constants {
      * @return the alternatePhaseGods (type List<String>) of this Constants object.
      */
     public static List<String> getAlternatePhaseGods() {
-        ALTERNATE_PHASE_GODS.add(PROMETHEUS);
         return ALTERNATE_PHASE_GODS;
     }
 
-    private static final List<String> DOUBLE_BUILD_GODS = new ArrayList<>();
+    private static final List<String> DOUBLE_BUILD_GODS = Arrays.asList(DEMETER, HEPHAESTUS);
 
     /**
      * Method getDoubleBuildGods returns the doubleBuildGods of this Constants object.
@@ -113,15 +110,13 @@ public class Constants {
      * @return the doubleBuildGods (type List<String>) of this Constants object.
      */
     public static List<String> getDoubleBuildGods() {
-        DOUBLE_BUILD_GODS.add(DEMETER);
-        DOUBLE_BUILD_GODS.add(HEPHAESTUS);
-        return DOUBLE_MOVE_GODS;
+        return DOUBLE_BUILD_GODS;
     }
 
     /**
      * Arraylist containing gods with move action with turnPhase != 0
      */
-    private static final List<String> MOVE_PHASE_GODS = new ArrayList<>();
+    private static final List<String> MOVE_PHASE_GODS = Arrays.asList(ARTEMIS, PROMETHEUS);
 
     /**
      * Method getMovePhaseGods returns the movePhaseGods of this Constants object.
@@ -131,14 +126,12 @@ public class Constants {
      * @return the movePhaseGods (type List<String>) of this Constants object.
      */
     public static List<String> getMovePhaseGods() {
-        MOVE_PHASE_GODS.add(ARTEMIS);
-        MOVE_PHASE_GODS.add(PROMETHEUS);
         return MOVE_PHASE_GODS;
     }
     /**
      * Arraylist containing gods with build action with turnPhase != 1
      */
-    private static final List<String> BUILD_PHASE_GODS = new ArrayList<>();
+    private static final List<String> BUILD_PHASE_GODS = Arrays.asList(DEMETER, HEPHAESTUS, PROMETHEUS, ARTEMIS);
 
     /**
      * Method getBuildPhaseGods returns the buildPhaseGods of this Constants object.
@@ -148,17 +141,13 @@ public class Constants {
      * @return the buildPhaseGods (type List<String>) of this Constants object.
      */
     public static List<String> getBuildPhaseGods() {
-        BUILD_PHASE_GODS.add(DEMETER);
-        BUILD_PHASE_GODS.add(HEPHAESTUS);
-        BUILD_PHASE_GODS.add(PROMETHEUS);
-        BUILD_PHASE_GODS.add(ARTEMIS);
         return BUILD_PHASE_GODS;
     }
 
     /**
      * Arraylist containing gods with move action to cell occupied
      */
-    private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = new ArrayList<>();
+    private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = Arrays.asList("APOLLO", "MINOTAUR");
 
     /**
      * Method getMoveToCellOccupiedGods returns the moveToCellOccupiedGods of this Constants object.
@@ -168,8 +157,6 @@ public class Constants {
      * @return the moveToCellOccupiedGods (type List<String>) of this Constants object.
      */
     public static List<String> getMoveToCellOccupiedGods() {
-        MOVE_TO_CELL_OCCUPIED_GODS.add("APOLLO");
-        MOVE_TO_CELL_OCCUPIED_GODS.add("MINOTAUR");
         return MOVE_TO_CELL_OCCUPIED_GODS;
     }
 

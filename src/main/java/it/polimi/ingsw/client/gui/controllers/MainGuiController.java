@@ -7,15 +7,21 @@ import it.polimi.ingsw.client.gui.shapes.Dome;
 import it.polimi.ingsw.client.gui.shapes.Worker;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
+import it.polimi.ingsw.model.Card;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,21 +37,36 @@ public class MainGuiController implements GUIController{
     private Worker selectedWorker;
 
     @FXML
-    GridPane grid;
+    private GridPane grid;
     @FXML
-    Label actionsLabel;
+    private Label actionsLabel;
     @FXML
-    Button buttonMove;
+    private Button buttonMove;
     @FXML
-    Button buttonBuild;
+    private Button buttonBuild;
     @FXML
-    Button buttonEnd;
+    private Button buttonEnd;
     @FXML
-    AnchorPane mainAnchor;
+    private AnchorPane mainAnchor;
     @FXML
-    AnchorPane rightAnchor;
+    private AnchorPane rightAnchor;
     @FXML
-    AnchorPane centerAnchor;
+    private AnchorPane centerAnchor;
+    @FXML
+    private Label player1;
+    @FXML
+    private Label player2;
+    @FXML
+    private Label player3;
+    @FXML
+    private Rectangle rect1;
+    @FXML
+    private Rectangle rect2;
+    @FXML
+    private Rectangle rect3;
+
+    private HashMap<Integer, Label> playerMapLabel = new HashMap<>();
+    private HashMap<Integer, Rectangle> playerMapRect = new HashMap<>();
 
     /**
      * constructor
@@ -57,13 +78,60 @@ public class MainGuiController implements GUIController{
         colors.put(Constants.ANSI_YELLOW, Color.YELLOW);
         colors.put("BLUE", Color.DARKBLUE);
         colors.put("GREEN", Color.GREEN);
-        colors.put(Constants.ANSI_CYAN, Color.CYAN);
+        colors.put("CYAN", Color.CYAN);
+    }
+
+    public void init() {
+        playerHashmapFill();
+        Collection players = gui.getModelView().getPlayerMapColor().keySet();
+        Iterator iterator = players.iterator();
+        for(int i=0; i<gui.getModelView().getPlayerMapColor().size(); i++) {
+            String nickname = iterator.next().toString();
+            playerMapLabel.get(i).setText(nickname);
+            playerMapRect.get(i).setFill(colors.get(gui.getModelView().getPlayerMapColor().get(nickname).toUpperCase()));
+            playerMapLabel.get(i).setVisible(true);
+            setMousePlayerAction(i);
+        }
+    }
+
+    @FXML
+    public void getGod(ActionEvent event) {
+        Alert description = new Alert(Alert.AlertType.INFORMATION);
+        description.setTitle(gui.getModelView().getPlayerMapGod().get(((Label)event.getSource()).getText()));
+        description.setHeaderText("Description");
+        description.setContentText(Card.parseInput(gui.getModelView().getPlayerMapGod().get(((Label)event.getSource()).getText())).godsDescription());
+        description.show();
+
+    }
+
+    private void setMousePlayerAction(int i) {
+        playerMapLabel.get(i).setOnMouseEntered(mouseEvent -> playerMapLabel.get(i).setCursor(Cursor.HAND));
+        playerMapLabel.get(i).setOnMouseClicked(mouseEvent -> {
+            Alert description = new Alert(Alert.AlertType.INFORMATION);
+            description.setTitle(gui.getModelView().getPlayerMapGod().get(playerMapLabel.get(i).getText()));
+            description.setHeaderText("Description");
+            description.setContentText(Card.parseInput(gui.getModelView().getPlayerMapGod().
+                    get(playerMapLabel.get(i).getText())).godsDescription());
+            description.show();
+        });
+    }
+
+    private void playerHashmapFill() {
+        playerMapLabel.put(0, player1);
+        playerMapLabel.put(1, player2);
+        playerMapLabel.put(2, player3);
+        playerMapRect.put(0, rect1);
+        playerMapRect.put(1, rect2);
+        playerMapRect.put(2, rect3);
     }
 
     public void showActions(boolean[] checkers) {
-        buttonMove.setVisible(checkers[0]);
-        buttonBuild.setVisible(checkers[1]);
-        buttonEnd.setVisible(checkers[2]);
+        buttonMove.getStyleClass().clear();
+        buttonBuild.getStyleClass().clear();
+        buttonEnd.getStyleClass().clear();
+        buttonMove.getStyleClass().add(checkers[0] ? "rightBoard" : "grayedOut");
+        buttonBuild.getStyleClass().add(checkers[1] ? "rightBoard" : "grayedOut");
+        buttonEnd.getStyleClass().add(checkers[2] ? "rightBoard" : "grayedOut");
         getActionsLabel().setText("Select Action:");
         buttonMove.setOnAction(event -> gui.getObservers().firePropertyChange("action", null, "MOVE"));
         buttonBuild.setOnAction(event -> gui.getObservers().firePropertyChange("action", null, "BUILD"));
@@ -84,6 +152,7 @@ public class MainGuiController implements GUIController{
      */
     public void selectWorker() {
         actionsLabel.setText("Select your worker.");
+        actionsLabel.setVisible(true);
         String playerColor = getGUI().getModelView().getColor();
         Couple worker1 = board.getWorkerPosition(playerColor, 1);
         Couple worker2 = board.getWorkerPosition(playerColor, 2);
@@ -114,7 +183,7 @@ public class MainGuiController implements GUIController{
      * @param col of the cell
      * @param level of the block
      */
-    public void addBlock(int row, int col, int level){
+    public void addBlock(int row, int col, int level) {
         Worker worker = null;
         for(Node node: grid.getChildren()) {
             if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col && node instanceof Worker) {
@@ -219,9 +288,16 @@ public class MainGuiController implements GUIController{
                   int col = GridPane.getColumnIndex(node);
                   node.setOnMouseClicked(mouseEvent -> getGUI().getObservers().firePropertyChange("action", null, "BUILD "+ row + " " + col));
               }
+              else {
+                  node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
+                  node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
+                  int row = GridPane.getRowIndex(node);
+                  int col = GridPane.getColumnIndex(node);
+                  node.setOnMouseClicked(mouseEvent -> getGUI().getObservers().firePropertyChange("action", null, "MOVE "+ row + " " + col));
+              }
           }
-        Couple position = getGUI().getModelView().getActiveWorkerPosition();
-        getWorkerFromGrid(position.getRow(), position.getColumn()).move();
+        //Couple position = getGUI().getModelView().getActiveWorkerPosition();
+        //getWorkerFromGrid(position.getRow(), position.getColumn()).move();
     }
 
     /**
