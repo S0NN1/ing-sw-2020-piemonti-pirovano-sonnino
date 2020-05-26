@@ -54,7 +54,7 @@ public class ActionController {
             phase++;
             return true;
         }
-        else return worker.getPhase(phase) != null && (worker.getPhase(phase).getAction() == Action.SELECTBUILD || (worker.getPhase(phase).getAction() == Action.FORCEWORKER));
+        else return worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECTBUILD;
     }
 
 

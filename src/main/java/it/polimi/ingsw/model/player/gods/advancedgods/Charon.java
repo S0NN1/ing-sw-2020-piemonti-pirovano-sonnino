@@ -70,7 +70,6 @@ public class Charon extends Worker {
         if (newOpponentPosition != null && canForceOn(newOpponentPosition)) {
             space.getWorker().setPosition(newOpponentPosition);
             space.setWorker(null);
-            listeners.firePropertyChange(MOVE_LISTENER, space, newOpponentPosition);
             return true;
         }
         return false;

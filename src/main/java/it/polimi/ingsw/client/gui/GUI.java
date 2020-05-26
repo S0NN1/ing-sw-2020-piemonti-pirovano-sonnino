@@ -463,7 +463,7 @@ public class GUI extends Application implements UI {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Connection closed");
             alert.setHeaderText("Connection closed from the server");
-            alert.setContentText(((Answer)evt.getNewValue()).getMessage().toString());
+            alert.setContentText(evt.getNewValue().toString());
             alert.showAndWait();
             System.exit(0);
         });
