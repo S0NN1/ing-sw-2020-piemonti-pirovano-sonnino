@@ -65,7 +65,7 @@ public class Charon extends Worker {
      * @return boolean
      */
     public boolean forceWorker(Space space, GameBoard gameBoard) {
-        if (space == null || space.isEmpty() || !isReachable(space)) return false;
+        if (space == null || space.isEmpty() || space.getWorker().getWorkerColor().equals(workerColor)|| !isReachable(space)) return false;
         Space newOpponentPosition = otherSideSpace(space, gameBoard);
         if (newOpponentPosition != null && canForceOn(newOpponentPosition)) {
             space.getWorker().setPosition(newOpponentPosition);
