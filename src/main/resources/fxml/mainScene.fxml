@@ -77,10 +77,10 @@
                                  </image>
                               </ImageView>
                               <Label fx:id="actionsLabel" alignment="CENTER" layoutX="18.0" layoutY="14.0" prefHeight="28.0" prefWidth="128.0" text="Labellllllllllllll" textAlignment="CENTER" visible="false" wrapText="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="14.0" />
-                              <Button fx:id="buttonBuild" layoutX="14.0" layoutY="84.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="rightBoard" stylesheets="@../css/mainScene.css" text="BUILD" translateX="15.0" visible="false" />
-                              <Button fx:id="buttonMove" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="rightBoard" stylesheets="@../css/mainScene.css" text="MOVE" translateX="15.0" visible="false" />
-                              <Button fx:id="buttonCustom" layoutX="14.0" layoutY="119.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="rightBoard" stylesheets="@../css/mainScene.css" text="UAUA" translateX="15.0" visible="false" />
-                              <Button fx:id="buttonEnd" layoutX="14.0" layoutY="154.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="rightBoard" stylesheets="@../css/mainScene.css" text="END" textAlignment="CENTER" translateX="15.0" visible="false" />
+                              <Button fx:id="buttonBuild" layoutX="14.0" layoutY="84.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="grayedOut" stylesheets="@../css/mainScene.css" text="BUILD" translateX="15.0" visible="true" />
+                              <Button fx:id="buttonMove" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="grayedOut" stylesheets="@../css/mainScene.css" text="MOVE" translateX="15.0" visible="true" />
+                              <Button fx:id="buttonCustom" layoutX="14.0" layoutY="119.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="grayedOut" stylesheets="@../css/mainScene.css" text="CUSTOMACTION" translateX="15.0" visible="true" />
+                              <Button fx:id="buttonEnd" layoutX="14.0" layoutY="154.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="grayedOut" stylesheets="@../css/mainScene.css" text="END" textAlignment="CENTER" translateX="15.0" visible="true" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -91,16 +91,28 @@
                      <children>
                         <VBox layoutY="50.0" prefHeight="393.0" prefWidth="100.0" AnchorPane.leftAnchor="40.0">
                            <children>
-                              <Label fx:id="test" prefHeight="77.0" prefWidth="173.0" text="Player 1:" />
-                              <Label prefHeight="73.0" prefWidth="170.0" text="Player 2:">
+                              <Label fx:id="player1" onMouseClicked="#getGod" prefHeight="20.0" prefWidth="100.0" text="Player 1" visible="false">
                                  <graphic>
-                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f80808" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                                    <Rectangle fx:id="rect1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                                  </graphic>
+                                 <VBox.margin>
+                                    <Insets top="40.0" />
+                                 </VBox.margin></Label>
+                              <Label fx:id="player2" onMouseClicked="#getGod" prefHeight="20.0" prefWidth="101.0" text="Player 2:" visible="false">
+                                 <graphic>
+                                    <Rectangle fx:id="rect2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets top="40.0" />
+                                 </VBox.margin>
                               </Label>
-                              <Label prefHeight="79.0" prefWidth="173.0" text="Player 3:">
+                              <Label fx:id="player3" onMouseClicked="#getGod" prefHeight="20.0" prefWidth="106.0" text="Player 3:" visible="false">
                                  <graphic>
-                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#18b52b" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                                    <Rectangle fx:id="rect3" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                                  </graphic>
+                                 <VBox.margin>
+                                    <Insets top="40.0" />
+                                 </VBox.margin>
                               </Label>
                            </children>
                         </VBox>

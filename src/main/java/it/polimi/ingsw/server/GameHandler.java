@@ -27,15 +27,15 @@ import java.util.stream.Collectors;
  * @version 2.0.0
  */
 public class GameHandler {
+    private static final String PLAYER = "Player";
     private final Server server;
     private final Controller controller;
     private final Game game;
-    private int started;
-    private int playersNumber;
     private final PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
     private final Logger logger = Logger.getLogger(getClass().getName());
     private final Random rnd = new Random();
-    private static final String PLAYER = "Player";
+    private int started;
+    private int playersNumber;
 
     public GameHandler(Server server) {
         this.server = server;
@@ -205,7 +205,10 @@ public class GameHandler {
             game.nextPlayer();
         }
         if(game.getCurrentPlayer().getWorkers().get(0).getPosition()!=null) {
-            sendAll(new MatchStartedMessage());
+            MatchStartedMessage startedMessage = new MatchStartedMessage();
+            game.getActivePlayers().forEach(n -> startedMessage.setPlayerMapColor(n.getNickname(), n.getColor().toString()));
+            game.getActivePlayers().forEach(n -> startedMessage.setPlayerMapGod(n.getNickname(), n.getCard().toString()));
+            sendAll(startedMessage);
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
@@ -245,10 +248,9 @@ public class GameHandler {
             if (game.getDeck().getCards().size() > 1) {
                 if(!game.getCurrentPlayer().getWorkers().isEmpty() && game.getDeck().getCards().size()>1) {
                     game.nextPlayer();
-                    singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
-                            ", please choose your god power from one of the list below.\n\n" + game.getDeck().
-                            getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +
-                            "Select your god by typing   " + "<god-name>:"), getCurrentPlayerID());
+                    singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +", please "
+                            + "choose your god power from one of the list below.\n\n", game.getDeck().getCards()),
+                            getCurrentPlayerID());
                     sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() +
                             " is choosing his god power...", false), getCurrentPlayerID());
                     return;
@@ -257,10 +259,9 @@ public class GameHandler {
                     game.nextPlayer();
                     return;
                 }
-                singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
-                        ", please choose your god power from one of the list below.\n\n" + game.getDeck().
-                        getCards().stream().map(e -> e.toString() + "\n" + e.godsDescription() + "\n").collect(Collectors.joining("\n ")) +
-                        "Select your god by typing CHOOSE " + "<god-name>:"), getCurrentPlayerID());
+                singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +", please "
+                                + "choose your god power from one of the list below.\n\n", game.getDeck().getCards()),
+                        getCurrentPlayerID());
                 sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() +
                         " is choosing his god power...", false), getCurrentPlayerID());
             } else if (game.getDeck().getCards().size() == 1) {

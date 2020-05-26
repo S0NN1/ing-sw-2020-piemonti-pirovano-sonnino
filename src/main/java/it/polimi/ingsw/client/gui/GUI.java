@@ -334,6 +334,8 @@ public class GUI extends Application implements UI {
     private void matchStarted() {
         Platform.runLater(() -> {
             changeStage(MAINGUI);
+            MainGuiController controller = (MainGuiController)getControllerFromName(MAINGUI);
+            controller.init();
         });
     }
 
@@ -407,8 +409,8 @@ public class GUI extends Application implements UI {
                 Move move = ((MoveMessage) message).getMessage();
                 controller.move(move.getOldPosition().getRow(), move.getOldPosition().getColumn(), move.getNewPosition().getRow(), move.getNewPosition().getColumn());
             } else if (message instanceof BuildMessage) {
-                boolean dome = ((BuildMessage) message).getDome();
                 Couple build = ((BuildMessage) message).getMessage();
+                boolean dome = modelView.getBoard().getGrid()[build.getRow()][build.getColumn()].isDome();
                 controller.build(build.getRow(), build.getColumn(), dome);
             } else if (message instanceof DoubleMoveMessage) {
                 defineDoubleMove((DoubleMoveMessage) message, controller);
