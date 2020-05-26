@@ -1,6 +1,5 @@
 package it.polimi.ingsw.constants;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -10,6 +9,8 @@ import java.util.*;
  */
 public class Constants {
 
+    private static final String CHARON = "CHARON";
+    private static final String ARES = "ARES";
     public static final String ARTEMIS = "ARTEMIS";
     public static final String PROMETHEUS = "PROMETHEUS";
     public static final String DEMETER = "DEMETER";
@@ -63,7 +64,8 @@ public class Constants {
             "        \\::/    /                \\::/    /                \\::/    /                                      ~~                      \\:|   |                  \\::/    /                \\::/    /                \\::/    /        \n" +
             "         \\/____/                  \\/____/                  \\/____/                                                                \\|___|                   \\/____/                  \\/____/                  \\/____/         \n" +
             "                                                                                                                                                                                                                             \n";
-    public static final String AUTHORS = "  _                   _ _                  _                            _   _     _                         _                                          _           _       _                         _             \n" +
+    public static final String AUTHORS =
+          "  _                   _ _                  _                            _   _     _                         _                                          _           _       _                         _             \n" +
           " | |                 | (_)                (_)                          | | (_)   | |                       (_)                                        (_)         | |     ( )                       (_)            \n" +
           " | |__  _   _    __ _| |_  ___ ___   _ __  _  ___ _ __ ___   ___  _ __ | |_ _    | |_   _  ___ __ _   _ __  _ _ __ _____   ____ _ _ __   ___     _ __  _  ___ ___ | | ___ |/   ___  ___  _ __  _ __  _ _ __   ___  \n" +
           " | '_ \\| | | |  / _` | | |/ __/ _ \\ | '_ \\| |/ _ \\ '_ ` _ \\ / _ \\| '_ \\| __| |   | | | | |/ __/ _` | | '_ \\| | '__/ _ \\ \\ / / _` | '_ \\ / _ \\   | '_ \\| |/ __/ _ \\| |/ _ \\    / __|/ _ \\| '_ \\| '_ \\| | '_ \\ / _ \\ \n" +
@@ -80,11 +82,19 @@ public class Constants {
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
 
+    private static final List<String> END_ACTION_GODS = Collections.singletonList(ARES);
 
-    private static final List<String> BUILD_SAME_BLOCK = Collections.singletonList(ZEUS);
+    public static List<String> getEndActionGods() {
+        return END_ACTION_GODS;
+    }
 
-    public static List<String> getBuildSameBlock() {
-        return BUILD_SAME_BLOCK;
+
+    private static final List<String> START_ACTION_GODS = Collections.singletonList(CHARON);
+
+    private static final List<String> BUILD_SAME_BLOCK_GODS = Collections.singletonList(ZEUS);
+
+    public static List<String> getBuildSameBlockGods() {
+        return BUILD_SAME_BLOCK_GODS;
     }
 
     private static final List<String> DOUBLE_MOVE_GODS = Arrays.asList(ARTEMIS, TRITON);

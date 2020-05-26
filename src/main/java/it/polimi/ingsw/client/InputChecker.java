@@ -319,7 +319,7 @@ public class InputChecker {
             System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
             return null;
         } else {
-            if (modelView.getBoard().getGrid()[row][column].getColor() != null && !Constants.getBuildSameBlock().contains(modelView.getGod().toUpperCase())) {
+            if (modelView.getBoard().getGrid()[row][column].getColor() != null && !Constants.getBuildSameBlockGods().contains(modelView.getGod().toUpperCase())) {
                 System.out.println(RED + ERR_CELL_OCCUPIED + RST);
                 return null;
             } else {
