@@ -89,7 +89,7 @@ public class TurnController implements PropertyChangeListener {
                     SelectMoveAction selectMoveAction = (SelectMoveAction) arg;
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
                     if(!actionController.readMessage(selectMoveAction)) {
-                        if(phase!=null && (phase.getAction().equals(Action.SELECT_BUILD) || phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.MOVE))) {
+                        if(phase!=null && (phase.getAction().equals(Action.SELECT_BUILD) || phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.MOVE) || phase.getAction().equals(Action.SELECT_REMOVE) || phase.getAction().equals(Action.REMOVE))) {
                             sendMoveError();
                         }
                         else if (actionController.getWorker().getPhase(actionController.phase)!=null &&
@@ -102,7 +102,7 @@ public class TurnController implements PropertyChangeListener {
                     SelectBuildAction workerAction = (SelectBuildAction) arg;
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
                     if (!actionController.readMessage(workerAction)) {
-                        if (phase!=null && (phase.getAction().equals(Action.SELECT_MOVE) || phase.getAction().equals(Action.MOVE) || phase.getAction().equals(Action.BUILD))) {
+                        if (phase!=null && (phase.getAction().equals(Action.SELECT_MOVE) || phase.getAction().equals(Action.MOVE) || phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.SELECT_FORCE_WORKER) || phase.getAction().equals(Action.FORCE_WORKER))) {
                             sendBuildError();
                         }
                         else if (phase!=null && phase.isMust()) {
@@ -121,27 +121,30 @@ public class TurnController implements PropertyChangeListener {
             sendMoveError();
         }
         else if(isPhaseRight(Action.SELECT_MOVE)) {
-            sendModifiedTurnMessage("You may choose to move (no args) again or", " build (no args).", Action.SELECT_MOVE);
+            sendModifiedTurnMessage("You may choose to move (no args) again or build (no args).", Action.SELECT_MOVE);
         }
     }
 
     private void checkBuildAction(BuildAction workerAction) {
+        String end =" end your turn.";
         if (!actionController.readMessage(workerAction)) {
             sendBuildError();
         }
         else if(isPhaseRight(Action.SELECT_BUILD)) {
-            sendModifiedTurnMessage("You may choose to build (no args) again or", " end your turn.", Action.SELECT_BUILD);
+            sendModifiedTurnMessage("You may choose to build (no args) again or" + end, Action.SELECT_BUILD);
+        }
+        else if(isPhaseRight(Action.SELECT_REMOVE)) {
+            sendModifiedTurnMessage("You may choose to remove (no args) or" + end, Action.SELECT_REMOVE);
         }
     }
 
-    private void sendModifiedTurnMessage(String s, String s2, Action selectbuild) {
-        gameHandler.singleSend(new ModifiedTurnMessage(s +
-                s2, selectbuild), gameHandler.getCurrentPlayerID());
+    private void sendModifiedTurnMessage(String message,Action action) {
+        gameHandler.singleSend(new ModifiedTurnMessage(message, action), gameHandler.getCurrentPlayerID());
     }
 
-    private boolean isPhaseRight(Action selectmove) {
+    private boolean isPhaseRight(Action action) {
         return actionController.getWorker().getPhase(actionController.phase) != null &&
-                actionController.getWorker().getPhase(actionController.phase).getAction().equals(selectmove);
+                actionController.getWorker().getPhase(actionController.phase).getAction().equals(action);
     }
 
     private void setMoveUp(int i, boolean b) {

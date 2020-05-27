@@ -111,6 +111,10 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
 
     private static final List<String> START_ACTION_GODS = Collections.singletonList(CHARON);
 
+    public static List<String> getStartActionGods() {
+        return START_ACTION_GODS;
+    }
+
     private static final List<String> BUILD_SAME_BLOCK_GODS = Collections.singletonList(ZEUS);
 
     public static List<String> getBuildSameBlockGods() {

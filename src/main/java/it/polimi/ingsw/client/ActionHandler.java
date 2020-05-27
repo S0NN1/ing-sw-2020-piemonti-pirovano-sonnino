@@ -144,7 +144,12 @@ public class ActionHandler {
             view.firePropertyChange(
                     "modifiedTurnNoUpdate", new boolean[]{false, true, true}, answer); // DOUBLE BUILD
         }
-        else if(answer.getAction().equals(Action.FORCE_WORKER)){
+        else if(answer.getAction().equals(Action.SELECT_FORCE_WORKER)){
+            modelView.activateInput();
+            view.firePropertyChange(
+                    BOARD_UPDATE, new boolean[]{true, false, false, true}, answer);
+        }
+        else if(answer.getAction().equals(Action.SELECT_REMOVE)){
             modelView.activateInput();
             view.firePropertyChange(
                     BOARD_UPDATE, new boolean[]{true, false, false, true}, answer);

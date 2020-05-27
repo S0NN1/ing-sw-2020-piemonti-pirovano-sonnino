@@ -147,13 +147,13 @@ public class ActionParser implements PropertyChangeListener {
         return false;
     }
 
-    private UserAction checkRemoveLevel(String[] in, int turnPhase) {
+    private UserAction checkForceWorker(String[] in, int turnPhase) {
         return (in.length == 1) ? inputChecker.selectForceWorker(turnPhase, modelView.getActiveWorker())
                 : inputChecker.forceWorker(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
                 modelView.getActiveWorker());
     }
 
-    private UserAction checkForceWorker(String[] in, int turnPhase) {
+    private UserAction checkRemoveLevel(String[] in, int turnPhase) {
         return (in.length == 1) ? inputChecker.selectRemoveLevel(turnPhase, modelView.getActiveWorker())
                 : inputChecker.removeLevel(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
                 modelView.getActiveWorker());
