@@ -147,13 +147,13 @@ public class GodTile extends HBox {
     }
 
     public void add(Card card) {
-        gui.getObservers().firePropertyChange("action", null, "ADDGOD " + card.toString());
+        gui.getListeners().firePropertyChange("action", null, "ADDGOD " + card.toString());
         value = true;
         stage.close();
     }
 
     public void choose(Card card) {
-        gui.getObservers().firePropertyChange("action", null, "CHOOSE " + card.toString());
+        gui.getListeners().firePropertyChange("action", null, "CHOOSE " + card.toString());
         value = true;
         stage.close();
     }

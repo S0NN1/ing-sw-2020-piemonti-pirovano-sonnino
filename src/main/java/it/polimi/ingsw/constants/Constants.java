@@ -10,10 +10,23 @@ import java.util.*;
  */
 public class Constants {
 
+
+    private static final String CHARON = "CHARON";
+    private static final String ATLAS = "ATLAS";
+    private static final String PLACEDOME = "PLACEDOME";
+    private static final String ARES = "ARES";
     public static final String ARTEMIS = "ARTEMIS";
     public static final String PROMETHEUS = "PROMETHEUS";
     public static final String DEMETER = "DEMETER";
     public static final String HEPHAESTUS = "HEPHAESTUS";
+    public static final String HESTIA = "HESTIA";
+    public static final String TRITON = "TRITON";
+    public static final String APOLLO = "APOLLO";
+    public static final String MINOTAUR = "MINOTAUR";
+    public static final String ZEUS = "ZEUS";
+    public static final String FORCEWORKER = "FORCEWORKER";
+    public static final String REMOVELEVEL = "REMOVELEVEL";
+
 
     /**
      * Constructor Constants creates a new Constants instance.
@@ -74,7 +87,37 @@ public class Constants {
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
 
-    private static final List<String> DOUBLE_MOVE_GODS = Collections.singletonList(ARTEMIS);
+    private static final HashMap<String, String> godMapCustomAction = new HashMap<>(){{
+        put(CHARON, FORCEWORKER);
+        put(ARES, REMOVELEVEL);
+        put(ATLAS, PLACEDOME);
+    }};
+
+    public static HashMap<String, String> getGodMapCustomAction() {
+        return godMapCustomAction;
+    }
+private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList(ATLAS);
+
+    public static List<String> getSpecialBuildGods() {
+        return SPECIAL_BUILD_GODS;
+    }
+
+    private static final List<String> END_ACTION_GODS = Collections.singletonList(ARES);
+
+    public static List<String> getEndActionGods() {
+        return END_ACTION_GODS;
+    }
+
+
+    private static final List<String> START_ACTION_GODS = Collections.singletonList(CHARON);
+
+    private static final List<String> BUILD_SAME_BLOCK_GODS = Collections.singletonList(ZEUS);
+
+    public static List<String> getBuildSameBlockGods() {
+        return BUILD_SAME_BLOCK_GODS;
+    }
+
+    private static final List<String> DOUBLE_MOVE_GODS = Arrays.asList(ARTEMIS, TRITON);
 
     /**
      * Method getDoubleMoveGods returns the doubleMoveGods of this Constants object.

@@ -96,7 +96,7 @@ public class LoaderController implements GUIController {
                 i+=2;
             }
         }
-        gui.getObservers().firePropertyChange(ACTION, null, "SET " + positions[0] + " " +
+        gui.getListeners().firePropertyChange(ACTION, null, "SET " + positions[0] + " " +
                 positions[1] + " " + positions[2] + " " + positions[3]);
     }
 
@@ -113,7 +113,7 @@ public class LoaderController implements GUIController {
         req.getPlayers().forEach(n -> players.put(n, new ButtonType(n)));
         startingPlayer.getButtonTypes().setAll(players.values());
         Optional<ButtonType> result = startingPlayer.showAndWait();
-        result.ifPresent(buttonType -> gui.getObservers().firePropertyChange(ACTION, null, "STARTER " + req.getPlayers().indexOf(buttonType.getText())));
+        result.ifPresent(buttonType -> gui.getListeners().firePropertyChange(ACTION, null, "STARTER " + req.getPlayers().indexOf(buttonType.getText())));
     }
 
     /**
@@ -193,7 +193,7 @@ public class LoaderController implements GUIController {
                 message.getButtonTypes().setAll(godList);
             }
             message.showAndWait();
-            gui.getObservers().firePropertyChange(ACTION, null, "GODLIST");
+            gui.getListeners().firePropertyChange(ACTION, null, "GODLIST");
         }
     }
 
