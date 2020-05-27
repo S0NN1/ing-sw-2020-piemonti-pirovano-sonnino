@@ -121,6 +121,6 @@ Coverage criteria: code lines.
 |:-----------------------|:------------------|:------------------------------------:|
 | Controller | ActionController | 
 | Controller | Controller | 
-| GodSelectionController | Controller | 45/51 (88%)
-| TurnControllerTest | Controller | 
+| Controller | GodSelectionController | 45/51 (88%)
+| Controller | TurnControllerTest | 
 | Model | Global Package | 
