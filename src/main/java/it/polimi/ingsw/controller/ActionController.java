@@ -45,7 +45,7 @@ public class ActionController {
             return false;
         }
         phase = 0;
-        if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECTMOVE && worker.getPhase(phase).isMust()) {
+        if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_MOVE && worker.getPhase(phase).isMust()) {
             try {
                 worker.notifyWithMoves(gameBoard);
             } catch (IllegalStateException | IllegalArgumentException e) {
@@ -54,7 +54,7 @@ public class ActionController {
             phase++;
             return true;
         }
-        else return worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECTBUILD;
+        else return worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_BUILD;
     }
 
 
@@ -85,11 +85,11 @@ public class ActionController {
     public boolean readMessage(SelectMoveAction action) {
         int phaseTemp = phase;
         while (worker.getPhase(phase) != null &&
-                worker.getPhase(phase).getAction() != Action.SELECTMOVE &&
+                worker.getPhase(phase).getAction() != Action.SELECT_MOVE &&
                 !worker.getPhase(phase).isMust()) {
             phase++;
         }
-        if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECTMOVE) {
+        if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_MOVE) {
             try {
                 worker.notifyWithMoves(gameBoard);
             } catch (IllegalStateException | IllegalArgumentException e) {
@@ -111,11 +111,11 @@ public class ActionController {
     public boolean readMessage(SelectBuildAction action) {
         int phaseTemp = phase;
         while (worker.getPhase(phase) != null &&
-                worker.getPhase(phase).getAction() != Action.SELECTBUILD &&
+                worker.getPhase(phase).getAction() != Action.SELECT_BUILD &&
                 !worker.getPhase(phase).isMust()) {
             phase++;
         }
-        if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECTBUILD) {
+        if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_BUILD) {
             try {
                 worker.notifyWithBuildable(gameBoard);
             } catch (IllegalArgumentException | IllegalStateException e) {
@@ -181,7 +181,7 @@ public class ActionController {
      * @return boolean true if Charon forced the worker, false if it could not
      */
     public boolean readMessage(CharonForceWorkerAction action) {
-        if ( !(worker instanceof Charon) || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.FORCEWORKER) return false;
+        if ( !(worker instanceof Charon) || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.FORCE_WORKER) return false;
         Couple coordinates = action.getMessage();
         Space space = gameBoard.getSpace(coordinates.getRow(), coordinates.getColumn());
         return ((Charon) worker).forceWorker(space, gameBoard);

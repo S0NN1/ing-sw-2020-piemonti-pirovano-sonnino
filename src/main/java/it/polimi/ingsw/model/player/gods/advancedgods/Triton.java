@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.player.gods.advancedgods;
 
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.Action;
@@ -47,7 +46,7 @@ public class Triton extends Worker {
     public boolean move(Space space) throws IllegalArgumentException {
         if (isPerimetric(space)) {
             numberOfMoves ++;
-            phases.add(numberOfMoves*2, new Phase(Action.SELECTMOVE, false));
+            phases.add(numberOfMoves*2, new Phase(Action.SELECT_MOVE, false));
             phases.add((numberOfMoves*2) + 1, new Phase(Action.MOVE, false));
         }
         return super.move(space);

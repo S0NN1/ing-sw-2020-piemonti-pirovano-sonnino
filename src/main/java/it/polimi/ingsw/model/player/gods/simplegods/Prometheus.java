@@ -20,11 +20,11 @@ public class Prometheus extends Worker {
 
     @Override
     public void setPhases() {
-        phases.add(new Phase(Action.SELECTBUILD,false));
+        phases.add(new Phase(Action.SELECT_BUILD,false));
         phases.add(new Phase(Action.BUILD,false));
-        phases.add(new Phase(Action.SELECTMOVE,true));
+        phases.add(new Phase(Action.SELECT_MOVE,true));
         phases.add(new Phase(Action.MOVE,true));
-        phases.add(new Phase(Action.SELECTBUILD,true));
+        phases.add(new Phase(Action.SELECT_BUILD,true));
         phases.add(new Phase(Action.BUILD,true));
     }
 

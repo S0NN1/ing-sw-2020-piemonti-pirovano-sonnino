@@ -12,7 +12,7 @@ public class SelectMoveAction extends WorkerAction {
     private final Action action;
 
     public SelectMoveAction() {
-        action = Action.SELECTMOVE;
+        action = Action.SELECT_MOVE;
     }
 
     public SelectMoveAction(Action action) {

@@ -46,11 +46,11 @@ public class TritonTest {
         //move on a perimeter space adds another move
         triton.move(move);
 
-        assertEquals(Action.SELECTMOVE, triton.getPhase(2).getAction(),"2");
+        assertEquals(Action.SELECT_MOVE, triton.getPhase(2).getAction(),"2");
         assertFalse(triton.getPhase(2).isMust(),"3");
         assertEquals(Action.MOVE, triton.getPhase(3).getAction(),"4");
         assertFalse(triton.getPhase(3).isMust(),"5");
-        assertEquals(Action.SELECTBUILD, triton.getPhase(4).getAction(), "5a");
+        assertEquals(Action.SELECT_BUILD, triton.getPhase(4).getAction(), "5a");
         assertTrue(triton.getPhase(4).isMust(),"5b");
 
         triton.notifyWithMoves(gameBoard);
@@ -60,8 +60,8 @@ public class TritonTest {
         //test reset
         triton.notifyWithBuildable(gameBoard);
         triton.build(gameBoard.getSpace(0,1));
-        assertEquals(Action.SELECTMOVE, triton.getPhase(0).getAction(),"7");
-        assertEquals(Action.SELECTBUILD, triton.getPhase(2).getAction(),"8");
+        assertEquals(Action.SELECT_MOVE, triton.getPhase(0).getAction(),"7");
+        assertEquals(Action.SELECT_BUILD, triton.getPhase(2).getAction(),"8");
         assertEquals(Action.BUILD, triton.getPhase(3).getAction(),"9");
     }
 
@@ -77,7 +77,7 @@ public class TritonTest {
          //move on a not perimeter space does nothing
         triton.move(move);
 
-        assertEquals(Action.SELECTBUILD, triton.getPhase(2).getAction(),"2");
+        assertEquals(Action.SELECT_BUILD, triton.getPhase(2).getAction(),"2");
         assertTrue(triton.getPhase(2).isMust(),"3");
         assertEquals(Action.BUILD, triton.getPhase(3).getAction(),"4");
         assertTrue(triton.getPhase(3).isMust(),"5");
@@ -95,9 +95,9 @@ public class TritonTest {
             triton.notifyWithMoves(gameBoard);
             triton.move(move);
 
-            assertEquals(Action.SELECTMOVE, triton.getPhase(2*i + 2).getAction(), "1."+ i);
+            assertEquals(Action.SELECT_MOVE, triton.getPhase(2*i + 2).getAction(), "1."+ i);
             assertFalse(triton.getPhase(2*i + 2).isMust(),"2." + i);
-            assertEquals(Action.SELECTBUILD, triton.getPhase(2*i + 4).getAction(), "3." + i);
+            assertEquals(Action.SELECT_BUILD, triton.getPhase(2*i + 4).getAction(), "3." + i);
             assertTrue(triton.getPhase(2*i + 4).isMust(),"4."+ i);
         }
 
@@ -107,9 +107,9 @@ public class TritonTest {
             triton.notifyWithMoves(gameBoard);
             triton.move(move);
 
-            assertEquals(Action.SELECTMOVE, triton.getPhase(2*j + 2).getAction(), "5."+ j);
+            assertEquals(Action.SELECT_MOVE, triton.getPhase(2*j + 2).getAction(), "5."+ j);
             assertFalse(triton.getPhase(2*j + 2).isMust(),"6." + j);
-            assertEquals(Action.SELECTBUILD, triton.getPhase(2*j + 4).getAction(), "7." + j);
+            assertEquals(Action.SELECT_BUILD, triton.getPhase(2*j + 4).getAction(), "7." + j);
             assertTrue(triton.getPhase(2*j + 4).isMust(),"8."+ j);
         }
     }

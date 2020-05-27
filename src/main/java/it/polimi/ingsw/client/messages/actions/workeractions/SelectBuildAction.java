@@ -12,7 +12,7 @@ public class SelectBuildAction extends WorkerAction {
     private final Action action;
 
     public SelectBuildAction() {
-        action = Action.SELECTBUILD;
+        action = Action.SELECT_BUILD;
     }
 
     public SelectBuildAction(Action action) {
