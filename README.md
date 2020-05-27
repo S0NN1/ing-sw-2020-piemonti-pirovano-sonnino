@@ -15,6 +15,11 @@ The final version must include:
 * working game implementation, which has to be rules compliant;
 * source code of the implementation;
 * source code of unity tests.
+## Find out more
+
+| **[Installation][techdocs]**     | **[Compiling][setup]**     | **[Javadocs][javadocs]**           | **[Contributing][contributing]**           |
+|-------------------------------------|-------------------------------|-----------------------------------|---------------------------------------------|
+| [![i1][techdocs-image]][techdocs] | [![i2][setup-image]][setup] | [![i3][javadocs-image]][javadocs] | [![i4][contributing-image]][contributing] |
 
 ## Implemented Functionalities
 | Functionality | State |
@@ -132,3 +137,5 @@ you may not use this software except in compliance with the License.
 
 
 [license]: (https://opensource.org/licenses/MIT)
+[javadocs-image]: (https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css)
+[javadocs]: (lucapirovano.com)
