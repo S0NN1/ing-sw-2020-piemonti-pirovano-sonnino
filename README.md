@@ -94,6 +94,11 @@ commands:
 ```
 - java -jar GC01-<version>-jar-with-dependencies.jar
 ```
+You'll have to choose if you want to launch server, CLI client or GUI client by
+typing the option number on your keyboard.
+
+In order to play, you'll have to launch at least one server and two clients 
+(either CLI or GUI).
 
 ### Troubleshooting
 There are common problems that you could encounter while launching the jar, like:
