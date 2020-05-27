@@ -91,14 +91,14 @@
                      <children>
                         <VBox layoutY="50.0" prefHeight="393.0" prefWidth="100.0" AnchorPane.leftAnchor="40.0">
                            <children>
-                              <Label fx:id="player1" onMouseClicked="#getGod" prefHeight="20.0" prefWidth="100.0" text="Player 1" visible="false">
+                              <Label fx:id="player1" prefHeight="20.0" prefWidth="100.0" text="Player 1" visible="false">
                                  <graphic>
                                     <Rectangle fx:id="rect1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                                  </graphic>
                                  <VBox.margin>
                                     <Insets top="40.0" />
                                  </VBox.margin></Label>
-                              <Label fx:id="player2" onMouseClicked="#getGod" prefHeight="20.0" prefWidth="101.0" text="Player 2:" visible="false">
+                              <Label fx:id="player2" prefHeight="20.0" prefWidth="101.0" text="Player 2:" visible="false">
                                  <graphic>
                                     <Rectangle fx:id="rect2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                                  </graphic>
@@ -106,7 +106,7 @@
                                     <Insets top="40.0" />
                                  </VBox.margin>
                               </Label>
-                              <Label fx:id="player3" onMouseClicked="#getGod" prefHeight="20.0" prefWidth="106.0" text="Player 3:" visible="false">
+                              <Label fx:id="player3" prefHeight="20.0" prefWidth="106.0" text="Player 3:" visible="false">
                                  <graphic>
                                     <Rectangle fx:id="rect3" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                                  </graphic>

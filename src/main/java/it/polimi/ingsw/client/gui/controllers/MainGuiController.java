@@ -98,6 +98,7 @@ public class MainGuiController implements GUIController{
         setVisibleCustomAction();
     }
 
+
     private void setVisibleCustomAction() {
         if(!Constants.getGodMapCustomAction().containsKey(gui.getModelView().getGod().toUpperCase())){
             buttonCustom.setVisible(false);
@@ -123,6 +124,7 @@ public class MainGuiController implements GUIController{
         description.show();
 
     }
+
 
     private void setMousePlayerAction(int i) {
         playerMapLabel.get(i).setOnMouseEntered(mouseEvent -> playerMapLabel.get(i).setCursor(Cursor.HAND));

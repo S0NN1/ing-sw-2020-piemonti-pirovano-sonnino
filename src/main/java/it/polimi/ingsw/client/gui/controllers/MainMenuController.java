@@ -73,6 +73,9 @@ public class MainMenuController implements GUIController{
         if(username.getText().equals("") || address.getText().equals("") || port.getText().equals("")) {
             confirmation.setText("Error: missing parameters!");
         }
+        else if(address.getText().contains(" ")) {
+            confirmation.setText("Error: address must not contain spaces!");
+        }
         else {
             LoaderController loaderController;
             try {

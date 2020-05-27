@@ -95,6 +95,7 @@ public class Player {
             }
             case CHARON -> {
                 workers.add(new Charon(color));
+                workers.add(new Charon(color));
             }
             case HEPHAESTUS -> {
                 workers.add(new Hephaestus(color));

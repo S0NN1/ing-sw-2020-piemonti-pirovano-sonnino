@@ -16,7 +16,6 @@ import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
 import it.polimi.ingsw.server.answers.turn.ModifiedTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
-import it.polimi.ingsw.server.answers.worker.CharonForceWorkerMessage;
 import it.polimi.ingsw.server.answers.worker.PlayerLostMessage;
 import it.polimi.ingsw.server.answers.worker.WinMessage;
 

@@ -386,7 +386,7 @@ public class ActionHandler {
      * @param answer of type Answer
      */
     private void fireClosedConnectionCli(Answer answer) {
-        view.firePropertyChange("connectionClosed", null, answer.getMessage());
+        view.firePropertyChange("connectionClosed", null, answer);
         cli.toggleActiveGame(false);
     }
 
