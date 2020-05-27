@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.messages.actions.workeractions;
 
 import it.polimi.ingsw.constants.Couple;
+import it.polimi.ingsw.model.player.Action;
 
 /**
  * UserAction sent by the client to the server, it indicates a build action.
@@ -11,6 +12,8 @@ public class BuildAction extends WorkerAction {
 
     private final Couple buildSpace;
 
+    private final Action action;
+
     /**
      * Constructor BuildAction creates a new BuildAction instance.
      *
@@ -19,6 +22,16 @@ public class BuildAction extends WorkerAction {
      */
     public BuildAction(int x, int y){
         buildSpace = new Couple(x,y);
+        this.action = null;
+    }
+
+    public BuildAction(int x, int y, Action action) {
+        buildSpace = new Couple(x, y);
+        this.action = action;
+    }
+
+    public Couple getBuildSpace() {
+        return buildSpace;
     }
 
     /** @see WorkerAction#getMessage() */
