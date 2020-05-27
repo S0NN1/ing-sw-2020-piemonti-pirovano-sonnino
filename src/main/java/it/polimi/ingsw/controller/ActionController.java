@@ -54,7 +54,7 @@ public class ActionController {
             phase++;
             return true;
         }
-        else return worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_BUILD;
+        else return worker.getPhase(phase) != null && (worker.getPhase(phase).getAction() == Action.SELECT_BUILD || worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER);
     }
 
 
@@ -83,6 +83,7 @@ public class ActionController {
      * @return false if the worker is blocked, or it isn't the correct phase of turn or gameBoard is null
      */
     public boolean readMessage(SelectMoveAction action) {
+        if (action.getMessage() == Action.SELECT_FORCE_WORKER) return selectForceWorkerReadMessage();
         int phaseTemp = phase;
         while (worker.getPhase(phase) != null &&
                 worker.getPhase(phase).getAction() != Action.SELECT_MOVE &&
@@ -99,6 +100,19 @@ public class ActionController {
             return true;
         }
         phase = phaseTemp;
+        return false;
+    }
+
+    /**
+     * Method selectForceWorkerReadMessage notify the player with the spaces where Charon can use his power.
+     * @return boolean true if the listener has been fired properly, false if it has not or it is not the correct phase or if the active worker is not Charon.
+     */
+    private boolean selectForceWorkerReadMessage() {
+        if ( worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER && worker instanceof Charon) {
+            ((Charon) worker).notifyWithForceWorkerSpaces(gameBoard);
+            phase ++;
+            return true;
+        }
         return false;
     }
 
