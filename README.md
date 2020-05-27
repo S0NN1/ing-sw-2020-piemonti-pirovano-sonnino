@@ -1,5 +1,6 @@
 # Santorini Board Game
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/blob/master/LICENSE)
+[last commit](https://img.shields.io/github/last-commit/S0NN1/Hacktoberfest2019?color=red)
 ## Description
 Final test of "Software Engineering", course of "Computer Science Engineering" held at Politecnico di Milano (2019/2020).
 ## The Team
