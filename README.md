@@ -114,3 +114,13 @@ There are common problems that you could encounter while launching the jar, like
     - you have not build the project before launching it      
 
 ## Test cases
+All tests in model and controller has a classes coverage at 100%.
+Coverage criteria: code lines.
+
+| Package |Tested Class | Coverage |
+|:-----------------------|:------------------|:------------------------------------:|
+| Controller | ActionController | 
+| Controller | Controller | 
+| GodSelectionController | Controller | 45/51 (88%)
+| TurnControllerTest | Controller | 
+| Model | Global Package | 
