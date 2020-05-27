@@ -115,7 +115,8 @@ There are common problems that you could encounter while launching the jar, like
 
 ## Test cases
 All tests in model and controller has a classes coverage at 100%.
-Coverage criteria: code lines.
+
+**Coverage criteria: code lines.**
 
 | Package |Tested Class | Coverage |
 |:-----------------------|:------------------|:------------------------------------:|
