@@ -51,6 +51,11 @@ The final version must include:
 [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
 -->
 
+## System Requirements
+- Linux, MacOS or Windows OS
+- Java SE JDK 14 (OracleJDK or OpenJDK) with enviroment variables set
+- Maven framework version 3.0 (or newer)
+
 ## Compile sources
 In order to compile the Java classes and resources and include the full 
 dependency list, you need to have the maven framework installed.
