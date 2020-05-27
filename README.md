@@ -59,6 +59,7 @@ You don't have it?
 - Download it here: https://maven.apache.org/download.cgi
 - [WIN] Add the enviromental variables following this guide: https://www.tutorialspoint.com/maven/maven_environment_setup.htm
 
+
 Once you have maven installed, navigate to the project home directory (whereas
 the POM.xml file is located) and execute the following commands:
 ```
