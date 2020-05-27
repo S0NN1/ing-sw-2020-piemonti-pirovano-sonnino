@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 public class GUI extends Application implements UI {
 
     private ConnectionSocket connection = null;
-    private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     private final ModelView modelView;
     private final ActionHandler actionHandler;
     private final Logger logger = Logger.getLogger(getClass().getName());
@@ -129,8 +129,8 @@ public class GUI extends Application implements UI {
      * @return the property change support listeners, that will be necessary to fire some changes to the correct
      * GUI component.
      */
-    public PropertyChangeSupport getObservers() {
-        return observers;
+    public PropertyChangeSupport getListeners() {
+        return listeners;
     }
 
     /**

@@ -10,6 +10,8 @@ import java.util.*;
 public class Constants {
 
     private static final String CHARON = "CHARON";
+    private static final String ATLAS = "ATLAS";
+    private static final String PLACEDOME = "PLACEDOME";
     private static final String ARES = "ARES";
     public static final String ARTEMIS = "ARTEMIS";
     public static final String PROMETHEUS = "PROMETHEUS";
@@ -20,6 +22,8 @@ public class Constants {
     public static final String APOLLO = "APOLLO";
     public static final String MINOTAUR = "MINOTAUR";
     public static final String ZEUS = "ZEUS";
+    public static final String FORCEWORKER = "FORCEWORKER";
+    public static final String REMOVELEVEL = "REMOVELEVEL";
 
 
     /**
@@ -81,6 +85,21 @@ public class Constants {
 
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
+
+    private static final HashMap<String, String> godMapCustomAction = new HashMap<>(){{
+        put(CHARON, FORCEWORKER);
+        put(ARES, REMOVELEVEL);
+        put(ATLAS, PLACEDOME);
+    }};
+
+    public static HashMap<String, String> getGodMapCustomAction() {
+        return godMapCustomAction;
+    }
+private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList(ATLAS);
+
+    public static List<String> getSpecialBuildGods() {
+        return SPECIAL_BUILD_GODS;
+    }
 
     private static final List<String> END_ACTION_GODS = Collections.singletonList(ARES);
 

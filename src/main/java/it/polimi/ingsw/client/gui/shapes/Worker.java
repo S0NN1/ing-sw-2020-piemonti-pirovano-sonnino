@@ -32,7 +32,7 @@ public class Worker extends Polygon {
         setOnMouseEntered(mouseEvent -> setCursor(Cursor.HAND));
 
         setOnMouseClicked(mouseEvent -> {
-            controller.getGUI().getObservers().firePropertyChange("action", null, "SELECTWORKER "+ getWorkingNumber());
+            controller.getGUI().getListeners().firePropertyChange("action", null, "SELECTWORKER "+ getWorkingNumber());
             controller.workerSelected();
         });
     }
@@ -67,7 +67,7 @@ public class Worker extends Polygon {
                     int newCol = (int) (Constants.GRID_MAX_SIZE - ((grid.getWidth() - this.getLayoutX())/(grid.getWidth()/Constants.GRID_MAX_SIZE)));
                         grid.add(this, oldCol, oldRow);
                         this.setPosition(oldRow, oldCol);
-                        controller.getGUI().getObservers().firePropertyChange("action", null, "MOVE "+ newRow + " " + newCol);
+                        controller.getGUI().getListeners().firePropertyChange("action", null, "MOVE "+ newRow + " " + newCol);
 
                     mainAnchor.getChildren().remove(tempPane);
                 }

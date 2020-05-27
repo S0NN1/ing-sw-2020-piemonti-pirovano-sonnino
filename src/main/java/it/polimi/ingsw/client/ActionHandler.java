@@ -75,7 +75,8 @@ public class ActionHandler {
         }
         if (answer instanceof ModifiedTurnMessage) {
             modifiedTurnAction((ModifiedTurnMessage) answer);
-        } else if (answer instanceof WorkersRequestMessage) {
+        }
+        else if (answer instanceof WorkersRequestMessage) {
             fireSelectWorker();
         } else if (answer instanceof EndTurnMessage) {
             fireEndTurn(answer);
@@ -85,7 +86,10 @@ public class ActionHandler {
                 if (Constants.getDoubleMoveGods().contains(modelView.getGod())
                         && modelView.getTurnPhase() == 1) {
                     view.firePropertyChange(BOARD_UPDATE, new boolean[]{true, true, false}, null);
-                } else view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, true, false}, null);
+                } else if(modelView.isTurnActive() && Constants.getSpecialBuildGods().contains(modelView.getGod())){
+                    view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, true, false, true}, null);
+                }
+                else view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, true, false}, null);
             } else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
@@ -139,6 +143,11 @@ public class ActionHandler {
             modelView.activateInput();
             view.firePropertyChange(
                     "modifiedTurnNoUpdate", new boolean[]{false, true, true}, answer); // DOUBLE BUILD
+        }
+        else if(answer.getAction().equals(Action.FORCEWORKER)){
+            modelView.activateInput();
+            view.firePropertyChange(
+                    BOARD_UPDATE, new boolean[]{true, false, false, true}, answer);
         }
     }
 

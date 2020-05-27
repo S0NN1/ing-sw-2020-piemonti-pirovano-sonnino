@@ -35,6 +35,7 @@ public class MainGuiController implements GUIController{
     private GUI gui;
     private ClientBoard board;
     private Worker selectedWorker;
+    private boolean godPowerActive;
 
     @FXML
     private GridPane grid;
@@ -46,6 +47,8 @@ public class MainGuiController implements GUIController{
     private Button buttonBuild;
     @FXML
     private Button buttonEnd;
+    @FXML
+    private Button buttonCustom;
     @FXML
     private AnchorPane mainAnchor;
     @FXML
@@ -92,14 +95,31 @@ public class MainGuiController implements GUIController{
             playerMapLabel.get(i).setVisible(true);
             setMousePlayerAction(i);
         }
+        setVisibleCustomAction();
     }
+
+    private void setVisibleCustomAction() {
+        if(!Constants.getGodMapCustomAction().containsKey(gui.getModelView().getGod().toUpperCase())){
+            buttonCustom.setVisible(false);
+        }
+        else {
+            buttonCustom.setText(Constants.getGodMapCustomAction().get(gui.getModelView().getGod().toUpperCase()));
+            buttonCustom.setOnAction(event -> {
+                gui.getListeners().firePropertyChange("action",null,
+                        Constants.getGodMapCustomAction().get(gui.getModelView().getGod().toUpperCase()));
+                setGodPowerActive(true);
+            });
+        }
+    }
+
 
     @FXML
     public void getGod(ActionEvent event) {
         Alert description = new Alert(Alert.AlertType.INFORMATION);
         description.setTitle(gui.getModelView().getPlayerMapGod().get(((Label)event.getSource()).getText()));
         description.setHeaderText("Description");
-        description.setContentText(Card.parseInput(gui.getModelView().getPlayerMapGod().get(((Label)event.getSource()).getText())).godsDescription());
+        description.setContentText(Card.parseInput(gui.getModelView().getPlayerMapGod().get(((Label)event.getSource()).
+                getText())).godsDescription());
         description.show();
 
     }
@@ -132,10 +152,16 @@ public class MainGuiController implements GUIController{
         buttonMove.getStyleClass().add(checkers[0] ? "rightBoard" : "grayedOut");
         buttonBuild.getStyleClass().add(checkers[1] ? "rightBoard" : "grayedOut");
         buttonEnd.getStyleClass().add(checkers[2] ? "rightBoard" : "grayedOut");
+        if(checkers.length==4){
+            buttonCustom.getStyleClass().add(checkers[3] ? "rightBoard" : "grayedOut");
+        }
         getActionsLabel().setText("Select Action:");
-        buttonMove.setOnAction(event -> gui.getObservers().firePropertyChange("action", null, "MOVE"));
-        buttonBuild.setOnAction(event -> gui.getObservers().firePropertyChange("action", null, "BUILD"));
-        buttonEnd.setOnAction(event -> gui.getObservers().firePropertyChange("action", null, "END"));
+        buttonMove.setOnAction(event -> gui.getListeners().firePropertyChange("action", null,
+                "MOVE"));
+        buttonBuild.setOnAction(event -> gui.getListeners().firePropertyChange("action", null,
+                "BUILD"));
+        buttonEnd.setOnAction(event -> gui.getListeners().firePropertyChange("action", null,
+                "END"));
     }
 
     /**
@@ -286,14 +312,28 @@ public class MainGuiController implements GUIController{
                   node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
                   int row = GridPane.getRowIndex(node);
                   int col = GridPane.getColumnIndex(node);
-                  node.setOnMouseClicked(mouseEvent -> getGUI().getObservers().firePropertyChange("action", null, "BUILD "+ row + " " + col));
+                  if(isGodPowerActive()){
+                      node.setOnMouseClicked(mouseEvent -> {
+                          getGUI().getListeners().firePropertyChange(
+                                  "action", null,
+                                  Constants.getGodMapCustomAction().get(gui.getModelView().getGod().toUpperCase())
+                                          + " " + row + " " + col);
+                          setGodPowerActive(false);
+                      }
+                  );
+                  }
+                  else{
+                  node.setOnMouseClicked(mouseEvent -> getGUI().getListeners().firePropertyChange("action",
+                          null, "BUILD "+ row + " " + col));
+              }
               }
               else {
                   node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
                   node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
                   int row = GridPane.getRowIndex(node);
                   int col = GridPane.getColumnIndex(node);
-                  node.setOnMouseClicked(mouseEvent -> getGUI().getObservers().firePropertyChange("action", null, "MOVE "+ row + " " + col));
+                  node.setOnMouseClicked(mouseEvent -> getGUI().getListeners().firePropertyChange("action",
+                          null, "MOVE "+ row + " " + col));
               }
           }
         //Couple position = getGUI().getModelView().getActiveWorkerPosition();
@@ -369,5 +409,13 @@ public class MainGuiController implements GUIController{
 
     public HashMap<String, Color> getColors() {
         return colors;
+    }
+
+    private synchronized boolean isGodPowerActive() {
+        return godPowerActive;
+    }
+
+    private synchronized void setGodPowerActive(boolean godPowerActive) {
+        this.godPowerActive = godPowerActive;
     }
 }
