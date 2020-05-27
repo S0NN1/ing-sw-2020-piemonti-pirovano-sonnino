@@ -3,7 +3,6 @@ target/
 .vscode/
 out/
 *.iml
-javadocs/
 src/**/META-INF
 
 graphicsResources
