@@ -52,9 +52,12 @@ The final version must include:
 -->
 
 ## System Requirements
-- Linux, MacOS or Windows OS
+- Linux, MacOS or Windows OS with an active terminal
 - Java SE JDK 14 (OracleJDK or OpenJDK) with enviroment variables set
 - Maven framework version 3.0 (or newer)
+
+For the best CLI experience, we suggest using a native linux terminal with a font size
+set to 12 (or below), a line spacing set to 0.9 (or below) and a screen resolution of 1920x1080.
 
 ## Compile sources
 In order to compile the Java classes and resources and include the full 
