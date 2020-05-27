@@ -51,4 +51,26 @@ The final version must include:
 [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
 -->
 
+## Compile sources
+In order to compile the Java classes and resources and include the full 
+dependency list, you need to have the maven framework installed.
+You don't have it? 
+- Download it here: https://maven.apache.org/download.cgi
+- [WIN] Add the enviromental variables following this guide: https://www.tutorialspoint.com/maven/maven_environment_setup.htm
+Once you have maven installed, navigate to the project home directory (whereas
+the POM.xml file is located) and execute the following commands:
+```
+- mvn clean     (to clean previously compilation leftovers)
+- mvn package   (to build the new version of the project)
+```
+You can also run a one line command, just like that:
+```
+- mvn clean package (to clean and then build the package)
+```
+A new folder called "**target**" will be created in the project home directory,
+inside it you will find the jar file, which already includes the project dependencies.
+
+## Run the application
+In order to run the application you need
+
 ## Test cases
