@@ -138,9 +138,9 @@ you may not use this software except in compliance with the License.
 
 [license]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/blob/master/LICENSE
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
-[javadocs-image]: github/Artboard%203.png
+[javadocs-image]: github/Artboard%202.png
 [javadocs]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/docs
 [installation-link]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/wiki
 [installation-image]: github/Artboard%201.png
-[compiling-image]: github/Artboard%202.png
+[compiling-image]: github/Artboard%203.png
 [compiling-link]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/wiki
