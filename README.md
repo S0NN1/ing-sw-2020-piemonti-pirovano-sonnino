@@ -60,8 +60,8 @@ You don't have it?
 - [WIN] Add the enviromental variables following this guide: https://www.tutorialspoint.com/maven/maven_environment_setup.htm
 
 
-Once you have maven installed, navigate to the project home directory (whereas
-the POM.xml file is located) and execute the following commands:
+Once you have maven installed, open a terminal and navigate to the project home
+directory (where the POM.xml file is located); execute the following commands:
 ```
 - mvn clean     (to clean previously compilation leftovers)
 - mvn package   (to build the new version of the project)
