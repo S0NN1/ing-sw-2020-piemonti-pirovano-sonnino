@@ -83,11 +83,11 @@ public class Controller implements PropertyChangeListener {
      * requested to the user.
      * @param msg the worker setup message type, which contains information about the position of player's workers.
      */
-    public void placeWorkers(WorkerSetupMessage msg) {
+    public boolean placeWorkers(WorkerSetupMessage msg) {
         for(int i=0; i<2; i++) {
             if(msg.getXPosition(i)<0 || msg.getXPosition(i)>4 || msg.getYPosition(i)<0 || msg.getYPosition(i)>4) {
                 gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Error: coordinates out of range!"), getModel().getCurrentPlayer().getClientID());
-                return;
+                return false;
             }
         }
         Space space1 = getModel().getGameBoard().getSpace(msg.getXPosition(0), msg.getYPosition(0));
@@ -115,7 +115,9 @@ public class Controller implements PropertyChangeListener {
                 invalidWorker.add(coords2);
             }
             gameHandler.singleSend(new GameError(ErrorsType.CELLOCCUPIED, null, invalidWorker), getModel().getCurrentPlayer().getClientID());
+            return false;
         }
+        return true;
     }
 
     @Override

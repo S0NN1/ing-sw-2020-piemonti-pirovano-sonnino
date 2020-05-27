@@ -10,11 +10,13 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualClient;
+import it.polimi.ingsw.server.answers.Answer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,19 +25,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ControllerTest {
     controllerStub controller;
-    GameStub game;
-
-    private class GameStub extends Game {
-        private final ArrayList<PlayerStub> players = new ArrayList<>();
-        private PlayerStub currentplayer;
-
-        public void createNewPlayer(PlayerStub player) {
-            players.add(player);
-        }
-    }
+    Game game;
 
     private class PlayerStub extends Player {
-        private final ArrayList<WorkerStub> workers = new ArrayList<>();
+        private final List<Worker> workers = new ArrayList<>();
 
         public PlayerStub(String nickname, int clientID) {
             super(nickname, clientID);
@@ -45,6 +38,11 @@ class ControllerTest {
         public void addWorker(Card card, VirtualClient client) {
             workers.add(new WorkerStub(PlayerColors.GREEN));
             workers.add(new WorkerStub(PlayerColors.GREEN));
+        }
+
+        @Override
+        public List<Worker> getWorkers() {
+            return workers;
         }
     }
 
@@ -61,6 +59,7 @@ class ControllerTest {
 
         @Override
         public void setPosition(Space space) throws IllegalArgumentException {
+            super.setPosition(space);
             value = true;
         }
     }
@@ -72,55 +71,49 @@ class ControllerTest {
             super(model, gameHandler);
         }
 
-        public void placeWorkers(WorkerSetupMessage msg) {
-            for(int i=0; i<2; i++) {
-                if(msg.getXPosition(i)<0 || msg.getXPosition(i)>6 || msg.getYPosition(i)<0 || msg.getYPosition(i)>6) {
-                    value = false;
-                    return;
-                }
-            }
-            Space space1 = getModel().getGameBoard().getSpace(msg.getXPosition(0), msg.getYPosition(0));
-            Space space2 = getModel().getGameBoard().getSpace(msg.getXPosition(1), msg.getYPosition(1));
-            if(space1==space2 ) {
-                value = false;
-            }
-            else if(space1.isEmpty() && space2.isEmpty()) {
-                game.currentplayer.workers.get(0).setPosition(space1);
-                game.currentplayer.workers.get(1).setPosition(space2);
-                value = true;
-            } else {
-                ArrayList<int[]> invalidWorker = new ArrayList<>();
-                int[] coords = new int[2];
-                int[] coords2 = new int[2];
-                if(!space1.isEmpty()) {
-                    coords[0] = space1.getRow();
-                    coords[1] = space1.getColumn();
-                    invalidWorker.add(coords);
-                }
-                if(!space2.isEmpty()) {
-                    coords2[0] = space2.getRow();
-                    coords2[1] = space2.getColumn();
-                    invalidWorker.add(coords2);
-                }
-                value = false;
-            }
+    }
+
+    private class GameHandlerStub extends GameHandler {
+        Game game;
+        public GameHandlerStub(Server server) {
+            super(server);
+        }
+
+        public void setGame(Game game) {
+            this.game = game;
+        }
+
+        @Override
+        public void singleSend(Answer message, int id) {
+            //NOTHING
+        }
+
+        @Override
+        public void sendAll(Answer message) {
+            //NOTHING
+        }
+
+        @Override
+        public void sendAllExcept(Answer message, int excludedID) {
+            //NOTHING
         }
     }
 
     @BeforeEach
     void initialization() {
-        game = new GameStub();
+        game = new Game();
         game.createNewPlayer(new PlayerStub("Piro", 1));
         game.createNewPlayer(new PlayerStub("Ali", 2));
-        game.players.get(0).addWorker(Card.APOLLO, new VirtualClient());
-        game.players.get(1).addWorker(Card.ATLAS, new VirtualClient());
-        game.currentplayer = game.players.get(0);
-        controller = new controllerStub(game, new GameHandler(new Server()));
+        game.getActivePlayers().get(0).addWorker(Card.APOLLO, new VirtualClient());
+        game.getActivePlayers().get(1).addWorker(Card.ATLAS, new VirtualClient());
+        game.setCurrentPlayer(game.getActivePlayers().get(0));
+        controller = new controllerStub(game, new GameHandlerStub(new Server()));
     }
 
     @DisplayName("Worker placement test in standard condition, with no errors expected")
     @Test
-    void workerPlacementTestStandard() {
+    void workerPlacementStandard() {
+
         String[] input = new String[5];
         input[0] = null;
         input[1] = "0";
@@ -128,20 +121,37 @@ class ControllerTest {
         input[3] = "3";
         input[4] = "0";
         controller.placeWorkers(new WorkerSetupMessage(input));
-        assertTrue(game.currentplayer.workers.get(0).value);
+        assertTrue(((WorkerStub)game.getCurrentPlayer().getWorkers().get(0)).value);
     }
 
     @DisplayName("Worker placement test with an invalid coordinates")
     @Test
-    void workerPlacementTestNoCoordinates() {
+    void workerPlacementNoCoordinates() {
         String[] input = new String[5];
         input[0] = null;
         input[1] = "0";
         input[2] = "-1";
         input[3] = "8";
         input[4] = "0";
-        controller.placeWorkers(new WorkerSetupMessage(input));
-        assertFalse(controller.value);
+        assertFalse(controller.placeWorkers(new WorkerSetupMessage(input)));
+    }
+
+    @DisplayName("Worker placement test with already occupied coordinates")
+    @Test
+    void workerPlacementOccupiedCoords() {
+        String[] input = new String[5];
+        input[0] = null;
+        input[1] = "0";
+        input[2] = "0";
+        input[3] = "1";
+        input[4] = "1";
+        assertTrue(controller.placeWorkers(new WorkerSetupMessage(input)));
+        game.nextPlayer();
+        input[1] = "0";
+        input[2] = "0";
+        input[3] = "1";
+        input[4] = "1";
+        assertFalse(controller.placeWorkers(new WorkerSetupMessage(input)));
     }
 
 }
