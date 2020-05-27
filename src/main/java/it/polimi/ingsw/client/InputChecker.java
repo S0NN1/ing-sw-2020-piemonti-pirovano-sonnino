@@ -2,12 +2,14 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
+import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
 import it.polimi.ingsw.client.messages.actions.turnactions.StartTurnAction;
 import it.polimi.ingsw.client.messages.actions.workeractions.*;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.player.Action;
 
 import java.util.Objects;
 
@@ -414,5 +416,35 @@ public class InputChecker {
         }
         System.err.println("You cannot change your worker after an action!");
         return null;
+    }
+
+    public BuildAction removeLevel(int turnPhase, int row, int column, int activeWorker) {
+        //TODO
+    }
+    public SelectBuildAction selectRemoveLevel(int turnPhase, int activeWorker){
+        if (activeWorker == 0) {
+            System.err.println(ERR_WORKER_NOT_SELECTED);
+            return null;
+        } else if (turnPhase == 0 && Constants.getGodMapCustomAction().containsKey(modelView.getGod())) {
+            return new SelectBuildAction(); //TODO
+        } else {
+            System.err.println(ERR_INCORRECT_ACTION);
+            return null;
+        }
+    }
+
+    public MoveAction forceWorker(int turnPhase, int row, int column, int activeWorker) {
+        //TODO
+    }
+    public SelectMoveAction selectForceWorker(int turnPhase, int activeWorker) {
+        if (activeWorker == 0) {
+            System.err.println(ERR_WORKER_NOT_SELECTED);
+            return null;
+        } else if (turnPhase == 0 && Constants.getGodMapCustomAction().containsKey(modelView.getGod())) {
+            return new SelectMoveAction(Action.); //TODO
+        } else {
+            System.err.println(ERR_INCORRECT_ACTION);
+            return null;
+        }
     }
 }

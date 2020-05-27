@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.gui.controllers.MainGuiController;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.server.answers.*;
+import it.polimi.ingsw.server.answers.turn.ModifiedTurnMessage;
 import it.polimi.ingsw.server.answers.worker.BuildMessage;
 import it.polimi.ingsw.server.answers.worker.DoubleMoveMessage;
 import it.polimi.ingsw.server.answers.worker.MoveMessage;
@@ -405,7 +406,11 @@ public class GUI extends Application implements UI {
         Platform.runLater(() -> {
             Answer message = modelView.getServerAnswer();
             MainGuiController controller = (MainGuiController) getControllerFromName(MAINGUI);
-            if (message instanceof MoveMessage) {
+            if(message instanceof ModifiedTurnMessage){
+                controller.showActions(actionCheckers);
+                return;
+            }
+            else if (message instanceof MoveMessage) {
                 Move move = ((MoveMessage) message).getMessage();
                 controller.move(move.getOldPosition().getRow(), move.getOldPosition().getColumn(), move.getNewPosition().getRow(), move.getNewPosition().getColumn());
             } else if (message instanceof BuildMessage) {

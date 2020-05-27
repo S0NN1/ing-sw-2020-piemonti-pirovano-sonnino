@@ -839,7 +839,7 @@ public class CLI implements UI, Runnable {
             } else active = "";
             System.out.println(active + " YOUR TURN");
         }
-        if (modelView.getGod().equalsIgnoreCase("ATLAS")) {
+        if (Constants.getSpecialBuildGods().contains(modelView.getGod())) {//TODO ARES/CHARON
             atlas = "/PLACEDOME\n";
         } else atlas = "";
         TimeUnit.MILLISECONDS.sleep(500);

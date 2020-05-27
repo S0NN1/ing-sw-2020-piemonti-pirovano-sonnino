@@ -121,6 +121,8 @@ public class ActionParser implements PropertyChangeListener {
                 case "MOVE" -> sendMessage = checkMove(in, modelView.getTurnPhase());
                 case "BUILD" -> sendMessage = checkBuild(in, modelView.getTurnPhase());
                 case "PLACEDOME" -> sendMessage = checkPlaceDome(in, modelView.getTurnPhase());
+                case "FORCEWORKER" -> sendMessage = checkForceWorker(in, modelView.getTurnPhase());
+                case "REMOVELEVEL" -> sendMessage = checkRemoveLevel(in, modelView.getTurnPhase());
                 case "END" -> sendMessage = new EndTurnAction();
                 case "QUIT" -> {
                     inputChecker.quit();
@@ -143,6 +145,18 @@ public class ActionParser implements PropertyChangeListener {
             return true;
         }
         return false;
+    }
+
+    private UserAction checkRemoveLevel(String[] in, int turnPhase) {
+        return (in.length == 1) ? inputChecker.selectForceWorker(turnPhase, modelView.getActiveWorker())
+                : inputChecker.forceWorker(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
+                modelView.getActiveWorker());
+    }
+
+    private UserAction checkForceWorker(String[] in, int turnPhase) {
+        return (in.length == 1) ? inputChecker.selectRemoveLevel(turnPhase, modelView.getActiveWorker())
+                : inputChecker.removeLevel(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
+                modelView.getActiveWorker());
     }
 
     /**
