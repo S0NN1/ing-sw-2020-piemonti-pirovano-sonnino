@@ -177,6 +177,10 @@ public class TurnController implements PropertyChangeListener {
                 gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or build (no args) based on your choice."),
                         gameHandler.getCurrentPlayerID());
             }
+            else if(actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.FORCEWORKER)){
+                gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or forceworker (no args) based on your choice.", Action.FORCEWORKER),
+                        gameHandler.getCurrentPlayerID());
+            }
         }
         else if(actionController.phase==0){
             if(controller.getModel().getCurrentPlayer().getWorkers().get(j).isBlocked()) {
