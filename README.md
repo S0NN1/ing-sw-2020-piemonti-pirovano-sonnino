@@ -1,5 +1,5 @@
 # Santorini Board Game
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)][license]
 ## Description
 Final test of "Software Engineering", course of "Computer Science Engineering" held at Politecnico di Milano (2019/2020).
 ## The Team
@@ -130,3 +130,6 @@ Snowplow is copyright 2012-2019 Snowplow Analytics Ltd.
 
 Licensed under the **[MIT License][license]** (the "License");
 you may not use this software except in compliance with the License.
+
+
+[license]:(https://opensource.org/licenses/MIT)
