@@ -74,6 +74,28 @@ A new folder called "**target**" will be created in the project home directory,
 inside it you will find the jar file, which already includes the project dependencies.
 
 ## Run the application
-In order to run the application you need
+In order to run the application you need to have the Java SE JDK 14 installed.
+
+You don't have it? Follow this guide: https://docs.oracle.com/en/java/javase/14/install/index.html
+
+Once you met all the requirements, open a terminal and go to the project target
+directory (which has to be previously built with maven). Once there, execute these
+commands:
+```
+- java -jar GC01-<version>-jar-with-dependencies.jar
+```
+
+### Troubleshooting
+There are common problems that you could encounter while launching the jar, like:
+
+- "java is not recognized as an internal or external command"
+
+    - java is not set in the enviromental variables. Please follow this guide
+    in order to fix the issue: https://www.java.com/en/download/help/path.xml
+
+- "unable to access jarfile <file-name>"
+    
+    - the entered file path is not correct
+    - you have not build the project before launching it      
 
 ## Test cases
