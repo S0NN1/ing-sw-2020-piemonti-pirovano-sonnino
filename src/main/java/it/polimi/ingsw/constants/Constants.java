@@ -147,7 +147,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
         return ALTERNATE_PHASE_GODS;
     }
 
-    private static final List<String> DOUBLE_BUILD_GODS = Arrays.asList(DEMETER, HEPHAESTUS);
+    private static final List<String> DOUBLE_BUILD_GODS = Arrays.asList(DEMETER, HEPHAESTUS, HESTIA);
 
     /**
      * Method getDoubleBuildGods returns the doubleBuildGods of this Constants object.
@@ -163,7 +163,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
     /**
      * Arraylist containing gods with move action with turnPhase != 0
      */
-    private static final List<String> MOVE_PHASE_GODS = Arrays.asList(ARTEMIS, PROMETHEUS);
+    private static final List<String> MOVE_PHASE_GODS = Arrays.asList(ARTEMIS, PROMETHEUS, TRITON);
 
     /**
      * Method getMovePhaseGods returns the movePhaseGods of this Constants object.
@@ -178,7 +178,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
     /**
      * Arraylist containing gods with build action with turnPhase != 1
      */
-    private static final List<String> BUILD_PHASE_GODS = Arrays.asList(DEMETER, HEPHAESTUS, PROMETHEUS, ARTEMIS);
+    private static final List<String> BUILD_PHASE_GODS = Arrays.asList(DEMETER, HEPHAESTUS, PROMETHEUS, ARTEMIS, HESTIA, TRITON);
 
     /**
      * Method getBuildPhaseGods returns the buildPhaseGods of this Constants object.
@@ -194,7 +194,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
     /**
      * Arraylist containing gods with move action to cell occupied
      */
-    private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = Arrays.asList("APOLLO", "MINOTAUR");
+    private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = Arrays.asList(APOLLO, MINOTAUR);
 
     /**
      * Method getMoveToCellOccupiedGods returns the moveToCellOccupiedGods of this Constants object.
