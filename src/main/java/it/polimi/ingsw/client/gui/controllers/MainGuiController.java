@@ -94,16 +94,6 @@ public class MainGuiController implements GUIController{
         }
     }
 
-    @FXML
-    public void getGod(ActionEvent event) {     //TODO NON SONO SICURO CHE RESETTANDO FUNZIONI MA DI FATTO SI APRE SU UNO SOLO!
-        Alert description = new Alert(Alert.AlertType.INFORMATION);
-        description.setTitle(gui.getModelView().getPlayerMapGod().get(((Label)event.getSource()).getText()));
-        description.setHeaderText("Description");
-        description.setContentText(Card.parseInput(gui.getModelView().getPlayerMapGod().get(((Label)event.getSource()).getText())).godsDescription());
-        description.show();
-
-    }
-
     private void setMousePlayerAction(int i) {
         playerMapLabel.get(i).setOnMouseEntered(mouseEvent -> playerMapLabel.get(i).setCursor(Cursor.HAND));
         playerMapLabel.get(i).setOnMouseClicked(mouseEvent -> {
