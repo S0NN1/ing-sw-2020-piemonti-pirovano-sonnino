@@ -7,7 +7,7 @@ Santorini Board Game is the final test of **"Software Engineering"**, course of 
 
 ## Project specification
 The project consists of a Java version of the gameBoard game *Santorini*, made by Cranio Creations.
-You can find the full game here: https://bit.ly/2Qi7gs9
+You can find the full game [here](https://bit.ly/2Qi7gs9).
 
 The final version must include:
 * initial UML diagram;
