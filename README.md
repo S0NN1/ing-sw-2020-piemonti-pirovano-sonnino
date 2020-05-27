@@ -126,7 +126,7 @@ All tests in model and controller has a classes coverage at 100%.
 | Model | Global Package | 
 ## Copyright and license
 
-Snowplow is copyright 2012-2019 Snowplow Analytics Ltd.
+Santorini Board Game is copyright 2020.
 
 Licensed under the **[MIT License](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/blob/master/LICENSE)** ;
 you may not use this software except in compliance with the License.
