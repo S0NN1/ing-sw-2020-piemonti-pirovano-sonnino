@@ -1,5 +1,5 @@
 # Santorini Board Game
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/blob/master/LICENSE)
+[![License: MIT][license-image]][license]
 ![latest commit](https://img.shields.io/github/last-commit/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino?color=red)
 <img src="https://images-na.ssl-images-amazon.com/images/I/91irtho0CNL._AC_SL1500_.jpg" width=192px height=192 px align="right" />
 
@@ -136,6 +136,7 @@ Licensed under the **[MIT License](https://github.com/S0NN1/ing-sw-2020-piemonti
 you may not use this software except in compliance with the License.
 
 
-[license]: (https://opensource.org/licenses/MIT)
-[javadocs-image]: (https://image.flaticon.com/icons/svg/2979/2979679.svg)
-[javadocs]: (https://lucapirovano.com)
+[license]: https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/blob/master/LICENSE
+[license-image]: https://img.shields.io/badge/License-MIT-blue.svg
+[javadocs-image]: https://image.flaticon.com/icons/svg/2979/2979679.svg
+[javadocs]: https://lucapirovano.com
