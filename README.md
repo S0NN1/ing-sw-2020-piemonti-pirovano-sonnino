@@ -2,19 +2,14 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/blob/master/LICENSE)
 ![latest commit](https://img.shields.io/github/last-commit/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino?color=red)
 <img src="https://images-na.ssl-images-amazon.com/images/I/91irtho0CNL._AC_SL1500_.jpg" width=192px height=192 px align="right" />
-## Description
-Final test of "Software Engineering", course of "Computer Science Engineering" held at Politecnico di Milano (2019/2020).
+Santorini Board Game is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (2019/2020).
+
 ## The Team
 Our working group is composed by three students:
 * Alice Piemonti
-   * Person Code: 10572806
-   * Number: 888585
 * Luca Pirovano
-    * Person Code: 10569272
-    * Number: 888838
 * Nicolò Sonnino
-    * Person Code: 10569180 
-    * Number: 890940
+
 ## Project specification
 The project consists of a Java version of the gameBoard game *Santorini*, made by Cranio Creations.
 You can find the full game here: https://bit.ly/2Qi7gs9
