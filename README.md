@@ -1,4 +1,5 @@
-# A Java implementation of Santorini
+# Santorini Board Game
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ### Software Engineering Final Test
 ### AA 2019/2020
 ## Description
