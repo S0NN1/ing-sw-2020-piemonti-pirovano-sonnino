@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.player.gods.advancedgods.*;
 import it.polimi.ingsw.model.player.gods.simplegods.*;
 import it.polimi.ingsw.server.VirtualClient;
 
@@ -73,14 +74,21 @@ public class Player {
                 workers.add(new Apollo(color));
                 workers.add(new Apollo(color));
             }
+            case ARES -> {
+                workers.add(new Ares(color));
+                workers.add(new Ares(color));
+            }
             case ARTEMIS -> {
                 workers.add(new Artemis(color));
                 workers.add(new Artemis(color));
             }
-
             case ATLAS -> {
                 workers.add(new Atlas(color));
                 workers.add(new Atlas(color));
+            }
+            case CHARON -> {
+                workers.add(new Charon(color));
+                workers.add(new Charon(color));
             }
             case DEMETER -> {
                 workers.add(new Demeter(color));
@@ -89,6 +97,10 @@ public class Player {
             case HEPHAESTUS -> {
                 workers.add(new Hephaestus(color));
                 workers.add(new Hephaestus(color));
+            }
+            case HESTIA -> {
+                workers.add(new Hestia(color));
+                workers.add(new Hestia(color));
             }
             case MINOTAUR -> {
                 workers.add(new Minotaur(color));
@@ -101,6 +113,14 @@ public class Player {
             case PROMETHEUS -> {
                 workers.add(new Prometheus(color));
                 workers.add(new Prometheus(color));
+            }
+            case TRITON -> {
+                workers.add(new Triton(color));
+                workers.add(new Triton(color));
+            }
+            case ZEUS -> {
+                workers.add(new Zeus(color));
+                workers.add(new Zeus(color));
             }
              default -> {
                 workers.add(null);
