@@ -128,8 +128,8 @@ All tests in model and controller has a classes coverage at 100%.
 
 Snowplow is copyright 2012-2019 Snowplow Analytics Ltd.
 
-Licensed under the **[MIT License][license]** (the "License");
+Licensed under the **[MIT License][license]** ;
 you may not use this software except in compliance with the License.
 
 
-[license]:(https://opensource.org/licenses/MIT)
+[license]: (https://opensource.org/licenses/MIT)
