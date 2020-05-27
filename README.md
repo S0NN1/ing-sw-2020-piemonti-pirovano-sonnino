@@ -28,8 +28,8 @@ The final version must include:
 ## Implemented Functionalities
 | Functionality | State |
 |:-----------------------|:------------------------------------:|
-| Basic rules | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
-| Complete rules | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
+| Basic rules | [![GREEN](https://placehold.it/15/44bb44/44bb44)](tree/master/src/main/java/it/polimi/ingsw/model) |
+| Complete rules | [![GREEN](https://placehold.it/15/44bb44/44bb44)](tree/master/src/main/java/it/polimi/ingsw/model) |
 | Socket |[![GREEN](https://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/server) |
 | GUI | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 | CLI |[![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
