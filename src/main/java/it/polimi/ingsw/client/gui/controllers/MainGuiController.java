@@ -134,11 +134,15 @@ public class MainGuiController implements GUIController {
     buttonMove.getStyleClass().clear();
     buttonBuild.getStyleClass().clear();
     buttonEnd.getStyleClass().clear();
+    buttonCustom.getStyleClass().clear();
     buttonMove.getStyleClass().add(checkers[0] ? "rightBoard" : "grayedOut");
     buttonBuild.getStyleClass().add(checkers[1] ? "rightBoard" : "grayedOut");
     buttonEnd.getStyleClass().add(checkers[2] ? "rightBoard" : "grayedOut");
-    if (checkers.length == 4) {
-      buttonCustom.getStyleClass().add(checkers[3] ? "rightBoard" : "grayedOut");
+    if (checkers.length == 4 && checkers[3]==true) {
+      buttonCustom.getStyleClass().add("rightBoard");
+    }
+    else{
+      buttonCustom.getStyleClass().add("grayedOut");
     }
     getActionsLabel().setText("Select Action:");
     buttonMove.setOnAction(event -> gui.getListeners().firePropertyChange("action", null, "MOVE"));
