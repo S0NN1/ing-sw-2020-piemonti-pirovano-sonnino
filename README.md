@@ -17,9 +17,9 @@ The final version must include:
 * source code of unity tests.
 ## Find out more
 
-| **[Installation][techdocs]**     | **[Compiling][setup]**     | **[Javadocs][javadocs]**           | **[Contributing][contributing]**           |
+| **[Installation][installation-link]**     | **[Compiling][setup]**     | **[Javadocs][javadocs]**           | **[Contributing][contributing]**           |
 |-------------------------------------|-------------------------------|-----------------------------------|---------------------------------------------|
-| [![i1][techdocs-image]][techdocs] | [![i2][setup-image]][setup] | [![i3][javadocs-image]][javadocs] | [![i4][contributing-image]][contributing] |
+| [![i1][installation-link]][installation-image] | [![i2][setup-image]][setup] | [![i3][javadocs-image]][javadocs] | [![i4][contributing-image]][contributing] |
 
 ## Implemented Functionalities
 | Functionality | State |
@@ -138,5 +138,7 @@ you may not use this software except in compliance with the License.
 
 [license]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/blob/master/LICENSE
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
-[javadocs-image]: https://image.flaticon.com/icons/svg/2979/2979679.svg
-[javadocs]: https://lucapirovano.com
+[javadocs-image]: https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css
+[javadocs]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/docs
+[installation-link]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/wiki
+[installation-image]: https://image.flaticon.com/icons/svg/2979/2979679.svg
