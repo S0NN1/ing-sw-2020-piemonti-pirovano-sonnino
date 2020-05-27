@@ -321,7 +321,7 @@ public class InputChecker {
             System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
             return null;
         } else {
-            if (modelView.getBoard().getGrid()[row][column].getColor() != null && !Constants.getBuildSameBlockGods().contains(modelView.getGod().toUpperCase())) {
+            if (modelView.getBoard().getGrid()[row][column].getColor() != null) {
                 System.out.println(RED + ERR_CELL_OCCUPIED + RST);
                 return null;
             } else {
@@ -353,7 +353,7 @@ public class InputChecker {
     }
 
     /**
-     * Method move checks if select move action is permitted.
+     * Method move checks if select build action is permitted.
      *
      * @param turnPhase of type int the number indicating turn's phase.
      * @param activeWorker of type int the number indicating which worker was selected by player at the start of the

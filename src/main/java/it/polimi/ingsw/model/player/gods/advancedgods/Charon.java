@@ -24,7 +24,7 @@ public class Charon extends Worker {
      */
     @Override
     public void setPhases() {
-        phases.add(new Phase(Action.FORCEWORKER, false));
+        phases.add(new Phase(Action.FORCE_WORKER, false));
         setNormalPhases();
     }
 
@@ -70,7 +70,6 @@ public class Charon extends Worker {
         if (newOpponentPosition != null && canForceOn(newOpponentPosition)) {
             space.getWorker().setPosition(newOpponentPosition);
             space.setWorker(null);
-            listeners.firePropertyChange(MOVE_LISTENER, space, newOpponentPosition);
             return true;
         }
         return false;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.constants;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -8,6 +9,7 @@ import java.util.*;
  * @author Luca Pirovano, Alice Piemonti, Nicolò Sonnino
  */
 public class Constants {
+
 
     private static final String CHARON = "CHARON";
     private static final String ATLAS = "ATLAS";
@@ -68,8 +70,7 @@ public class Constants {
             "        \\::/    /                \\::/    /                \\::/    /                                      ~~                      \\:|   |                  \\::/    /                \\::/    /                \\::/    /        \n" +
             "         \\/____/                  \\/____/                  \\/____/                                                                \\|___|                   \\/____/                  \\/____/                  \\/____/         \n" +
             "                                                                                                                                                                                                                             \n";
-    public static final String AUTHORS =
-          "  _                   _ _                  _                            _   _     _                         _                                          _           _       _                         _             \n" +
+    public static final String AUTHORS = "  _                   _ _                  _                            _   _     _                         _                                          _           _       _                         _             \n" +
           " | |                 | (_)                (_)                          | | (_)   | |                       (_)                                        (_)         | |     ( )                       (_)            \n" +
           " | |__  _   _    __ _| |_  ___ ___   _ __  _  ___ _ __ ___   ___  _ __ | |_ _    | |_   _  ___ __ _   _ __  _ _ __ _____   ____ _ _ __   ___     _ __  _  ___ ___ | | ___ |/   ___  ___  _ __  _ __  _ _ __   ___  \n" +
           " | '_ \\| | | |  / _` | | |/ __/ _ \\ | '_ \\| |/ _ \\ '_ ` _ \\ / _ \\| '_ \\| __| |   | | | | |/ __/ _` | | '_ \\| | '__/ _ \\ \\ / / _` | '_ \\ / _ \\   | '_ \\| |/ __/ _ \\| |/ _ \\    / __|/ _ \\| '_ \\| '_ \\| | '_ \\ / _ \\ \n" +
@@ -142,7 +143,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
         return ALTERNATE_PHASE_GODS;
     }
 
-    private static final List<String> DOUBLE_BUILD_GODS = Arrays.asList(DEMETER, HEPHAESTUS, HESTIA);
+    private static final List<String> DOUBLE_BUILD_GODS = Arrays.asList(DEMETER, HEPHAESTUS);
 
     /**
      * Method getDoubleBuildGods returns the doubleBuildGods of this Constants object.
@@ -158,7 +159,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
     /**
      * Arraylist containing gods with move action with turnPhase != 0
      */
-    private static final List<String> MOVE_PHASE_GODS = Arrays.asList(ARTEMIS, PROMETHEUS, TRITON);
+    private static final List<String> MOVE_PHASE_GODS = Arrays.asList(ARTEMIS, PROMETHEUS);
 
     /**
      * Method getMovePhaseGods returns the movePhaseGods of this Constants object.
@@ -173,8 +174,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
     /**
      * Arraylist containing gods with build action with turnPhase != 1
      */
-    private static final List<String> BUILD_PHASE_GODS = Arrays.asList(DEMETER, HEPHAESTUS, PROMETHEUS, ARTEMIS, HESTIA
-            , TRITON);
+    private static final List<String> BUILD_PHASE_GODS = Arrays.asList(DEMETER, HEPHAESTUS, PROMETHEUS, ARTEMIS);
 
     /**
      * Method getBuildPhaseGods returns the buildPhaseGods of this Constants object.
@@ -190,7 +190,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
     /**
      * Arraylist containing gods with move action to cell occupied
      */
-    private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = Arrays.asList(APOLLO, MINOTAUR);
+    private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = Arrays.asList("APOLLO", "MINOTAUR");
 
     /**
      * Method getMoveToCellOccupiedGods returns the moveToCellOccupiedGods of this Constants object.
@@ -224,8 +224,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      * @return the err (type String) of this Constants object.
      */
     public static String getErr() {
-        return(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) +
-                " ERR: ");
+        return(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " ERR: ");
     }
 
     /**

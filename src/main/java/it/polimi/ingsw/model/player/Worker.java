@@ -78,9 +78,9 @@ public abstract class Worker {
      * The worker has normal phases
      */
     protected void setNormalPhases(){
-        phases.add(new Phase(Action.SELECTMOVE,true));
+        phases.add(new Phase(Action.SELECT_MOVE,true));
         phases.add(new Phase(Action.MOVE,true));
-        phases.add(new Phase(Action.SELECTBUILD,true));
+        phases.add(new Phase(Action.SELECT_BUILD,true));
         phases.add(new Phase(Action.BUILD,true));
     }
 
@@ -88,11 +88,11 @@ public abstract class Worker {
      * The worker can build twice in a turn
      */
     protected void setTwoBuildPhases() {
-        phases.add(new Phase(Action.SELECTMOVE,true));
+        phases.add(new Phase(Action.SELECT_MOVE,true));
         phases.add(new Phase(Action.MOVE,true));
-        phases.add(new Phase(Action.SELECTBUILD,true));
+        phases.add(new Phase(Action.SELECT_BUILD,true));
         phases.add(new Phase(Action.BUILD,true));
-        phases.add(new Phase(Action.SELECTBUILD,false));
+        phases.add(new Phase(Action.SELECT_BUILD,false));
         phases.add(new Phase(Action.BUILD,false));
     }
 
@@ -100,11 +100,11 @@ public abstract class Worker {
      * The worker can move twice in a turn
      */
     protected void setTwoMovePhases() {
-        phases.add(new Phase(Action.SELECTMOVE,true));
+        phases.add(new Phase(Action.SELECT_MOVE,true));
         phases.add(new Phase(Action.MOVE,true));
-        phases.add(new Phase(Action.SELECTMOVE, false));
+        phases.add(new Phase(Action.SELECT_MOVE, false));
         phases.add(new Phase(Action.MOVE,false));
-        phases.add(new Phase(Action.SELECTBUILD,true));
+        phases.add(new Phase(Action.SELECT_BUILD,true));
         phases.add(new Phase(Action.BUILD,true));
     }
 
@@ -249,7 +249,7 @@ public abstract class Worker {
             isBlocked = true;
             throw new IllegalStateException();
         }
-        listeners.firePropertyChange(SELECT_SPACES_LISTENER, Action.SELECTMOVE, moves);
+        listeners.firePropertyChange(SELECT_SPACES_LISTENER, Action.SELECT_MOVE, moves);
     }
 
     /**
@@ -337,7 +337,7 @@ public abstract class Worker {
        if(buildable.isEmpty()) {
             throw new IllegalStateException();
        }
-       listeners.firePropertyChange(SELECT_SPACES_LISTENER, Action.SELECTBUILD, buildable);
+       listeners.firePropertyChange(SELECT_SPACES_LISTENER, Action.SELECT_BUILD, buildable);
 
    }
 

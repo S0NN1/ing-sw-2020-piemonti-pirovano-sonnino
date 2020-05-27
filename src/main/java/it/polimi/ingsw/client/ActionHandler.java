@@ -133,18 +133,18 @@ public class ActionHandler {
             modelView.activateInput();
             view.firePropertyChange(
                     BOARD_UPDATE, new boolean[]{true, true, false}, answer); // PROMETHEUS ACTION
-        } else if (answer.getAction().equals(Action.SELECTMOVE)) {
+        } else if (answer.getAction().equals(Action.SELECT_MOVE)) {
             modelView.activateInput();
             view.firePropertyChange(
                     "modifiedTurnNoUpdate",
                     new boolean[]{true, true, false},
                     answer); // DOUBLE MOVE
-        } else if (answer.getAction().equals(Action.SELECTBUILD)) {
+        } else if (answer.getAction().equals(Action.SELECT_BUILD)) {
             modelView.activateInput();
             view.firePropertyChange(
                     "modifiedTurnNoUpdate", new boolean[]{false, true, true}, answer); // DOUBLE BUILD
         }
-        else if(answer.getAction().equals(Action.FORCEWORKER)){
+        else if(answer.getAction().equals(Action.FORCE_WORKER)){
             modelView.activateInput();
             view.firePropertyChange(
                     BOARD_UPDATE, new boolean[]{true, false, false, true}, answer);
@@ -243,11 +243,11 @@ public class ActionHandler {
     private void fireSelectSpaces(SelectSpacesMessage answer) {
         modelView.setSelectSpaces(answer.getMessage());
         modelView.activateInput();
-        if (answer.getAction().equals(Action.SELECTBUILD)) {
+        if (answer.getAction().equals(Action.SELECT_BUILD)) {
             checkTurnActive();
             view.firePropertyChange("select", new boolean[]{false, true, false}, null);
             modelView.setTurnPhase(modelView.getTurnPhase() + 1);
-        } else if (answer.getAction().equals(Action.SELECTMOVE)) {
+        } else if (answer.getAction().equals(Action.SELECT_MOVE)) {
             checkTurnActive();
             view.firePropertyChange("select", new boolean[]{true, false, false}, null);
             modelView.setTurnPhase(modelView.getTurnPhase() + 1);

@@ -2,10 +2,6 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.player.gods.advancedgods.Charon;
-import it.polimi.ingsw.model.player.gods.advancedgods.Hestia;
-import it.polimi.ingsw.model.player.gods.advancedgods.Triton;
-import it.polimi.ingsw.model.player.gods.advancedgods.Zeus;
 import it.polimi.ingsw.model.player.gods.simplegods.*;
 import it.polimi.ingsw.server.VirtualClient;
 
@@ -77,9 +73,6 @@ public class Player {
                 workers.add(new Apollo(color));
                 workers.add(new Apollo(color));
             }
-            case ARES-> {
-                //TODO
-            }
             case ARTEMIS -> {
                 workers.add(new Artemis(color));
                 workers.add(new Artemis(color));
@@ -93,17 +86,9 @@ public class Player {
                 workers.add(new Demeter(color));
                 workers.add(new Demeter(color));
             }
-            case CHARON -> {
-                workers.add(new Charon(color));
-                workers.add(new Charon(color));
-            }
             case HEPHAESTUS -> {
                 workers.add(new Hephaestus(color));
                 workers.add(new Hephaestus(color));
-            }
-            case HESTIA -> {
-                workers.add(new Hestia(color));
-                workers.add(new Hestia(color));
             }
             case MINOTAUR -> {
                 workers.add(new Minotaur(color));
@@ -117,16 +102,9 @@ public class Player {
                 workers.add(new Prometheus(color));
                 workers.add(new Prometheus(color));
             }
-            case TRITON -> {
-                workers.add(new Triton(color));
-                workers.add(new Triton(color));
-            }
-            case ZEUS -> {
-                workers.add(new Zeus(color));
-                workers.add(new Zeus(color));
-            }
              default -> {
-                System.err.println("Unrecognized god!");
+                workers.add(null);
+                workers.add(null);
             }
         }
         workers.forEach(n -> n.createListeners(client));
