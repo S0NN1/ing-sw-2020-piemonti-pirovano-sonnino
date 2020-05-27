@@ -1,9 +1,7 @@
 # Santorini Board Game
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-### Software Engineering Final Test
-### AA 2019/2020
 ## Description
-Final test of "Software Engineering", course of "Computer Science Engineering" held at "Politecnico di Milano".
+Final test of "Software Engineering", course of "Computer Science Engineering" held at Politecnico di Milano (2019/2020).
 ## The Team
 Our working group is composed by three students:
 * Alice Piemonti
@@ -126,3 +124,9 @@ All tests in model and controller has a classes coverage at 100%.
 | Controller | GodSelectionController | 45/51 (88%)
 | Controller | TurnControllerTest | 
 | Model | Global Package | 
+## Copyright and license
+
+Snowplow is copyright 2012-2019 Snowplow Analytics Ltd.
+
+Licensed under the **[MIT License][license]** (the "License");
+you may not use this software except in compliance with the License.
