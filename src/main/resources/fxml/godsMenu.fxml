@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="799.0" prefWidth="1287.0" styleClass="mainPanel" stylesheets="@../css/godScreen.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.GodsPanelController">
+   <children>
+      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="256.0" prefWidth="1230.0">
+         <children>
+            <VBox prefHeight="231.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/APOLLO.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="APOLLO" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/ARES.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="ARES" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/ARTEMIS.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="ARTEMIS" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/ATHENA.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="ATHENA" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/ATLAS.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="ATLAS" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+         <StackPane.margin>
+            <Insets left="150.0" top="-540.0" />
+         </StackPane.margin>
+      </HBox>
+      <HBox layoutX="160.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="256.0" prefWidth="1137.0">
+         <children>
+            <VBox prefHeight="231.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/CHARON.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="CHARONT" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/DEMETER.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="DEMETER" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/HEPHAESTUS.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="HEPHAESTUS" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/HESTIA.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="HESTIA" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/MINOTAUR.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="MINOTAUR" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+         <StackPane.margin>
+            <Insets left="150.0" top="-5.0" />
+         </StackPane.margin>
+      </HBox>
+      <HBox layoutX="160.0" layoutY="285.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="256.0" prefWidth="1137.0">
+         <children>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/PAN.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="PAN" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets left="100.0" right="40.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/PROMETHEUS.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="PROMETHEUS" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/TRITON.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="TRITON" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="255.0" prefWidth="157.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gods/ZEUS.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="14.0" top="16.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="29.0" prefWidth="117.0" text="ZEUS" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+         <StackPane.margin>
+            <Insets left="150.0" top="530.0" />
+         </StackPane.margin>
+      </HBox>
+   </children>
+</StackPane>

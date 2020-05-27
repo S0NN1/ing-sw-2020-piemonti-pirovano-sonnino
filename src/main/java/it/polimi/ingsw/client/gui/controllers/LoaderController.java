@@ -183,17 +183,9 @@ public class LoaderController implements GUIController {
                 message.setHeaderText("Challenger phase");
                 message.setContentText("You are the challenger! Click below and choose the god power you want to put in" +
                         " the game deck; you can see property and description of each god by clicking on it!");
-                ButtonType godList = new ButtonType("GODS' LIST");
-                message.getButtonTypes().setAll(godList);
-            }
-            else {
-                message.setTitle("Message from the server");
-                message.setContentText(req.getMessage());
-                ButtonType godList = new ButtonType("GODS' LIST");
-                message.getButtonTypes().setAll(godList);
             }
             message.showAndWait();
-            gui.getListeners().firePropertyChange(ACTION, null, "GODLIST");
+            gui.changeStage("godsMenu.fxml");
         }
     }
 

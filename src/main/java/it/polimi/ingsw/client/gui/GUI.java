@@ -60,6 +60,7 @@ public class GUI extends Application implements UI {
     private static final String MAINGUI = "mainScene.fxml";
     private static final String MENU = "MainMenu.fxml";
     private static final String LOADER = "loading.fxml";
+    private static final String GODS = "godsMenu.fxml";
     private static final String SETUP = "setup.fxml";
 
     private Scene currentScene;
@@ -104,7 +105,7 @@ public class GUI extends Application implements UI {
      * Each stage scene is put inside an hashmap, which link their name to their fxml filename.
      */
     public void setup() {
-        List<String> fxmlist = new ArrayList<>(Arrays.asList(MAINGUI, MENU, LOADER, SETUP));
+        List<String> fxmlist = new ArrayList<>(Arrays.asList(MAINGUI, GODS, MENU, LOADER, SETUP));
         try {
             for (String path : fxmlist) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + path));
@@ -468,7 +469,9 @@ public class GUI extends Application implements UI {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Connection closed");
             alert.setHeaderText("Connection closed from the server");
-            alert.setContentText(evt.getNewValue().toString());
+            if(evt.getNewValue()!=null) {
+                alert.setContentText(evt.getNewValue().toString());
+            }
             alert.showAndWait();
             System.exit(0);
         });
