@@ -47,58 +47,6 @@ The final version must include:
 [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
 -->
 
-## Compile sources
-In order to compile the Java classes and resources and include the full 
-dependency list, you need to have the maven framework installed.
-
-You don't have it? 
-- Download it here: https://maven.apache.org/download.cgi
-- [WIN] Add the enviromental variables following this guide: https://www.tutorialspoint.com/maven/maven_environment_setup.htm
-
-
-Once you have maven installed, open a terminal and navigate to the project home
-directory (where the POM.xml file is located); execute the following commands:
-```
-- mvn clean     (to clean previously compilation leftovers)
-- mvn package   (to build the new version of the project)
-```
-You can also run a one line command, just like that:
-```
-- mvn clean package (to clean and then build the package)
-```
-A new folder called "**target**" will be created in the project home directory,
-inside it you will find the jar file, which already includes the project dependencies.
-
-## Run the application
-In order to run the application you need to have the Java SE JDK 14 installed.
-
-You don't have it? Follow this guide: https://docs.oracle.com/en/java/javase/14/install/index.html
-
-Once you met all the requirements, open a terminal and go to the project target
-directory (which has to be previously built with maven). Once there, execute these
-commands:
-```
-- java -jar GC01-<version>-jar-with-dependencies.jar
-```
-You'll have to choose if you want to launch server, CLI client or GUI client by
-typing the option number on your keyboard.
-
-In order to play, you'll have to launch at least one server and two clients 
-(either CLI or GUI).
-
-### Troubleshooting
-There are common problems that you could encounter while launching the jar, like:
-
-- "java is not recognized as an internal or external command"
-
-    - java is not set in the enviromental variables. Please follow this guide
-    in order to fix the issue: https://www.java.com/en/download/help/path.xml
-
-- "unable to access jarfile <file-name>"
-    
-    - the entered file path is not correct
-    - you have not build the project before launching it      
-
 ## Test cases
 All tests in model and controller has a classes coverage at 100%.
 
