@@ -60,9 +60,9 @@ All tests in model and controller has a classes coverage at 100%.
 
 ## The Team
 Our working group is composed by three students:
-* Alice Piemonti
-* Luca Pirovano
-* Nicolò Sonnino
+* [Alice Piemonti](https://github.com/AlicePiemonti)
+* [Luca Pirovano](https://github.com/PiroX4256)
+* [Nicolò Sonnino](https://github.com/S0NN1)
 
 ## Software used
 **Adobe XD** - sequence diagrams
