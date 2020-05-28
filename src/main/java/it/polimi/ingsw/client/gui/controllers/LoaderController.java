@@ -82,6 +82,7 @@ public class LoaderController implements GUIController {
     public void workerPlacement(List<int[]> coords) {
         gui.getModelView().activateInput();
         int i=0;
+        int j=1;
         int[] positions = new int[4];
         HashMap<String, int[]> nameMapPosition = new HashMap<>();
         coords.forEach(n -> nameMapPosition.put(Arrays.toString(n), n));
@@ -90,7 +91,7 @@ public class LoaderController implements GUIController {
         while (i<4) {
             Alert workerPositions = new Alert(Alert.AlertType.NONE);
             workerPositions.setTitle("Choose your workers position");
-            workerPositions.setHeaderText("Choose the position of worker " + i);
+            workerPositions.setHeaderText("Choose the position of worker " + j);
             ComboBox<String> choices = new ComboBox<>(FXCollections.observableArrayList(selectable));
             workerPositions.getDialogPane().setContent(choices);
             ButtonType ok = new ButtonType("CHOOSE");
@@ -102,6 +103,7 @@ public class LoaderController implements GUIController {
                 selectable.remove(choices.getValue());
                 nameMapPosition.remove(choices.getValue());
                 i+=2;
+                j++;
             }
         }
         gui.getListeners().firePropertyChange(ACTION, null, "SET " + positions[0] + " " +
