@@ -30,6 +30,7 @@ public class ModelView {
     private String god;
     private Map<String, String> playerMapColor;
     private Map<String, String> playerMapGod;
+    private boolean godPowerActive;
 
     /**
      * Method getGodDesc returns the godDesc of this ModelView object.
@@ -495,5 +496,28 @@ public class ModelView {
                 }
             }
         }
+    }
+
+    /**
+     * Method isGodPowerActive returns the godPowerActive of this ModelView object.
+     *
+     *
+     *
+     * @return the godPowerActive (type boolean) of this ModelView object.
+     */
+    public synchronized boolean isGodPowerActive() {
+        return godPowerActive;
+    }
+
+    /**
+     * Method setGodPowerActive sets the godPowerActive of this ModelView object.
+     *
+     *
+     *
+     * @param godPowerActive the godPowerActive of this ModelView object.
+     *
+     */
+    public synchronized void setGodPowerActive(boolean godPowerActive) {
+        this.godPowerActive = godPowerActive;
     }
 }

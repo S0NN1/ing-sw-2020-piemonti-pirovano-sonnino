@@ -21,7 +21,7 @@ public class MoveAction extends WorkerAction {
      */
     public MoveAction(int x, int y){
         newPosition = new Couple(x,y);
-        action = null;
+        action = Action.MOVE;
     }
 
     /**

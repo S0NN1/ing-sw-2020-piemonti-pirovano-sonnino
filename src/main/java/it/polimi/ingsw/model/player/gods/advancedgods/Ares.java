@@ -66,7 +66,7 @@ public class Ares extends Worker {
     }
 
     public void notifyWithRemovable(GameBoard gameBoard, Space unmovedWorkerPosition) throws IllegalArgumentException, IllegalStateException {
-        if(gameBoard == null || !unmovedWorkerPosition.getWorker().getWorkerColor().equals(workerColor)) throw new IllegalArgumentException();
+        if(gameBoard == null || checkUnmovedWorkerPosition(unmovedWorkerPosition)) throw new IllegalArgumentException();
         List<Space> removable = getRemovableSpaces(gameBoard, unmovedWorkerPosition);
         if(removable.isEmpty()) {
             throw new IllegalStateException();
@@ -94,5 +94,10 @@ public class Ares extends Worker {
         return (space.getRow() - unmovedWorkerPosition.getRow() < 2) && (unmovedWorkerPosition.getRow() - space.getRow() < 2) &&
                 (space.getColumn() - unmovedWorkerPosition.getColumn() < 2) && (unmovedWorkerPosition.getColumn() - space.getColumn() < 2) &&
                 (space.getRow() != unmovedWorkerPosition.getRow() || space.getColumn() != unmovedWorkerPosition.getColumn());
+    }
+
+    public boolean checkUnmovedWorkerPosition(Space unmovedWorkerPosition) {
+        return unmovedWorkerPosition.getWorker().getWorkerColor().equals(this.workerColor) &&
+                (unmovedWorkerPosition.getRow() != this.position.getRow() || unmovedWorkerPosition.getColumn() != this.position.getColumn());
     }
 }

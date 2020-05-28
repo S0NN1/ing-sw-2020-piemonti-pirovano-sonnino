@@ -18,9 +18,9 @@ The final version must include:
 * source code of unity tests.
 ## Find out more
 
-| **[Installation][installation-link]**     | **[Compiling][compiling-link]**     | **[Javadocs][javadocs]**           | 
-|-------------------------------------|-------------------------------|-----------------------------------|
-| [![i1][installation-image]][installation-link] | [![i2][compiling-image]][compiling-link] | [![i3][javadocs-image]][javadocs] | 
+| **[Installation][installation-link]**     | **[Compiling][compiling-link]**     | **[Javadocs][javadocs]**           | **[Running][running-link]**| **[Troubleshooting][troubleshooting-link]**
+|-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|
+| [![i1][installation-image]][installation-link] | [![i2][compiling-image]][compiling-link] | [![i3][javadocs-image]][javadocs] | [![i4][running-image]][running-link] | [![i5][troubleshooting-image]][troubleshooting-link]
 
 ## Implemented Functionalities
 | Functionality | State |
@@ -87,3 +87,7 @@ you may not use this software except in compliance with the License.
 [installation-image]: github/Artboard%201.png
 [compiling-image]: github/Artboard%203.png
 [compiling-link]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/wiki/Compiling
+[running-image]: github/Artboard%204.png
+[running-link]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/wiki/Running
+[troubleshooting-link]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/wiki/Troubleshooting
+[troubleshooting-image]: github/Artboard%205.png
