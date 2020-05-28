@@ -1,14 +1,29 @@
 package it.polimi.ingsw.model.player.gods.advancedgods;
 
+import it.polimi.ingsw.constants.Couple;
+import it.polimi.ingsw.constants.Move;
+import it.polimi.ingsw.controller.ActionController;
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.player.WorkerForTest;
+import it.polimi.ingsw.server.GameHandler;
+import it.polimi.ingsw.server.VirtualClient;
+import it.polimi.ingsw.server.answers.Answer;
+import it.polimi.ingsw.server.answers.worker.BuildMessage;
+import it.polimi.ingsw.server.answers.worker.MoveMessage;
+import it.polimi.ingsw.server.answers.worker.SelectSpacesMessage;
+import it.polimi.ingsw.server.answers.worker.WinMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -138,6 +153,8 @@ public class CharonTest {
     @Test
     @DisplayName("force worker correctly")
     void forceWorkerTest() {
+        VirtualClientStub virtualClient = new VirtualClientStub();
+        charon.createListeners(virtualClient);
         position = gameBoard.getSpace(3,2);
         charon.setPosition(position);
         Space space = gameBoard.getSpace(3,1);
@@ -148,6 +165,75 @@ public class CharonTest {
         assertNull(space.getWorker(),"2");
         assertEquals(gameBoard.getSpace(3,3).getWorker(), worker,"3");
         assertEquals(gameBoard.getSpace(3,3), worker.getPosition(), "4");
+
+        //check virtual client received values
+        assertNotNull(virtualClient.getMove(),"5");
+        assertEquals(3, virtualClient.getMove().getOldPosition().getRow(),"6");
+        assertEquals(1, virtualClient.getMove().getOldPosition().getColumn(),"7");
+        assertEquals(3, virtualClient.getMove().getNewPosition().getRow(),"8");
+        assertEquals(3, virtualClient.getMove().getNewPosition().getColumn(),"9");
+    }
+
+    /**
+     * Method notifyWithForceWorkerSpacesTest tests notifyWithForceWorkerSpaces method
+     */
+    @Test
+    @DisplayName("notify with force spaces")
+    void notifyWithForceWorkerSpacesTest() {
+        VirtualClientStub virtualClient = new VirtualClientStub();
+        charon.createListeners(virtualClient);
+        position = gameBoard.getSpace(3,3);
+        charon.setPosition(position);
+        Space space = gameBoard.getSpace(3,4);
+        Space space2 = gameBoard.getSpace(4,3);
+        Worker worker1 = new WorkerForTest(PlayerColors.BLUE);
+        worker1.setPosition(space);
+        Worker worker2 = new WorkerForTest((PlayerColors.GREEN));
+        worker2.setPosition(space2);
+        charon.notifyWithForceWorkerSpaces(gameBoard);
+
+        assertNotNull(virtualClient.getSelectMoves(),"1");
+        assertEquals(1, virtualClient.getSelectMoves().size(),"2");
+    }
+
+
+    /**
+     * this class receives messages from different listeners
+     */
+    private static class VirtualClientStub extends VirtualClient {
+
+        private ArrayList<Couple> selectMoves;
+        private Move move;
+
+        /**
+         * save the message received in an appropriate field
+         */
+        @Override
+        public void send(Answer serverAnswer) {
+            if (serverAnswer instanceof SelectSpacesMessage) {
+                selectMoves = ((SelectSpacesMessage) serverAnswer).getMessage();
+            } else fail("unknown message");
+        }
+
+        /**
+         * Send the message to all playing clients, thanks to the GameHandler sendAll method.
+         *
+         * @param serverAnswer the message to be sent.
+         */
+        @Override
+        public void sendAll(Answer serverAnswer) {
+            if (serverAnswer instanceof MoveMessage) {
+                move = ((MoveMessage) serverAnswer).getMessage();
+            } else fail("unknown message");
+        }
+
+        public ArrayList<Couple> getSelectMoves() {
+            return selectMoves;
+        }
+
+        public Move getMove() {
+            return move;
+        }
     }
 }
 
