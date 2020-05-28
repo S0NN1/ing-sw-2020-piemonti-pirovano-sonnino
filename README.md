@@ -3,10 +3,10 @@
 ![latest commit](https://img.shields.io/github/last-commit/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino?color=red)
 <img src="https://images-na.ssl-images-amazon.com/images/I/91irtho0CNL._AC_SL1500_.jpg" width=192px height=192 px align="right" />
 
-Santorini Board Game is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (2019/2020).
+Santorini Board Game is the final test of **"Software Engineering"**, course of **"Computer Engineering"** held at Politecnico di Milano (2019/2020).
 
 ## Project specification
-The project consists of a Java version of the gameBoard game *Santorini*, made by Cranio Creations.
+The project consists of a Java version of the board game *Santorini*, made by Roxley Games.
 You can find the full game [here](https://bit.ly/2Qi7gs9).
 
 The final version must include:
@@ -65,6 +65,11 @@ Our working group is composed by three students:
 * Alice Piemonti
 * Luca Pirovano
 * Nicolò Sonnino
+
+## Software used
+Adobe XD - sequence diagrams
+MagicDraw - UML diagrams
+Intellij IDEA Ultimate - main IDE 
 
 ## Copyright and license
 
