@@ -8,7 +8,7 @@ Santorini Board Game is the final test of **"Software Engineering"**, course of 
 ## Project specification
 The project consists of a Java version of the board game *Santorini*, made by Roxley Games.
 
-You can find the full game [here](https://bit.ly/2Qi7gs9).
+You can find the full game [here](https://roxley.com/products/santorini).
 
 The final version must include:
 * initial UML diagram;
