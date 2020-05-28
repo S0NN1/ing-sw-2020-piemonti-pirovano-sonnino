@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.model.player.gods.advancedgods.Ares;
 import it.polimi.ingsw.model.player.gods.advancedgods.Charon;
 import it.polimi.ingsw.model.player.gods.simplegods.Atlas;
 import it.polimi.ingsw.model.player.gods.simplegods.Minotaur;
@@ -127,22 +128,43 @@ public class ActionController {
      * @return false if it isn't the correct phase of the turn or gameBoard is null
      */
     public boolean readMessage(SelectBuildAction action) {
-        int phaseTemp = phase;
-        while (worker.getPhase(phase) != null &&
-                worker.getPhase(phase).getAction() != Action.SELECT_BUILD &&
-                !worker.getPhase(phase).isMust()) {
-            phase++;
+        if (action.getMessage() == Action.SELECT_BUILD) {
+            int phaseTemp = phase;
+            while (worker.getPhase(phase) != null &&
+                    worker.getPhase(phase).getAction() != Action.SELECT_BUILD &&
+                    !worker.getPhase(phase).isMust()) {
+                phase++;
+            }
+            if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_BUILD) {
+                try {
+                    worker.notifyWithBuildable(gameBoard);
+                } catch (IllegalArgumentException | IllegalStateException e) {
+                    return false;
+                }
+                phase++;
+                return true;
+            }
+            phase = phaseTemp;
+            return false;
         }
-        if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_BUILD) {
+        return false;
+    }
+
+    /**
+     * Method readMessage notify the player with a list of spaces where Ares can use his power.
+     *
+     * @param action of type SelectBuildAction must be Action.SELECT_REMOVE.
+     * @param unmovedWorkerPosition of type Space is the position of the unmoved worker, which must be the same color as the current worker.
+     * @return boolean true if the notification is successful, false if it is not a SELECT_REMOVE action or current worker is not ares or the current phase is not SELECT_REMOVE action.
+     */
+    private boolean readMessage(SelectBuildAction action, Space unmovedWorkerPosition) {
+        if (action.getMessage() == Action.SELECT_REMOVE && ( worker instanceof Ares) && worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_REMOVE) {
             try {
-                worker.notifyWithBuildable(gameBoard);
+                ((Ares) worker).notifyWithRemovable(gameBoard, unmovedWorkerPosition);
             } catch (IllegalArgumentException | IllegalStateException e) {
                 return false;
             }
-            phase++;
-            return true;
         }
-        phase = phaseTemp;
         return false;
     }
 
@@ -180,7 +202,7 @@ public class ActionController {
      * @return false if it isn't the correct phase or if it isn't possible to build into this space
      */
     public boolean readMessage(BuildAction action) {
-        if (worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.BUILD) return false;
+        if (action.getAction() != Action.BUILD || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.BUILD) return false;
         Couple couple = action.getMessage();
         if (worker instanceof Atlas && action instanceof AtlasBuildAction) {     //if Atlas worker, he can build a dome instead of a block
             boolean dome = ((AtlasBuildAction) action).isDome();
@@ -193,6 +215,13 @@ public class ActionController {
             return true;
         }
         return false;
+    }
+
+    public boolean readMessage (BuildAction action, Space unmovedWorkerPosition) {
+        if (action.getAction() != Action.REMOVE || !(worker instanceof Ares) || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.REMOVE) return false;
+        Couple couple = action.getMessage();
+        Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());
+        return ((Ares) worker).checkUnmovedWorkerPosition (unmovedWorkerPosition) && ((Ares) worker).canRemove(space,unmovedWorkerPosition) && ((Ares) worker).removeBlock(space);
     }
 
     /**

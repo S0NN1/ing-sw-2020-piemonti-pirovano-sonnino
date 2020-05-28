@@ -22,7 +22,7 @@ public class BuildAction extends WorkerAction {
      */
     public BuildAction(int x, int y){
         buildSpace = new Couple(x,y);
-        this.action = null;
+        this.action = Action.BUILD;
     }
 
     public BuildAction(int x, int y, Action action) {
@@ -30,8 +30,8 @@ public class BuildAction extends WorkerAction {
         this.action = action;
     }
 
-    public Couple getBuildSpace() {
-        return buildSpace;
+    public Action getAction() {
+        return action;
     }
 
     /** @see WorkerAction#getMessage() */
