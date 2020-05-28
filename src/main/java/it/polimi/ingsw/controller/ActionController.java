@@ -181,7 +181,7 @@ public class ActionController {
      * @return false if it isn't the correct phase or if the worker cannot move into this space, true otherwise.
      */
     public boolean readMessage(MoveAction action) {
-        if(action.getAction()==null) {
+        if(action.getAction().equals(Action.MOVE)) {
             if (worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.MOVE) return false;
                 Couple couple = action.getMessage();
                 Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());
