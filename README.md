@@ -36,11 +36,8 @@ The final version must include:
 | Undo Function | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 
 #### Legend
-[![RED](https://placehold.it/15/f03c15/f03c15)](#) Not Implemented 
+[![RED](https://placehold.it/15/f03c15/f03c15)](#) Not Implemented          [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) Implementing         [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) Implemented
 
-[![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) Implementing 
-
-[![GREEN](https://placehold.it/15/44bb44/44bb44)](#) Implemented
 
 <!--
 [![RED](https://placehold.it/15/f03c15/f03c15)](#)
