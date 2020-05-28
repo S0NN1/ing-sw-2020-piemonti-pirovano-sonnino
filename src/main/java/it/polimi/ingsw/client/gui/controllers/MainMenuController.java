@@ -56,7 +56,7 @@ public class MainMenuController implements GUIController{
      * @param event of type MouseEvent - the mouse click event.
      */
     public void play(MouseEvent event) {
-        gui.changeStage("godsMenu.fxml");
+        gui.changeStage("setup.fxml");
         gui.centerApplication();
     }
 
