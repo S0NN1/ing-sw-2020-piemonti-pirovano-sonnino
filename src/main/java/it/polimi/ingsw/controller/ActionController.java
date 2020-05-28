@@ -54,14 +54,9 @@ public class ActionController {
             }
             phase++;
             return true;
-<<<<<<< HEAD
-        } else
-            return worker.getPhase(phase) != null && (worker.getPhase(phase).getAction() == Action.SELECT_BUILD || worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER);
-=======
         }
         else return worker.getPhase(phase) != null && (worker.getPhase(phase).getAction() == Action.SELECT_BUILD ||
                 worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER);
->>>>>>> f4a796e02e5e5cf6492fc7bf6268a72949bb1f02
     }
 
 
@@ -114,20 +109,13 @@ public class ActionController {
 
     /**
      * Method selectForceWorkerReadMessage notify the player with the spaces where Charon can use his power.
-<<<<<<< HEAD
      *
      * @return boolean true if the listener has been fired properly, false if it has not or it is not the correct phase or if the active worker is not Charon.
      */
-    private boolean selectForceWorkerReadMessage() {
-        if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER && worker instanceof Charon) {
-=======
-     * @return boolean true if the listener has been fired properly, false if it has not or it is not the correct phase
-     * or if the active worker is not Charon.
-     */
+
     private boolean selectForceWorkerReadMessage() {
         if ( worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER &&
                 worker instanceof Charon) {
->>>>>>> f4a796e02e5e5cf6492fc7bf6268a72949bb1f02
             ((Charon) worker).notifyWithForceWorkerSpaces(gameBoard);
             phase++;
             return true;
@@ -214,13 +202,8 @@ public class ActionController {
      * @return boolean true if Charon forced the worker, false otherwise.
      */
     public boolean checkIfCharon(MoveAction action) {
-<<<<<<< HEAD
-        if (!(worker instanceof Charon) || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.FORCE_WORKER)
-            return false;
-=======
         if ( !(worker instanceof Charon) || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() !=
                 Action.FORCE_WORKER) return false;
->>>>>>> f4a796e02e5e5cf6492fc7bf6268a72949bb1f02
         Couple coordinates = action.getMessage();
         Space space = gameBoard.getSpace(coordinates.getRow(), coordinates.getColumn());
         return ((Charon) worker).forceWorker(space, gameBoard);
