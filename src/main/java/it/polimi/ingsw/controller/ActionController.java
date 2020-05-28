@@ -109,7 +109,11 @@ public class ActionController {
      */
     private boolean selectForceWorkerReadMessage() {
         if ( worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER && worker instanceof Charon) {
-            ((Charon) worker).notifyWithForceWorkerSpaces(gameBoard);
+            try {
+                ((Charon) worker).notifyWithForceWorkerSpaces(gameBoard);
+            } catch (IllegalStateException | IllegalArgumentException e) {
+                return false;
+            }
             phase ++;
             return true;
         }
@@ -150,24 +154,22 @@ public class ActionController {
      * @return false if it isn't the correct phase or if the worker cannot move into this space
      */
     public boolean readMessage(MoveAction action) {
-        if(checkIfCharon(action)) {
-            return true;
-        }
-        else if(action.getAction()==null) {
-        if (worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.MOVE) return false;
-            Couple couple = action.getMessage();
-            Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());
-            if (worker instanceof Minotaur && ((Minotaur) worker).isSelectable(space, gameBoard) && !space.isEmpty()) {
-                if (worker.move(space, gameBoard)) {
+        if(action.getAction()==null) {
+            if (worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.MOVE) return false;
+                Couple couple = action.getMessage();
+                Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());
+                if (worker instanceof Minotaur && ((Minotaur) worker).isSelectable(space, gameBoard) && !space.isEmpty()) {
+                    if (worker.move(space, gameBoard)) {
+                        phase++;
+                        return true;
+                    }
+                    return false;
+                } else if (worker.isSelectable(space) && worker.move(space)) {
                     phase++;
                     return true;
-                }
-                return false;
-            } else if (worker.isSelectable(space) && worker.move(space)) {
-                phase++;
-                return true;
-            } else return false;
-        }
+                } else return false;
+            }
+        else if (action.getAction() == Action.FORCE_WORKER) return forceWorkerReadMessage(action);
         return false;
     }
 
@@ -199,7 +201,7 @@ public class ActionController {
      * @param action of type CharonForceWorkerAction
      * @return boolean true if Charon forced the worker, false if it could not
      */
-    public boolean checkIfCharon(MoveAction action) {
+    public boolean forceWorkerReadMessage (MoveAction action) {
         if ( !(worker instanceof Charon) || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.FORCE_WORKER) return false;
         Couple coordinates = action.getMessage();
         Space space = gameBoard.getSpace(coordinates.getRow(), coordinates.getColumn());

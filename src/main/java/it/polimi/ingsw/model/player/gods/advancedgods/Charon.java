@@ -74,6 +74,8 @@ public class Charon extends Worker {
             if( newOpponentPosition != null && canForceOn(newOpponentPosition)) {
                 space.getWorker().setPosition(newOpponentPosition);
                 space.setWorker(null);
+                listeners.firePropertyChange(MOVE_LISTENER, space, newOpponentPosition);
+                phases.get(1).changeMust(false);
                 return true;
             }
         }
@@ -94,6 +96,7 @@ public class Charon extends Worker {
             throw new IllegalStateException();
         }
         listeners.firePropertyChange(SELECT_SPACES_LISTENER, Action.SELECT_FORCE_WORKER, forceWorkerSpaces);
+        phases.get(1).changeMust(true);
     }
 
     /**
