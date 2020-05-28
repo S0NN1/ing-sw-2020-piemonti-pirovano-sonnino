@@ -66,7 +66,9 @@ Our working group is composed by three students:
 
 ## Software used
 **Adobe XD** - sequence diagrams
+
 **MagicDraw** - UML diagrams
+
 **Intellij IDEA Ultimate** - main IDE 
 
 ## Copyright and license
