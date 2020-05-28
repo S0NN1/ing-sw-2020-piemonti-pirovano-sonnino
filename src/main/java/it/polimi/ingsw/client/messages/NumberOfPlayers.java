@@ -11,7 +11,7 @@ public class NumberOfPlayers implements Message {
     /**
      * Constructor NumberOfPlayers creates a new NumberOfPlayers instance.
      *
-     * @param players of type int the number of players.
+     * @param players of type int - the number of players.
      */
     public NumberOfPlayers(int players) {
         playersNumber = players;

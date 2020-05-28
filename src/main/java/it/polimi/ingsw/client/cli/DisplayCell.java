@@ -20,8 +20,8 @@ public class DisplayCell {
     /**
      * Method getCellRows gets cell's row.
      *
-     * @param i of type int number needed to identify cell.
-     * @return String the cell's row needed.
+     * @param i of type int - the number needed to identify cell.
+     * @return String - the cell's row needed.
      */
     public String getCellRows(int i) {
         return cellRows[i];
@@ -30,8 +30,8 @@ public class DisplayCell {
     /**
      * Method setCellRows sets cell's row
      *
-     * @param i of type int number needed to identify cell.
-     * @param string of type String the cell's row inserted.
+     * @param i of type int - the number needed to identify cell.
+     * @param string of type String - the cell's row inserted.
      */
     public void setCellRows(int i, String string ) {
         cellRows[i] = string;

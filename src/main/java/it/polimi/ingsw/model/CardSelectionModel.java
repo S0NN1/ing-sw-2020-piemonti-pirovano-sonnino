@@ -47,7 +47,7 @@ public class CardSelectionModel {
             return true;
         }
         else {
-            virtualClient.firePropertyChange(CHALLENGER_PHASE, null, new CustomMessage("God " + god.name() + " has been added!\nAll gods have been added!", false));
+            virtualClient.firePropertyChange(CHALLENGER_PHASE, null, new ChallengerMessages("God " + god.name() + " has been added!\nAll gods have been added!"));
             return true;
         }
     }

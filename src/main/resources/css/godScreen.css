@@ -1,0 +1,33 @@
+.mainPanel {
+    -fx-background-image: url("../graphics/bgs/odyssey_3.png");
+    -fx-background-size: stretch;
+}
+
+.godFrame {
+    -fx-background-image: url("../graphics/bgs/gameGodFrame.png");
+    -fx-background-size: stretch;
+}
+
+.button {
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+    -fx-font-family: "Britannic Bold";
+    -fx-background-image: url("../graphics/btns/cm_btn_blue.png");
+    -fx-background-size: stretch;
+}
+.button:pressed {
+    -fx-background-image: url("../graphics/btns/cm_btn_green_pressed.png");
+}
+
+.grayedOut {
+    -fx-background-image: url("../graphics/btns/cm_btn_grey.png");
+    -fx-background-size: stretch;
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.grayedOut:pressed {
+    -fx-background-image: url("../graphics/btns/cm_btn_grey.png");
+    -fx-background-size: stretch;
+}

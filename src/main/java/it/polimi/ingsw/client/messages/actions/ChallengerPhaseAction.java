@@ -15,8 +15,8 @@ public class ChallengerPhaseAction implements UserAction {
     /**
      * Constructor ChallengerPhaseAction creates a new ChallengerPhaseAction instance.
      *
-     * @param action of type String the type of the action.
-     * @param arg of type Card the god's card.
+     * @param action of type String - the type of the action.
+     * @param arg of type Card - the god's card.
      */
     public ChallengerPhaseAction(String action, Card arg) {
         this.action = action;
@@ -27,7 +27,7 @@ public class ChallengerPhaseAction implements UserAction {
     /**
      * Constructor ChallengerPhaseAction creates a new ChallengerPhaseAction instance.
      *
-     * @param action of type String the type of the action.
+     * @param action of type String - the type of the action.
      */
     public ChallengerPhaseAction(String action) {
         this.action = action;
@@ -38,7 +38,7 @@ public class ChallengerPhaseAction implements UserAction {
     /**
      * Constructor ChallengerPhaseAction creates a new ChallengerPhaseAction instance.
      *
-     * @param player of type int the player's ID.
+     * @param player of type int - the player's ID.
      */
     public ChallengerPhaseAction(int player) {
         this.action = null;

@@ -17,8 +17,8 @@ public class BuildAction extends WorkerAction {
     /**
      * Constructor BuildAction creates a new BuildAction instance.
      *
-     * @param x of type int the row.
-     * @param y of type int the column.
+     * @param x of type int - the row.
+     * @param y of type int - the column.
      */
     public BuildAction(int x, int y){
         buildSpace = new Couple(x,y);

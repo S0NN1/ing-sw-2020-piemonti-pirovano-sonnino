@@ -11,10 +11,18 @@ public class SelectMoveAction extends WorkerAction {
 
     private final Action action;
 
+    /**
+     * Constructor SelectMoveAction creates a new SelectMoveAction instance.
+     */
     public SelectMoveAction() {
         action = Action.SELECT_MOVE;
     }
 
+    /**
+     * Constructor SelectMoveAction creates a new SelectMoveAction instance.
+     *
+     * @param action of type Action - custom action.
+     */
     public SelectMoveAction(Action action) {
         this.action = action;
     }

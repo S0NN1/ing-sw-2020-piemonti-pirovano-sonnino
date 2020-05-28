@@ -19,36 +19,32 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * The main menu controller class, which is bound as a controller to the FXML scene of the main menu and the game setup.
- * It handles the event of Play button and Quit button.
- * See the resources MainMenu.fxml file for more details.
+ * MainMenuController class is a controller, bound to the FXML scene of the main menu and the game setup, it handles
+ * the event of play button and quit button.
  * @author Luca Pirovano
+ * @see GUIController
  */
 public class MainMenuController implements GUIController{
-    private static final String URL = "https://sonar.lucapirovano.com";
+    private static final String URL = "https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino";
     private GUI gui;
-    @FXML
-    private TextField username;
-    @FXML
-    private TextField address;
-    @FXML
-    private TextField port;
-    @FXML
-    private Label confirmation;
+    @FXML private TextField username;
+    @FXML private TextField address;
+    @FXML private TextField port;
+    @FXML private Label confirmation;
 
     /**
-     * Opens the project home website.
-     * @param evt the event notification.
-     * @throws URISyntaxException if the URI is not valid.
-     * @throws IOException for the browse function.
+     * Method about opens the project home website.
+     * @param evt of type ActionEvent - the event notification.
+     * @throws URISyntaxException when the URI is not valid.
+     * @throws IOException when the browsing function stops working.
      */
     public void about(ActionEvent evt) throws URISyntaxException, IOException {
         Desktop.getDesktop().browse(new URI(URL));
     }
 
     /**
-     * Quit the application when the "Quit" button is pressed.
-     * @param event the event notification.
+     * Method quit kills the application when the "Quit" button is pressed.
+     * @param event of type ActionEvent - the event notification.
      */
     public void quit(ActionEvent event) {
         System.out.println("Thanks for playing! See you next time!");
@@ -56,18 +52,18 @@ public class MainMenuController implements GUIController{
     }
 
     /**
-     * Change the stage scene to the setup one when the button "Play" is pressed.
-     * @param event the mouse click event.
+     * Method play changes the stage scene to the setup one when the button "Play" is pressed.
+     * @param event of type MouseEvent - the mouse click event.
      */
     public void play(MouseEvent event) {
-        gui.changeStage("setup.fxml");
+        gui.changeStage("godsMenu.fxml");
         gui.centerApplication();
     }
 
     /**
-     * The GUI start method, which is bound to the setup FXML scene. It instantiates a socket connection with the remote
-     * server and change the scene to the loader one.
-     * @param event the join pressed event.
+     * Method start, bound to the setup FXML scene, it instantiates a socket connection with the remote server and
+     * changes the scene to the loader one.
+     * @param event of type ActionEvent - the join pressed event.
      */
     public void start(ActionEvent event) {
         if(username.getText().equals("") || address.getText().equals("") || port.getText().equals("")) {
@@ -116,6 +112,7 @@ public class MainMenuController implements GUIController{
         }
     }
 
+    /** @see GUIController#setGui(GUI)  */
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;

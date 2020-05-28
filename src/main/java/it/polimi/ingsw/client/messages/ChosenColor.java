@@ -13,7 +13,7 @@ public class ChosenColor implements Message {
     /**
      * Constructor ChosenColor creates a new ChosenColor instance.
      *
-     * @param color of type PlayerColors the color chosen.
+     * @param color of type PlayerColors - the color chosen.
      */
     public ChosenColor(PlayerColors color) {
         this.color=color;

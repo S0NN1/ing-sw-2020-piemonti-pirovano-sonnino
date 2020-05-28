@@ -15,7 +15,7 @@ public class WorkerSetupMessage implements UserAction{
     /**
      * Constructor WorkerSetupMessage creates a new WorkerSetupMessage instance.
      *
-     * @param in of type String[] the position's array.
+     * @param in of type String[] - the position's array.
      */
     public WorkerSetupMessage(String[] in) {
         xPositions.add(Integer.parseInt(in[1]));
@@ -27,8 +27,8 @@ public class WorkerSetupMessage implements UserAction{
     /**
      * Method getXPosition gets workers' rows.
      *
-     * @param index of type int the number defining which worker is requested (1/2).
-     * @return int the row requested.
+     * @param index of type int - the number defining which worker is requested (1/2).
+     * @return int - the row requested.
      */
     public int getXPosition(int index) {
         return xPositions.get(index);
@@ -37,8 +37,8 @@ public class WorkerSetupMessage implements UserAction{
     /**
      * Method getXPosition gets workers' columns.
      *
-     * @param index of type int the number defining which worker is requested (1/2).
-     * @return int the column requested.
+     * @param index of type int - the number defining which worker is requested (1/2).
+     * @return int - the column requested.
      */
     public int getYPosition(int index) {
         return yPositions.get(index);

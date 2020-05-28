@@ -25,10 +25,10 @@ public class SocketListener implements Runnable{
     /**
      * Constructor SocketListener creates a new SocketListener instance.
      *
-     * @param socket of type Socket
-     * @param modelView of type ModelView
-     * @param inputStream of type ObjectInputStream
-     * @param actionHandler of type ActionHandler
+     * @param socket of type Socket - socket reference.
+     * @param modelView of type ModelView - modelView reference.
+     * @param inputStream of type ObjectInputStream - the inputStream.
+     * @param actionHandler of type ActionHandler - ActionHandler reference.
      */
     public SocketListener(Socket socket, ModelView modelView, ObjectInputStream inputStream, ActionHandler
             actionHandler) {
@@ -40,7 +40,7 @@ public class SocketListener implements Runnable{
 
     /**
      * Method process processes the serialized answer received from the server, passing it to the answer handler.
-     * @param serverMessage of type SerializedAnswer the serialized answer.
+     * @param serverMessage of type SerializedAnswer - the serialized answer.
      */
     public void process(SerializedAnswer serverMessage) {
         modelView.setServerAnswer(serverMessage.getServerAnswer());
@@ -48,7 +48,7 @@ public class SocketListener implements Runnable{
     }
 
     /**
-     * Method run loops and sends messages..
+     * Method run loops and sends messages.
      */
     @Override
     public void run() {
