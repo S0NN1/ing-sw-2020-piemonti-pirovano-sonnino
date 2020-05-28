@@ -18,9 +18,9 @@ The final version must include:
 * source code of unity tests.
 ## Find out more
 
-| **[Installation][installation-link]**     | **[Compiling][compiling-link]**     | **[Javadocs][javadocs]**           | **[Running][running-link]**| **[Troubleshooting][troubleshooting-link]**
+| **[Installation][installation-link]**     | **[Compiling][compiling-link]**     |    **[Running][running-link]**       | **[Javadocs][javadocs]** | **[Troubleshooting][troubleshooting-link]**
 |-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|
-| [![i1][installation-image]][installation-link] | [![i2][compiling-image]][compiling-link] | [![i3][javadocs-image]][javadocs] | [![i4][running-image]][running-link] | [![i5][troubleshooting-image]][troubleshooting-link]
+| [![i1][installation-image]][installation-link] | [![i2][compiling-image]][compiling-link] | [![i4][running-image]][running-link] | [![i3][javadocs-image]][javadocs] | [![i5][troubleshooting-image]][troubleshooting-link]
 
 ## Implemented Functionalities
 | Functionality | State |
