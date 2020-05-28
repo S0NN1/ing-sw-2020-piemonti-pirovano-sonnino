@@ -155,6 +155,7 @@ public class GodTile extends HBox {
     public void choose(Card card) {
         gui.getListeners().firePropertyChange("action", null, "CHOOSE " + card.toString());
         value = true;
+        gui.changeStage("loading.fxml");
         stage.close();
     }
 
