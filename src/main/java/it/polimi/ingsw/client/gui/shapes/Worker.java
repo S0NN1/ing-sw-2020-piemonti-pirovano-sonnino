@@ -9,13 +9,24 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 
-
+/**
+ * Worker class is the gui representation of worker in the GridPane.
+ * @author Alice Piemonti
+ * @see Polygon
+ */
 public class Worker extends Polygon {
 
     int row;
     int col;
     MainGuiController controller;
 
+    /**
+     * Constructor Worker creates a new Worker instance.
+     *
+     * @param row of type int - the row of the cell.
+     * @param col of type int - the column of the cell.
+     * @param controller of type MainGuiController - the MainGuiController reference.
+     */
     public Worker(int row, int col, MainGuiController controller) {
         super(0.0, 10.0,
                         20.0, 10.0,
@@ -28,6 +39,9 @@ public class Worker extends Polygon {
         setFill(this.getColor());
     }
 
+    /**
+     * Method makeSelectable makes the worker selectable.
+     */
     public void makeSelectable() {
         setOnMouseEntered(mouseEvent -> setCursor(Cursor.HAND));
 
@@ -37,11 +51,17 @@ public class Worker extends Polygon {
         });
     }
 
+    /**
+     * Method deselect deselects worker.
+     */
     public void deselect() {
         setOnMouseEntered(null);
         setOnMouseClicked(null);
     }
 
+    /**
+     * Method move handles move action.
+     */
     public void move(){
         int oldRow = row;
         int oldCol = col;
@@ -79,15 +99,35 @@ public class Worker extends Polygon {
         this.setOnMouseEntered(mouseEvent -> this.setCursor(Cursor.HAND));
     }
 
+    /**
+     * Method setPosition sets worker's cell.
+     *
+     * @param row of type int - the row of the cell.
+     * @param col of type int - the column of the cell.
+     */
     public void setPosition(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
+    /**
+     * Method getColor returns the color of this Worker object.
+     *
+     *
+     *
+     * @return the color (type Paint) of this Worker object.
+     */
     public Paint getColor() {
         return this.controller.getColors().get(controller.getGUI().getModelView().getBoard().getColor(row,col));
     }
 
+    /**
+     * Method getWorkingNumber returns the workingNumber of this Worker object.
+     *
+     *
+     *
+     * @return the workingNumber (type int) of this Worker object.
+     */
     public int getWorkingNumber() {
         return this.controller.getGUI().getModelView().getBoard().getWorkerNum(row, col);
     }

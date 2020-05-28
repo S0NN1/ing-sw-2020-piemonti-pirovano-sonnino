@@ -10,14 +10,14 @@ import java.io.Serializable;
  */
 public class Couple implements Serializable {
 
-    private int row;
-    private int column;
+    private final int row;
+    private final int column;
 
     /**
      * Constructor Couple creates a new Couple instance.
      *
-     * @param row of type int
-     * @param column of type int
+     * @param row of type int - the row of the cell.
+     * @param column of type int - the column of the cell.
      */
     public Couple(int row, int column){
         this.row = row;

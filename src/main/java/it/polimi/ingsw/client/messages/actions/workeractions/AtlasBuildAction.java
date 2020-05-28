@@ -12,9 +12,9 @@ public class AtlasBuildAction extends BuildAction {
     /**
      * Constructor AtlasBuildAction creates a new AtlasBuildAction instance.
      *
-     * @param x of type int the row.
-     * @param y of type int  the column.
-     * @param dome of type boolean dome being set to true if player fired a PLACEDOME.
+     * @param x of type int - the row.
+     * @param y of type int - the column.
+     * @param dome of type boolean  true if player fired a PLACEDOME, false otherwise.
      */
     public AtlasBuildAction(int x, int y, boolean dome) {
         super(x, y);

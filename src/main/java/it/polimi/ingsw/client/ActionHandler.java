@@ -26,7 +26,7 @@ public class ActionHandler {
 
     public static final String FIRST_BOARD_UPDATE = "firstBoardUpdate";
     public static final String BOARD_UPDATE = "boardUpdate";
-    private static final String MAINGUI = "mainScene.fxml";
+    private static final String MAIN_SCENE_FXML = "mainScene.fxml";
     private final ModelView modelView;
     private final PropertyChangeSupport view = new PropertyChangeSupport(this);
     private CLI cli;
@@ -35,8 +35,8 @@ public class ActionHandler {
     /**
      * Constructor of the ActionHandler in case players are using the CLI.
      *
-     * @param cli       of type CLI the command line interface reference.
-     * @param modelView of type ModelView the structure, stored into the client, containing simple logic of the model.
+     * @param cli       of type CLI - the command line interface reference.
+     * @param modelView of type ModelView - the structure, stored into the client, containing simple logic of the model.
      */
     public ActionHandler(CLI cli, ModelView modelView) {
         this.cli = cli;
@@ -47,8 +47,8 @@ public class ActionHandler {
     /**
      * Constructor of the ActionHandler in case players are using the GUI.
      *
-     * @param gui       of Type GUI the graphical user interface reference.
-     * @param modelView of type ModelView the structure, stored into the client, containing simple logic of the model.
+     * @param gui       of type GUI - the graphical user interface reference.
+     * @param modelView of type ModelView - the structure, stored into the client, containing simple logic of the model.
      */
     public ActionHandler(GUI gui, ModelView modelView) {
         this.gui = gui;
@@ -60,7 +60,7 @@ public class ActionHandler {
      * Method fullGamePhase handles an answer of the full game phase (like a move, build or god-use
      * action).
      *
-     * @param answer of type Answer the answer received from the server.
+     * @param answer of type Answer - the answer received from the server.
      */
     public void fullGamePhase(Answer answer) {
         ClientBoard clientBoard = modelView.getBoard();
@@ -126,7 +126,7 @@ public class ActionHandler {
      * Method modifiedTurnAction handles messages from gods with turn phases different from normal
      * ones and fires commands to CLI.
      *
-     * @param answer of type ModifiedTurnMessage the answer received from the server.
+     * @param answer of type ModifiedTurnMessage - the answer received from the server.
      */
     private void modifiedTurnAction(ModifiedTurnMessage answer) {
         if (answer.getAction() == null) {
@@ -160,9 +160,9 @@ public class ActionHandler {
      * Method defineDoubleMove defines the type of the move message received based on gods with the
      * ability to move other ones.
      *
-     * @param answer      of type DoubleMoveMessage the answer received from the server.
-     * @param clientBoard of type ClientBoard the clientBoard.
-     * @param message     of type String the message forwarded to CLI.
+     * @param answer      of type DoubleMoveMessage - the answer received from the server.
+     * @param clientBoard of type ClientBoard - the clientBoard.
+     * @param message     of type String - the message forwarded to CLI.
      */
     private void defineDoubleMove(DoubleMoveMessage answer, ClientBoard clientBoard, String message) {
         if (message.equals("ApolloDoubleMove")) {
@@ -175,8 +175,8 @@ public class ActionHandler {
     /**
      * Method updateClientBoardMove updates clientBoard after receiving a move answer.
      *
-     * @param answer      of type Answer the answer received from the server.
-     * @param clientBoard of type ClientBoard the clientBoard.
+     * @param answer      of type Answer - the answer received from the server.
+     * @param clientBoard of type ClientBoard - the clientBoard.
      */
     private void updateClientBoardMove(Answer answer, ClientBoard clientBoard) {
         Move message = (Move) answer.getMessage();
@@ -191,8 +191,8 @@ public class ActionHandler {
     /**
      * Method fireMinotaurMove updates the clientBoard after receiving a Minotaur's move answer.
      *
-     * @param answer      of type DoubleMoveMessage the answer received from the server.
-     * @param clientBoard of type ClientBoard the clientBoard.
+     * @param answer      of type DoubleMoveMessage - the answer received from the server.
+     * @param clientBoard of type ClientBoard - the clientBoard.
      */
     private void fireMinotaurMove(DoubleMoveMessage answer, ClientBoard clientBoard) {
         Move myMove = answer.getMyMove();
@@ -210,8 +210,8 @@ public class ActionHandler {
     /**
      * Method fireApolloMove updates the clientBoard after receiving a Apollo's move answer.
      *
-     * @param answer      of type DoubleMoveMessage the answer received from the server.
-     * @param clientBoard of type ClientBoard the clientBoard.
+     * @param answer      of type DoubleMoveMessage - the answer received from the server.
+     * @param clientBoard of type ClientBoard - the clientBoard.
      */
     private void fireApolloMove(DoubleMoveMessage answer, ClientBoard clientBoard) {
         Move myMove = answer.getMyMove();
@@ -227,7 +227,7 @@ public class ActionHandler {
     /**
      * Method fireEndTurn updates the clientBoard after receiving an end turn answer.
      *
-     * @param answer of type Answer the answer received from the server.
+     * @param answer of type Answer - the answer received from the server.
      */
     private void fireEndTurn(Answer answer) {
         modelView.setTurnActive(false);
@@ -243,7 +243,7 @@ public class ActionHandler {
     /**
      * Method fireSelectSpaces fires selected spaces from the answer to modelView and updates CLI.
      *
-     * @param answer of type SelectSpacesMessage the answer received from the server.
+     * @param answer of type SelectSpacesMessage - the answer received from the server.
      */
     private void fireSelectSpaces(SelectSpacesMessage answer) {
         modelView.setSelectSpaces(answer.getMessage());
@@ -284,7 +284,7 @@ public class ActionHandler {
      * Method initialGamePhase handles the server answers of the initial game phase and notifies the
      * view relying on the server request through a property change listener.
      *
-     * @param answer the answer received from the server.
+     * @param answer of type Answer - the answer received from the server.
      */
     public void initialGamePhase(Answer answer) {
         String initial = "initialPhase";
@@ -328,8 +328,8 @@ public class ActionHandler {
             if (cli != null) {
                 view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
             } else if (gui != null) {
-                ((MainGuiController) gui.getControllerFromName(MAINGUI)).setWorker(message.getWorker1().getRow(), message.getWorker1().getColumn());
-                ((MainGuiController) gui.getControllerFromName(MAINGUI)).setWorker(message.getWorker2().getRow(), message.getWorker2().getColumn());
+                ((MainGuiController) gui.getControllerFromName(MAIN_SCENE_FXML)).setWorker(message.getWorker1().getRow(), message.getWorker1().getColumn());
+                ((MainGuiController) gui.getControllerFromName(MAIN_SCENE_FXML)).setWorker(message.getWorker2().getRow(), message.getWorker2().getColumn());
             }
         } else if (answer instanceof MatchStartedMessage) {
             modelView.setPlayerMapColor(((MatchStartedMessage)answer).getPlayerMapColor());
@@ -378,7 +378,7 @@ public class ActionHandler {
      * Method fireOtherPlayerLost unregisters loser from modelView and updates CLI after receiving a message with the
      * loser.
      *
-     * @param answer of type PlayerLostMessage the answer received from the server.
+     * @param answer of type PlayerLostMessage - the answer received from the server.
      */
     private void fireOtherPlayerLost(PlayerLostMessage answer) {
         modelView.unregisterPlayer(answer.getLoserColor());
@@ -388,7 +388,7 @@ public class ActionHandler {
     /**
      * Method fireClosedConnectionCli closes connection to client.
      *
-     * @param answer of type Answer
+     * @param answer of type Answer - close connection answer from the server.
      */
     private void fireClosedConnectionCli(Answer answer) {
         view.firePropertyChange("connectionClosed", null, answer);
@@ -405,6 +405,11 @@ public class ActionHandler {
         view.firePropertyChange("gameError", null, answer);
     }
 
+    /**
+     * Method fireCustomMessage fires customMessage.
+     *
+     * @param answer of type Answer - custom message answer from the server.
+     */
     private void fireCustomMessage(Answer answer) {
         view.firePropertyChange("customMessage", null, answer.getMessage());
         modelView.setCanInput(((CustomMessage) answer).canInput());

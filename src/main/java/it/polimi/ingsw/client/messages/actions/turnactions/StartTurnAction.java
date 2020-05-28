@@ -18,7 +18,7 @@ public class StartTurnAction implements UserAction {
     /**
      * Constructor StartTurnAction creates a new StartTurnAction instance.
      *
-     * @param option of type String the option used to identify start turn or workers.
+     * @param option of type String - the option used to identify start turn or workers.
      */
     public StartTurnAction(String option){
         this.option=option;

@@ -34,7 +34,7 @@ public class Cell {
     /**
      * Method setWorkerNum sets the workerNum of this Cell object.
      *
-     * @param workerNum the workerNum of this Cell object.
+     * @param workerNum of type int - the workerNum of this Cell object.
      * @throws IllegalArgumentException when if workerNum <0 || workerNum>2.
      */
     public void setWorkerNum(int workerNum) throws IllegalArgumentException {   //0 -> no worker; 1 -> worker n1; 2 -> worker n2
@@ -53,7 +53,7 @@ public class Cell {
 
     /**Method setColor sets the color of this Cell object.
      *
-     * @param color is the representation of the worker
+     * @param color of type String - the representation of the worker
      */
     public void setColor(String color) {
         this.color = color;
@@ -78,8 +78,9 @@ public class Cell {
         this.level = level;
     }
 
+
     /**
-     * It's a representation of build method
+     * Method addLevel adds a level.
      */
     public void addLevel(){
         this.level++;
@@ -98,7 +99,7 @@ public class Cell {
     /**
      * Method setDome sets the dome of this Cell object.
      *
-     * @param dome the dome of this Cell object.
+     * @param dome of type boolean - the dome of this Cell object.
      */
     public void setDome(boolean dome) {
         this.dome = dome;

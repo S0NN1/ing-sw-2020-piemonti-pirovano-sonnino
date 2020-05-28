@@ -289,7 +289,7 @@ public class ModelView {
     /**
      * Constructor ModelView creates a new ModelView instance.
      *
-     * @param cli of type CLI
+     * @param cli of type CLI - CLI reference.
      */
     public ModelView(CLI cli) {
         this.cli = cli;
@@ -302,7 +302,7 @@ public class ModelView {
     /**
      * Constructor ModelView creates a new ModelView instance.
      *
-     * @param gui of type GUI
+     * @param gui of type GUI - GUI reference.
      */
     public ModelView(GUI gui) {
         this.gui = gui;
@@ -392,10 +392,14 @@ public class ModelView {
         this.moveSelected = moveSelected;
     }
 
+
     /**
-     * Method setGamePhase sets the game phase variable.
+     * Method setGamePhase sets the gamePhase of this ModelView object.
      *
-     * @param phase the current phase of the game.
+     *
+     *
+     * @param phase the gamePhase of this ModelView object.
+     *
      */
     public void setGamePhase(int phase) {
         gamePhase = phase;
@@ -480,7 +484,7 @@ public class ModelView {
     /**
      * Method unregisterPlayer removes loser's workers from clientBoard.
      *
-     * @param loserColor of type String the loser's color.
+     * @param loserColor of type String - the loser's color.
      */
     public void unregisterPlayer(String loserColor) {
         for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {

@@ -72,7 +72,7 @@ public class CLI implements UI, Runnable {
     /**
      * The main class of CLI client. It instantiates a new CLI class, running it.
      *
-     * @param args - the standard java main parameters.
+     * @param args of type String[] - the standard java main parameters.
      */
     public static void main(String[] args) {
         System.out.println(Constants.SANTORINI);
@@ -103,7 +103,7 @@ public class CLI implements UI, Runnable {
      * Method toggleActiveGame changes the value of the parameter activeGame, which states if the game is active or if
      * it has finished.
      *
-     * @param activeGame - the value (type boolean) based on the status of the game.
+     * @param activeGame of type boolean - the value based on the status of the game.
      */
     public void toggleActiveGame(boolean activeGame) {
         this.activeGame = activeGame;
@@ -180,7 +180,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method firstBuildBoard creates empty board.
      *
-     * @param grid - the printed board (type DisplayCell[][]).
+     * @param grid of type DisplayCell[][] - the printed board.
      */
     private void firstBuildBoard(DisplayCell[][] grid) {
         String[] rows = Printable.getLEVELS()[0].split("\n");
@@ -196,7 +196,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method boardUpdater updates grid after a change occurred in ClientBoard.
      *
-     * @param grid the printed board (type DisplayCell[][]).
+     * @param grid of type DisplayCell[][] - the printed board.
      */
     private void boardUpdater(DisplayCell[][] grid) {
         String[] rows;
@@ -217,7 +217,7 @@ public class CLI implements UI, Runnable {
      * @param i     of type int - a counter.
      * @param j     of type int - a counter.
      * @param level of type int - the level to print.
-     * @return String[] - grid's level row.
+     * @return String[] - the grid's level row.
      */
     private String[] generateTypeOfLevel(int i, int j, int level) {
         String[] rows;
@@ -238,9 +238,9 @@ public class CLI implements UI, Runnable {
     /**
      * Method generateRows splits levels array into multiple Strings.
      *
-     * @param level  of type int level.
-     * @param levels of type String[] the possible levels printable.
-     * @return String[] rows generated.
+     * @param level  of type int - the grid's level.
+     * @param levels of type String[] - the possible levels printable.
+     * @return String[] - the rows generated.
      */
     private String[] generateRows(int level, String[] levels) {
         String[] rows;
@@ -251,9 +251,9 @@ public class CLI implements UI, Runnable {
     /**
      * Method addWorkerToCell adds worker to Printable cell.
      *
-     * @param color of type String Worker's color.
-     * @param rows of type String[] the rows used to insert player.
-     * @param level of type int the level modified.
+     * @param color of type String - the worker's color.
+     * @param rows of type String[] - the rows used to insert player.
+     * @param level of type int - the level modified.
      */
     private void addWorkerToCell(String color, String[] rows, int level, int type) {
         String[] temp = new String[3];
@@ -301,10 +301,10 @@ public class CLI implements UI, Runnable {
     /**
      * Method getRightIndex gets right index in order to print levels on the grid.
      *
-     * @param b  of type boolean  defines the two cases in order split row in the correct spot.
-     * @param i2 of type int first type of counter.
-     * @param i3 of type int second type of counters.
-     * @return int correct counter.
+     * @param b  of type boolean - defines the two cases in order split row in the correct spot.
+     * @param i2 of type int - the first type of counter.
+     * @param i3 of type int - the second type of counters.
+     * @return int - the correct counter.
      */
     private int getRightIndex(boolean b, int i2, int i3) {
         int j;
@@ -320,9 +320,9 @@ public class CLI implements UI, Runnable {
      * Method createStringMap encapsulates player and temp arrays used for addWorkerToCell method for complaints
      * reasons.
      *
-     * @param temp   of type String[] temporary cell's rows in which player is inserted.
-     * @param player of type String[] needed to be inserted.
-     * @return HashMap<Integer, String [ ]> the two strings.
+     * @param temp   of type String[] - temporary cell's rows in which player is inserted.
+     * @param player of type String[] - the player to be inserted into the rows.
+     * @return HashMap<Integer, String [ ]> - the two strings.
      */
     private HashMap<Integer, String[]> createStringMap(String[] temp, String[] player) {
         HashMap<Integer, String[]> stringMap = new HashMap<>();
@@ -331,6 +331,17 @@ public class CLI implements UI, Runnable {
         return stringMap;
     }
 
+    /**
+     * Method insertPlayer ...
+     *
+     * @param color of type String  - the player's color
+     * @param rows of type String[] - the cell's row
+     * @param cellInfos of type int[] - the grid's levels
+     * @param stringMap of type HashMap<Integer, String[]> - the hashmap mapping levels to correct strings.
+     * @param indexes of type int[][] - the indexes for each level.
+     * @param backgroundColor of type String - the worker's background color.
+     * @param counters of type int[] - the indexes in order to print correctly.
+     */
     private void insertPlayer(String color, String[] rows, int[] cellInfos, HashMap<Integer, String[]> stringMap,
                               int[][] indexes, String backgroundColor, int[] counters) {
         if (counters[0] == 2 && modelView.getActiveWorker() == cellInfos[1] && modelView.isTurnActive() &&
@@ -349,7 +360,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method printBoard prints board to the player.
      *
-     * @param grid the printed board.
+     * @param grid - the printed board.
      */
     private void printBoard(DisplayCell[][] grid) {
         System.out.println(Printable.ROW_WAVE);
@@ -386,11 +397,11 @@ public class CLI implements UI, Runnable {
     /**
      * Method insertMenus inserts sideMenu and guideMenu next to the grid.
      *
-     * @param sideMenuRows of type String[] the side menu's rows.
-     * @param guideMenuRows of type String[] the guide menu's rows.
-     * @param check of type int the counter needed for the correct printing.
-     * @param k of type int the counter needed for the correct printing.
-     * @return int the checker used for  switching menu's rows.
+     * @param sideMenuRows of type String[] - the side menu's rows.
+     * @param guideMenuRows of type String[] - the guide menu's rows.
+     * @param check of type int - the counter needed for the correct printing.
+     * @param k of type int - the counter needed for the correct printing.
+     * @return int - the checker used for  switching menu's rows.
      */
     private int insertMenus(String[] sideMenuRows, String[] guideMenuRows, int check, int k) {
         if (check == 0) {
@@ -412,7 +423,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method insertSideMenuRows inserts side menu rows into the output stream.
      *
-     * @param sideMenuRow of type String the side status menu.
+     * @param sideMenuRow of type String - the side status menu.
      */
     private void insertSideMenuRows(String sideMenuRow) {
         System.out.print(Printable.COUPLE_ROW_WAVE + "  " + sideMenuRow);
@@ -421,8 +432,8 @@ public class CLI implements UI, Runnable {
     /**
      * Method insertGuideMenuRows inserts guide rows into the output stream.
      *
-     * @param guideMenuRows of type String[] the side guide's rows.
-     * @param i2 of type int the counter required for correct printing.
+     * @param guideMenuRows of type String[] - the side guide's rows.
+     * @param i2 of type int - the counter required for correct printing.
      */
     private void insertGuideMenuRows(String[] guideMenuRows, int i2) {
         System.out.println(Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[i2]);
@@ -431,7 +442,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method buildSideMenu builds side status menu.
      *
-     * @return String[] the side status menu.
+     * @return String[] - the side status menu.
      */
     private String[] buildSideMenu() {
         String playerName = modelView.getPlayerName();
@@ -466,7 +477,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method buildSideHelp build side guide.
      *
-     * @return String[] the side guide.
+     * @return String[] - the side guide.
      */
     private String[] buildSideHelp() {
         String godDesc = modelView.getGodDesc();
@@ -499,8 +510,8 @@ public class CLI implements UI, Runnable {
     /**
      * Method addScores adds spaces to side menu.
      *
-     * @param max of type int max length of side menu.
-     * @return StringBuilder the string added to side menu.
+     * @param max of type int - max length of side menu.
+     * @return StringBuilder - the string added to side menu.
      */
     private StringBuilder addSpaces(int max, String s) {
         if (max - s.length() == 0) {
@@ -515,8 +526,8 @@ public class CLI implements UI, Runnable {
     /**
      * Method addScores adds blocks to side menu.
      *
-     * @param max of type int max length of side menu.
-     * @return StringBuilder the string added to side menu.
+     * @param max of type int - the max length of side menu.
+     * @return StringBuilder - the string added to side menu.
      */
     private StringBuilder addBlocks(int max) {
         StringBuilder s = new StringBuilder();
@@ -527,8 +538,8 @@ public class CLI implements UI, Runnable {
     /**
      * Method addScores adds scores to side menu.
      *
-     * @param max of type int max length of side menu.
-     * @return StringBuilder the string added to side menu.
+     * @param max of type int - the max length of side menu.
+     * @return StringBuilder - the string added to side menu.
      */
     private StringBuilder addScores(int max) {
         StringBuilder s = new StringBuilder();
@@ -561,7 +572,7 @@ public class CLI implements UI, Runnable {
      * Method chooseColor lets the player decide his color, relying on the available ones.
      * If the player is the last in a three-players match, the server automatically assign him the last color.
      *
-     * @param available of type List<PlayerColors> the list of available colors, which will be printed out.
+     * @param available of type List<PlayerColors> - the list of available colors, which will be printed out.
      */
     public void chooseColor(List<PlayerColors> available) {
         firstBuildBoard(grid);
@@ -594,7 +605,7 @@ public class CLI implements UI, Runnable {
      * Method errorHandling handles an error received from the server, following a user action or saying him he cannot
      * perform any action in that moment.
      *
-     * @param error of type GameError the error received from the server.
+     * @param error of type GameError - the error received from the server.
      */
     public void errorHandling(GameError error) {
         switch (error.getError()) {
@@ -623,8 +634,8 @@ public class CLI implements UI, Runnable {
     /**
      * Method printError prints error message.
      *
-     * @param err of type PrintStream the output stream.
-     * @param s of type String the message.
+     * @param err of type PrintStream - the output stream.
+     * @param s of type String - the message.
      */
     private void printError(PrintStream err, String s) {
         err.println(s);
@@ -635,7 +646,7 @@ public class CLI implements UI, Runnable {
      * Method initialPhaseHandling handles the messages received from the server during the initial phase like,
      * for example, the request of the number of player.
      *
-     * @param value of type String the answer received from the server.
+     * @param value of type String - the answer received from the server.
      */
     public void initialPhaseHandling(String value) {
         switch (value) {
@@ -671,7 +682,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method godRequest handles selection of gods and turn's order.
      *
-     * @param req of type ChallengerMessages the message containing infos about gods and players.
+     * @param req of type ChallengerMessages - the message containing infos about gods and players.
      */
     private void godRequest(ChallengerMessages req) {
         if (req.isStartingPlayer() && req.getPlayers() != null) {
@@ -714,7 +725,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method propertyChange waits for a server response which is previously processed by the ActionHandler.
      *
-     * @param evt of type PropertyChangeEvent event containing information about the response type and its new value.
+     * @param evt of type PropertyChangeEvent - the event containing information about the response type and its new value.
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -763,7 +774,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method fireSelectSpaces inserts checkers into printSpaces method.
      *
-     * @param evt of type PropertyChangeEvent event containing instructions for printSpaces method.
+     * @param evt of type PropertyChangeEvent - the event containing instructions for printSpaces method.
      */
     private void fireSelectSpaces(PropertyChangeEvent evt) {
         if (evt.getOldValue().getClass().isArray()) {
@@ -779,7 +790,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method fireBoardUpdate inserts checkers into updateCli method.
      *
-     * @param evt of type PropertyChangeEvent event containing instructions for updateCli method.
+     * @param evt of type PropertyChangeEvent - the event containing instructions for updateCli method.
      */
     private void fireBoardUpdate(PropertyChangeEvent evt) {
         if (evt.getOldValue().getClass().isArray()) {
@@ -795,7 +806,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method otherPlayerLost updates CLI, removes loser from CLI and prints its nickname.
      *
-     * @param evt of type PropertyChangeEvent the event containing loser's nickname.
+     * @param evt of type PropertyChangeEvent - the event containing loser's nickname.
      */
     private void otherPlayerLost(PropertyChangeEvent evt) {
         clearScreen();
@@ -807,7 +818,7 @@ public class CLI implements UI, Runnable {
     /**
      * Method end prints end message.
      *
-     * @param message of type String the message printed when turn ends.
+     * @param message of type String - the message printed when turn ends.
      */
     private void end(String message) {
         System.out.print("\r" + message);
@@ -824,11 +835,11 @@ public class CLI implements UI, Runnable {
     /**
      * Method printMenu prints menu under the grid.
      *
-     * @param move    of type boolean the check used to enable move entry in menu.
-     * @param build   of type boolean the check used to enable build entry in menu.
-     * @param end     of type boolean the check used to enable end entry in menu.
-     * @param message of type String the content of message received.
-     * @throws InterruptedException when  TimeUnit fails.
+     * @param move    of type boolean - the check used to enable move entry in menu.
+     * @param build   of type boolean - the check used to enable build entry in menu.
+     * @param end     of type boolean - the check used to enable end entry in menu.
+     * @param message of type String - the content of message received.
+     * @throws InterruptedException when TimeUnit fails.
      */
     public void printMenu(boolean move, boolean build, boolean end, String message) throws InterruptedException {
         String active;
@@ -856,7 +867,7 @@ public class CLI implements UI, Runnable {
 
     /**
      * Method firstPrintMenu prints menu without any entries.
-     * @throws InterruptedException when  TimeUnit fails.
+     * @throws InterruptedException when TimeUnit fails.
      */
     public void firstPrintMenu() throws InterruptedException {
         String active;
@@ -885,10 +896,10 @@ public class CLI implements UI, Runnable {
     /**
      * Method updateCli prints and updates CLI.
      *
-     * @param move    of type boolean the check used to enable move entry in menu.
-     * @param build   of type boolean the check used to enable build entry in menu.
-     * @param end     of type boolean the check used to enable end entry in menu.
-     * @param message of type String the content of message received.
+     * @param move    of type boolean - the check used to enable move entry in menu.
+     * @param build   of type boolean - the check used to enable build entry in menu.
+     * @param end     of type boolean - the check used to enable end entry in menu.
+     * @param message of type String - the content of message received.
      */
     public void updateCli(boolean move, boolean build, boolean end, String message) {
         clearScreen();
@@ -905,10 +916,10 @@ public class CLI implements UI, Runnable {
     /**
      * Method printSpaces prints possible actions after a SelectBuild/SelectMove.
      *
-     * @param move    of type boolean the check used to enable move entry in menu.
-     * @param build   of type boolean the check used to enable build entry in menu.
-     * @param end     of type boolean the check used to enable end entry in menu.
-     * @param message of type String the spaces extracted from SelectSpaceMessage.
+     * @param move    of type boolean - the check used to enable move entry in menu.
+     * @param build   of type boolean - the check used to enable build entry in menu.
+     * @param end     of type boolean - the check used to enable end entry in menu.
+     * @param message of type String - the spaces extracted from SelectSpaceMessage.
      */
     public void printSpaces(boolean move, boolean build, boolean end, String message) {
         updateCli(move, build, end, message);

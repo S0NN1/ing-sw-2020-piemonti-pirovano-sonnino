@@ -16,10 +16,10 @@ public class Move implements Serializable {
     /**
      * Constructor Move creates a new Move instance.
      *
-     * @param oldRow of type int the old row.
-     * @param oldColumn of type int the old column.
-     * @param newRow of type int the new row.
-     * @param newColumn of type int the new column.
+     * @param oldRow of type int - the old row.
+     * @param oldColumn of type int - the old column.
+     * @param newRow of type int - the new row.
+     * @param newColumn of type int - the new column.
      */
     public Move(int oldRow, int oldColumn, int newRow, int newColumn){
         oldPosition = new Couple(oldRow, oldColumn);
