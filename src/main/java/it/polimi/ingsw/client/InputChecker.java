@@ -193,7 +193,8 @@ public class InputChecker {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        } else if (turnPhase == 1 || Constants.getBuildPhaseGods().contains(modelView.getGod().toUpperCase())) {
+        } else if (turnPhase == 1 || Constants.getBuildPhaseGods().contains(modelView.getGod().toUpperCase()) ||
+                Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
             modelView.setBuildSelected(true);
             return new SelectBuildAction();
         } else {
@@ -250,7 +251,7 @@ public class InputChecker {
         }
         Couple worker = findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(row, column);
-        if (turnPhase == 1 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase())) {
+        if (turnPhase == 1 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase()) || Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
             if (isUnreachable(row, column, worker)) {
                 System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;
@@ -299,7 +300,7 @@ public class InputChecker {
      * @return MoveAction the correct MoveAction, null otherwise.
      */
     private MoveAction canMoveToOccupiedCell(MoveAction move) {
-        if (!Constants.getMoveToCellOccupiedGods().contains(modelView.getGod().toUpperCase())) {
+        if (!Constants.getMoveToCellOccupiedGods().contains(modelView.getGod().toUpperCase())) { //&& !move.getAction().equals(Action.FORCE_WORKER)
             System.out.println(RED + ERR_CELL_OCCUPIED + RST);
             return null;
         } else return move;
@@ -362,7 +363,8 @@ public class InputChecker {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
-        } else if (turnPhase == 0 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase())) {
+        } else if (turnPhase == 0 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase()) ||
+                Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
             modelView.setMoveSelected(true);
             return new SelectMoveAction();
         } else {
@@ -479,7 +481,7 @@ public class InputChecker {
         }
         Couple worker = findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(row, column, Action.FORCE_WORKER);
-        if (turnPhase == 1
+        if (turnPhase == 0
                 && Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
             if (isUnreachable(row, column, worker)) {
                 System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
@@ -510,7 +512,7 @@ public class InputChecker {
             return null;
         } else if (turnPhase == 0
                 && Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
-            return new SelectMoveAction(Action.SELECT_FORCE_WORKER);
+            return new SelectMoveAction(Action.FORCE_WORKER);
         } else {
             System.err.println(ERR_INCORRECT_ACTION);
             return null;

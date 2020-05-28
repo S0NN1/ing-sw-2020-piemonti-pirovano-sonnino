@@ -63,6 +63,9 @@ public class ActionParser implements PropertyChangeListener {
         sendMessage = (in.length == 1) ? inputChecker.build(turnPhase, modelView.getActiveWorker())
                 : inputChecker.atlasBuild(turnPhase, Integer.parseInt(in[1]), Integer.parseInt(in[2]),
                 modelView.getActiveWorker());
+        if(sendMessage!=null && in.length== 1){
+            modelView.setGodPowerActive(true);
+        }
         return sendMessage;
     }
 

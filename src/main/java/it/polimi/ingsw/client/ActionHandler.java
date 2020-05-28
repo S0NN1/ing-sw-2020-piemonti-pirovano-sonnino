@@ -89,6 +89,9 @@ public class ActionHandler {
                 } else if(modelView.isTurnActive() && Constants.getSpecialBuildGods().contains(modelView.getGod())){
                     view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, true, false, true}, null);
                 }
+                else if(modelView.isTurnActive() && modelView.getTurnPhase()==0){
+                    view.firePropertyChange(BOARD_UPDATE, new boolean[]{true, false, false, false}, null);
+                }
                 else view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, true, false}, null);
             } else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
@@ -251,12 +254,19 @@ public class ActionHandler {
         if (answer.getAction().equals(Action.SELECT_BUILD)) {
             checkTurnActive();
             view.firePropertyChange("select", new boolean[]{false, true, false}, null);
-            modelView.setTurnPhase(modelView.getTurnPhase() + 1);
         } else if (answer.getAction().equals(Action.SELECT_MOVE)) {
             checkTurnActive();
             view.firePropertyChange("select", new boolean[]{true, false, false}, null);
-            modelView.setTurnPhase(modelView.getTurnPhase() + 1);
         }
+        else if(answer.getAction().equals(Action.SELECT_FORCE_WORKER)) {
+            checkTurnActive();
+            modelView.setGodPowerActive(true);
+            view.firePropertyChange("select", new boolean[]{false, false, false, true}, null);
+            return;
+        }
+        //TODO SELECT REMOVE
+        modelView.setTurnPhase(modelView.getTurnPhase() + 1);
+
     }
 
     /**

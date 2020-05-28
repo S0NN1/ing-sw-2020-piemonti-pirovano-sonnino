@@ -19,7 +19,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * MainGuiController class handles mainScene.fxml by executing commands from the GUI.
@@ -95,7 +98,6 @@ public class MainGuiController implements GUIController {
                     null,
                     Constants.getGodMapCustomAction()
                         .get(gui.getModelView().getGod().toUpperCase()));
-            setGodPowerActive(true);
           });
     }
   }
@@ -319,39 +321,39 @@ public class MainGuiController implements GUIController {
       grid.add(node, element.getColumn(), element.getRow());
       node.setStyle("-fx-background-color: yellow");
       node.setOpacity(0.4);
-      if (build) {
+     int row = GridPane.getRowIndex(node);
+     int col = GridPane.getColumnIndex(node);
+      if (gui.getModelView().isGodPowerActive()) {
+        node.setOnMouseClicked(
+            mouseEvent -> {
+              gui.getModelView().setGodPowerActive(false);
+              getGUI()
+                  .getListeners()
+                  .firePropertyChange(
+                      "action",
+                      null,
+                      Constants.getGodMapCustomAction()
+                              .get(gui.getModelView().getGod().toUpperCase())
+                          + " "
+                          + row
+                          + " "
+                          + col);
+            });
+      } else if (build) {
         node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
         node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
-        int row = GridPane.getRowIndex(node);
-        int col = GridPane.getColumnIndex(node);
-        if (isGodPowerActive()) {
-          node.setOnMouseClicked(
-              mouseEvent -> {
+       // int row = GridPane.getRowIndex(node);
+        //int col = GridPane.getColumnIndex(node);
+        node.setOnMouseClicked(
+            mouseEvent ->
                 getGUI()
                     .getListeners()
-                    .firePropertyChange(
-                        "action",
-                        null,
-                        Constants.getGodMapCustomAction()
-                                .get(gui.getModelView().getGod().toUpperCase())
-                            + " "
-                            + row
-                            + " "
-                            + col);
-                setGodPowerActive(false);
-              });
-        } else {
-          node.setOnMouseClicked(
-              mouseEvent ->
-                  getGUI()
-                      .getListeners()
-                      .firePropertyChange("action", null, "BUILD " + row + " " + col));
-        }
+                    .firePropertyChange("action", null, "BUILD " + row + " " + col));
       } else {
         node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
         node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
-        int row = GridPane.getRowIndex(node);
-        int col = GridPane.getColumnIndex(node);
+       // int row = GridPane.getRowIndex(node);
+        //int col = GridPane.getColumnIndex(node);
         node.setOnMouseClicked(
             mouseEvent ->
                 getGUI()
@@ -455,21 +457,14 @@ public class MainGuiController implements GUIController {
     return colors;
   }
 
-  /**
-   * Method isGodPowerActive returns the godPowerActive of this MainGuiController object.
-   *
-   * @return the godPowerActive (type boolean) of this MainGuiController object.
-   */
-  private synchronized boolean isGodPowerActive() {
-    return godPowerActive;
-  }
+
 
   /**
    * Method setGodPowerActive sets the godPowerActive of this MainGuiController object.
    *
    * @param godPowerActive the godPowerActive of this MainGuiController object.
    */
-  private synchronized void setGodPowerActive(boolean godPowerActive) {
+  private  void setGodPowerActive(boolean godPowerActive) {
     this.godPowerActive = godPowerActive;
   }
 }

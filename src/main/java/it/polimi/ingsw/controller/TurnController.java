@@ -89,7 +89,11 @@ public class TurnController implements PropertyChangeListener {
                     SelectMoveAction selectMoveAction = (SelectMoveAction) arg;
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
                     if(!actionController.readMessage(selectMoveAction)) {
-                        if(phase!=null && (phase.getAction().equals(Action.SELECT_BUILD) || phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.MOVE) || phase.getAction().equals(Action.SELECT_REMOVE) || phase.getAction().equals(Action.REMOVE))) {
+                        if(phase!=null && (phase.getAction().equals(Action.SELECT_BUILD) ||
+                                phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.MOVE) ||
+                                phase.getAction().equals(Action.SELECT_REMOVE) ||
+                                phase.getAction().equals(Action.REMOVE) ||
+                                phase.getAction().equals(Action.FORCE_WORKER))) {
                             sendMoveError();
                         }
                         else if (actionController.getWorker().getPhase(actionController.phase)!=null &&
@@ -180,8 +184,8 @@ public class TurnController implements PropertyChangeListener {
                 gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or build (no args) based on your choice."),
                         gameHandler.getCurrentPlayerID());
             }
-            else if(actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.FORCE_WORKER)){
-                gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or forceworker (no args) based on your choice.", Action.FORCE_WORKER),
+            else if(actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECT_FORCE_WORKER)){
+                gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or forceworker (no args) based on your choice.", Action.SELECT_FORCE_WORKER),
                         gameHandler.getCurrentPlayerID());
             }
         }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.constants;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -24,8 +23,8 @@ public class Constants {
     public static final String APOLLO = "APOLLO";
     public static final String MINOTAUR = "MINOTAUR";
     public static final String ZEUS = "ZEUS";
-    public static final String FORCEWORKER = "FORCEWORKER";
-    public static final String REMOVELEVEL = "REMOVELEVEL";
+    public static final String FORCE_WORKER = "FORCEWORKER";
+    public static final String REMOVE_LEVEL = "REMOVELEVEL";
 
 
     /**
@@ -88,8 +87,8 @@ public class Constants {
     public static final int GRID_MIN_SIZE = 0;
 
     private static final HashMap<String, String> godMapCustomAction = new HashMap<>(){{
-        put(CHARON, FORCEWORKER);
-        put(ARES, REMOVELEVEL);
+        put(CHARON, FORCE_WORKER);
+        put(ARES, REMOVE_LEVEL);
         put(ATLAS, PLACEDOME);
     }};
 
@@ -227,7 +226,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
     /**
      * Arraylist containing gods with move action to cell occupied
      */
-    private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = Arrays.asList(APOLLO, MINOTAUR);
+    private static final List<String> MOVE_TO_CELL_OCCUPIED_GODS = Arrays.asList(APOLLO, MINOTAUR, CHARON);
 
     /**
      * Method getMoveToCellOccupiedGods returns the moveToCellOccupiedGods of this Constants object.
