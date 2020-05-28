@@ -339,9 +339,9 @@ public class InputChecker {
      * Method isUnreachable checks if selected cell is within a distance of 1 cell from the worker or if the player is
      * trying to access outside the grid.
      *
-     * @param row    of type int the row of the selected cell.
-     * @param column of type int the column of the selected cell.
-     * @param worker of type Couple worker's position.
+     * @param row    of type int - the row of the selected cell.
+     * @param column of type int - the column of the selected cell.
+     * @param worker of type Couple - worker's position.
      * @return boolean true if is unreachable, false otherwise.
      */
     private boolean isUnreachable(int row, int column, Couple worker) {
@@ -353,10 +353,10 @@ public class InputChecker {
     /**
      * Method move checks if select move action is permitted.
      *
-     * @param turnPhase    of type int the number indicating turn's phase.
-     * @param activeWorker of type int the number indicating which worker was selected by player at the start of the
+     * @param turnPhase    of type int - the number indicating turn's phase.
+     * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
      *                     turn.
-     * @return SelectMoveAction the correct SelectMoveAction, null otherwise.
+     * @return SelectMoveAction - the correct SelectMoveAction, null otherwise.
      */
     public SelectMoveAction move(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {
@@ -374,10 +374,10 @@ public class InputChecker {
     /**
      * Method findWorker finds worker's current position.
      *
-     * @param activeWorker of type int the number indicating which worker was selected by player at the start of the
+     * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
      *                     turn.
-     * @param color        of type String the worker's color.
-     * @return Couple the correct worker's position, null otherwise.
+     * @param color        of type String - the worker's color.
+     * @return Couple - the correct worker's position, null otherwise.
      */
     private Couple findWorker(int activeWorker, String color) {
         Couple couple;
@@ -396,8 +396,8 @@ public class InputChecker {
     /**
      * Method selectWorker checks input and select right worker.
      *
-     * @param in of type String[] the user input under array representation.
-     * @return StartTurnAction the correct StartTurnAction, null otherwise.
+     * @param in of type String[] - the user input under array representation.
+     * @return StartTurnAction - the correct StartTurnAction, null otherwise.
      */
     public StartTurnAction selectWorker(String[] in) {
         if (modelView.getTurnPhase() == 0) {
@@ -416,12 +416,21 @@ public class InputChecker {
         return null;
     }
 
+    /**
+     * Method removeLevel remove a block from a cell.
+     *
+     * @param turnPhase    of type int - the number indicating turn's phase.
+     * @param row    of type int - the row of the selected cell.
+     * @param column of type int - the column of the selected cell.
+     * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
+     *                     turn.
+     * @return StartTurnAction - the correct StartTurnAction, null otherwise.
+     */
     public BuildAction removeLevel(int turnPhase, int row, int column, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
         }
-        Couple w = findWorker(activeWorker, modelView.getColor());
         BuildAction build = new BuildAction(row, column, Action.REMOVE);
         if (turnPhase == 3
                 && Constants.getEndActionGods().contains(modelView.getGod().toUpperCase())) {
@@ -432,6 +441,14 @@ public class InputChecker {
         }
     }
 
+    /**
+     * Method selectRemoveLevel selects cell for removeLevel method.
+     *
+     * @param turnPhase    of type int - the number indicating turn's phase.
+     * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
+     *                     turn.
+     * @return SelectBuildAction - the correct SelectBuildAction, null otherwise.
+     */
     public SelectBuildAction selectRemoveLevel(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
@@ -445,6 +462,16 @@ public class InputChecker {
         }
     }
 
+    /**
+     * Method forceWorker mirror an opponent worker.
+     *
+     * @param turnPhase    of type int - the number indicating turn's phase.
+     * @param row    of type int - the row of the selected cell.
+     * @param column of type int - the column of the selected cell.
+     * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
+     *                     turn.
+     * @return MoveAction - the correct MoveAction, null otherwise.
+     */
     public MoveAction forceWorker(int turnPhase, int row, int column, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
@@ -471,7 +498,13 @@ public class InputChecker {
         }
     }
 
-    public SelectMoveAction selectForceWorker(int turnPhase, int activeWorker) {
+  /**
+   * Method selectForceWorker selects cell for forceWorker method.*
+   * @param turnPhase of type int
+   * @param activeWorker of type int
+   * @return SelectMoveAction
+   */
+  public SelectMoveAction selectForceWorker(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;

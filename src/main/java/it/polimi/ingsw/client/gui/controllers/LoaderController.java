@@ -18,10 +18,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * This is the loading screen controller, which covers the color, challenger and worker placement phases.
- * With several calls to main GUI class, it has a 360 degree view on the GUI package, and can make modifications relying
- * on the actual server request.
+ * LoaderController class is the loading screen controller which covers the color, challenger and worker placement
+ * phases.
+ * By using several calls to main GUI class, it has a 360-degree view on the GUI package and can make modifications
+ * based on the actual server request.
  * @author Luca Pirovano
+ * @see GUIController
  */
 public class LoaderController implements GUIController {
 
@@ -30,17 +32,22 @@ public class LoaderController implements GUIController {
     private Label displayStatus;
     private static final String ACTION = "action";
 
+
     /**
-     * Set new text label on the loader screen.
-     * @param text the string to be set as text.
+     * Method setText sets the text of this LoaderController object.
+     *
+     *
+     *
+     * @param text the text of this LoaderController object.
+     *
      */
     public void setText(String text) {
         displayStatus.setText(text.toUpperCase());
     }
 
     /**
-     * Open a popup to display a custom message that came from the server.
-     * @param message the message to be displayed.
+     * Method displayCustomMessage displays a popup containing a custom message from the server.
+     * @param message of type String - the message to be displayed.
      */
     public void displayCustomMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -51,10 +58,11 @@ public class LoaderController implements GUIController {
     }
 
     /**
-     * Opens a new god tile, which displays information about the name, thumbnail and description of a single god.
+     * Method goTile opens a new god tile which displays information about the name, thumbnail and description of a
+     * single god.
      * It's used during the challenger selection phase and during the single user selection phase.
-     * @param god the god tile to be opened.
-     * @param isChoosing value that states if the phase is the challenger or the choosing one.
+     * @param god of type Card - the god tile to be opened.
+     * @param isChoosing of type boolean - the value that states if the phase is the challenger or the choosing one.
      * @return true if the god is chosen / selected, false otherwise.
      */
     public boolean godTile(Card god, boolean isChoosing) {
@@ -68,8 +76,8 @@ public class LoaderController implements GUIController {
     }
 
     /**
-     * List all workers' available positions and make him choose the preferred one.
-     * @param coords the available coordinates.
+     * Method workerPlacement lists all workers' available positions and make him choose the preferred one.
+     * @param coords of type List<int[]> - the available coordinates.
      */
     public void workerPlacement(List<int[]> coords) {
         gui.getModelView().activateInput();
@@ -101,8 +109,8 @@ public class LoaderController implements GUIController {
     }
 
     /**
-     * Makes challenger choose the starting player, by simply clicking on his nickname.
-     * @param req the first player request sent from the server.
+     * Method startingPlayer lets the challenger choose the starting player by simply clicking on his nickname.
+     * @param req of type ChallengerMessage - the first player request sent from the server.
      */
     protected void startingPlayer(ChallengerMessages req) {
         Alert startingPlayer = new Alert(Alert.AlertType.CONFIRMATION);
@@ -117,9 +125,9 @@ public class LoaderController implements GUIController {
     }
 
     /**
-     * Display the game's gods list received from the server, and makes the challenger choose the god powers to put in
-     * game deck.
-     * @param req the list received from the server
+     * Method displayGodList displays the game's gods list received from the server and lets the challenger choose the
+     * god powers to put in game deck.
+     * @param req of type ChallengerMessage - the list received from the server
      */
     protected void displayGodList(ChallengerMessages req) {
         ComboBox<String> godListDropdown;
@@ -138,9 +146,9 @@ public class LoaderController implements GUIController {
     }
 
     /**
-     * Makes user choose his god power, relying on the list received from the server, which contains the cards selected
-     * by the challenger in the previous phase.
-     * @param req the choosing request received from the server.
+     * Method chooseGod lets the user choose his god power relying on the list received from the server,
+     * which contains the cards selected by the challenger in the previous phase.
+     * @param req of type ChallengerMessages - the choosing request received from the server.
      */
     protected void chooseGod(ChallengerMessages req) {
         while(true) {
@@ -161,9 +169,9 @@ public class LoaderController implements GUIController {
     }
 
     /**
-     * Receives a ChallengerMessage request from the server and calls one of the methods above, relying on his type
-     * and fields.
-     * @param req the ChallengerMessage received from the server.
+     * Method ChallengerPhase receives a ChallengerMessage request from the server and calls one of the methods above,
+     * relying on his type and fields.
+     * @param req of type ChallengerMessages - the ChallengerMessage received from the server.
      */
     public void challengerPhase(ChallengerMessages req) {
         gui.getModelView().activateInput();
@@ -198,9 +206,9 @@ public class LoaderController implements GUIController {
     }
 
     /**
-     * Makes the first user who connect to the server choose the number of player that lobby can handles (2 o 3).
-     * The capacity is then set relying on his choice.
-     * @param message the request of players' number.
+     * Method requestPlayerNumber lets the first user, who connect to the server, choose the nax umber of player of the
+     * lobby (2 o 3); the capacity is then set based on his choice.
+     * @param message of type String - the request of players' number.
      */
     public void requestPlayerNumber(String message){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -223,9 +231,9 @@ public class LoaderController implements GUIController {
     }
 
     /**
-     * Makes each user choose his workers' color. However, in a match of 3 players, the last one receives
-     * the remaining color.
-     * @param colors the available colors.
+     * Method requestColor lets each user choose his workers' color, however, in a match of 3 players the last one
+     * receives the remaining color.
+     * @param colors of type List<PlayerColors> - the available colors.
      */
     public void requestColor(List<PlayerColors> colors) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -240,13 +248,14 @@ public class LoaderController implements GUIController {
     }
 
     /**
-     * Resize the status label of the loader screen.
-     * @param size the font size to be set.
+     * Method setFontSize resizes the status label of the loader screen.
+     * @param size of type int - the font size to be set.
      */
     public void setFontSize(int size) {
         displayStatus.setFont(Font.font(size));
     }
 
+    /** @see GUIController#setGui(GUI)  */
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;

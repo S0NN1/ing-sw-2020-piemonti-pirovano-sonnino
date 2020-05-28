@@ -33,9 +33,9 @@ public class ClientBoard {
   /**
    * Method setWorkerNum sets the worker's number into the selected cell.
    *
-   * @param row of type int the cell's row.
-   * @param col of type int the cell's column.
-   * @param num of type int the worker's number
+   * @param row of type int - the cell's row.
+   * @param col of type int - the cell's column.
+   * @param num of type int - the worker's number
    */
   public void setWorkerNum(int row, int col, int num) {
     grid[row][col].setWorkerNum(num);
@@ -44,9 +44,9 @@ public class ClientBoard {
   /**
    * Method getWorkerNum returns the worker's number of the selected cell.
    *
-   * @param row of type int the cell's row.
-   * @param col of type int the cell's column.
-   * @return the worker's number (type int)
+   * @param row of type int - the cell's row.
+   * @param col of type int - the cell's column.
+   * @return of type int - the worker's number
    */
   public int getWorkerNum(int row, int col) {
     return grid[row][col].getWorkerNum();
@@ -55,24 +55,25 @@ public class ClientBoard {
   /**
    * Method setColor sets the color of worker into the selected cell.
    *
-   * @param row of type int the cell's row.
-   * @param col of type int the cell's column.
-   * @param color of type String the player's color.
+   * @param row of type int - the cell's row.
+   * @param col of type int - the cell's column.
+   * @param color of type String - the player's color.
    */
   public void setColor(int row, int col, String color) {
     grid[row][col].setColor(color);
   }
 
     /**
-     * get worker's position from his color and workerNum
-     * @param color string
-     * @param workerNum int
-     * @return worker's position (Couple of int)
+     * Method getWorkerPosition gets worker's position from his color and workerNum.
+     * @param color of type String - worker's color
+     * @param workerNum of type int - the number identifying worker.
+     * @return of type Couple - worker's position.
      */
     public Couple getWorkerPosition(String color, int workerNum) {
         for (int row = Constants.GRID_MIN_SIZE; row < Constants.GRID_MAX_SIZE; row++) {
             for (int col = Constants.GRID_MIN_SIZE; col < Constants.GRID_MAX_SIZE; col++) {
-                if (getColor(row,col)!= null && getColor(row, col).equals(color) && getWorkerNum(row, col) == workerNum) {
+                if (getColor(row,col)!= null && getColor(row, col).equals(color) && getWorkerNum(row, col) ==
+                        workerNum) {
                     return new Couple(row, col);
                 }
             }
@@ -80,6 +81,13 @@ public class ClientBoard {
         return null;
     }
 
+    /**
+     * Method getHeight gets cell's level.
+     *
+     * @param row of type int - the row of the cell
+     * @param col of type int - the column of the cell.
+     * @return int - selected level.
+     */
     public int getHeight(int row, int col) {
         return grid[row][col].getLevel();
     }
@@ -116,10 +124,10 @@ public class ClientBoard {
    * Method apolloDoubleMove updates modelView grid after a move action, opponent's worker switches
    * place with APOLLO (APOLLO ONLY).
    *
-   * @param oldRow1 of type int the row of previous Apollo's position.
-   * @param oldCol1 of type int the column of previous Apollo's position.
-   * @param oldRow2 of type int the row of previous other worker's position.
-   * @param oldCol2 of type int the column of previous other worker's position.
+   * @param oldRow1 of type int - the row of previous Apollo's position.
+   * @param oldCol1 of type int - the column of previous Apollo's position.
+   * @param oldRow2 of type int - the row of previous other worker's position.
+   * @param oldCol2 of type int - the column of previous other worker's position.
    */
   public void apolloDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2) {
     setWorkerNumColors(oldRow1, oldCol1, oldRow2, oldCol2, oldRow1, oldCol1);
@@ -146,12 +154,12 @@ public class ClientBoard {
   /**
    * Set workers' numbers and colors for designated cells
    *
-   * @param oldRow1 of type int the previous row of the first worker.
-   * @param oldCol1 of type int the previous column of the first worker.
-   * @param oldRow2 of type int the previous row of the second worker.
-   * @param oldCol2 of type int the previous column of the second worker.
-   * @param newRow2 of type int the new row of the second worker.
-   * @param newCol2 of type int the column of the second worker.
+   * @param oldRow1 of type int - the previous row of the first worker.
+   * @param oldCol1 of type int - the previous column of the first worker.
+   * @param oldRow2 of type int - the previous row of the second worker.
+   * @param oldCol2 of type int - the previous column of the second worker.
+   * @param newRow2 of type int - the new row of the second worker.
+   * @param newCol2 of type int - the column of the second worker.
    */
   private void setWorkerNumColors(
       int oldRow1, int oldCol1, int oldRow2, int oldCol2, int newRow2, int newCol2) {
@@ -167,9 +175,9 @@ public class ClientBoard {
 
   /**
    * Method build updates modelView grid after a build action.
-   * @param row the row of the selected row.
-   * @param col the column of the selected column.
-   * @param dome true if worker wants to build a dome instead of a block. (Only for Atlas workers)
+   * @param row of type int - the row of the selected row.
+   * @param col of type int - the column of the selected column.
+   * @param dome of type boolean true if worker wants to build a dome instead of a block. (Only for Atlas workers)
    */
   public void build(int row, int col, boolean dome) {
     if (dome || grid[row][col].getLevel() == 3) {

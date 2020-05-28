@@ -11,7 +11,7 @@ public class SetupConnection implements Message {
     /**
      * Constructor SetupConnection creates a new SetupConnection instance.
      *
-     * @param nickname of type String the nickname of the player.
+     * @param nickname of type String - the nickname of the player.
      */
     public SetupConnection(String nickname) {
         this.nickname = nickname;

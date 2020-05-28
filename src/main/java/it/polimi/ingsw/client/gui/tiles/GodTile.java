@@ -11,7 +11,11 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-
+/**
+ * GodTile class displays gods and their panel.
+ * @author Alice Piemonti
+ * @see HBox
+ */
 public class GodTile extends HBox {
     private final StackPane mainPane;
     private Pane fourthLayer;
@@ -22,6 +26,14 @@ public class GodTile extends HBox {
     private final Card card;
     private final boolean isChoosing;
 
+    /**
+     * Constructor GodTile creates a new GodTile instance.
+     *
+     * @param card of type Card  - the god's name and power.
+     * @param stage of type Stage - the window's content.
+     * @param gui of type GUI - GUI reference.
+     * @param isChoosing of type boolean true if player is choosing god power, false otherwise.
+     */
     public GodTile(Card card, Stage stage, GUI gui, boolean isChoosing) {
         this.gui = gui;
         this.stage = stage;
@@ -42,8 +54,12 @@ public class GodTile extends HBox {
         createButtons();
     }
 
-    private void createFirstLayer(){    //set the image of the god
-        ImageView god = new ImageView(getClass().getResource("/graphics/gods/" + card.toString() + ".png").toExternalForm());
+    /**
+     * Method createFirstLayer sets god's image layer.
+     */
+    private void createFirstLayer(){
+        ImageView god = new ImageView(getClass().getResource("/graphics/gods/" + card.toString() + ".png").
+                toExternalForm());
         Pane firstLayer = new Pane();
         firstLayer.getChildren().add(god);
         god.setLayoutX(3);
@@ -53,15 +69,21 @@ public class GodTile extends HBox {
         mainPane.getChildren().add(firstLayer);
     }
 
-    private void createSecondLayer(){   //set the "stone frame"
-        ImageView secondLayer = new ImageView(getClass().getResource("/graphics/bgs/versus_bg1.png").toExternalForm());
+    /**
+     * Method createSecondLayer sets the stone fragment's layer.
+     */
+    private void createSecondLayer(){
+        ImageView secondLayer = new ImageView(getClass().getResource("/graphics/bgs/versus_bg1.png").
+                toExternalForm());
         secondLayer.setFitWidth(400);
         secondLayer.setPreserveRatio(true);
         mainPane.getChildren().add(secondLayer);
     }
 
+    /**
+     * Method createThirdLayer sets god's name background and description layer.
+     */
     private void createThirdLayer(){
-        //set name blu background
         Pane thirdLayer = new Pane();
         ImageView img1 = new ImageView(getClass().getResource("/graphics/bgs/god_name.png").toExternalForm());
         img1.setFitHeight(77);
@@ -71,7 +93,6 @@ public class GodTile extends HBox {
         thirdLayer.getChildren().add(img1);
         mainPane.getChildren().add(thirdLayer);
 
-        //god description
         Label descText = new Label(card.godsDescription());
         thirdLayer.getChildren().add(descText);
         descText.setFont(new Font("Constantia", 11));
@@ -86,7 +107,6 @@ public class GodTile extends HBox {
         descText.setLayoutX(275);
         descText.setLayoutY(90);
 
-        //power stone background
         ImageView powerBackground = new ImageView(getClass().getResource("/graphics/gods/power/panel_hero.png").toExternalForm());
         thirdLayer.getChildren().add(powerBackground);
         powerBackground.setFitHeight(75);
@@ -95,8 +115,10 @@ public class GodTile extends HBox {
         powerBackground.setLayoutY(405);
     }
 
+    /**
+     * Method createFourthLayer sets god's name and power icon layer.
+     */
     private void createFourthLayer(){
-        //godName
         Label label1 = new Label(card.toString());
         label1.getStylesheets().addAll(styleSheet);
         label1.getStyleClass().addAll("name");
@@ -105,7 +127,6 @@ public class GodTile extends HBox {
         label1.setLayoutY(50);
         mainPane.getChildren().add(fourthLayer);
 
-        //power image
         ImageView power = new ImageView(getClass().getResource("/graphics/gods/power/" + card.toString() + ".png" ).toExternalForm());
         fourthLayer.getChildren().add(power);
         power.setFitHeight(38);
@@ -114,6 +135,9 @@ public class GodTile extends HBox {
         power.setLayoutY(420);
     }
 
+    /**
+     * Method createButtons creates buttons.
+     */
     private void createButtons(){
         final String button = "button";
         //add button
@@ -146,24 +170,44 @@ public class GodTile extends HBox {
         buttons.setLayoutY(500);
     }
 
+    /**
+     * Method add sets addGod button.
+     *
+     * @param card of type Card - the god's card.
+     */
     public void add(Card card) {
         gui.getListeners().firePropertyChange("action", null, "ADDGOD " + card.toString());
         value = true;
         stage.close();
     }
 
+    /**
+     * Method choose sets chooseGod button.
+     *
+     * @param card of type Card  - the god's card.
+     */
     public void choose(Card card) {
         gui.getListeners().firePropertyChange("action", null, "CHOOSE " + card.toString());
         value = true;
         stage.close();
     }
 
+    /**
+     * Method close closes input and window.
+     */
     public void close() {
         gui.getModelView().activateInput();
         value = false;
         stage.close();
     }
 
+    /**
+     * Method getValue returns the value of this GodTile object.
+     *
+     *
+     *
+     * @return the value (type boolean) of this GodTile object.
+     */
     public boolean getValue() {
         return value;
     }

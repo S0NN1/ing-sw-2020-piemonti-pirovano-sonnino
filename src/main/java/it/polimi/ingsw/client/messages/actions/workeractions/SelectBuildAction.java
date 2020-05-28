@@ -11,10 +11,18 @@ public class SelectBuildAction extends WorkerAction {
 
     private final Action action;
 
+    /**
+     * Constructor SelectBuildAction creates a new SelectBuildAction instance.
+     */
     public SelectBuildAction() {
         action = Action.SELECT_BUILD;
     }
 
+    /**
+     * Constructor SelectBuildAction creates a new SelectBuildAction instance.
+     *
+     * @param action of type Action - custom action.
+     */
     public SelectBuildAction(Action action) {
         this.action = action;
     }

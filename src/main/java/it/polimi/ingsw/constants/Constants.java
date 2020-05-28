@@ -93,17 +93,38 @@ public class Constants {
         put(ATLAS, PLACEDOME);
     }};
 
+    /**
+     * Method getGodMapCustomAction returns the godMapCustomAction of this Constants object.
+     *
+     *
+     *
+     * @return the godMapCustomAction (type HashMap<String, String>) of this Constants object.
+     */
     public static HashMap<String, String> getGodMapCustomAction() {
         return godMapCustomAction;
     }
 private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList(ATLAS);
 
+    /**
+     * Method getSpecialBuildGods returns the specialBuildGods of this Constants object.
+     *
+     *
+     *
+     * @return the specialBuildGods (type List<String>) of this Constants object.
+     */
     public static List<String> getSpecialBuildGods() {
         return SPECIAL_BUILD_GODS;
     }
 
     private static final List<String> END_ACTION_GODS = Collections.singletonList(ARES);
 
+    /**
+     * Method getEndActionGods returns the endActionGods of this Constants object.
+     *
+     *
+     *
+     * @return the endActionGods (type List<String>) of this Constants object.
+     */
     public static List<String> getEndActionGods() {
         return END_ACTION_GODS;
     }
@@ -111,12 +132,26 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
 
     private static final List<String> START_ACTION_GODS = Collections.singletonList(CHARON);
 
+    /**
+     * Method getStartActionGods returns the startActionGods of this Constants object.
+     *
+     *
+     *
+     * @return the startActionGods (type List<String>) of this Constants object.
+     */
     public static List<String> getStartActionGods() {
         return START_ACTION_GODS;
     }
 
     private static final List<String> BUILD_SAME_BLOCK_GODS = Collections.singletonList(ZEUS);
 
+    /**
+     * Method getBuildSameBlockGods returns the buildSameBlockGods of this Constants object.
+     *
+     *
+     *
+     * @return the buildSameBlockGods (type List<String>) of this Constants object.
+     */
     public static List<String> getBuildSameBlockGods() {
         return BUILD_SAME_BLOCK_GODS;
     }
@@ -143,9 +178,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      * @return the alternatePhaseGods (type List<String>) of this Constants object.
      */
-    public static List<String> getAlternatePhaseGods() {
-        return ALTERNATE_PHASE_GODS;
-    }
+    public static List<String> getAlternatePhaseGods() { return ALTERNATE_PHASE_GODS; }
 
     private static final List<String> DOUBLE_BUILD_GODS = Arrays.asList(DEMETER, HEPHAESTUS, HESTIA);
 
