@@ -28,40 +28,60 @@ public class Controller implements PropertyChangeListener {
     private final PropertyChangeSupport controllerListeners = new PropertyChangeSupport(this);
 
 
+    /**
+     * Constructor Controller creates a new Controller instance.
+     *
+     * @param model of type Game - Game reference.
+     * @param gameHandler of type GameHandler - GameHandler reference.
+     */
     public Controller(Game model, GameHandler gameHandler) {
         this.model = model;
         this.gameHandler = gameHandler;
-        this.turnController = new TurnController(this, gameHandler, new ActionController(model.getGameBoard()));
+        this.turnController = new TurnController(this, gameHandler, new ActionController(model.getGameBoard())
+        );
         controllerListeners.addPropertyChangeListener(TURN_CONTROLLER, turnController);
     }
 
+
     /**
-     * @return the current turn controller.
+     * Method getTurnController returns the turnController of this Controller object.
+     *
+     *
+     *
+     * @return the turnController (type TurnController) of this Controller object.
      */
     public TurnController getTurnController() {
         return turnController;
     }
 
     /**
-     * Set a player color inside the model, after receiving it from the client.
-     * @param color the color to be set.
-     * @param nickname the player's nickname.
+     * Method setColor sets  a player color inside the model after receiving it from the client.
+     * @param color of type PlayersColors - the color to be set.
+     * @param nickname of type String - the player's nickname.
      */
     public void setColor(PlayerColors color, String nickname) {
         model.getPlayerByNickname(nickname).setColor(color);
     }
 
+
     /**
-     * Return the reference to gameModel in synchronized way, to prevent multiple accesses to the same class, which may
-     * cause memory conflicts.
-     * @return the game model class.
+     * Method getModel returns the model of this Controller object.
+     *
+     *
+     *
+     * @return the model (type Game) of this Controller object.
      */
     public synchronized Game getModel() {
         return model;
     }
 
+
     /**
-     * @return the reference to the game handler.
+     * Method getGameHandler returns the gameHandler of this Controller object.
+     *
+     *
+     *
+     * @return the gameHandler (type GameHandler) of this Controller object.
      */
     public GameHandler getGameHandler() {
         return gameHandler;
@@ -72,7 +92,8 @@ public class Controller implements PropertyChangeListener {
      * @param clientID the ID of the challenger client.
      */
     public void setSelectionController(int clientID) {
-        GodSelectionController selectionController = new GodSelectionController(new CardSelectionModel(model.getDeck()), this, gameHandler.getServer().getClientByID(clientID));
+        GodSelectionController selectionController = new GodSelectionController(new CardSelectionModel(model.getDeck()),
+                this, gameHandler.getServer().getClientByID(clientID));
         controllerListeners.addPropertyChangeListener("GODSELECTION", selectionController);
     }
 
@@ -86,20 +107,23 @@ public class Controller implements PropertyChangeListener {
     public boolean placeWorkers(WorkerSetupMessage msg) {
         for(int i=0; i<2; i++) {
             if(msg.getXPosition(i)<0 || msg.getXPosition(i)>4 || msg.getYPosition(i)<0 || msg.getYPosition(i)>4) {
-                gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Error: coordinates out of range!"), getModel().getCurrentPlayer().getClientID());
+                gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT,
+                        "Error: coordinates out of range!"), getModel().getCurrentPlayer().getClientID());
                 return false;
             }
         }
         Space space1 = getModel().getGameBoard().getSpace(msg.getXPosition(0), msg.getYPosition(0));
         Space space2 = getModel().getGameBoard().getSpace(msg.getXPosition(1), msg.getYPosition(1));
         if(space1==space2) {
-            gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Error: position cannot be the same for the two workers!"), getModel().getCurrentPlayer().getClientID());
+            gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT,
+                    "Error: position cannot be the same for the two workers!"),
+                    getModel().getCurrentPlayer().getClientID());
         }
         else if(space1.isEmpty() && space2.isEmpty()) {
             getModel().getCurrentPlayer().getWorkers().get(0).setPosition(space1);
             getModel().getCurrentPlayer().getWorkers().get(1).setPosition(space2);
-            gameHandler.sendAll(new SetWorkersMessage(getModel().getCurrentPlayer().getWorkers().get(0).getWorkerColor(),
-                    space1.getRow(), space1.getColumn(), space2.getRow(), space2.getColumn()));
+            gameHandler.sendAll(new SetWorkersMessage(getModel().getCurrentPlayer().getWorkers().get(0).getWorkerColor()
+                    ,space1.getRow(), space1.getColumn(), space2.getRow(), space2.getColumn()));
         } else {
             ArrayList<int[]> invalidWorker = new ArrayList<>();
             int[] coords = new int[2];
@@ -114,18 +138,22 @@ public class Controller implements PropertyChangeListener {
                 coords2[1] = space2.getColumn();
                 invalidWorker.add(coords2);
             }
-            gameHandler.singleSend(new GameError(ErrorsType.CELLOCCUPIED, null, invalidWorker), getModel().getCurrentPlayer().getClientID());
+            gameHandler.singleSend(new GameError(ErrorsType.CELLOCCUPIED, null, invalidWorker),
+                    getModel().getCurrentPlayer().getClientID());
             return false;
         }
         return true;
     }
 
+    /**@see PropertyChangeListener#propertyChange(PropertyChangeEvent) */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch(evt.getPropertyName()) {
-            case "godSelection" -> controllerListeners.firePropertyChange("GODSELECTION", null, evt.getNewValue());
+            case "godSelection" -> controllerListeners.firePropertyChange("GODSELECTION", null,
+                    evt.getNewValue());
             case "workerPlacement" -> placeWorkers((WorkerSetupMessage) evt.getNewValue());
-            case TURN_CONTROLLER -> controllerListeners.firePropertyChange(TURN_CONTROLLER, null, evt.getNewValue());
+            case TURN_CONTROLLER -> controllerListeners.firePropertyChange(TURN_CONTROLLER, null,
+                    evt.getNewValue());
             default -> {
                 System.err.println("Unrecognized message!");
             }
