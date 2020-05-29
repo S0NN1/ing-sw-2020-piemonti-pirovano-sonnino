@@ -3,7 +3,6 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
-import it.polimi.ingsw.client.messages.actions.turnactions.StartTurnAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
@@ -29,6 +28,7 @@ public class ActionHandler {
     public static final String FIRST_BOARD_UPDATE = "firstBoardUpdate";
     public static final String BOARD_UPDATE = "boardUpdate";
     private static final String MAIN_SCENE_FXML = "mainScene.fxml";
+    public static final String MODIFIED_TURN_NO_UPDATE = "modifiedTurnNoUpdate";
     private final ModelView modelView;
     private final PropertyChangeSupport view = new PropertyChangeSupport(this);
     private CLI cli;
@@ -122,6 +122,8 @@ public class ActionHandler {
         } else if (Constants.getAlternatePhaseGods().contains(modelView.getGod())
                 && modelView.getTurnPhase() == 1) {
             view.firePropertyChange(BOARD_UPDATE, new boolean[]{true, false, false}, null);
+        } else if(Constants.getEndActionGods().contains(modelView.getGod())) {
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, false, true, true}, null);
         } else {
             view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, false, true}, null);
         }
@@ -141,13 +143,13 @@ public class ActionHandler {
         } else if (answer.getAction().equals(Action.SELECT_MOVE)) {
             modelView.activateInput();
             view.firePropertyChange(
-                    "modifiedTurnNoUpdate",
+                    MODIFIED_TURN_NO_UPDATE,
                     new boolean[]{true, true, false},
                     answer); // DOUBLE MOVE
         } else if (answer.getAction().equals(Action.SELECT_BUILD)) {
             modelView.activateInput();
             view.firePropertyChange(
-                    "modifiedTurnNoUpdate", new boolean[]{false, true, true}, answer); // DOUBLE BUILD
+                    MODIFIED_TURN_NO_UPDATE, new boolean[]{false, true, true}, answer); // DOUBLE BUILD
         }
         else if(answer.getAction().equals(Action.SELECT_FORCE_WORKER)){
             modelView.activateInput();
@@ -157,7 +159,7 @@ public class ActionHandler {
         else if(answer.getAction().equals(Action.SELECT_REMOVE)){
             modelView.activateInput();
             view.firePropertyChange(
-                    BOARD_UPDATE, new boolean[]{true, false, false, true}, answer);
+                    MODIFIED_TURN_NO_UPDATE, new boolean[]{false, false, true, true}, answer);
         }
     }
 

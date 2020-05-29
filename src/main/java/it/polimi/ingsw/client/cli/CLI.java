@@ -40,7 +40,7 @@ public class CLI implements UI, Runnable {
     private final DisplayCell[][] grid;
     private boolean activeGame;
     private ConnectionSocket connection;
-    private int maxSideIndex = 11;
+    private int maxSideIndex;
 
     /**
      * Constructor CLI creates a new CLI instance.
@@ -370,17 +370,38 @@ public class CLI implements UI, Runnable {
         System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
                 nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[0]);
         for (int i = 0; i <= 4; i++) {
-            for (int k = 0; k <maxSideIndex; k++) {
-                System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
+            for (int k = 0; k <11; k++) {
+                output.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 for (int j = 0; j <= 4; j++) {
                     System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + "█" +
                             nameMapColor.get("RST"));
                 }
                 insertMenus(sideMenuRows, guideMenuRows, check, k);
             }
-                System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
+            if(check==0 ) {
+                if (maxSideIndex > 11) {
+                    output.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
+                            nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[11]);
+                }
+                else {
+                    output.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
+                            nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
+                }
+                check++;
+            }else if(check==1) {
+                if (maxSideIndex > 11) {
+                    output.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
+                            nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + "  " + guideMenuRows[11]);
+                } else {
+                    output.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
+                            nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
+                }
+                check++;
+            }
+            else {
+                output.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
                         nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
-            check++;
+            }
         }
         System.out.println(Printable.ROW_WAVE);
         System.out.println(Printable.ROW_WAVE);
@@ -399,9 +420,13 @@ public class CLI implements UI, Runnable {
         if (check == 0) {
             insertSideMenuRows(sideMenuRows[k + 1]);
         } else if (check == 1) {
-            insertGuideMenuRows(guideMenuRows, k);
+            if(k<maxSideIndex) {
+                insertGuideMenuRows(guideMenuRows, k);
+            } else {
+                output.println(Printable.COUPLE_ROW_WAVE);
+            }
         }  else {
-            System.out.println(Printable.COUPLE_ROW_WAVE);
+            output.println(Printable.COUPLE_ROW_WAVE);
         }
         return check;
     }
@@ -471,7 +496,6 @@ public class CLI implements UI, Runnable {
         String godSideMenu;
         if(Printable.getGodMapSideMenu().get(modelView.getGod())==null){
             godSideMenu = "";
-            maxSideIndex = 10;
         }
         else{
             godSideMenu = Printable.getGodMapSideMenu().get(modelView.getGod()) + "\n";
@@ -488,9 +512,10 @@ public class CLI implements UI, Runnable {
                         ": print spaces/moves worker to cell." + "\n" +
                         nameMapColor.get(YELLOW) + "BUILD (no args)/BUILD <row> <column>" + nameMapColor.get(RST) +
                         ": print spaces/builds worker to cell." + "\n" +
-                        nameMapColor.get(YELLOW) + godSideMenu + nameMapColor.get(RST) +
+                        godSideMenu +
                         nameMapColor.get(YELLOW) + "END" + nameMapColor.get(RST) + ": end turn";
         sideMenuHelp = menu.split("\n");
+        maxSideIndex = sideMenuHelp.length;
         return sideMenuHelp;
     }
 
@@ -831,16 +856,16 @@ public class CLI implements UI, Runnable {
         String customPower = Constants.getGodMapCustomAction().get(modelView.getGod().toUpperCase());
         if (modelView.getGamePhase() != 0) {
             if (!modelView.isTurnActive()) {
-                active = " NOT ";
-            } else active = "";
-            System.out.println(active + " YOUR TURN");
+                active = modelView.getCurrentPlayer() + "'S";
+            } else active = "YOUR";
+            output.println(active + " TURN");
         }
         TimeUnit.MILLISECONDS.sleep(500);
         if (modelView.isTurnActive()) {
             output.print(actions[0] ? " • MOVE\n" : "");
             output.print(actions[1] ? " • BUILD\n" : "");
             if(actions.length==4){
-            output.print(actions[3] ? customPower + "\n" : "");
+            output.print(actions[3] ? " • " + customPower + "\n" : "");
             }
             output.print(actions[2] ? " • END\n" : "");
             if (message != null) {

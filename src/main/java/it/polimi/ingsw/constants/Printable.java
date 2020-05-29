@@ -38,9 +38,9 @@ public class Printable {
     public static final String COUPLE_ROW_WAVE = BLUE + "≈≈" + RESET;
     public static final HashMap<String, String> GOD_MAP_SIDE_MENU = new HashMap<>();
     static {
-        GOD_MAP_SIDE_MENU.put("ARES", "REMOVELEVEL (no args)/REMOVELEVEL <row> <col>: print spaces/remove a block.");
-        GOD_MAP_SIDE_MENU.put("ATLAS", "PLACEDOME (no args)/PLACEDOME <row> <col>: print spaces/build dome.");
-        GOD_MAP_SIDE_MENU.put("CHARON", "FORCEWORKER (no args)/FORCEWORKER <row> <col>: print spaces/move enemy worker into specular cell.");
+        GOD_MAP_SIDE_MENU.put("ARES", YELLOW + "REMOVELEVEL (no args)/REMOVELEVEL <row> <col>:" + RESET + " print spaces/remove a block.");
+        GOD_MAP_SIDE_MENU.put("ATLAS", YELLOW + "PLACEDOME (no args)/PLACEDOME <row> <col>:" + RESET + " print spaces/build dome.");
+        GOD_MAP_SIDE_MENU.put("CHARON", YELLOW + "FORCEWORKER (no args)/FORCEWORKER <row> <col>:" + RESET + " print spaces/move enemy worker into specular cell.");
     }
     public static final String SIDE_MENU =
             PLUS + "-" + PLUS + "\n" +
