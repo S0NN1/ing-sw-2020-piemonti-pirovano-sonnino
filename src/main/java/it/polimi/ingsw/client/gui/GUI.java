@@ -492,7 +492,7 @@ public class GUI extends Application implements UI {
             } else if (message instanceof BuildMessage) {
                 Couple build = ((BuildMessage) message).getMessage();
                 boolean dome = modelView.getBoard().getGrid()[build.getRow()][build.getColumn()].isDome();
-                controller.build(build.getRow(), build.getColumn(), dome);
+                controller.build(build.getRow(), build.getColumn(), dome, ((BuildMessage) message).getAction());
             } else if (message instanceof DoubleMoveMessage) {
                 defineDoubleMove((DoubleMoveMessage) message, controller);
             }

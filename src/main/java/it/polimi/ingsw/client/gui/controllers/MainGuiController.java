@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.gui.shapes.Worker;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.player.Action;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -190,8 +191,12 @@ public class MainGuiController implements GUIController {
    * @param col of type int - the column of the cell.
    * @param dome of type boolean - true if user wants to build a dome, false otherwise.
    */
-  public void build(int row, int col, boolean dome) {
-    if (!dome) {
+  public void build(int row, int col, boolean dome, Action action) {
+    if(!action.equals(Action.BUILD)){
+      int height = board.getHeight(row, col);
+      removeBlock(row, col, height);
+    }
+    else if (!dome) {
       int height = board.getHeight(row, col);
       addBlock(row, col, height);
     } else {
@@ -224,6 +229,14 @@ public class MainGuiController implements GUIController {
     }
   }
 
+  public void removeBlock(int row, int col, int level) {
+    for (Node node : grid.getChildren()) {
+      if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
+        node.getParent().getParent().getParent().getParent().getParent()
+        return;
+      }
+    }
+}
   /**
    * Method getWorkerFromGrid returns the node of the grid which represents a worker at a specific
    * row/col.

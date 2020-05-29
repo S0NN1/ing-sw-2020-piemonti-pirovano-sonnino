@@ -10,6 +10,7 @@ import it.polimi.ingsw.client.messages.actions.workeractions.SelectMoveAction;
 import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Phase;
 import it.polimi.ingsw.model.player.PlayerColors;
+import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
@@ -89,11 +90,7 @@ public class TurnController implements PropertyChangeListener {
                     SelectMoveAction selectMoveAction = (SelectMoveAction) arg;
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
                     if(!actionController.readMessage(selectMoveAction)) {
-                        if(phase!=null && (phase.getAction().equals(Action.SELECT_BUILD) ||
-                                phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.MOVE) ||
-                                phase.getAction().equals(Action.SELECT_REMOVE) ||
-                                phase.getAction().equals(Action.REMOVE) ||
-                                phase.getAction().equals(Action.FORCE_WORKER))) {
+                        if(phase!=null && !phase.getAction().equals(Action.SELECT_MOVE)) {
                             sendMoveError();
                         }
                         else if (actionController.getWorker().getPhase(actionController.phase)!=null &&
@@ -105,8 +102,15 @@ public class TurnController implements PropertyChangeListener {
                 } else if (arg instanceof SelectBuildAction) {
                     SelectBuildAction workerAction = (SelectBuildAction) arg;
                     Phase phase = actionController.getWorker().getPhase(actionController.phase);
-                    if (!actionController.readMessage(workerAction)) {
-                        if (phase!=null && (phase.getAction().equals(Action.SELECT_MOVE) || phase.getAction().equals(Action.MOVE) || phase.getAction().equals(Action.BUILD) || phase.getAction().equals(Action.SELECT_FORCE_WORKER) || phase.getAction().equals(Action.FORCE_WORKER))) {
+                    if(workerAction.getMessage().equals(Action.SELECT_REMOVE)){
+                        Worker unusedWorker = controller.getModel().getCurrentPlayer().getWorkers().get(findUnusedWorker
+                                (actionController.getWorker()));
+                        if(!actionController.readMessage(workerAction, unusedWorker.getPosition())){
+                            sendBuildError();
+                        }
+                    }
+                    else if (!actionController.readMessage(workerAction)) {
+                        if (phase!=null && !phase.getAction().equals(Action.SELECT_BUILD)) {
                             sendBuildError();
                         }
                         else if (phase!=null && phase.isMust()) {
@@ -120,6 +124,20 @@ public class TurnController implements PropertyChangeListener {
         }
     }
 
+
+    /**
+     * Method findUnusedWorker ...
+     *
+     * @param worker of type Worker
+     * @return int
+     */
+    private int findUnusedWorker(Worker worker) {
+        if(controller.getModel().getCurrentPlayer().getWorkers().get(0).equals(worker)){
+            return 1;
+        }
+        else return 0;
+    }
+
     private void checkMoveAction(MoveAction workerAction) {
         if (!actionController.readMessage(workerAction)) {
             sendMoveError();
@@ -131,7 +149,14 @@ public class TurnController implements PropertyChangeListener {
 
     private void checkBuildAction(BuildAction workerAction) {
         String end =" end your turn.";
-        if (!actionController.readMessage(workerAction)) {
+        if(workerAction.getAction().equals(Action.REMOVE)){
+            Worker unusedWorker = controller.getModel().getCurrentPlayer().getWorkers().get(findUnusedWorker
+                    (actionController.getWorker()));
+            if(!actionController.readMessage(workerAction, unusedWorker.getPosition())){
+                sendBuildError();
+            }
+        }
+        else if (!actionController.readMessage(workerAction)) {
             sendBuildError();
         }
         else if(isPhaseRight(Action.SELECT_BUILD)) {

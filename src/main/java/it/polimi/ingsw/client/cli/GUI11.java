@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.gui.shapes.Worker;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.PlayerColors;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -220,20 +221,20 @@ public class GUI11 extends Application {
             }
             case 6-> controller.normalCell();
             case 7 -> {
-                controller.getGUI().getModelView().getBoard().build(2,4,false);
-                controller.build(2,4,false);
+                controller.getGUI().getModelView().getBoard().build(2,4,false, Action.BUILD);
+                controller.build(2,4,false, Action.BUILD);
             }
             case 8 -> {
-                controller.getGUI().getModelView().getBoard().build(2,4,false);
-                controller.build(2,4,false);
+                controller.getGUI().getModelView().getBoard().build(2,4,false, Action.BUILD);
+                controller.build(2,4,false, Action.BUILD);
             }
             case 9 -> {
-                controller.getGUI().getModelView().getBoard().build(2,4,false);
-                controller.build(2,4,false);
+                controller.getGUI().getModelView().getBoard().build(2,4,false, Action.BUILD);
+                controller.build(2,4,false, Action.BUILD);
             }
             case 10 -> {
-                controller.getGUI().getModelView().getBoard().build(2,4,false);
-                controller.build(2,4,false);
+                controller.getGUI().getModelView().getBoard().build(2,4,false, Action.BUILD);
+                controller.build(2,4,false, Action.BUILD);
             }
         }
         count ++;

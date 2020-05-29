@@ -104,4 +104,9 @@ public class Cell {
     public void setDome(boolean dome) {
         this.dome = dome;
     }
+
+    /**
+     * Method removeLevel removes one block from the selected cell.
+     */
+    public void removeLevel() { this.level--; }
 }

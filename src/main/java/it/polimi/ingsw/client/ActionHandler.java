@@ -96,7 +96,7 @@ public class ActionHandler {
             } else if (answer instanceof BuildMessage) {
                 Couple message = ((BuildMessage) answer).getMessage();
                 boolean dome = ((BuildMessage) answer).getDome();
-                clientBoard.build(message.getRow(), message.getColumn(), dome);
+                clientBoard.build(message.getRow(), message.getColumn(), dome, ((BuildMessage) answer).getAction());
                 checkTurnActive();
                 fireBuildMenu();
             } else if (answer instanceof DoubleMoveMessage) {
@@ -264,7 +264,12 @@ public class ActionHandler {
             view.firePropertyChange("select", new boolean[]{false, false, false, true}, null);
             return;
         }
-        //TODO SELECT REMOVE
+        else if (answer.getAction().equals(Action.SELECT_REMOVE)){
+            checkTurnActive();
+            modelView.setGodPowerActive(true);
+            view.firePropertyChange("select", new boolean[]{false, false, false, true}, null);
+        }
+
         modelView.setTurnPhase(modelView.getTurnPhase() + 1);
 
     }

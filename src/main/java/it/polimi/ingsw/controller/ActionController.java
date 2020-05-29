@@ -162,7 +162,7 @@ public class ActionController {
      * @param unmovedWorkerPosition of type Space is the position of the unmoved worker, which must be the same color as the current worker.
      * @return boolean true if the notification is successful, false if it is not a SELECT_REMOVE action or current worker is not ares or the current phase is not SELECT_REMOVE action.
      */
-    private boolean readMessage(SelectBuildAction action, Space unmovedWorkerPosition) {
+    public boolean readMessage(SelectBuildAction action, Space unmovedWorkerPosition) {
         if (action.getMessage() == Action.SELECT_REMOVE && ( worker instanceof Ares) && worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_REMOVE) {
             try {
                 ((Ares) worker).notifyWithRemovable(gameBoard, unmovedWorkerPosition);
@@ -170,7 +170,8 @@ public class ActionController {
                 return false;
             }
         }
-        return false;
+        phase++;
+        return true;
     }
 
 
@@ -223,7 +224,7 @@ public class ActionController {
         return false;
     }
 
-    public boolean readMessage (BuildAction action, Space unmovedWorkerPosition) {
+    public boolean readMessage(BuildAction action, Space unmovedWorkerPosition) {
         if (action.getAction() != Action.REMOVE || !(worker instanceof Ares) || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.REMOVE) return false;
         Couple couple = action.getMessage();
         Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());

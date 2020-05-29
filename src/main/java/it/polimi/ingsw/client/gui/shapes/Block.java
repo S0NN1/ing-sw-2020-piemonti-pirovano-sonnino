@@ -18,6 +18,9 @@ public class Block extends Rectangle {
     public Block(int level) {
         super();
         switch (level) {
+            case 0 -> {
+
+            }
             case 1 -> {
                 setWidth(65);
                 setHeight(65);

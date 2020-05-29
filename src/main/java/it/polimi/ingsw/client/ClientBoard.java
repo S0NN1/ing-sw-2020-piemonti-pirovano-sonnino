@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
+import it.polimi.ingsw.model.player.Action;
 
 /**
  * Method ClientBoard is a simplified representation of the gameBoard in model.
@@ -179,8 +180,11 @@ public class ClientBoard {
    * @param col of type int - the column of the selected column.
    * @param dome of type boolean true if worker wants to build a dome instead of a block. (Only for Atlas workers)
    */
-  public void build(int row, int col, boolean dome) {
-    if (dome || grid[row][col].getLevel() == 3) {
+  public void build(int row, int col, boolean dome, Action action) {
+    if(!action.equals(Action.BUILD)){
+      grid[row][col].removeLevel();
+    }
+    else if (dome || grid[row][col].getLevel() == 3) {
       grid[row][col].setDome(true);
     } else grid[row][col].addLevel();
   }
