@@ -31,6 +31,7 @@ public class ModelView {
     private Map<String, String> playerMapColor;
     private Map<String, String> playerMapGod;
     private boolean godPowerActive;
+    private String currentPlayer;
 
     /**
      * Method getGodDesc returns the godDesc of this ModelView object.
@@ -491,5 +492,13 @@ public class ModelView {
      */
     public synchronized void setGodPowerActive(boolean godPowerActive) {
         this.godPowerActive = godPowerActive;
+    }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }

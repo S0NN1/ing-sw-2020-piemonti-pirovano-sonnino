@@ -16,6 +16,7 @@ import it.polimi.ingsw.server.answers.ErrorsType;
 import it.polimi.ingsw.server.answers.GameError;
 import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
 import it.polimi.ingsw.server.answers.turn.ModifiedTurnMessage;
+import it.polimi.ingsw.server.answers.turn.StartTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.PlayerLostMessage;
 import it.polimi.ingsw.server.answers.worker.WinMessage;
@@ -279,6 +280,7 @@ public class TurnController implements PropertyChangeListener {
             gameHandler.singleSend(new EndTurnMessage("Turn ended :)"), gameHandler.getCurrentPlayerID());
             controller.getModel().nextPlayer();
             startTurn(new StartTurnAction());
+            gameHandler.sendAllExcept(new StartTurnMessage(controller.getModel().getCurrentPlayer().getNickname()), gameHandler.getCurrentPlayerID());
         } else {
             gameHandler.singleSend(new GameError(ErrorsType.STILLYOURTURN), gameHandler.getCurrentPlayerID());
         }

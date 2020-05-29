@@ -55,8 +55,7 @@ public class ActionController {
             }
             phase++;
             return true;
-        }
-        else return worker.getPhase(phase) != null && (worker.getPhase(phase).getAction() == Action.SELECT_BUILD ||
+        } else return worker.getPhase(phase) != null && (worker.getPhase(phase).getAction() == Action.SELECT_BUILD ||
                 worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER);
     }
 
@@ -80,14 +79,14 @@ public class ActionController {
         return false;
     }
 
-  /**
-   * Method readMessage notifies the player with the moves his worker can make.
-   *
-   * @param action of type SelectMoveAction - action received from the client.
-   * @return boolean  false if the worker is blocked, or it isn't the correct phase of turn or gameBoard is null, true
-   * otherwise.
-   */
-  public boolean readMessage(SelectMoveAction action) {
+    /**
+     * Method readMessage notifies the player with the moves his worker can make.
+     *
+     * @param action of type SelectMoveAction - action received from the client.
+     * @return boolean  false if the worker is blocked, or it isn't the correct phase of turn or gameBoard is null, true
+     * otherwise.
+     */
+    public boolean readMessage(SelectMoveAction action) {
         if (action.getMessage() == Action.FORCE_WORKER) return selectForceWorkerReadMessage();
         int phaseTemp = phase;
         while (worker.getPhase(phase) != null &&
@@ -114,13 +113,13 @@ public class ActionController {
      * @return boolean true if the listener has been fired properly, false if it has not or it is not the correct phase or if the active worker is not Charon.
      */
     private boolean selectForceWorkerReadMessage() {
-        if ( worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER && worker instanceof Charon) {
+        if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER && worker instanceof Charon) {
             try {
                 ((Charon) worker).notifyWithForceWorkerSpaces(gameBoard);
             } catch (IllegalStateException | IllegalArgumentException e) {
                 return false;
             }
-            phase ++;
+            phase++;
             return true;
         }
         return false;
@@ -158,10 +157,11 @@ public class ActionController {
     /**
      * Method readMessage notify the player with a list of spaces where Ares can use his power.
      *
-     * @param action of type SelectBuildAction must be Action.SELECT_REMOVE.
+     * @param action                of type SelectBuildAction must be Action.SELECT_REMOVE.
      * @param unmovedWorkerPosition of type Space is the position of the unmoved worker, which must be the same color as the current worker.
      * @return boolean true if the notification is successful, false if it is not a SELECT_REMOVE action or current worker is not ares or the current phase is not SELECT_REMOVE action.
      */
+
     public boolean readMessage(SelectBuildAction action, Space unmovedWorkerPosition) {
         if (action.getMessage() == Action.SELECT_REMOVE && ( worker instanceof Ares) && worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_REMOVE) {
             try {
@@ -182,22 +182,21 @@ public class ActionController {
      * @return false if it isn't the correct phase or if the worker cannot move into this space, true otherwise.
      */
     public boolean readMessage(MoveAction action) {
-        if(action.getAction().equals(Action.MOVE)) {
+        if (action.getAction().equals(Action.MOVE)) {
             if (worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.MOVE) return false;
-                Couple couple = action.getMessage();
-                Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());
-                if (worker instanceof Minotaur && ((Minotaur) worker).isSelectable(space, gameBoard) && !space.isEmpty()) {
-                    if (worker.move(space, gameBoard)) {
-                        phase++;
-                        return true;
-                    }
-                    return false;
-                } else if (worker.isSelectable(space) && worker.move(space)) {
+            Couple couple = action.getMessage();
+            Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());
+            if (worker instanceof Minotaur && ((Minotaur) worker).isSelectable(space, gameBoard) && !space.isEmpty()) {
+                if (worker.move(space, gameBoard)) {
                     phase++;
                     return true;
-                } else return false;
-            }
-        else if (action.getAction() == Action.FORCE_WORKER) return forceWorkerReadMessage(action);
+                }
+                return false;
+            } else if (worker.isSelectable(space) && worker.move(space)) {
+                phase++;
+                return true;
+            } else return false;
+        } else if (action.getAction() == Action.FORCE_WORKER) return forceWorkerReadMessage(action);
         return false;
     }
 
@@ -208,7 +207,8 @@ public class ActionController {
      * @return false if it isn't the correct phase or if the worker cannot build into this space, true otherwise.
      */
     public boolean readMessage(BuildAction action) {
-        if (action.getAction() != Action.BUILD || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.BUILD) return false;
+        if (action.getAction() != Action.BUILD || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.BUILD)
+            return false;
         Couple couple = action.getMessage();
         if (worker instanceof Atlas && action instanceof AtlasBuildAction) {     //if Atlas worker, he can build a
             // dome instead of a block
@@ -228,7 +228,7 @@ public class ActionController {
         if (action.getAction() != Action.REMOVE || !(worker instanceof Ares) || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.REMOVE) return false;
         Couple couple = action.getMessage();
         Space space = gameBoard.getSpace(couple.getRow(), couple.getColumn());
-        return ((Ares) worker).checkUnmovedWorkerPosition (unmovedWorkerPosition) && ((Ares) worker).canRemove(space,unmovedWorkerPosition) && ((Ares) worker).removeBlock(space);
+        return ((Ares) worker).checkUnmovedWorkerPosition(unmovedWorkerPosition) && ((Ares) worker).canRemove(space, unmovedWorkerPosition) && ((Ares) worker).removeBlock(space);
     }
 
     /**
@@ -237,8 +237,9 @@ public class ActionController {
      * @param action of type MoveAction - action received from the server.
      * @return boolean true if Charon forced the worker, false otherwise.
      */
-    public boolean forceWorkerReadMessage (MoveAction action) {
-        if ( !(worker instanceof Charon) || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.FORCE_WORKER) return false;
+    public boolean forceWorkerReadMessage(MoveAction action) {
+        if (!(worker instanceof Charon) || worker.getPhase(phase) == null || worker.getPhase(phase).getAction() != Action.FORCE_WORKER)
+            return false;
         Couple coordinates = action.getMessage();
         Space space = gameBoard.getSpace(coordinates.getRow(), coordinates.getColumn());
         return ((Charon) worker).forceWorker(space, gameBoard);

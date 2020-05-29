@@ -13,8 +13,9 @@ public class StartTurnAction implements UserAction {
      * Constructor StartTurnAction creates a new StartTurnAction instance.
      */
     public StartTurnAction(){
-        option="start";
+        option = "start";
     }
+
     /**
      * Constructor StartTurnAction creates a new StartTurnAction instance.
      *
