@@ -7,6 +7,7 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.exceptions.InvalidNicknameException;
+import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.*;
 
@@ -783,7 +784,7 @@ public class CLI implements UI, Runnable {
             if(evt.getNewValue()!=null) {
                 message = evt.getNewValue().toString();
             }
-            printSpaces(checkers[0], checkers[1], checkers[2], message);
+            printSpaces(checkers, message);
         }
     }
 
@@ -799,7 +800,7 @@ public class CLI implements UI, Runnable {
             if(evt.getNewValue()!=null) {
                 message = ((Answer)evt.getNewValue()).getMessage().toString();
             }
-            updateCli(checkers[0], checkers[1], checkers[2], message);
+            updateCli(checkers, message);
         }
     }
 
@@ -835,29 +836,27 @@ public class CLI implements UI, Runnable {
     /**
      * Method printMenu prints menu under the grid.
      *
-     * @param move    of type boolean - the check used to enable move entry in menu.
-     * @param build   of type boolean - the check used to enable build entry in menu.
-     * @param end     of type boolean - the check used to enable end entry in menu.
+     * @param actions of type boolean[] - actions needed for correct print.
      * @param message of type String - the content of message received.
      * @throws InterruptedException when TimeUnit fails.
      */
-    public void printMenu(boolean move, boolean build, boolean end, String message) throws InterruptedException {
+    public void printMenu(boolean[] actions, String message) throws InterruptedException {
         String active;
-        String atlas;
+        String customPower = Constants.getGodMapCustomAction().get(modelView.getGod().toUpperCase());
         if (modelView.getGamePhase() != 0) {
             if (!modelView.isTurnActive()) {
                 active = " NOT ";
             } else active = "";
             System.out.println(active + " YOUR TURN");
         }
-        if (Constants.getSpecialBuildGods().contains(modelView.getGod())) {//TODO ARES/CHARON
-            atlas = "/PLACEDOME\n";
-        } else atlas = "";
         TimeUnit.MILLISECONDS.sleep(500);
         if (modelView.isTurnActive()) {
-            output.print(move ? " • MOVE\n" : "");
-            output.print(build ? " • BUILD" + atlas + "\n" : "");
-            output.print(end ? " • END\n" : "");
+            output.print(actions[0] ? " • MOVE\n" : "");
+            output.print(actions[1] ? " • BUILD\n" : "");
+            if(actions.length==4){
+            output.print(actions[3] ? customPower + "\n" : "");
+            }
+            output.print(actions[2] ? " • END\n" : "");
             if (message != null) {
                 output.println(message);
             }
@@ -896,17 +895,15 @@ public class CLI implements UI, Runnable {
     /**
      * Method updateCli prints and updates CLI.
      *
-     * @param move    of type boolean - the check used to enable move entry in menu.
-     * @param build   of type boolean - the check used to enable build entry in menu.
-     * @param end     of type boolean - the check used to enable end entry in menu.
+     * @param actions of type boolean[] - actions needed for correct print.
      * @param message of type String - the content of message received.
      */
-    public void updateCli(boolean move, boolean build, boolean end, String message) {
+    public void updateCli(boolean[] actions, String message) {
         clearScreen();
         boardUpdater(grid);
         printBoard(grid);
         try {
-            printMenu(move, build, end, message);
+            printMenu(actions, message);
         } catch (InterruptedException e) {
             System.err.println(e.getMessage());
             Thread.currentThread().interrupt();
@@ -916,13 +913,11 @@ public class CLI implements UI, Runnable {
     /**
      * Method printSpaces prints possible actions after a SelectBuild/SelectMove.
      *
-     * @param move    of type boolean - the check used to enable move entry in menu.
-     * @param build   of type boolean - the check used to enable build entry in menu.
-     * @param end     of type boolean - the check used to enable end entry in menu.
+     * @param actions of type boolean[] - actions needed for correct print.
      * @param message of type String - the spaces extracted from SelectSpaceMessage.
      */
-    public void printSpaces(boolean move, boolean build, boolean end, String message) {
-        updateCli(move, build, end, message);
+    public void printSpaces(boolean[] actions, String message) {
+        updateCli(actions, message);
         for (int i = 0; i < modelView.getSelectSpaces().size(); i++) {
             System.out.print("(" + modelView.getSelectSpaces().get(i).getRow() + "," +
                     modelView.getSelectSpaces().get(i).getColumn() + ")  ");

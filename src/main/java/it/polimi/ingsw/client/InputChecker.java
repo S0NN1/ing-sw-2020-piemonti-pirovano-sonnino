@@ -195,7 +195,6 @@ public class InputChecker {
             return null;
         } else if (turnPhase == 1 || Constants.getBuildPhaseGods().contains(modelView.getGod().toUpperCase()) ||
                 Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
-            modelView.setBuildSelected(true);
             return new SelectBuildAction();
         } else {
             System.err.println(ERR_INCORRECT_ACTION);
@@ -365,7 +364,6 @@ public class InputChecker {
             return null;
         } else if (turnPhase == 0 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase()) ||
                 Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
-            modelView.setMoveSelected(true);
             return new SelectMoveAction();
         } else {
             System.err.println(ERR_INCORRECT_ACTION);

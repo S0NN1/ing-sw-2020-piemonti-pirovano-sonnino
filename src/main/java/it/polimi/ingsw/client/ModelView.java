@@ -68,8 +68,6 @@ public class ModelView {
     private String godDesc;
     private int turnPhase;
     private boolean turnActive;
-    private boolean buildSelected;
-    private boolean moveSelected;
     private List<Couple> selectSpaces= new ArrayList<>();
 
     /**
@@ -368,32 +366,6 @@ public class ModelView {
     public synchronized int getStarted() {
         return started;
     }
-
-    /**
-     * Method setBuildSelected sets the buildSelected of this ModelView object.
-     *
-     *
-     *
-     * @param buildSelected the buildSelected of this ModelView object.
-     *
-     */
-    public void setBuildSelected(boolean buildSelected) {
-        this.buildSelected = buildSelected;
-    }
-
-    /**
-     * Method setMoveSelected sets the moveSelected of this ModelView object.
-     *
-     *
-     *
-     * @param moveSelected the moveSelected of this ModelView object.
-     *
-     */
-    public void setMoveSelected(boolean moveSelected) {
-        this.moveSelected = moveSelected;
-    }
-
-
     /**
      * Method setGamePhase sets the gamePhase of this ModelView object.
      *

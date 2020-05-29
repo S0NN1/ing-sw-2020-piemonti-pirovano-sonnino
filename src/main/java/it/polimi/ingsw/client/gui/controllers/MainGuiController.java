@@ -228,6 +228,13 @@ public class MainGuiController implements GUIController {
     }
   }
 
+  /**
+   * Method removeBlock removes a block.
+   *
+   * @param row of type int - the row.
+   * @param col of type int - the column.
+   * @param level of type int - the level of the block
+   */
   public void removeBlock(int row, int col, int level) {
     for (Node node : grid.getChildren()) {
       if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
