@@ -86,11 +86,12 @@ public class Constants {
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
 
-    private static final HashMap<String, String> godMapCustomAction = new HashMap<>(){{
-        put(CHARON, FORCE_WORKER);
-        put(ARES, REMOVE_LEVEL);
-        put(ATLAS, PLACEDOME);
-    }};
+    private static final HashMap<String, String> godMapCustomAction = new HashMap<>();
+    static {
+        godMapCustomAction.put(CHARON, FORCE_WORKER);
+        godMapCustomAction.put(ARES, REMOVE_LEVEL);
+        godMapCustomAction.put(ATLAS, PLACEDOME);
+    };
 
     /**
      * Method getGodMapCustomAction returns the godMapCustomAction of this Constants object.
