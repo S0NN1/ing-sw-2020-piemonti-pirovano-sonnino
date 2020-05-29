@@ -9,7 +9,7 @@ import javafx.scene.shape.Rectangle;
  * @see Rectangle
  */
 public class Block extends Rectangle {
-
+private final int level;
     /**
      * Constructor Block creates a new Block instance.
      *
@@ -18,9 +18,6 @@ public class Block extends Rectangle {
     public Block(int level) {
         super();
         switch (level) {
-            case 0 -> {
-
-            }
             case 1 -> {
                 setWidth(65);
                 setHeight(65);
@@ -35,7 +32,19 @@ public class Block extends Rectangle {
             }
             default -> throw new IllegalArgumentException();
         }
+        this.level=level;
         setFill(Color.WHITE);
         setStroke(Color.BLACK);
+    }
+
+    /**
+     * Method getLevel returns the level of this Block object.
+     *
+     *
+     *
+     * @return the level (type int) of this Block object.
+     */
+    public int getLevel() {
+        return level;
     }
 }

@@ -192,11 +192,10 @@ public class MainGuiController implements GUIController {
    * @param dome of type boolean - true if user wants to build a dome, false otherwise.
    */
   public void build(int row, int col, boolean dome, Action action) {
-    if(!action.equals(Action.BUILD)){
+    if (!action.equals(Action.BUILD)) {
       int height = board.getHeight(row, col);
       removeBlock(row, col, height);
-    }
-    else if (!dome) {
+    } else if (!dome) {
       int height = board.getHeight(row, col);
       addBlock(row, col, height);
     } else {
@@ -232,11 +231,13 @@ public class MainGuiController implements GUIController {
   public void removeBlock(int row, int col, int level) {
     for (Node node : grid.getChildren()) {
       if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
-        node.getParent().getParent().getParent().getParent().getParent()
-        return;
+        if (node instanceof Block && level + 1 == ((Block) node).getLevel()) {
+          grid.getChildren().remove(node);
+          return;
+        }
       }
     }
-}
+  }
   /**
    * Method getWorkerFromGrid returns the node of the grid which represents a worker at a specific
    * row/col.
@@ -334,8 +335,8 @@ public class MainGuiController implements GUIController {
       grid.add(node, element.getColumn(), element.getRow());
       node.setStyle("-fx-background-color: yellow");
       node.setOpacity(0.4);
-     int row = GridPane.getRowIndex(node);
-     int col = GridPane.getColumnIndex(node);
+      int row = GridPane.getRowIndex(node);
+      int col = GridPane.getColumnIndex(node);
       if (gui.getModelView().isGodPowerActive()) {
         node.setOnMouseClicked(
             mouseEvent -> {
@@ -355,8 +356,8 @@ public class MainGuiController implements GUIController {
       } else if (build) {
         node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
         node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
-       // int row = GridPane.getRowIndex(node);
-        //int col = GridPane.getColumnIndex(node);
+        // int row = GridPane.getRowIndex(node);
+        // int col = GridPane.getColumnIndex(node);
         node.setOnMouseClicked(
             mouseEvent ->
                 getGUI()
@@ -365,8 +366,8 @@ public class MainGuiController implements GUIController {
       } else {
         node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
         node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
-       // int row = GridPane.getRowIndex(node);
-        //int col = GridPane.getColumnIndex(node);
+        // int row = GridPane.getRowIndex(node);
+        // int col = GridPane.getColumnIndex(node);
         node.setOnMouseClicked(
             mouseEvent ->
                 getGUI()
@@ -470,14 +471,12 @@ public class MainGuiController implements GUIController {
     return colors;
   }
 
-
-
   /**
    * Method setGodPowerActive sets the godPowerActive of this MainGuiController object.
    *
    * @param godPowerActive the godPowerActive of this MainGuiController object.
    */
-  private  void setGodPowerActive(boolean godPowerActive) {
+  private void setGodPowerActive(boolean godPowerActive) {
     this.godPowerActive = godPowerActive;
   }
 }
