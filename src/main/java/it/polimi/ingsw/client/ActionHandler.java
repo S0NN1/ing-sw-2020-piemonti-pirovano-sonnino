@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
+import it.polimi.ingsw.client.messages.actions.turnactions.StartTurnAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
@@ -10,6 +11,7 @@ import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.server.answers.*;
 import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
 import it.polimi.ingsw.server.answers.turn.ModifiedTurnMessage;
+import it.polimi.ingsw.server.answers.turn.StartTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.*;
 
@@ -360,6 +362,8 @@ public class ActionHandler {
         }
         if (answer instanceof WinMessage) {
             view.firePropertyChange("win", null, null);
+        } else if(answer instanceof StartTurnMessage) {
+            modelView.setCurrentPlayer(answer.getMessage().toString());
         } else if (answer instanceof PlayerLostMessage) {
             if (((PlayerLostMessage) answer).getLoser().equalsIgnoreCase(modelView.getPlayerName())) {
                 view.firePropertyChange("singleLost", null, null);
