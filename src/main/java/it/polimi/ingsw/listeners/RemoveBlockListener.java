@@ -1,9 +1,9 @@
 package it.polimi.ingsw.listeners;
 
 import it.polimi.ingsw.model.board.Space;
+import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.server.VirtualClient;
-import it.polimi.ingsw.server.answers.worker.RemoveMessage;
-
+import it.polimi.ingsw.server.answers.worker.BuildMessage;
 import java.beans.PropertyChangeEvent;
 
 /**
@@ -26,7 +26,7 @@ public class RemoveBlockListener extends WorkerListener{
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        RemoveMessage message = new RemoveMessage((Space) evt.getNewValue());
+        BuildMessage message = new BuildMessage((Space) evt.getNewValue(), Action.REMOVE);
         virtualClient.sendAll(message);
     }
 }
