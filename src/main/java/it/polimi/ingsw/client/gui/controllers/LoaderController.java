@@ -191,8 +191,9 @@ public class LoaderController implements GUIController {
         }
         else if(req.getMessage() != null) {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
+            message.setTitle("Challenger phase");
+            message.setHeaderText("Challenger phase");
             if(req.getMessage().contains("you are the challenger")) {
-                message.setTitle("Challenger phase");
                 message.setHeaderText("Challenger phase");
                 message.setContentText("You are the challenger! Click below and choose the god power you want to put in" +
                         " the game deck; you can see property and description of each god by clicking on it!");
@@ -200,6 +201,9 @@ public class LoaderController implements GUIController {
             else if(req.getMessage().contains("All gods have been added!")) {
                 gui.changeStage("loading.fxml");
                 return;
+            }
+            else {
+                message.setContentText(req.getMessage());
             }
             message.showAndWait();
             gui.changeStage("godsMenu.fxml");

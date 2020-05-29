@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -43,7 +44,7 @@ public class GUI extends Application implements UI {
     private final ModelView modelView;
     private final ActionHandler actionHandler;
     private final Logger logger = Logger.getLogger(getClass().getName());
-    private final boolean activeGame;
+    private boolean activeGame;
     private MainGuiController guiController;
 
     /**
@@ -418,11 +419,13 @@ public class GUI extends Application implements UI {
      * @param winner of Type String - the winner's nickname.
      */
     private void loser(String winner) {
+        activeGame = false;
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("End of the game");
             alert.setHeaderText("YOU LOSE!");
-            alert.setContentText("The game has ended, player" + winner + "has won! \nApplication will now close.");
+            alert.setContentText("The game has ended, player " + winner + " has won! \nApplication will now close.");
+            alert.getButtonTypes().setAll(new ButtonType("OK"));
             alert.showAndWait();
             System.exit(0);
         });
@@ -432,11 +435,13 @@ public class GUI extends Application implements UI {
      * Method winner handles WinMessage and show actions accordantly.
      */
     private void winner() {
+        activeGame = false;
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("End of the game");
             alert.setHeaderText("YOU WIN!");
             alert.setContentText("The game has ended, you win!\nApplication will now close.");
+            alert.getButtonTypes().setAll(new ButtonType("OK"));
             alert.showAndWait();
             System.exit(0);
         });
@@ -550,14 +555,16 @@ public class GUI extends Application implements UI {
      */
     private void connectionClosed(PropertyChangeEvent evt) {
         Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Connection closed");
-            alert.setHeaderText("Connection closed from the server");
-            if(evt.getNewValue()!=null) {
-                alert.setContentText(evt.getNewValue().toString());
+            if(activeGame) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Connection closed");
+                alert.setHeaderText("Connection closed from the server");
+                if (evt.getNewValue() != null) {
+                    alert.setContentText(evt.getNewValue().toString());
+                }
+                alert.showAndWait();
+                System.exit(0);
             }
-            alert.showAndWait();
-            System.exit(0);
         });
     }
 
