@@ -795,6 +795,7 @@ public class CLI implements UI, Runnable {
             printMenu((boolean[]) evt.getOldValue(), null);
         } catch (InterruptedException e) {
             System.err.println("Interrupted!");
+            Thread.currentThread().interrupt();
         }
     }
 

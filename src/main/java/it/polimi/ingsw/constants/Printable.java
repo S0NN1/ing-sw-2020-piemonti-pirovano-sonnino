@@ -36,7 +36,7 @@ public class Printable {
     public static final String PLUS = "+";
     public static final String ROW_WAVE = BLUE + "≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈" + RESET;
     public static final String COUPLE_ROW_WAVE = BLUE + "≈≈" + RESET;
-    public static final HashMap<String, String> GOD_MAP_SIDE_MENU = new HashMap<>();
+    protected static final HashMap<String, String> GOD_MAP_SIDE_MENU = new HashMap<>();
     static {
         GOD_MAP_SIDE_MENU.put("ARES", YELLOW + "REMOVELEVEL (no args)/REMOVELEVEL <row> <col>:" + RESET + " print spaces/remove a block.");
         GOD_MAP_SIDE_MENU.put("ATLAS", YELLOW + "PLACEDOME (no args)/PLACEDOME <row> <col>:" + RESET + " print spaces/build dome.");
