@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainAnchor" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainGuiController">
    <children>
@@ -91,28 +92,37 @@
                      <children>
                         <VBox layoutY="50.0" prefHeight="393.0" prefWidth="100.0" AnchorPane.leftAnchor="40.0">
                            <children>
-                              <Label fx:id="player1" prefHeight="20.0" prefWidth="100.0" text="Player 1" visible="false">
+                              <Label fx:id="player1" prefHeight="20.0" prefWidth="76.0" text="Player 1" visible="false">
                                  <graphic>
                                     <Rectangle fx:id="rect1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                                  </graphic>
                                  <VBox.margin>
                                     <Insets top="40.0" />
-                                 </VBox.margin></Label>
-                              <Label fx:id="player2" prefHeight="20.0" prefWidth="101.0" text="Player 2:" visible="false">
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font></Label>
+                              <Label fx:id="player2" prefHeight="20.0" prefWidth="76.0" text="Player 2:" visible="false">
                                  <graphic>
                                     <Rectangle fx:id="rect2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                                  </graphic>
                                  <VBox.margin>
                                     <Insets top="40.0" />
                                  </VBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
                               </Label>
-                              <Label fx:id="player3" prefHeight="20.0" prefWidth="106.0" text="Player 3:" visible="false">
+                              <Label fx:id="player3" prefHeight="20.0" prefWidth="73.0" text="Player 3:" visible="false">
                                  <graphic>
                                     <Rectangle fx:id="rect3" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                                  </graphic>
                                  <VBox.margin>
                                     <Insets top="40.0" />
                                  </VBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
                               </Label>
                            </children>
                         </VBox>
@@ -120,6 +130,21 @@
                   </AnchorPane>
                </left>
             </BorderPane>
+            <ImageView fitHeight="28.0" fitWidth="26.0" translateX="-280.0" translateY="-129.0" fx:id="star1" visible="false">
+               <image>
+                  <Image url="@../graphics/icons/clp_star_empty.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="28.0" fitWidth="26.0" layoutX="404.0" layoutY="225.0" translateX="-280.0" translateY="-69.0" fx:id="star2" visible="false">
+               <image>
+                  <Image url="@../graphics/icons/clp_star_empty.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="28.0" fitWidth="26.0" layoutX="404.0" layoutY="225.0" translateX="-280.0" translateY="-9.0" fx:id="star3" visible="false">
+               <image>
+                  <Image url="@../graphics/icons/clp_star_empty.png" />
+               </image>
+            </ImageView>
          </children>
       </StackPane>
       <HBox prefHeight="100.0" prefWidth="200.0" />

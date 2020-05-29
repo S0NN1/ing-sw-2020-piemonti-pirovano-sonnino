@@ -283,6 +283,7 @@ public class ActionHandler {
      */
     private void fireSelectWorker() {
         modelView.setTurnActive(true);
+        modelView.setCurrentPlayer(modelView.getPlayerName());
         modelView.activateInput();
         if (cli != null) {
             view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
@@ -371,6 +372,7 @@ public class ActionHandler {
             view.firePropertyChange("win", null, null);
         } else if(answer instanceof StartTurnMessage) {
             modelView.setCurrentPlayer(answer.getMessage().toString());
+            view.firePropertyChange("newPlayerTurn", new boolean[] {false, false, false, false}, null);
         } else if (answer instanceof PlayerLostMessage) {
             if (((PlayerLostMessage) answer).getLoser().equalsIgnoreCase(modelView.getPlayerName())) {
                 view.firePropertyChange("singleLost", null, null);
@@ -387,8 +389,6 @@ public class ActionHandler {
         } else if (answer instanceof ConnectionMessage) {
             if (cli != null) {
                 fireClosedConnectionCli(answer);
-            } else if (gui != null) {
-                // TODO
             }
         } else if (modelView.getGamePhase() == 1) {
             fullGamePhase(answer);

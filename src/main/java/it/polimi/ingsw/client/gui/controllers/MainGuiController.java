@@ -15,15 +15,16 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 /**
  * MainGuiController class handles mainScene.fxml by executing commands from the GUI.
@@ -33,11 +34,11 @@ import java.util.List;
  */
 public class MainGuiController implements GUIController {
 
-  // TODO LAUNCH EACH METHOD AFTER THE SAME METHOD IN CLIENT BOARD
-
   private final HashMap<String, Color> colors;
   private final HashMap<Integer, Label> playerMapLabel = new HashMap<>();
   private final HashMap<Integer, Rectangle> playerMapRect = new HashMap<>();
+  private final HashMap<String, ImageView> playerMapStar = new HashMap<>();
+  private final HashMap<Integer, ImageView> indexMapStar = new HashMap<>();
   private GUI gui;
   private ClientBoard board;
   private boolean godPowerActive;
@@ -55,6 +56,9 @@ public class MainGuiController implements GUIController {
   @FXML private Rectangle rect1;
   @FXML private Rectangle rect2;
   @FXML private Rectangle rect3;
+  @FXML private ImageView star1;
+  @FXML private ImageView star2;
+  @FXML private ImageView star3;
 
   /** Constructor MainGuiController creates a new MainGuiController instance. */
   public MainGuiController() {
@@ -75,10 +79,12 @@ public class MainGuiController implements GUIController {
     for (int i = 0; i < gui.getModelView().getPlayerMapColor().size(); i++) {
       String nickname = iterator.next().toString();
       playerMapLabel.get(i).setText(nickname);
+      playerMapStar.put(playerMapLabel.get(i).getText(), indexMapStar.get(i));
       playerMapRect
           .get(i)
           .setFill(colors.get(gui.getModelView().getPlayerMapColor().get(nickname).toUpperCase()));
       playerMapLabel.get(i).setVisible(true);
+      playerMapStar.get(playerMapLabel.get(i).getText()).setVisible(true);
       setMousePlayerAction(i);
     }
     setVisibleCustomAction();
@@ -104,6 +110,33 @@ public class MainGuiController implements GUIController {
   }
 
   /**
+   * Method updateTurnStatus checks the current player from the ModelView and set the correct star ImageView.
+   */
+  public void updateTurnStatus() {
+    for(int i=0; i<gui.getModelView().getPlayerMapColor().size(); i++) {
+      FileInputStream image = null;
+      try {
+        image = new FileInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("graphics/icons/clp_star_empty.png")).getPath());
+      } catch (FileNotFoundException e) {
+        System.err.println(e.getMessage());
+      }
+      if (image != null) {
+        playerMapStar.get(playerMapLabel.get(i).getText()).setImage(new Image(image));
+      }
+    }
+      String currentPlayer = gui.getModelView().getCurrentPlayer();
+      FileInputStream image = null;
+      try {
+        image = new FileInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("graphics/icons/clp_star_full.png")).getPath());
+      } catch (FileNotFoundException e) {
+        System.err.println(e.getMessage());
+      }
+      if (image != null) {
+        playerMapStar.get(currentPlayer).setImage(new Image(image));
+      }
+  }
+
+  /**
    * Method setMousePlayerAction sets the mousePlayerAction of this MainGuiController object.
    *
    * @param i the mousePlayerAction of this MainGuiController object.
@@ -117,9 +150,8 @@ public class MainGuiController implements GUIController {
         .setOnMouseClicked(
             mouseEvent -> {
               Alert description = new Alert(Alert.AlertType.INFORMATION);
-              description.setTitle(
-                  gui.getModelView().getPlayerMapGod().get(playerMapLabel.get(i).getText()));
-              description.setHeaderText("Description");
+              description.setTitle("Description");
+              description.setHeaderText(gui.getModelView().getPlayerMapGod().get(playerMapLabel.get(i).getText()));
               description.setContentText(
                   Card.parseInput(
                           gui.getModelView().getPlayerMapGod().get(playerMapLabel.get(i).getText()))
@@ -136,6 +168,9 @@ public class MainGuiController implements GUIController {
     playerMapRect.put(0, rect1);
     playerMapRect.put(1, rect2);
     playerMapRect.put(2, rect3);
+    indexMapStar.put(0, star1);
+    indexMapStar.put(1, star2);
+    indexMapStar.put(2, star3);
   }
 
   /**

@@ -764,6 +764,7 @@ public class CLI implements UI, Runnable {
             case "boardUpdate" -> fireBoardUpdate(evt);
             case "firstBoardUpdate" -> firstUpdateCli();
             case "selectWorker" -> selectWorker();
+            case "newPlayerTurn" -> newPlayerTurn(evt);
             case "end" -> end(((Answer)evt.getNewValue()).getMessage().toString());
             case "select" -> fireSelectSpaces(evt);
             case "win" -> {
@@ -780,6 +781,20 @@ public class CLI implements UI, Runnable {
             case "otherLost" -> otherPlayerLost(evt);
             case "matchStarted" -> output.println("The match has started!");
             default -> output.println("Unrecognized answer");
+        }
+    }
+
+
+    /**
+     * Method newPlayerTurn prints opponent's turn status.
+     *
+     * @param evt of type PropertyChangeEvent - boolean array needed for correct printing.
+     */
+    private void newPlayerTurn(PropertyChangeEvent evt) {
+        try {
+            printMenu((boolean[]) evt.getOldValue(), null);
+        } catch (InterruptedException e) {
+            System.err.println("Interrupted!");
         }
     }
 

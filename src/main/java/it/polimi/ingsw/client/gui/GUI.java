@@ -341,6 +341,7 @@ public class GUI extends Application implements UI {
             case "select" -> showSpacesList();
             case "boardUpdate" -> checkAction((Answer)evt.getNewValue());
             case "selectWorker" -> selectWorker();
+            case "newPlayerTurn" -> newPlayerTurn();
             case "modifiedTurnNoUpdate" -> modifiedTurnHandling();
             case "end" -> endTurn();
 
@@ -354,6 +355,13 @@ public class GUI extends Application implements UI {
                 logger.log(Level.WARNING, "No actions to be performed");
             }
         }
+    }
+
+    private void newPlayerTurn() {
+        Platform.runLater(() -> {
+            MainGuiController controller = (MainGuiController) getControllerFromName(MAIN_GUI);
+            controller.updateTurnStatus();
+        });
     }
 
     /**
@@ -468,6 +476,7 @@ public class GUI extends Application implements UI {
     private void selectWorker() {
         Platform.runLater(() -> {
             MainGuiController controller = (MainGuiController) getControllerFromName(MAIN_GUI);
+            controller.updateTurnStatus();
             controller.selectWorker();
         });
     }

@@ -28,7 +28,7 @@ public class Charon extends Worker {
      */
     @Override
     public void setPhases() {
-        phases.add(new Phase(Action.SELECT_FORCE_WORKER, false)); //TODO NON SONO SICURO CHE RESETTANDO FUNZIONI
+        phases.add(new Phase(Action.SELECT_FORCE_WORKER, false));
         phases.add(new Phase(Action.FORCE_WORKER, false));
         setNormalPhases();
     }

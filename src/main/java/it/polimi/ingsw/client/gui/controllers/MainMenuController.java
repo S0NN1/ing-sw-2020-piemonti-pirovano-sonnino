@@ -73,6 +73,7 @@ public class MainMenuController implements GUIController{
             confirmation.setText("Error: address must not contain spaces!");
         }
         else {
+            gui.getModelView().setPlayerName(username.getText());
             LoaderController loaderController;
             try {
                 Constants.setADDRESS(address.getText());
