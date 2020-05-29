@@ -1,5 +1,7 @@
 package it.polimi.ingsw.constants;
 
+import java.util.HashMap;
+
 /**
  * Printable class stores all grid assets for the CLI.
  * @author Nicolò Sonnino
@@ -34,7 +36,12 @@ public class Printable {
     public static final String PLUS = "+";
     public static final String ROW_WAVE = BLUE + "≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈" + RESET;
     public static final String COUPLE_ROW_WAVE = BLUE + "≈≈" + RESET;
-
+    public static final HashMap<String, String> GOD_MAP_SIDE_MENU = new HashMap<>();
+    static {
+        GOD_MAP_SIDE_MENU.put("ARES", "REMOVELEVEL (no args)/REMOVELEVEL <row> <col>: print spaces/remove a block.");
+        GOD_MAP_SIDE_MENU.put("ATLAS", "PLACEDOME (no args)/PLACEDOME <row> <col>: print spaces/build dome.");
+        GOD_MAP_SIDE_MENU.put("CHARON", "FORCEWORKER (no args)/FORCEWORKER <row> <col>: print spaces/move enemy worker into specular cell.");
+    }
     public static final String SIDE_MENU =
             PLUS + "-" + PLUS + "\n" +
                     VERTICAL_LINE + YELLOW + "-" + "STATUS" + "-" + RESET + VERTICAL_LINE + "\n" +
@@ -169,5 +176,14 @@ public class Printable {
         return LEVELS_WITH_DOME;
     }
 
-
+    /**
+     * Method getGodMapSideMenu returns the godMapSideMenu of this Printable object.
+     *
+     *
+     *
+     * @return the godMapSideMenu (type HashMap<String, String>) of this Printable object.
+     */
+    public static HashMap<String, String> getGodMapSideMenu() {
+        return GOD_MAP_SIDE_MENU;
+    }
 }

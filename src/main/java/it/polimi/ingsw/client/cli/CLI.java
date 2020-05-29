@@ -14,10 +14,7 @@ import it.polimi.ingsw.server.answers.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -43,6 +40,7 @@ public class CLI implements UI, Runnable {
     private final DisplayCell[][] grid;
     private boolean activeGame;
     private ConnectionSocket connection;
+    private int maxSideIndex = 11;
 
     /**
      * Constructor CLI creates a new CLI instance.
@@ -366,29 +364,22 @@ public class CLI implements UI, Runnable {
     private void printBoard(DisplayCell[][] grid) {
         System.out.println(Printable.ROW_WAVE);
         System.out.println(Printable.ROW_WAVE);
-        String[] sideMenuRows;
-        String[] guideMenuRows;
-        sideMenuRows = buildSideMenu();
-        guideMenuRows = buildSideHelp();
+        String[] sideMenuRows= buildSideMenu();
+        String[] guideMenuRows= buildSideHelp();
         int check = 0;
         System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
                 nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[0]);
         for (int i = 0; i <= 4; i++) {
-            for (int k = 0; k <= 10; k++) {
+            for (int k = 0; k <maxSideIndex; k++) {
                 System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
                 for (int j = 0; j <= 4; j++) {
                     System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + "█" +
                             nameMapColor.get("RST"));
                 }
-                check = insertMenus(sideMenuRows, guideMenuRows, check, k);
+                insertMenus(sideMenuRows, guideMenuRows, check, k);
             }
-            if (check == 1) {
-                System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
-                        nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + " " + guideMenuRows[11]);
-            } else {
                 System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
                         nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
-            }
             check++;
         }
         System.out.println(Printable.ROW_WAVE);
@@ -409,13 +400,7 @@ public class CLI implements UI, Runnable {
             insertSideMenuRows(sideMenuRows[k + 1]);
         } else if (check == 1) {
             insertGuideMenuRows(guideMenuRows, k);
-        } else if (check == 2) {
-            insertGuideMenuRows(guideMenuRows, 12);
-            check++;
-        } else if (check == 3 && guideMenuRows.length == 14) {
-            insertGuideMenuRows(guideMenuRows, 13);
-            check++;
-        } else {
+        }  else {
             System.out.println(Printable.COUPLE_ROW_WAVE);
         }
         return check;
@@ -483,26 +468,27 @@ public class CLI implements UI, Runnable {
     private String[] buildSideHelp() {
         String godDesc = modelView.getGodDesc();
         String[] sideMenuHelp;
+        String godSideMenu;
+        if(Printable.getGodMapSideMenu().get(modelView.getGod())==null){
+            godSideMenu = "";
+            maxSideIndex = 10;
+        }
+        else{
+            godSideMenu = Printable.getGodMapSideMenu().get(modelView.getGod()) + "\n";
+        }
         String menu =
                 nameMapColor.get(YELLOW) + "HELP GUIDE" + nameMapColor.get(RST) + "\n" +
                         nameMapColor.get(YELLOW) + "GOD DESCRIPTION " + nameMapColor.get(RST) + "\n" +
                         godDesc + "\n" +
                         nameMapColor.get(YELLOW) + "SET <row1> <column1> <row2> <column2>" + nameMapColor.get(RST) +
-                        ": set workers on specified cells" + "\n" +
+                        ": set workers on specified cells." + "\n" +
                         nameMapColor.get(YELLOW) + "SELECTWORKER <1/2>" + nameMapColor.get(RST) +
-                        ": select which worker you wanna play" + "\n" +
-                        nameMapColor.get(YELLOW) + "MOVE (no arguments)" + nameMapColor.get(RST) +
-                        ": print your possible move actions, except for the first command" + "\n" +
-                        nameMapColor.get(YELLOW) + "MOVE <row> <column>" + nameMapColor.get(RST) +
-                        ": move worker to specified cell (if permitted)" + "\n" +
-                        nameMapColor.get(YELLOW) + "BUILD (no arguments)" + nameMapColor.get(RST) +
-                        ": print your possible build actions" + "\n" +
-                        nameMapColor.get(YELLOW) + "BUILD <row> <column>" + nameMapColor.get(RST) +
-                        ": build a block on specified cell (if permitted)" + "\n" +
-                        nameMapColor.get(YELLOW) + "PLACEDOME (no arguments)" + nameMapColor.get(RST) +
-                        ": print your possible build actions in order to place a dome [ATLAS ONLY]" + "\n" +
-                        nameMapColor.get(YELLOW) + "PLACEDOME <row> <column>" + nameMapColor.get(RST) +
-                        ": build dome on specified cell (if permitted) [ATLAS ONLY]" + "\n" +
+                        ": choose which worker you want to use." + "\n" +
+                        nameMapColor.get(YELLOW) + "MOVE (no args)/MOVE <row> <col>" + nameMapColor.get(RST) +
+                        ": print spaces/moves worker to cell." + "\n" +
+                        nameMapColor.get(YELLOW) + "BUILD (no args)/BUILD <row> <column>" + nameMapColor.get(RST) +
+                        ": print spaces/builds worker to cell." + "\n" +
+                        nameMapColor.get(YELLOW) + godSideMenu + nameMapColor.get(RST) +
                         nameMapColor.get(YELLOW) + "END" + nameMapColor.get(RST) + ": end turn";
         sideMenuHelp = menu.split("\n");
         return sideMenuHelp;
