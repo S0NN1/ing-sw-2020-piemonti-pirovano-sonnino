@@ -37,6 +37,10 @@ public class AresTest {
     GameBoard gameBoard;
     VirtualClientStub virtualClient;
 
+    /**
+     * Method init creates new instances of Ares workers, a virtualClientStub, a gameBoard. Sets ares1 position and all the towers from the gameBoard to level 1.
+     * @throws OutOfBoundException when
+     */
     @BeforeEach
     void init() throws OutOfBoundException {
         ares1 = new Ares(PlayerColors.BLUE);
@@ -53,8 +57,11 @@ public class AresTest {
         }
     }
 
+    /**
+     * Method notifyWithRemovableTest tests notifyWithRemovable method.
+     */
     @Test
-    @DisplayName("wrong spaces neighbouring unmoved worker")
+    @DisplayName("notify with removable method")
     void notifyWithRemovableTest() {
         Space unmoved = gameBoard.getSpace(4,4);
         Space wrongSpace = gameBoard.getSpace(3,4);
@@ -74,8 +81,12 @@ public class AresTest {
         assertTrue(ares1.getPhase(5).isMust(),"5");
     }
 
+    /**
+     * Method canRemoveTest tests canRemove method.
+     * @throws OutOfBoundException when add level is not possible.
+     */
     @Test
-    @DisplayName("can remove test")
+    @DisplayName("can remove method")
     void canRemoveTest() throws OutOfBoundException {
         Space unmoved = gameBoard.getSpace(2,3);
         ares2.setPosition(unmoved);
@@ -111,6 +122,27 @@ public class AresTest {
         assertTrue(ares1.canRemove(remove, unmoved),"8");
     }
 
+    /**
+     * Method removeBlockTest tests removeBlock method.
+     */
+    @Test
+    @DisplayName("remove method")
+    void removeBlockTest() {
+        Space remove = gameBoard.getSpace(3,2);
+        assertEquals(1, remove.getTower().getHeight(),"0"); //already lv1
+
+        assertTrue(ares1.removeBlock(remove),"1");
+        assertEquals(0, remove.getTower().getHeight(),"2");
+        assertEquals(remove.getRow(), virtualClient.getRemove().getRow(),"3");
+        assertEquals(remove.getColumn(), virtualClient.getRemove().getColumn(),"4");
+        assertEquals(Action.REMOVE, virtualClient.getAction(),"5");
+
+        virtualClient = new VirtualClientStub();    //reset virtualClient
+        assertFalse(ares1.removeBlock(remove),"6");
+        assertNull(virtualClient.getAction(),"7");
+        assertNull(virtualClient.getRemove(),"8");
+        assertNull(virtualClient.getSelectMoves(),"9");
+    }
 
     /**
      * this class receives messages from different listeners
