@@ -23,7 +23,7 @@ The final version must include:
 | [![i1][installation-image]][installation-link] | [![i2][compiling-image]][compiling-link] | [![i4][running-image]][running-link] | [![i3][javadocs-image]][javadocs] | [![i5][troubleshooting-image]][troubleshooting-link]
 
 ## Implemented Functionalities
-| Functionality | State |
+| Functionality | Status |
 |:-----------------------|:------------------------------------:|
 | Basic rules | [![GREEN](https://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/model) |
 | Complete rules | [![GREEN](https://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/model) |
