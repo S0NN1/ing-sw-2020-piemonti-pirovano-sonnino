@@ -56,7 +56,7 @@ All tests in model and controller has a classes coverage at 100%.
 | Controller | Controller | 
 | Controller | GodSelectionController | 45/51 (88%)
 | Controller | TurnControllerTest | 
-| Model | Global Package | 
+| Model | Global Package | 641/676 (94%)
 
 ## The Team
 Our working group is composed by three students:
