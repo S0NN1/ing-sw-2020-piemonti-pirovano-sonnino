@@ -31,7 +31,7 @@ The final version must include:
 | GUI | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/client/gui) |
 | CLI |[![GREEN](https://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/client/cli) |
 | Multiple games | [![GREEN](https://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/blob/master/src/main/java/it/polimi/ingsw/server/Server.java)|
-| 5 Advanced Gods | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/model/player/gods/advancedgods) |
+| 5 Advanced Gods | [![GREEN](https://placehold.it/15/ffdd00/ffdd00)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/model/player/gods/advancedgods) |
 | Persistence | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Undo Function | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 
