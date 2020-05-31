@@ -13,6 +13,7 @@ import it.polimi.ingsw.server.answers.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -94,6 +95,16 @@ public class CLI implements UI, Runnable {
      * Method clearScreen flushes terminal's screen
      */
     public static void clearScreen() {
+        try{
+            if(System.getProperty("os.name").contains("Windows")){
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }
+            else
+                Runtime.getRuntime().exec("clear");
+        }
+        catch (IOException | InterruptedException e){
+            e.printStackTrace();
+        }
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
