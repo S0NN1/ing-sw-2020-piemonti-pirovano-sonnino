@@ -34,6 +34,9 @@ import java.util.*;
  */
 public class MainGuiController implements GUIController {
 
+  public static final String RIGHT_BOARD = "rightBoard";
+  public static final String ACTION = "action";
+  public static final String GRAYED_OUT = "grayedOut";
   private final HashMap<String, Color> colors;
   private final HashMap<Integer, Label> playerMapLabel = new HashMap<>();
   private final HashMap<Integer, Rectangle> playerMapRect = new HashMap<>();
@@ -41,7 +44,6 @@ public class MainGuiController implements GUIController {
   private final HashMap<Integer, ImageView> indexMapStar = new HashMap<>();
   private GUI gui;
   private ClientBoard board;
-  private boolean godPowerActive;
   @FXML private GridPane grid;
   @FXML private Label actionsLabel;
   @FXML private Button buttonMove;
@@ -74,8 +76,8 @@ public class MainGuiController implements GUIController {
   /** Method init sets players' nicknames, colors and customAction visibility. */
   public void init() {
     playerHashmapFill();
-    Collection players = gui.getModelView().getPlayerMapColor().keySet();
-    Iterator iterator = players.iterator();
+    Collection<String> players = gui.getModelView().getPlayerMapColor().keySet();
+    Iterator<String> iterator = players.iterator();
     for (int i = 0; i < gui.getModelView().getPlayerMapColor().size(); i++) {
       String nickname = iterator.next().toString();
       playerMapLabel.get(i).setText(nickname);
@@ -101,7 +103,7 @@ public class MainGuiController implements GUIController {
           event -> {
             gui.getListeners()
                 .firePropertyChange(
-                    "action",
+                        ACTION,
                     null,
                     Constants.getGodMapCustomAction()
                         .get(gui.getModelView().getGod().toUpperCase()));
@@ -183,19 +185,19 @@ public class MainGuiController implements GUIController {
     buttonBuild.getStyleClass().clear();
     buttonEnd.getStyleClass().clear();
     buttonCustom.getStyleClass().clear();
-    buttonMove.getStyleClass().add(checkers[0] ? "rightBoard" : "grayedOut");
-    buttonBuild.getStyleClass().add(checkers[1] ? "rightBoard" : "grayedOut");
-    buttonEnd.getStyleClass().add(checkers[2] ? "rightBoard" : "grayedOut");
+    buttonMove.getStyleClass().add(checkers[0] ? RIGHT_BOARD : GRAYED_OUT);
+    buttonBuild.getStyleClass().add(checkers[1] ? RIGHT_BOARD : GRAYED_OUT);
+    buttonEnd.getStyleClass().add(checkers[2] ? RIGHT_BOARD : GRAYED_OUT);
     if (checkers.length == 4 && checkers[3]) {
-      buttonCustom.getStyleClass().add("rightBoard");
+      buttonCustom.getStyleClass().add(RIGHT_BOARD);
     } else {
-      buttonCustom.getStyleClass().add("grayedOut");
+      buttonCustom.getStyleClass().add(GRAYED_OUT);
     }
     getActionsLabel().setText("Select Action:");
-    buttonMove.setOnAction(event -> gui.getListeners().firePropertyChange("action", null, "MOVE"));
+    buttonMove.setOnAction(event -> gui.getListeners().firePropertyChange(ACTION, null, "MOVE"));
     buttonBuild.setOnAction(
-        event -> gui.getListeners().firePropertyChange("action", null, "BUILD"));
-    buttonEnd.setOnAction(event -> gui.getListeners().firePropertyChange("action", null, "END"));
+        event -> gui.getListeners().firePropertyChange(ACTION, null, "BUILD"));
+    buttonEnd.setOnAction(event -> gui.getListeners().firePropertyChange(ACTION, null, "END"));
   }
 
   /**
@@ -272,13 +274,12 @@ public class MainGuiController implements GUIController {
    */
   public void removeBlock(int row, int col, int level) {
     for (Node node : grid.getChildren()) {
-      if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
-        if (node instanceof Block && level + 1 == ((Block) node).getLevel()) {
+      if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col && node instanceof Block &&
+              level + 1 == ((Block) node).getLevel()) {
           grid.getChildren().remove(node);
           return;
         }
       }
-    }
   }
   /**
    * Method getWorkerFromGrid returns the node of the grid which represents a worker at a specific
@@ -386,7 +387,7 @@ public class MainGuiController implements GUIController {
               getGUI()
                   .getListeners()
                   .firePropertyChange(
-                      "action",
+                          ACTION,
                       null,
                       Constants.getGodMapCustomAction()
                               .get(gui.getModelView().getGod().toUpperCase())
@@ -398,27 +399,21 @@ public class MainGuiController implements GUIController {
       } else if (build) {
         node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
         node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
-        // int row = GridPane.getRowIndex(node);
-        // int col = GridPane.getColumnIndex(node);
         node.setOnMouseClicked(
             mouseEvent ->
                 getGUI()
                     .getListeners()
-                    .firePropertyChange("action", null, "BUILD " + row + " " + col));
+                    .firePropertyChange(ACTION, null, "BUILD " + row + " " + col));
       } else {
         node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
         node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
-        // int row = GridPane.getRowIndex(node);
-        // int col = GridPane.getColumnIndex(node);
         node.setOnMouseClicked(
             mouseEvent ->
                 getGUI()
                     .getListeners()
-                    .firePropertyChange("action", null, "MOVE " + row + " " + col));
+                    .firePropertyChange(ACTION, null, "MOVE " + row + " " + col));
       }
     }
-    // Couple position = getGUI().getModelView().getActiveWorkerPosition();
-    // getWorkerFromGrid(position.getRow(), position.getColumn()).move();
   }
 
   /** Method normalCell rollbacks to normal cells from highlighted ones. */
@@ -513,12 +508,4 @@ public class MainGuiController implements GUIController {
     return colors;
   }
 
-  /**
-   * Method setGodPowerActive sets the godPowerActive of this MainGuiController object.
-   *
-   * @param godPowerActive the godPowerActive of this MainGuiController object.
-   */
-  private void setGodPowerActive(boolean godPowerActive) {
-    this.godPowerActive = godPowerActive;
-  }
 }
