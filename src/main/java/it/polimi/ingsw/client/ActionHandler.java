@@ -29,6 +29,7 @@ public class ActionHandler {
     public static final String BOARD_UPDATE = "boardUpdate";
     private static final String MAIN_SCENE_FXML = "mainScene.fxml";
     public static final String MODIFIED_TURN_NO_UPDATE = "modifiedTurnNoUpdate";
+    public static final String SELECT = "select";
     private final ModelView modelView;
     private final PropertyChangeSupport view = new PropertyChangeSupport(this);
     private CLI cli;
@@ -257,21 +258,21 @@ public class ActionHandler {
         modelView.activateInput();
         if (answer.getAction().equals(Action.SELECT_BUILD)) {
             checkTurnActive();
-            view.firePropertyChange("select", new boolean[]{false, true, false}, null);
+            view.firePropertyChange(SELECT, new boolean[]{false, true, false}, null);
         } else if (answer.getAction().equals(Action.SELECT_MOVE)) {
             checkTurnActive();
-            view.firePropertyChange("select", new boolean[]{true, false, false}, null);
+            view.firePropertyChange(SELECT, new boolean[]{true, false, false}, null);
         }
         else if(answer.getAction().equals(Action.SELECT_FORCE_WORKER)) {
             checkTurnActive();
             modelView.setGodPowerActive(true);
-            view.firePropertyChange("select", new boolean[]{false, false, false, true}, null);
+            view.firePropertyChange(SELECT, new boolean[]{false, false, false, true}, null);
             return;
         }
         else if (answer.getAction().equals(Action.SELECT_REMOVE)){
             checkTurnActive();
             modelView.setGodPowerActive(true);
-            view.firePropertyChange("select", new boolean[]{false, false, false, true}, null);
+            view.firePropertyChange(SELECT, new boolean[]{false, false, false, true}, null);
         }
 
         modelView.setTurnPhase(modelView.getTurnPhase() + 1);

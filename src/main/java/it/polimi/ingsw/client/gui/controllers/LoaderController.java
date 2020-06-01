@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
  */
 public class LoaderController implements GUIController {
 
+    public static final String GODS_MENU_FXML = "godsMenu.fxml";
+    public static final String CHALLENGER_PHASE = "Challenger phase";
     private GUI gui;
     @FXML
     private Label displayStatus;
@@ -184,17 +186,16 @@ public class LoaderController implements GUIController {
             displayGodList(req);
         }
         else if (req.getSelectable() != null) {
-            //chooseGod(req);
-            gui.changeStage("godsMenu.fxml");
-            GodsPanelController controller = (GodsPanelController)gui.getControllerFromName("godsMenu.fxml");
+            gui.changeStage(GODS_MENU_FXML);
+            GodsPanelController controller = (GodsPanelController)gui.getControllerFromName(GODS_MENU_FXML);
             controller.chooseInit(req.getSelectable());
         }
         else if(req.getMessage() != null) {
             Alert message = new Alert(Alert.AlertType.INFORMATION);
-            message.setTitle("Challenger phase");
-            message.setHeaderText("Challenger phase");
+            message.setTitle(CHALLENGER_PHASE);
+            message.setHeaderText(CHALLENGER_PHASE);
             if(req.getMessage().contains("you are the challenger")) {
-                message.setHeaderText("Challenger phase");
+                message.setHeaderText(CHALLENGER_PHASE);
                 message.setContentText("You are the challenger! Click below and choose the god power you want to put in" +
                         " the game deck; you can see property and description of each god by clicking on it!");
             }
@@ -206,7 +207,7 @@ public class LoaderController implements GUIController {
                 message.setContentText(req.getMessage());
             }
             message.showAndWait();
-            gui.changeStage("godsMenu.fxml");
+            gui.changeStage(GODS_MENU_FXML);
         }
     }
 

@@ -35,17 +35,17 @@ public class Constants {
     //match constants
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 3;
-    public static String ANSI_UNDERLINE = "\033[4m";
-    public static String ANSI_RESET = "\033[0m";
-    public static String ANSI_RED = "\033[31m";
-    public static String ANSI_GREEN = "\033[32m";
-    public static String ANSI_YELLOW = "\033[33m";
-    public static String ANSI_BLUE = "\033[34m";
-    public static String ANSI_PURPLE = "\033[35m";
-    public static String ANSI_CYAN = "\033[36m";
-    public static String ANSI_WHITE = "\033[37m";
-    public static String ANSI_BACKGROUND_BLACK="\033[40m";
-    public static String ANSI_BACKGROUND_PURPLE = "\033[45m";
+    public static final String ANSI_UNDERLINE = "\033[4m";
+    public static final String ANSI_RESET = "\033[0m";
+    public static final String ANSI_RED = "\033[31m";
+    public static final String ANSI_GREEN = "\033[32m";
+    public static final String ANSI_YELLOW = "\033[33m";
+    public static final String ANSI_BLUE = "\033[34m";
+    public static final String ANSI_PURPLE = "\033[35m";
+    public static final String ANSI_CYAN = "\033[36m";
+    public static final String ANSI_WHITE = "\033[37m";
+    public static final String ANSI_BACKGROUND_BLACK="\033[40m";
+    public static final String ANSI_BACKGROUND_PURPLE = "\033[45m";
     public static final String SANTORINI ="\n" +
             "          _____                    _____                    _____                _____                   _______                   _____                    _____                    _____                    _____          \n" +
             "         /\\    \\                  /\\    \\                  /\\    \\              /\\    \\                 /::\\    \\                 /\\    \\                  /\\    \\                  /\\    \\                  /\\    \\         \n" +
@@ -80,8 +80,8 @@ public class Constants {
 
     public static final String RULES ="\nView full rules here: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf";
     //server constants
-    private static String ADDRESS;
-    private static int PORT;
+    private static String address;
+    private static int port;
 
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
@@ -100,7 +100,7 @@ public class Constants {
      *
      * @return the godMapCustomAction (type HashMap<String, String>) of this Constants object.
      */
-    public static HashMap<String, String> getGodMapCustomAction() {
+    public static Map<String, String> getGodMapCustomAction() {
         return godMapCustomAction;
     }
 private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList(ATLAS);
@@ -269,11 +269,11 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @param ADDRESS the ADDRESS of this Constants object.
+     * @param address the ADDRESS of this Constants object.
      *
      */
-    public static void setADDRESS(String ADDRESS) {
-        Constants.ADDRESS = ADDRESS;
+    public static void setAddress(String address) {
+        Constants.address = address;
     }
 
     /**
@@ -281,11 +281,11 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @param PORT the PORT of this Constants object.
+     * @param port the PORT of this Constants object.
      *
      */
-    public static void setPORT(int PORT) {
-        Constants.PORT = PORT;
+    public static void setPort(int port) {
+        Constants.port = port;
     }
 
     /**
@@ -295,8 +295,8 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      * @return the ADDRESS (type String) of this Constants object.
      */
-    public static String getADDRESS() {
-        return ADDRESS;
+    public static String getAddress() {
+        return address;
     }
 
     /**
@@ -306,8 +306,8 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      * @return the PORT (type int) of this Constants object.
      */
-    public static int getPORT() {
-        return PORT;
+    public static int getPort() {
+        return port;
     }
 
 }

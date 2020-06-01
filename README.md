@@ -53,10 +53,10 @@ All tests in model and controller has a classes coverage at 100%.
 | Package |Tested Class | Coverage |
 |:-----------------------|:------------------|:------------------------------------:|
 | Controller | ActionController | 
-| Controller | Controller | 48/54 (88%)
+| Controller | Controller | 50/54 (92%)
 | Controller | GodSelectionController | 45/51 (88%)
-| Controller | TurnControllerTest | 
-| Model | Global Package | 641/676 (94%)
+| Controller | TurnControllerTest | 96/137 (70%)
+| Model | Global Package | 651/676 (96%)
 
 ## The Team
 Our working group is composed by three students:

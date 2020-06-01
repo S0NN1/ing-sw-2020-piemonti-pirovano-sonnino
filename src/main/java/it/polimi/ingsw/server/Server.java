@@ -84,7 +84,7 @@ public class Server {
      * nicknames and client ids. It also creates a new game session.
      */
     public Server() {
-        socketServer = new SocketServer(Constants.getPORT(), this);
+        socketServer = new SocketServer(Constants.getPort(), this);
         idMapClient = new HashMap<>();
         nameMapId = new HashMap<>();
         clientToConnection = new HashMap<>();
@@ -320,7 +320,7 @@ public class Server {
             System.err.println("Error: ports accepted started from 1024! Please insert a new value.");
             main(null);
         }
-        Constants.setPORT(port);
+        Constants.setPort(port);
         System.err.println(Constants.getInfo() + "Starting Socket Server");
         Server server = new Server();
         ExecutorService executor = Executors.newCachedThreadPool();

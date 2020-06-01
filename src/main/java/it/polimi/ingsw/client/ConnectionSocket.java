@@ -35,8 +35,8 @@ public class ConnectionSocket {
    * Constructor ConnectionSocket creates a new ConnectionSocket instance.
    */
   public ConnectionSocket() {
-    this.serverAddress = Constants.getADDRESS();
-    this.serverPort = Constants.getPORT();
+    this.serverAddress = Constants.getAddress();
+    this.serverPort = Constants.getPort();
   }
 
   /**

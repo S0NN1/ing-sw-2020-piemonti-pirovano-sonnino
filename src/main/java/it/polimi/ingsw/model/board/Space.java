@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.player.Worker;
 /**
  * @author Nicolò Sonnino
  * @version 1.0
- * <h1>Class describing spaces</h1>
+ * Class describing spaces
  */
 public class Space {
     private int row;
@@ -16,7 +16,7 @@ public class Space {
     private Tower builtTower;
 
     /**
-     * Constructor
+     * Constructor Space creates a new Space instance.
      */
     public Space() {
         builtTower = new Tower();
@@ -24,19 +24,20 @@ public class Space {
     }
 
     /**
-     * Get x value
+     * Method getRow returns the row of this Space object.
      *
-     * @return x position
+     * @return the row (type int) of this Space object.
      */
     public int getRow() {
         return row;
     }
 
     /**
-     * Set x value
+     * Method setRow sets the row of this Space object.
      *
-     * @param row position
-     * @exception InvalidInputException input isn't between 0 and 4
+     * @param row the row of this Space object.
+     *
+     * @throws InvalidInputException when the user input is not in the correct range.
      */
     public void setRow(int row) throws InvalidInputException {
         if (row >= Constants.GRID_MIN_SIZE && row < Constants.GRID_MAX_SIZE) {
@@ -44,10 +45,11 @@ public class Space {
         } else throw new InvalidInputException();
     }
 
+
     /**
-     * Get y value
+     * Method getColumn returns the column of this Space object.
      *
-     * @return y position
+     * @return the column (type int) of this Space object.
      */
     public int getColumn() {
         return column;
@@ -56,8 +58,6 @@ public class Space {
 
     /**
      * Method setY sets the y of this Space object.
-     *
-     *
      *
      * @param column the y of this Space object.
      *
@@ -71,8 +71,9 @@ public class Space {
         }
     }
 
+
     /**
-     * Assign builtTower to existing Tower
+     * Method setTower assigns builtTower to existing Tower
      *
      * @param tower tower input
      */
@@ -80,36 +81,41 @@ public class Space {
         builtTower = tower;
     }
 
+
     /**
-     * Get Worker stored in workerHere
+     * Method getWorker returns the Worker stored in workerHere
      *
-     * @return worker worker reference
+     * @return the worker (type Worker) reference
      */
     public Worker getWorker() {
         return workerHere;
     }
 
     /**
-     * Set worker into workerHere variable
+     * Method setWorker sets worker into workerHere variable
      *
-     * @param worker parameter
+     * @param worker the worker parameter
+     *
      */
     public void setWorker(Worker worker) {
         workerHere = worker;
     }
 
+
     /**
-     * Return if Space has a Worker
+     * Method isEmpty returns if Space has a Worker
      *
-     * @return true if workerHere==null, false else
+     * @return boolean true if workerHere==null, boolean false else
      */
     public boolean isEmpty() {
         return workerHere == null;
     }
 
+
     /**
-     * get Tower stored in builtTower
-     * @return tower
+     * Method getTower returns the Tower stored in builtTower
+     *
+     * @return the tower (type Tower) of this Space object.
      */
     public Tower getTower() {
         return builtTower;
