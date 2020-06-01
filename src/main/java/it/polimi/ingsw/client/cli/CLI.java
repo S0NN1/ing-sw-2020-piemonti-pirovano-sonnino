@@ -7,7 +7,6 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.exceptions.InvalidNicknameException;
-import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.answers.*;
 
@@ -15,7 +14,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,7 +34,7 @@ public class CLI implements UI, Runnable {
     private static final String RST = "RST";
     private static final String WHITE = "WHITE";
     private static final String BG_PURPLE = "BG_PURPLE";
-    private final HashMap<String, String> nameMapColor = new HashMap<>();
+    private static final HashMap<String, String> nameMapColor = new HashMap<>();
     private final PrintStream output;
     private final Scanner input;
     private final ModelView modelView;
@@ -129,13 +131,13 @@ public class CLI implements UI, Runnable {
         boolean confirmation = false;
         while (!confirmation) {
             do {
-                output.println(">Insert your nickname: ");
-                output.print(">");
+                System.out.println(">Insert your nickname: ");
+                System.out.print(">");
                 nickname = input.nextLine();
             } while (nickname == null);
-            output.println(">You chose: " + nickname);
-            output.println(">Is it ok? [y/n] ");
-            output.print(">");
+            System.out.println(">You chose: " + nickname);
+            System.out.println(">Is it ok? [y/n] ");
+            System.out.print(">");
             if (input.nextLine().equalsIgnoreCase("y")) {
                 confirmation = true;
             } else {
@@ -146,7 +148,7 @@ public class CLI implements UI, Runnable {
         modelView.setPlayerName(nickname);
         try {
             connection.setup(nickname, modelView, actionHandler);
-            output.println(nameMapColor.get(GREEN) + "Socket Connection setup completed!" + nameMapColor.get("RST"));
+            System.out.println(nameMapColor.get(GREEN) + "Socket Connection setup completed!" + nameMapColor.get("RST"));
         } catch (DuplicateNicknameException | InvalidNicknameException e) {
             setup();
         }
@@ -270,13 +272,11 @@ public class CLI implements UI, Runnable {
         String[] player = new String[3];
         int[] cellInfos = new int[]{level, type};
         int[][] indexes = new int[Constants.GRID_MAX_SIZE][1];
-        String upperBody = "☻";
-        String upperBody2 = "☺";
         String lowerBody = nameMapColor.get(WHITE) + "1";
         String lowerBody2 = nameMapColor.get(WHITE) + "2";
         String backgroundColor = BG_BLACK;
-        player[0] = null;
-        player[1] = "▲";
+        player[0] =  "@";
+        player[1] = "╥";
         player[2] = null;
         indexes[0][0] = 16;
         indexes[1][0] = 11;
@@ -284,10 +284,8 @@ public class CLI implements UI, Runnable {
         indexes[3][0] = 24;
         indexes[4][0] = 34;
         if (type == 1) {
-            player[0] = upperBody;
             player[2] = lowerBody;
         } else {
-            player[0] = upperBody2;
             player[2] = lowerBody2;
         }
         if (level == 3) {
@@ -342,7 +340,7 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Method insertPlayer ...
+     * Method insertPlayer inserts right player into the row.
      *
      * @param color of type String  - the player's color
      * @param rows of type String[] - the cell's row
@@ -382,40 +380,38 @@ public class CLI implements UI, Runnable {
                 nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[0]);
         for (int i = 0; i <= 4; i++) {
             for (int k = 0; k <11; k++) {
-                output.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + "█" + nameMapColor.get("RST"));
+                System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.SINGLE_LINE_BLOCK + nameMapColor.get("RST"));
                 for (int j = 0; j <= 4; j++) {
-                    System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + "█" +
+                    System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + Printable.SINGLE_LINE_BLOCK +
                             nameMapColor.get("RST"));
                 }
                 insertMenus(sideMenuRows, guideMenuRows, check, k);
             }
             if(check==0 ) {
-                if (maxSideIndex > 11) {
-                    output.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
-                            nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[11]);
-                }
-                else {
-                    output.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
-                            nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
-                }
-                check++;
+                check = lastCellRow(sideMenuRows, check);
             }else if(check==1) {
-                if (maxSideIndex > 11) {
-                    output.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
-                            nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + "  " + guideMenuRows[11]);
-                } else {
-                    output.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
-                            nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
-                }
-                check++;
+                check = lastCellRow(guideMenuRows, check);
             }
             else {
-                output.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
+                System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
                         nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
             }
         }
         System.out.println(Printable.ROW_WAVE);
         System.out.println(Printable.ROW_WAVE);
+    }
+
+    private int lastCellRow(String[] sideMenuRows, int check) {
+        if (maxSideIndex > 11) {
+            System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
+                    nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[11]);
+        }
+        else {
+            System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
+                    nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE);
+        }
+        check++;
+        return check;
     }
 
     /**
@@ -425,21 +421,19 @@ public class CLI implements UI, Runnable {
      * @param guideMenuRows of type String[] - the guide menu's rows.
      * @param check of type int - the counter needed for the correct printing.
      * @param k of type int - the counter needed for the correct printing.
-     * @return int - the checker used for  switching menu's rows.
      */
-    private int insertMenus(String[] sideMenuRows, String[] guideMenuRows, int check, int k) {
+    private void insertMenus(String[] sideMenuRows, String[] guideMenuRows, int check, int k) {
         if (check == 0) {
             insertSideMenuRows(sideMenuRows[k + 1]);
         } else if (check == 1) {
             if(k<maxSideIndex) {
                 insertGuideMenuRows(guideMenuRows, k);
             } else {
-                output.println(Printable.COUPLE_ROW_WAVE);
+                System.out.println(Printable.COUPLE_ROW_WAVE);
             }
         }  else {
-            output.println(Printable.COUPLE_ROW_WAVE);
+            System.out.println(Printable.COUPLE_ROW_WAVE);
         }
-        return check;
     }
 
     /**
@@ -578,12 +572,12 @@ public class CLI implements UI, Runnable {
         int selection;
         while (true) {
             try {
-                output.print(">");
+                System.out.print(">");
                 String cmd = input.nextLine();
                 selection = Integer.parseInt(cmd);
                 break;
             } catch (NumberFormatException e) {
-                output.println(nameMapColor.get(RED) + "Invalid parameter, it must be a numeric value." +
+                System.out.println(nameMapColor.get(RED) + "Invalid parameter, it must be a numeric value." +
                         nameMapColor.get("RST"));
             }
         }
@@ -600,8 +594,8 @@ public class CLI implements UI, Runnable {
     public void chooseColor(List<PlayerColors> available) {
         firstBuildBoard(grid);
         while (true) {
-            output.println(">Make your choice!");
-            output.print(">");
+            System.out.println(">Make your choice!");
+            System.out.print(">");
             try {
                 PlayerColors color = PlayerColors.parseInput(input.nextLine());
                 if (available.contains(color)) {
@@ -609,10 +603,10 @@ public class CLI implements UI, Runnable {
                     modelView.setStarted(2);
                     return;
                 } else {
-                    printError(output, "Color not available!");
+                    printError(System.out, "Color not available!");
                 }
             } catch (IllegalArgumentException e) {
-                printError(output, "Invalid input! Please provide one of the accepted colors.");
+                printError(System.out, "Invalid input! Please provide one of the accepted colors.");
             }
         }
     }
@@ -621,7 +615,7 @@ public class CLI implements UI, Runnable {
      * Method greaterThan prints ">".
      */
     private void greaterThan() {
-        output.print(">");
+        System.out.print(">");
     }
 
     /**
@@ -633,24 +627,24 @@ public class CLI implements UI, Runnable {
     public void errorHandling(GameError error) {
         switch (error.getError()) {
             case CELLOCCUPIED -> {
-                output.println(nameMapColor.get(RED) + "The following cells are already occupied, please choose them " +
+                System.out.println(nameMapColor.get(RED) + "The following cells are already occupied, please choose them " +
                         "again." + nameMapColor.get("RST"));
-                error.getCoordinates().forEach(n -> output.print(nameMapColor.get(RED) + Arrays.toString(n) + ", " +
+                error.getCoordinates().forEach(n -> System.out.print(nameMapColor.get(RED) + Arrays.toString(n) + ", " +
                         nameMapColor.get("RST")));
-                output.println();
+                System.out.println();
                 greaterThan();
             }
             case INVALIDINPUT -> {
                 if (error.getMessage() != null) {
-                    output.println(nameMapColor.get(RED) + error.getMessage() + nameMapColor.get(RST));
+                    System.out.println(nameMapColor.get(RED) + error.getMessage() + nameMapColor.get(RST));
                 } else {
-                    output.println(nameMapColor.get(RED) + "Input error, please try again!" + nameMapColor.get(RST));
+                    System.out.println(nameMapColor.get(RED) + "Input error, please try again!" + nameMapColor.get(RST));
                 }
                 greaterThan();
                 modelView.setTurnActive(true);
             }
             case WORKERBLOCKED -> printError(System.err, "Selected worker is blocked, select the other one!");
-            default -> printError(output, "Generic error!");
+            default -> printError(System.out, "Generic error!");
         }
     }
 
@@ -674,15 +668,15 @@ public class CLI implements UI, Runnable {
     public void initialPhaseHandling(String value) {
         switch (value) {
             case "RequestPlayerNumber" -> {
-                output.println(nameMapColor.get(GREEN) + ((RequestPlayersNumber)
+                System.out.println(nameMapColor.get(GREEN) + ((RequestPlayersNumber)
                         modelView.getServerAnswer()).getMessage() + nameMapColor.get("RST"));
                 choosePlayerNumber();
             }
             case "RequestColor" -> {
-                output.println(nameMapColor.get(GREEN) + ((ColorMessage) modelView.getServerAnswer()).getMessage() +
+                System.out.println(nameMapColor.get(GREEN) + ((ColorMessage) modelView.getServerAnswer()).getMessage() +
                         "\nRemaining:" + nameMapColor.get("RST"));
-                ((ColorMessage) modelView.getServerAnswer()).getRemaining().forEach(n -> output.print(n + ", "));
-                output.print("\n");
+                ((ColorMessage) modelView.getServerAnswer()).getRemaining().forEach(n -> System.out.print(n + ", "));
+                System.out.print("\n");
                 chooseColor(((ColorMessage) modelView.getServerAnswer()).getRemaining());
             }
             case "GodRequest" -> {
@@ -692,13 +686,13 @@ public class CLI implements UI, Runnable {
             case "WorkerPlacement" -> {
                 firstUpdateCli();
                 String[] msg = modelView.getServerAnswer().getMessage().toString().split(" ");
-                output.println(Constants.ANSI_UNDERLINE + msg[0] + nameMapColor.get(RST) + " choose your workers " +
+                System.out.println(Constants.ANSI_UNDERLINE + msg[0] + nameMapColor.get(RST) + " choose your workers " +
                         "position by typing" + nameMapColor.get(YELLOW) + " SET <row1 <col1> <row2> <col2> " +
                         nameMapColor.get(RST) + "where 1 and 2 indicates worker number.");
-                output.print(">");
+                System.out.print(">");
                 modelView.activateInput();
             }
-            default -> output.println("Nothing to do");
+            default -> System.out.println("Nothing to do");
         }
     }
 
@@ -709,36 +703,36 @@ public class CLI implements UI, Runnable {
      */
     private void godRequest(ChallengerMessages req) {
         if (req.isStartingPlayer() && req.getPlayers() != null) {
-            output.println(req.getMessage().split(" ")[0] + " choose the starting player by typing" +
+            System.out.println(req.getMessage().split(" ")[0] + " choose the starting player by typing" +
                     nameMapColor.get(YELLOW) + " STARTER <number-of-player>" + nameMapColor.get(RST));
-            req.getPlayers().forEach(n -> output.println(req.getPlayers().indexOf(n) + ": " + n + ","));
+            req.getPlayers().forEach(n -> System.out.println(req.getPlayers().indexOf(n) + ": " + n + ","));
         } else if (req.getSelectable() != null) {
-            output.println("\n" + req.getMessage());
-            req.getSelectable().forEach(n -> output.println("\n" + n.toString() + "\n" + n.godsDescription()));
-            output.println("\nSelect your god by typing" + nameMapColor.get(YELLOW) + " choose <god-name>" +
+            System.out.println("\n" + req.getMessage());
+            req.getSelectable().forEach(n -> System.out.println("\n" + n.toString() + "\n" + n.godsDescription()));
+            System.out.println("\nSelect your god by typing" + nameMapColor.get(YELLOW) + " choose <god-name>" +
                     nameMapColor.get(RST));
-            output.print(">");
+            System.out.print(">");
         } else if (req.getGodList() != null) {
-            output.println();
-            req.getGodList().forEach(n -> output.print(n + ", "));
-            output.println();
+            System.out.println();
+            req.getGodList().forEach(n -> System.out.print(n + ", "));
+            System.out.println();
         } else {
             if (req.getMessage().contains("ADDGOD") || req.getMessage().contains("Description") ||
                     req.getMessage().contains("been added")) {
-                output.println();
+                System.out.println();
             }
             if (req.getMessage().contains("<god-name>")) {
                 String[] temp = req.getMessage().split("\n");
                 for (int i = 0; i < 9; i++) {
-                    output.print(temp[i] + "\n");
+                    System.out.print(temp[i] + "\n");
                 }
-                output.println("\nSelect your god by typing" + nameMapColor.get(YELLOW) + " choose <god-name>" +
+                System.out.println("\nSelect your god by typing" + nameMapColor.get(YELLOW) + " choose <god-name>" +
                         nameMapColor.get(RST));
                 greaterThan();
                 modelView.activateInput();
                 return;
             }
-            output.println(req.getMessage());
+            System.out.println(req.getMessage());
             greaterThan();
         }
         modelView.activateInput();
@@ -760,18 +754,18 @@ public class CLI implements UI, Runnable {
                 initialPhaseHandling(command);
             }
             case "customMessage" -> {
-                output.println(evt.getNewValue());
+                System.out.println(evt.getNewValue());
                 if (modelView.getStarted() == 2) {
                     modelView.setStarted(3);
                 }
             }
             case "connectionClosed" -> {
-                output.println(evt.getNewValue());
-                output.println(nameMapColor.get(RED) + "Application will now close..." + nameMapColor.get("RST"));
+                System.out.println(evt.getNewValue());
+                System.out.println(nameMapColor.get(RED) + "Application will now close..." + nameMapColor.get("RST"));
                 System.exit(0);
             }
             case "noPossibleMoves" -> System.err.println("No possible moves!");
-            case "modifiedTurnNoUpdate" -> output.println(((Answer) evt.getNewValue()).getMessage().toString());
+            case "modifiedTurnNoUpdate" -> System.out.println(((Answer) evt.getNewValue()).getMessage().toString());
             case "boardUpdate" -> fireBoardUpdate(evt);
             case "firstBoardUpdate" -> firstUpdateCli();
             case "selectWorker" -> selectWorker();
@@ -779,19 +773,19 @@ public class CLI implements UI, Runnable {
             case "end" -> end(((Answer)evt.getNewValue()).getMessage().toString());
             case "select" -> fireSelectSpaces(evt);
             case "win" -> {
-                output.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
+                System.out.println(nameMapColor.get(RED) + "YOU WIN!" + nameMapColor.get(RST));
                 System.exit(0);
             }
             case "lose" -> {
-                output.println(nameMapColor.get(RED) + "YOU LOSE!" + nameMapColor.get(RST));
-                output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has won." +
+                System.out.println(nameMapColor.get(RED) + "YOU LOSE!" + nameMapColor.get(RST));
+                System.out.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has won." +
                         nameMapColor.get(RST));
                 System.exit(0);
             }
             case "singleLost" -> System.err.println("All workers blocked, YOU LOSE!");
             case "otherLost" -> otherPlayerLost(evt);
-            case "matchStarted" -> output.println("The match has started!");
-            default -> output.println("Unrecognized answer");
+            case "matchStarted" -> System.out.println("The match has started!");
+            default -> System.out.println("Unrecognized answer");
         }
     }
 
@@ -851,7 +845,7 @@ public class CLI implements UI, Runnable {
         clearScreen();
         boardUpdater(grid);
         printBoard(grid);
-        output.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has lost." + nameMapColor.get(RST));
+        System.out.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has lost." + nameMapColor.get(RST));
     }
 
     /**
@@ -885,18 +879,18 @@ public class CLI implements UI, Runnable {
             if (!modelView.isTurnActive()) {
                 active = modelView.getCurrentPlayer() + "'S";
             } else active = "YOUR";
-            output.println(active + " TURN");
+            System.out.println(active + " TURN");
         }
         TimeUnit.MILLISECONDS.sleep(500);
         if (modelView.isTurnActive()) {
-            output.print(actions[0] ? " • MOVE\n" : "");
-            output.print(actions[1] ? " • BUILD\n" : "");
+                System.out.print(actions[0] ? " - MOVE" : "");
+                System.out.println(actions[1] ? " - BUILD": "");
             if(actions.length==4){
-            output.print(actions[3] ? " • " + customPower + "\n" : "");
+                System.out.println(" - " + customPower);
             }
-            output.print(actions[2] ? " • END\n" : "");
+                System.out.println(actions[2] ? " - END" : "");
             if (message != null) {
-                output.println(message);
+                System.out.println(message);
             }
             greaterThan();
         }
