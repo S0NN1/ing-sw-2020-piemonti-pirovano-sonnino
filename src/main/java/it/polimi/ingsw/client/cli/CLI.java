@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
@@ -27,6 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @version 2.0.0
  */
 public class CLI implements UI, Runnable {
+    private static final Logger logger = Logger.getLogger(CLI.class.getName());
     public static final String RED = "RED";
     private static final String GREEN = "GREEN";
     private static final String YELLOW = "YELLOW";
@@ -105,7 +108,8 @@ public class CLI implements UI, Runnable {
                 Runtime.getRuntime().exec("clear");
         }
         catch (IOException | InterruptedException e){
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            Thread.currentThread().interrupt();
         }
         System.out.print("\033[H\033[2J");
         System.out.flush();
