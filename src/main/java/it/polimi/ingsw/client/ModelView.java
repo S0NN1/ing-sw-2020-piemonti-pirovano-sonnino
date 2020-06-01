@@ -7,7 +7,6 @@ import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.server.answers.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

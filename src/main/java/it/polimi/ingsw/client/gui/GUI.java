@@ -39,13 +39,13 @@ import java.util.logging.Logger;
  */
 public class GUI extends Application implements UI {
 
+    public static final String END_OF_THE_GAME = "End of the game";
     private ConnectionSocket connection = null;
     private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     private final ModelView modelView;
     private final ActionHandler actionHandler;
     private final Logger logger = Logger.getLogger(getClass().getName());
     private boolean activeGame;
-    private MainGuiController guiController;
 
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
@@ -295,7 +295,6 @@ public class GUI extends Application implements UI {
             if(msg.contains("Match starting") || msg.contains("The match has started")) {
                 LoaderController controller = (LoaderController)getControllerFromName(LOADER);
                 Platform.runLater(() -> controller.setText(msg));
-                return;
             } else if(msg.contains("is the challenger")) {
                 LoaderController controller = (LoaderController)getControllerFromName(LOADER);
                 Platform.runLater(() -> controller.setText(msg.split(" ")[0] +
@@ -311,10 +310,6 @@ public class GUI extends Application implements UI {
                     controller.setFontSize(30);
                     controller.setText(msg);});
             }
-            /*Platform.runLater(() -> {
-                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
-                controller.displayCustomMessage(msg);
-            });*/   //TODO NON SONO SICURO CHE RESETTANDO FUNZIONI
         }
     }
 
@@ -339,7 +334,7 @@ public class GUI extends Application implements UI {
             }
             case "noPossibleMoves" -> noPossibleMoves();
             case "select" -> showSpacesList();
-            case "boardUpdate" -> checkAction((Answer)evt.getNewValue());
+            case "boardUpdate" -> checkAction();
             case "selectWorker" -> selectWorker();
             case "newPlayerTurn" -> newPlayerTurn();
             case "modifiedTurnNoUpdate" -> modifiedTurnHandling();
@@ -415,7 +410,7 @@ public class GUI extends Application implements UI {
     private void singleLoser() {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("End of the game");
+            alert.setTitle(END_OF_THE_GAME);
             alert.setHeaderText("YOU LOSE!");
             alert.setContentText("All of your workers are blocked, YOU LOSE!\nApplication will now close.");
             alert.showAndWait();
@@ -430,7 +425,7 @@ public class GUI extends Application implements UI {
         activeGame = false;
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("End of the game");
+            alert.setTitle(END_OF_THE_GAME);
             alert.setHeaderText("YOU LOSE!");
             alert.setContentText("The game has ended, player " + winner + " has won! \nApplication will now close.");
             alert.getButtonTypes().setAll(new ButtonType("OK"));
@@ -446,7 +441,7 @@ public class GUI extends Application implements UI {
         activeGame = false;
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("End of the game");
+            alert.setTitle(END_OF_THE_GAME);
             alert.setHeaderText("YOU WIN!");
             alert.setContentText("The game has ended, you win!\nApplication will now close.");
             alert.getButtonTypes().setAll(new ButtonType("OK"));
@@ -483,10 +478,8 @@ public class GUI extends Application implements UI {
 
     /**
      * Method checkAction checks Message type and calls controller's methods.
-     *
-     * @param answer of type Answer - the answer from the server.
      */
-    private void checkAction(Answer answer) {
+    private void checkAction() {
         Platform.runLater(() -> {
             Answer message = modelView.getServerAnswer();
             MainGuiController controller = (MainGuiController) getControllerFromName(MAIN_GUI);
