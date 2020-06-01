@@ -90,8 +90,8 @@ public class CLI implements UI, Runnable {
         System.out.println(">Insert the server port");
         System.out.print(">");
         int port = scanner.nextInt();
-        Constants.setADDRESS(ip);
-        Constants.setPORT(port);
+        Constants.setAddress(ip);
+        Constants.setPort(port);
         CLI cli = new CLI();
         cli.run();
     }

@@ -1,38 +1,39 @@
 package it.polimi.ingsw.constants;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Printable class stores all grid assets for the CLI.
  *
  * @author Nicolò Sonnino
  */
-public class Printable {
-  public static final String GREEN = Constants.ANSI_GREEN;
-  public static final String PURPLE = Constants.ANSI_PURPLE;
+  public class Printable {
+  private static final String GREEN = Constants.ANSI_GREEN;
+  private static final String PURPLE = Constants.ANSI_PURPLE;
   public static final String LINE_BLOCK =
       "█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████";
-  public static final String TWELVE_LINE_BLOCK = "████████████";
-  public static final String ELEVEN_LINE_BLOCK = "███████████";
-  public static final String LVL_1_LINE_BLOCK = "║█████████████████████║";
-  public static final String UPPER_LVL_1 = "╔═════════════════════╗";
-  public static final String BOTTOM_LVL_1 = "╚═════════════════════╝";
-  public static final String TEN_LINE_BLOCK = "██████████";
-  public static final String UPPER_INSIDE_LVL_2 = "┌───────────────────┐";
-  public static final String LOWER_INSIDE_LVL_2 = "└───────────────────┘";
-  public static final String THREE_LINE_BLOCK = "███";
-  public static final String NINE_LINE_BLOCK = "█████████";
-  public static final String VERTICAL_DOUBLE_LINE = "║";
-  public static final String VERTICAL_DOUBLE_LINE_RIGHT = "║\n";
-  public static final String FIVE_LINE_BLOCK = "█████";
-  public static final String SEVEN_LINE_BLOCK = "███████";
-  public static final String NINETEEN_LINE_BLOCK = "███████████████████";
-  public static final String CYAN = Constants.ANSI_CYAN;
+  private static final String TWELVE_LINE_BLOCK = "████████████";
+  private static final String ELEVEN_LINE_BLOCK = "███████████";
+  private static final String LVL_1_LINE_BLOCK = "║█████████████████████║";
+  private static final String UPPER_LVL_1 = "╔═════════════════════╗";
+  private static final String BOTTOM_LVL_1 = "╚═════════════════════╝";
+  private static final String TEN_LINE_BLOCK = "██████████";
+  private static final String UPPER_INSIDE_LVL_2 = "┌───────────────────┐";
+  private static final String LOWER_INSIDE_LVL_2 = "└───────────────────┘";
+  private static final String THREE_LINE_BLOCK = "███";
+  private static final String NINE_LINE_BLOCK = "█████████";
+  private static final String VERTICAL_DOUBLE_LINE = "║";
+  private static final String VERTICAL_DOUBLE_LINE_RIGHT = "║\n";
+  private static final String FIVE_LINE_BLOCK = "█████";
+  private static final String SEVEN_LINE_BLOCK = "███████";
+  private static final String NINETEEN_LINE_BLOCK = "███████████████████";
+  private static final String CYAN = Constants.ANSI_CYAN;
   public static final String SINGLE_LINE_BLOCK = "█";
-  public static final String SIX_LINE_BLOCK = "██████";
-  public static final String EIGHT_LINE_BLOCK = "████████";
-  public static final String VERTICAL_LINE = "|";
-  public static final String PLUS = "+";
+  private static final String SIX_LINE_BLOCK = "██████";
+  private static final String EIGHT_LINE_BLOCK = "████████";
+  private static final String VERTICAL_LINE = "|";
+  private static final String PLUS = "+";
   protected static final HashMap<String, String> GOD_MAP_SIDE_MENU = new HashMap<>();
   private static final String RESET = Constants.ANSI_RESET;
   private static final String BLUE = Constants.ANSI_BLUE;
@@ -772,7 +773,7 @@ public class Printable {
    *
    * @return the godMapSideMenu (type HashMap<String, String>) of this Printable object.
    */
-  public static HashMap<String, String> getGodMapSideMenu() {
+  public static Map<String, String> getGodMapSideMenu() {
     return GOD_MAP_SIDE_MENU;
   }
 }

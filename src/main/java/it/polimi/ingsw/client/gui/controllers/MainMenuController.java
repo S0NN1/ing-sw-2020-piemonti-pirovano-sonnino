@@ -76,8 +76,8 @@ public class MainMenuController implements GUIController{
             gui.getModelView().setPlayerName(username.getText());
             LoaderController loaderController;
             try {
-                Constants.setADDRESS(address.getText());
-                Constants.setPORT(Integer.parseInt(port.getText()));
+                Constants.setAddress(address.getText());
+                Constants.setPort(Integer.parseInt(port.getText()));
             } catch (NumberFormatException e) {
                 confirmation.setText("Error: missing parameters!");
                 return;

@@ -19,7 +19,6 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * This class handles a single match, instantiating a game mode (Game class) and a main controller (Controller class).

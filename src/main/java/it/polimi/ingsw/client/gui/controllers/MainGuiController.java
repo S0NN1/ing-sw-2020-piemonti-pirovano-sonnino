@@ -79,7 +79,7 @@ public class MainGuiController implements GUIController {
     Collection<String> players = gui.getModelView().getPlayerMapColor().keySet();
     Iterator<String> iterator = players.iterator();
     for (int i = 0; i < gui.getModelView().getPlayerMapColor().size(); i++) {
-      String nickname = iterator.next().toString();
+      String nickname = iterator.next();
       playerMapLabel.get(i).setText(nickname);
       playerMapStar.put(playerMapLabel.get(i).getText(), indexMapStar.get(i));
       playerMapRect
@@ -99,15 +99,8 @@ public class MainGuiController implements GUIController {
     } else {
       buttonCustom.setText(
           Constants.getGodMapCustomAction().get(gui.getModelView().getGod().toUpperCase()));
-      buttonCustom.setOnAction(
-          event -> {
-            gui.getListeners()
-                .firePropertyChange(
-                        ACTION,
-                    null,
-                    Constants.getGodMapCustomAction()
-                        .get(gui.getModelView().getGod().toUpperCase()));
-          });
+      buttonCustom.setOnAction(event -> gui.getListeners().firePropertyChange(ACTION, null,
+              Constants.getGodMapCustomAction().get(gui.getModelView().getGod().toUpperCase())));
     }
   }
 
@@ -504,7 +497,7 @@ public class MainGuiController implements GUIController {
    *
    * @return the colors (type HashMap<String, Color>) of this MainGuiController object.
    */
-  public HashMap<String, Color> getColors() {
+  public Map<String, Color> getColors() {
     return colors;
   }
 
