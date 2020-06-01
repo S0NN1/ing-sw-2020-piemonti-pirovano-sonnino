@@ -80,8 +80,8 @@ public class Constants {
 
     public static final String RULES ="\nView full rules here: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf";
     //server constants
-    private static String ADDRESS;
-    private static int PORT;
+    private static String address;
+    private static int port;
 
     public static final int GRID_MAX_SIZE = 5;
     public static final int GRID_MIN_SIZE = 0;
@@ -100,7 +100,7 @@ public class Constants {
      *
      * @return the godMapCustomAction (type HashMap<String, String>) of this Constants object.
      */
-    public static HashMap<String, String> getGodMapCustomAction() {
+    public static Map<String, String> getGodMapCustomAction() {
         return godMapCustomAction;
     }
 private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList(ATLAS);
@@ -269,11 +269,11 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @param ADDRESS the ADDRESS of this Constants object.
+     * @param address the ADDRESS of this Constants object.
      *
      */
-    public static void setADDRESS(String ADDRESS) {
-        Constants.ADDRESS = ADDRESS;
+    public static void setAddress(String address) {
+        Constants.address = address;
     }
 
     /**
@@ -281,11 +281,11 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @param PORT the PORT of this Constants object.
+     * @param port the PORT of this Constants object.
      *
      */
-    public static void setPORT(int PORT) {
-        Constants.PORT = PORT;
+    public static void setPort(int port) {
+        Constants.port = port;
     }
 
     /**
@@ -295,8 +295,8 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      * @return the ADDRESS (type String) of this Constants object.
      */
-    public static String getADDRESS() {
-        return ADDRESS;
+    public static String getAddress() {
+        return address;
     }
 
     /**
@@ -306,8 +306,8 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      * @return the PORT (type int) of this Constants object.
      */
-    public static int getPORT() {
-        return PORT;
+    public static int getPort() {
+        return port;
     }
 
 }

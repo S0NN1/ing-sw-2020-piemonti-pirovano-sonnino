@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class Ares extends Worker {
 
-    private final String REMOVE_BLOCK_LISTENER = "removeListener";
+    private static final String REMOVE_BLOCK_LISTENER = "removeListener";
 
     /**
      * Constructor
@@ -65,8 +65,10 @@ public class Ares extends Worker {
         return true;
     }
 
-    public void notifyWithRemovable(GameBoard gameBoard, Space unmovedWorkerPosition) throws IllegalArgumentException, IllegalStateException {
-        if(gameBoard == null || !checkUnmovedWorkerPosition(unmovedWorkerPosition)) throw new IllegalArgumentException();
+    public void notifyWithRemovable(GameBoard gameBoard, Space unmovedWorkerPosition) throws IllegalArgumentException,
+            IllegalStateException {
+        if(gameBoard == null || !checkUnmovedWorkerPosition(unmovedWorkerPosition)) throw new
+                IllegalArgumentException();
         List<Space> removable = getRemovableSpaces(gameBoard, unmovedWorkerPosition);
         if(removable.isEmpty()) {
             throw new IllegalStateException();
@@ -87,17 +89,22 @@ public class Ares extends Worker {
     }
 
     public boolean canRemove(Space space, Space unmovedWorkerPosition) {
-        return neighbouring(space, unmovedWorkerPosition) && space.isEmpty() && space.getTower().getHeight() > 0 && !space.getTower().isCompleted();
+        return neighbouring(space, unmovedWorkerPosition) && space.isEmpty() && space.getTower().getHeight() > 0 &&
+                !space.getTower().isCompleted();
     }
 
     private boolean neighbouring(Space space, Space unmovedWorkerPosition) {
-        return (space.getRow() - unmovedWorkerPosition.getRow() < 2) && (unmovedWorkerPosition.getRow() - space.getRow() < 2) &&
-                (space.getColumn() - unmovedWorkerPosition.getColumn() < 2) && (unmovedWorkerPosition.getColumn() - space.getColumn() < 2) &&
-                (space.getRow() != unmovedWorkerPosition.getRow() || space.getColumn() != unmovedWorkerPosition.getColumn());
+        return (space.getRow() - unmovedWorkerPosition.getRow() < 2) && (unmovedWorkerPosition.getRow() -
+                space.getRow() < 2) &&
+                (space.getColumn() - unmovedWorkerPosition.getColumn() < 2) && (unmovedWorkerPosition.getColumn() -
+                space.getColumn() < 2) &&
+                (space.getRow() != unmovedWorkerPosition.getRow() || space.getColumn() !=
+                        unmovedWorkerPosition.getColumn());
     }
 
     public boolean checkUnmovedWorkerPosition(Space unmovedWorkerPosition) {
         return ((unmovedWorkerPosition.getWorker().getWorkerColor().equals(this.workerColor)) &&
-                ((unmovedWorkerPosition.getRow() != this.position.getRow()) || (unmovedWorkerPosition.getColumn() != this.position.getColumn())));
+                ((unmovedWorkerPosition.getRow() != this.position.getRow()) || (unmovedWorkerPosition.getColumn() !=
+                        this.position.getColumn())));
     }
 }
