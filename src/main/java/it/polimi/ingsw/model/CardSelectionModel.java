@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.OutOfBoundException;
-import it.polimi.ingsw.server.answers.CustomMessage;
 import it.polimi.ingsw.server.answers.ChallengerMessages;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
