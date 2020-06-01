@@ -2,22 +2,17 @@ package it.polimi.ingsw.model.player.gods.advancedgods;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
-import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.PlayerColors;
-import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.model.player.WorkerForTest;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
 import it.polimi.ingsw.server.answers.worker.BuildMessage;
-import it.polimi.ingsw.server.answers.worker.MoveMessage;
 import it.polimi.ingsw.server.answers.worker.SelectSpacesMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -115,7 +110,7 @@ public class AresTest {
         assertFalse(ares1.canRemove(remove, unmoved),"6");
 
         remove = gameBoard.getSpace(1,2);
-        remove.setWorker(new WorkerForTest(PlayerColors.RED));  //space not empty
+        remove.setWorker(new Ares(PlayerColors.RED));  //space not empty
         assertFalse(ares1.canRemove(remove, unmoved),"7");
 
         remove = gameBoard.getSpace(1,3);   //correct space

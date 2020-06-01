@@ -2,27 +2,20 @@ package it.polimi.ingsw.model.player.gods.advancedgods;
 
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
-import it.polimi.ingsw.controller.ActionController;
-import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.model.player.WorkerForTest;
-import it.polimi.ingsw.server.GameHandler;
+import it.polimi.ingsw.model.player.gods.simplegods.Apollo;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
-import it.polimi.ingsw.server.answers.worker.BuildMessage;
 import it.polimi.ingsw.server.answers.worker.MoveMessage;
 import it.polimi.ingsw.server.answers.worker.SelectSpacesMessage;
-import it.polimi.ingsw.server.answers.worker.WinMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,7 +60,7 @@ public class CharonTest {
         @DisplayName("out of grid")
         void outOfGrid() {
             Space space1 = gameBoard.getSpace(3,3);     //out of grid space
-            Worker worker = new WorkerForTest(PlayerColors.RED);
+            Worker worker = new Apollo(PlayerColors.RED);
             worker.setPosition(space1);
             assertFalse(charon.forceWorker(space1, gameBoard),"1");
         }
@@ -79,7 +72,7 @@ public class CharonTest {
         @DisplayName("not reachable space")
         void notReachable() {
             Space space2 = gameBoard.getSpace(1,1);     //not reachable space
-            Worker worker = new WorkerForTest(PlayerColors.RED);
+            Worker worker = new Apollo(PlayerColors.RED);
             worker.setPosition(space2);
             assertFalse(charon.forceWorker(space2, gameBoard),"2");
         }
@@ -111,9 +104,9 @@ public class CharonTest {
         @DisplayName("force on another worker")
         void occupiedSpace() {
             Space space5 = gameBoard.getSpace(4,2);
-            Worker worker = new WorkerForTest(PlayerColors.RED);
+            Worker worker = new Apollo(PlayerColors.RED);
             worker.setPosition(space5);
-            Worker worker2 = new WorkerForTest(PlayerColors.BLUE);
+            Worker worker2 = new Apollo(PlayerColors.BLUE);
             worker2.setPosition(gameBoard.getSpace(4,4)); //occupied space
             assertFalse(charon.forceWorker(space5, gameBoard),"5");
         }
@@ -125,7 +118,7 @@ public class CharonTest {
         @DisplayName("force on a complete tower")
         void completeSpace() {
             Space space6 = gameBoard.getSpace(4,2);
-            Worker worker = new WorkerForTest(PlayerColors.RED);
+            Worker worker = new Apollo(PlayerColors.RED);
             worker.setPosition(space6);
             gameBoard.getSpace(4,4).getTower().setDome(true); //complete tower
             assertFalse(charon.forceWorker(space6, gameBoard),"6");
@@ -140,7 +133,7 @@ public class CharonTest {
             position = gameBoard.getSpace(3,2);
             charon.setPosition(position);
             Space space = gameBoard.getSpace(3,1);
-            Worker worker = new WorkerForTest(PlayerColors.GREEN);
+            Worker worker = new Apollo(PlayerColors.GREEN);
             worker.setPosition(space);
 
             assertFalse(charon.forceWorker(space,gameBoard),"1");
@@ -158,7 +151,7 @@ public class CharonTest {
         position = gameBoard.getSpace(3,2);
         charon.setPosition(position);
         Space space = gameBoard.getSpace(3,1);
-        Worker worker = new WorkerForTest(PlayerColors.BLUE);
+        Worker worker = new Apollo(PlayerColors.BLUE);
         worker.setPosition(space);
 
         assertTrue(charon.forceWorker(space,gameBoard),"1");
@@ -186,9 +179,9 @@ public class CharonTest {
         charon.setPosition(position);
         Space space = gameBoard.getSpace(3,4);
         Space space2 = gameBoard.getSpace(4,3);
-        Worker worker1 = new WorkerForTest(PlayerColors.BLUE);
+        Worker worker1 = new Apollo(PlayerColors.BLUE);
         worker1.setPosition(space);
-        Worker worker2 = new WorkerForTest((PlayerColors.GREEN));
+        Worker worker2 = new Apollo((PlayerColors.GREEN));
         worker2.setPosition(space2);
         charon.notifyWithForceWorkerSpaces(gameBoard);
 

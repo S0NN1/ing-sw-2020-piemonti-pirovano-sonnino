@@ -17,16 +17,16 @@ public class BuildAction extends WorkerAction {
     /**
      * Constructor BuildAction creates a new BuildAction instance.
      *
-     * @param x of type int - the row.
-     * @param y of type int - the column.
+     * @param row of type int - the row.
+     * @param column of type int - the column.
      */
-    public BuildAction(int x, int y){
-        buildSpace = new Couple(x,y);
+    public BuildAction(int row, int column){
+        buildSpace = new Couple(row,column);
         this.action = Action.BUILD;
     }
 
-    public BuildAction(int x, int y, Action action) {
-        buildSpace = new Couple(x, y);
+    public BuildAction(int row, int column, Action action) {
+        buildSpace = new Couple(row, column);
         this.action = action;
     }
 
