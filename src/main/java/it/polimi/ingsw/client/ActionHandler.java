@@ -123,7 +123,7 @@ public class ActionHandler {
                 && modelView.getTurnPhase() == 1) {
             view.firePropertyChange(BOARD_UPDATE, new boolean[]{true, false, false}, null);
         } else if(Constants.getEndActionGods().contains(modelView.getGod())) {
-            view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, false, true, true}, null);
+            view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, false, true, false}, null);
         } else {
             view.firePropertyChange(BOARD_UPDATE, new boolean[]{false, false, true}, null);
         }

@@ -87,7 +87,7 @@ public class ActionController {
      * otherwise.
      */
     public boolean readMessage(SelectMoveAction action) {
-        if (action.getMessage() == Action.FORCE_WORKER) return selectForceWorkerReadMessage();
+        if (action.getMessage() == Action.SELECT_FORCE_WORKER) return selectForceWorkerReadMessage();
         int phaseTemp = phase;
         while (worker.getPhase(phase) != null &&
                 worker.getPhase(phase).getAction() != Action.SELECT_MOVE &&
