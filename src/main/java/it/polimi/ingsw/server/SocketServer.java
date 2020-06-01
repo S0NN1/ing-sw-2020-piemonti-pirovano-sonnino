@@ -21,6 +21,12 @@ public class SocketServer implements Runnable{
     private volatile boolean active;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
+    /**
+     * Constructor SocketServer creates a new SocketServer instance.
+     *
+     * @param port of type int the port on which server will listen.
+     * @param server of type Server the main server object.
+     */
     public SocketServer(int port, Server server) {
         this.server = server;
         this.port = port;
@@ -28,14 +34,25 @@ public class SocketServer implements Runnable{
         active = true;
     }
 
+    /**
+     * Method setActive sets the active connection field of this SocketServer object.
+     *
+     *
+     *
+     * @param value the active connection value of the socket.
+     *
+     */
     public void setActive(boolean value) {
         active = value;
     }
 
+
     /**
-     * Accept connections from clients and create a new thread, one for each connection.
-     * Every thread last to the client disconnection.
-     * @param serverSocket the server socket, which accepts connections.
+     * Method acceptConnections accepts connections from clients and create a new thread, one for each connection.
+     * Each thread lasts until client disconnection.
+     *
+     *
+     * @param serverSocket of type ServerSocket the server socket, which accepts connections.
      */
     public void acceptConnections(ServerSocket serverSocket) {
         while (active) {
@@ -49,13 +66,13 @@ public class SocketServer implements Runnable{
     }
 
     /**
-     * Runnable method that instantiates a new socket on server side.
+     * Method run is the runnable method which instantiates a new socket on server side.
      */
     @Override
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println(Constants.getInfo() + "Socket Server started; listening on port " + port);
+            System.out.println(Constants.getInfo() + "Socket Server started; listening on port " + port + ". Type \"quit\" to exit");
             acceptConnections(serverSocket);
         }
         catch (IOException e) {

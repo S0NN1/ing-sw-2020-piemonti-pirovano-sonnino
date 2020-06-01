@@ -1,6 +1,9 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
+import it.polimi.ingsw.client.messages.actions.turnactions.EndTurnAction;
+import it.polimi.ingsw.client.messages.actions.workeractions.MoveAction;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.Space;
@@ -11,10 +14,12 @@ import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
+import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +86,11 @@ class ControllerTest {
 
         public void setGame(Game game) {
             this.game = game;
+        }
+
+        @Override
+        public int getCurrentPlayerID() {
+            return 1;
         }
 
         @Override
@@ -154,4 +164,18 @@ class ControllerTest {
         assertFalse(controller.placeWorkers(new WorkerSetupMessage(input)));
     }
 
+    @DisplayName("God Selection Controller setting check")
+    @Test
+    void godSelectionSetting() {
+        controller.setSelectionController(1);
+    }
+
+    @DisplayName("Listener's firing test")
+    @Test
+    void listenerTest() {
+        controller.propertyChange(new PropertyChangeEvent(this, "godSelection", null, new ChallengerPhaseAction("GODLIST")));
+        controller.propertyChange(new PropertyChangeEvent(this, "workerPlacement", null, new WorkerSetupMessage(new String[]{null, "1", "2", "3", "4"})));
+        controller.propertyChange(new PropertyChangeEvent(this, "turnController", null, new EndTurnAction()));
+        controller.propertyChange(new PropertyChangeEvent(this, "nonSensePhrase", null, null));
+    }
 }

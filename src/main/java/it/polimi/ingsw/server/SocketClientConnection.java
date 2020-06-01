@@ -36,11 +36,13 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         return active;
     }
 
+
     /**
-     * Constructor of the class: it instantiates an input/output stream from the socket received as parameters, and
-     * add the main server to his attributes too.
-     * @param socket the socket which accepted the client connection.
-     * @param server the main server class.
+     * Constructor SocketClientConnection instantiates an input/output stream from the socket received as parameters, and
+     * adds the main server to his attributes too.
+     *
+     * @param socket of type Socket the socket which accepted the client connection.
+     * @param server of type Server the main server class.
      */
     public SocketClientConnection(Socket socket, Server server) {
         this.server = server;
@@ -57,15 +59,19 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+
     /**
-     * @return the connection socket.
+     * Method getSocket returns the socket of this SocketClientConnection object.
+     *
+     * @return the socket (type Socket) of this SocketClientConnection object.
      */
     public Socket getSocket() {
         return socket;
     }
 
+
     /**
-     * Close the connection with the client, terminating firstly input and output streams, and then invoking the server
+     * Method close terminates the connection with the client, closing firstly input and output streams, then invoking the server
      * method called "unregisterClient", which will remove the active virtual client from the list.
      * @see it.polimi.ingsw.server.Server#unregisterClient for more details.
      */
@@ -79,10 +85,12 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+
     /**
-     * Read a serializable object from the input stream, using ObjectInputStream library.
-     * @throws IOException if the client is not online anymore.
-     * @throws ClassNotFoundException if the serializable object is not part of any class.
+     * Method readFromStream reads a serializable object from the input stream, using ObjectInputStream library.
+     *
+     * @throws IOException when the client is not online anymore.
+     * @throws ClassNotFoundException when the serializable object is not part of any class.
      */
     public synchronized void readFromStream() throws IOException, ClassNotFoundException {
         SerializedMessage input = (SerializedMessage)inputStream.readObject();
@@ -96,6 +104,9 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+    /**
+     * Method run is the overriding runnable class method, which is called on a new client connection.
+     */
     @Override
     public void run() {
     try {
@@ -116,10 +127,13 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     }
     }
 
+
     /**
-     * Handles an action by receiving a message from the client. The "Message" interface permits splitting the information
-     * into several types of messages. This method invokes another one relying on the implementation type of the message received.
-     * @param command the Message interface type command, which needs to be checked in order to perform an action.
+     * Method actionHandler handles an action by receiving a message from the client.
+     * The "Message" interface permits splitting the information into several types of messages.
+     * This method invokes another one relying on the implementation type of the message received.
+     *
+     * @param command of type Message the Message interface type command, which needs to be checked in order to perform an action.
      */
     public void actionHandler(Message command) {
         if(command instanceof SetupConnection) {
@@ -143,9 +157,11 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+
     /**
-     * Check the validity of the connection message received from the client.
-     * @param command the connection command.
+     * Method checkConnection checks the validity of the connection message received from the client.
+     *
+     * @param command of type SetupConnection the connection command.
      */
     private void checkConnection(SetupConnection command) {
         try {
@@ -161,11 +177,13 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+
     /**
-     * Handles an action by receiving a message from the client. The "Action" interface permits splitting the information
-     * into several types of action (like move, build, etc). This method invokes the correct part of the server relying on
-     * the action type received.
-     * @param action the Action interface type command received from the client.
+     * Method actionHandler handles an action by receiving a message from the client.
+     * The "Action" interface permits splitting the information into several types of action (like move, build, etc).
+     * This method invokes the correct part of the server relying on the action type received.
+     *
+     * @param action of type UserAction the Action interface type command received from the client.
      */
     public void actionHandler(UserAction action) {
         if(server.getGameByID(clientID).getCurrentPlayerID()!=clientID) {
@@ -191,11 +209,14 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+
     /**
-     * Setup method. It permits setting the number of the players in the match, which is decided by the first user connected
-     * to the server. It waits for a NumberOfPlayers Message type, then extracts the information about the number of
-     * players, passing it as a parameter to the server function "setTotalPlayers".
-     * @param message the action received from the user. This method iterates on it until it finds a NumberOfPlayers type.
+     * Method setPlayers is a setup method.
+     * It permits setting the number of the players in the match, which is decided by the first user connected to the server.
+     * It waits for a NumberOfPlayers Message type, then extracts the information about the number of players, passing
+     * it as a parameter to the server function "setTotalPlayers".
+     *
+     * @param message of type RequestPlayersNumber the action received from the user. This method iterates on it until it finds a NumberOfPlayers type.
      */
     public void setPlayers(RequestPlayersNumber message) {
         SerializedAnswer ans = new SerializedAnswer();
@@ -225,9 +246,11 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     }
 
     /**
-     * Sending to the client method. It allows dispatching serverAnswer to the correct client. The type SerializedMessage
-     * contains an Answer type, which represents an interface for server answer, like the client Message one.
-     * @param serverAnswer the serialized server answer (interface Answer).
+     * Method sendSocketMessage allows dispatching the server's Answer to the correct client.
+     * The type SerializedMessage contains an Answer type object, which represents an interface for server answer,
+     * like the client Message one.
+     *
+     * @param serverAnswer of type SerializedAnswer the serialized server answer (interface Answer).
      */
     public void sendSocketMessage(SerializedAnswer serverAnswer) {
         try {
@@ -240,8 +263,13 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
     }
 
+
     /**
-     * @return the client ID of the actual connection.
+     * Method getClientID returns the clientID of this SocketClientConnection object.
+     *
+     *
+     *
+     * @return the clientID (type Integer) of this SocketClientConnection object.
      */
     public Integer getClientID() {
         return clientID;
