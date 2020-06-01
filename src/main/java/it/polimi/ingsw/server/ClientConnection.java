@@ -1,4 +1,9 @@
 package it.polimi.ingsw.server;
 
-public interface ClientConnection {
-}
+
+/**
+ * Interface ClientConnection represents the type of client connection.
+ *
+ * @author Luca Pirovano
+ */
+public interface ClientConnection {}

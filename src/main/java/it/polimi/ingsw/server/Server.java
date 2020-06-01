@@ -64,6 +64,9 @@ public class Server {
     private int totalPlayers;
 
 
+    /**
+     * Method quitter permits quitting from the server application, closing all active connections.
+     */
     public void quitter() {
         Scanner scanner = new Scanner(System.in);
         while(true) {
@@ -75,8 +78,9 @@ public class Server {
         }
     }
 
+
     /**
-     * Constructor of the class, it creates the instance of the server, based on a socket and the mapping between VirtualClient,
+     * Constructor Server creates the instance of the server, based on a socket and the mapping between VirtualClient,
      * nicknames and client ids. It also creates a new game session.
      */
     public Server() {
@@ -90,24 +94,37 @@ public class Server {
         thread.start();
     }
 
+    /**
+     * Method getSocketServer returns the socketServer of this Server object.
+     *
+     *
+     *
+     * @return the socketServer (type SocketServer) of this Server object.
+     */
     public synchronized SocketServer getSocketServer() {
         return socketServer;
     }
 
+
     /**
-     * Return the game handler by having the client ID. It's useful for getting the game handler from the socket handler.
-     * @param id the client ID.
-     * @return the associated game handler.
+     * Method getGameByID returns the game handler by having the client ID.
+     * It's useful for getting the game handler from the socket handler.
+     *
+     * @param id of type int the client ID.
+     * @return GameHandler the associated game handler.
      */
     public GameHandler getGameByID(int id) {
         return idMapClient.get(id).getGameHandler();
     }
 
+
     /**
-     * Set the maximum number of player relying on the input provided by the first user who connects; he is also called
-     * the "lobby host".
+     * Method setTotalPlayers sets the maximum number of player relying on the input provided by the first user who
+     * connects. He's is also called the "lobby host".
+     *
      * @param totalPlayers the number of players provided by the first user connected.
-     * @throws OutOfBoundException if the input is not in the correct player range.
+     *
+     * @throws OutOfBoundException when the input is not in the correct player range.
      * @see it.polimi.ingsw.constants.Constants for the max/min player parameters.
      */
     protected void setTotalPlayers(int totalPlayers) throws OutOfBoundException {
@@ -119,34 +136,46 @@ public class Server {
         }
     }
 
+
     /**
-     * Return a link to the desired virtual client, in order to make operations on it (like send, etc).
-     * @param id the id of the virtual client needed.
-     * @return the correct virtual client.
+     * Method getClientByID returns a link to the desired virtual client, in order to make operations on it (like send, etc).
+     *
+     * @param id of type int the id of the virtual client needed.
+     * @return VirtualClient the correct virtual client.
      */
     public VirtualClient getClientByID(int id) {
         return idMapClient.get(id);
     }
 
+
     /**
-     * Return the user nickname from the hashmap explained above.
-     * @param id the id of the client.
-     * @return the nickname of the associated player.
+     * Method getNicknameByID returns the user nickname from the hashmap explained above.
+     *
+     * @param id of type int the id of the client.
+     * @return String the nickname of the associated player.
      */
     public String getNicknameByID(int id) {
         return idMapName.get(id);
     }
 
+    /**
+     * Method getIDByNickname returns the user ID from the nickname's hashmap explained above.
+     *
+     * @param nickname of type String the user's nickname.
+     * @return int his clientID inside the model class.
+     */
     public int getIDByNickname(String nickname) { return nameMapId.get(nickname); }
 
+
     /**
-     * Creates or handle a lobby, which is a common room used before a match. In this room, connected players are waiting
-     * for other ones, in order to reach the correct players number for playing.
-     * If the waiting clients queue is empty, the server creates a new lobby and ask the first player to choose the
-     * number of playing players. After that, when a client connects, it checks if the players number has been reached;
-     * if true, starts the match.
-     * @param c a single client connection, which is used for common operations(like sending/receiving commands, etc).
-     * @throws InterruptedException if TimeUnit throws it.
+     * Method lobby creates or handle a lobby, which is a common room used before a match. In this room, connected
+     * players are waiting for other ones, in order to reach the correct players' number for playing.
+     * If the waiting clients' queue is empty, the server creates a new lobby and ask the first player to choose the
+     * capacity. After that, when a client connects, it checks if the players number has been reached; if true, starts the match.
+     *
+     * @param c of type SocketClientConnection a single client connection, which is used for common
+     *          operations(like sending/receiving commands, etc).
+     * @throws InterruptedException when TimeUnit throws it.
      */
     public synchronized void lobby(SocketClientConnection c) throws InterruptedException{
         waiting.add(c);
@@ -169,9 +198,12 @@ public class Server {
         }
     }
 
+
     /**
-     * Delete a client from the hashmaps and active lists, unregistering his connection with the server.
-     * @param clientID the ID of the virtual client to be removed.
+     * Method unregisterClient deletes a client from the hashmaps and active lists, unregistering his connection
+     * with the server.
+     *
+     * @param clientID of type int the ID of the virtual client to be removed.
      */
     public synchronized void unregisterClient(int clientID) {
         getGameByID(clientID).unregisterPlayer(clientID);
@@ -185,12 +217,16 @@ public class Server {
         System.out.println(Constants.getInfo() + "Client has been successfully unregistered.");
     }
 
+
     /**
-     * It registers a new connection between the client and the server, by inserting him in the registry hashmaps.
-     * If the nickname has already connected, it simply ignores this step and notify the client about this fact.
-     * @param nickname the nickname chosen by the client.
-     * @param socketClientHandler the active connection between server socket and client socket.
-     * @return the client ID if everything goes fine, null otherwise.
+     * Method registerConnection registers a new connection between the client and the server,
+     * by inserting him in the registry hashmaps.
+     * If the nickname has already been chosen, it simply ignores this step and notify the client about this fact, asking
+     * him to provide a new nickname.
+     *
+     * @param nickname of type String the nickname chosen by the client.
+     * @param socketClientHandler of type SocketClientConnection the active connection between server socket and client socket.
+     * @return Integer the client ID if everything goes fine, null otherwise.
      */
     public synchronized Integer registerConnection(String nickname, SocketClientConnection socketClientHandler) {
         Integer clientID = nameMapId.get(nickname);
@@ -240,9 +276,11 @@ public class Server {
         return clientID;
     }
 
+
     /**
-     * @return a new client ID for a fresh-connected client. It's based on an attribute which considers the number
-     * of people connected to this server since his startup.
+     * Method createClientID returns a new client ID for a fresh-connected client.
+     * It's based on an attribute which considers the number of people connected to this server since his startup.
+     * @return int the generated client id.
      */
     public synchronized int createClientID() {
         int id = nextClientID;
@@ -251,9 +289,10 @@ public class Server {
     }
 
     /**
-     * Transmits a global message to all active clients connected to the server, iterating inside the virtual client
-     * hashmap.
-     * @param answer the message to transmit.
+     * Method broadcast transmits a global message to all active clients connected to the server,
+     * iterating inside the virtual client hashmap.
+     *
+     * @param answer of type Answer the message to transmit.
      */
     public void broadcast(Answer answer) {
         for(Map.Entry<Integer, VirtualClient> i: idMapClient.entrySet()) {
@@ -262,7 +301,7 @@ public class Server {
     }
 
     /**
-     * The main of the server. It simply creates a new server class, adding a server socket to an executor.
+     * The main class of the server. It simply creates a new server class, adding a server socket to an executor.
      * @param args the main args, like any Java application.
      */
     public static void main(String[] args) {

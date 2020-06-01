@@ -38,6 +38,11 @@ public class GameHandler {
     private int started;
     private int playersNumber;
 
+    /**
+     * Constructor GameHandler creates a new GameHandler instance.
+     *
+     * @param server of type Server the main server class.
+     */
     public GameHandler(Server server) {
         this.server = server;
         started = 0;
@@ -46,16 +51,21 @@ public class GameHandler {
         controllerListener.addPropertyChangeListener(controller);
     }
 
+
     /**
-     * @return if the game has started (the started attribute becomes true after the challenger selection phase).
+     * Method isStarted returns if the game has started (the started attribute becomes true after the challenger selection phase).
+     * @return int the current game phase.
      */
     public int isStarted() {
         return started;
     }
 
+
     /**
-     * Set the active players number of the match, decided by the first connected player.
+     * Method setPlayersNumber sets the active players number of the match, decided by the first connected player.
+     *
      * @param playersNumber the number of the playing clients.
+     *
      */
     public void setPlayersNumber(int playersNumber) {
         this.playersNumber = playersNumber;
@@ -63,32 +73,42 @@ public class GameHandler {
 
 
     /**
-     * This method receives a nickname from the server application and creates a new player in the game class.
-     * @param nickname the chosen nickname, after a duplicates check.
+     * Method setupPlayer receives a nickname from the server application and creates a new player in the game class.
+     *
+     * @param nickname of type String the chosen nickname, after a duplicates check.
+     * @param clientID of type int the client unique id generated from server.
      */
     public void setupPlayer(String nickname, int clientID) {
         game.createNewPlayer(new Player(nickname, clientID));
     }
 
     /**
-     * @return the current player client ID, getting him from the currentPlayer reference in the Game class.
+     * Method getCurrentPlayerID returns the current player client ID, getting it from the currentPlayer
+     * reference in the Game class.
+     *
+     * @return the currentPlayerID (type int) of this GameHandler object.
      */
     public int getCurrentPlayerID() {
         return game.getCurrentPlayer().getClientID();
     }
 
+
     /**
-     * Send to a client, identified by his ID number, a determined message through the server socket.
-     * @param message the message to be sent to the client.
-     * @param id the unique identification number of the client to be contacted.
+     * Method singleSend sends a message to a client, identified by his ID number, through the server socket.
+     *
+     * @param message of type Answer the message to be sent to the client.
+     * @param id of type int the unique identification number of the client to be contacted.
      */
     public void singleSend(Answer message, int id) {
         server.getClientByID(id).send(message);
     }
 
+
     /**
-     * Same as the previous method, but it iterates on all the clients present in the game. It's a full effects broadcast.
-     * @param message the message to broadcast (at single match participants' level).
+     * Method sendAll makes the same as the previous method, but it iterates on all the clients present in the game.
+     * It's a full effects broadcast.
+     *
+     * @param message of type Answer  the message to broadcast (at single match participants' level).
      */
     public void sendAll(Answer message) {
         for(Player countPlayer:game.getActivePlayers()) {
@@ -96,10 +116,13 @@ public class GameHandler {
         }
     }
 
+
     /**
-     * Same as the previous method, but it iterates on all the clients present in the game, except the declared one.
-     * @param message the message to be transmitted.
-     * @param excludedID the client which will not receive the communication.
+     * Method sendAllExcept makes the same as the previous method, but it iterates on all the clients
+     * present in the game, except the declared one.
+     *
+     * @param message of type Answer the message to be transmitted.
+     * @param excludedID of type int the client which will not receive the communication.
      */
     public void sendAllExcept(Answer message, int excludedID) {
         for(Player countPlayer:game.getActivePlayers()) {
@@ -109,9 +132,11 @@ public class GameHandler {
         }
     }
 
+
     /**
-     * Preliminary player setup phase; in this phase the color of workers' markers will be asked the player, with a
-     * double check (on both client and server sides) of the validity of them (also in case of duplicate colors).
+     * Method setup handles the preliminary player setup phase; in this phase the color of workers' markers will be
+     * asked the player, with a double check (on both client and server sides) of the validity of them
+     * (also in case of duplicate colors).
      */
     public void setup() {
         if(started==0) started=1;
@@ -156,8 +181,11 @@ public class GameHandler {
         controller.setSelectionController(game.getCurrentPlayer().getClientID());
     }
 
+
     /**
-     * @return the main game manager controller.
+     * Method getController returns the main game manager controller.
+     *
+     * @return the controller (type Controller) of this GameHandler object.
      * @see it.polimi.ingsw.controller.Controller for more information.
      */
     public Controller getController() {
@@ -171,15 +199,19 @@ public class GameHandler {
         return server;
     }
 
+
     /**
-     * Handles an action received from a single client. It makes several instance checks. It's based on the value of
-     * "started", which represents the current game phase, in this order:
-     *  - 0: color phase
-     *  - 1: challenger phase;
-     *  - 2: players select their god powers;
-     *  - 3: board worker placement;
-     *  - 4: the game has started.
-     * @param action the action sent by the client.
+     * Method makeAction handles an action received from a single client.
+     * It makes several instance checks. It's based on the value of "started", which represents the current
+     * game phase, in this order:
+     * - 0: color phase
+     * - 1: challenger phase;
+     * - 2: players select their god powers;
+     * - 3: board worker placement;
+     * - 4: the game has started.
+     *
+     * @param action of type UserAction the action sent by the client.
+     * @param type of type String the action type.
      */
     public void makeAction(UserAction action, String type) {
         switch (type) {
@@ -192,10 +224,12 @@ public class GameHandler {
         }
     }
 
+
     /**
-     * Handles the worker placement phase by checking the correctness of the user's input and if the selected cell
-     * is free or occupied by someone else.
-     * @param action the move action.
+     * Method workerPlacement handles the worker placement phase by checking the correctness of the user's input
+     * and if the selected cell is free or occupied by someone else.
+     *
+     * @param action of type WorkerSetupMessage the placement action.
      */
     public void workerPlacement(WorkerSetupMessage action) {
         if(action!=null) {
@@ -237,12 +271,14 @@ public class GameHandler {
         sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() + " is choosing workers' position.", false), getCurrentPlayerID());
     }
 
+
     /**
-     * Handles the second game phase: the user chooses his god card.
+     * Method challengerPhaseChoose handles the second game phase: the user chooses his god card.
      * If he is in the wrong turn phase (checked by the "started" int value) an error message in created and sent to the
      * client, who is requested to send another command.
-     * @param userAction the action of the current player.
-     * @param godSelection the selection of the god card.
+     *
+     * @param userAction of type ChallengerPhaseAction the action of the current player.
+     * @param godSelection of type String the selection of the god card.
      */
     public void challengerPhaseChoose(ChallengerPhaseAction userAction, String godSelection) {
         if(userAction.action.equals("CHOOSE")) {
@@ -284,10 +320,12 @@ public class GameHandler {
         }
     }
 
+
     /**
-     * Handles the challenger game phase (based on the listener message). It triggers the correct method relying on
-     * the started value.
-     * @param action the action to be performed
+     * Method challengerPhase handles the challenger game phase (based on the listener message).
+     * It triggers the correct method relying on the started value.
+     *
+     * @param action of type UserAction the action to be performed
      */
     public void challengerPhase(UserAction action) {
         ChallengerPhaseAction userAction = (ChallengerPhaseAction)action;
@@ -332,17 +370,23 @@ public class GameHandler {
         }
     }
 
+
     /**
-     * Unregister a player identified by his unique ID, after a disconnection event or message.
-     * @param id the unique id of the client to be unregistered.
+     * Method unregisterPlayer unregisters a player identified by his unique ID after a disconnection event or message.
+     *
+     * @param id of type int the unique id of the client to be unregistered.
      */
     public void unregisterPlayer(int id) {
         game.removePlayer(game.getPlayerByID(id));
     }
 
+
     /**
-     * Terminates the game, disconnecting all the players. This method is invoked after a disconnection of a player.
+     * Method endGame terminates the game, disconnecting all the players.
+     * This method is invoked after a disconnection of a player.
      * It also unregisters each client connected to the server, freeing a new lobby.
+     *
+     * @param leftNickname of type String the nickname of the player who left the game.
      */
     public void endGame(String leftNickname) {
         sendAll(new ConnectionMessage(PLAYER + " " + leftNickname + " left the game, the match will now end.\nThanks for playing!", 1));
@@ -351,8 +395,9 @@ public class GameHandler {
         }
     }
 
+
     /**
-     * Terminates the game, disconnecting all the players. This method is invoked after a player has won.
+     * Method endGame terminates the game, disconnecting all the players. This method is invoked after a player has won.
      * It also unregisters each client connected to the server, freeing a new lobby.
      */
     public void endGame() {

@@ -29,46 +29,71 @@ public class VirtualClient implements PropertyChangeListener {
         this.gameHandler = gameHandler;
     }
 
-    public VirtualClient() {
-    }
+    public VirtualClient() {}
+
 
     /**
-     * @return the unique ID of the client, which identifies him and his connection in the server system.
+     * Method getClientID returns the clientID of this VirtualClient object.
+     *
+     *
+     *
+     * @return the unique ID (type int) of the client, which identifies him and his connection in the server system.
      */
     public int getClientID() {
         return clientID;
     }
 
+
     /**
+     * Method isConnected returns the connected of this VirtualClient object.
+     *
+     *
+     *
      * @return true if the connection with the client is active yet.
      */
     public boolean isConnected() {
         return(socketClientConnection!=null);
     }
 
+
     /**
-     * @return the game manager of his match.
+     * Method getGameHandler returns the gameHandler of this VirtualClient object.
+     *
+     *
+     *
+     * @return the game manager (type GameHandler) of the client's match.
      */
     public GameHandler getGameHandler() {
         return gameHandler;
     }
 
     /**
-     * @return the nickname of the player in String format.
+     * Method getNickname returns the nickname of this VirtualClient object.
+     *
+     *
+     *
+     * @return the nickname (type String) of the player.
      */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * Method getConnection returns the connection of this VirtualClient object.
+     *
+     *
+     *
+     * @return the connection (type SocketClientConnection) of this client.
+     */
     public SocketClientConnection getConnection() {
         return socketClientConnection;
     }
 
     /**
-     * Prepares the answer for sending it through the network, putting it in a serialized package, called SerializedMessage,
-     * then sends the packaged answer to the transmission protocol, located in the socket-client handler.
+     * Method send prepares the answer for sending it through the network, putting it in a serialized package, called
+     * SerializedMessage, then sends the packaged answer to the transmission protocol, located in the socket-client handler.
      * @see it.polimi.ingsw.server.SocketClientConnection for more details.
-     * @param serverAnswer the answer to be sent to the user.
+     * @param serverAnswer of type Answer the answer to be sent to the user.
      */
     public void send(Answer serverAnswer) {
         SerializedAnswer message = new SerializedAnswer();
@@ -76,6 +101,11 @@ public class VirtualClient implements PropertyChangeListener {
         socketClientConnection.sendSocketMessage(message);
     }
 
+    /**
+     * Method win sends the win confirmation to the winner and the lose communication to all the others.
+     *
+     * @param win of type Answer the message to be sent to the winner.
+     */
     public void win(Answer win) {
         SerializedAnswer winner = new SerializedAnswer();
         winner.setServerAnswer(win);
@@ -84,14 +114,22 @@ public class VirtualClient implements PropertyChangeListener {
         gameHandler.endGame();
     }
 
+
     /**
-     * Send the message to all playing clients, thanks to the GameHandler sendAll method.
-     * @param serverAnswer the message to be sent.
+     * Method sendAll sends the message to all playing clients, thanks to the GameHandler sendAll method. It's triggered
+     * from the model's listeners after a player action.
+     *
+     * @param serverAnswer of type Answer the message to be sent.
      */
     public void sendAll(Answer serverAnswer) {
         gameHandler.sendAll(serverAnswer);
     }
 
+    /**
+     * Method propertyChange states the listener property changes, forwarding the message to the correct method.
+     *
+     * @param evt of type PropertyChangeEvent the property change firing event.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getNewValue() instanceof ChallengerMessages) {
