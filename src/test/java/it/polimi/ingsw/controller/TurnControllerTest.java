@@ -8,9 +8,11 @@ import it.polimi.ingsw.client.messages.actions.workeractions.SelectBuildAction;
 import it.polimi.ingsw.client.messages.actions.workeractions.SelectMoveAction;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.GameBoard;
+import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.model.player.gods.advancedgods.Charon;
 import it.polimi.ingsw.model.player.gods.simplegods.Apollo;
 import it.polimi.ingsw.model.player.gods.simplegods.Prometheus;
 import it.polimi.ingsw.server.GameHandler;
@@ -27,6 +29,7 @@ import java.util.HashMap;
 public class TurnControllerTest {
     final Prometheus prometheus = new Prometheus(PlayerColors.BLUE);
     final Apollo apollo = new Apollo(PlayerColors.RED);
+    final Charon charon = new Charon(PlayerColors.GREEN);
     final PlayerStub piro = new PlayerStub("piro", 1);
     final PlayerStub ali = new PlayerStub("ali", 2);
     final PlayerStub sonny = new PlayerStub("sonny", 3);
@@ -48,7 +51,7 @@ public class TurnControllerTest {
     final GameStub game = new GameStub();
     final ActionControllerStub actionControllerStub = new ActionControllerStub(board);
     final ControllerStub controllerStub = new ControllerStub(game, handler);
-    final TurnControllerStub turnController = new TurnControllerStub(new Controller(game, handler), handler, actionControllerStub);
+    final TurnController turnController = new TurnController(new Controller(game, handler), handler, actionControllerStub);
     PropertyChangeEvent evt1;
     PropertyChangeEvent evt2;
     PropertyChangeEvent evt3;
@@ -59,6 +62,9 @@ public class TurnControllerTest {
     PropertyChangeEvent evt8;
     PropertyChangeEvent evt9;
     PropertyChangeEvent evt10;
+    PropertyChangeEvent evt11;
+    PropertyChangeEvent evt12;
+    PropertyChangeEvent evt13;
 
 
     /**
@@ -75,13 +81,18 @@ public class TurnControllerTest {
         ali.getWorkers().add(apollo);
         ali.getWorkers().get(0).setPhases();
         ali.getWorkers().get(1).setPhases();
+        sonny.getWorkers().add(charon);
+        sonny.getWorkers().add(charon);
+        sonny.getWorkers().get(0).setPhases();
+        sonny.getWorkers().get(1).setPhases();
         server.setIdMapID(idMapID);
         piro.setColor(PlayerColors.BLUE);
         ali.setColor(PlayerColors.RED);
         sonny.setColor(PlayerColors.GREEN);
-        actionControllerStub.phase=0;
+        actionControllerStub.setPhase(0);
         controllerStub.getModel().getActivePlayers().add(piro);
         controllerStub.getModel().getActivePlayers().add(ali);
+        controllerStub.getModel().getActivePlayers().add(sonny);
         controllerStub.getModel().setCurrentPlayer(piro);
         game.setCurrentPlayer(piro);
         evt1 = new PropertyChangeEvent(1, null, null, new StartTurnAction("start"));
@@ -89,18 +100,22 @@ public class TurnControllerTest {
         evt3 = new PropertyChangeEvent(3, null, null, new StartTurnAction("worker2"));
         evt4 = new PropertyChangeEvent(4, null, null, new EndTurnAction());
         evt5 = new PropertyChangeEvent(5, null, null, new SelectBuildAction());
-        evt6 = new PropertyChangeEvent(6, null, null, new SelectMoveAction());
+        evt6 = new PropertyChangeEvent(6, null, null, new SelectMoveAction(Action.SELECT_MOVE));
         evt7 = new PropertyChangeEvent(7, null, null, new MoveAction(1, 1));
         evt8 = new PropertyChangeEvent(8, null, null, new BuildAction(1, 1));
         evt9 = new PropertyChangeEvent(9, null, null, "AthenaMovedUp");
         evt10 = new PropertyChangeEvent(10, null, null, "AthenaNormalMove");
+        evt11 = new PropertyChangeEvent(6, null, null, new SelectMoveAction(Action.BUILD));
+        evt12 = new PropertyChangeEvent(6, null, null, new SelectBuildAction(Action.SELECT_REMOVE));
+        evt13 = new PropertyChangeEvent(6, null, null, new StartTurnAction("worker1"));
+
 
     }
 
     @Test
     public void endTurnActionTest(){
         Assertions.assertTrue(evt4.getNewValue() instanceof EndTurnAction);
-        actionControllerStub.setPhase(5);
+        actionControllerStub.setPhase(7);
         turnController.propertyChange(evt4);
     }
 
@@ -117,6 +132,12 @@ public class TurnControllerTest {
         turnController.propertyChange(evt3);
         actionControllerStub.setPhase(1);
         turnController.propertyChange(evt2);
+        controllerStub.getModel().getCurrentPlayer().getWorkers().get(0).setBlocked(false);
+        controllerStub.getModel().getCurrentPlayer().getWorkers().get(1).setBlocked(false);
+        actionControllerStub.setPhase(0);
+        controllerStub.getModel().setCurrentPlayer(piro);
+        game.setCurrentPlayer(piro);
+        turnController.propertyChange(evt13);
     }
     @Test
     @DisplayName("Testing Athena moves")
@@ -131,6 +152,7 @@ public class TurnControllerTest {
     public void actionsTest() {
         Assertions.assertTrue(evt5.getNewValue() instanceof SelectBuildAction);
         Assertions.assertTrue(evt6.getNewValue() instanceof SelectMoveAction);
+        Assertions.assertTrue(evt11.getNewValue() instanceof SelectMoveAction);
         Assertions.assertTrue(evt7.getNewValue() instanceof MoveAction);
         Assertions.assertTrue(evt8.getNewValue() instanceof BuildAction);
         actionControllerStub.setPhase(2);
@@ -146,30 +168,30 @@ public class TurnControllerTest {
         turnController.propertyChange(evt6);
         turnController.propertyChange(evt7);
         turnController.propertyChange(evt8);
+        actionControllerStub.setPhase(3);
+        turnController.propertyChange(evt11);
     }
-
-    private class TurnControllerStub extends TurnController {
-
-        private TurnControllerStub(Controller controller, GameHandler gameHandler, ActionControllerStub actionControllerStub) {
-            super(controller, gameHandler, actionControllerStub);
-        }
-
-
-        @Override
-        public void endTurn() {
-            System.out.println(" Entered endAction ");
-        }
-
-        @Override
-        public void sendBuildError() {
-            System.out.println("Build error");
-        }
-        @Override
-        public void sendMoveError() {
-            System.out.println("Move error");
-        }
+    @Test
+    public void unusedWorkerTest(){
+        game.getCurrentPlayer().getWorkers().get(0).setBlocked(false);
+        game.getCurrentPlayer().getWorkers().get(1).setBlocked(false);
+        controllerStub.getModel().setCurrentPlayer(ali);
+        game.setCurrentPlayer(ali);
+        actionControllerStub.setWorker(ali.getWorkers().get(0));
+        actionControllerStub.setPhase(1);
+        turnController.propertyChange(evt12);
     }
-
+    @Test
+    public void endGameTest(){
+        actionControllerStub.setPhase(0);
+        game.setCurrentPlayer(ali);
+        controllerStub.getModel().setCurrentPlayer(ali);
+        ali.getWorkers().get(0).setBlocked(true);
+        ali.getWorkers().get(0).setPhases();
+        ali.getWorkers().get(1).setBlocked(true);
+        ali.getWorkers().get(1).setPhases();
+        turnController.propertyChange(evt2);
+    }
 
     public static class GameStub extends Game {
 
@@ -198,11 +220,9 @@ public class TurnControllerTest {
         public void setWorker(Worker worker){
             this.worker=worker;
         }
-
         @Override
         public boolean readMessage(SelectMoveAction action) {
-            System.out.println(" SelectMoveAction");
-            return true;
+            return action.getMessage() == Action.SELECT_MOVE;
         }
 
         @Override
@@ -227,11 +247,6 @@ public class TurnControllerTest {
             return true;
         }
 
-        @Override
-        public boolean startAction(Worker currentWorker) {
-            System.out.println("Worker action");
-            return true;
-        }
     }
 
     public class GameHandlerStub extends GameHandler {
