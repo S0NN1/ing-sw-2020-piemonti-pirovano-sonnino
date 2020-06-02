@@ -30,6 +30,8 @@ public class ActionController {
      */
     public ActionController(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
+        phase = 0;
+        worker = null;
     }
 
 
@@ -41,10 +43,10 @@ public class ActionController {
      */
     public boolean startAction(Worker currentWorker) {
         if (currentWorker == null || currentWorker.isBlocked()) return false;
-        worker = currentWorker;
-        if (phase != 0 && worker.getPhase(phase) != null) {
+        if (phase != 0 && currentWorker.getPhase(phase) != null) {
             return false;
         }
+        worker = currentWorker;
         phase = 0;
         if (worker.getPhase(phase) != null && worker.getPhase(phase).getAction() == Action.SELECT_MOVE &&
                 worker.getPhase(phase).isMust()) {
@@ -169,9 +171,10 @@ public class ActionController {
             } catch (IllegalArgumentException | IllegalStateException e) {
                 return false;
             }
+            phase++;
+            return true;
         }
-        phase++;
-        return true;
+        else return false;
     }
 
 

@@ -16,22 +16,22 @@ public class MoveAction extends WorkerAction {
     /**
      * Constructor MoveAction creates a new MoveAction instance.
      *
-     * @param x of type int - the row of the cell.
-     * @param y of type int - the column of the cell.
+     * @param row of type int - the row of the cell.
+     * @param column of type int - the column of the cell.
      */
-    public MoveAction(int x, int y){
-        newPosition = new Couple(x,y);
+    public MoveAction(int row, int column){
+        newPosition = new Couple(row,column);
         action = Action.MOVE;
     }
 
     /**
      * Constructor MoveAction creates a new MoveAction instance.
-     * @param x of type int - the row of the cell.
-     * @param y of type int - the column of the cell.
+     * @param row of type int - the row of the cell.
+     * @param column of type int - the column of the cell.
      * @param action of type Action - custom action.
      */
-    public MoveAction(int x, int y, Action action) {
-        newPosition = new Couple(x, y);
+    public MoveAction(int row, int column, Action action) {
+        newPosition = new Couple(row, column);
         this.action = action;
     }
 

@@ -4,8 +4,7 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.model.player.WorkerForTest;
-import it.polimi.ingsw.model.player.gods.advancedgods.Zeus;
+import it.polimi.ingsw.model.player.gods.simplegods.Apollo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,7 +70,7 @@ public class ZeusTest {
         assertFalse(zeus.canBuildOnto(build),"3");    //build on a not neighbour space
 
         build = gameBoard.getSpace(3,1);
-        build.setWorker(new WorkerForTest(PlayerColors.GREEN));
+        build.setWorker(new Apollo(PlayerColors.GREEN));
         assertFalse(zeus.canBuildOnto(build),"4"); //build on a not empty space
     }
 }
