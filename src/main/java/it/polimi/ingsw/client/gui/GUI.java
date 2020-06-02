@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.client.*;
+import it.polimi.ingsw.client.ActionHandler;
+import it.polimi.ingsw.client.ConnectionSocket;
+import it.polimi.ingsw.client.ModelView;
+import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.LoaderController;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
@@ -40,13 +43,15 @@ import java.util.logging.Logger;
 public class GUI extends Application implements UI {
 
     public static final String END_OF_THE_GAME = "End of the game";
-    private ConnectionSocket connection = null;
+    private static final String MAIN_GUI = "mainScene.fxml";
+    private static final String MENU = "MainMenu.fxml";
+    private static final String LOADER = "loading.fxml";
+    private static final String GODS = "godsMenu.fxml";
+    private static final String SETUP = "setup.fxml";
     private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     private final ModelView modelView;
     private final ActionHandler actionHandler;
     private final Logger logger = Logger.getLogger(getClass().getName());
-    private boolean activeGame;
-
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
      */
@@ -57,13 +62,8 @@ public class GUI extends Application implements UI {
      * @see it.polimi.ingsw.client.gui.controllers for more details.
      */
     private final HashMap<String, GUIController> nameMapController = new HashMap<>();
-
-    private static final String MAIN_GUI = "mainScene.fxml";
-    private static final String MENU = "MainMenu.fxml";
-    private static final String LOADER = "loading.fxml";
-    private static final String GODS = "godsMenu.fxml";
-    private static final String SETUP = "setup.fxml";
-
+    private ConnectionSocket connection = null;
+    private boolean activeGame;
     private Scene currentScene;
     private Stage stage;
 
@@ -77,6 +77,14 @@ public class GUI extends Application implements UI {
         this.modelView = new ModelView(this);
         actionHandler = new ActionHandler(this, modelView);
         activeGame = true;
+    }
+
+    /**
+     * Main class of the GUI, which is called from the "Santorini" launcher in case user decides to play with it.
+     * @param args of type String[] - parsed arguments.
+     */
+    public static void main(String[] args) {
+        launch(args);
     }
 
     /**
@@ -127,7 +135,6 @@ public class GUI extends Application implements UI {
         currentScene = nameMapScene.get(MENU);
     }
 
-
     /**
      * Method getStage returns the stage of this GUI object.
      *
@@ -138,7 +145,6 @@ public class GUI extends Application implements UI {
     public Stage getStage() {
         return stage;
     }
-
 
     /**
      * Method getListeners returns the listeners of this GUI object.
@@ -172,7 +178,6 @@ public class GUI extends Application implements UI {
         stage.show();
     }
 
-
     /**
      * Method getConnection returns the connection of this GUI object.
      *
@@ -183,7 +188,6 @@ public class GUI extends Application implements UI {
     public ConnectionSocket getConnection() {
         return connection;
     }
-
 
     /**
      * Method setConnection sets the connection of this GUI object.
@@ -199,7 +203,6 @@ public class GUI extends Application implements UI {
         }
     }
 
-
     /**
      * Method getModelView returns the modelView of this GUI object.
      *
@@ -211,7 +214,6 @@ public class GUI extends Application implements UI {
         return modelView;
     }
 
-
     /**
      * Method getActionHandler returns the actionHandler of this GUI object.
      *
@@ -222,7 +224,6 @@ public class GUI extends Application implements UI {
     public ActionHandler getActionHandler() {
         return actionHandler;
     }
-
 
     /**
      * Method getControllerFromName gets a scene controller based on inserted name from the dedicated hashmap.
@@ -275,9 +276,12 @@ public class GUI extends Application implements UI {
                 });
             }
             case "WorkerPlacement" -> {
-                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
-                Platform.runLater(() -> controller.workerPlacement(((WorkerPlacement)modelView.getServerAnswer()).
-                        getAvailableCoordinates()));
+                MainGuiController controller = (MainGuiController) getControllerFromName(MAIN_GUI);
+                Platform.runLater(() -> {
+                    changeStage(MAIN_GUI);
+                    controller.workerPlacement(((WorkerPlacement)modelView.getServerAnswer()).
+                            getAvailableCoordinates());
+                });
             }
             default -> {
                 logger.log(Level.WARNING, "No action to be performed!");
@@ -379,6 +383,7 @@ public class GUI extends Application implements UI {
             controller.endTurn();
         });
     }
+
     /**
      *  Method matchStarted handles StartTurnMessages and show actions accordantly.
      */
@@ -404,6 +409,7 @@ public class GUI extends Application implements UI {
             alert.showAndWait();
         });
     }
+
     /**
      *  Method singleLoser handles PlayerLostMessages (client lost) and show actions accordantly.
      */
@@ -417,6 +423,7 @@ public class GUI extends Application implements UI {
             System.exit(0);
         });
     }
+
     /**
      *  Method loser handles PlayerLostMessages (another player won) and show actions accordantly.
      * @param winner of Type String - the winner's nickname.
@@ -498,7 +505,7 @@ public class GUI extends Application implements UI {
             } else if (message instanceof DoubleMoveMessage) {
                 defineDoubleMove((DoubleMoveMessage) message, controller);
             }
-            controller.normalCell();
+            controller.normalCells();
             if(modelView.isTurnActive()) {
                 controller.showActions(actionCheckers);
                 deselectWorkers(controller);
@@ -568,13 +575,5 @@ public class GUI extends Application implements UI {
                 System.exit(0);
             }
         });
-    }
-
-    /**
-     * Main class of the GUI, which is called from the "Santorini" launcher in case user decides to play with it.
-     * @param args of type String[] - parsed arguments.
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
 }

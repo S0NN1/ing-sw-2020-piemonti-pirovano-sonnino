@@ -13,6 +13,7 @@ import it.polimi.ingsw.server.answers.turn.ModifiedTurnMessage;
 import it.polimi.ingsw.server.answers.turn.StartTurnMessage;
 import it.polimi.ingsw.server.answers.turn.WorkersRequestMessage;
 import it.polimi.ingsw.server.answers.worker.*;
+import javafx.application.Platform;
 
 import java.beans.PropertyChangeSupport;
 
@@ -349,8 +350,10 @@ public class ActionHandler {
             if (cli != null) {
                 view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
             } else if (gui != null) {
-                ((MainGuiController) gui.getControllerFromName(MAIN_SCENE_FXML)).setWorker(message.getWorker1().getRow(), message.getWorker1().getColumn());
-                ((MainGuiController) gui.getControllerFromName(MAIN_SCENE_FXML)).setWorker(message.getWorker2().getRow(), message.getWorker2().getColumn());
+                Platform.runLater(()->{
+                    ((MainGuiController) gui.getControllerFromName(MAIN_SCENE_FXML)).setWorker(message.getWorker1().getRow(), message.getWorker1().getColumn());
+                    ((MainGuiController) gui.getControllerFromName(MAIN_SCENE_FXML)).setWorker(message.getWorker2().getRow(), message.getWorker2().getColumn());
+                });
             }
         } else if (answer instanceof MatchStartedMessage) {
             modelView.setPlayerMapColor(((MatchStartedMessage)answer).getPlayerMapColor());

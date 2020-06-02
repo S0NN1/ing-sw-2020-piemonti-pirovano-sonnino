@@ -27,3 +27,16 @@
     -fx-background-image: url("../graphics/btns/cm_btn_grey.png");
     -fx-background-size: stretch;
 }
+.background{
+    -fx-background-image: url("../graphics/bgs/SantoriniBoard.png");
+    -fx-background-size: stretch;
+}
+.rightMenu{
+    -fx-background-image: url("../graphics/bgs/clp_bg_1.png");
+    -fx-background-size: stretch;
+}
+.players{
+    -fx-font-family: Britannic Bold;
+    -fx-font-size: 15;
+    -fx-text-fill: black;
+}

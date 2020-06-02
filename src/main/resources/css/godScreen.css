@@ -9,7 +9,7 @@
 }
 
 .button {
-    -fx-font-size: 15;
+    -fx-font-size: 13;
     -fx-text-fill: white;
     -fx-font-family: "Britannic Bold";
     -fx-background-image: url("../graphics/btns/cm_btn_blue.png");

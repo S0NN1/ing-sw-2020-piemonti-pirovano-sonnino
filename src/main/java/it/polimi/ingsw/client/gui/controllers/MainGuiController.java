@@ -25,6 +25,7 @@ import javafx.scene.shape.Rectangle;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * MainGuiController class handles mainScene.fxml by executing commands from the GUI.
@@ -85,6 +86,7 @@ public class MainGuiController implements GUIController {
       playerMapRect
           .get(i)
           .setFill(colors.get(gui.getModelView().getPlayerMapColor().get(nickname).toUpperCase()));
+      playerMapRect.get(i).setVisible(true);
       playerMapLabel.get(i).setVisible(true);
       playerMapStar.get(playerMapLabel.get(i).getText()).setVisible(true);
       setMousePlayerAction(i);
@@ -99,19 +101,32 @@ public class MainGuiController implements GUIController {
     } else {
       buttonCustom.setText(
           Constants.getGodMapCustomAction().get(gui.getModelView().getGod().toUpperCase()));
-      buttonCustom.setOnAction(event -> gui.getListeners().firePropertyChange(ACTION, null,
-              Constants.getGodMapCustomAction().get(gui.getModelView().getGod().toUpperCase())));
+      buttonCustom.setOnAction(
+          event ->
+              gui.getListeners()
+                  .firePropertyChange(
+                      ACTION,
+                      null,
+                      Constants.getGodMapCustomAction()
+                          .get(gui.getModelView().getGod().toUpperCase())));
     }
   }
 
   /**
-   * Method updateTurnStatus checks the current player from the ModelView and set the correct star ImageView.
+   * Method updateTurnStatus checks the current player from the ModelView and set the correct star
+   * ImageView.
    */
   public void updateTurnStatus() {
-    for(int i=0; i<gui.getModelView().getPlayerMapColor().size(); i++) {
+    for (int i = 0; i < gui.getModelView().getPlayerMapColor().size(); i++) {
       FileInputStream image = null;
       try {
-        image = new FileInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("graphics/icons/clp_star_empty.png")).getPath());
+        image =
+            new FileInputStream(
+                Objects.requireNonNull(
+                        getClass()
+                            .getClassLoader()
+                            .getResource("graphics/icons/clp_star_empty.png"))
+                    .getPath());
       } catch (FileNotFoundException e) {
         System.err.println(e.getMessage());
       }
@@ -119,16 +134,20 @@ public class MainGuiController implements GUIController {
         playerMapStar.get(playerMapLabel.get(i).getText()).setImage(new Image(image));
       }
     }
-      String currentPlayer = gui.getModelView().getCurrentPlayer();
-      FileInputStream image = null;
-      try {
-        image = new FileInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("graphics/icons/clp_star_full.png")).getPath());
-      } catch (FileNotFoundException e) {
-        System.err.println(e.getMessage());
-      }
-      if (image != null) {
-        playerMapStar.get(currentPlayer).setImage(new Image(image));
-      }
+    String currentPlayer = gui.getModelView().getCurrentPlayer();
+    FileInputStream image = null;
+    try {
+      image =
+          new FileInputStream(
+              Objects.requireNonNull(
+                      getClass().getClassLoader().getResource("graphics/icons/clp_star_full.png"))
+                  .getPath());
+    } catch (FileNotFoundException e) {
+      System.err.println(e.getMessage());
+    }
+    if (image != null) {
+      playerMapStar.get(currentPlayer).setImage(new Image(image));
+    }
   }
 
   /**
@@ -146,7 +165,8 @@ public class MainGuiController implements GUIController {
             mouseEvent -> {
               Alert description = new Alert(Alert.AlertType.INFORMATION);
               description.setTitle("Description");
-              description.setHeaderText(gui.getModelView().getPlayerMapGod().get(playerMapLabel.get(i).getText()));
+              description.setHeaderText(
+                  gui.getModelView().getPlayerMapGod().get(playerMapLabel.get(i).getText()));
               description.setContentText(
                   Card.parseInput(
                           gui.getModelView().getPlayerMapGod().get(playerMapLabel.get(i).getText()))
@@ -188,8 +208,7 @@ public class MainGuiController implements GUIController {
     }
     getActionsLabel().setText("Select Action:");
     buttonMove.setOnAction(event -> gui.getListeners().firePropertyChange(ACTION, null, "MOVE"));
-    buttonBuild.setOnAction(
-        event -> gui.getListeners().firePropertyChange(ACTION, null, "BUILD"));
+    buttonBuild.setOnAction(event -> gui.getListeners().firePropertyChange(ACTION, null, "BUILD"));
     buttonEnd.setOnAction(event -> gui.getListeners().firePropertyChange(ACTION, null, "END"));
   }
 
@@ -267,12 +286,14 @@ public class MainGuiController implements GUIController {
    */
   public void removeBlock(int row, int col, int level) {
     for (Node node : grid.getChildren()) {
-      if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col && node instanceof Block &&
-              level + 1 == ((Block) node).getLevel()) {
-          grid.getChildren().remove(node);
-          return;
-        }
+      if (GridPane.getRowIndex(node) == row
+          && GridPane.getColumnIndex(node) == col
+          && node instanceof Block
+          && level + 1 == ((Block) node).getLevel()) {
+        grid.getChildren().remove(node);
+        return;
       }
+    }
   }
   /**
    * Method getWorkerFromGrid returns the node of the grid which represents a worker at a specific
@@ -380,7 +401,7 @@ public class MainGuiController implements GUIController {
               getGUI()
                   .getListeners()
                   .firePropertyChange(
-                          ACTION,
+                      ACTION,
                       null,
                       Constants.getGodMapCustomAction()
                               .get(gui.getModelView().getGod().toUpperCase())
@@ -410,7 +431,7 @@ public class MainGuiController implements GUIController {
   }
 
   /** Method normalCell rollbacks to normal cells from highlighted ones. */
-  public void normalCell() {
+  public void normalCells() {
     for (int i = 0; i < grid.getChildren().size(); i++) {
       Node node = grid.getChildren().get(i);
       if (node instanceof AnchorPane) {
@@ -501,4 +522,33 @@ public class MainGuiController implements GUIController {
     return colors;
   }
 
+  public void workerPlacement(List<int[]> coords) {
+    gui.getModelView().activateInput();
+    String[] set =new String[2];
+    AtomicInteger i = new AtomicInteger(0);
+      getActionsLabel().setText("Place your worker!");
+      List<Couple> spaces = new ArrayList<>();
+      for (int[] coord : coords) {
+        spaces.add(new Couple(coord[0], coord[1]));
+      }
+      for (Couple element : spaces) {
+        AnchorPane node = new AnchorPane();
+        grid.add(node, element.getColumn(), element.getRow());
+        node.setStyle("-fx-background-color: #ffff00");
+        node.setOpacity(0.4);
+        int row = GridPane.getRowIndex(node);
+        int col = GridPane.getColumnIndex(node);
+          node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
+          node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
+          node.setOnMouseClicked(mouseEvent -> {
+            set[i.get()]=" " + row + " " + col;
+            i.getAndIncrement();
+            grid.getChildren().remove(node);
+            if(set[0]!=null && set[1]!=null){
+              normalCells();
+              gui.getListeners().firePropertyChange(ACTION, null, "SET" + set[0] + set[1]);
+            }
+          });
+        }
+    }
 }
