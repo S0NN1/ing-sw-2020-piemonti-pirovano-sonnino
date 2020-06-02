@@ -88,64 +88,9 @@ public class Player {
      * @param client of type VirtualClient the user's virtual client representation.
      */
     public void addWorker(Card card, VirtualClient client) {
-        switch (card) {
-            case APOLLO -> {
-                workers.add(new Apollo(color));
-                workers.add(new Apollo(color));
-            }
-            case ARES -> {
-                workers.add(new Ares(color));
-                workers.add(new Ares(color));
-            }
-            case ARTEMIS -> {
-                workers.add(new Artemis(color));
-                workers.add(new Artemis(color));
-            }
-            case ATLAS -> {
-                workers.add(new Atlas(color));
-                workers.add(new Atlas(color));
-            }
-            case CHARON -> {
-                workers.add(new Charon(color));
-                workers.add(new Charon(color));
-            }
-            case DEMETER -> {
-                workers.add(new Demeter(color));
-                workers.add(new Demeter(color));
-            }
-            case HEPHAESTUS -> {
-                workers.add(new Hephaestus(color));
-                workers.add(new Hephaestus(color));
-            }
-            case HESTIA -> {
-                workers.add(new Hestia(color));
-                workers.add(new Hestia(color));
-            }
-            case MINOTAUR -> {
-                workers.add(new Minotaur(color));
-                workers.add(new Minotaur(color));
-            }
-            case PAN -> {
-                workers.add(new Pan(color));
-                workers.add(new Pan(color));
-            }
-            case PROMETHEUS -> {
-                workers.add(new Prometheus(color));
-                workers.add(new Prometheus(color));
-            }
-            case TRITON -> {
-                workers.add(new Triton(color));
-                workers.add(new Triton(color));
-            }
-            case ZEUS -> {
-                workers.add(new Zeus(color));
-                workers.add(new Zeus(color));
-            }
-             default -> {
-                workers.add(null);
-                workers.add(null);
-            }
-        }
+        WorkerCreator creator = new WorkerCreator();
+        workers.add(creator.getWorker(card, color));
+        workers.add(creator.getWorker(card, color));
         workers.forEach(n -> n.createListeners(client));
     }
 

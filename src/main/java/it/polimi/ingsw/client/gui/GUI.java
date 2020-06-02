@@ -356,6 +356,9 @@ public class GUI extends Application implements UI {
         }
     }
 
+    /**
+     * Method newPlayerTurn updates the GUI star icon with the new current player.
+     */
     private void newPlayerTurn() {
         Platform.runLater(() -> {
             MainGuiController controller = (MainGuiController) getControllerFromName(MAIN_GUI);

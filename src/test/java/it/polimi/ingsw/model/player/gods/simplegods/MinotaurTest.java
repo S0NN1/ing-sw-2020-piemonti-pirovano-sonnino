@@ -6,8 +6,6 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.model.player.WorkerForTest;
-import it.polimi.ingsw.model.player.gods.simplegods.Minotaur;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
 import it.polimi.ingsw.server.answers.worker.DoubleMoveMessage;
@@ -35,7 +33,7 @@ class MinotaurTest {
         gameBoard = new GameBoard();
         workers = new ArrayList<>();
         for(int i=0; i<8; i++){
-            workers.add(new WorkerForTest(PlayerColors.RED));
+            workers.add(new Apollo(PlayerColors.RED));
         }
     }
 

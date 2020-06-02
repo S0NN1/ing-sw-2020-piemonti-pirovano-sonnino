@@ -20,7 +20,7 @@
     <content>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0">
          <children>
-            <Button layoutX="161.0" layoutY="-1.0" mnemonicParsing="false" onAction="#start" prefHeight="60.0" prefWidth="158.0" styleClass="actionButton" stylesheets="@../css/mainMenu.css" text="JOIN" textFill="WHITE">
+            <Button defaultButton="true" layoutX="161.0" layoutY="-1.0" mnemonicParsing="false" onAction="#start" prefHeight="60.0" prefWidth="158.0" styleClass="actionButton" stylesheets="@../css/mainMenu.css" text="JOIN" textFill="WHITE">
                <font>
                   <Font name="Bookshelf Symbol 7" size="29.0" />
                </font></Button>

@@ -5,8 +5,7 @@ import it.polimi.ingsw.model.board.GameBoard;
 import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.model.player.WorkerForTest;
-import it.polimi.ingsw.model.player.gods.simplegods.Apollo;
+import it.polimi.ingsw.model.player.gods.advancedgods.Ares;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
 import it.polimi.ingsw.server.answers.worker.*;
@@ -27,7 +26,7 @@ class ApolloTest {
     @DisplayName("Change position with another worker")
     void moveTest() {
         Worker apollo = new Apollo(PlayerColors.RED);
-        Worker worker = new WorkerForTest((PlayerColors.BLUE));
+        Worker worker = new Ares((PlayerColors.BLUE));
 
         Space spaceInit = new Space();
         Space spaceFinal = new Space();
@@ -48,9 +47,9 @@ class ApolloTest {
      */
     @Test
     void getMovesTest() {
-        Worker worker1 = new WorkerForTest(PlayerColors.BLUE);
-        Worker worker2 = new WorkerForTest(PlayerColors.BLUE);
-        Worker worker3 = new WorkerForTest(PlayerColors.RED);
+        Worker worker1 = new Apollo(PlayerColors.BLUE);
+        Worker worker2 = new Apollo(PlayerColors.BLUE);
+        Worker worker3 = new Apollo(PlayerColors.RED);
         Worker apollo = new Apollo(PlayerColors.RED);
 
         GameBoard gameBoard = new GameBoard();
@@ -70,7 +69,7 @@ class ApolloTest {
     @DisplayName("double move listener test")
     void listenerTest(){
         Worker apollo = new Apollo(PlayerColors.GREEN);
-        Worker worker = new WorkerForTest(PlayerColors.RED);
+        Worker worker = new Apollo(PlayerColors.RED);
         VirtualClientStub client = new VirtualClientStub();
         GameBoard gameBoard = new GameBoard();
         apollo.setPosition(gameBoard.getSpace(3,4));

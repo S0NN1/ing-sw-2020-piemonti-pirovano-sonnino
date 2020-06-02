@@ -117,37 +117,12 @@ public class MainGuiController implements GUIController {
    * ImageView.
    */
   public void updateTurnStatus() {
-    for (int i = 0; i < gui.getModelView().getPlayerMapColor().size(); i++) {
-      FileInputStream image = null;
-      try {
-        image =
-            new FileInputStream(
-                Objects.requireNonNull(
-                        getClass()
-                            .getClassLoader()
-                            .getResource("graphics/icons/clp_star_empty.png"))
-                    .getPath());
-      } catch (FileNotFoundException e) {
-        System.err.println(e.getMessage());
-      }
-      if (image != null) {
-        playerMapStar.get(playerMapLabel.get(i).getText()).setImage(new Image(image));
-      }
+    for(int i=0; i<gui.getModelView().getPlayerMapColor().size(); i++) {
+        playerMapStar.get(playerMapLabel.get(i).getText()).setImage(new Image(getClass().
+                getResourceAsStream("/graphics/icons/clp_star_empty.png")));
     }
-    String currentPlayer = gui.getModelView().getCurrentPlayer();
-    FileInputStream image = null;
-    try {
-      image =
-          new FileInputStream(
-              Objects.requireNonNull(
-                      getClass().getClassLoader().getResource("graphics/icons/clp_star_full.png"))
-                  .getPath());
-    } catch (FileNotFoundException e) {
-      System.err.println(e.getMessage());
-    }
-    if (image != null) {
-      playerMapStar.get(currentPlayer).setImage(new Image(image));
-    }
+      String currentPlayer = gui.getModelView().getCurrentPlayer();
+      playerMapStar.get(currentPlayer).setImage(new Image(getClass().getResourceAsStream("/graphics/icons/clp_star_full.png")));
   }
 
   /**

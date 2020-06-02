@@ -1,11 +1,14 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.messages.actions.workeractions.*;
+import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.board.GameBoard;
+import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.model.player.Action;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.model.player.WorkerForTest;
+import it.polimi.ingsw.model.player.gods.advancedgods.Ares;
+import it.polimi.ingsw.model.player.gods.advancedgods.Charon;
 import it.polimi.ingsw.model.player.gods.simplegods.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +16,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class ActionControllerTest tests ActionController class
+ *
+ * @author Alice Piemonti
+ * Created on 01/06/2020
+ */
 class ActionControllerTest {
 
     GameBoard gameBoard;
@@ -112,6 +121,9 @@ class ActionControllerTest {
         assertFalse(gameBoard.getSpace(4,1).isEmpty(),"10");
     }
 
+    /**
+     * Method buildActionTest test readMessage with a BuildAction in different situations.
+     */
     @Test
     @DisplayName("build action test")
     void buildActionTest(){
@@ -139,16 +151,90 @@ class ActionControllerTest {
         assertEquals(4, actionController.getPhase(),"9");
 
         //test wrong behaviour: wrong message on right phase (AtlasBuildAction from a non-Atlas worker)
-        WorkerForTest workerForTest = new WorkerForTest(PlayerColors.GREEN);
-        workerForTest.setPosition(gameBoard.getSpace(1,4));
-        actionController.startAction(workerForTest);
+        WorkerStub WorkerStub = new WorkerStub(PlayerColors.GREEN);
+        WorkerStub.setPosition(gameBoard.getSpace(1,4));
+        actionController.startAction(WorkerStub);
         actionController.setPhase(3);
         assertFalse(actionController.readMessage(messageDome),"10");
         assertEquals(3, actionController.getPhase(),"11");
     }
 
     /**
-     * test a sequence of actions: SELECTMOVES, MOVE, SELECTBUILD, BUILD
+     * Method forceWorkerTest tests the methods readMessage when different messages arrives. In particularly, it tests readMessage during SELECT_FORCE_WORKER and FORCE_WORKER Charon's phases.
+     */
+    @Test
+    @DisplayName("force worker action test")
+    void forceWorkerTest() {
+        worker = new Charon(PlayerColors.RED);
+        worker.setPosition(gameBoard.getSpace(3,1));
+        Worker opponent = new Apollo(PlayerColors.GREEN);
+        opponent.setPosition(gameBoard.getSpace(3,2));
+        actionController.startAction(worker);
+
+        SelectMoveAction selectForceWorkerAction = new SelectMoveAction(Action.SELECT_FORCE_WORKER);
+        assertTrue(actionController.readMessage(selectForceWorkerAction), "1");
+        assertEquals(1, actionController.getPhase(),"2");
+
+        MoveAction forceWorkerAction = new MoveAction(3,2, Action.FORCE_WORKER);
+        assertTrue(actionController.readMessage(forceWorkerAction),"3");
+
+        SelectMoveAction selectMoveAction = new SelectMoveAction();
+        assertTrue(actionController.readMessage(selectMoveAction),"4");
+
+        MoveAction moveAction = new MoveAction(3,2);
+        assertTrue(actionController.readMessage(moveAction),"5");
+
+        SelectBuildAction selectBuildNormal = new SelectBuildAction();
+        assertTrue(actionController.readMessage(selectBuildNormal),"6");
+
+        BuildAction buildNormal = new BuildAction(4,2);
+        assertTrue(actionController.readMessage(buildNormal),"7");
+
+        assertTrue(actionController.endAction(),"8");
+    }
+
+    /**
+     * Method forceWorkerTest tests the methods readMessage when different messages arrives. In particularly, it tests readMessage during SELECT_FORCE_WORKER and FORCE_WORKER Charon's phases.
+     */
+    @Test
+    @DisplayName("remove action test")
+    void removeActionTest() throws OutOfBoundException {
+        worker = new Ares(PlayerColors.RED);
+        worker.setPosition(gameBoard.getSpace(3,1));
+        Worker unmoved = new Ares(PlayerColors.RED);
+        Space unmovedSpace = gameBoard.getSpace(4,2); //creates an instance of Ares and Ares unmoved worker
+        unmoved.setPosition(unmovedSpace);
+        actionController.startAction(worker);
+
+        assertEquals(1, actionController.getPhase(),"1");
+
+        //start a normal sequence of phases
+        MoveAction moveAction = new MoveAction(3,2);
+        assertTrue(actionController.readMessage(moveAction),"2");
+
+        SelectBuildAction selectBuildNormal = new SelectBuildAction();
+        assertFalse(actionController.readMessage(selectBuildNormal, unmovedSpace),"3a"); //try to invoke readMessage for Action.SELECT_REMOVE with a normal Action.SELECT_BUILD
+        assertTrue(actionController.readMessage(selectBuildNormal),"3");
+
+        BuildAction buildNormal = new BuildAction(3,3);
+        assertFalse(actionController.readMessage(buildNormal, unmovedSpace),"4a");  //try to invoke readMessage for an Action.REMOVE with a normal Action.BUILD
+        assertTrue(actionController.readMessage(buildNormal),"4");
+
+        //invoke readMessage with an Action.SELECT_REMOVE and Action.REMOVE
+        SelectBuildAction selectRemove = new SelectBuildAction(Action.SELECT_REMOVE);
+        assertFalse(actionController.readMessage(selectRemove),"5a");
+        assertTrue(actionController.readMessage(selectRemove, unmovedSpace), "5");
+
+        gameBoard.getSpace(4,3).getTower().addLevel();
+        BuildAction remove = new BuildAction(4,3, Action.REMOVE);
+        assertFalse(actionController.readMessage(remove), "6");
+        assertTrue(actionController.readMessage(remove, unmovedSpace),"6");
+
+        assertTrue(actionController.endAction(),"7");
+    }
+
+    /**
+     * test a sequence of actions: SELECT_MOVES, MOVE, SELECT_BUILD, BUILD
      */
     @Test
     @DisplayName("test normal sequence of actions")
@@ -192,6 +278,9 @@ class ActionControllerTest {
         actionController.readMessage(action);
         assertFalse(actionController.endAction(),"2b");
 
+        //test wrong behavior: statAction can not be called before an endAction
+        assertFalse(actionController.startAction(worker),"3.0");
+
        //test right behaviour: there are no phases left -> turn must end now
         actionController.setPhase(7);
         assertTrue(actionController.endAction(),"3");
@@ -201,7 +290,7 @@ class ActionControllerTest {
      * class used to test ActionController methods (which are all inherited) with the help of
      * the setter and getter of phase attribute
      */
-    private static class ActionControllerStub extends ActionController {
+    private class ActionControllerStub extends ActionController {
 
         public ActionControllerStub(GameBoard gameBoard) {
             super(gameBoard);
@@ -211,6 +300,26 @@ class ActionControllerTest {
         }
         public int getPhase(){
             return this.phase;
+        }
+    }
+    
+    private class WorkerStub extends Worker{
+
+        /**
+         * Constructor
+         *
+         * @param color player color
+         */
+        public WorkerStub(PlayerColors color) {
+            super(color);
+        }
+
+        /**
+         * set the order of action allowed by this worker
+         */
+        @Override
+        public void setPhases() {
+            setNormalPhases();
         }
     }
 }

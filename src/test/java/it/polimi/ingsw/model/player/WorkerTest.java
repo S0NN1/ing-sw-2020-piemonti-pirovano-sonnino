@@ -29,7 +29,7 @@ class WorkerTest {
 
     @BeforeEach
     void init(){
-         worker = new WorkerForTest(PlayerColors.RED);
+         worker = new WorkerStub(PlayerColors.RED);
     }
 
     /**
@@ -37,9 +37,9 @@ class WorkerTest {
      */
     @Test
     void colorTest(){
-        Worker workerBlue = new WorkerForTest(PlayerColors.BLUE);
-        Worker workerRed = new WorkerForTest(PlayerColors.RED);
-        Worker workerGreen = new WorkerForTest(PlayerColors.GREEN);
+        Worker workerBlue = new WorkerStub(PlayerColors.BLUE);
+        Worker workerRed = new WorkerStub(PlayerColors.RED);
+        Worker workerGreen = new WorkerStub(PlayerColors.GREEN);
         assertEquals("blue", workerBlue.getWorkerColor().toLowerCase());
         assertEquals("red", workerRed.getWorkerColor().toLowerCase());
         assertEquals("green", workerGreen.getWorkerColor().toLowerCase());
@@ -539,9 +539,25 @@ class WorkerTest {
         public boolean isDome() {
             return dome;
         }
-
-
-
     }
+    
+    public static class WorkerStub extends Worker {
 
+        /**
+         * Constructor
+         *
+         * @param color player color
+         */
+        public WorkerStub(PlayerColors color) {
+            super(color);
+        }
+
+        /**
+         * set the order of action allowed by this worker
+         */
+        @Override
+        public void setPhases() {
+            setNormalPhases();
+        }
+    }
 }
