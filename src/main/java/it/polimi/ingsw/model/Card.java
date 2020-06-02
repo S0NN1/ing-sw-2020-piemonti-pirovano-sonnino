@@ -16,16 +16,19 @@ public enum Card {
     APOLLO, ARES, ARTEMIS, ATHENA, ATLAS, CHARON, DEMETER, HEPHAESTUS, HESTIA, MINOTAUR, PAN, PROMETHEUS, TRITON, ZEUS;
 
     /**
-     * Parse the input of the challenger player to get a valid god.
-     * @param input the text entered by the player.
-     * @return the value of the enum choice if exists, otherwise throws an IllegalArgumentException.
+     * Method parseInput parses the input of the challenger player to get a valid god.
+     *
+     * @param input of type String the text entered by the player.
+     * @return Card the value of the enum choice if exists, otherwise throws an IllegalArgumentException.
      */
     public static Card parseInput(String input) {
         return Enum.valueOf(Card.class, input.toUpperCase());
     }
 
+
     /**
-     * @return a list with all gods' name, parsed from the json file.
+     * Method godsName returns a list with all gods' name, parsed from the json file.
+     * @return List<String> gods' names, parsed from the json file.
      */
     public static List<String> godsName() {
         Gson gson = new Gson();
@@ -38,9 +41,11 @@ public enum Card {
         return result;
     }
 
+
     /**
-     * Parse all gods' description from JSON file and return the selected god's description.
-     * @return the god's description that the user wants to know.
+     * Method godsDescription parses all gods' description from JSON file and return the selected god's description.
+     *
+     * @return String the god's description that the user wants to know.
      */
     public String godsDescription() {
 

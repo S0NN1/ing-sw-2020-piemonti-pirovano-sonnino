@@ -510,7 +510,7 @@ public class InputChecker {
             return null;
         } else if (turnPhase == 0
                 && Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
-            return new SelectMoveAction(Action.FORCE_WORKER);
+            return new SelectMoveAction(Action.SELECT_FORCE_WORKER);
         } else {
             System.err.println(ERR_INCORRECT_ACTION);
             return null;
