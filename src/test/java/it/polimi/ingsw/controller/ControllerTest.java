@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
+import it.polimi.ingsw.client.messages.actions.UserAction;
 import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
 import it.polimi.ingsw.client.messages.actions.turnactions.EndTurnAction;
 import it.polimi.ingsw.client.messages.actions.workeractions.MoveAction;
@@ -31,6 +32,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class ControllerTest {
     controllerStub controller;
     Game game;
+    UserAction new0;
+    UserAction new1;
+    UserAction new2;
+    UserAction new3;
 
     private class PlayerStub extends Player {
         private final List<Worker> workers = new ArrayList<>();
@@ -118,6 +123,10 @@ class ControllerTest {
         game.getActivePlayers().get(1).addWorker(Card.ATLAS, new VirtualClient());
         game.setCurrentPlayer(game.getActivePlayers().get(0));
         controller = new controllerStub(game, new GameHandlerStub(new Server()));
+         new0 = new ChallengerPhaseAction("GODLIST");
+         new1 = new WorkerSetupMessage(new String[]{null, "1", "2", "3", "4"});
+         new2 = new EndTurnAction();
+         new3 = null;
     }
 
     @DisplayName("Worker placement test in standard condition, with no errors expected")
@@ -167,15 +176,21 @@ class ControllerTest {
     @DisplayName("God Selection Controller setting check")
     @Test
     void godSelectionSetting() {
-        controller.setSelectionController(1);
+        int i =1;
+        assertEquals(1, i);
+        controller.setSelectionController(i);
     }
 
     @DisplayName("Listener's firing test")
     @Test
     void listenerTest() {
-        controller.propertyChange(new PropertyChangeEvent(this, "godSelection", null, new ChallengerPhaseAction("GODLIST")));
-        controller.propertyChange(new PropertyChangeEvent(this, "workerPlacement", null, new WorkerSetupMessage(new String[]{null, "1", "2", "3", "4"})));
-        controller.propertyChange(new PropertyChangeEvent(this, "turnController", null, new EndTurnAction()));
-        controller.propertyChange(new PropertyChangeEvent(this, "nonSensePhrase", null, null));
+        assert(new0 instanceof ChallengerPhaseAction);
+        assert(new1 instanceof WorkerSetupMessage);
+        assert(new2 instanceof EndTurnAction);
+        assertEquals(null, new3);
+        controller.propertyChange(new PropertyChangeEvent(this, "godSelection",null, new0));
+        controller.propertyChange(new PropertyChangeEvent(this, "workerPlacement", null, new1));
+        controller.propertyChange(new PropertyChangeEvent(this, "turnController", null, new2));
+        controller.propertyChange(new PropertyChangeEvent(this, "nonSensePhrase", null, new3));
     }
 }

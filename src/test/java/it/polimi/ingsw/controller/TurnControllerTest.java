@@ -178,6 +178,7 @@ public class TurnControllerTest {
         controllerStub.getModel().setCurrentPlayer(ali);
         game.setCurrentPlayer(ali);
         actionControllerStub.setWorker(ali.getWorkers().get(0));
+        Assertions.assertEquals(ali.getWorkers().get(0), actionControllerStub.getWorker());
         actionControllerStub.setPhase(1);
         turnController.propertyChange(evt12);
     }
@@ -188,6 +189,7 @@ public class TurnControllerTest {
         controllerStub.getModel().setCurrentPlayer(ali);
         ali.getWorkers().get(0).setBlocked(true);
         ali.getWorkers().get(0).setPhases();
+        Assertions.assertEquals(Action.SELECT_MOVE, ali.getWorkers().get(0).getPhase(0).getAction());
         ali.getWorkers().get(1).setBlocked(true);
         ali.getWorkers().get(1).setPhases();
         turnController.propertyChange(evt2);
