@@ -241,19 +241,24 @@ public class GUI extends Application implements UI {
      */
     public void errorHandling(GameError error) {
         switch (error.getError()) {
-            case WORKERBLOCKED -> Platform.runLater(() -> {
-                errorDialog("The worker you have selected is blocked, please choose another one!");
-                selectWorker();
-            });
-            case INVALIDINPUT -> Platform.runLater(() -> {
-                errorDialog("Invalid input, please try again!");
-            });
-            case CELLOCCUPIED -> Platform.runLater(() -> {
-                errorDialog("Cell already occupied!");
-            });
-            default -> Platform.runLater(() -> {
-                errorDialog("Generic Error!");
-            });
+            case WORKERBLOCKED ->
+                Platform.runLater(() -> {
+                    errorDialog("The worker you have selected is blocked, please choose another one!");
+                    selectWorker();
+                });
+            case INVALIDINPUT ->
+                Platform.runLater(() -> {
+                    errorDialog("Invalid input, please try again!");
+                });
+            case CELLOCCUPIED ->
+                Platform.runLater(() -> {
+                    errorDialog("Cell already occupied!");
+                });
+            default -> {
+                Platform.runLater(() -> {
+                    errorDialog("Generic Error!");
+                });
+            }
         }
     }
 
