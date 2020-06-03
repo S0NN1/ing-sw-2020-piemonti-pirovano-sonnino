@@ -72,6 +72,8 @@ All tests in model and controller has a classes' coverage at 100%.
 
 **Intellij IDEA Ultimate** - main IDE 
 
+**Sonarqube** - code analysis
+
 ## Copyright and license
 
 Santorini Board Game is copyright 2020.
