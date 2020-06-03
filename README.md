@@ -48,7 +48,7 @@ The final version must include:
 -->
 
 ## Test cases
-All tests in model and controller has a classes coverage at 100%.
+All tests in model and controller has a classes' coverage at 100%.
 
 **Coverage criteria: code lines.**
 
@@ -61,7 +61,6 @@ All tests in model and controller has a classes coverage at 100%.
 | Model | Global Package | 651/676 (96%)
 
 ## The Team
-Our working group is composed by three students:
 * [Alice Piemonti](https://github.com/AlicePiemonti)
 * [Luca Pirovano](https://github.com/PiroX4256)
 * [Nicolò Sonnino](https://github.com/S0NN1)
