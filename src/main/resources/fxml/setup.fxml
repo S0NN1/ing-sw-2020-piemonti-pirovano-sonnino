@@ -10,17 +10,17 @@
          <children>
             <TextField fx:id="username" layoutX="291.0" layoutY="30.0" />
             <TextField fx:id="address" layoutX="292.0" layoutY="75.0" />
-            <Label layoutX="69.0" layoutY="79.0" text="Insert a server IP address" />
-            <Label layoutX="69.0" layoutY="34.0" text="Insert your nickname" />
-            <Label layoutX="69.0" layoutY="126.0" text="Insert a server port" />
+            <Label layoutX="69.0" layoutY="77.0" styleClass="inputLabels" stylesheets="@../css/mainMenu.css" text="Insert a server IP address" />
+            <Label layoutX="69.0" layoutY="32.0" styleClass="inputLabels" stylesheets="@../css/mainMenu.css" text="Insert your nickname" />
+            <Label layoutX="69.0" layoutY="124.0" styleClass="inputLabels" stylesheets="@../css/mainMenu.css" text="Insert a server port" />
             <TextField fx:id="port" layoutX="292.0" layoutY="122.0" />
-            <Label fx:id="confirmation" layoutY="169.0" prefHeight="17.0" prefWidth="480.0" style="-fx-alignment: center;" text="Insert nickname, IP and port and click on JOIN!" textAlignment="CENTER" />
+            <Label fx:id="confirmation" layoutY="169.0" prefHeight="17.0" prefWidth="480.0" style="-fx-alignment: center;" styleClass="inputLabels" stylesheets="@../css/mainMenu.css" text="Insert nickname, IP and port and click on JOIN!" textAlignment="CENTER" />
          </children></AnchorPane>
     </header>
     <content>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0">
          <children>
-            <Button defaultButton="true" layoutX="161.0" layoutY="-1.0" mnemonicParsing="false" onAction="#start" prefHeight="60.0" prefWidth="158.0" styleClass="actionButton" stylesheets="@../css/mainMenu.css" text="JOIN" textFill="WHITE">
+            <Button defaultButton="true" layoutX="161.0" layoutY="-1.0" mnemonicParsing="false" onAction="#start" prefHeight="60.0" prefWidth="158.0" styleClass="joinButton" stylesheets="@../css/mainMenu.css" text="JOIN" textFill="WHITE">
                <font>
                   <Font name="Bookshelf Symbol 7" size="29.0" />
                </font></Button>

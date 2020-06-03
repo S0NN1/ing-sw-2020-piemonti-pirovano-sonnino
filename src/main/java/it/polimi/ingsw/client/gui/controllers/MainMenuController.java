@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 
 import java.awt.*;
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -88,11 +89,21 @@ public class MainMenuController implements GUIController{
                 loaderController = (LoaderController)gui.getControllerFromName("loading.fxml");
                 loaderController.setText("CONFIGURING SOCKET CONNECTION...");
                 ConnectionSocket connectionSocket = new ConnectionSocket();
-                connectionSocket.setup(username.getText(), gui.getModelView(), gui.getActionHandler());
+                if(!connectionSocket.setup(username.getText(), gui.getModelView(), gui.getActionHandler())) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Server not reachable");
+                    alert.setContentText("The entered IP/port doesn't match any active server or the server is not" +
+                            "running. Please try again!");
+                    alert.showAndWait();
+                    gui.changeStage("MainMenu.fxml");
+                    return;
+                };
                 gui.setConnection(connectionSocket);
                 loaderController.setText("SOCKET CONNECTION \nSETUP COMPLETED!");
                 loaderController.setText("WAITING FOR PLAYERS");
-                gui.getListeners().addPropertyChangeListener("action", new ActionParser(connectionSocket, gui.getModelView()));
+                gui.getListeners().addPropertyChangeListener("action", new ActionParser(connectionSocket,
+                        gui.getModelView()));
 
             } catch (DuplicateNicknameException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

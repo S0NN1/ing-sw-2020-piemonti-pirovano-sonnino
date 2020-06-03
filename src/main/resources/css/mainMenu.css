@@ -1,4 +1,3 @@
-
 .mainPanel {
 	-fx-background-image: url("../graphics/bgs/bg_mainmenu.png");
 	-fx-background-size: stretch;
@@ -8,6 +7,8 @@
 	-fx-background-image: url("../graphics/btns/cm_btn_blue.png");
 	-fx-background-size: stretch;
 	-fx-background-color: transparent;
+	-fx-font-family: "Dalek Pinpoint";
+	-fx-font-size: 50;
 }
 
 .actionButton:hover {
@@ -15,5 +16,23 @@
 }
 
 .actionButton:pressed {
+	-fx-background-image: url("../graphics/btns/cm_btn_blue_pressed.png");
+}
+
+.joinButton {
+	-fx-background-image: url("../graphics/btns/cm_btn_blue.png");
+	-fx-background-size: stretch;
+	-fx-background-color: transparent;
+	-fx-font-family: "Dalek Pinpoint";
+	-fx-font-size: 30;
+}
+
+.inputLabels {
+	-fx-font-family: "Roboto";
+	-fx-font-weight: bold;
+	-fx-font-size: 15;
+}
+
+.joinButton:pressed {
 	-fx-background-image: url("../graphics/btns/cm_btn_blue_pressed.png");
 }

@@ -64,6 +64,14 @@ public class Game {
      * @param player of type Player the player we want to remove from the match.
      */
     public void removePlayer(Player player) {
+        if(player.getWorkers().isEmpty()) {
+            activePlayers.remove(player);
+            if(!activePlayers.isEmpty()) {
+                if(currentPlayerN==activePlayers.size()) currentPlayerN=0;
+                setCurrentPlayer(activePlayers.get(currentPlayerN));
+            }
+            return;
+        }
         for (int i = Constants.GRID_MIN_SIZE; i <Constants.GRID_MAX_SIZE ; i++) {
             for (int j = Constants.GRID_MIN_SIZE; j <Constants.GRID_MAX_SIZE ; j++) {
                 if(gameBoard.getSpace(i,j).getWorker()==player.getWorkers().get(0) || gameBoard.getSpace(i,j).getWorker()==player.getWorkers().get(1)){

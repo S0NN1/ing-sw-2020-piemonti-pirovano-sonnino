@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,7 +54,7 @@ public class ConnectionSocket {
    * @throws InvalidNicknameException when the nickname contains illegal characters (like "-").
    */
 
-  public void setup(String nickname, ModelView modelView, ActionHandler actionHandler)
+  public boolean setup(String nickname, ModelView modelView, ActionHandler actionHandler)
       throws DuplicateNicknameException, InvalidNicknameException {
     try {
       System.out.println(
@@ -63,7 +65,11 @@ public class ConnectionSocket {
               + serverPort
               + "..."
               + Constants.ANSI_RESET);
-      this.socket = new Socket(serverAddress, serverPort);
+      try {
+        this.socket = new Socket(serverAddress, serverPort);
+      } catch (SocketException | UnknownHostException e) {
+        return false;
+      }
       outputStream = new ObjectOutputStream(socket.getOutputStream());
       ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
       while (true) {
@@ -74,10 +80,12 @@ public class ConnectionSocket {
       listener = new SocketListener(socket, modelView, input, actionHandler);
       Thread thread = new Thread(listener);
       thread.start();
+      return true;
     } catch (IOException e) {
       System.err.println("Error during socket configuration! Application will now close.");
       logger.log(Level.SEVERE, e.getMessage(), e);
       System.exit(0);
+      return false;
     }
   }
 

@@ -95,6 +95,8 @@ public class GodTile extends HBox {
 
         Label descText = new Label(card.godsDescription());
         thirdLayer.getChildren().add(descText);
+        descText.getStylesheets().add(styleSheet);
+        descText.getStyleClass().addAll("desc");
         descText.setFont(new Font("Constantia", 11));
         descText.setMaxWidth(110);
         descText.setMaxHeight(USE_PREF_SIZE);

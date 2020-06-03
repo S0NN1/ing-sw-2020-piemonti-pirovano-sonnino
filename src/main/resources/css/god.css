@@ -6,7 +6,7 @@
 .button {
     -fx-font-size: 30;
     -fx-text-fill: white;
-    -fx-font-family: "Britannic Bold";
+    -fx-font-family: "Dalek Pinpoint";
     -fx-background-image: url("../graphics/btns/cm_btn_green.png");
     -fx-background-size: stretch;
 }
@@ -21,6 +21,6 @@
 }
 
 .desc {
-    -fx-font-family: "Britannic Bold";
-    -fx-font-size: 18;
+    -fx-font-family: "Roboto";
+    -fx-font-size: 12;
 }

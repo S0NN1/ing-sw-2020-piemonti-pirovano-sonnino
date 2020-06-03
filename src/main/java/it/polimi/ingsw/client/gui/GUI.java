@@ -21,6 +21,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -107,6 +108,9 @@ public class GUI extends Application implements UI {
         setup();
         this.stage = stage;
         this.stage.setResizable(false);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/DalekPinpointBold.ttf"), 14);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Roboto-Regular.ttf"), 12);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Roboto-Medium.ttf"), 12);
         run();
     }
 

@@ -104,7 +104,7 @@ public class GameHandler {
 
 
     /**
-     * Method sendAll makes the same as the previous method, but it iterates on all the clients present in the game.
+     * Method sendAll does the same as the previous method, but it iterates on all the clients present in the game.
      * It's a full effects broadcast.
      *
      * @param message of type Answer  the message to broadcast (at single match participants' level).

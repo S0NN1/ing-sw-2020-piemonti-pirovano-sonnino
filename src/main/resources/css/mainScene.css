@@ -9,6 +9,8 @@
     -fx-text-fill: white;
     -fx-text-alignment: center;
     -fx-alignment: center;
+    -fx-font-family: "Dalek Pinpoint";
+    -fx-font-size: 15;
 }
 
 .rightBoard:pressed {
@@ -21,6 +23,8 @@
     -fx-text-fill: white;
     -fx-text-alignment: center;
     -fx-alignment: center;
+    -fx-font-family: "Dalek Pinpoint";
+    -fx-font-size: 15;
 }
 
 .grayedOut:pressed {
@@ -36,7 +40,7 @@
     -fx-background-size: stretch;
 }
 .players{
-    -fx-font-family: Britannic Bold;
+    -fx-font-family: "Roboto";
     -fx-font-size: 15;
     -fx-text-fill: black;
 }

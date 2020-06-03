@@ -186,7 +186,7 @@ public class Server {
             System.err.println(Constants.getInfo() + "Minimum player number reached. The match is starting.");
             for(int i=3; i>0; i--) {
                 currentGame.sendAll(new CustomMessage("Match starting in " + i, false));
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(500);
             }
             currentGame.sendAll(new CustomMessage("The match has started!", false));
             waiting.clear();

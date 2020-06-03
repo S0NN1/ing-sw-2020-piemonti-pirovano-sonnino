@@ -15,9 +15,9 @@
         </ImageView>
         <ProgressBar prefHeight="50.0" prefWidth="400.0" style="-fx-padding: 8;" StackPane.alignment="BOTTOM_CENTER">
         </ProgressBar>
-        <Label fx:id="displayStatus" alignment="CENTER" prefHeight="48.0" prefWidth="829.0" text="LOADING..." textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER">
+        <Label fx:id="displayStatus" alignment="CENTER" prefHeight="235.0" prefWidth="773.0" styleClass="loadingText" stylesheets="@../css/loading.css" text="LOADING..." textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER">
          <font>
-            <Font name="Britannic Bold" size="48.0" />
+            <Font name="Bell MT" size="48.0" />
          </font>
          <effect>
             <DropShadow />

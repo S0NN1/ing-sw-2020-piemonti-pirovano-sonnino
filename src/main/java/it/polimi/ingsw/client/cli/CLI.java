@@ -151,7 +151,11 @@ public class CLI implements UI, Runnable {
         connection = new ConnectionSocket();
         modelView.setPlayerName(nickname);
         try {
-            connection.setup(nickname, modelView, actionHandler);
+            if(!connection.setup(nickname, modelView, actionHandler)) {
+                System.err.println("The entered IP/port doesn't match any active server or the server is not " +
+                        "running. Please try again!");
+                CLI.main(null);
+            }
             System.out.println(nameMapColor.get(GREEN) + "Socket Connection setup completed!" + nameMapColor.get("RST"));
         } catch (DuplicateNicknameException | InvalidNicknameException e) {
             setup();
