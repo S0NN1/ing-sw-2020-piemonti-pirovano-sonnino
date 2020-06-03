@@ -37,6 +37,7 @@ import java.util.logging.Logger;
 /**
  * GUI class starts the graphical user interface, mapping each scene to the specific phase. It's triggered when an
  * event change is reported by the server, calling the correct components in order to make the local modification.
+ *
  * @author Luca Pirovano, Nicolò Sonnino
  * @see UI
  */
@@ -59,6 +60,7 @@ public class GUI extends Application implements UI {
     /**
      * Maps each scene controller's name to the effective controller object, in order to get the correct controller
      * for modifying operations.
+     *
      * @see it.polimi.ingsw.client.gui.controllers for more details.
      */
     private final HashMap<String, GUIController> nameMapController = new HashMap<>();
@@ -81,6 +83,7 @@ public class GUI extends Application implements UI {
 
     /**
      * Main class of the GUI, which is called from the "Santorini" launcher in case user decides to play with it.
+     *
      * @param args of type String[] - parsed arguments.
      */
     public static void main(String[] args) {
@@ -96,7 +99,9 @@ public class GUI extends Application implements UI {
         stage.show();
     }
 
-    /** @see Application#start(Stage) */
+    /**
+     * @see Application#start(Stage)
+     */
     @Override
     public void start(Stage stage) throws Exception {
         setup();
@@ -105,7 +110,9 @@ public class GUI extends Application implements UI {
         run();
     }
 
-    /** @see Application#stop() */
+    /**
+     * @see Application#stop()
+     */
     @Override
     public void stop() throws Exception {
         System.exit(0);
@@ -138,8 +145,6 @@ public class GUI extends Application implements UI {
     /**
      * Method getStage returns the stage of this GUI object.
      *
-     *
-     *
      * @return the stage (type Stage) of this GUI object.
      */
     public Stage getStage() {
@@ -148,8 +153,6 @@ public class GUI extends Application implements UI {
 
     /**
      * Method getListeners returns the listeners of this GUI object.
-     *
-     *
      *
      * @return the listeners (type PropertyChangeSupport) of this GUI object.
      */
@@ -163,13 +166,14 @@ public class GUI extends Application implements UI {
      */
     public void centerApplication() {
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-        stage.setX((screenSize.getWidth() - currentScene.getWidth())/2);
-        stage.setY((screenSize.getHeight() - currentScene.getHeight())/2);
+        stage.setX((screenSize.getWidth() - currentScene.getWidth()) / 2);
+        stage.setY((screenSize.getHeight() - currentScene.getHeight()) / 2);
     }
 
     /**
      * Method changeStage changes the stage scene based on the ones declared during setup phase.
      * On method call the actual stage scene is replaced from the parameter one.
+     *
      * @param newScene of type String - the scene displayed.
      */
     public void changeStage(String newScene) {
@@ -181,8 +185,6 @@ public class GUI extends Application implements UI {
     /**
      * Method getConnection returns the connection of this GUI object.
      *
-     *
-     *
      * @return the connection (type ConnectionSocket) of this GUI object.
      */
     public ConnectionSocket getConnection() {
@@ -192,21 +194,16 @@ public class GUI extends Application implements UI {
     /**
      * Method setConnection sets the connection of this GUI object.
      *
-     *
-     *
      * @param connection the connection of this GUI object.
-     *
      */
     public void setConnection(ConnectionSocket connection) {
-        if(this.connection==null) {
+        if (this.connection == null) {
             this.connection = connection;
         }
     }
 
     /**
      * Method getModelView returns the modelView of this GUI object.
-     *
-     *
      *
      * @return the modelView (type ModelView) of this GUI object.
      */
@@ -216,8 +213,6 @@ public class GUI extends Application implements UI {
 
     /**
      * Method getActionHandler returns the actionHandler of this GUI object.
-     *
-     *
      *
      * @return the actionHandler (type ActionHandler) of this GUI object.
      */
@@ -237,21 +232,39 @@ public class GUI extends Application implements UI {
 
     /**
      * Method errorHandling handles the error received from the server based on their type.
+     *
      * @param error of type GameError - the game error received from the server.
      */
     public void errorHandling(GameError error) {
-        Platform.runLater(() -> {
-            Alert errorDialog = new Alert(Alert.AlertType.ERROR);
-            errorDialog.setTitle("Game Error");
-            errorDialog.setHeaderText("Error!");
-            errorDialog.setContentText(error.getMessage());
-            errorDialog.showAndWait();
-        });
+        switch (error.getError()) {
+            case WORKERBLOCKED -> Platform.runLater(() -> {
+                errorDialog("The worker you have selected is blocked, please choose another one!");
+                selectWorker();
+            });
+            case INVALIDINPUT -> Platform.runLater(() -> {
+                errorDialog("Invalid input, please try again!");
+            });
+            case CELLOCCUPIED -> Platform.runLater(() -> {
+                errorDialog("Cell already occupied!");
+            });
+            default -> Platform.runLater(() -> {
+                errorDialog("Generic Error!");
+            });
+        }
+    }
+
+    private void errorDialog(String error) {
+        Alert errorDialog = new Alert(Alert.AlertType.ERROR);
+        errorDialog.setTitle("Game Error");
+        errorDialog.setHeaderText("Error!");
+        errorDialog.setContentText(error);
+        errorDialog.showAndWait();
     }
 
     /**
      * Method initialPhaseHandling handles the first game phase, which contains the nicknames choosing,the challenger
      * phase and the workers placement.
+     *
      * @param cmd of type String  - the command answer received from the server.
      */
     public void initialPhaseHandling(String cmd) {
@@ -279,7 +292,7 @@ public class GUI extends Application implements UI {
                 MainGuiController controller = (MainGuiController) getControllerFromName(MAIN_GUI);
                 Platform.runLater(() -> {
                     changeStage(MAIN_GUI);
-                    controller.workerPlacement(((WorkerPlacement)modelView.getServerAnswer()).
+                    controller.workerPlacement(((WorkerPlacement) modelView.getServerAnswer()).
                             getAvailableCoordinates());
                 });
             }
@@ -292,40 +305,42 @@ public class GUI extends Application implements UI {
     /**
      * Method customMessageHandling handles all the custom message received from the server and execute actions based
      * on their content.
+     *
      * @param msg of type String - the custom message.
      */
     public void customMessageHandling(String msg) {
-        if(modelView.getGamePhase()==0) {
-            if(msg.contains("Match starting") || msg.contains("The match has started")) {
-                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+        if (modelView.getGamePhase() == 0) {
+            if (msg.contains("Match starting") || msg.contains("The match has started")) {
+                LoaderController controller = (LoaderController) getControllerFromName(LOADER);
                 Platform.runLater(() -> controller.setText(msg));
-            } else if(msg.contains("is the challenger")) {
-                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+            } else if (msg.contains("is the challenger")) {
+                LoaderController controller = (LoaderController) getControllerFromName(LOADER);
                 Platform.runLater(() -> controller.setText(msg.split(" ")[0] +
                         " is the challenger\nHe's choosing gods power!"));
-            }
-            else if(msg.contains("disconnected from the server")) {
-                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+            } else if (msg.contains("disconnected from the server")) {
+                LoaderController controller = (LoaderController) getControllerFromName(LOADER);
                 Platform.runLater(() -> controller.setText("WAITING FOR PLAYERS"));
-            }
-            else if (msg.contains("is choosing")) {
-                LoaderController controller = (LoaderController)getControllerFromName(LOADER);
+            } else if (msg.contains("is choosing")) {
+                LoaderController controller = (LoaderController) getControllerFromName(LOADER);
                 Platform.runLater(() -> {
                     controller.setFontSize(30);
-                    controller.setText(msg);});
+                    controller.setText(msg);
+                });
             }
         }
     }
 
-/** @see java.beans.PropertyChangeListener#propertyChange(PropertyChangeEvent) */
+    /**
+     * @see java.beans.PropertyChangeListener#propertyChange(PropertyChangeEvent)
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getOldValue()!=null) {
-            actionCheckers = (boolean[])evt.getOldValue();
+        if (evt.getOldValue() != null) {
+            actionCheckers = (boolean[]) evt.getOldValue();
         } else actionCheckers = null;
         switch (evt.getPropertyName()) {
             case "gameError" -> {
-                errorHandling((GameError)evt.getNewValue());
+                errorHandling((GameError) evt.getNewValue());
             }
             case "initialPhase" -> {
                 initialPhaseHandling(evt.getNewValue().toString());
@@ -371,36 +386,37 @@ public class GUI extends Application implements UI {
      */
     private void modifiedTurnHandling() {
         Platform.runLater(() -> {
-            MainGuiController controller = (MainGuiController)getControllerFromName(MAIN_GUI);
+            MainGuiController controller = (MainGuiController) getControllerFromName(MAIN_GUI);
             controller.showActions(actionCheckers);
         });
     }
 
     /**
-     *  Method endTurn handles EndTurnMessages and show actions accordantly.
+     * Method endTurn handles EndTurnMessages and show actions accordantly.
      */
 
     private void endTurn() {
         Platform.runLater(() -> {
-            MainGuiController controller = (MainGuiController)getControllerFromName(MAIN_GUI);
+            MainGuiController controller = (MainGuiController) getControllerFromName(MAIN_GUI);
             controller.endTurn();
         });
     }
 
     /**
-     *  Method matchStarted handles StartTurnMessages and show actions accordantly.
+     * Method matchStarted handles StartTurnMessages and show actions accordantly.
      */
 
     private void matchStarted() {
         Platform.runLater(() -> {
             changeStage(MAIN_GUI);
-            MainGuiController controller = (MainGuiController)getControllerFromName(MAIN_GUI);
+            MainGuiController controller = (MainGuiController) getControllerFromName(MAIN_GUI);
             controller.init();
         });
     }
 
     /**
-     *  Method otherLoser handles PlayerLostMessages (another player lost) and show actions accordantly.
+     * Method otherLoser handles PlayerLostMessages (another player lost) and show actions accordantly.
+     *
      * @param loser of type String  - the loser's nickname.
      */
     private void otherLoser(String loser) {
@@ -414,7 +430,7 @@ public class GUI extends Application implements UI {
     }
 
     /**
-     *  Method singleLoser handles PlayerLostMessages (client lost) and show actions accordantly.
+     * Method singleLoser handles PlayerLostMessages (client lost) and show actions accordantly.
      */
     private void singleLoser() {
         Platform.runLater(() -> {
@@ -428,7 +444,8 @@ public class GUI extends Application implements UI {
     }
 
     /**
-     *  Method loser handles PlayerLostMessages (another player won) and show actions accordantly.
+     * Method loser handles PlayerLostMessages (another player won) and show actions accordantly.
+     *
      * @param winner of Type String - the winner's nickname.
      */
     private void loser(String winner) {
@@ -493,11 +510,10 @@ public class GUI extends Application implements UI {
         Platform.runLater(() -> {
             Answer message = modelView.getServerAnswer();
             MainGuiController controller = (MainGuiController) getControllerFromName(MAIN_GUI);
-            if(message instanceof ModifiedTurnMessage){
+            if (message instanceof ModifiedTurnMessage) {
                 controller.showActions(actionCheckers);
                 return;
-            }
-            else if (message instanceof MoveMessage) {
+            } else if (message instanceof MoveMessage) {
                 Move move = ((MoveMessage) message).getMessage();
                 controller.move(move.getOldPosition().getRow(), move.getOldPosition().getColumn(),
                         move.getNewPosition().getRow(), move.getNewPosition().getColumn());
@@ -509,7 +525,7 @@ public class GUI extends Application implements UI {
                 defineDoubleMove((DoubleMoveMessage) message, controller);
             }
             controller.normalCells();
-            if(modelView.isTurnActive()) {
+            if (modelView.isTurnActive()) {
                 controller.showActions(actionCheckers);
                 deselectWorkers(controller);
             }
@@ -519,7 +535,7 @@ public class GUI extends Application implements UI {
     /**
      * Method defineDoubleMove defines type of DoubleMove.
      *
-     * @param message of type DoubleMoveMessage - the message from the server.
+     * @param message    of type DoubleMoveMessage - the message from the server.
      * @param controller of type MainGuiController - the MainGuiController reference.
      */
     private void defineDoubleMove(DoubleMoveMessage message, MainGuiController controller) {
@@ -530,8 +546,7 @@ public class GUI extends Application implements UI {
 
         if (message.getMessage().equals("ApolloDoubleMove")) {
             controller.apolloDoubleMove(oldRow1, oldCol1, oldRow2, oldCol2);
-        }
-        else if (message.getMessage().equals("MinotaurDoubleMove")) {
+        } else if (message.getMessage().equals("MinotaurDoubleMove")) {
             int newRow2 = message.getOtherMove().getNewPosition().getRow();
             int newCol2 = message.getOtherMove().getNewPosition().getColumn();
             controller.minotaurDoubleMove(oldRow1, oldCol1, oldRow2, oldCol2, newRow2, newCol2);
@@ -555,7 +570,7 @@ public class GUI extends Application implements UI {
      * @param controller of type MainGuiController - MainGuiController reference.
      */
     private void deselectWorkers(MainGuiController controller) {
-        for(int i=1; i<3; i++) {
+        for (int i = 1; i < 3; i++) {
             controller.getWorkerFromGrid(modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getRow(),
                     modelView.getBoard().getWorkerPosition(modelView.getColor(), i).getColumn()).deselect();
         }
@@ -563,11 +578,12 @@ public class GUI extends Application implements UI {
 
     /**
      * Method connectionClosed closes client's connection.
+     *
      * @param evt of type PropertyChangeEvent - close connection event.
      */
     private void connectionClosed(PropertyChangeEvent evt) {
         Platform.runLater(() -> {
-            if(activeGame) {
+            if (activeGame) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Connection closed");
                 alert.setHeaderText("Connection closed from the server");
