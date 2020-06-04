@@ -59,8 +59,9 @@ public class Hestia extends Worker {
      */
     @Override
     public List<Space> getBuildableSpaces(GameBoard gameBoard) {
-        if (alreadyBuilt) phases.get(5).changeMust(true);
-        return super.getBuildableSpaces(gameBoard);
+        List<Space> buildable = super.getBuildableSpaces(gameBoard);
+        if (alreadyBuilt && !buildable.isEmpty()) phases.get(5).changeMust(true);
+        return buildable;
     }
 
     /** @see Worker#build(Space) */
