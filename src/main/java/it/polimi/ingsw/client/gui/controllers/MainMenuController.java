@@ -70,6 +70,9 @@ public class MainMenuController implements GUIController{
         if(username.getText().equals("") || address.getText().equals("") || port.getText().equals("")) {
             confirmation.setText("Error: missing parameters!");
         }
+        else if(username.getText().length()>15) {
+            confirmation.setText("Error: the maximum length of nickname is 15 characters!");
+        }
         else if(address.getText().contains(" ")) {
             confirmation.setText("Error: address must not contain spaces!");
         }
