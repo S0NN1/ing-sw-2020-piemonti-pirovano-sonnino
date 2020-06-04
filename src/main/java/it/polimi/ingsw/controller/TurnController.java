@@ -277,7 +277,7 @@ public class TurnController implements PropertyChangeListener {
      */
     public void endTurn() {
         if (actionController.endAction()) {
-            gameHandler.singleSend(new EndTurnMessage("Turn ended :)"), gameHandler.getCurrentPlayerID());
+            gameHandler.singleSend(new EndTurnMessage("Turn ended :) \n"), gameHandler.getCurrentPlayerID());
             controller.getModel().nextPlayer();
             startTurn(new StartTurnAction());
             gameHandler.sendAllExcept(new StartTurnMessage(controller.getModel().getCurrentPlayer().getNickname()), gameHandler.getCurrentPlayerID());

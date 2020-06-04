@@ -869,7 +869,7 @@ public class CLI implements UI, Runnable {
      * Method selectWorker prints SELECT_WORKER option.
      */
     public void selectWorker() {
-        System.out.print("\r  • SELECTWORKER <1/2>\n");
+        System.out.print("\r  - SELECTWORKER <1/2>\n");
         greaterThan();
     }
 
@@ -885,7 +885,7 @@ public class CLI implements UI, Runnable {
         String customPower = Constants.getGodMapCustomAction().get(modelView.getGod().toUpperCase());
         if (modelView.getGamePhase() != 0) {
             if (!modelView.isTurnActive()) {
-                active = modelView.getCurrentPlayer() + "'S";
+                active = modelView.getCurrentPlayer() + "'s";
             } else active = "YOUR";
             System.out.println(active + " TURN");
         }

@@ -87,7 +87,7 @@
                                           <Font size="10.0" />
                                        </font>
                                        <HBox.margin>
-                                          <Insets top="15.0" />
+                                          <Insets left="5.0" top="15.0" />
                                        </HBox.margin>
                                     </Label>
                                     <ImageView fx:id="star3" fitHeight="28.0" fitWidth="26.0" visible="false">
