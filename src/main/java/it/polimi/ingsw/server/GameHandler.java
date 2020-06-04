@@ -144,7 +144,7 @@ public class GameHandler {
         if(playersNumber==2 && PlayerColors.notChosen().size()>1) {
             String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size() + 1).getNickname();
             singleSend(req, server.getIDByNickname(nickname));
-            sendAllExcept(new CustomMessage("Please wait, user " + nickname + " is choosing his color!", false), server.getIDByNickname(nickname));
+            sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false), server.getIDByNickname(nickname));
             return;
         }
         else if(playersNumber==3 && !PlayerColors.notChosen().isEmpty()) {
@@ -164,7 +164,7 @@ public class GameHandler {
             }
             else {
                 server.getClientByID(server.getIDByNickname(nickname)).send(req);
-                sendAllExcept(new CustomMessage("Please wait, user " + nickname + " is choosing his color!", false), server.getIDByNickname(nickname));
+                sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false), server.getIDByNickname(nickname));
                 return;
             }
         }
@@ -176,7 +176,7 @@ public class GameHandler {
                         "to add a God power to deck.\n" + (playersNumber - game.getDeck().getCards().size()) + " gods left."),
                 game.getCurrentPlayer().getClientID());
         sendAllExcept(new CustomMessage(game.getCurrentPlayer().getNickname() + " is the challenger! Please wait while " +
-                "he chooses the god powers.", false), game.getCurrentPlayer().getClientID());
+                "he/she chooses the god powers.", false), game.getCurrentPlayer().getClientID());
         controller.setSelectionController(game.getCurrentPlayer().getClientID());
     }
 
@@ -303,13 +303,16 @@ public class GameHandler {
                         " is choosing his god power...", false), getCurrentPlayerID());
             } else if (game.getDeck().getCards().size() == 1) {
                 game.nextPlayer();
-                controllerListener.firePropertyChange(godSelection, null, new ChallengerPhaseAction("LASTSELECTION"));
+                controllerListener.firePropertyChange(godSelection, null,
+                        new ChallengerPhaseAction("LASTSELECTION"));
                 ArrayList<String> players = new ArrayList<>();
                 game.getActivePlayers().forEach(n -> players.add(n.getNickname()));
                 singleSend(new ChallengerMessages(game.getCurrentPlayer().getNickname() + ", choose the " +
-                        "starting player by typing STARTER <number-of-player>", true, players), game.getCurrentPlayer().getClientID());
+                        "starting player by typing STARTER <number-of-player>", true, players),
+                        game.getCurrentPlayer().getClientID());
                 sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() + " is " +
-                        " choosing the starting player, please wait!", false), game.getCurrentPlayer().getClientID());
+                        "choosing the starting player!", false),
+                        game.getCurrentPlayer().getClientID());
                 started = 3;
             }
         }
