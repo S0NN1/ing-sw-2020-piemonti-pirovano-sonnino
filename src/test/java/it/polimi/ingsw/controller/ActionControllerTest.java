@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class ActionControllerTest tests ActionController class
+ * Class ActionControllerTest tests ActionController class.
  *
  * @author Alice Piemonti
  * Created on 01/06/2020

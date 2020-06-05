@@ -108,8 +108,6 @@ public class TurnControllerTest {
         evt11 = new PropertyChangeEvent(6, null, null, new SelectMoveAction(Action.BUILD));
         evt12 = new PropertyChangeEvent(6, null, null, new SelectBuildAction(Action.SELECT_REMOVE));
         evt13 = new PropertyChangeEvent(6, null, null, new StartTurnAction("worker1"));
-
-
     }
 
     @Test
