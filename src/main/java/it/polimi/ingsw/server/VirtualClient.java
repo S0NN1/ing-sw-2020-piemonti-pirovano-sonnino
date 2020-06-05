@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
  * through server socket.
  * It's used for preparing an answer for sending and for general operations on the client too.
  * @author Luca Pirovano
- * @version 1.1.0
+
  */
 public class VirtualClient implements PropertyChangeListener {
     private int clientID;

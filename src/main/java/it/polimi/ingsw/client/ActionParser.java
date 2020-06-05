@@ -12,7 +12,6 @@ import java.beans.PropertyChangeListener;
  * make a thicker client, in order to pre-check the correctness of the requests and then have minor server flooding.
  *
  * @author Luca Pirovano, Nicolò Sonnino
- * @version 2.0.0
  * @see PropertyChangeListener
  */
 public class ActionParser implements PropertyChangeListener {
@@ -26,7 +25,7 @@ public class ActionParser implements PropertyChangeListener {
      * Constructor ActionParser creates a new ActionParser instance.
      *
      * @param connection of type ConnectionSocket - the socket used for the connection.
-     * @param modelView of type ModelView the structure, stored into the client, containing simple logic of the model.
+     * @param modelView of type ModelView - the structure, stored into the client, containing simple logic of the model.
      */
     public ActionParser(ConnectionSocket connection, ModelView modelView) {
         this.connection = connection;
@@ -74,7 +73,7 @@ public class ActionParser implements PropertyChangeListener {
      * active.
      *
      * @param in of type String[] - the input from the player.
-     * @return UserAction  -the correct action.
+     * @return UserAction - the correct action.
      */
     private UserAction checkSelectWorker(String[] in) {
         UserAction sendMessage;
@@ -156,7 +155,7 @@ public class ActionParser implements PropertyChangeListener {
      *
      * @param in of type String[] - the input from the player.
      * @param turnPhase of type int - correct turn phase.
-     * @return UserAction  -the correct action.
+     * @return UserAction - the correct action.
      */
     private UserAction checkForceWorker(String[] in, int turnPhase) {
         return (in.length == 1) ? inputChecker.selectForceWorker(turnPhase, modelView.getActiveWorker())
@@ -169,7 +168,7 @@ public class ActionParser implements PropertyChangeListener {
      *
      * @param in of type String[] - the input from the player.
      * @param turnPhase of type int - correct turn phase.
-     * @return UserAction  -the correct action.
+     * @return UserAction - the correct action.
      */
     private UserAction checkRemoveLevel(String[] in, int turnPhase) {
         return (in.length == 1) ? inputChecker.selectRemoveLevel(turnPhase, modelView.getActiveWorker())

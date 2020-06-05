@@ -2,7 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
-import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
+import it.polimi.ingsw.client.messages.actions.WorkerSetupAction;
 import it.polimi.ingsw.client.messages.actions.turnactions.StartTurnAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.Controller;
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  * This class handles a single match, instantiating a game mode (Game class) and a main controller (Controller class).
  * It also manages the startup phase, like the marker's color selection.
  * @author Luca Pirovano
- * @version 2.0.0
+
  */
 public class GameHandler {
     private static final String PLAYER = "Player";
@@ -215,7 +215,7 @@ public class GameHandler {
     public void makeAction(UserAction action, String type) {
         switch (type) {
             case "ChallengerPhase" -> challengerPhase(action);
-            case "WorkerPlacement" -> workerPlacement((WorkerSetupMessage) action);
+            case "WorkerPlacement" -> workerPlacement((WorkerSetupAction) action);
             case "turnController" -> controllerListener.firePropertyChange(type, null, action);
             default -> {
                 singleSend(new GameError(ErrorsType.INVALIDINPUT), getCurrentPlayerID());
@@ -230,7 +230,7 @@ public class GameHandler {
      *
      * @param action of type WorkerSetupMessage the placement action.
      */
-    public void workerPlacement(WorkerSetupMessage action) {
+    public void workerPlacement(WorkerSetupAction action) {
         if(action!=null) {
             controllerListener.firePropertyChange("workerPlacement", null, action);
             if(game.getCurrentPlayer().getWorkers().get(0).getPosition()==null) {

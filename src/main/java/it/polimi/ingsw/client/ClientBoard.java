@@ -5,7 +5,7 @@ import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.model.player.Action;
 
 /**
- * Method ClientBoard is a simplified representation of the gameBoard in model.
+ * ClientBoard class is a simplified representation of the gameBoard in model.
  *
  * @author Alice Piemonti
  */
@@ -87,7 +87,7 @@ public class ClientBoard {
      *
      * @param row of type int - the row of the cell
      * @param col of type int - the column of the cell.
-     * @return int - selected level.
+     * @return int - the selected level.
      */
     public int getHeight(int row, int col) {
         return grid[row][col].getLevel();
@@ -96,8 +96,8 @@ public class ClientBoard {
   /**
    * Method getColor returns the worker's color of the selected cell.
    *
-   * @param row of type int the cell's row.
-   * @param col of type int the cell's column.
+   * @param row of type int - the cell's row.
+   * @param col of type int - the cell's column.
    * @return the worker's color (type String).
    */
   public String getColor(int row, int col) {
@@ -107,10 +107,10 @@ public class ClientBoard {
   /**
    * Method move updates modelView grid after a move action.
    *
-   * @param oldRow of type int the row of previous worker's position.
-   * @param oldCol of type int the column of previous worker's position.
-   * @param newRow of type int the row of the actual worker's position.
-   * @param newCol of type int the column of the actual worker's position.
+   * @param oldRow of type int - the row of previous worker's position.
+   * @param oldCol of type int - the column of previous worker's position.
+   * @param newRow of type int - the row of the actual worker's position.
+   * @param newCol of type int - the column of the actual worker's position.
    */
   public void move(int oldRow, int oldCol, int newRow, int newCol) {
     String color = grid[oldRow][oldCol].getColor();
@@ -122,8 +122,8 @@ public class ClientBoard {
   }
 
   /**
-   * Method apolloDoubleMove updates modelView grid after a move action, opponent's worker switches
-   * place with APOLLO (APOLLO ONLY).
+   * Method apolloDoubleMove updates modelView grid after a move action, opponent's worker switches place with APOLLO
+   * (APOLLO ONLY).
    *
    * @param oldRow1 of type int - the row of previous Apollo's position.
    * @param oldCol1 of type int - the column of previous Apollo's position.
@@ -135,15 +135,14 @@ public class ClientBoard {
   }
 
   /**
-   * Method minotaurDoubleMove updates modelView grid after a move action, opponent's worker is
-   * forced to next space.
+   * Method minotaurDoubleMove updates modelView grid after a move action, opponent's worker is forced to next space.
    *
-   * @param oldRow1 of type int the row of Minotaur's previous position.
-   * @param oldCol1 of type int the column of Minotaur's previous position.
-   * @param oldRow2 of type int the row of the other worker's previous position.
-   * @param oldCol2 of type int the column of the other worker's previous position.
-   * @param newRow2 of type int the row of the other worker's actual position.
-   * @param newCol2 of type int the column of the other worker's actual position.
+   * @param oldRow1 of type int - the row of Minotaur's previous position.
+   * @param oldCol1 of type int - the column of Minotaur's previous position.
+   * @param oldRow2 of type int - the row of the other worker's previous position.
+   * @param oldCol2 of type int - the column of the other worker's previous position.
+   * @param newRow2 of type int - the row of the other worker's actual position.
+   * @param newCol2 of type int - the column of the other worker's actual position.
    */
   public void minotaurDoubleMove(
       int oldRow1, int oldCol1, int oldRow2, int oldCol2, int newRow2, int newCol2) {
@@ -153,7 +152,7 @@ public class ClientBoard {
   }
 
   /**
-   * Set workers' numbers and colors for designated cells
+   * Method setWorkerNumColors sets workers' numbers and colors for designated cells.
    *
    * @param oldRow1 of type int - the previous row of the first worker.
    * @param oldCol1 of type int - the previous column of the first worker.

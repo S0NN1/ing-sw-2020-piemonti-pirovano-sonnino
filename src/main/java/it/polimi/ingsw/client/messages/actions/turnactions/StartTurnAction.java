@@ -3,7 +3,8 @@ package it.polimi.ingsw.client.messages.actions.turnactions;
 import it.polimi.ingsw.client.messages.actions.UserAction;
 
 /**
- * UserAction sent by the client to the server, it starts the turn or contains selected worker.
+ * StartTurnAction class is a UserAction sent by the client to the server, it starts the turn or contains selected
+ * worker.
  * @author Nicolò Sonnino
  * @see UserAction
  */

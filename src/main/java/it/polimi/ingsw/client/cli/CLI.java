@@ -23,10 +23,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Main CLI client class; it manages the game if the player decides to play with Command Line Interface.
+ * Main CLI client class manages the game if the player decides to play with Command Line Interface.
  *
  * @author Luca Pirovano, Nicolò Sonnino
- * @version 2.0.0
+
  */
 public class CLI implements UI, Runnable {
     private static final Logger logger = Logger.getLogger(CLI.class.getName());
@@ -97,7 +97,7 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Method clearScreen flushes terminal's screen
+     * Method clearScreen flushes terminal's screen.
      */
     public static void clearScreen() {
         try{
@@ -126,9 +126,9 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Method setup called when a client instance has started. It asks player's nickname and tries to
-     * establish a connection to the remote server through the socket interface. If the connection is active, displays
-     * a message on the CLI.
+     * Method setup called when a client instance has started. It asks player's nickname and tries to establish a
+     * connection to the remote server through the socket interface. If the connection is active, displays a message on
+     * the CLI.
      */
     public void setup() {
         String nickname = null;
@@ -164,8 +164,8 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Method loop keeps running and executing all actions client side, if the input has toggled (through the apposite
-     * method) it calls the action one and parses the player's input.
+     * Method loop keeps running and executing all actions client side, if the input has toggled (through the
+     * appropriate method) it calls the action one and parses the player's input. //TODO PIRO (one???)
      */
     public void loop() {
         input.reset();
@@ -388,10 +388,11 @@ public class CLI implements UI, Runnable {
                 nameMapColor.get("RST") + Printable.COUPLE_ROW_WAVE + "  " + sideMenuRows[0]);
         for (int i = 0; i <= 4; i++) {
             for (int k = 0; k <11; k++) {
-                System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.SINGLE_LINE_BLOCK + nameMapColor.get("RST"));
+                System.out.print(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.SINGLE_LINE_BLOCK +
+                        nameMapColor.get("RST"));
                 for (int j = 0; j <= 4; j++) {
-                    System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + Printable.SINGLE_LINE_BLOCK +
-                            nameMapColor.get("RST"));
+                    System.out.print(grid[i][j].getCellRows(k) + nameMapColor.get(YELLOW) + Printable.SINGLE_LINE_BLOCK
+                            + nameMapColor.get("RST"));
                 }
                 insertMenus(sideMenuRows, guideMenuRows, check, k);
             }
@@ -409,6 +410,13 @@ public class CLI implements UI, Runnable {
         System.out.println(Printable.ROW_WAVE);
     }
 
+    /**
+     * Method lastCellRow prints last cell's row with side menu or nothing.
+     *
+     * @param sideMenuRows of type String[] - side menu rows.
+     * @param check of type int - checker needed for correct printing.
+     * @return int - checker updated.
+     */
     private int lastCellRow(String[] sideMenuRows, int check) {
         if (maxSideIndex > 11) {
             System.out.println(Printable.COUPLE_ROW_WAVE + nameMapColor.get(YELLOW) + Printable.LINE_BLOCK +
@@ -499,7 +507,7 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Method buildSideHelp build side guide.
+     * Method buildSideHelp builds side guide.
      *
      * @return String[] - the side guide.
      */
@@ -573,7 +581,7 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Method choosePlayerNumber lets the first-connected user to decides the match capacity.
+     * Method choosePlayerNumber lets the first-connected user decide the match capacity.
      * Terminates the client if the player inserts an incorrect type of input.
      */
     public void choosePlayerNumber() {
@@ -635,8 +643,8 @@ public class CLI implements UI, Runnable {
     public void errorHandling(GameError error) {
         switch (error.getError()) {
             case CELLOCCUPIED -> {
-                System.out.println(nameMapColor.get(RED) + "The following cells are already occupied, please choose them " +
-                        "again." + nameMapColor.get("RST"));
+                System.out.println(nameMapColor.get(RED) + "The following cells are already occupied, please choose " +
+                        "them again." + nameMapColor.get("RST"));
                 error.getCoordinates().forEach(n -> System.out.print(nameMapColor.get(RED) + Arrays.toString(n) + ", " +
                         nameMapColor.get("RST")));
                 System.out.println();
@@ -646,7 +654,8 @@ public class CLI implements UI, Runnable {
                 if (error.getMessage() != null) {
                     System.out.println(nameMapColor.get(RED) + error.getMessage() + nameMapColor.get(RST));
                 } else {
-                    System.out.println(nameMapColor.get(RED) + "Input error, please try again!" + nameMapColor.get(RST));
+                    System.out.println(nameMapColor.get(RED) + "Input error, please try again!" +
+                            nameMapColor.get(RST));
                 }
                 greaterThan();
                 modelView.setTurnActive(true);
@@ -668,8 +677,8 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Method initialPhaseHandling handles the messages received from the server during the initial phase like,
-     * for example, the request of the number of player.
+     * Method initialPhaseHandling handles the messages received from the server during the initial phase like, for
+     * example, the request of the number of player.
      *
      * @param value of type String - the answer received from the server.
      */
@@ -750,7 +759,8 @@ public class CLI implements UI, Runnable {
     /**
      * Method propertyChange waits for a server response which is previously processed by the ActionHandler.
      *
-     * @param evt of type PropertyChangeEvent - the event containing information about the response type and its new value.
+     * @param evt of type PropertyChangeEvent - the event containing information about the response type and its new
+     * value.
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

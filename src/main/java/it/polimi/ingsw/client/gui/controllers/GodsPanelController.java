@@ -11,17 +11,33 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
+/**
+ * Class GodsPanelController displays god cards on GUI.
+ *
+ * @author Alice Piemonti
+ * @see GUIController
+ */
 public class GodsPanelController implements GUIController{
     private GUI gui;
     private boolean choose = false;
     @FXML
     VBox mainPane;
 
+    /**
+     * Method showGod displays single god tile.
+     *
+     * @param event of type ActionEvent - the event received.
+     */
     public void showGod(ActionEvent event) {
         LoaderController controller = (LoaderController)gui.getControllerFromName("loading.fxml");
         controller.godTile(Card.parseInput(((Button)event.getSource()).getText()), choose);
     }
 
+    /**
+     * Method chooseInit //TODO ALI BOH
+     *
+     * @param cards of type List<Card> - the deck of cards.
+     */
     public void chooseInit(List<Card> cards) {
         for(int i=0; i<3; i++){
             AnchorPane anchorPane = (AnchorPane) mainPane.getChildren().get(i);
@@ -41,6 +57,7 @@ public class GodsPanelController implements GUIController{
         choose = true;
     }
 
+    /** @see GUIController#setGui(GUI)*/
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;

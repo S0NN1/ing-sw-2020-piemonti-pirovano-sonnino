@@ -109,7 +109,8 @@ public class GodTile extends HBox {
         descText.setLayoutX(275);
         descText.setLayoutY(90);
 
-        ImageView powerBackground = new ImageView(getClass().getResource("/graphics/gods/power/panel_hero.png").toExternalForm());
+        ImageView powerBackground = new ImageView(getClass().getResource("/graphics/gods/power/panel_hero.png").
+                toExternalForm());
         thirdLayer.getChildren().add(powerBackground);
         powerBackground.setFitHeight(75);
         powerBackground.setFitWidth(145);
@@ -129,7 +130,8 @@ public class GodTile extends HBox {
         label1.setLayoutY(50);
         mainPane.getChildren().add(fourthLayer);
 
-        ImageView power = new ImageView(getClass().getResource("/graphics/gods/power/" + card.toString() + ".png" ).toExternalForm());
+        ImageView power = new ImageView(getClass().getResource("/graphics/gods/power/" + card.toString() +
+                ".png").toExternalForm());
         fourthLayer.getChildren().add(power);
         power.setFitHeight(38);
         power.setPreserveRatio(true);
@@ -186,7 +188,7 @@ public class GodTile extends HBox {
     /**
      * Method choose sets chooseGod button.
      *
-     * @param card of type Card  - the god's card.
+     * @param card of type Card - the god's card.
      */
     public void choose(Card card) {
         gui.getListeners().firePropertyChange("action", null, "CHOOSE " + card.toString());

@@ -22,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * ConnectionSocket handles the connection between the client and the server.
+ * ConnectionSocket class handles the connection between the client and the server.
  * @author Luca Pirovano
  */
 public class ConnectionSocket {
@@ -114,8 +114,8 @@ public class ConnectionSocket {
   }
 
   /**
-   * Method nicknameChecker handles the nickname validation phase after the server answer about the availability of
-   * the desired username.
+   * Method nicknameChecker handles the nickname validation phase after the server answer about the availability of the
+   * desired username.
    *
    * @param input of type Object - the server ObjectStream answer.
    * @return boolean true if the nickname is available and set, false otherwise.

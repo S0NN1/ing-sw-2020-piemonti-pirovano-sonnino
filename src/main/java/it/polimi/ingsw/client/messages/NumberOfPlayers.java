@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.messages;
 
 /**
- * Message sent by the client to the server containing the number of the players in the game.
+ * NumberOfPlayers is a Message sent by the client to the server containing the number of the players in the game.
  * @author Luca Pirovano
  * @see Message
  */

@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.messages.actions.workeractions;
 import it.polimi.ingsw.client.messages.actions.UserAction;
 
 /**
- * UserAction sent by the client to the server, defines an interface to worker actions.
+ * WorkerAction is a UserAction sent by the client to the server, defines an abstract class used by worker actions.
  * @author Alice Piemonti
  * @see UserAction
  */

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
+import it.polimi.ingsw.client.messages.actions.WorkerSetupAction;
 import it.polimi.ingsw.model.CardSelectionModel;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.Space;
@@ -21,6 +21,7 @@ import java.util.ArrayList;
  * like the turn one, or the action one.
  *
  * @author Luca Pirovano
+ * @see PropertyChangeListener
  */
 public class Controller implements PropertyChangeListener {
     public static final String TURN_CONTROLLER = "turnController";
@@ -107,7 +108,7 @@ public class Controller implements PropertyChangeListener {
      *            about the position of player's workers.
      * @return boolean true if everything goes fine, boolean false otherwise.
      */
-    public boolean placeWorkers(WorkerSetupMessage msg) {
+    public boolean placeWorkers(WorkerSetupAction msg) {
         for(int i=0; i<2; i++) {
             if(msg.getXPosition(i)<0 || msg.getXPosition(i)>4 || msg.getYPosition(i)<0 || msg.getYPosition(i)>4) {
                 gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT,
@@ -155,7 +156,7 @@ public class Controller implements PropertyChangeListener {
         switch(evt.getPropertyName()) {
             case "godSelection" -> controllerListeners.firePropertyChange("GODSELECTION", null,
                     evt.getNewValue());
-            case "workerPlacement" -> placeWorkers((WorkerSetupMessage) evt.getNewValue());
+            case "workerPlacement" -> placeWorkers((WorkerSetupAction) evt.getNewValue());
             case TURN_CONTROLLER -> controllerListeners.firePropertyChange(TURN_CONTROLLER, null,
                     evt.getNewValue());
             default -> {

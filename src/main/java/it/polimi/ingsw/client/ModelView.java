@@ -48,7 +48,7 @@ public class ModelView {
      *
      *
      *
-     * @param godDesc the godDesc of this ModelView object.
+     * @param godDesc the godDesc (type String) of this ModelView object .
      *
      */
     public void setGodDesc(String godDesc) {
@@ -75,7 +75,7 @@ public class ModelView {
      *
      *
      *
-     * @param playerMapColor the playerMapColor of this ModelView object.
+     * @param playerMapColor the playerMapColor (type Map<String, String>) of this ModelView object.
      *
      */
     public void setPlayerMapColor(Map<String, String> playerMapColor) {
@@ -87,7 +87,7 @@ public class ModelView {
      *
      *
      *
-     * @param playerMapGod the playerMapGod of this ModelView object.
+     * @param playerMapGod the playerMapColor (type Map<String, String>) of this ModelView object.
      *
      */
     public void setPlayerMapGod(Map<String, String> playerMapGod) {
@@ -132,7 +132,7 @@ public class ModelView {
      *
      *
      *
-     * @param selectSpaces the selectSpaces of this ModelView object.
+     * @param selectSpaces the selectSpaces(type List<Couple>) of this ModelView object.
      *
      */
     public void setSelectSpaces(List<Couple> selectSpaces) {
@@ -157,7 +157,7 @@ public class ModelView {
      *
      *
      *
-     * @param playerName the playerName of this ModelView object.
+     * @param playerName the playerName (type String) of this ModelView object.
      *
      */
     public void setPlayerName(String playerName) {
@@ -180,7 +180,7 @@ public class ModelView {
      *
      *
      *
-     * @param turnPhase the turnPhase of this ModelView object.
+     * @param turnPhase the turnPhase (type int) of this ModelView object.
      *
      */
     public void setTurnPhase(int turnPhase) {
@@ -203,7 +203,7 @@ public class ModelView {
      *
      *
      *
-     * @param color the color of this ModelView object.
+     * @param color the color (type color) of this ModelView object.
      *
      */
     public void setColor(String color) {
@@ -228,7 +228,7 @@ public class ModelView {
      *
      *
      *
-     * @param god the god of this ModelView object.
+     * @param god the god (type String) of this ModelView object.
      *
      */
     public void setGod(String god) {
@@ -251,7 +251,7 @@ public class ModelView {
      *
      *
      *
-     * @param turnActive the turnActive of this ModelView object.
+     * @param turnActive the turnActive (type boolean) of this ModelView object.
      *
      */
     public void setTurnActive(boolean turnActive) {
@@ -274,13 +274,20 @@ public class ModelView {
      *
      *
      *
-     * @param activeWorker the activeWorker of this ModelView object.
+     * @param activeWorker the activeWorker (type int) of this ModelView object.
      *
      */
     public void setActiveWorker(int activeWorker) {
         this.activeWorker = activeWorker;
     }
 
+    /**
+     * Method getActiveWorkerPosition returns the activeWorkerPosition of this ModelView object.
+     *
+     *
+     *
+     * @return the activeWorkerPosition (type Couple) of this ModelView object.
+     */
     public Couple getActiveWorkerPosition() {
         return getBoard().getWorkerPosition(getColor(), getActiveWorker());
     }
@@ -349,7 +356,7 @@ public class ModelView {
      *
      *
      *
-     * @param val the started of this ModelView object.
+     * @param val the started (type int) of this ModelView object.
      *
      */
     public synchronized void setStarted(int val) {
@@ -371,7 +378,7 @@ public class ModelView {
      *
      *
      *
-     * @param phase the gamePhase of this ModelView object.
+     * @param phase the gamePhase (of type int) of this ModelView object.
      *
      */
     public void setGamePhase(int phase) {
@@ -423,7 +430,7 @@ public class ModelView {
      *
      *
      *
-     * @param value the canInput of this ModelView object.
+     * @param value the canInput (type boolean) of this ModelView object.
      *
      */
     public synchronized void setCanInput(boolean value) {
@@ -435,7 +442,7 @@ public class ModelView {
      *
      *
      *
-     * @param answer the serverAnswer of this ModelView object.
+     * @param answer the serverAnswer (type Answer) of this ModelView object.
      *
      */
     public void setServerAnswer(Answer answer) {
@@ -493,10 +500,25 @@ public class ModelView {
         this.godPowerActive = godPowerActive;
     }
 
+    /**
+     * Method getCurrentPlayer returns the currentPlayer of this ModelView object.
+     *
+     *
+     *
+     * @return the currentPlayer (type String) of this ModelView object.
+     */
     public String getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Method setCurrentPlayer sets the currentPlayer of this ModelView object.
+     *
+     *
+     *
+     * @param currentPlayer the currentPlayer of this ModelView object.
+     *
+     */
     public void setCurrentPlayer(String currentPlayer) {
         this.currentPlayer = currentPlayer;
     }

@@ -3,7 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.client.messages.*;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
-import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
+import it.polimi.ingsw.client.messages.actions.WorkerSetupAction;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.player.PlayerColors;
@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * It handles a connection between client and server, permitting sending and receiving messages and doing other
  * class-useful operations too.
  * @author Luca Pirovano
- * @version 1.0.1
+
  */
 public class SocketClientConnection implements ClientConnection, Runnable {
     private final Socket socket;
@@ -197,7 +197,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
             }
             server.getGameByID(clientID).makeAction(action, "ChallengerPhase");
         }
-        else if(action instanceof WorkerSetupMessage) {
+        else if(action instanceof WorkerSetupAction) {
             if (server.getGameByID(clientID).isStarted()!=5) {
                 server.getGameByID(clientID).singleSend(new GameError(ErrorsType.INVALIDINPUT, "Not in correct game phase to perform this command!"), clientID);
                 return;

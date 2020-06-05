@@ -25,7 +25,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * Turn controller handling turn's moves and routing actions to the Action Controller
+ * Turn controller handles turn's moves and routing actions to the Action Controller
  *
  * @author Nicolò Sonnino
  */
@@ -48,9 +48,9 @@ public class TurnController implements PropertyChangeListener {
     /**
      * Constructor TurnController creates a new TurnController instance.
      *
-     * @param controller of type Controller
-     * @param gameHandler of type GameHandler
-     * @param actionController of type ActionController
+     * @param controller of type Controller - main controller reference.
+     * @param gameHandler of type GameHandler - GameHandler reference
+     * @param actionController of type ActionController - ActionController reference.
      */
     public TurnController(Controller controller, GameHandler gameHandler, ActionController actionController) {
         this.controller = controller;
@@ -59,9 +59,10 @@ public class TurnController implements PropertyChangeListener {
     }
 
     /**
-     * Receive property changed from a PropertyChangeSupport and pass different arguments to the ActionController
+     * Method propertyChange receives a property changed from a PropertyChangeSupport and pass different arguments
+     * to the ActionController.
      *
-     * @param evt the property change event
+     * @param evt of type PropertyChangeEvent - the property change event.
      */
     public void propertyChange(PropertyChangeEvent evt) {
         int i = 0;
@@ -127,10 +128,10 @@ public class TurnController implements PropertyChangeListener {
 
 
     /**
-     * Method findUnusedWorker ...
+     * Method findUnusedWorker searches the position of the inactive worker,
      *
-     * @param worker of type Worker
-     * @return int
+     * @param worker of type Worker - the worker needed.
+     * @return int - the position needed.
      */
     private int findUnusedWorker(Worker worker) {
         if(controller.getModel().getCurrentPlayer().getWorkers().get(0).equals(worker)){
@@ -144,10 +145,16 @@ public class TurnController implements PropertyChangeListener {
             sendMoveError();
         }
         else if(isPhaseRight(Action.SELECT_MOVE)) {
-            sendModifiedTurnMessage("You may choose to move (no args) again or build (no args).", Action.SELECT_MOVE);
+            sendModifiedTurnMessage("You may choose to move (no args) again or build (no args).",
+                    Action.SELECT_MOVE);
         }
     }
 
+    /**
+     * Method checkBuildAction ...
+     *
+     * @param workerAction of type BuildAction
+     */
     private void checkBuildAction(BuildAction workerAction) {
         String end =" end your turn.";
         if(workerAction.getAction().equals(Action.REMOVE)){
@@ -168,15 +175,33 @@ public class TurnController implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Method sendModifiedTurnMessage ...
+     *
+     * @param message of type String
+     * @param action of type Action
+     */
     private void sendModifiedTurnMessage(String message,Action action) {
         gameHandler.singleSend(new ModifiedTurnMessage(message, action), gameHandler.getCurrentPlayerID());
     }
 
+    /**
+     * Method isPhaseRight checks if Action received is the correct one for the current turn phase.
+     *
+     * @param action of type Action
+     * @return boolean
+     */
     private boolean isPhaseRight(Action action) {
         return actionController.getWorker().getPhase(actionController.phase) != null &&
                 actionController.getWorker().getPhase(actionController.phase).getAction().equals(action);
     }
 
+    /**
+     * Method setMoveUp sets canMoveUp true or false.
+     *
+     * @param i of type int - the correct worker.
+     * @param b of type boolean - the value to set canMoveUp.
+     */
     private void setMoveUp(int i, boolean b) {
         if (!controller.getModel().getCurrentPlayer().equals(controller.getModel().getActivePlayers().get(i))) {
             controller.getModel().getActivePlayers().get(i).getWorkers().get(0).setCanMoveUp(b);
@@ -185,7 +210,7 @@ public class TurnController implements PropertyChangeListener {
     }
 
     /**
-     * Method sendMoveError sends move error message
+     * Method sendMoveError sends move error message.
      */
     public void sendMoveError() {
         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Move not allowed!"),
@@ -193,13 +218,19 @@ public class TurnController implements PropertyChangeListener {
     }
 
     /**
-     * Method sendBuildError sends build error message
+     * Method sendBuildError sends build error message.
      */
     public void sendBuildError() {
         gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "Build not allowed!"),
                 gameHandler.getCurrentPlayerID());
     }
 
+    /**
+     * Method startTurnAction defines the type of StartTurnAction.
+     *
+     * @param i of type int - one worker.
+     * @param j of type int - the other one.
+     */
     public void startTurnAction(int i, int j) {
         if(actionController.phase!=0) {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT, "You can't change your worker!"),
@@ -207,11 +238,14 @@ public class TurnController implements PropertyChangeListener {
         }
         else if (actionController.startAction(controller.getModel().getCurrentPlayer().getWorkers().get(i))) {
             if (actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECT_BUILD)) {
-                gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or build (no args) based on your choice."),
+                gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or build " +
+                                "(no args) based on your choice."),
                         gameHandler.getCurrentPlayerID());
             }
-            else if(actionController.getWorker().getPhase(actionController.phase).getAction().equals(Action.SELECT_FORCE_WORKER)){
-                gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or forceworker (no args) based on your choice.", Action.SELECT_FORCE_WORKER),
+            else if(actionController.getWorker().getPhase(actionController.phase).getAction().equals(
+                    Action.SELECT_FORCE_WORKER)){
+                gameHandler.singleSend(new ModifiedTurnMessage("You can either type move (no args) or " +
+                                "forceworker (no args) based on your choice.", Action.SELECT_FORCE_WORKER),
                         gameHandler.getCurrentPlayerID());
             }
         }
@@ -228,9 +262,9 @@ public class TurnController implements PropertyChangeListener {
     }
 
     /**
-     * Method handling the start of the turn
+     * Method startTurn handles the start of the turn.
      *
-     * @param arg StartTurnAction message
+     * @param arg StartTurnAction - the action received.
      */
 
     public void startTurn(StartTurnAction arg) {
@@ -249,9 +283,13 @@ public class TurnController implements PropertyChangeListener {
 
     }
 
+    /**
+     * Method endGame ends current match.
+     */
     private void endGame() {
         if(controller.getModel().getActivePlayers().size()==2){
-            gameHandler.singleSend(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname()), gameHandler.getCurrentPlayerID());
+            gameHandler.singleSend(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname()),
+                    gameHandler.getCurrentPlayerID());
             controller.getModel().nextPlayer();
             gameHandler.singleSend(new WinMessage(), gameHandler.getCurrentPlayerID());
             gameHandler.endGame();
@@ -265,7 +303,8 @@ public class TurnController implements PropertyChangeListener {
                 loserColor = "red";
             }
             else loserColor = "green";
-            gameHandler.sendAll(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname(), loserColor));
+            gameHandler.sendAll(new PlayerLostMessage(controller.getModel().getCurrentPlayer().getNickname(),
+                    loserColor));
             int removeId = gameHandler.getCurrentPlayerID();
             gameHandler.getServer().getClientByID(removeId).getConnection().close();
             startTurn(new StartTurnAction());
@@ -273,14 +312,15 @@ public class TurnController implements PropertyChangeListener {
     }
 
     /**
-     * Method handling the end of the turn and switching to the next player
+     * Method endTurn handles the end of the turn and switching to the next player.
      */
     public void endTurn() {
         if (actionController.endAction()) {
             gameHandler.singleSend(new EndTurnMessage("Turn ended :) \n"), gameHandler.getCurrentPlayerID());
             controller.getModel().nextPlayer();
             startTurn(new StartTurnAction());
-            gameHandler.sendAllExcept(new StartTurnMessage(controller.getModel().getCurrentPlayer().getNickname()), gameHandler.getCurrentPlayerID());
+            gameHandler.sendAllExcept(new StartTurnMessage(controller.getModel().getCurrentPlayer().getNickname()),
+                    gameHandler.getCurrentPlayerID());
         } else {
             gameHandler.singleSend(new GameError(ErrorsType.STILLYOURTURN), gameHandler.getCurrentPlayerID());
         }

@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client.messages;
 
 /**
- * Message sent by the client to the server, setups connection for the player with provided nickname.
+ * SetupConnection class is a Message sent by the client to the server, setups connection for the player with provided
+ * nickname.
  * @author Luca Pirovano
  * @see Message
  */

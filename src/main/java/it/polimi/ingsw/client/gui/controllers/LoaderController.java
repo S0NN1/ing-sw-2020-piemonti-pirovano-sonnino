@@ -146,7 +146,7 @@ public class LoaderController implements GUIController {
             ButtonType ok = new ButtonType("SELECT");
             godList.getButtonTypes().setAll(ok);
             godList.showAndWait();
-        } while (godListDropdown.getValue() == null || !godTile(Card.parseInput(godListDropdown.getValue()), false));
+        } while (godListDropdown.getValue() == null || !godTile(Card.parseInput(godListDropdown.getValue()),false));
     }
 
     /**
@@ -160,7 +160,8 @@ public class LoaderController implements GUIController {
             message.setTitle("Choose your god power!");
             message.setHeaderText("Please choose your god power from one of the list below.");
             assert req.getSelectable() != null;
-            message.setContentText(req.getMessage() + "\n" + req.getSelectable().stream().map(Enum::toString).collect(Collectors.joining("\n")));
+            message.setContentText(req.getMessage() + "\n" +
+                    req.getSelectable().stream().map(Enum::toString).collect(Collectors.joining("\n")));
             ComboBox<Card> choices = new ComboBox<>(FXCollections.observableArrayList(req.getSelectable()));
             message.getDialogPane().setContent(choices);
             ButtonType choose = new ButtonType("DETAILS");
@@ -197,8 +198,8 @@ public class LoaderController implements GUIController {
             message.setHeaderText(CHALLENGER_PHASE);
             if(req.getMessage().contains("you are the challenger")) {
                 message.setHeaderText(CHALLENGER_PHASE);
-                message.setContentText("You are the challenger! Click below and choose the god power you want to put in" +
-                        " the game deck; you can see property and description of each god by clicking on it!");
+                message.setContentText("You are the challenger! Click below and choose the god power you want to put " +
+                        "in the game deck; you can see property and description of each god by clicking on it!");
             }
             else if(req.getMessage().contains("All gods have been added!")) {
                 gui.changeStage("loading.fxml");
@@ -251,7 +252,8 @@ public class LoaderController implements GUIController {
         colors.forEach(n -> buttons.put(n.toString(), new ButtonType(n.toString())));
         alert.getButtonTypes().setAll(buttons.values());
         Optional<ButtonType> result = alert.showAndWait();
-        result.ifPresent(buttonType -> gui.getConnection().send(new ChosenColor(PlayerColors.parseInput(buttonType.getText()))));
+        result.ifPresent(buttonType -> gui.getConnection().send(new ChosenColor(
+                PlayerColors.parseInput(buttonType.getText()))));
     }
 
     /**

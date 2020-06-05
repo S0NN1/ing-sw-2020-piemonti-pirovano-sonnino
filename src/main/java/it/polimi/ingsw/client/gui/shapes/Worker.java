@@ -46,7 +46,8 @@ public class Worker extends Polygon {
         setOnMouseEntered(mouseEvent -> setCursor(Cursor.HAND));
 
         setOnMouseClicked(mouseEvent -> {
-            controller.getGUI().getListeners().firePropertyChange("action", null, "SELECTWORKER "+ getWorkingNumber());
+            controller.getGUI().getListeners().firePropertyChange("action", null, "SELECTWORKER "
+                    + getWorkingNumber());
             controller.workerSelected();
         });
     }
@@ -83,11 +84,14 @@ public class Worker extends Polygon {
         });
         this.setOnMouseReleased(mouseEvent -> {
                     this.setCursor(Cursor.DEFAULT);
-                    int newRow = (int) (Constants.GRID_MAX_SIZE - ((grid.getHeight() - this.getLayoutY())/(grid.getHeight()/Constants.GRID_MAX_SIZE)));
-                    int newCol = (int) (Constants.GRID_MAX_SIZE - ((grid.getWidth() - this.getLayoutX())/(grid.getWidth()/Constants.GRID_MAX_SIZE)));
+                    int newRow = (int) (Constants.GRID_MAX_SIZE - ((grid.getHeight() - this.getLayoutY())/
+                            (grid.getHeight()/Constants.GRID_MAX_SIZE)));
+                    int newCol = (int) (Constants.GRID_MAX_SIZE - ((grid.getWidth() - this.getLayoutX())/
+                            (grid.getWidth()/Constants.GRID_MAX_SIZE)));
                         grid.add(this, oldCol, oldRow);
                         this.setPosition(oldRow, oldCol);
-                        controller.getGUI().getListeners().firePropertyChange("action", null, "MOVE "+ newRow + " " + newCol);
+                        controller.getGUI().getListeners().firePropertyChange("action", null, "MOVE "
+                                + newRow + " " + newCol);
 
                     mainAnchor.getChildren().remove(tempPane);
                 }

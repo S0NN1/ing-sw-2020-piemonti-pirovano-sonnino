@@ -16,7 +16,7 @@ import java.util.List;
  * The last section is the "MVC Deck creation", which consists in a Model-View-Controller pattern that lets challenger
  * to choose the god powers cards.
  * @author Luca Pirovano
- * @version 1.0.1
+
  */
 
 public class Game {

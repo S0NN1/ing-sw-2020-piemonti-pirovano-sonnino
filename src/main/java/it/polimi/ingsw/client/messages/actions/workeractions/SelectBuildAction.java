@@ -3,7 +3,8 @@ package it.polimi.ingsw.client.messages.actions.workeractions;
 import it.polimi.ingsw.model.player.Action;
 
 /**
- * UserAction sent by the client to the server, it requests possible spaces on which the player can build.
+ * SelectBuildAction class is a UserAction sent by the client to the server, it requests possible spaces on which the
+ * player can build.
  * @author Alice Piemonti
  * @see WorkerAction
  */
@@ -26,6 +27,7 @@ public class SelectBuildAction extends WorkerAction {
     public SelectBuildAction(Action action) {
         this.action = action;
     }
+
     /** @see WorkerAction#getMessage() */
     @Override
     public Action getMessage() {

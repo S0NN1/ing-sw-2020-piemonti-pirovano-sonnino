@@ -41,6 +41,7 @@ import java.util.logging.Logger;
  *
  * @author Luca Pirovano, Nicolò Sonnino
  * @see UI
+ * @see Application
  */
 public class GUI extends Application implements UI {
 
@@ -227,8 +228,8 @@ public class GUI extends Application implements UI {
     /**
      * Method getControllerFromName gets a scene controller based on inserted name from the dedicated hashmap.
      *
-     * @param name of type String - player's name.
-     * @return GUIController - scene controller.
+     * @param name of type String - the player's name.
+     * @return GUIController - the scene controller.
      */
     public GUIController getControllerFromName(String name) {
         return nameMapController.get(name);
@@ -247,13 +248,9 @@ public class GUI extends Application implements UI {
                     selectWorker();
                 });
             case INVALIDINPUT ->
-                Platform.runLater(() -> {
-                    errorDialog("Invalid input, please try again!");
-                });
+                Platform.runLater(() -> errorDialog("Invalid input, please try again!"));
             case CELLOCCUPIED ->
-                Platform.runLater(() -> {
-                    errorDialog("Cell already occupied!");
-                });
+                Platform.runLater(() -> errorDialog("Cell already occupied!"));
             default -> {
                 Platform.runLater(() -> {
                     errorDialog("Generic Error!");
@@ -262,6 +259,11 @@ public class GUI extends Application implements UI {
         }
     }
 
+    /**
+     * Method errorDialog displays a generic error.
+     *
+     * @param error of type String - the error displayed.
+     */
     private void errorDialog(String error) {
         Alert errorDialog = new Alert(Alert.AlertType.ERROR);
         errorDialog.setTitle("Game Error");
@@ -278,18 +280,14 @@ public class GUI extends Application implements UI {
      */
     public void initialPhaseHandling(String cmd) {
         switch (cmd) {
-            case "RequestPlayerNumber" -> {
-                Platform.runLater(() -> {
-                    LoaderController controller = (LoaderController) getControllerFromName(LOADER);
-                    controller.requestPlayerNumber(((RequestPlayersNumber) modelView.getServerAnswer()).getMessage());
-                });
-            }
-            case "RequestColor" -> {
-                Platform.runLater(() -> {
-                    LoaderController controller = (LoaderController) getControllerFromName(LOADER);
-                    controller.requestColor(((ColorMessage) modelView.getServerAnswer()).getRemaining());
-                });
-            }
+            case "RequestPlayerNumber" -> Platform.runLater(() -> {
+                LoaderController controller = (LoaderController) getControllerFromName(LOADER);
+                controller.requestPlayerNumber(((RequestPlayersNumber) modelView.getServerAnswer()).getMessage());
+            });
+            case "RequestColor" -> Platform.runLater(() -> {
+                LoaderController controller = (LoaderController) getControllerFromName(LOADER);
+                controller.requestColor(((ColorMessage) modelView.getServerAnswer()).getRemaining());
+            });
             case "GodRequest" -> {
                 ChallengerMessages req = (ChallengerMessages) modelView.getServerAnswer();
                 Platform.runLater(() -> {
@@ -348,18 +346,10 @@ public class GUI extends Application implements UI {
             actionCheckers = (boolean[]) evt.getOldValue();
         } else actionCheckers = null;
         switch (evt.getPropertyName()) {
-            case "gameError" -> {
-                errorHandling((GameError) evt.getNewValue());
-            }
-            case "initialPhase" -> {
-                initialPhaseHandling(evt.getNewValue().toString());
-            }
-            case "customMessage" -> {
-                customMessageHandling(evt.getNewValue().toString());
-            }
-            case "connectionClosed" -> {
-                connectionClosed(evt);
-            }
+            case "gameError" -> errorHandling((GameError) evt.getNewValue());
+            case "initialPhase" -> initialPhaseHandling(evt.getNewValue().toString());
+            case "customMessage" -> customMessageHandling(evt.getNewValue().toString());
+            case "connectionClosed" -> connectionClosed(evt);
             case "noPossibleMoves" -> noPossibleMoves();
             case "select" -> showSpacesList();
             case "boardUpdate" -> checkAction();

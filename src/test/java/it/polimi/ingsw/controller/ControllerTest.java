@@ -2,9 +2,8 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
 import it.polimi.ingsw.client.messages.actions.UserAction;
-import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
+import it.polimi.ingsw.client.messages.actions.WorkerSetupAction;
 import it.polimi.ingsw.client.messages.actions.turnactions.EndTurnAction;
-import it.polimi.ingsw.client.messages.actions.workeractions.MoveAction;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.Space;
@@ -15,7 +14,6 @@ import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualClient;
 import it.polimi.ingsw.server.answers.Answer;
-import it.polimi.ingsw.server.answers.turn.EndTurnMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -124,7 +122,7 @@ class ControllerTest {
         game.setCurrentPlayer(game.getActivePlayers().get(0));
         controller = new controllerStub(game, new GameHandlerStub(new Server()));
          new0 = new ChallengerPhaseAction("GODLIST");
-         new1 = new WorkerSetupMessage(new String[]{null, "1", "2", "3", "4"});
+         new1 = new WorkerSetupAction(new String[]{null, "1", "2", "3", "4"});
          new2 = new EndTurnAction();
          new3 = null;
     }
@@ -139,7 +137,7 @@ class ControllerTest {
         input[2] = "1";
         input[3] = "3";
         input[4] = "0";
-        controller.placeWorkers(new WorkerSetupMessage(input));
+        controller.placeWorkers(new WorkerSetupAction(input));
         assertTrue(((WorkerStub)game.getCurrentPlayer().getWorkers().get(0)).value);
     }
 
@@ -152,7 +150,7 @@ class ControllerTest {
         input[2] = "-1";
         input[3] = "8";
         input[4] = "0";
-        assertFalse(controller.placeWorkers(new WorkerSetupMessage(input)));
+        assertFalse(controller.placeWorkers(new WorkerSetupAction(input)));
     }
 
     @DisplayName("Worker placement test with already occupied coordinates")
@@ -164,13 +162,13 @@ class ControllerTest {
         input[2] = "0";
         input[3] = "1";
         input[4] = "1";
-        assertTrue(controller.placeWorkers(new WorkerSetupMessage(input)));
+        assertTrue(controller.placeWorkers(new WorkerSetupAction(input)));
         game.nextPlayer();
         input[1] = "0";
         input[2] = "0";
         input[3] = "1";
         input[4] = "1";
-        assertFalse(controller.placeWorkers(new WorkerSetupMessage(input)));
+        assertFalse(controller.placeWorkers(new WorkerSetupAction(input)));
     }
 
     @DisplayName("God Selection Controller setting check")
@@ -185,7 +183,7 @@ class ControllerTest {
     @Test
     void listenerTest() {
         assert(new0 instanceof ChallengerPhaseAction);
-        assert(new1 instanceof WorkerSetupMessage);
+        assert(new1 instanceof WorkerSetupAction);
         assert(new2 instanceof EndTurnAction);
         assertEquals(null, new3);
         controller.propertyChange(new PropertyChangeEvent(this, "godSelection",null, new0));

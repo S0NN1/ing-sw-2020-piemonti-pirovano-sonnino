@@ -2,7 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.messages.Disconnect;
 import it.polimi.ingsw.client.messages.actions.ChallengerPhaseAction;
-import it.polimi.ingsw.client.messages.actions.WorkerSetupMessage;
+import it.polimi.ingsw.client.messages.actions.WorkerSetupAction;
 import it.polimi.ingsw.client.messages.actions.turnactions.StartTurnAction;
 import it.polimi.ingsw.client.messages.actions.workeractions.*;
 import it.polimi.ingsw.constants.Constants;
@@ -18,7 +18,6 @@ import java.util.Objects;
  * false.
  *
  * @author Luca Pirovano, Nicolò Sonnino
- * @version 2.0.0
  */
 public class InputChecker {
     public static final String ERR_NONEXISTENT_UNREACHABLE = "Non-existent or unreachable cell, operation not " +
@@ -38,8 +37,9 @@ public class InputChecker {
     /**
      * Constructor InputChecker creates a new InputChecker instance.
      *
-     * @param connection of type ConnectionSocket the socket used for the connection between client and server.
-     * @param modelView  of type ModelView the structure, stored into the client, containing simple logic of the model.
+     * @param connection of type ConnectionSocket - the socket used for the connection between client and server.
+     * @param modelView  of type ModelView - the structure, stored into the client, containing simple logic of the
+     *                   model.
      */
     public InputChecker(ConnectionSocket connection, ModelView modelView) {
         this.connection = connection;
@@ -50,8 +50,8 @@ public class InputChecker {
     /**
      * Method desc validates a "GODDESC <god-name>" message type.
      *
-     * @param in of type String[] the user input under array representation.
-     * @return ChallengerPhaseAction the correct ChallengerPhaseAction, null otherwise.
+     * @param in of type String[] - the user input under array representation.
+     * @return ChallengerPhaseAction - the correct ChallengerPhaseAction, null otherwise.
      */
 
     public ChallengerPhaseAction desc(String[] in) {
@@ -68,8 +68,8 @@ public class InputChecker {
     /**
      * Method addGod validates an "ADDGOD <god-name>" message type.
      *
-     * @param in of type String[] the user input under array representation.
-     * @return ChallengerPhaseAction the correct ChallengerPhaseAction, null otherwise.
+     * @param in of type String[] - the user input under array representation.
+     * @return ChallengerPhaseAction - the correct ChallengerPhaseAction, null otherwise.
      */
     public ChallengerPhaseAction addGod(String[] in) {
         ChallengerPhaseAction action;
@@ -86,8 +86,8 @@ public class InputChecker {
     /**
      * Method choose validates a "CHOOSE <god-name>" message type.
      *
-     * @param in of type String[] the user input under array representation.
-     * @return ChallengerPhaseAction the correct ChallengerPhaseAction, null otherwise.
+     * @param in of type String[] - the user input under array representation.
+     * @return ChallengerPhaseAction - the correct ChallengerPhaseAction, null otherwise.
      */
 
     public ChallengerPhaseAction choose(String[] in) {
@@ -104,8 +104,8 @@ public class InputChecker {
     /**
      * Method starter validates a "STARTER <player-number>" message type.
      *
-     * @param in of type String[] the user input under array representation.
-     * @return ChallengerPhaseAction the correct ChallengerPhaseAction, null otherwise.
+     * @param in of type String[] - the user input under array representation.
+     * @return ChallengerPhaseAction - the correct ChallengerPhaseAction, null otherwise.
      */
     public ChallengerPhaseAction starter(String[] in) {
         ChallengerPhaseAction action;
@@ -122,13 +122,13 @@ public class InputChecker {
     /**
      * Method set validates a "SET <x1> <y1> <x2> <y2>" worker placement message type.
      *
-     * @param in of type String[] the user input under array representation.
-     * @return ChallengerPhaseAction the correct ChallengerPhaseAction, null otherwise.
+     * @param in of type String[] - the user input under array representation.
+     * @return ChallengerPhaseAction - the correct ChallengerPhaseAction, null otherwise.
      */
-    public WorkerSetupMessage set(String[] in) {
-        WorkerSetupMessage action;
+    public WorkerSetupAction set(String[] in) {
+        WorkerSetupAction action;
         try {
-            action = new WorkerSetupMessage(in);
+            action = new WorkerSetupAction(in);
             int row1 = Integer.parseInt(in[1]);
             int column1 = Integer.parseInt(in[2]);
             int row2 = Integer.parseInt(in[3]);
@@ -158,12 +158,12 @@ public class InputChecker {
     /**
      * Method build checks if build action is permitted.
      *
-     * @param turnPhase    of type int the number indicating turn's phase.
-     * @param row          of type int the row of the selected cell.
-     * @param column       of type int the column of the selected cell.
-     * @param activeWorker of type int the number indicating which worker was selected by player at the start of the
+     * @param turnPhase    of type int - the number indicating turn's phase.
+     * @param row          of type int - the row of the selected cell.
+     * @param column       of type int - the column of the selected cell.
+     * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
      *                     turn.
-     * @return BuildAction the correct BuildAction, null otherwise.
+     * @return BuildAction - the correct BuildAction, null otherwise.
      */
     public BuildAction build(int turnPhase, int row, int column, int activeWorker) {
         if (activeWorker == 0) {
@@ -184,10 +184,10 @@ public class InputChecker {
     /**
      * Method build checks if select build action is permitted.
      *
-     * @param turnPhase    of type int the number indicating turn's phase.
-     * @param activeWorker of type int the number indicating which worker was selected by player at the start of the
-     *                     turn.
-     * @return SelectBuildAction the correct SelectBuildAction, null otherwise.
+     * @param turnPhase    of type int - the number indicating turn's phase.
+     * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
+     * turn.
+     * @return SelectBuildAction - the correct SelectBuildAction, null otherwise.
      */
     public SelectBuildAction build(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {
@@ -205,12 +205,12 @@ public class InputChecker {
     /**
      * Method atlasBuild checks if atlasBuild action is permitted.
      *
-     * @param turnPhase    of type int the number indicating turn's phase.
-     * @param row          of type int the row of the selected cell.
-     * @param column       of type int the column of the selected cell.
-     * @param activeWorker of type int the number indicating which worker was selected by player at the start of the
+     * @param turnPhase    of type int - the number indicating turn's phase.
+     * @param row          of type int - the row of the selected cell.
+     * @param column       of type int - the column of the selected cell.
+     * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
      *                     turn.
-     * @return AtlasBuildAction the correct AtlasBuildAction, null otherwise.
+     * @return AtlasBuildAction - the correct AtlasBuildAction, null otherwise.
      */
     public AtlasBuildAction atlasBuild(int turnPhase, int row, int column, int activeWorker) {
         if (activeWorker == 0) {
@@ -236,12 +236,12 @@ public class InputChecker {
     /**
      * Method move checks if move action is permitted.
      *
-     * @param turnPhase    of type int the number indicating turn's phase.
-     * @param row          of type int the row of the selected cell.
-     * @param column       of type int the column of the selected cell.
-     * @param activeWorker of type int the number indicating which worker was selected by player at the start of the
+     * @param turnPhase    of type int - the number indicating turn's phase.
+     * @param row          of type int - the row of the selected cell.
+     * @param column       of type int - the column of the selected cell.
+     * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
      *                     turn.
-     * @return MoveAction the correct MoveAction, null otherwise.
+     * @return MoveAction - the correct MoveAction, null otherwise.
      */
     public MoveAction move(int turnPhase, int row, int column, int activeWorker) {
         if (activeWorker == 0) {
@@ -250,7 +250,8 @@ public class InputChecker {
         }
         Couple worker = findWorker(activeWorker, modelView.getColor());
         MoveAction move = new MoveAction(row, column);
-        if (turnPhase == 1 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase()) || Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
+        if (turnPhase == 1 || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase()) ||
+                Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
             if (isUnreachable(row, column, worker)) {
                 System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
                 return null;
@@ -271,11 +272,11 @@ public class InputChecker {
     /**
      * Method canReachCell checks if cell is reachable (no dome built or higher than current cell of one level).
      *
-     * @param row    of type int the row of the selected cell.
-     * @param column of type int the column of the selected cell.
-     * @param worker of type Couple worker's position.
-     * @param move   of type MoveAction the MoveAction parsed.
-     * @return MoveAction the correct MoveAction, null otherwise.
+     * @param row    of type int - the row of the selected cell.
+     * @param column of type int - the column of the selected cell.
+     * @param worker of type Couple - the worker's position.
+     * @param move   of type MoveAction - the MoveAction parsed.
+     * @return MoveAction - the correct MoveAction, null otherwise.
      */
     private MoveAction canReachCell(int row, int column, Couple worker, MoveAction move) {
         if (modelView.getBoard().getGrid()[row][column].isDome()) {
@@ -295,11 +296,12 @@ public class InputChecker {
      * Method canMoveToOccupiedCell checks if moving to occupied cell is permitted by checking if the player's god is
      * one with this particular effect.
      *
-     * @param move of type MoveAction the MoveAction parsed.
-     * @return MoveAction the correct MoveAction, null otherwise.
+     * @param move of type MoveAction - the MoveAction parsed.
+     * @return MoveAction - the correct MoveAction, null otherwise.
      */
     private MoveAction canMoveToOccupiedCell(MoveAction move) {
-        if (!Constants.getMoveToCellOccupiedGods().contains(modelView.getGod().toUpperCase())) { //&& !move.getAction().equals(Action.FORCE_WORKER)
+        if (!Constants.getMoveToCellOccupiedGods().contains(modelView.getGod().toUpperCase())) { //&&//
+            // !move.getAction().equals(Action.FORCE_WORKER)
             System.out.println(RED + ERR_CELL_OCCUPIED + RST);
             return null;
         } else return move;
@@ -308,18 +310,19 @@ public class InputChecker {
     /**
      * Method getBuildAction checks if BuildAction isn't permitted by firing various errors based on their types.
      *
-     * @param row    of type int the row of the selected cell.
-     * @param column of type int the column of the selected cell.
+     * @param row    of type int - the row of the selected cell.
+     * @param column of type int - the column of the selected cell.
      * @param worker of type Couple worker's position.
      * @param build  of type BuildAction the BuildAction parsed.
-     * @return BuildAction the correct BuildAction, null otherwise.
+     * @return BuildAction - the correct BuildAction, null otherwise.
      */
     private BuildAction getBuildAction(int row, int column, Couple worker, BuildAction build) {
         if (isUnreachable(row, column, worker)) {
             System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
             return null;
         } else {
-            if (modelView.getBoard().getGrid()[row][column].getColor() != null && !Constants.getBuildSameBlockGods().contains(modelView.getGod().toUpperCase())) {
+            if (modelView.getBoard().getGrid()[row][column].getColor() != null && !Constants.getBuildSameBlockGods()
+                    .contains(modelView.getGod().toUpperCase())) {
                 System.out.println(RED + ERR_CELL_OCCUPIED + RST);
                 return null;
             } else {
@@ -376,7 +379,7 @@ public class InputChecker {
      *
      * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
      *                     turn.
-     * @param color        of type String - the worker's color.
+     * @param color of type String - the worker's color.
      * @return Couple - the correct worker's position, null otherwise.
      */
     private Couple findWorker(int activeWorker, String color) {
@@ -423,7 +426,7 @@ public class InputChecker {
      * @param row    of type int - the row of the selected cell.
      * @param column of type int - the column of the selected cell.
      * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
-     *                     turn.
+     * turn.
      * @return StartTurnAction - the correct StartTurnAction, null otherwise.
      */
     public BuildAction removeLevel(int turnPhase, int row, int column, int activeWorker) {
@@ -446,7 +449,7 @@ public class InputChecker {
      *
      * @param turnPhase    of type int - the number indicating turn's phase.
      * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
-     *                     turn.
+     * turn.
      * @return SelectBuildAction - the correct SelectBuildAction, null otherwise.
      */
     public SelectBuildAction selectRemoveLevel(int turnPhase, int activeWorker) {
@@ -469,7 +472,7 @@ public class InputChecker {
      * @param row    of type int - the row of the selected cell.
      * @param column of type int - the column of the selected cell.
      * @param activeWorker of type int - the number indicating which worker was selected by player at the start of the
-     *                     turn.
+     * turn.
      * @return MoveAction - the correct MoveAction, null otherwise.
      */
     public MoveAction forceWorker(int turnPhase, int row, int column, int activeWorker) {
@@ -499,10 +502,10 @@ public class InputChecker {
     }
 
   /**
-   * Method selectForceWorker selects cell for forceWorker method.*
-   * @param turnPhase of type int
-   * @param activeWorker of type int
-   * @return SelectMoveAction
+   * Method selectForceWorker selects cell for forceWorker method.
+   * @param turnPhase of type int - the turn phase.
+   * @param activeWorker of type int - the active worker.
+   * @return SelectMoveAction - the correct SelectMoveAction, null otherwise.
    */
   public SelectMoveAction selectForceWorker(int turnPhase, int activeWorker) {
         if (activeWorker == 0) {

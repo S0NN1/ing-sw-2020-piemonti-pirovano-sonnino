@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.messages;
 import it.polimi.ingsw.model.player.PlayerColors;
 
 /**
- * Message sent by client to server containing player's chosen color.
+ * ChosenColor class is a Message sent by client to server containing player's chosen color.
  * @author Luca Pirovano
  * @see Message
  */

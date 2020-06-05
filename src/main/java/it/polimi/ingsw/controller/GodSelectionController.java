@@ -17,6 +17,7 @@ import java.beans.PropertyChangeListener;
  * challenger. It also handles the card choosing phase performed by players.
  *
  * @author Luca Pirovano
+ * @see PropertyChangeListener
  */
 public class GodSelectionController implements PropertyChangeListener {
     private final CardSelectionModel cardModel;

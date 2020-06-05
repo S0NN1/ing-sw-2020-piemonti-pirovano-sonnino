@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.messages.actions;
 import it.polimi.ingsw.model.Card;
 
 /**
- * UserAction sent by the client to the server, handles Challenger's setup phase.
+ * ChallengerPhaseAction class is a UserAction sent by the client to the server, handles Challenger's setup phase.
  * @author Luca Pirovano
  * @see UserAction
  */

@@ -3,7 +3,8 @@ package it.polimi.ingsw.client.messages.actions.workeractions;
 import it.polimi.ingsw.model.player.Action;
 
 /**
- * UserAction sent by the client to the server, it requests possible spaces in which the player can move to.
+ * SelectMoveAction class is a UserAction sent by the client to the server, it requests possible spaces in which the
+ * player can move to.
  * @author Alice Piemonti
  * @see WorkerAction
  */

@@ -3,11 +3,11 @@ package it.polimi.ingsw.client.messages.actions;
 import java.util.ArrayList;
 
 /**
- * UserAction sent by the client to the server, used to place workers on the board.
+ * WorkerSetupAction class is a UserAction sent by the client to the server, used to place workers on the board.
  * @author Luca Pirovano
  * @see UserAction
  */
-public class WorkerSetupMessage implements UserAction{
+public class WorkerSetupAction implements UserAction{
 
     private final ArrayList<Integer> xPositions = new ArrayList<>();
     private final ArrayList<Integer> yPositions = new ArrayList<>();
@@ -17,7 +17,7 @@ public class WorkerSetupMessage implements UserAction{
      *
      * @param in of type String[] - the position's array.
      */
-    public WorkerSetupMessage(String[] in) {
+    public WorkerSetupAction(String[] in) {
         xPositions.add(Integer.parseInt(in[1]));
         yPositions.add(Integer.parseInt(in[2]));
         xPositions.add(Integer.parseInt(in[3]));

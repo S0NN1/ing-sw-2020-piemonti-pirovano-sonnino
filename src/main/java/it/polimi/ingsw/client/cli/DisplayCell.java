@@ -5,7 +5,6 @@ package it.polimi.ingsw.client.cli;
  * Class storing a single cell for grid.
  *
  * @author Nicolò Sonnino
- * @version 1.0.0
  */
 public class DisplayCell {
     private final String[] cellRows;

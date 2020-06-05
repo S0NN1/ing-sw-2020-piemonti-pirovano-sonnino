@@ -18,11 +18,10 @@ import javafx.application.Platform;
 import java.beans.PropertyChangeSupport;
 
 /**
- * ActionHandler class handles the answers from the server notifying the correct part of the GUI or
- * CLI through property change listeners.
+ * ActionHandler class handles the answers from the server notifying the correct part of the GUI or CLI through
+ * property change listeners.
  *
  * @author Luca Pirovano, Alice Piemonti, Nicolò Sonnino
- * @version 2.0.0
  */
 public class ActionHandler {
 
@@ -112,8 +111,7 @@ public class ActionHandler {
     }
 
     /**
-     * Method fireBuildMenu defines booleans used for the method updateCLI in CLI.java based on the
-     * type of god.
+     * Method fireBuildMenu defines booleans used for the method updateCLI in CLI.java based on the type of god.
      */
     private void fireBuildMenu() {
         if (Constants.getDoubleBuildGods().contains(modelView.getGod())
@@ -351,8 +349,10 @@ public class ActionHandler {
                 view.firePropertyChange(FIRST_BOARD_UPDATE, null, null);
             } else if (gui != null) {
                 Platform.runLater(()->{
-                    ((MainGuiController) gui.getControllerFromName(MAIN_SCENE_FXML)).setWorker(message.getWorker1().getRow(), message.getWorker1().getColumn());
-                    ((MainGuiController) gui.getControllerFromName(MAIN_SCENE_FXML)).setWorker(message.getWorker2().getRow(), message.getWorker2().getColumn());
+                    ((MainGuiController) gui.getControllerFromName(MAIN_SCENE_FXML)).setWorker(
+                            message.getWorker1().getRow(), message.getWorker1().getColumn());
+                    ((MainGuiController) gui.getControllerFromName(MAIN_SCENE_FXML)).setWorker(
+                            message.getWorker2().getRow(), message.getWorker2().getColumn());
                 });
             }
         } else if (answer instanceof MatchStartedMessage) {
@@ -423,7 +423,7 @@ public class ActionHandler {
     /**
      * Method fireGameError prints an error.
      *
-     * @param answer of type Answer
+     * @param answer of type Answer - the answer from the server.
      */
     private void fireGameError(Answer answer) {
         modelView.activateInput();
@@ -433,7 +433,7 @@ public class ActionHandler {
     /**
      * Method fireCustomMessage fires customMessage.
      *
-     * @param answer of type Answer - custom message answer from the server.
+     * @param answer of type Answer - the custom message answer from the server.
      */
     private void fireCustomMessage(Answer answer) {
         view.firePropertyChange("customMessage", null, answer.getMessage());

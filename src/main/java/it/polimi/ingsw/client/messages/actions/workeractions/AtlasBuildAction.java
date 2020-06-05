@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client.messages.actions.workeractions;
 
 /**
- * UserAction sent by the client to the server, it indicates a build sent by a player with Atlas as god.
+ * AtlasBuildAction is a UserAction sent by the client to the server, it indicates a build sent by a player with Atlas
+ * card.
  * @author Alice Piemonti
  * @see BuildAction
  */
@@ -14,7 +15,7 @@ public class AtlasBuildAction extends BuildAction {
      *
      * @param x of type int - the row.
      * @param y of type int - the column.
-     * @param dome of type boolean  true if player fired a PLACEDOME, false otherwise.
+     * @param dome of type boolean true if player fired a PLACEDOME, false otherwise.
      */
     public AtlasBuildAction(int x, int y, boolean dome) {
         super(x, y);
@@ -23,7 +24,7 @@ public class AtlasBuildAction extends BuildAction {
 
     /**
      * Method isDome return if action is type of PLACEDOME.
-     * @return boolean dome.
+     * @return boolean true if the action is PLCADOME, false otherwise.
      */
     public boolean isDome() {
         return dome;

@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.player.Worker;
 
 /**
  * @author Nicolò Sonnino
- * @version 1.0
  * Class describing spaces
  */
 public class Space {

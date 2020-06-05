@@ -4,7 +4,7 @@ import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.model.player.Action;
 
 /**
- * UserAction sent by the client to the server, it indicates a build move action.
+ * MoveAction class is a UserAction sent by the client to the server, it indicates a move action.
  * @author Alice Piemonti
  * @see WorkerAction
  */

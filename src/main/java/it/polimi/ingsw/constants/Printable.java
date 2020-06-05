@@ -9,6 +9,9 @@ import java.util.Map;
  * @author Nicolò Sonnino
  */
   public class Printable {
+    /**
+     * Constructor Printable creates a new Printable instance.
+     */
     private Printable(){}
   private static final String GREEN = Constants.ANSI_GREEN;
   private static final String PURPLE = Constants.ANSI_PURPLE;

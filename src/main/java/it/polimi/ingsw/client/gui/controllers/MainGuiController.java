@@ -110,8 +110,7 @@ public class MainGuiController implements GUIController {
   }
 
   /**
-   * Method updateTurnStatus checks the current player from the ModelView and set the correct star
-   * ImageView.
+   * Method updateTurnStatus checks the current player from the ModelView and set the correct star ImageView.
    */
   public void updateTurnStatus() {
     for(int i=0; i<gui.getModelView().getPlayerMapColor().size(); i++) {
@@ -125,7 +124,7 @@ public class MainGuiController implements GUIController {
   /**
    * Method setMousePlayerAction sets the mousePlayerAction of this MainGuiController object.
    *
-   * @param i the mousePlayerAction of this MainGuiController object.
+   * @param i of type int - the mousePlayerAction of this MainGuiController object.
    */
   private void setMousePlayerAction(int i) {
     playerMapLabel
@@ -268,8 +267,7 @@ public class MainGuiController implements GUIController {
     }
   }
   /**
-   * Method getWorkerFromGrid returns the node of the grid which represents a worker at a specific
-   * row/col.
+   * Method getWorkerFromGrid returns the node of the grid which represents a worker at a specific row/col.
    *
    * @param row of type int - the row of the cell.
    * @param col of type int - the column of the cell.
@@ -299,8 +297,7 @@ public class MainGuiController implements GUIController {
   }
 
   /**
-   * Method move moves the triangle (worker) into another cell of the gridPane and deletes the
-   * precedent one.
+   * Method move moves the triangle (worker) into another cell of the gridPane and deletes the precedent one.
    *
    * @param oldRow of type int - the worker's old row.
    * @param oldCol of type int - the worker's old column.
@@ -349,11 +346,10 @@ public class MainGuiController implements GUIController {
   }
 
   /**
-   * Method highlightCell highlights some cell of the grid in order to show to the user in which
-   * spaces he can move or build onto.
+   * Method highlightCell highlights some cell of the grid in order to show to the user in which spaces he can move or
+   * build onto.
    *
-   * @param build of type boolean true if highlighting a selectBuild, false if highlighting a
-   *     selectMove.
+   * @param build of type boolean true if highlighting a selectBuild, false if highlighting a selectMove.
    */
   public void highlightCell(boolean build) {
     getActionsLabel().setText("Move your worker!");

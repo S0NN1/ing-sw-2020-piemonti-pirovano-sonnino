@@ -37,7 +37,8 @@ public class Cell {
      * @param workerNum of type int - the workerNum of this Cell object.
      * @throws IllegalArgumentException when if workerNum <0 || workerNum>2.
      */
-    public void setWorkerNum(int workerNum) throws IllegalArgumentException {   //0 -> no worker; 1 -> worker n1; 2 -> worker n2
+    public void setWorkerNum(int workerNum) throws IllegalArgumentException {   //0 -> no worker; 1 -> worker n1;
+        // 2 -> worker n2
         if(workerNum < 0 || workerNum > 2) throw new IllegalArgumentException();
         this.workerNum = workerNum;
     }
