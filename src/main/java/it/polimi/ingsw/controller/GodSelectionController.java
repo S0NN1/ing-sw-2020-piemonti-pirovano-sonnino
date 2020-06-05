@@ -11,8 +11,10 @@ import it.polimi.ingsw.server.answers.ChallengerMessages;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+
 /**
- * Controller of the god powers selection, made by the challenger, and the card choosing made by players.
+ * Class GodSelectionController represents the controller of the god powers selection, which is performed by the
+ * challenger. It also handles the card choosing phase performed by players.
  *
  * @author Luca Pirovano
  */
@@ -20,10 +22,14 @@ public class GodSelectionController implements PropertyChangeListener {
     private final CardSelectionModel cardModel;
     private final Controller mainController;
 
+
     /**
-     * Constructor of the class, it receives in input the CardSelectionBoard.
+     * Constructor GodSelectionController receives in input the CardSelectionModel and creates a
+     * new GodSelectionController instance.
      *
-     * @param model the CardSelectionBoard.
+     * @param model of type CardSelectionModel the representation of cards (parsed from json file).
+     * @param mainController of type Controller the main game controller, which coordinates the others.
+     * @param challenger of type VirtualClient the virtual representation of the current player's client.
      */
     public GodSelectionController(CardSelectionModel model, Controller mainController, VirtualClient challenger) {
         this.cardModel = model;
@@ -31,6 +37,12 @@ public class GodSelectionController implements PropertyChangeListener {
         model.addListener("challengerPhase", challenger);
     }
 
+    /**
+     * Method add adds the chosen card to the challenger's deck, in order to be chosen from the other players.
+     *
+     * @param arg of type Card the chosen card to be added.
+     * @return boolean true if the card is added, boolean false otherwise.
+     */
     public boolean add(Card arg) {
         try {
             return cardModel.addToDeck(arg);
@@ -41,22 +53,24 @@ public class GodSelectionController implements PropertyChangeListener {
         }
     }
 
+
     /**
-     * Triggers the card model for notifying the virtual view about the description of the selected god.
+     * Method desc triggers the card model for notifying the virtual view about the description of the selected god.
      *
-     * @param arg the selected god which description should be sent to che client.
+     * @param arg of type Card - the selected god which description should be sent to che client.
      */
     public void desc(Card arg) {
         cardModel.setSelectedGod(arg);
         cardModel.setDescription(cardModel.getSelectedGod().godsDescription());
     }
 
+
     /**
-     * Triggers the card deck for selecting the requested card from the deck.
+     * Method choose triggers the card deck for selecting the requested card from the deck.
      *
-     * @param arg the card requested by the client, to be inserted in his player profile.
-     * @return true if everything goes fine, false if the card is not present in the deck (not selected by the challenger
-     * or already chosen by someone else).
+     * @param arg of type Card - the card requested by the client, to be inserted in his player profile.
+     * @return boolean true if everything goes fine, boolean false if the card is not present in the deck
+     * (not selected by the challenger or already chosen by someone else).
      */
     public boolean choose(Card arg) {
         if (mainController.getGameHandler().isStarted() == 2) {
@@ -83,11 +97,12 @@ public class GodSelectionController implements PropertyChangeListener {
         return false;
     }
 
+
     /**
-     * This method triggers when there's only one card left in the deck. It inserts it in the player's deck without
-     * asking him any input. It then notifies the players to communicate the "choice".
+     * Method lastSelection is called when there's only one card left in the deck. It inserts it in
+     * the player's profile without asking him any input. It then notifies the players to communicate the "choice".
      *
-     * @return true if everything goes fine, false if it's called outside his scope.
+     * @return boolean true if everything goes fine, boolean false if it's called outside his scope.
      */
     public boolean lastSelection() {
         int clientId = mainController.getModel().getCurrentPlayer().getClientID();
@@ -110,14 +125,15 @@ public class GodSelectionController implements PropertyChangeListener {
         return true;
     }
 
+
     /**
-     * Update method for MVC communication. It contains the command sent by the players for:
+     * Method propertyChange is the update method for MVC communication. It contains the command sent by the players for:
      * - listing all the gods present in the game;
      * - getting the description of a single god;
      * - adding a god to the match deck;
      * - choosing a god from the match deck (initial phase).
      *
-     * @param evt the couple action-arg, which represents the case direction and the chosen card.
+     * @param evt of type PropertyChangeEvent - the couple action-arg, which represents the action performed and the chosen card.
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

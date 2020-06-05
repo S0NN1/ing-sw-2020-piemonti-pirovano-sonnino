@@ -15,8 +15,10 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
+
 /**
- * Main controller class, it calls several "game phase" controllers, like the turn one, or the action one.
+ * Class Controller is the main controller class, it calls several "game phase" controllers,
+ * like the turn one, or the action one.
  *
  * @author Luca Pirovano
  */
@@ -46,8 +48,6 @@ public class Controller implements PropertyChangeListener {
     /**
      * Method getTurnController returns the turnController of this Controller object.
      *
-     *
-     *
      * @return the turnController (type TurnController) of this Controller object.
      */
     public TurnController getTurnController() {
@@ -67,8 +67,6 @@ public class Controller implements PropertyChangeListener {
     /**
      * Method getModel returns the model of this Controller object.
      *
-     *
-     *
      * @return the model (type Game) of this Controller object.
      */
     public synchronized Game getModel() {
@@ -79,17 +77,18 @@ public class Controller implements PropertyChangeListener {
     /**
      * Method getGameHandler returns the gameHandler of this Controller object.
      *
-     *
-     *
      * @return the gameHandler (type GameHandler) of this Controller object.
      */
     public GameHandler getGameHandler() {
         return gameHandler;
     }
 
+
     /**
-     * Set the god selection controller for a specific player.
-     * @param clientID the ID of the challenger client.
+     * Method setSelectionController sets the god selection controller for a specific player.
+     *
+     * @param clientID - the ID of the challenger client.
+     *
      */
     public void setSelectionController(int clientID) {
         GodSelectionController selectionController = new GodSelectionController(new CardSelectionModel(model.getDeck()),
@@ -97,12 +96,16 @@ public class Controller implements PropertyChangeListener {
         controllerListeners.addPropertyChangeListener("GODSELECTION", selectionController);
     }
 
+
     /**
-     * Handles the worker placement inside the game grid. It performs a check on the meaningfulness of the request (like
-     * cell [6,6], etc) and also if the desired cell is either free or occupied by someone else. If the check goes well,
-     * the worker is placed and the player notified; otherwise, an INVALIDINPUT error is sent and a new input is
-     * requested to the user.
-     * @param msg the worker setup message type, which contains information about the position of player's workers.
+     * Method placeWorkers handles the workers placement inside the game grid. It performs a check on the meaningfulness
+     * of the request (like cell [6,6], etc) and also if the desired cell is either free or occupied by someone else.
+     * If the check goes fine, the worker is placed and the player notified; otherwise, an INVALIDINPUT error
+     * is sent and a new input is requested to the user.
+     *
+     * @param msg of type WorkerSetupMessage - the worker setup message type, which contains information
+     *            about the position of player's workers.
+     * @return boolean true if everything goes fine, boolean false otherwise.
      */
     public boolean placeWorkers(WorkerSetupMessage msg) {
         for(int i=0; i<2; i++) {
@@ -145,7 +148,8 @@ public class Controller implements PropertyChangeListener {
         return true;
     }
 
-    /**@see PropertyChangeListener#propertyChange(PropertyChangeEvent) */
+    /**
+     * @see PropertyChangeListener#propertyChange(PropertyChangeEvent) */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch(evt.getPropertyName()) {
