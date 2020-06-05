@@ -5,10 +5,10 @@ import it.polimi.ingsw.model.player.gods.advancedgods.*;
 import it.polimi.ingsw.model.player.gods.simplegods.*;
 
 /**
- * Class WorkerCreator is the factory provider class for Worker instances. This class provides an implementation of Worker depending on the Card and the PlayerColor supplied.
+ * Class WorkerCreator is the factory provider class for Worker instances. This class provides an implementation of
+ * Worker depending on the Card and the PlayerColor supplied.
  *
  * @author Alice Piemonti
- * Created on 01/06/2020
  */
 public class WorkerCreator {
 
@@ -19,9 +19,11 @@ public class WorkerCreator {
     }
 
     /**
-     * Method getWorker creates an implementation of Worker, according to the Factory Pattern. The implementation of Worker is created with the supplied of the Card and the PlayerColor.
+     * Method getWorker creates an implementation of Worker, according to the Factory Pattern. The implementation of
+     * Worker is created with the supplied of the Card and the PlayerColor.
      *
-     * @param godCard of type Card - The card chose during the game, which specifies the instance of Worker to implement.
+     * @param godCard of type Card - The card chosen during the game, which specifies the instance of Worker to
+     *                implement.
      * @param color of type PlayerColors - The color of the player who chose the card.
      * @return Worker - The instance of Worker associated to the card.
      */

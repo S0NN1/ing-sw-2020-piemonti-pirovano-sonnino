@@ -187,7 +187,7 @@ public class ActionController {
      * Method readMessage moves the worker into the space received.
      *
      * @param action of type MoveAction - the action received from teh server.
-     * @return false if it isn't the correct phase or if the worker cannot move into this space, true otherwise.
+     * @return boolean false if it isn't the correct phase or if the worker cannot move into this space, true otherwise.
      */
     public boolean readMessage(MoveAction action) {
         if (action.getAction().equals(Action.MOVE)) {
@@ -212,7 +212,7 @@ public class ActionController {
      * Method readMessage builds the worker into the space received.
      *
      * @param action of type BuildAction - action received from teh server.
-     * @return false if it isn't the correct phase or if the worker cannot build into this space, true otherwise.
+     * @return boolean false if it isn't the correct phase or if the worker cannot build into this space, true otherwise.
      */
     public boolean readMessage(BuildAction action) {
         if (action.getAction() != Action.BUILD || worker.getPhase(phase) == null || worker.getPhase(phase).getAction()

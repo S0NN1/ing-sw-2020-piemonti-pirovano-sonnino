@@ -1,10 +1,11 @@
 package it.polimi.ingsw.exceptions;
 
 /**
- * Exception InvalidInputException is thrown when there's a try to insert on or access to a not existing position
+ * Class InvalidInputException is thrown when there's a try to insert on or access to a not existing position
  * on the game board.
  *
  * @author Luca Pirovano
+ * @see Exception
  */
 public class InvalidInputException extends Exception {
     /**

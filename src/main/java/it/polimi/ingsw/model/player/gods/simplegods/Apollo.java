@@ -8,21 +8,23 @@ import it.polimi.ingsw.listeners.DoubleMoveListener;
 import it.polimi.ingsw.server.VirtualClient;
 
 /**
+ * Class Apollo defines Apollo card.
  * @author Alice Piemonti
+ * @see Worker
  */
 public class Apollo extends Worker {
 
     /**
      * Constructor Apollo creates a new Apollo instance.
      *
-     * @param color of type PlayerColors
+     * @param color of type PlayerColor - the player color.
      */
     public Apollo(PlayerColors color) {
         super(color);
     }
 
     /**
-     * Method setPhases
+     * Method setPhases sets the order of action allowed for this worker.
      * @see Worker#setPhases()
      */
     @Override
@@ -31,9 +33,9 @@ public class Apollo extends Worker {
     }
 
     /**
-     * create the Map of listeners
+     * Method createListeners creates the Map of listeners.
      *
-     * @param client virtualClient
+     * @param client of type VirtualClient - the virtualClient on server.
      * @see Worker#createListeners(VirtualClient)
      */
     @Override
@@ -43,11 +45,11 @@ public class Apollo extends Worker {
     }
 
     /**
-     * return true if the worker can move to the space received
+     * Method isSelectable returns true if the worker can move to the space received.
      *
-     * @param space a space of the GameBoard
-     * @return boolean value true if the worker can move to the space received, false if he can not
-     * @throws IllegalArgumentException if space is null
+     * @param space of Space - the space of the GameBoard
+     * @return boolean value true if the worker can move to the space received, false if he can not.
+     * @throws IllegalArgumentException when space is null.
      * @see Worker#isSelectable(Space)
      */
     @Override
@@ -59,10 +61,11 @@ public class Apollo extends Worker {
     }
 
     /**
-     * change the worker's position while check winning condition. This worker can also change his position with a neighboring worker
-     * @param space the new position
-     * @throws IllegalArgumentException if space is null
-     * @return boolean value true if the worker moved correctly to the space received, false if he did not
+     * Method move changes the worker's position while check winning condition. This worker can also change his position\
+     * with a neighboring worker.
+     * @param space of type Space - the new position.
+     * @throws IllegalArgumentException when space is null.
+     * @return boolean value true if the worker moved correctly to the space received, false if he did not.
      * @see Worker#move(Space)
      */
     @Override

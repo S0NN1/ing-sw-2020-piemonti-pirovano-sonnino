@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
 /**
- * This class is a box for importing the gods information from the relative JSON file.
- * @see it.polimi.ingsw.model.Card for more information.
+ * God class is a container used for importing the gods information from the relative JSON file.
+ * @see Card
  * @author Luca Pirovano, Nicolò Sonnino
  */
 public class God {

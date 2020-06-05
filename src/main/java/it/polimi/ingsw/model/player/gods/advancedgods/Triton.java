@@ -8,25 +8,25 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 
 /**
- * Class Triton ...
+ * Class Triton defines Triton card.
  *
  * @author Alice Piemonti
- * Created on 25/05/2020
+ * @see Worker
  */
 public class Triton extends Worker {
 
     private int numberOfMoves = 0;
     /**
-     * Constructor
-     *
-     * @param color player color
+     * Constructor create an Triton instance.
+     * @param color of type PlayerColors - the player color,
      */
     public Triton(PlayerColors color) {
         super(color);
     }
 
     /**
-     * set the order of action allowed by this worker
+     * Method setPhases sets the order of action allowed for this worker.
+     * @see Worker#setPhases()
      */
     @Override
     public void setPhases() {
@@ -34,17 +34,17 @@ public class Triton extends Worker {
     }
 
     /**
-     * change the worker's position while check winning condition. If Triton moves into a perimeter space it can move another time.
-     * requires this.isSelectable(space)
+     * Method move changes the worker's position while check winning condition.
+     * If Triton moves into a perimeter space it can move another time requires this.isSelectable(space).
      *
-     * @param space the new position
-     * @return false if the worker can't move into this space
-     * @throws IllegalArgumentException if space is null
+     * @param space of type Space - the new position.
+     * @return boolean false if the worker can't move into this space, true otherwise.
+     * @throws IllegalArgumentException when space is null.
      * @see Worker#move(Space)
      */
     @Override
     public boolean move(Space space) throws IllegalArgumentException {
-        if (isPerimetric(space)) {
+        if (isPerimeter(space)) {
             numberOfMoves ++;
             phases.add(numberOfMoves*2, new Phase(Action.SELECT_MOVE, false));
             phases.add((numberOfMoves*2) + 1, new Phase(Action.MOVE, false));
@@ -53,7 +53,7 @@ public class Triton extends Worker {
     }
 
     /**
-     * Method resetMoves sets numberOfMoves and phases to the initial state
+     * Method resetMoves sets numberOfMoves and phases to the initial state.
      */
     private void resetMoves() {
         numberOfMoves = 0;
@@ -62,11 +62,12 @@ public class Triton extends Worker {
     }
 
     /**
-     * notify the selectSpacesListener with all the moves the worker can do
+     * Method notifyWithMoves notifies the selectSpacesListener with all the moves the worker can do.
      *
-     * @param gameBoard of the game
-     * @throws IllegalArgumentException if gameBoard is null
-     * @throws IllegalStateException    if the worker is blocked
+     * @param gameBoard of type GameBoard - the game board.
+     * @throws IllegalArgumentException when gameBoard is null.
+     * @throws IllegalStateException    when the worker is blocked.
+     * @see Worker#notifyWithMoves(GameBoard)
      */
     @Override
     public void notifyWithMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
@@ -75,11 +76,12 @@ public class Triton extends Worker {
     }
 
     /**
-     * check if the space is buildable and build on the space received
+     * Method build checks if the space is buildable and build on the space received.
      *
-     * @param space space
-     * @return false if it's impossible to build on the space or if OutOfBoundException is thrown
-     * @throws IllegalArgumentException if space is null
+     * @param space of type Space - the position.
+     * @return boolean false if it's impossible to build on the space or if OutOfBoundException is thrown, true otherwise.
+     * @throws IllegalArgumentException when space is null.
+     * @see Worker#build(Space)
      */
     @Override
     public boolean build(Space space) throws IllegalArgumentException {

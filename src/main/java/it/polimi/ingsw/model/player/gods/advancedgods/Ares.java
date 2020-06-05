@@ -15,28 +15,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class Ares ...
+ * Class Ares defines Ares card.
  *
  * @author Alice Piemonti
- * Created on 26/05/2020
+ * @see Worker
  */
 public class Ares extends Worker {
 
     private static final String REMOVE_BLOCK_LISTENER = "removeListener";
 
     /**
-     * Constructor
-     *
-     * @param color player color
+     * Constructor create an Ares instance.
+     * @param color of type PlayerColors - the player color,
      */
     public Ares(PlayerColors color) {
         super(color);
     }
 
     /**
-     * create the Map of listeners
-     *
-     * @param client virtualClient
+     * Method createListener creates a RemoveBlockListener.
+     * @param client virtualClient - the virtual client on the server.
+     * @see Worker#createListeners(VirtualClient)
      */
     @Override
     public void createListeners(VirtualClient client) {
@@ -45,7 +44,8 @@ public class Ares extends Worker {
     }
 
     /**
-     * set the order of action allowed by this worker
+     * Method setPhases sets the order of action allowed for this worker.
+     * @see Worker#setPhases()
      */
     @Override
     public void setPhases() {
@@ -54,6 +54,12 @@ public class Ares extends Worker {
         phases.add(new Phase(Action.REMOVE, false));
     }
 
+    /**
+     * Method removeBlock removes a level from a building.
+     *
+     * @param space of type Space  - the selected position.
+     * @return boolean true if successful, false otherwise.
+     */
     public boolean removeBlock(Space space) {
         try {
             space.getTower().removeLevel();
@@ -65,6 +71,14 @@ public class Ares extends Worker {
         return true;
     }
 
+    /**
+     * Method notifyWithRemovable notifies client with possible spaces for a removal.
+     *
+     * @param gameBoard of type GameBoard  - GameBoard reference.
+     * @param unmovedWorkerPosition of type Space - the position of the inactive worker.
+     * @throws IllegalArgumentException when receiving a bad position.
+     * @throws IllegalStateException when whole list is empty.
+     */
     public void notifyWithRemovable(GameBoard gameBoard, Space unmovedWorkerPosition) throws IllegalArgumentException,
             IllegalStateException {
         if(gameBoard == null || !checkUnmovedWorkerPosition(unmovedWorkerPosition)) throw new
@@ -77,6 +91,13 @@ public class Ares extends Worker {
         phases.get(5).changeMust(true);
     }
 
+    /**
+     * Method getRemovableSpaces calculates removable spaces.
+     *
+     * @param gameBoard of type GameBoard - GameBoard reference.
+     * @param unmovedWorkerPosition of type Space - the position of the inactive worker.
+     * @return List<Space> - the list of spaces.
+     */
     private List<Space> getRemovableSpaces(GameBoard gameBoard, Space unmovedWorkerPosition) {
             ArrayList<Space> removable = new ArrayList<>();
             for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++){
@@ -88,12 +109,26 @@ public class Ares extends Worker {
             return removable;
     }
 
+    /**
+     * Method canRemove checks if block can be removed.
+     *
+     * @param space of type Space - the selected space.
+     * @param unmovedWorkerPosition of type Space - the position of the inactive worker.
+     * @return boolean true if possible, false otherwise.
+     */
     public boolean canRemove(Space space, Space unmovedWorkerPosition) {
-        return neighbouring(space, unmovedWorkerPosition) && space.isEmpty() && space.getTower().getHeight() > 0 &&
+        return neighbour(space, unmovedWorkerPosition) && space.isEmpty() && space.getTower().getHeight() > 0 &&
                 !space.getTower().isCompleted();
     }
 
-    private boolean neighbouring(Space space, Space unmovedWorkerPosition) {
+    /**
+     * Method neighbour checks if space is near.
+     *
+     * @param space of type Space - the selected space.
+     * @param unmovedWorkerPosition of type Space - the position of the inactive worker.
+     * @return boolean
+     */
+    private boolean neighbour(Space space, Space unmovedWorkerPosition) {
         return (space.getRow() - unmovedWorkerPosition.getRow() < 2) && (unmovedWorkerPosition.getRow() -
                 space.getRow() < 2) &&
                 (space.getColumn() - unmovedWorkerPosition.getColumn() < 2) && (unmovedWorkerPosition.getColumn() -
@@ -102,6 +137,12 @@ public class Ares extends Worker {
                         unmovedWorkerPosition.getColumn());
     }
 
+    /**
+     * Method checkUnmovedWorkerPosition checks if inactive worker isn't the same as the active one.
+     *
+     * @param unmovedWorkerPosition of type Space - the position of the inactive worker.
+     * @return boolean true if operation is successful, false otherwise.
+     */
     public boolean checkUnmovedWorkerPosition(Space unmovedWorkerPosition) {
         return ((unmovedWorkerPosition.getWorker().getWorkerColor().equals(this.workerColor)) &&
                 ((unmovedWorkerPosition.getRow() != this.position.getRow()) || (unmovedWorkerPosition.getColumn() !=

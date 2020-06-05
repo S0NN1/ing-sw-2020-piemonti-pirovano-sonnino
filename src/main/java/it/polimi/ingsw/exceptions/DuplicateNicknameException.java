@@ -5,6 +5,7 @@ package it.polimi.ingsw.exceptions;
  * (and currently active) on the server process.
  *
  * @author Luca Pirovano
+ * @see Exception
  */
 public class DuplicateNicknameException extends Exception {
     /**

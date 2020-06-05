@@ -21,8 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class handles a single match, instantiating a game mode (Game class) and a main controller (Controller class).
- * It also manages the startup phase, like the marker's color selection.
+ * GameHandler class handles a single match, instantiating a game mode (Game class) and a main controller (Controller
+ * class). It also manages the startup phase, like the marker's color selection.
  * @author Luca Pirovano
 
  */
@@ -40,7 +40,7 @@ public class GameHandler {
     /**
      * Constructor GameHandler creates a new GameHandler instance.
      *
-     * @param server of type Server the main server class.
+     * @param server of type Server - the main server class.
      */
     public GameHandler(Server server) {
         this.server = server;
@@ -52,8 +52,9 @@ public class GameHandler {
 
 
     /**
-     * Method isStarted returns if the game has started (the started attribute becomes true after the challenger selection phase).
-     * @return int the current game phase.
+     * Method isStarted returns if the game has started (the started attribute becomes true after the challenger
+     * selection phase).
+     * @return int - the current game phase.
      */
     public int isStarted() {
         return started;
@@ -63,7 +64,7 @@ public class GameHandler {
     /**
      * Method setPlayersNumber sets the active players number of the match, decided by the first connected player.
      *
-     * @param playersNumber the number of the playing clients.
+     * @param playersNumber of type int - the number of the playing clients.
      *
      */
     public void setPlayersNumber(int playersNumber) {
@@ -74,8 +75,8 @@ public class GameHandler {
     /**
      * Method setupPlayer receives a nickname from the server application and creates a new player in the game class.
      *
-     * @param nickname of type String the chosen nickname, after a duplicates check.
-     * @param clientID of type int the client unique id generated from server.
+     * @param nickname of type String - the chosen nickname, after a duplicates check.
+     * @param clientID of type int the - client unique id generated from server.
      */
     public void setupPlayer(String nickname, int clientID) {
         game.createNewPlayer(new Player(nickname, clientID));
@@ -95,8 +96,8 @@ public class GameHandler {
     /**
      * Method singleSend sends a message to a client, identified by his ID number, through the server socket.
      *
-     * @param message of type Answer the message to be sent to the client.
-     * @param id of type int the unique identification number of the client to be contacted.
+     * @param message of type Answer - the message to be sent to the client.
+     * @param id of type int - the unique identification number of the client to be contacted.
      */
     public void singleSend(Answer message, int id) {
         server.getClientByID(id).send(message);
@@ -107,7 +108,7 @@ public class GameHandler {
      * Method sendAll does the same as the previous method, but it iterates on all the clients present in the game.
      * It's a full effects broadcast.
      *
-     * @param message of type Answer  the message to broadcast (at single match participants' level).
+     * @param message of type Answer - the message to broadcast (at single match participants' level).
      */
     public void sendAll(Answer message) {
         for(Player countPlayer:game.getActivePlayers()) {
@@ -117,11 +118,11 @@ public class GameHandler {
 
 
     /**
-     * Method sendAllExcept makes the same as the previous method, but it iterates on all the clients
-     * present in the game, except the declared one.
+     * Method sendAllExcept makes the same as the previous method, but it iterates on all the clients present in the
+     * game, except the declared one.
      *
-     * @param message of type Answer the message to be transmitted.
-     * @param excludedID of type int the client which will not receive the communication.
+     * @param message of type Answer - the message to be transmitted.
+     * @param excludedID of type int - the client which will not receive the communication.
      */
     public void sendAllExcept(Answer message, int excludedID) {
         for(Player countPlayer:game.getActivePlayers()) {
@@ -142,18 +143,22 @@ public class GameHandler {
         ColorMessage req = new ColorMessage("Please choose your workers' color.");
         req.addRemaining(PlayerColors.notChosen());
         if(playersNumber==2 && PlayerColors.notChosen().size()>1) {
-            String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size() + 1).getNickname();
+            String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size() + 1).
+                    getNickname();
             singleSend(req, server.getIDByNickname(nickname));
-            sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false), server.getIDByNickname(nickname));
+            sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false),
+                    server.getIDByNickname(nickname));
             return;
         }
         else if(playersNumber==3 && !PlayerColors.notChosen().isEmpty()) {
-            String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size()).getNickname();
+            String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size()).
+                    getNickname();
             if(PlayerColors.notChosen().size()==1) {
                     game.getPlayerByNickname(nickname).setColor(PlayerColors.notChosen().get(0));
                 singleSend(new CustomMessage("\nThe society decides for you! You have the " +
                         PlayerColors.notChosen().get(0) + " color!\n", false), server.getIDByNickname(nickname));
-                singleSend(new ColorMessage(null, PlayerColors.notChosen().get(0).toString()), server.getIDByNickname(nickname));
+                singleSend(new ColorMessage(null, PlayerColors.notChosen().get(0).toString()),
+                        server.getIDByNickname(nickname));
                 PlayerColors.choose(PlayerColors.notChosen().get(0));
                 try {
                     TimeUnit.SECONDS.sleep(1);
@@ -164,19 +169,21 @@ public class GameHandler {
             }
             else {
                 server.getClientByID(server.getIDByNickname(nickname)).send(req);
-                sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false), server.getIDByNickname(nickname));
+                sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false),
+                        server.getIDByNickname(nickname));
                 return;
             }
         }
 
         //Challenger section
         game.setCurrentPlayer(game.getActivePlayers().get(rnd.nextInt(playersNumber)));
-        singleSend(new ChallengerMessages(game.getCurrentPlayer().getNickname() + ", you are the challenger!\nYou have to choose gods power. " +
-                        "Type GODLIST to get a list of available gods, GODDESC <god name> to get a god's description and ADDGOD <god name> " +
-                        "to add a God power to deck.\n" + (playersNumber - game.getDeck().getCards().size()) + " gods left."),
+        singleSend(new ChallengerMessages(game.getCurrentPlayer().getNickname() + ", you are the challenger!\nYou " +
+                        "have to choose gods power. Type GODLIST to get a list of available gods, GODDESC <god name>" +
+                        " to get a god's description and ADDGOD <god name> to add a God power to deck.\n" +
+                        (playersNumber - game.getDeck().getCards().size()) + " gods left."),
                 game.getCurrentPlayer().getClientID());
-        sendAllExcept(new CustomMessage(game.getCurrentPlayer().getNickname() + " is the challenger! Please wait while " +
-                "he/she chooses the god powers.", false), game.getCurrentPlayer().getClientID());
+        sendAllExcept(new CustomMessage(game.getCurrentPlayer().getNickname() + " is the challenger! " +
+                "Please wait while he/she chooses the god powers.", false), game.getCurrentPlayer().getClientID());
         controller.setSelectionController(game.getCurrentPlayer().getClientID());
     }
 
@@ -209,8 +216,8 @@ public class GameHandler {
      * - 3: board worker placement;
      * - 4: the game has started.
      *
-     * @param action of type UserAction the action sent by the client.
-     * @param type of type String the action type.
+     * @param action of type UserAction - the action sent by the client.
+     * @param type of type String - the action type.
      */
     public void makeAction(UserAction action, String type) {
         switch (type) {
@@ -228,7 +235,7 @@ public class GameHandler {
      * Method workerPlacement handles the worker placement phase by checking the correctness of the user's input
      * and if the selected cell is free or occupied by someone else.
      *
-     * @param action of type WorkerSetupMessage the placement action.
+     * @param action of type WorkerSetupMessage - the placement action.
      */
     public void workerPlacement(WorkerSetupAction action) {
         if(action!=null) {
@@ -240,8 +247,10 @@ public class GameHandler {
         }
         if(game.getCurrentPlayer().getWorkers().get(0).getPosition()!=null) {
             MatchStartedMessage startedMessage = new MatchStartedMessage();
-            game.getActivePlayers().forEach(n -> startedMessage.setPlayerMapColor(n.getNickname(), n.getColor().toString()));
-            game.getActivePlayers().forEach(n -> startedMessage.setPlayerMapGod(n.getNickname(), n.getCard().toString()));
+            game.getActivePlayers().forEach(n -> startedMessage.setPlayerMapColor(n.getNickname(),
+                    n.getColor().toString()));
+            game.getActivePlayers().forEach(n -> startedMessage.setPlayerMapGod(n.getNickname(),
+                    n.getCard().toString()));
             sendAll(startedMessage);
             try {
                 TimeUnit.SECONDS.sleep(1);
@@ -250,7 +259,8 @@ public class GameHandler {
                 Thread.currentThread().interrupt();
             }
             controllerListener.firePropertyChange("turnController", null, new StartTurnAction());
-            sendAllExcept(new StartTurnMessage(controller.getModel().getCurrentPlayer().getNickname()), getCurrentPlayerID());
+            sendAllExcept(new StartTurnMessage(controller.getModel().getCurrentPlayer().getNickname()),
+                    getCurrentPlayerID());
             started = 4;
             return;
         }
@@ -265,9 +275,11 @@ public class GameHandler {
                 }
             }
         }
-        singleSend(new WorkerPlacement(game.getCurrentPlayer().getNickname() + ", choose your workers position by " +
-                "typing SET <row1 <col1> <row2> <col2> where 1 and 2 indicates worker number.", spaces), getCurrentPlayerID());
-        sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() + " is choosing workers' position.", false), getCurrentPlayerID());
+        singleSend(new WorkerPlacement(game.getCurrentPlayer().getNickname() + ", choose your workers" +
+                " position by typing SET <row1 <col1> <row2> <col2> where 1 and 2 indicates worker number.", spaces),
+                getCurrentPlayerID());
+        sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() + " is choosing " +
+                "workers' position.", false), getCurrentPlayerID());
     }
 
 
@@ -276,8 +288,8 @@ public class GameHandler {
      * If he is in the wrong turn phase (checked by the "started" int value) an error message in created and sent to the
      * client, who is requested to send another command.
      *
-     * @param userAction of type ChallengerPhaseAction the action of the current player.
-     * @param godSelection of type String the selection of the god card.
+     * @param userAction of type ChallengerPhaseAction - the action of the current player.
+     * @param godSelection of type String - the selection of the god card.
      */
     public void challengerPhaseChoose(ChallengerPhaseAction userAction, String godSelection) {
         if(userAction.action.equals("CHOOSE")) {
@@ -327,7 +339,7 @@ public class GameHandler {
      * Method challengerPhase handles the challenger game phase (based on the listener message).
      * It triggers the correct method relying on the started value.
      *
-     * @param action of type UserAction the action to be performed
+     * @param action of type UserAction - the action to be performed
      */
     public void challengerPhase(UserAction action) {
         ChallengerPhaseAction userAction = (ChallengerPhaseAction)action;
@@ -347,7 +359,8 @@ public class GameHandler {
                 started = 2;
                 game.nextPlayer();
                 singleSend(new ChallengerMessages(server.getNicknameByID(getCurrentPlayerID()) +
-                        ", please choose your god power from one of the list below.", game.getDeck().getCards()),getCurrentPlayerID());
+                        ", please choose your god power from one of the list below.", game.getDeck().getCards()),
+                        getCurrentPlayerID());
                 sendAllExcept(new CustomMessage(PLAYER + " " + game.getCurrentPlayer().getNickname() +
                         " is" + " choosing his god power...", false), getCurrentPlayerID());
             }
@@ -361,12 +374,15 @@ public class GameHandler {
         }
         else if(userAction.startingPlayer!=null) {
             if(userAction.startingPlayer < 0 || userAction.startingPlayer > game.getActivePlayers().size()) {
-                singleSend(new GameError(ErrorsType.INVALIDINPUT, "Error: value out of range!"), getCurrentPlayerID());
+                singleSend(new GameError(ErrorsType.INVALIDINPUT, "Error: value out of range!"),
+                        getCurrentPlayerID());
                 return;
             }
             game.setCurrentPlayer(game.getActivePlayers().get(userAction.startingPlayer));
-            singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", you are the first player; let's go!", false), getCurrentPlayerID());
-            sendAllExcept(new CustomMessage("Well done! " + game.getCurrentPlayer().getNickname() + " is the first player!", false), getCurrentPlayerID());
+            singleSend(new CustomMessage(game.getCurrentPlayer().getNickname() + ", you are the first " +
+                    "player; let's go!", false), getCurrentPlayerID());
+            sendAllExcept(new CustomMessage("Well done! " + game.getCurrentPlayer().getNickname() + " is " +
+                    "the first player!", false), getCurrentPlayerID());
             started = 5;
             workerPlacement(null);
         }
@@ -376,7 +392,7 @@ public class GameHandler {
     /**
      * Method unregisterPlayer unregisters a player identified by his unique ID after a disconnection event or message.
      *
-     * @param id of type int the unique id of the client to be unregistered.
+     * @param id of type int - the unique id of the client to be unregistered.
      */
     public void unregisterPlayer(int id) {
         game.removePlayer(game.getPlayerByID(id));
@@ -391,7 +407,8 @@ public class GameHandler {
      * @param leftNickname of type String the nickname of the player who left the game.
      */
     public void endGame(String leftNickname) {
-        sendAll(new ConnectionMessage(PLAYER + " " + leftNickname + " left the game, the match will now end.\nThanks for playing!", 1));
+        sendAll(new ConnectionMessage(PLAYER + " " + leftNickname + " left the game, the match will now end." +
+                "\nThanks for playing!", 1));
         while(!game.getActivePlayers().isEmpty()) {
             server.getClientByID(game.getActivePlayers().get(0).getClientID()).getConnection().close();
         }

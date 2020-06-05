@@ -8,26 +8,26 @@ import it.polimi.ingsw.model.player.Worker;
 import java.util.List;
 
 /**
- * Class Hestia ...
+ * Class Hestia defines Hestia card.
  *
  * @author Alice Piemonti
- * Created on 25/05/2020
+ * @see Worker
  */
 public class Hestia extends Worker {
 
     boolean alreadyBuilt = false;
 
     /**
-     * Constructor
-     *
-     * @param color player color
+     * Constructor create an Hestia instance.
+     * @param color of type PlayerColors - the player color,
      */
     public Hestia(PlayerColors color) {
         super(color);
     }
 
     /**
-     * set the order of action allowed by this worker
+     * Method setPhases sets the order of action allowed for this worker.
+     * @see Worker#setPhases()
      */
     @Override
     public void setPhases() {
@@ -35,15 +35,15 @@ public class Hestia extends Worker {
     }
 
     /**
-     * Method resetAlreadyBuild sets alreadyBuilt value to false
+     * Method resetAlreadyBuild sets alreadyBuilt value to false.
      */
     private void resetAlreadyBuilt() { alreadyBuilt = false;}
     /**
-     * notify the selectSpacesListener with all the moves the worker can do
+     * Method notifyWithMoves notifies the selectSpacesListener with all the moves the worker can do.
      *
-     * @param gameBoard of the game
-     * @throws IllegalArgumentException if gameBoard is null
-     * @throws IllegalStateException    if the worker is blocked
+     * @param gameBoard of type GameBoard- the game board .
+     * @throws IllegalArgumentException when gameBoard is null.
+     * @throws IllegalStateException    when the worker is blocked.
      * @see Worker#notifyWithMoves(GameBoard)
      */
     @Override
@@ -53,9 +53,10 @@ public class Hestia extends Worker {
     }
 
     /**
-     * return an ArrayList which contains all the buildable spaces
-     * @param gameBoard gameBoard
-     * @return an ArrayList of spaces
+     * Method getBuildableSpaces returns an ArrayList containing all the buildable spaces.
+     * @param gameBoard of type GameBoard- the game board .
+     * @return ArrayList - the list of spaces.
+     * @see Worker#getBuildableSpaces(GameBoard)
      */
     @Override
     public List<Space> getBuildableSpaces(GameBoard gameBoard) {
@@ -64,13 +65,12 @@ public class Hestia extends Worker {
         return buildable;
     }
 
-    /** @see Worker#build(Space) */
-    /*
-     * check if the space is buildable and build on the space received
+    /**
+     * Method build checks if the space is buildable and build on the space received.
      *
-     * @param space space
-     * @return false if it's impossible to build on the space or if OutOfBoundException is thrown
-     * @throws IllegalArgumentException if space is null
+     * @param space of type Space - the position.
+     * @return boolean false if it's impossible to build on the space or if OutOfBoundException is thrown.
+     * @throws IllegalArgumentException when space is null.
      * @see Worker#build(Space)
      */
     @Override
@@ -84,16 +84,16 @@ public class Hestia extends Worker {
     }
 
     /**
-     * return true if the worker can build into the space received
+     * Method canBuildOnto returns true if the worker can build into the space received.
      *
-     * @param space space of the GameBoard
-     * @return boolean value
-     * @throws IllegalArgumentException if space is null
+     * @param space of type Space - the position.
+     * @return boolean true if successful, false otherwise.
+     * @throws IllegalArgumentException when space is null.
      * @see Worker#canBuildOnto(Space)
      */
     @Override
     public boolean canBuildOnto(Space space) throws IllegalArgumentException {
         if (!alreadyBuilt) return super.canBuildOnto(space);
-        else return !isPerimetric(space) && super.canBuildOnto(space);
+        else return !isPerimeter(space) && super.canBuildOnto(space);
     }
 }

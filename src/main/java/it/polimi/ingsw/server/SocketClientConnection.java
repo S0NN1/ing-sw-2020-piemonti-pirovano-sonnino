@@ -17,11 +17,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * An instance of this class is created from SocketServer when it accepts a new connection.
- * It handles a connection between client and server, permitting sending and receiving messages and doing other
- * class-useful operations too.
+ * SocketClientConnection handles a connection between client and server, permitting sending and receiving messages and
+ * doing other class-useful operations too.
  * @author Luca Pirovano
-
+ * @see Runnable
+ * @see ClientConnection
  */
 public class SocketClientConnection implements ClientConnection, Runnable {
     private final Socket socket;
@@ -32,17 +32,24 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     private boolean active;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
+    /**
+     * Method isActive returns the active of this SocketClientConnection object.
+     *
+     *
+     *
+     * @return the active (type boolean) of this SocketClientConnection object.
+     */
     public synchronized boolean isActive() {
         return active;
     }
 
 
     /**
-     * Constructor SocketClientConnection instantiates an input/output stream from the socket received as parameters, and
-     * adds the main server to his attributes too.
+     * Constructor SocketClientConnection instantiates an input/output stream from the socket received as parameters,
+     * and adds the main server to his attributes too.
      *
-     * @param socket of type Socket the socket which accepted the client connection.
-     * @param server of type Server the main server class.
+     * @param socket of type Socket - the socket which accepted the client connection.
+     * @param server of type Server - the main server class.
      */
     public SocketClientConnection(Socket socket, Server server) {
         this.server = server;
@@ -71,8 +78,8 @@ public class SocketClientConnection implements ClientConnection, Runnable {
 
 
     /**
-     * Method close terminates the connection with the client, closing firstly input and output streams, then invoking the server
-     * method called "unregisterClient", which will remove the active virtual client from the list.
+     * Method close terminates the connection with the client, closing firstly input and output streams, then invoking
+     * the server method called "unregisterClient", which will remove the active virtual client from the list.
      * @see it.polimi.ingsw.server.Server#unregisterClient for more details.
      */
     public void close() {
@@ -106,6 +113,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
 
     /**
      * Method run is the overriding runnable class method, which is called on a new client connection.
+     * @see Runnable#run()
      */
     @Override
     public void run() {
@@ -133,7 +141,8 @@ public class SocketClientConnection implements ClientConnection, Runnable {
      * The "Message" interface permits splitting the information into several types of messages.
      * This method invokes another one relying on the implementation type of the message received.
      *
-     * @param command of type Message the Message interface type command, which needs to be checked in order to perform an action.
+     * @param command of type Message - the Message interface type command, which needs to be checked in order to
+     *  perform an action.
      */
     public void actionHandler(Message command) {
         if(command instanceof SetupConnection) {
@@ -141,16 +150,20 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
         else if(command instanceof ChosenColor) {
             if(PlayerColors.isChosen(((ChosenColor)command).getColor())) {
-                server.getClientByID(clientID).send(new ColorMessage("Error! This color is not available anymore. Please choose another one!"));
+                server.getClientByID(clientID).send(new ColorMessage("Error! This color is not available anymore. " +
+                        "Please choose another one!"));
                 return;
             }
-            server.getGameByID(clientID).getController().setColor(((ChosenColor)command).getColor(), server.getClientByID(clientID).getNickname());
+            server.getGameByID(clientID).getController().setColor(((ChosenColor)command).getColor(),
+                    server.getClientByID(clientID).getNickname());
             PlayerColors.choose(((ChosenColor)command).getColor());
-            server.getGameByID(clientID).singleSend(new ColorMessage(null,((ChosenColor) command).getColor().toString()), clientID);
+            server.getGameByID(clientID).singleSend(new ColorMessage(null,((ChosenColor) command).getColor().
+                    toString()), clientID);
             server.getGameByID(clientID).setup();
         }
         else if(command instanceof Disconnect) {
-            server.getGameByID(clientID).sendAllExcept(new CustomMessage("Client " + server.getNicknameByID(clientID) +
+            server.getGameByID(clientID).sendAllExcept(new CustomMessage("Client " +
+                    server.getNicknameByID(clientID) +
                     " disconnected from the server.", false), clientID);
             server.getGameByID(clientID).endGame(server.getNicknameByID(clientID));
             close();
@@ -161,7 +174,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     /**
      * Method checkConnection checks the validity of the connection message received from the client.
      *
-     * @param command of type SetupConnection the connection command.
+     * @param command of type SetupConnection - the connection command.
      */
     private void checkConnection(SetupConnection command) {
         try {
@@ -192,14 +205,16 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         }
         if(action instanceof ChallengerPhaseAction) {
             if (server.getGameByID(clientID).isStarted()>3) {
-                server.getGameByID(clientID).singleSend(new GameError(ErrorsType.INVALIDINPUT, "Not in correct game phase to perform this command!"), clientID);
+                server.getGameByID(clientID).singleSend(new GameError(ErrorsType.INVALIDINPUT, "Not in " +
+                        "correct game phase to perform this command!"), clientID);
                 return;
             }
             server.getGameByID(clientID).makeAction(action, "ChallengerPhase");
         }
         else if(action instanceof WorkerSetupAction) {
             if (server.getGameByID(clientID).isStarted()!=5) {
-                server.getGameByID(clientID).singleSend(new GameError(ErrorsType.INVALIDINPUT, "Not in correct game phase to perform this command!"), clientID);
+                server.getGameByID(clientID).singleSend(new GameError(ErrorsType.INVALIDINPUT, "Not in " +
+                        "correct game phase to perform this command!"), clientID);
                 return;
             }
             server.getGameByID(clientID).makeAction(action, "WorkerPlacement");
@@ -212,11 +227,12 @@ public class SocketClientConnection implements ClientConnection, Runnable {
 
     /**
      * Method setPlayers is a setup method.
-     * It permits setting the number of the players in the match, which is decided by the first user connected to the server.
-     * It waits for a NumberOfPlayers Message type, then extracts the information about the number of players, passing
-     * it as a parameter to the server function "setTotalPlayers".
+     * It permits setting the number of the players in the match, which is decided by the first user connected to the
+     * server. It waits for a NumberOfPlayers Message type, then extracts the information about the number of players,
+     * passing it as a parameter to the server function "setTotalPlayers".
      *
-     * @param message of type RequestPlayersNumber the action received from the user. This method iterates on it until it finds a NumberOfPlayers type.
+     * @param message of type RequestPlayersNumber - the action received from the user. This method iterates on it until
+     * it finds a NumberOfPlayers type.
      */
     public void setPlayers(RequestPlayersNumber message) {
         SerializedAnswer ans = new SerializedAnswer();
@@ -231,11 +247,14 @@ public class SocketClientConnection implements ClientConnection, Runnable {
                         int playerNumber = (((NumberOfPlayers) command).playersNumber);
                         server.setTotalPlayers(playerNumber);
                         server.getGameByID(clientID).setPlayersNumber(playerNumber);
-                        server.getClientByID(this.clientID).send(new CustomMessage("Success: player number set to " + playerNumber, false));
+                        server.getClientByID(this.clientID).send(new CustomMessage("Success: player number " +
+                                "set to " + playerNumber, false));
                         break;
                     } catch (OutOfBoundException e) {
-                        server.getClientByID(this.clientID).send(new CustomMessage("Error: not a valid input! Please provide a value of 2 or 3.", false));
-                        server.getClientByID(this.clientID).send(new RequestPlayersNumber("Choose the number of players! [2/3]", false));
+                        server.getClientByID(this.clientID).send(new CustomMessage("Error: not a valid " +
+                                "input! Please provide a value of 2 or 3.", false));
+                        server.getClientByID(this.clientID).send(new RequestPlayersNumber("Choose the number" +
+                                " of players! [2/3]", false));
                     }
                 }
             } catch (ClassNotFoundException | IOException e) {
@@ -250,7 +269,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
      * The type SerializedMessage contains an Answer type object, which represents an interface for server answer,
      * like the client Message one.
      *
-     * @param serverAnswer of type SerializedAnswer the serialized server answer (interface Answer).
+     * @param serverAnswer of type SerializedAnswer - the serialized server answer (interface Answer).
      */
     public void sendSocketMessage(SerializedAnswer serverAnswer) {
         try {

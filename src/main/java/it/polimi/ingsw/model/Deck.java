@@ -19,7 +19,7 @@ public class Deck {
     /**
      * Constructor Deck creates a new Deck instance.
      *
-     * @param game of type Game the game model.
+     * @param game of type Game - the game model.
      */
     public Deck(Game game) {
         this.game = game;
@@ -29,8 +29,8 @@ public class Deck {
     /**
      * Method setCard adds a card chosen by the challenger to the deck.
      *
-     * @param card of type Card the chosen card.
-     * @return int the request status.
+     * @param card of type Card - the chosen card.
+     * @return int - the request status.
      * @throws OutOfBoundException when the current size of the array is equals to the number of players.
      */
     public int setCard(Card card) throws OutOfBoundException {
@@ -61,8 +61,8 @@ public class Deck {
     /**
      * Method chooseCard removes a card afterwards a player god-power choice.
      *
-     * @param card of type Card the card selected by the player.
-     * @param client of type VirtualClient the virtual client associated to the user.
+     * @param card of type Card - the card selected by the player.
+     * @param client of type VirtualClient - the virtual client associated to the user.
      * @return boolean true if everything goes fine, boolean false otherwise.
      */
     public boolean chooseCard(Card card, VirtualClient client) {
@@ -78,9 +78,9 @@ public class Deck {
     /**
      * Method chooseCard removes a card afterwards a player god-power choice in case of Athena selection.
      *
-     * @param card of type Card the selected card.
-     * @param client of type VirtualClient the client which has selected Athena.
-     * @param controller of type TurnController the game controller.
+     * @param card of type Card - the selected card.
+     * @param client of type VirtualClient - the client which has selected Athena.
+     * @param controller of type TurnController - the game controller.
      * @return boolean true if everything is ok, boolean false otherwise.
      */
     public boolean chooseCard(Card card, VirtualClient client, TurnController controller) {

@@ -65,7 +65,7 @@ public class Prometheus extends Worker {
      * requires this.isSelectable(space)
      *
      * @param space the new position
-     * @return false if the worker can't move into this space
+     * @return boolean false if the worker can't move into this space
      * @throws IllegalArgumentException if space is null
      */
     @Override

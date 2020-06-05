@@ -2,7 +2,7 @@ package it.polimi.ingsw.server;
 
 
 /**
- * Interface ClientConnection represents the type of client connection.
+ * ClientConnection class defines an interface representing the type of client connection.
  *
  * @author Luca Pirovano
  */

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Player class represents the user and player of the board game.
  * @author Alice Piemonti, Luca Pirovano
  */
 public class Player {
@@ -23,8 +24,8 @@ public class Player {
     /**
      * Constructor Player creates a new Player instance.
      *
-     * @param nickname of type String the user nickname.
-     * @param clientID of type int the user unique id.
+     * @param nickname of type String - the user nickname.
+     * @param clientID of type int - the user unique id.
      */
     public Player(String nickname, int clientID) {
         this.nickname = nickname;
@@ -84,8 +85,8 @@ public class Player {
     /**
      * Method addWorker creates two instances of worker related to the card received from the deck.
      *
-     * @param card of type Card the card chosen by the user.
-     * @param client of type VirtualClient the user's virtual client representation.
+     * @param card of type Card - the card chosen by the user.
+     * @param client of type VirtualClient - the user's virtual client representation.
      */
     public void addWorker(Card card, VirtualClient client) {
         WorkerCreator creator = new WorkerCreator();
@@ -96,10 +97,10 @@ public class Player {
 
 
     /**
-     * Method setCard sets player's card attribute
+     * Method setCard sets player's card attribute.
      *
-     * @param godCard of type Card the chosen card
-     * @param client of type VirtualClient the user's virtual client representation.
+     * @param godCard of type Card - the chosen card.
+     * @param client of type VirtualClient - the user's virtual client representation.
      */
     public void setCard(Card godCard, VirtualClient client) {
         this.card = godCard;
@@ -109,9 +110,9 @@ public class Player {
     /**
      * Method setCard sets player's card attribute in case user has chosen the Athena god.
      *
-     * @param godCard of type Card the Athena card.
-     * @param client of type VirtualClient the user's virtual client representation.
-     * @param controller of type TurnController the turn controller reference.
+     * @param godCard of type Card - the Athena card.
+     * @param client of type VirtualClient - the user's virtual client representation.
+     * @param controller of type TurnController - the turn controller reference.
      */
     public void setCard(Card godCard, VirtualClient client, TurnController controller) {
         this.card = godCard;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 /**
- * Enum Action contains all the possible turn actions.
+ * Class Action contains all the possible turn actions.
  *
  * @author Alice Piemonti
  */

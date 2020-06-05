@@ -40,7 +40,7 @@ public class Minotaur extends Worker {
 
     /**
      * @param space space
-     * @return true if the worker can move to the space received
+     * @return boolean true if the worker can move to the space received
      * @throws IllegalArgumentException if space is null
      */
     public boolean isSelectable(Space space, GameBoard gameBoard) throws IllegalArgumentException {
@@ -119,7 +119,7 @@ public class Minotaur extends Worker {
      * requires this.isSelectable(space)
      *
      * @param space the new position
-     * @return false if the worker can't move into this space or if space isn't empty
+     * @return boolean false if the worker can't move into this space or if space isn't empty
      * @throws IllegalArgumentException if space is null
      */
     @Override
@@ -132,7 +132,7 @@ public class Minotaur extends Worker {
      *  move Minotaur to mySpace and force the other worker to move from mySpace to otherSpace
      * @param mySpace where Minotaur wants to move
      * @param gameBoard in order to select the space where other worker is forced to move
-     * @return false if otherSpace isn't valid
+     * @return boolean false if otherSpace isn't valid
      */
     @Override
     public boolean move(Space mySpace, GameBoard gameBoard) throws IllegalArgumentException {

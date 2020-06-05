@@ -13,6 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Class Charon defines Charon Card.
+ *
+ * @author Alice Piemonti
+ * @see Worker
+ */
 public class Charon extends Worker {
     /**
      * Constructor
@@ -24,7 +30,8 @@ public class Charon extends Worker {
     }
 
     /**
-     * set the order of action allowed by this worker
+     * Method setPhases sets the order of action allowed for this worker.
+     * @see Worker#setPhases()
      */
     @Override
     public void setPhases() {
@@ -34,10 +41,10 @@ public class Charon extends Worker {
     }
 
     /**
-     * Method calculateCoordinates gets the coordinates where the opponent worker is forced to move
+     * Method calculateCoordinates gets the coordinates where the opponent worker is forced to move.
      *
-     * @param space of type Space
-     * @return Couple of coordinates
+     * @param space of type Space - the selected space.
+     * @return Couple - the coordinates.
      */
     private Couple calculateCoordinates(Space space) {
         int row;
@@ -63,11 +70,12 @@ public class Charon extends Worker {
     }
 
     /**
-     * Method forceWorker indicates whether an opponent worker is forced to the space directly on the other side of Charon
+     * Method forceWorker indicates whether an opponent worker is forced to the space directly on the other side of
+     * Charon.
      *
-     * @param space     of type Space opponent worker's position
-     * @param gameBoard of type GameBoard
-     * @return boolean
+     * @param space     of type Space - the opponent worker's position.
+     * @param gameBoard of type GameBoard - GameBoard reference.
+     * @return boolean true if operation is permitted, false otherwise.
      */
     public boolean forceWorker(Space space, GameBoard gameBoard) {
         if(canForceFrom(space, gameBoard)){
@@ -84,13 +92,15 @@ public class Charon extends Worker {
     }
 
     /**
-     * Method notifyWithForceWorkerSpaces notify SELECT_SPACES_LISTENER with all the spaces where Charon can apply his power.
+     * Method notifyWithForceWorkerSpaces notifies SELECT_SPACES_LISTENER with all the spaces where Charon can apply
+     * his power.
      *
-     * @param gameBoard of type GameBoard
+     * @param gameBoard of type GameBoard - GameBoard reference.
      * @throws IllegalArgumentException when gameBoard is null.
-     * @throws IllegalStateException when there are not spaces on which Charon can apply his power.
+     * @throws IllegalStateException when there are no spaces on which Charon can apply his power.
      */
-    public void notifyWithForceWorkerSpaces(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
+    public void notifyWithForceWorkerSpaces(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException
+    {
         if(gameBoard == null) throw new IllegalArgumentException();
         List<Space> forceWorkerSpaces = selectForceWorkerSpaces(gameBoard);
         if(forceWorkerSpaces.isEmpty()) {
@@ -103,8 +113,8 @@ public class Charon extends Worker {
     /**
      * Method selectForceWorkerSpaces gets an ArrayList with all the spaces where Charon can use his power.
      *
-     * @param gameBoard of type GameBoard gameBoard
-     * @return List<Space> with spaces where Charon can use his power, null if there are not space selectable.
+     * @param gameBoard of type GameBoard - gameBoard.
+     * @return List<Space> - the list of  spaces where Charon can use his power, null if there are not space selectable.
      */
     private List<Space> selectForceWorkerSpaces(GameBoard gameBoard) {
         ArrayList<Space> spaces = new ArrayList<>();
@@ -122,22 +132,23 @@ public class Charon extends Worker {
     /**
      * Method canForceFrom indicates whether Charon can apply his power on the space received.
      *
-     * @param space of type Space where force worker would be applied.
-     * @param gameBoard of type GameBoard gameBoard
-     * @return boolean true if Charon can apply his power on the space received, false if it can not.
+     * @param space of type Space - the position where force worker would be applied.
+     * @param gameBoard of type GameBoard - gameBoard.
+     * @return boolean true if Charon can apply his power on the space received, false otherwise.
      */
     private boolean canForceFrom(Space space, GameBoard gameBoard) {
-        if (space == null || !isReachable(space) || space.isEmpty() || space.getWorker().getWorkerColor().equals(workerColor)) return false;
+        if (space == null || !isReachable(space) || space.isEmpty() ||
+                space.getWorker().getWorkerColor().equals(workerColor)) return false;
         Space newOpponentPosition = otherSideSpace(space, gameBoard);
         return newOpponentPosition != null && canForceOn(newOpponentPosition);
     }
 
     /**
-     * Method otherSideSpace gets the space directly on the other side of an opponent worker neighbouring this worker
+     * Method otherSideSpace gets the space directly on the other side of an opponent worker near this worker.
      *
-     * @param space of type Space where opponent worker is positioned
-     * @param gameBoard of type GameBoard
-     * @return Space the new position of opponent worker
+     * @param space of type Space - where opponent worker is positioned
+     * @param gameBoard of type GameBoard - gameBoard.
+     * @return Space - the new position of opponent worker.
      */
     public Space otherSideSpace(Space space, GameBoard gameBoard) {
         Couple newCoordinates = calculateCoordinates(space);

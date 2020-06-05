@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class contains the main logic of "Santorini", which is divided in several macro-areas.
+ * Game class contains the main logic of "Santorini", which is divided in several macro-areas.
  * The first area is the Player/Worker section, which contains information about the single player and his god power
  * (overriding build and construct methods).
  * The second area is the GameBoard section, which contains a grid of 25 cells (Space class). That class contains
@@ -50,7 +50,7 @@ public class Game {
      * Method createNewPlayer creates a new player in the match. The minimum length of activePlayers array is
      * 2 elements, and the maximum is 3.
      *
-     * @param player of type Player the player to be added.
+     * @param player of type Player - the player to be added.
      */
     public void createNewPlayer(Player player) {
         players.add(player);
@@ -61,7 +61,7 @@ public class Game {
     /**
      * Method removePlayer removes an active player from the list (loss of workers).
      *
-     * @param player of type Player the player we want to remove from the match.
+     * @param player of type Player - the player we want to remove from the match.
      */
     public void removePlayer(Player player) {
         if(player.getWorkers().isEmpty()) {
@@ -74,7 +74,8 @@ public class Game {
         }
         for (int i = Constants.GRID_MIN_SIZE; i <Constants.GRID_MAX_SIZE ; i++) {
             for (int j = Constants.GRID_MIN_SIZE; j <Constants.GRID_MAX_SIZE ; j++) {
-                if(gameBoard.getSpace(i,j).getWorker()==player.getWorkers().get(0) || gameBoard.getSpace(i,j).getWorker()==player.getWorkers().get(1)){
+                if(gameBoard.getSpace(i,j).getWorker()==player.getWorkers().get(0) ||
+                        gameBoard.getSpace(i,j).getWorker()==player.getWorkers().get(1)){
                     gameBoard.getSpace(i,j).setWorker(null);
                 }
             }
@@ -90,8 +91,8 @@ public class Game {
     /**
      * Method getPlayerByNickname searches the player identified by his nickname in the list of active player.
      *
-     * @param nickname of type String the nickname of the player.
-     * @return Player the desired player, null if there's no active player with that nickname.
+     * @param nickname of type String - the nickname of the player.
+     * @return Player - the desired player, null if there's no active player with that nickname.
      */
     public Player getPlayerByNickname(String nickname) {
         for (Player player : activePlayers) {
@@ -106,8 +107,8 @@ public class Game {
     /**
      * Method getPlayerByID gets a player instance relying on his unique ID.
      *
-     * @param id of type int the id of the player.
-     * @return Player the player instance.
+     * @param id of type int - the id of the player.
+     * @return Player - the player instance.
      */
     public Player getPlayerByID(int id) {
         for (Player player: activePlayers){
@@ -130,7 +131,7 @@ public class Game {
     /**
      * Method setCurrentPlayer updates the variable "currentPlayer" with the desired one.
      *
-     * @param player the player to be set as current.
+     * @param player of type Player - the player to be set as current.
      */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
@@ -150,7 +151,8 @@ public class Game {
      * Method nextPlayer skips to the next player in "activePlayers" order.
      */
     public void nextPlayer() {
-        currentPlayerN=(currentPlayerN == activePlayers.size() - 1 || currentPlayerN == activePlayers.size()) ? 0 : currentPlayerN+1;   //Clockwise rotation
+        currentPlayerN=(currentPlayerN == activePlayers.size() - 1 || currentPlayerN == activePlayers.size()) ? 0 :
+                currentPlayerN+1;   //Clockwise rotation
         setCurrentPlayer(activePlayers.get(currentPlayerN));
     }
 

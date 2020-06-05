@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This enumeration class contains the god list and parses the input for them.
+ * Card class is a enumeration containing the god list and parses the input for them.
  * It also contains an array of gods which are chosen by the challenger in the first phase of the game.
  * @author Luca Pirovano
  */
@@ -18,8 +18,8 @@ public enum Card {
     /**
      * Method parseInput parses the input of the challenger player to get a valid god.
      *
-     * @param input of type String the text entered by the player.
-     * @return Card the value of the enum choice if exists, otherwise throws an IllegalArgumentException.
+     * @param input of type String - the text entered by the player.
+     * @return Card - the value of the enum choice if exists, otherwise throws an IllegalArgumentException.
      */
     public static Card parseInput(String input) {
         return Enum.valueOf(Card.class, input.toUpperCase());
@@ -28,7 +28,7 @@ public enum Card {
 
     /**
      * Method godsName returns a list with all gods' name, parsed from the json file.
-     * @return List<String> gods' names, parsed from the json file.
+     * @return List<String> - the list of gods' names, parsed from the json file.
      */
     public static List<String> godsName() {
         Gson gson = new Gson();
@@ -45,7 +45,7 @@ public enum Card {
     /**
      * Method godsDescription parses all gods' description from JSON file and return the selected god's description.
      *
-     * @return String the god's description that the user wants to know.
+     * @return String - the god's description that the user wants to know.
      */
     public String godsDescription() {
 

@@ -7,7 +7,9 @@ import it.polimi.ingsw.model.player.Worker;
 import java.util.List;
 
 /**
+ * Class Artemis defines Artemis card.
  * @author Alice Piemonti
+ * @see Worker
  */
 public class Artemis extends Worker {
 
@@ -16,14 +18,14 @@ public class Artemis extends Worker {
     /**
      * Constructor Artemis creates a new Artemis instance.
      *
-     * @param color of type PlayerColors
+     * @param color of type PlayerColor - the player color.
      */
     public Artemis(PlayerColors color) {
         super(color);
     }
 
     /**
-     * Method setPhases set the order of the actions allowed by this worker. This worker can move twice.
+     * Method setPhases set the order of the actions allowed by this worker, which can move twice.
      * @see Worker#setPhases()
      */
     @Override
@@ -32,12 +34,12 @@ public class Artemis extends Worker {
     }
 
     /**
-     * return an ArrayList that contains the spaces which the worker can move to
+     * Method selectMoves returns an ArrayList that contains the spaces which the worker can move to.
      *
-     * @param gameBoard GameBoard of the game
-     * @return ArrayList of Spaces
-     * @throws IllegalArgumentException    if gameBoard is null
-     * @throws IllegalThreadStateException if the worker is blocked, so it cannot move
+     * @param gameBoard of GameBoard - the game board of the game.
+     * @return List<Space></Space> - the list of spaces.
+     * @throws IllegalArgumentException    when gameBoard is null.
+     * @throws IllegalThreadStateException when the worker is blocked, so it cannot move.
      * @see Worker#selectMoves(GameBoard)
      */
     @Override
@@ -47,12 +49,11 @@ public class Artemis extends Worker {
     }
 
     /**
-     * change the worker's position while check winning condition.
-     * requires this.isSelectable(space).
+     * Method move changes the worker's position while check winning condition.
      *
-     * @param space the new position.
-     * @return boolean value true if the worker moved correctly to space, false if the worker did not move to space.
-     * @throws IllegalArgumentException if space is null.
+     * @param space of type Space - the new position.
+     * @return boolean true if the worker moved correctly to space, false if the worker did not move to space.
+     * @throws IllegalArgumentException when space is null.
      * @see Worker#move(Space)
      */
     @Override
@@ -66,7 +67,8 @@ public class Artemis extends Worker {
             oldPosition = null; //if super.move return false
             return false;
         }
-        else if(oldPosition == space) return false; //it's the second move and Artemis try to move to the previous position
+        else if(oldPosition == space) return false; //it's the second move and Artemis try to move to the previous
+            // position
         else{   //second move
             if(super.move(space)){
                 phases.get(3).changeMust(false);
@@ -78,10 +80,11 @@ public class Artemis extends Worker {
     }
 
     /**
-     * return if the worker can move to the space received. This worker can move twice but can not select oldPosition (the space where he was previously) as second move.
-     * @param space a space of the GameBoard.
-     * @return boolean value true if the worker can move to space.
-     * @throws IllegalArgumentException if space is null.
+     * Method isSelectable returns if the worker can move to the space received. This worker can move twice but can not
+     * select oldPosition (the space where he was previously) as second move.
+     * @param space of type Space - a space of the GameBoard.
+     * @return boolean true if the worker can move to space.
+     * @throws IllegalArgumentException when space is null.
      * @see Worker#isSelectable(Space)
      */
     @Override
@@ -91,10 +94,10 @@ public class Artemis extends Worker {
     }
 
     /**
-     * notify the selectSpaceListener with all the spaces on which the worker can build.
+     * Method notifyWithBuildable notifies the selectSpaceListener with all the spaces on which the worker can build.
      *
-     * @param gameBoard gameBoard of the game
-     * @throws IllegalArgumentException if gameBoard is null
+     * @param gameBoard of type GameBoard - the game board.
+     * @throws IllegalArgumentException when gameBoard is null.
      * @see Worker#notifyWithBuildable(GameBoard)
      */
     @Override

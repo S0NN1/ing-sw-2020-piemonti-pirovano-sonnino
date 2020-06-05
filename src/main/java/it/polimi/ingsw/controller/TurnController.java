@@ -140,20 +140,25 @@ public class TurnController implements PropertyChangeListener {
         else return 0;
     }
 
+    /**
+     * Method checkMoveAction defines type MoveAction.
+     *
+     * @param workerAction of type MoveAction - the right type of MoveAction.
+     */
     private void checkMoveAction(MoveAction workerAction) {
         if (!actionController.readMessage(workerAction)) {
             sendMoveError();
         }
-        else if(isPhaseRight(Action.SELECT_MOVE)) {
+        else if(isPhaseCorrect(Action.SELECT_MOVE)) {
             sendModifiedTurnMessage("You may choose to move (no args) again or build (no args).",
                     Action.SELECT_MOVE);
         }
     }
 
     /**
-     * Method checkBuildAction ...
+     * Method checkBuildAction defines type BuildAction.
      *
-     * @param workerAction of type BuildAction
+     * @param workerAction of type BuildAction - the right type of BuildAction.
      */
     private void checkBuildAction(BuildAction workerAction) {
         String end =" end your turn.";
@@ -167,31 +172,31 @@ public class TurnController implements PropertyChangeListener {
         else if (!actionController.readMessage(workerAction)) {
             sendBuildError();
         }
-        else if(isPhaseRight(Action.SELECT_BUILD)) {
+        else if(isPhaseCorrect(Action.SELECT_BUILD)) {
             sendModifiedTurnMessage("You may choose to build (no args) again or" + end, Action.SELECT_BUILD);
         }
-        else if(isPhaseRight(Action.SELECT_REMOVE)) {
+        else if(isPhaseCorrect(Action.SELECT_REMOVE)) {
             sendModifiedTurnMessage("You may choose to remove (no args) or" + end, Action.SELECT_REMOVE);
         }
     }
 
     /**
-     * Method sendModifiedTurnMessage ...
+     * Method sendModifiedTurnMessage sends a new ModifiedTurnMessage to the client.
      *
-     * @param message of type String
-     * @param action of type Action
+     * @param message of type String - the correct message.
+     * @param action of type Action - the type of action to be included.
      */
     private void sendModifiedTurnMessage(String message,Action action) {
         gameHandler.singleSend(new ModifiedTurnMessage(message, action), gameHandler.getCurrentPlayerID());
     }
 
     /**
-     * Method isPhaseRight checks if Action received is the correct one for the current turn phase.
+     * Method isPhaseCorrect checks if Action received is the correct one for the current turn phase.
      *
-     * @param action of type Action
-     * @return boolean
+     * @param action of type Action - teh action to be analyzed.
+     * @return boolean true is phase is correct, false otherwise.
      */
-    private boolean isPhaseRight(Action action) {
+    private boolean isPhaseCorrect(Action action) {
         return actionController.getWorker().getPhase(actionController.phase) != null &&
                 actionController.getWorker().getPhase(actionController.phase).getAction().equals(action);
     }

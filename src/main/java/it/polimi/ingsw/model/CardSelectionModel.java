@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
- * This class provide a model for card selection phase, which is made by the challenger.
+ * CardSelectionModel class provides a model for card selection phase, which is made by the challenger.
  * @author Luca Pirovano
  */
 public class CardSelectionModel {
@@ -19,7 +19,7 @@ public class CardSelectionModel {
     /**
      * Constructor CardSelectionModel receives the deck from the Game, in order to put the chosen cards inside it.
      *
-     * @param deck of type Deck the cards deck.
+     * @param deck of type Deck - the cards deck.
      */
     public CardSelectionModel(Deck deck) {
         this.deck = deck;
@@ -29,7 +29,7 @@ public class CardSelectionModel {
     /**
      * Method setSelectedGod sets the god selected by the challenger.
      *
-     * @param god the selection made by the challenger.
+     * @param god of type Card - the selection made by the challenger.
      *
      */
     public void setSelectedGod(Card god) {
@@ -40,21 +40,24 @@ public class CardSelectionModel {
     /**
      * Method addToDeck adds a chosen god (with command ADD) to the deck.
      *
-     * @param god of type Card the chosen god.
+     * @param god of type Card - the chosen god.
      * @return boolean true if everything goes well, false otherwise.
      * @throws OutOfBoundException when the deck has reached the maximum capacity.
      */
     public boolean addToDeck(Card god) throws OutOfBoundException {
         int result=deck.setCard(god);
         if (result==0) {
-            virtualClient.firePropertyChange(CHALLENGER_PHASE, null, new ChallengerMessages("Error: the selected god has already been added to the deck."));
+            virtualClient.firePropertyChange(CHALLENGER_PHASE, null, new ChallengerMessages("Error: the selected" +
+                    " god has already been added to the deck."));
             return false;
         } else if(result==1) {
-            virtualClient.firePropertyChange(CHALLENGER_PHASE, null, new ChallengerMessages("God " + god.name() + " has been added; choose another one!"));
+            virtualClient.firePropertyChange(CHALLENGER_PHASE, null, new ChallengerMessages("God " + god.name()+
+                    " has been added; choose another one!"));
             return true;
         }
         else {
-            virtualClient.firePropertyChange(CHALLENGER_PHASE, null, new ChallengerMessages("God " + god.name() + " has been added!\nAll gods have been added!"));
+            virtualClient.firePropertyChange(CHALLENGER_PHASE, null, new ChallengerMessages("God " + god.name()+
+                    " has been added!\nAll gods have been added!"));
             return true;
         }
     }
@@ -62,8 +65,8 @@ public class CardSelectionModel {
     /**
      * Method addListener adds the virtual client listener to the card selection model, in order to fire event changes.
      *
-     * @param propertyName of type String the virtual client property reference.
-     * @param listener of type PropertyChangeListener the listener to be added.
+     * @param propertyName of type String - the virtual client property reference.
+     * @param listener of type PropertyChangeListener - the listener to be added.
      */
     public void addListener(String propertyName, PropertyChangeListener listener) {
         virtualClient.addPropertyChangeListener(propertyName, listener);
@@ -81,7 +84,7 @@ public class CardSelectionModel {
     /**
      * Method setDescription sets the description inside the model, in order to print it in the RemoteView.
      *
-     * @param description the description of the god.
+     * @param description of type String - the description of the god.
      */
     public void setDescription(String description) {
         virtualClient.firePropertyChange(CHALLENGER_PHASE, null, new ChallengerMessages(description));

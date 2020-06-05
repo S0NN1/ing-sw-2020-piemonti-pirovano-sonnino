@@ -5,8 +5,7 @@ import it.polimi.ingsw.exceptions.OutOfBoundException;
 /**
  * Class Tower describes a tower stored in a single space of the game board.
  *
- * @author Sonny
- * Created on 01/06/2020
+ * @author Nicolò Sonnino
  */
 public class Tower {
     private int height;

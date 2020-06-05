@@ -52,7 +52,7 @@ public class Hephaestus extends Worker {
      * build on the space received
      *
      * @param space space
-     * @return false if it's impossible to build on the space or if OutOfBoundException is thrown
+     * @return boolean false if it's impossible to build on the space or if OutOfBoundException is thrown
      * @throws IllegalArgumentException if space is null
      */
     @Override

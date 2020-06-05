@@ -65,7 +65,7 @@ public class LoaderController implements GUIController {
      * It's used during the challenger selection phase and during the single user selection phase.
      * @param god of type Card - the god tile to be opened.
      * @param isChoosing of type boolean - the value that states if the phase is the challenger or the choosing one.
-     * @return true if the god is chosen / selected, false otherwise.
+     * @return boolean true if the god is chosen / selected, false otherwise.
      */
     public boolean godTile(Card god, boolean isChoosing) {
         Stage godDetails = new Stage();

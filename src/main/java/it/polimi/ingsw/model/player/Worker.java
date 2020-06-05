@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Worker class defines an abstract class used by every god card .
  * @author Alice Piemonti
  */
 public abstract class Worker {
@@ -32,8 +33,9 @@ public abstract class Worker {
     protected final ArrayList<Phase> phases = new ArrayList<>();
 
     /**
-     * Constructor
-     * @param color player color
+     * Constructor Worker creates a new Worker instance.
+     *
+     * @param color of type PlayerColors - the player's color.
      */
     public Worker(PlayerColors color) {
         this.isBlocked = false;
@@ -48,9 +50,13 @@ public abstract class Worker {
         setPhases();
     }
 
+
     /**
-     * canMoveUp getter
-     * @return a boolean
+     * Method getCanMoveUp returns the canMoveUp of this Worker object.
+     *
+     *
+     *
+     * @return the canMoveUp (type boolean) of this Worker object.
      */
     public boolean getCanMoveUp() {
         return canMoveUp;
@@ -69,13 +75,15 @@ public abstract class Worker {
         this.canMoveUp = canMoveUp;
     }
 
+
     /**
-     * set the order of action allowed by this worker
+     * Method setPhases sets phases.
      */
     public abstract void setPhases();
 
+
     /**
-     * The worker has normal phases
+     * Method setNormalPhases sets normal turn phases.
      */
     protected void setNormalPhases(){
         phases.add(new Phase(Action.SELECT_MOVE,true));
@@ -84,8 +92,9 @@ public abstract class Worker {
         phases.add(new Phase(Action.BUILD,true));
     }
 
+
     /**
-     * The worker can build twice in a turn
+     * Method setTwoBuildPhases sets double build phases.
      */
     protected void setTwoBuildPhases() {
         phases.add(new Phase(Action.SELECT_MOVE,true));
@@ -96,8 +105,9 @@ public abstract class Worker {
         phases.add(new Phase(Action.BUILD,false));
     }
 
+
     /**
-     * The worker can move twice in a turn
+     * Method setTwoMovePhases sets double move phases.
      */
     protected void setTwoMovePhases() {
         phases.add(new Phase(Action.SELECT_MOVE,true));
@@ -108,10 +118,12 @@ public abstract class Worker {
         phases.add(new Phase(Action.BUILD,true));
     }
 
+
     /**
-     * get element phase at the specified index
-     * @param index of element
-     * @return phase
+     * Method getPhase gets a specific worker's phase.
+     *
+     * @param index of type int - the index of the required action.
+     * @return Phase - the phase needed.
      */
     public Phase getPhase(int index){
         if (index < phases.size()) return phases.get(index);
@@ -119,8 +131,8 @@ public abstract class Worker {
     }
 
     /**
-     * create the Map of listeners
-     * @param client virtualClient
+     * Method createListeners creates the Map of listeners.
+     * @param client virtualClient - the VirtualClient on the server.
      */
     public void createListeners(VirtualClient client){
         listeners.addPropertyChangeListener(SELECT_SPACES_LISTENER, new SelectSpacesListener(client));
@@ -130,18 +142,22 @@ public abstract class Worker {
 
     }
 
+
     /**
-     * get worker color
-     * @return worker color
+     * Method getWorkerColor returns the workerColor of this Worker object.
+     *
+     *
+     *
+     * @return the workerColor (type String) of this Worker object.
      */
     public String getWorkerColor() {
         return workerColor;
     }
 
     /**
-     * set a new position to worker
-     * @throws IllegalArgumentException if space is null
-     * @param space space, the unit of the GameBoard
+     * Method setPosition changes worker's position.
+     * @throws IllegalArgumentException when space is null.
+     * @param space of type Space - the new position.
      */
     public void setPosition(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
@@ -149,36 +165,48 @@ public abstract class Worker {
         space.setWorker(this);
     }
 
+
     /**
-     * get the worker's current position
-     * @return space, the worker's current position
+     * Method getPosition returns the position of this Worker object.
+     *
+     *
+     *
+     * @return the position (type Space) of this Worker object.
      */
     public Space getPosition() {
         return this.position;
     }
 
+
     /**
-     * return true if the worker is blocked (it cannot move anymore)
-     * @return boolean value
+     * Method isBlocked returns the blocked of this Worker object.
+     *
+     *
+     *
+     * @return the blocked (type boolean) of this Worker object.
      */
     public boolean isBlocked() {
         return this.isBlocked;
     }
 
+
     /**
-     * Set the isBlocked attribute if the worker cannot move anymore.
-     * @param isBlocked boolean value
+     * Method setBlocked sets the blocked of this Worker object.
+     *
+     *
+     *
+     * @param isBlocked the blocked of this Worker object.
+     *
      */
     public void setBlocked(boolean isBlocked) {
         this.isBlocked = isBlocked;
     }
 
     /**
-     * change the worker's position while check winning condition
-     * requires this.isSelectable(space)
-     * @throws IllegalArgumentException if space is null
-     * @param space the new position
-     * @return false if the worker can't move into this space
+     * Method move changes the worker's position while checking winning condition.
+     * @throws IllegalArgumentException when space is null.
+     * @param space of type Space - the new position.
+     * @return boolean false if the worker can't move into this space, true otherwise.
      */
     public boolean move(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
@@ -193,30 +221,30 @@ public abstract class Worker {
     }
 
     /**
-     * return false if it isn't a Minotaur worker
-     * @param mySpace where worker wants to move
-     * @param gameBoard in order to select the space where other worker is forced to move
-     * @return false if it isn't a Minotaur
+     * Method move returns false if it isn't a Minotaur worker.
+     * @param mySpace of type Space - the space where worker wants to move to.
+     * @param gameBoard of type GameBoard - the game board.
+     * @return boolean false if it isn't a Minotaur, true otherwise.
      */
     public boolean move(Space mySpace, GameBoard gameBoard){
         return false;
     }
 
     /**
-     * Check if win condition is satisfied
+     * Method winCondition checks if win condition is satisfied.
      *
-     * @param space of type Space
-     * @return boolean
+     * @param space of type Space - the space provided.
+     * @return boolean true if worker has won, false otherwise.
      */
     public boolean winCondition(Space space){
         return position.getTower().getHeight() == 3 && space.getTower().getHeight() == 2;
     }
 
     /**
-     * return true if the worker can move to the space received
-     * @throws IllegalArgumentException if space is null
-     * @param space a space of the GameBoard
-     * @return boolean value
+     * Method isSelectable returns true if the worker can move to the space received.
+     * @throws IllegalArgumentException when space is null.
+     * @param space of type Space - the space provided.
+     * @return boolean true if space is selectable, false otherwise.
      */
     public boolean isSelectable(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
@@ -226,9 +254,10 @@ public abstract class Worker {
     }
 
     /**
-     * return true if the space is neighbor to worker's position and if it's possible to move to that space
-     * @param space space
-     * @return boolean
+     * Method canMoveto returns true if the space is neighbor to worker's position and if it's possible to move to that
+     * space.
+     * @param space of type Space - the space provided.
+     * @return boolean true if space is reachable and at the correct height, false otherwise.
      */
     protected boolean canMoveTo(Space space){
         return isReachable(space) &&
@@ -237,10 +266,10 @@ public abstract class Worker {
 
 
     /**
-     * notify the selectSpacesListener with all the moves the worker can do
-     * @param gameBoard of the game
-     * @throws IllegalArgumentException if gameBoard is null
-     * @throws IllegalStateException if the worker is blocked
+     * Method notifyWithMoves notifies the selectSpacesListener with all the moves the worker can do.
+     * @param gameBoard of type GameBoard - the game board.
+     * @throws IllegalArgumentException when gameBoard is null.
+     * @throws IllegalStateException when the worker is blocked.
      */
     public void notifyWithMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
         if(gameBoard == null) throw new IllegalArgumentException();
@@ -253,11 +282,11 @@ public abstract class Worker {
     }
 
     /**
-     * return an ArrayList that contains the spaces which the worker can move to
-     * @throws IllegalArgumentException if gameBoard is null
-     * @throws IllegalThreadStateException if the worker is blocked, so it cannot move
-     * @param gameBoard GameBoard of the game
-     * @return ArrayList of Spaces
+     * Method selectMoves returns a List that contains the spaces which the worker can move to.
+     * @throws IllegalArgumentException when gameBoard is null.
+     * @throws IllegalThreadStateException when the worker is blocked, so it cannot move.
+     * @param gameBoard of type GameBoard - the game board.
+     * @return List<Space> - the list of spaces.
      */
     public List<Space> selectMoves(GameBoard gameBoard) {
         ArrayList<Space> moves = new ArrayList<>();
@@ -273,20 +302,20 @@ public abstract class Worker {
     }
 
     /**
-     * return false if it isn't an Atlas worker
-     * @param space space
-     * @param buildDome boolean
-     * @return false
+     * Method build returns false if it isn't an Atlas worker.
+     * @param space of type Space - the provided Space.
+     * @param buildDome of type boolean - checker used for PLACEDOME action.
+     * @return boolean
      */
     public boolean build(Space space, boolean buildDome){
         return false;
     }
 
     /**
-     * check if the space is buildable and build on the space received
-     * @param space space
-     * @throws IllegalArgumentException if space is null
-     * @return false if it's impossible to build on the space or if OutOfBoundException is thrown
+     * Method build checks if the space is buildable and build on the space received.
+     * @param space of type Space - the space provided.
+     * @throws IllegalArgumentException when space is null.
+     * @return boolean false if it's impossible to build on the space or if OutOfBoundException is thrown, true otherwise.
      */
     public boolean build(Space space) throws IllegalArgumentException{
         if(space == null)throw new IllegalArgumentException();
@@ -301,10 +330,10 @@ public abstract class Worker {
     }
 
     /**
-     * return true if the worker can build into the space received
-     * @throws IllegalArgumentException if space is null
-     * @param space space of the GameBoard
-     * @return boolean value
+     * Method canBuildOnto returns true if the worker can build into the space received.
+     * @throws IllegalArgumentException when space is null
+     * @param space of type Space - the space provided.
+     * @return boolean true if space can build onto, false otherwise.
      */
     public boolean canBuildOnto(Space space) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
@@ -314,10 +343,10 @@ public abstract class Worker {
 
 
     /**
-     * Method isReachable ...
+     * Method isReachable checks if provided space is at unitary distance or without a tower completed.
      *
-     * @param space of type Space
-     * @return boolean
+     * @param space of type Space - the provided space.
+     * @return boolean true if reachable, false otherwise.
      */
     protected boolean isReachable(Space space) {
         return (space.getRow() - position.getRow() < 2) && (position.getRow() - space.getRow() < 2) &&
@@ -327,9 +356,10 @@ public abstract class Worker {
     }
 
     /**
-     * notify the selectSpaceListener with all the spaces on which the worker can build
-     * @throws IllegalArgumentException if gameBoard is null
-     * @param gameBoard gameBoard of the game
+     * Method notifyWithBuildable notifies the selectSpaceListener with all the spaces on which the worker can build
+     * onto.
+     * @throws IllegalArgumentException when gameBoard is null.
+     * @param gameBoard of type GameBoard - the game board.
      */
    public void notifyWithBuildable(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {
        if(gameBoard == null) throw new IllegalArgumentException();
@@ -342,9 +372,9 @@ public abstract class Worker {
    }
 
     /**
-     * return an ArrayList which contains all the buildable spaces
-     * @param gameBoard gameBoard
-     * @return an ArrayList of spaces
+     * Method getBuildableSpaces returns an List which contains all the buildable spaces.
+     * @param gameBoard of type GameBoard - GameBoard reference.
+     * @return List<Space> - the list of spaces.
      */
     public List<Space> getBuildableSpaces(GameBoard gameBoard){
         ArrayList<Space> buildable = new ArrayList<>();
@@ -358,22 +388,22 @@ public abstract class Worker {
     }
 
     /**
-     * Method isPerimetric indicates whether the space is a perimeter space or not.
+     * Method isPerimeter indicates whether the space is a perimeter space or not.
      *
-     * @param space of type Space
+     * @param space of type Space - the selected space.
      * @return boolean true if space is a perimeter space, false if it is not.
      */
-    public boolean isPerimetric(Space space) {
+    public boolean isPerimeter(Space space) {
         return (space.getRow() == Constants.GRID_MIN_SIZE || space.getRow() == (Constants.GRID_MAX_SIZE - 1) ||
                 (space.getColumn() == Constants.GRID_MIN_SIZE || space.getColumn() == (Constants.GRID_MAX_SIZE - 1)));
     }
 
 
     /**
-     * Method exists indicates whether the coordinates exists into the gameBoard
+     * Method exists indicates whether the coordinates exists into the gameBoard.
      *
-     * @param coordinates of type Couple
-     * @return boolean true if a space is associated to the coordinates, false if coordinates exceed gameBoard bounds
+     * @param coordinates of type Couple - the coordinates of the provided space.
+     * @return boolean true if a space is associated to the coordinates, false if coordinates exceed gameBoard bounds.
      */
     public boolean exists( Couple coordinates) {
         return coordinates.getRow() >= Constants.GRID_MIN_SIZE
@@ -384,10 +414,11 @@ public abstract class Worker {
 
 
     /**
-     * Method canForceOn indicates whether an opponent worker can be forced into the space
+     * Method canForceOn indicates whether an opponent worker can be forced into the space.
      *
-     * @param space of type Space
-     * @return boolean true if the opponent worker can be forced into the space, false if it can not (for example, whether the space is not empty or there is a completed tower on it)
+     * @param space of type Space - the space selected.
+     * @return boolean true if the opponent worker can be forced into the space, false if it can not (for example,
+     * whether the space is not empty or there is a completed tower on it).
      */
     public boolean canForceOn(Space space) {
         return space.isEmpty() && !space.getTower().isCompleted();

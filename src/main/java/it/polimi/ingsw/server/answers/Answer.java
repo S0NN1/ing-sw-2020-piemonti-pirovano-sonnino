@@ -8,5 +8,12 @@ import java.io.Serializable;
  * @author Luca Pirovano, Nicolò Sonnino, Alice Piemonti (of the entire package)
  */
 public interface Answer extends Serializable {
+    /**
+     * Method getMessage returns the message of this WorkerPlacement object.
+     *
+     *
+     *
+     * @return the message (type Object) of this WorkerPlacement object.
+     */
     Object getMessage();
 }

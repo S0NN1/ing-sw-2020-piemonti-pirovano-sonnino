@@ -10,9 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Creates a socket that accept connections from clients, and creates a thread containing them.
+ * SocketServer class creates a socket that accepts connections from clients, and creates a thread containing them.
  * @author Luca Pirovano
-
+ * @see Runnable
  */
 public class SocketServer implements Runnable{
     private final int port;
@@ -24,8 +24,8 @@ public class SocketServer implements Runnable{
     /**
      * Constructor SocketServer creates a new SocketServer instance.
      *
-     * @param port of type int the port on which server will listen.
-     * @param server of type Server the main server object.
+     * @param port of type int - the port on which server will listen.
+     * @param server of type Server - the main server object.
      */
     public SocketServer(int port, Server server) {
         this.server = server;
@@ -52,7 +52,7 @@ public class SocketServer implements Runnable{
      * Each thread lasts until client disconnection.
      *
      *
-     * @param serverSocket of type ServerSocket the server socket, which accepts connections.
+     * @param serverSocket of type ServerSocket - the server socket, which accepts connections.
      */
     public void acceptConnections(ServerSocket serverSocket) {
         while (active) {
@@ -67,12 +67,14 @@ public class SocketServer implements Runnable{
 
     /**
      * Method run is the runnable method which instantiates a new socket on server side.
+     * @see Runnable#run()
      */
     @Override
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println(Constants.getInfo() + "Socket Server started; listening on port " + port + ". Type \"quit\" to exit");
+            System.out.println(Constants.getInfo() + "Socket Server started; listening on port " + port + ". Type " +
+                    "\"quit\" to exit");
             acceptConnections(serverSocket);
         }
         catch (IOException e) {

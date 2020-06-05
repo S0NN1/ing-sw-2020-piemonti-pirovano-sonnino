@@ -5,8 +5,8 @@ import it.polimi.ingsw.exceptions.InvalidInputException;
 import it.polimi.ingsw.model.player.Worker;
 
 /**
+ * Space class describes a single cell of the GameBoard.
  * @author Nicolò Sonnino
- * Class describing spaces
  */
 public class Space {
     private int row;
@@ -72,9 +72,9 @@ public class Space {
 
 
     /**
-     * Method setTower assigns builtTower to existing Tower
+     * Method setTower assigns builtTower to existing Tower.
      *
-     * @param tower tower input
+     * @param tower of type Tower - the tower parsed.
      */
     public void setTower(Tower tower) {
         builtTower = tower;
@@ -82,18 +82,18 @@ public class Space {
 
 
     /**
-     * Method getWorker returns the Worker stored in workerHere
+     * Method getWorker returns the Worker stored in workerHere.
      *
-     * @return the worker (type Worker) reference
+     * @return the worker (type Worker) reference.
      */
     public Worker getWorker() {
         return workerHere;
     }
 
     /**
-     * Method setWorker sets worker into workerHere variable
+     * Method setWorker sets worker into workerHere variable.
      *
-     * @param worker the worker parameter
+     * @param worker the worker parameter.
      *
      */
     public void setWorker(Worker worker) {
@@ -102,9 +102,9 @@ public class Space {
 
 
     /**
-     * Method isEmpty returns if Space has a Worker
+     * Method isEmpty returns if Space has a Worker.
      *
-     * @return boolean true if workerHere==null, boolean false else
+     * @return boolean true if workerHere==null, boolean false else.
      */
     public boolean isEmpty() {
         return workerHere == null;
@@ -112,7 +112,7 @@ public class Space {
 
 
     /**
-     * Method getTower returns the Tower stored in builtTower
+     * Method getTower returns the Tower stored in builtTower.
      *
      * @return the tower (type Tower) of this Space object.
      */

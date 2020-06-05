@@ -1,8 +1,8 @@
 package it.polimi.ingsw.exceptions;
 
 /**
- * Exception InvalidNicknameException is thrown where a user tries to connect with a nickname that contains unallowed
- * characters.
+ * Class InvalidNicknameException is thrown where a user tries to connect with a nickname that contains characters not
+ * allowed.
  *
  * @author Luca Pirovano
  */

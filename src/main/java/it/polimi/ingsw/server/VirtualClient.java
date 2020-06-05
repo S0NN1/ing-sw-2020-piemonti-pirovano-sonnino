@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
  * through server socket.
  * It's used for preparing an answer for sending and for general operations on the client too.
  * @author Luca Pirovano
-
+ * @see  PropertyChangeListener
  */
 public class VirtualClient implements PropertyChangeListener {
     private int clientID;
@@ -22,13 +22,25 @@ public class VirtualClient implements PropertyChangeListener {
     private SocketClientConnection socketClientConnection;
     private GameHandler gameHandler;
 
-    public VirtualClient(int clientID, String nickname, SocketClientConnection socketClientConnection, GameHandler gameHandler) {
+    /**
+     * Constructor VirtualClient creates a new VirtualClient instance.
+     *
+     * @param clientID of type int - the client ID.
+     * @param nickname of type String - the player's nickname.
+     * @param socketClientConnection of type SocketClientConnection - the class linking client to server via socket.
+     * @param gameHandler of type GameHandler - GameHandler reference.
+     */
+    public VirtualClient(int clientID, String nickname, SocketClientConnection socketClientConnection, GameHandler
+            gameHandler) {
         this.nickname = nickname;
         this.clientID = clientID;
         this.socketClientConnection = socketClientConnection;
         this.gameHandler = gameHandler;
     }
 
+    /**
+     * Constructor VirtualClient creates a new VirtualClient instance.
+     */
     public VirtualClient() {}
 
 
@@ -49,7 +61,7 @@ public class VirtualClient implements PropertyChangeListener {
      *
      *
      *
-     * @return true if the connection with the client is active yet.
+     * @return boolean true if the connection with the client is active yet.
      */
     public boolean isConnected() {
         return(socketClientConnection!=null);
@@ -91,9 +103,10 @@ public class VirtualClient implements PropertyChangeListener {
 
     /**
      * Method send prepares the answer for sending it through the network, putting it in a serialized package, called
-     * SerializedMessage, then sends the packaged answer to the transmission protocol, located in the socket-client handler.
+     * SerializedMessage, then sends the packaged answer to the transmission protocol, located in the socket-client
+     * handler.
      * @see it.polimi.ingsw.server.SocketClientConnection for more details.
-     * @param serverAnswer of type Answer the answer to be sent to the user.
+     * @param serverAnswer of type Answer - the answer to be sent to the user.
      */
     public void send(Answer serverAnswer) {
         SerializedAnswer message = new SerializedAnswer();
@@ -104,7 +117,7 @@ public class VirtualClient implements PropertyChangeListener {
     /**
      * Method win sends the win confirmation to the winner and the lose communication to all the others.
      *
-     * @param win of type Answer the message to be sent to the winner.
+     * @param win of type Answer - the message to be sent to the winner.
      */
     public void win(Answer win) {
         SerializedAnswer winner = new SerializedAnswer();
@@ -119,7 +132,7 @@ public class VirtualClient implements PropertyChangeListener {
      * Method sendAll sends the message to all playing clients, thanks to the GameHandler sendAll method. It's triggered
      * from the model's listeners after a player action.
      *
-     * @param serverAnswer of type Answer the message to be sent.
+     * @param serverAnswer of type Answer - the message to be sent.
      */
     public void sendAll(Answer serverAnswer) {
         gameHandler.sendAll(serverAnswer);
@@ -128,7 +141,8 @@ public class VirtualClient implements PropertyChangeListener {
     /**
      * Method propertyChange states the listener property changes, forwarding the message to the correct method.
      *
-     * @param evt of type PropertyChangeEvent the property change firing event.
+     * @param evt of type PropertyChangeEvent - the property change firing event.
+     * @see PropertyChangeListener
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
