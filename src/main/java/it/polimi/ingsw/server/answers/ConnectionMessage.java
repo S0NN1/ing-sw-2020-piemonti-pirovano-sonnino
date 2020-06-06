@@ -14,7 +14,7 @@ public class ConnectionMessage implements Answer {
      * Constructor ConnectionMessage creates a new ConnectionMessage instance.
      *
      * @param message of type String - the message tobe displayed.
-     * @param type of type int - the type of connection. //TODO NOT SURE
+     * @param type of type int - the type of connection event (like new connection or client disconnection).
      */
     public ConnectionMessage(String message, int type) {
         this.message = message;

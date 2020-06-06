@@ -164,8 +164,8 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Method loop keeps running and executing all actions client side, if the input has toggled (through the
-     * appropriate method) it calls the action one and parses the player's input. //TODO PIRO (one???)
+     * Method loop keeps running and executing all actions client side, if the input has been toggled (through the
+     * appropriate method) it calls the action method and parses the player's input.
      */
     public void loop() {
         input.reset();
