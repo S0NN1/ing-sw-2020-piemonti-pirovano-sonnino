@@ -21,9 +21,10 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class CharonTest tests Charon class
+ * Class CharonTest tests Charon class.
  *
  * @author Alice Piemonti
+ * @see Charon
  */
 public class CharonTest {
 
@@ -32,7 +33,7 @@ public class CharonTest {
     Space position;
 
     /**
-     * Method init initialize Charon worker and gameBoard
+     * Method init initializes Charon worker and gameBoard.
      */
     @BeforeEach
     void init() {
@@ -43,7 +44,7 @@ public class CharonTest {
     }
 
     /**
-     * Class forceWorkerTests tests forceWorker method
+     * Class forceWorkerTests tests forceWorker method.
      *
      * @author Alice Piemonti
      */
@@ -52,7 +53,7 @@ public class CharonTest {
     class forceWorkerTests {
 
         /**
-         * Method outOfGrid try to force a worker out of the grid
+         * Method outOfGrid tries to force a worker out of the grid.
          */
         @Test
         @DisplayName("out of grid")
@@ -64,7 +65,7 @@ public class CharonTest {
         }
 
         /**
-         * Method notReachable try to force a worker from a not reachable space
+         * Method notReachable tries to force a worker from a not reachable space.
          */
         @Test
         @DisplayName("not reachable space")
@@ -76,7 +77,7 @@ public class CharonTest {
         }
 
         /**
-         * Method emptySpace try to force from an empty space
+         * Method emptySpace tries to force from an empty space.
          */
         @Test
         @DisplayName("empty space")
@@ -86,7 +87,7 @@ public class CharonTest {
         }
 
         /**
-         * Method samePosition try to force Charon
+         * Method samePosition tries to force Charon.
          */
         @Test
         @DisplayName("space = position")
@@ -96,7 +97,7 @@ public class CharonTest {
         }
 
         /**
-         * Method occupiedSpace try to force a worker to an already occupied space
+         * Method occupiedSpace tries to force a worker to an already occupied space.
          */
         @Test
         @DisplayName("force on another worker")
@@ -110,7 +111,7 @@ public class CharonTest {
         }
 
         /**
-         * Method completeSpace try to force a worker on a complete tower
+         * Method completeSpace tries to force a worker on a complete tower.
          */
         @Test
         @DisplayName("force on a complete tower")
@@ -123,7 +124,7 @@ public class CharonTest {
         }
 
         /**
-         * Method sameColor try to force a worker with the same color of Charon
+         * Method sameColor tries to force a worker with the same color of Charon.
          */
         @Test
         @DisplayName("force same color")
@@ -139,7 +140,7 @@ public class CharonTest {
     }
 
     /**
-     * Method forceWorkerTest tests forceWorker method
+     * Method forceWorkerTest tests forceWorker method.
      */
     @Test
     @DisplayName("force worker correctly")
@@ -166,7 +167,7 @@ public class CharonTest {
     }
 
     /**
-     * Method notifyWithForceWorkerSpacesTest tests notifyWithForceWorkerSpaces method
+     * Method notifyWithForceWorkerSpacesTest tests notifyWithForceWorkerSpaces method.
      */
     @Test
     @DisplayName("notify with force spaces")
@@ -188,16 +189,23 @@ public class CharonTest {
     }
 
 
+
     /**
-     * this class receives messages from different listeners
+     * Class VirtualClientStub defines a stub for VirtualClient class.
      */
     private static class VirtualClientStub extends VirtualClient {
 
         private ArrayList<Couple> selectMoves;
         private Move move;
 
+
         /**
-         * save the message received in an appropriate field
+         * Method send prepares the answer for sending it through the network, putting it in a serialized package, called
+         * SerializedMessage, then sends the packaged answer to the transmission protocol, located in the socket-client
+         * handler.
+         * @see it.polimi.ingsw.server.SocketClientConnection for more details.
+         * @param serverAnswer of type Answer - the answer to be sent to the user.
+         * @see VirtualClient#send(Answer)
          */
         @Override
         public void send(Answer serverAnswer) {
@@ -206,10 +214,13 @@ public class CharonTest {
             } else fail("unknown message");
         }
 
+
         /**
-         * Send the message to all playing clients, thanks to the GameHandler sendAll method.
+         * Method sendAll sends the message to all playing clients, thanks to the GameHandler sendAll method. It's triggered
+         * from the model's listeners after a player action.
          *
-         * @param serverAnswer the message to be sent.
+         * @param serverAnswer of type Answer - the message to be sent.
+         * @see VirtualClient#sendAll(Answer)
          */
         @Override
         public void sendAll(Answer serverAnswer) {
@@ -218,10 +229,24 @@ public class CharonTest {
             } else fail("unknown message");
         }
 
+        /**
+         * Method getSelectMoves returns the selectMoves of this VirtualClientStub object.
+         *
+         *
+         *
+         * @return the selectMoves (type ArrayList<Couple>) of this VirtualClientStub object.
+         */
         public ArrayList<Couple> getSelectMoves() {
             return selectMoves;
         }
 
+        /**
+         * Method getMove returns the move of this VirtualClientStub object.
+         *
+         *
+         *
+         * @return the move (type Move) of this VirtualClientStub object.
+         */
         public Move getMove() {
             return move;
         }

@@ -17,7 +17,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * AtlasTest class tests Atlas class.
  * @author Alice Piemonti
+ * @see Atlas
  */
 class AtlasTest {
 
@@ -25,6 +27,9 @@ class AtlasTest {
     GameBoard gameBoard;
     Space build;
 
+    /**
+     * Method init initializes values.
+     */
     @BeforeEach
     void init(){
         atlas = new Atlas(PlayerColors.RED);
@@ -35,7 +40,7 @@ class AtlasTest {
     }
 
     /**
-     * test the method build: build a normal block. Super class method is called.
+     * Method buildBlock tests the method build: build a normal block. Super class method is called.
      */
     @Test
     @DisplayName("build block")
@@ -55,7 +60,8 @@ class AtlasTest {
     }
 
     /**
-     * test the method build: build a dome at any level. Notify buildListener with the space and dome value = true
+     * Method buildDome tests the method build: build a dome at any level. Notify buildListener with the space and dome
+     * value = true.
      */
     @Test
     @DisplayName("build dome")
@@ -72,16 +78,21 @@ class AtlasTest {
         assertTrue(client.isDome(),"6");
     }
 
+    /**
+     * Class VirtualClientStub defines a stub for VirtualClient class.
+     */
     private static class VirtualClientStub extends VirtualClient {
 
        private Couple build;
        private boolean dome;
+
         /**
-         * Prepares the answer for sending it through the network, putting it in a serialized package, called SerializedMessage,
-         * then sends the packaged answer to the transmission protocol, located in the socket-client handler.
-         *
-         * @param serverAnswer the answer to be sent to the user.
+         * Method send prepares the answer for sending it through the network, putting it in a serialized package, called
+         * SerializedMessage, then sends the packaged answer to the transmission protocol, located in the socket-client
+         * handler.
          * @see SocketClientConnection for more details.
+         * @param serverAnswer of type Answer - the answer to be sent to the user.
+         * @see VirtualClient#send(Answer)
          */
         @Override
         public void send(Answer serverAnswer) {
@@ -91,6 +102,13 @@ class AtlasTest {
             }
             else fail("not build message");
         }
+        /**
+         * Method sendAll sends the message to all playing clients, thanks to the GameHandler sendAll method. It's triggered
+         * from the model's listeners after a player action.
+         *
+         * @param serverAnswer of type Answer - the message to be sent.
+         * @see VirtualClient#sendAll(Answer)
+         */
         @Override
         public void sendAll(Answer serverAnswer) {
             if(serverAnswer instanceof BuildMessage){
@@ -100,10 +118,24 @@ class AtlasTest {
             else fail("not build message");
         }
 
+        /**
+         * Method getBuild returns the build of this VirtualClientStub object.
+         *
+         *
+         *
+         * @return the build (type Couple) of this VirtualClientStub object.
+         */
         public Couple getBuild() {
             return build;
         }
 
+        /**
+         * Method isDome returns the dome of this VirtualClientStub object.
+         *
+         *
+         *
+         * @return the dome (type boolean) of this VirtualClientStub object.
+         */
         public boolean isDome() {
             return dome;
         }

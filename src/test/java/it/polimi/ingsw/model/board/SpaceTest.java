@@ -2,31 +2,47 @@ package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exceptions.InvalidInputException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class SpaceTest tests Space class.
+ *
+ * @author Nicolò Sonnino
+ * @see Space
+ */
 class SpaceTest {
     final Space space = new Space();
 
+    /**
+     * Method isEmptyWithoutWorker tests isEmpty method.
+     */
     @Test
-    void isEmptywithoutworker() {
+    @DisplayName("Testing is empty method")
+    void isEmptyWithoutWorker() {
         assertTrue(space.isEmpty());
     }
 
+    /**
+     * Method correctPositionTest tests correct position input.
+     * @throws InvalidInputException when space is invalid.
+     */
     @Test
-    void correct_positionTest() throws InvalidInputException {
+    @DisplayName("testing correct position")
+    void correctPositionTest() throws InvalidInputException {
         space.setRow(2);
         space.setColumn(4);
         assertEquals(2, space.getRow());
-        System.out.println("correct_positionTest completed");
     }
 
     /**
-     * Testing InvalidInputExceptions of method setX
+     * Method correctPositionTest tests incorrect position input.
      */
     @Test
-    void incorrect_positionTest() {
-        Assertions.assertThrows(InvalidInputException.class, () -> space.setRow(5));
+    @DisplayName("testing incorrect position")
+    void incorrectPositionTest() {
+        assertThrows(InvalidInputException.class, () -> space.setRow(5));
         assertThrows(InvalidInputException.class, () -> space.setColumn(5));
         }
 

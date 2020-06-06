@@ -7,20 +7,22 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * PlayerColorTest class tests PlayerColor class.
  * @author Luca Pirovano
+ * @see PlayerColors
  */
 class PlayerColorsTest {
 
     /**
-     * Initialization for a test: reset of the selectable colors.
+     * Method setup initializes the test: resets of the selectable colors.
      */
     @BeforeEach
-    void setUp() {
+    void setup() {
         PlayerColors.reset();
     }
 
     /**
-     * This test tries the basic logic of the color selection, verifying the selection and reset procedure.
+     * Method colorResetTest tries the basic logic of the color selection, verifying the selection and reset procedure.
      */
     @Test
     @DisplayName("Color choose and reset validity test")
@@ -34,7 +36,7 @@ class PlayerColorsTest {
     }
 
     /**
-     * This test tries if an already selected has been correctly monitored.
+     * Method isChosenTest tries if an already selected has been correctly monitored.
      */
     @Test
     @DisplayName("isChosen attribute validity test")
@@ -44,7 +46,7 @@ class PlayerColorsTest {
     }
 
     /**
-     * This test tries the parsing of the input.
+     * Method inputParsing tries the parsing of the input.
      */
     @Test
     @DisplayName("Input parsing test")

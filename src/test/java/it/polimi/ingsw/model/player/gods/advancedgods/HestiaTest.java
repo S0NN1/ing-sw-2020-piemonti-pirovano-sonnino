@@ -12,9 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Class HestiaTest tests Hestia class
+ * Class HestiaTest tests Hestia class.
  *
  * @author Alice Piemonti
+ * @see Hestia
  */
 public class HestiaTest {
 
@@ -23,7 +24,7 @@ public class HestiaTest {
     Space build;
 
     /**
-     * Method init initializes worker with a Hestia instance, a new gameBoard and Hestia's starting position
+     * Method init initializes worker with a Hestia instance, a new gameBoard and Hestia's starting position.
      */
     @BeforeEach
     void init() {
@@ -34,7 +35,8 @@ public class HestiaTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and one build action (normal build)
+     * Method oneNormalBuild tests getPhase.isMust parameter during the succession of one move and one build action
+     * (normal build).
      */
     @Test
     @DisplayName("one move one build")
@@ -67,7 +69,8 @@ public class HestiaTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and one build action (normal build on a perimeter space)
+     * Method oneBuildOnPerimeter tests getPhase.isMust parameter during the succession of one move and one build
+     * action (normal build on a perimeter space).
      */
     @Test
     @DisplayName("one move one build and build on a perimeter space")
@@ -88,8 +91,8 @@ public class HestiaTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
-     * the second build is correct: build on a not perimeter space
+     * Method twoCorrectBuild tests getPhase.isMust parameter during the succession of one move and two build actions
+     * in a single turn the second build is correct: build on a not perimeter space.
      */
     @Test
     @DisplayName("two correct build")
@@ -124,8 +127,8 @@ public class HestiaTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
-     * the second build is wrong: try to build on a perimeter space
+     * Method twoWrongMoves tests getPhase.isMust parameter during the succession of one move and two build actions in
+     * a single turn the second build is wrong: try to build on a perimeter space.
      */
     @Test
     @DisplayName("try to build on a perimeter space")

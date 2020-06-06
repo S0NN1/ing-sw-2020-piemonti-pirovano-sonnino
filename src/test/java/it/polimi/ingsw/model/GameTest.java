@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.server.VirtualClient;
@@ -9,10 +8,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class GameTest tests Game class.
+ *
+ * @author Luca Pirovano
+ * @see Game
+ */
 class GameTest {
 
     Game testGame;
 
+    /**
+     * Method initialization initializes values.
+     */
     @BeforeEach
     void initialization() {
         testGame = new Game();
@@ -22,7 +30,7 @@ class GameTest {
     }
 
     /**
-     * This first test see the behaviour in front of player clockwise rotation, and player removal.
+     * Method setupCreatRemoveNextPlayer tests the behaviour in front of player clockwise rotation, and player removal.
      */
     @Test
     @DisplayName("Player clockwise rotation test")
@@ -63,7 +71,8 @@ class GameTest {
     }
 
     /**
-     * This test aims to verify the correctness of the player information getters, like the nickname and the ID ones.
+     * Method playerGettingByIdTest aims to verify the correctness of the player information getters, like the nickname
+     * and the ID ones.
      */
     @Test
     @DisplayName("Player getById and getByNickname method binding test")

@@ -1,18 +1,22 @@
 package it.polimi.ingsw.model.board;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * BoardTest class tests GameBoard class.
  * @author Luca Pirovano
+ * @see GameBoard
  */
 class BoardTest {
 
     /**
-     * This test measures the instantiation of the game board, and checks if each space is set-up correctly.
+     * Method setup measures the instantiation of the game board, and checks if each space is set-up correctly.
      */
     @Test
+    @DisplayName("test setup")
     void setup() {
         GameBoard board = new GameBoard();
         for(int i=0; i<5; i++) {
@@ -24,13 +28,15 @@ class BoardTest {
     }
 
     /**
-     * This test checks the correct throwing of the ArrayOutOfBoundException, if there's a trying of getting a cell out
-     * of board limits.
+     * Method getSpaceException checks the correct throwing of the ArrayOutOfBoundException, if there's a trying of
+     * getting a cell out of board limits.
      */
     @Test
+    @DisplayName("Testing ArrayIndexOutOfBoundsException")
     void getSpaceException() {
         GameBoard board = new GameBoard();
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> board.getSpace(3,7), "An out of bound exception should be thrown.");
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> board.getSpace(3,7), "An out of" +
+                " bound exception should be thrown.");
     }
 
 }

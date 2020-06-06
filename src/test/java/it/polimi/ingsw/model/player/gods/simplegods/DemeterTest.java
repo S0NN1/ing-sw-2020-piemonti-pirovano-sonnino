@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * DemeterTest tests Demeter class.
  * @author Alice Piemonti
+ * @see Demeter
  */
 class DemeterTest {
 
@@ -20,6 +22,9 @@ class DemeterTest {
     GameBoard gameBoard;
     Space build;
 
+    /**
+     * Method init initializes values.
+     */
     @BeforeEach
     void init(){
         demeter = new Demeter(PlayerColors.GREEN);
@@ -29,7 +34,8 @@ class DemeterTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and one build action (normal move)
+     * Method oneNormalBuild tests getPhase.isMust parameter during the succession of one move and one build action
+     * (normal move).
      */
     @Test
     @DisplayName("one move one build")
@@ -62,7 +68,8 @@ class DemeterTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and one build action (normal move)
+     * Method oneBuildInTheSame tests getPhase.isMust parameter during the succession of one move and one build action
+     * (normal move).
      */
     @Test
     @DisplayName("one move one build but build on the same space")
@@ -83,8 +90,8 @@ class DemeterTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
-     * the second build is correct: build on a different space
+     * Method twoCorrectBuild tests getPhase.isMust parameter during the succession of one move and two build actions
+     * in a single turn; if the second build is correct: build on a different space.
      */
     @Test
     @DisplayName("two correct build")
@@ -119,8 +126,8 @@ class DemeterTest {
 
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
-     * the second build is wrong: try to build on the previous space
+     * Method twoWrongBuild tests getPhase.isMust parameter during the succession of one move and two build actions in
+     * a single turn; if the second build is wrong: try to build on the previous space.
      */
     @Test
     @DisplayName("try to build on the same space")

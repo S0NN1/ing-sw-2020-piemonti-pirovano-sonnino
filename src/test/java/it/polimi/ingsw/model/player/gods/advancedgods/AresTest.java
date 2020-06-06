@@ -20,9 +20,10 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class AresTest tests Ares class
+ * Class AresTest tests Ares class.
  *
  * @author Alice Piemonti
+ * @see Ares
  */
 public class AresTest {
 
@@ -32,8 +33,9 @@ public class AresTest {
     VirtualClientStub virtualClient;
 
     /**
-     * Method init creates new instances of Ares workers, a virtualClientStub, a gameBoard. Sets ares1 position and all the towers from the gameBoard to level 1.
-     * @throws OutOfBoundException when
+     * Method init creates new instances of Ares workers, a virtualClientStub, a gameBoard. Sets ares1 position and
+     * all the towers from the gameBoard to level 1.
+     * @throws OutOfBoundException when position is invalid.
      */
     @BeforeEach
     void init() throws OutOfBoundException {
@@ -138,8 +140,9 @@ public class AresTest {
         assertNull(virtualClient.getSelectMoves(),"9");
     }
 
+
     /**
-     * this class receives messages from different listeners
+     * Class VirtualClientStub defines a stub for VirtualClient class.
      */
     private static class VirtualClientStub extends VirtualClient {
 
@@ -147,8 +150,14 @@ public class AresTest {
         private Couple remove;
         private Action action;
 
+
         /**
-         * save the message received in an appropriate field
+         * Method send prepares the answer for sending it through the network, putting it in a serialized package, called
+         * SerializedMessage, then sends the packaged answer to the transmission protocol, located in the socket-client
+         * handler.
+         * @see it.polimi.ingsw.server.SocketClientConnection for more details.
+         * @param serverAnswer of type Answer - the answer to be sent to the user.
+         * @see VirtualClient#send(Answer)
          */
         @Override
         public void send(Answer serverAnswer) {
@@ -158,10 +167,13 @@ public class AresTest {
             } else fail("unknown message");
         }
 
+
         /**
-         * Send the message to all playing clients, thanks to the GameHandler sendAll method.
+         * Method sendAll sends the message to all playing clients, thanks to the GameHandler sendAll method. It's triggered
+         * from the model's listeners after a player action.
          *
-         * @param serverAnswer the message to be sent.
+         * @param serverAnswer of type Answer - the message to be sent.
+         * @see VirtualClient#sendAll(Answer)
          */
         @Override
         public void sendAll(Answer serverAnswer) {
@@ -171,14 +183,35 @@ public class AresTest {
             } else fail("unknown message");
         }
 
+        /**
+         * Method getSelectMoves returns the selectMoves of this VirtualClientStub object.
+         *
+         *
+         *
+         * @return the selectMoves (type ArrayList<Couple>) of this VirtualClientStub object.
+         */
         public ArrayList<Couple> getSelectMoves() {
             return selectMoves;
         }
 
+        /**
+         * Method getRemove returns the remove of this VirtualClientStub object.
+         *
+         *
+         *
+         * @return the remove (type Couple) of this VirtualClientStub object.
+         */
         public Couple getRemove() {
             return remove;
         }
 
+        /**
+         * Method getAction returns the action of this VirtualClientStub object.
+         *
+         *
+         *
+         * @return the action (type Action) of this VirtualClientStub object.
+         */
         public Action getAction() {
             return action;
         }

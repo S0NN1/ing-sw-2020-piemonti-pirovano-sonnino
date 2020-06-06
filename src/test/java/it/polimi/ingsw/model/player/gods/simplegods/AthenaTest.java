@@ -24,17 +24,23 @@ import java.beans.PropertyChangeEvent;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * AthenaTest class tests Athena class.
  * @author Alice Piemonti
  */
 class AthenaTest {
 
+    /**
+     * Method moveUpTest tests move up effect of Athena.
+     * @throws OutOfBoundException when position is invalid.
+     */
     @Test
     @DisplayName("test move up")
     void moveUpTest() throws OutOfBoundException {
 
         GameBoard gameBoard = new GameBoard();
         GameHandler gameHandler = new GameHandler(null);
-        TurnControllerStub turnController = new TurnControllerStub(new Controller(new Game(), gameHandler), gameHandler, new ActionController(gameBoard));
+        TurnControllerStub turnController = new TurnControllerStub(new Controller(new Game(), gameHandler),
+                gameHandler, new ActionController(gameBoard));
         VirtualClientStub client = new VirtualClientStub();
         Worker athena = new Athena(PlayerColors.BLUE, turnController);
         athena.createListeners(client);
@@ -73,15 +79,19 @@ class AthenaTest {
 
     }
 
+    /**
+     * Class VirtualClientStub defines a stub for VirtualClient class.
+     */
     private static class VirtualClientStub extends VirtualClient{
         Move move;
 
         /**
-         * Prepares the answer for sending it through the network, putting it in a serialized package, called SerializedMessage,
-         * then sends the packaged answer to the transmission protocol, located in the socket-client handler.
-         *
-         * @param serverAnswer the answer to be sent to the user.
+         * Method send prepares the answer for sending it through the network, putting it in a serialized package, called
+         * SerializedMessage, then sends the packaged answer to the transmission protocol, located in the socket-client
+         * handler.
          * @see SocketClientConnection for more details.
+         * @param serverAnswer of type Answer - the answer to be sent to the user.
+         * @see VirtualClient#send(Answer)
          */
         @Override
         public void send(Answer serverAnswer) {
@@ -90,6 +100,13 @@ class AthenaTest {
             }
             else fail("wrong type message");
         }
+        /**
+         * Method sendAll sends the message to all playing clients, thanks to the GameHandler sendAll method. It's triggered
+         * from the model's listeners after a player action.
+         *
+         * @param serverAnswer of type Answer - the message to be sent.
+         * @see VirtualClient#sendAll(Answer)
+         */
         @Override
         public void sendAll(Answer serverAnswer) {
             if(serverAnswer instanceof MoveMessage){
@@ -99,22 +116,49 @@ class AthenaTest {
         }
     }
 
+    /**
+     * Class TurnControllerStub defines a stub for TurnController class.
+     */
     private static class TurnControllerStub extends TurnController{
 
         private String event;
 
+        /**
+         * Constructor TurnController creates a new TurnController instance.
+         *
+         * @param controller of type Controller - main controller reference.
+         * @param gameHandler of type GameHandler - GameHandler reference
+         * @param actionController of type ActionController - ActionController reference.
+         */
         public TurnControllerStub(Controller controller, GameHandler gameHandler, ActionController actionController) {
             super(controller, gameHandler, actionController);
         }
 
+        /**
+         * Method setEventNull sets event to null.
+         */
         public void setEventNull(){
             event = null;
         }
 
+        /**
+         * Method getEvent returns the event of this TurnControllerStub object.
+         *
+         *
+         *
+         * @return the event (type String) of this TurnControllerStub object.
+         */
         public String getEvent() {
             return event;
         }
 
+        /**
+         * Method propertyChange receives a property changed from a PropertyChangeSupport and pass different arguments
+         * to the ActionController.
+         *
+         * @param evt of type PropertyChangeEvent - the property change event.
+         * @see TurnController#propertyChange(PropertyChangeEvent)
+         */
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
 

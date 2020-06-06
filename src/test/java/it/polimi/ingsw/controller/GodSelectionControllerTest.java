@@ -141,7 +141,7 @@ class GodSelectionControllerTest {
     /**
      * Class GameStub defines a stub for Game class.
      */
-    private class GameStub extends Game {
+    private static class GameStub extends Game {
         private final DeckStub deck;
         /**
          * Constructor Game creates a new Game instance.
@@ -204,6 +204,9 @@ class GodSelectionControllerTest {
         controller.getModel().createNewPlayer(new Player("Alice", 1));
     }
 
+    /**
+     * Method selectionFlowTest tests god selection flow management.
+     */
     @Test
     @DisplayName("God Selection flow management test, all cases")
     void selectionFlowTest() {

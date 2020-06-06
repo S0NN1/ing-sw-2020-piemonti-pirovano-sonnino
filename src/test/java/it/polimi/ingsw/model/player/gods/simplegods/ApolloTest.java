@@ -15,12 +15,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * ApolloTest class tests Apollo class.
  * @author Alice Piemonti
+ * @see Apollo
  */
 class ApolloTest {
 
     /**
-     * test the method move when space isn't empty
+     * Method moveTest tests the method move when space isn't empty.
      */
     @Test
     @DisplayName("Change position with another worker")
@@ -43,7 +45,7 @@ class ApolloTest {
     }
 
     /**
-     * test the method selectMoves which must return not empty spaces
+     * Method getMovesTest tests the method selectMoves which must return not empty spaces.
      */
     @Test
     void getMovesTest() {
@@ -55,7 +57,8 @@ class ApolloTest {
         GameBoard gameBoard = new GameBoard();
         worker1.setPosition(gameBoard.getSpace(0,1));
         worker2.setPosition(gameBoard.getSpace(0,0));
-        worker3.setPosition(gameBoard.getSpace(2,1));   //selectMoves shouldn't return this space because worker3's color equals Apollo's color
+        worker3.setPosition(gameBoard.getSpace(2,1));   //selectMoves shouldn't return this space because
+        // worker3's color equals Apollo's color
         apollo.setPosition(gameBoard.getSpace(1,1));
 
         int expectedMoves = 7;
@@ -63,7 +66,7 @@ class ApolloTest {
     }
 
     /**
-     * test double move listener which is fired when Apollo makes a move into a not empty space
+     * Method listenerTest tests double move listener which is fired when Apollo makes a move into a not empty space.
      */
     @Test
     @DisplayName("double move listener test")
@@ -91,8 +94,9 @@ class ApolloTest {
         assertEquals(worker.getPosition().getColumn(),client.otherMove.getNewPosition().getColumn(),"8");
     }
 
+
     /**
-     * this class receives messages from a DoubleMoveListener
+     * Class VirtualClientStub defines a stub for VirtualClient class.
      */
     private static class VirtualClientStub extends VirtualClient {
 
@@ -101,8 +105,14 @@ class ApolloTest {
         Move myMove;
 
         Move otherMove;
+
         /**
-         * save the message received in an appropriate field
+         * Method send prepares the answer for sending it through the network, putting it in a serialized package, called
+         * SerializedMessage, then sends the packaged answer to the transmission protocol, located in the socket-client
+         * handler.
+         * @see it.polimi.ingsw.server.SocketClientConnection for more details.
+         * @param serverAnswer of type Answer - the answer to be sent to the user.
+         * @see VirtualClient#send(Answer)
          */
         @Override
         public void send(Answer serverAnswer) {
@@ -114,6 +124,13 @@ class ApolloTest {
             else fail("not double move message");
         }
 
+        /**
+         * Method sendAll sends the message to all playing clients, thanks to the GameHandler sendAll method. It's triggered
+         * from the model's listeners after a player action.
+         *
+         * @param serverAnswer of type Answer - the message to be sent.
+         * @see VirtualClient#sendAll(Answer)
+         */
         @Override
         public void sendAll(Answer serverAnswer) {
             if(serverAnswer instanceof DoubleMoveMessage){

@@ -13,13 +13,19 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * PrometheusTest class tests Prometheus class.
+ *
  * @author Alice Piemonti
+ * @see Prometheus
  */
 class PrometheusTest {
 
     Worker prometheus;
     GameBoard gameBoard;
 
+    /**
+     * Method init initializes values.
+     */
     @BeforeEach
     void init(){
         prometheus = new Prometheus(PlayerColors.RED);
@@ -29,7 +35,8 @@ class PrometheusTest {
 
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and one build action in a single turn
+     * Method moveBuild tests getPhase.isMust parameter during the succession of one move and one build action in a
+     * single turn.
      */
     @Test
     @DisplayName("one move one build")
@@ -65,7 +72,8 @@ class PrometheusTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of one move up and one build action in a single turn
+     * Method moveUpBuild tests getPhase.isMust parameter during the succession of one move up and one build action in
+     * a single turn.
      */
     @Test
     @DisplayName("one move up one build")
@@ -106,9 +114,8 @@ class PrometheusTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of one build, one move and another build action
-     * in a single turn
-     * the sequence of actions is correct: Prometheus does not move up
+     * Method buildMoveBuild tests getPhase.isMust parameter during the succession of one build, one move and another
+     * build action in a single turn; if the sequence of actions is correct: Prometheus does not move up.
      */
     @Test
     @DisplayName("build move build")
@@ -151,9 +158,8 @@ class PrometheusTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of one build, one move and another build action
-     * in a single turn
-     * the sequence of actions is wrong: Prometheus tries to move up
+     * Method wrong tests getPhase.isMust parameter during the succession of one build, one move and another build
+     * action in a single turn; if the sequence of actions is wrong: Prometheus tries to move up.
      */
     @Test
     @DisplayName("build move up build")

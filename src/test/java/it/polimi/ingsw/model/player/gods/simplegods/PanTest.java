@@ -13,13 +13,18 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * PanTest class tests Pan class.
  * @author Alice Piemonti
+ * @see Pan
  */
 class PanTest {
 
     Worker pan;
     GameBoard gameBoard;
 
+    /**
+     * Method init initializes values.
+     */
     @BeforeEach
     void init(){
         pan = new Pan(PlayerColors.BLUE);
@@ -27,8 +32,8 @@ class PanTest {
     }
 
     /**
-     * test the method winCondition: Pan must win either when moves down two or more levels
-     * @throws OutOfBoundException
+     * Method moveTest tests the method winCondition: Pan must win either when moves down two or more levels.
+     * @throws OutOfBoundException when addLevel fails.
      */
     @Test
     @DisplayName("win condition true")

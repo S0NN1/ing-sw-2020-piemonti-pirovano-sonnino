@@ -12,15 +12,19 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class ZeusTest ...
+ * Class ZeusTest tests class Zeus.
  *
  * @author Alice Piemonti
+ * @see Zeus
  */
 public class ZeusTest {
 
     private Worker zeus;
     private GameBoard gameBoard;
 
+    /**
+     * Method init initializes values.
+     */
     @BeforeEach
     void init() {
         zeus = new Zeus(PlayerColors.RED);
@@ -28,7 +32,7 @@ public class ZeusTest {
     }
 
     /**
-     * Method canBuildOnto test the correct behavior of Zeus's power: to build under itself
+     * Method canBuildOnto tests the correct behavior of Zeus's power: to build under itself.
      */
     @Test
     @DisplayName("build under itself")
@@ -45,7 +49,7 @@ public class ZeusTest {
     }
 
     /**
-     * Method normalBuildTest test if Zeus can build a dome on a neighbour space
+     * Method normalBuildTest tests if Zeus can build a dome on a neighbour space.
      */
     @Test
     @DisplayName("build in neighbour space")

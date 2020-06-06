@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * PlayerTest class tests Player class.
  * @author Luca Pirovano
+ * @see Player
  */
 class PlayerTest {
 
@@ -16,8 +18,11 @@ class PlayerTest {
     private static final String nickname = "player";
     private static final int clientID = 0;
 
+    /**
+     * Method setup setups test.
+     */
     @BeforeEach
-    void setUp() {
+    void setup() {
         testPlayer = new Player(nickname, clientID);
     }
 
@@ -28,6 +33,9 @@ class PlayerTest {
         assertEquals(clientID, testPlayer.getClientID());
     }
 
+    /**
+     * Method colorTest tests setColor.
+     */
     @Test
     @DisplayName("Color setting/getting test")
     void colorTest() {
@@ -35,6 +43,9 @@ class PlayerTest {
         assertEquals(PlayerColors.GREEN, testPlayer.getColor());
     }
 
+    /**
+     * Method cardAdditionTest test the addition of a single card to the player.
+     */
     @Test
     @DisplayName("God Card addition test")
     void cardAdditionTest() {
@@ -43,6 +54,9 @@ class PlayerTest {
         assertTrue(testPlayer.getWorkers().get(0).getClass().toString().toUpperCase().contains(Card.ATLAS.toString()));
     }
 
+    /**
+     * Method playerWorkerCreation tests player and relatives workers creation.
+     */
     @Test
     @DisplayName("Player and worker creation test")
     void playerWorkerCreation() {

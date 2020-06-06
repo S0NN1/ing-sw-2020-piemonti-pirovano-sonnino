@@ -10,7 +10,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * Class CardSelectionModelTest tests CardSelectionModel class.
  * @author Luca Pirovano
+ * @see CardSelectionModel
  */
 class CardSelectionModelTest {
 
@@ -18,10 +20,10 @@ class CardSelectionModelTest {
     Game game;
 
     /**
-     * Setup of the test, with the creation of 2 players.
+     * Method setup setups test with the creation of 2 players.
      */
     @BeforeEach
-    void setUp() {
+    void setup() {
         game = new Game();
         testModel = new CardSelectionModel(game.getDeck());
         game.createNewPlayer(new Player("Luca", 0));
@@ -31,7 +33,7 @@ class CardSelectionModelTest {
     }
 
     /**
-     * Insert test in standard conditions.
+     * Method testInsertStandard tests insertion with standard conditions.
      */
     @Test
     @DisplayName("Insert test in standard conditions")
@@ -44,7 +46,7 @@ class CardSelectionModelTest {
     }
 
     /**
-     * Insert test with duplicate values check.
+     * Method testInsertionDuplicate tests insertion with duplicate values check.
      */
     @Test
     @DisplayName("Insert test with duplicate values")
@@ -61,7 +63,7 @@ class CardSelectionModelTest {
     }
 
     /**
-     * Insert test with "out of bound" cards condition.
+     * Method testInsertOutOfBound tests insertion with "out of bound" cards condition.
      */
     @Test
     @DisplayName("Insert test with out of bound cards")
@@ -72,7 +74,7 @@ class CardSelectionModelTest {
     }
 
     /**
-     * Setting of the selected god.
+     * Method setGodTest tests the setting of the selected god.
      */
     @Test
     @DisplayName("Setting of the selected god")

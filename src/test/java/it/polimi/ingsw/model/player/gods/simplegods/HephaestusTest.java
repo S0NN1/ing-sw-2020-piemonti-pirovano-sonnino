@@ -13,7 +13,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * HephaestusTest tests Hephaestus class.
  * @author Alice Piemonti
+ * @see Hephaestus
  */
 class HephaestusTest {
 
@@ -21,6 +23,9 @@ class HephaestusTest {
     GameBoard gameBoard;
     Space build;
 
+    /**
+     * Method init initializes values.
+     */
     @BeforeEach
     void init(){
         hephaestus = new Hephaestus(PlayerColors.GREEN);
@@ -30,7 +35,8 @@ class HephaestusTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and one build action in a single turn
+     * Method oneNormalBuild tests getPhase.isMust parameter during the succession of one move and one build action in
+     * a single turn.
      */
     @Test
     @DisplayName("one move one build")
@@ -64,7 +70,8 @@ class HephaestusTest {
 
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
+     * Method oneBuildInTheSame tests getPhase.isMust parameter during the succession of one move and two build actions
+     * in a single turn.
      */
     @Test
     @DisplayName("one move one build but build on another space")
@@ -86,8 +93,8 @@ class HephaestusTest {
 
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
-     * the second build is correct: build on the previous space
+     * Method twoCorrectBuild tests getPhase.isMust parameter during the succession of one move and two build actions
+     * in a single turn; if the second build is correct: build on the previous space.
      */
     @Test
     @DisplayName("two correct build")
@@ -122,8 +129,8 @@ class HephaestusTest {
 
 
     /**
-     * test getPhase.isMust parameter during the succession of one move and two build actions in a single turn
-     * the second build is wrong: try to build on different spaces
+     * Method twoWrongBuild tests getPhase.isMust parameter during the succession of one move and two build actions in
+     * a single turn; if the second build is wrong: try to build on different spaces
      */
     @Test
     @DisplayName("try to build on another space")
@@ -148,6 +155,10 @@ class HephaestusTest {
         assertTrue(hephaestus.build(build),"7");
     }
 
+    /**
+     * Method twoBuildDome tests the building of a dome.
+     * @throws OutOfBoundException when tring to build out of bound.
+     */
     @Test
     @DisplayName("try to build a dome")
     void twoBuildDome() throws OutOfBoundException {

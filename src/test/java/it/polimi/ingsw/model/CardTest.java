@@ -8,17 +8,20 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * Class CardTest tests Card class.
  * @author Luca Pirovano
+ * @see Card
  */
 class CardTest {
 
     /**
-     * Input parsing test, check the correct working of the class.
-     * @throws IllegalArgumentException if the received string is not an element of the enumeration class.
+     * Method parseTest tests input parsing and checks the correct working of the class.
+     * @throws IllegalArgumentException when the received string is not an element of the enumeration class.
      */
     @Test
     @DisplayName("Input parsing test")
@@ -30,12 +33,12 @@ class CardTest {
     }
 
     /**
-     * This tests tries the listing of the gods, which is used during the challenger phase.
+     * Method listTest tries the listing of the gods, which is used during the challenger phase.
      */
     @Test
     @DisplayName("God listing test")
     void listTest() {
-        List<String> result = new ArrayList<>();
+        List<String> result;
         result = Card.godsName();
         for(int i=0; i<result.size(); i++) {
             assertEquals(result.get(i).toUpperCase(), Card.values()[i].toString());
@@ -43,7 +46,7 @@ class CardTest {
     }
 
     /**
-     * This test checks the correct description deploying of the selected god.
+     * Method descriptionTest checks the correct description deploying of the selected god.
      */
     @Test
     @DisplayName("God description parsing test")
@@ -54,7 +57,7 @@ class CardTest {
         for (Card card : Card.values()) {
             for (God god : gods) {
                 if (god.getName().equalsIgnoreCase(card.name())) {
-                    assertTrue(card.godsDescription().contains(god.getDesc()));
+                    assertTrue(Objects.requireNonNull(card.godsDescription()).contains(god.getDesc()));
                 }
             }
         }

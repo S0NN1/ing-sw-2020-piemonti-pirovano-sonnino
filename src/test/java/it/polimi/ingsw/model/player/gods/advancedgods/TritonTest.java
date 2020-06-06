@@ -12,9 +12,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class TritonTest tests class Triton
+ * Class TritonTest tests class Triton.
  *
  * @author Alice Piemonti
+ * @see Triton
  */
 public class TritonTest {
 
@@ -22,7 +23,7 @@ public class TritonTest {
     GameBoard gameBoard;
 
     /**
-     * Method init initializes worker with a Triton instance, a new gameBoard and Triton's starting position
+     * Method init initializes worker with a Triton instance, a new gameBoard and Triton's starting position.
      */
     @BeforeEach
     void init() {
@@ -32,7 +33,7 @@ public class TritonTest {
     }
 
     /**
-     * Method movePerimeterTest tests god's power: it can move another time each time it moves into a perimeter space
+     * Method movePerimeterTest tests god's power: it can move another time each time it moves into a perimeter space.
      */
     @Test
     @DisplayName("move on a perimeter space")
@@ -65,7 +66,7 @@ public class TritonTest {
     }
 
     /**
-     * Method normalMoveTest tests the normal behavior of a move and a build
+     * Method normalMoveTest tests the normal behavior of a move and a build.
      */
     @Test
     @DisplayName("normal move")
@@ -83,7 +84,7 @@ public class TritonTest {
     }
 
     /**
-     * Method multipleMovesTest tests the behavior of a sequence of moves into perimeter spaces
+     * Method multipleMovesTest tests the behavior of a sequence of moves into perimeter spaces.
      */
     @Test
     @DisplayName("sequence moves")

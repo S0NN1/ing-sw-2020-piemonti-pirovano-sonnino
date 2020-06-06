@@ -12,13 +12,19 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * ArtemisTest class tests Artemis class.
+ *
  * @author Alice Piemonti
+ * @see Artemis
  */
 class ArtemisTest {
 
     Worker artemis;
     GameBoard gameBoard;
 
+    /**
+     * Method init initializes values.
+     */
     @BeforeEach
     void init() {
         artemis = new Artemis(PlayerColors.RED);
@@ -27,7 +33,8 @@ class ArtemisTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of a move and build action in a single turn
+     * Method oneNormalMove tests getPhase.isMust parameter during the succession of a move and build action in a
+     * single turn.
      */
     @Test
     @DisplayName("one move one build")
@@ -61,7 +68,8 @@ class ArtemisTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of a move and build action in a single turn
+     * Method oneMoveWithReturn tests getPhase.isMust parameter during the succession of a move and build action in a
+     * single turn.
      */
     @Test
     @DisplayName("one move one build but return to the previous position")
@@ -83,8 +91,8 @@ class ArtemisTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of two moves and one build action in a single turn
-     * the second move is correct: not to the previous position
+     * Method twoCorrectMoves tests getPhase.isMust parameter during the succession of two moves and one build action
+     * in a single turn the second move is correct: not to the previous position.
      */
     @Test
     @DisplayName("two correct moves")
@@ -122,8 +130,8 @@ class ArtemisTest {
     }
 
     /**
-     * test getPhase.isMust parameter during the succession of two moves and one build action in a single turn
-     * the second move is wrong: try to move to the previous position
+     * Method twoWrongMoves tests getPhase.isMust parameter during the succession of two moves and one build action
+     * in a single turn the second move is wrong: try to move to the previous position.
      */
     @Test
     @DisplayName("try to return to initial space")

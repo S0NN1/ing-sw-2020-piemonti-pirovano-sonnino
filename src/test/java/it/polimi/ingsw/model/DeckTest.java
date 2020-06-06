@@ -11,14 +11,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * Class DeckTest tests Deck.
  * @author Luca Pirovano
+ * @see Deck
  */
 class DeckTest {
     Game testGame;
     Deck testDeck;
 
     /**
-     * Initialization: create a new Game, a Deck and 2 test players, with the god powers of Atlas and Athena.
+     * Method Initialization creates a new Game, a Deck and 2 test players, with the god powers of Atlas and Athena.
      * The current player is then set as "Luca".
      */
     @BeforeEach
@@ -35,7 +37,7 @@ class DeckTest {
     }
 
     /**
-     * Deck insertion in normal condition.
+     * Method insertNormalTest tests deck insertion in normal conditions.
      */
     @Test
     @DisplayName("Insert test in normal conditions")
@@ -45,7 +47,7 @@ class DeckTest {
     }
 
     /**
-     * Deck test with a duplicate card insertion. A false return (value 0) is expected.
+     * Method insertWithDuplicate tests deck with a duplicate card insertion. A false return (value 0) is expected.
      */
     @Test
     @DisplayName("Insert test with duplicate card")
@@ -56,7 +58,7 @@ class DeckTest {
     }
 
     /**
-     * Deck test with an extra-player card insertion (number of god cards > number of players).
+     * Method insertOutOfBound tests deck with an extra-player card insertion (number of god cards > number of players).
      * An "OutOfBoundException" is expected when trying to insert another card.
      */
     @Test
@@ -66,7 +68,7 @@ class DeckTest {
     }
 
     /**
-     * Same tests as above with 3 players instead of 2.
+     * Method insertThreePlayers tests the same as above with 3 players instead of 2.
      */
     @Test
     @DisplayName("Insert test with 3 players in the two conditions above")
@@ -82,7 +84,7 @@ class DeckTest {
     }
 
     /**
-     * Choice procedure test in standard working conditions.
+     * Method removeCardTest tests choice procedure test in standard working conditions.
      */
     @Test
     @DisplayName("Choose test in normal conditions")
@@ -95,8 +97,8 @@ class DeckTest {
     }
 
     /**
-     * Choice procedure test with a selection of a card which was not chosen by the challenger.
-     * A false return of the choose function is expected.
+     * Method removeCardNotChosenTest tests choice procedure test with a selection of a card which was not chosen by the
+     * challenger. A false return of the choose function is expected.
      */
     @Test
     @DisplayName("Choose test with not chosen card")
