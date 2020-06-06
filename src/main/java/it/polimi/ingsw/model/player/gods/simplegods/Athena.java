@@ -6,7 +6,9 @@ import it.polimi.ingsw.model.player.PlayerColors;
 import it.polimi.ingsw.model.player.Worker;
 
 /**
+ * Athena class defines Athena card.
  * @author Alice Piemonti
+ * @see Worker
  */
 public class Athena extends Worker  {
 
@@ -15,8 +17,8 @@ public class Athena extends Worker  {
     /**
      * Constructor Athena creates a new Athena instance.
      *
-     * @param color of type PlayerColors
-     * @param controller of type TurnController
+     * @param color of type PlayerColor - the player's color.
+     * @param controller of type TurnController - TurnController reference.
      */
     public Athena(PlayerColors color, TurnController controller) {
         super(color);
@@ -24,7 +26,8 @@ public class Athena extends Worker  {
     }
 
     /**
-     * Method setPhases
+     * Method setPhases sets correct turn's phases.
+     *
      * @see Worker#setPhases()
      */
     @Override
@@ -33,12 +36,11 @@ public class Athena extends Worker  {
     }
 
     /**
-     * change the worker's position while check winning condition.
-     * requires this.isSelectable(space)
+     * Method move changes the worker's position while checking winning condition.
      *
-     * @param space the new position
-     * @return boolean false if the worker can't move into this space
-     * @throws IllegalArgumentException if space is null
+     * @param space of type Space -  the new position.
+     * @return boolean false if the worker can't move into this space, true otherwise.
+     * @throws IllegalArgumentException when space is null
      * @see Worker#move(Space)
      */
     @Override

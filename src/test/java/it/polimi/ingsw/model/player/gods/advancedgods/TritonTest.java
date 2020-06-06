@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * Class TritonTest tests class Triton
  *
  * @author Alice Piemonti
- * Created on 25/05/2020
  */
 public class TritonTest {
 

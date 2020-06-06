@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * Class ZeusTest ...
  *
  * @author Alice Piemonti
- * Created on 22/05/2020
  */
 public class ZeusTest {
 

@@ -4,6 +4,7 @@ package it.polimi.ingsw.server.answers;
  * Class CustomMessage is an Answer used for displaying a custom message.
  *
  * @author Luca Pirovano
+ * @see Answer
  */
 public class CustomMessage implements Answer {
     private final String message;
@@ -12,8 +13,8 @@ public class CustomMessage implements Answer {
     /**
      * Constructor CustomMessage creates a new CustomMessage instance.
      *
-     * @param message of type String
-     * @param input of type boolean
+     * @param message of type String - the message to be displayed.
+     * @param input of type boolean - the boolean needed to enable input.
      */
     public CustomMessage(String message, boolean input) {
         this.message = message;
@@ -22,7 +23,7 @@ public class CustomMessage implements Answer {
 
     /**
      * Method canInput returns if input is enabled.
-     * @return boolean
+     * @return boolean - the input.
      */
     public boolean canInput() {
         return input;

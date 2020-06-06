@@ -303,7 +303,7 @@ public abstract class Worker {
 
     /**
      * Method build returns false if it isn't an Atlas worker.
-     * @param space of type Space - the provided Space.
+     * @param space of type Space - the  space provided.
      * @param buildDome of type boolean - checker used for PLACEDOME action.
      * @return boolean
      */
@@ -345,7 +345,7 @@ public abstract class Worker {
     /**
      * Method isReachable checks if provided space is at unitary distance or without a tower completed.
      *
-     * @param space of type Space - the provided space.
+     * @param space of type Space - the  space provided.
      * @return boolean true if reachable, false otherwise.
      */
     protected boolean isReachable(Space space) {
@@ -402,7 +402,7 @@ public abstract class Worker {
     /**
      * Method exists indicates whether the coordinates exists into the gameBoard.
      *
-     * @param coordinates of type Couple - the coordinates of the provided space.
+     * @param coordinates of type Couple - the coordinates of the  space provided.
      * @return boolean true if a space is associated to the coordinates, false if coordinates exceed gameBoard bounds.
      */
     public boolean exists( Couple coordinates) {

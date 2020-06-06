@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * Class AresTest tests Ares class
  *
  * @author Alice Piemonti
- * Created on 26/05/2020
  */
 public class AresTest {
 

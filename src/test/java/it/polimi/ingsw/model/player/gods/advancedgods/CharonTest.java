@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * Class CharonTest tests Charon class
  *
  * @author Alice Piemonti
- * Created on 25/05/2020
  */
 public class CharonTest {
 
@@ -47,7 +46,6 @@ public class CharonTest {
      * Class forceWorkerTests tests forceWorker method
      *
      * @author Alice Piemonti
-     * Created on 26/05/2020
      */
     @Nested
     @DisplayName("force worker")

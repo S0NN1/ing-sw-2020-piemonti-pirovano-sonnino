@@ -18,7 +18,7 @@ public class Artemis extends Worker {
     /**
      * Constructor Artemis creates a new Artemis instance.
      *
-     * @param color of type PlayerColor - the player color.
+     * @param color of type PlayerColor - the player's color.
      */
     public Artemis(PlayerColors color) {
         super(color);

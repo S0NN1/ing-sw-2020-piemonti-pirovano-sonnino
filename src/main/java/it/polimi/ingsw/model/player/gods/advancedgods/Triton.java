@@ -18,7 +18,7 @@ public class Triton extends Worker {
     private int numberOfMoves = 0;
     /**
      * Constructor create an Triton instance.
-     * @param color of type PlayerColors - the player color,
+     * @param color of type PlayerColors - the player's color,
      */
     public Triton(PlayerColors color) {
         super(color);

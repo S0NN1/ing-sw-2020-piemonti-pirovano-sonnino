@@ -13,7 +13,7 @@ public class Zeus extends Worker {
 
     /**
      * Constructor create an Zeus instance.
-     * @param color of type PlayerColors - the player color,
+     * @param color of type PlayerColors - the player's color,
      */
     public Zeus(PlayerColors color) {
         super(color);

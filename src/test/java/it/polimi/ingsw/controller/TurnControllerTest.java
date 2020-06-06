@@ -48,7 +48,7 @@ public class TurnControllerTest {
         }
     };
     final GameBoardStub board = new GameBoardStub();
-    final GameStub game = new GameStub();
+    final Game game = new Game();
     final ActionControllerStub actionControllerStub = new ActionControllerStub(board);
     final ControllerStub controllerStub = new ControllerStub(game, handler);
     final TurnController turnController = new TurnController(new Controller(game, handler), handler, actionControllerStub);
@@ -193,9 +193,6 @@ public class TurnControllerTest {
         turnController.propertyChange(evt2);
     }
 
-    public static class GameStub extends Game {
-
-    }
 
     public static class ActionControllerStub extends ActionController {
         private Worker worker;

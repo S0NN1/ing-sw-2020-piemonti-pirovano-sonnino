@@ -7,19 +7,28 @@ import it.polimi.ingsw.server.answers.worker.MoveMessage;
 import java.beans.PropertyChangeEvent;
 
 /**
+ *  MoveListener class is a WorkerListener used for notifying the client after a move action.
+ *
  * @author Alice Piemonti
+ * @see WorkerListener
  */
 public class MoveListener extends WorkerListener{
 
-    public MoveListener(VirtualClient virtualClient) {
-        super(virtualClient);
+    /**
+     * Constructor MoveListener creates a new MoveListener instance.
+     *
+     * @param client of type VirtualClient  - the virtual client on Server.
+     */
+    public MoveListener(VirtualClient client) {
+        super(client);
     }
 
+
     /**
-     * This method gets called when a bound property is changed.
+     * Method propertyChange notifies the client with a MoveMessage.
      *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
+     * @param evt of type PropertyChangeEvent - the event received.
+     * @see WorkerListener#propertyChange(PropertyChangeEvent)
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

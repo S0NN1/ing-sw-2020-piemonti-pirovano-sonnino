@@ -6,8 +6,8 @@ import java.util.Map;
 /**
  * Class MatchStartedMessage is a Answer used for identifying the start of the match.
  *
- * @author sonny
- * Created on 06/06/2020
+ * @author Nicolò Sonnino
+ * @see Answer
  */
 public class MatchStartedMessage implements Answer {
     private final Map<String, String> playerMapColor;

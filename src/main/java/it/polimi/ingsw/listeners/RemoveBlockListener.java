@@ -7,22 +7,28 @@ import it.polimi.ingsw.server.answers.worker.BuildMessage;
 import java.beans.PropertyChangeEvent;
 
 /**
- * Class RemoveBlockListener ...
+ * Class RemoveBlockListener is a WorkerListener used for notifying the client after a REMOVELEVEL action.
  *
  * @author Alice Piemonti
- * Created on 26/05/2020
+ * @see WorkerListener
  */
 public class RemoveBlockListener extends WorkerListener{
 
+    /**
+     * Constructor WorkerListener creates a new WorkerListener instance.
+     *
+     * @param client of type VirtualClient  - the virtual client on Server.
+     */
     public RemoveBlockListener(VirtualClient client) {
         super(client);
     }
 
+
     /**
-     * This method gets called when a bound property is changed.
+     * Method propertyChange notifies the client with a BuildMessage.
      *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
+     * @param evt of type PropertyChangeEvent - the event received.
+     * @see WorkerListener#propertyChange(PropertyChangeEvent)
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

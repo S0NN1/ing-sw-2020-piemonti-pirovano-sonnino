@@ -17,7 +17,7 @@ public class Apollo extends Worker {
     /**
      * Constructor Apollo creates a new Apollo instance.
      *
-     * @param color of type PlayerColor - the player color.
+     * @param color of type PlayerColor - the player's color.
      */
     public Apollo(PlayerColors color) {
         super(color);

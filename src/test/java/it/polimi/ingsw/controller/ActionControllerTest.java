@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Class ActionControllerTest tests ActionController class.
  *
  * @author Alice Piemonti
- * Created on 01/06/2020
+ * @see ActionController
  */
 class ActionControllerTest {
 
@@ -28,6 +28,9 @@ class ActionControllerTest {
     ActionControllerStub actionController;
     Worker worker;
 
+    /**
+     * Method init initializes values.
+     */
     @BeforeEach
     void init(){
         gameBoard = new GameBoard();
@@ -35,7 +38,7 @@ class ActionControllerTest {
     }
 
     /**
-     * test the method readMessage with a SelectMoveAction and different phase's values
+     * Method selectMoveActionTest tests the method readMessage with a SelectMoveAction and different phase's values.
      */
     @Test
     @DisplayName("select move action test")
@@ -60,7 +63,7 @@ class ActionControllerTest {
     }
 
     /**
-     * test the method readMessage with a SelectBuildAction and different phase's values
+     * Method selectBuildActionTest tests the method readMessage with a SelectBuildAction and different phase's values.
      */
     @Test
     @DisplayName("select build action test")
@@ -84,7 +87,7 @@ class ActionControllerTest {
     }
 
     /**
-     * test the method readMessage with a MoveAction and different phase's value
+     * Method moveActionTest tests the method readMessage with a MoveAction and different phase's value.
      */
     @Test
     @DisplayName("move action test")
@@ -160,7 +163,8 @@ class ActionControllerTest {
     }
 
     /**
-     * Method forceWorkerTest tests the methods readMessage when different messages arrives. In particularly, it tests readMessage during SELECT_FORCE_WORKER and FORCE_WORKER Charon's phases.
+     * Method forceWorkerTest tests the methods readMessage when different messages arrives. In particularly, it
+     * tests readMessage during SELECT_FORCE_WORKER and FORCE_WORKER Charon's phases.
      */
     @Test
     @DisplayName("force worker action test")
@@ -194,7 +198,8 @@ class ActionControllerTest {
     }
 
     /**
-     * Method forceWorkerTest tests the methods readMessage when different messages arrives. In particularly, it tests readMessage during SELECT_FORCE_WORKER and FORCE_WORKER Charon's phases.
+     * Method forceWorkerTest tests the methods readMessage when different messages arrives. In particularly, it tests
+     * readMessage during SELECT_FORCE_WORKER and FORCE_WORKER Charon's phases.
      */
     @Test
     @DisplayName("remove action test")
@@ -213,11 +218,13 @@ class ActionControllerTest {
         assertTrue(actionController.readMessage(moveAction),"2");
 
         SelectBuildAction selectBuildNormal = new SelectBuildAction();
-        assertFalse(actionController.readMessage(selectBuildNormal, unmovedSpace),"3a"); //try to invoke readMessage for Action.SELECT_REMOVE with a normal Action.SELECT_BUILD
+        assertFalse(actionController.readMessage(selectBuildNormal, unmovedSpace),"3a"); //try to invoke
+        // readMessage for Action.SELECT_REMOVE with a normal Action.SELECT_BUILD
         assertTrue(actionController.readMessage(selectBuildNormal),"3");
 
         BuildAction buildNormal = new BuildAction(3,3);
-        assertFalse(actionController.readMessage(buildNormal, unmovedSpace),"4a");  //try to invoke readMessage for an Action.REMOVE with a normal Action.BUILD
+        assertFalse(actionController.readMessage(buildNormal, unmovedSpace),"4a");  //try to invoke
+        // readMessage for an Action.REMOVE with a normal Action.BUILD
         assertTrue(actionController.readMessage(buildNormal),"4");
 
         //invoke readMessage with an Action.SELECT_REMOVE and Action.REMOVE
@@ -234,7 +241,7 @@ class ActionControllerTest {
     }
 
     /**
-     * test a sequence of actions: SELECT_MOVES, MOVE, SELECT_BUILD, BUILD
+     * Method sequenceActionsTest tests a sequence of actions: SELECT_MOVES, MOVE, SELECT_BUILD, BUILD.
      */
     @Test
     @DisplayName("test normal sequence of actions")
@@ -250,13 +257,14 @@ class ActionControllerTest {
        //test correct behaviour: sequence of actions
         assertTrue(actionController.readMessage(message1),"1");
         assertTrue(actionController.readMessage(message2),"2");
-        assertFalse(actionController.readMessage(message1),"2b"); //try to make a forbidden action for phase's value
+        assertFalse(actionController.readMessage(message1),"2b"); //try to make a forbidden action for phase's
+        // value
         assertTrue(actionController.readMessage(message3),"3");
         assertTrue(actionController.readMessage(message4),"4");
     }
 
     /**
-     * test the method endAction with different phase's values
+     * Method endActionTest tests the method endAction with different phase's values.
      */
     @Test
     @DisplayName("end action test")
@@ -286,36 +294,62 @@ class ActionControllerTest {
         assertTrue(actionController.endAction(),"3");
     }
 
-    /**
-     * class used to test ActionController methods (which are all inherited) with the help of
-     * the setter and getter of phase attribute
-     */
-    private class ActionControllerStub extends ActionController {
 
+    /**
+     * Class ActionControllerStub defines a stub for ActionController class.
+     *
+     */
+    private static class ActionControllerStub extends ActionController {
+
+        /**
+         * Constructor ActionControllerStub creates a new ActionControllerStub instance.
+         *
+         * @param gameBoard of type GameBoard
+         */
         public ActionControllerStub(GameBoard gameBoard) {
             super(gameBoard);
         }
+        /**
+         * Method setPhase sets the phase of this ActionControllerStub object.
+         *
+         *
+         *
+         * @param phase the phase of this ActionControllerStub object.
+         *
+         */
         public void setPhase(int phase){
             this.phase = phase;
         }
+        /**
+         * Method getPhase returns the phase of this ActionControllerStub object.
+         *
+         *
+         *
+         * @return the phase (type int) of this ActionControllerStub object.
+         * @see ActionController#getPhase()
+         */
         public int getPhase(){
             return this.phase;
         }
     }
     
-    private class WorkerStub extends Worker{
+    /**
+     * Class WorkerStub defines a stub for Worker class.
+     */
+    private static class WorkerStub extends Worker{
 
         /**
-         * Constructor
+         * Constructor WorkerStub creates a new WorkerStub instance.
          *
-         * @param color player color
+         * @param color of type PlayerColors
          */
         public WorkerStub(PlayerColors color) {
             super(color);
         }
 
         /**
-         * set the order of action allowed by this worker
+         * Method setPhases sets phases.
+         * @see Worker#setPhases()
          */
         @Override
         public void setPhases() {

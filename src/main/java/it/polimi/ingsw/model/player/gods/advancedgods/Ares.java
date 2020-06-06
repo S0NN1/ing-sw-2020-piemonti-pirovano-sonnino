@@ -26,7 +26,7 @@ public class Ares extends Worker {
 
     /**
      * Constructor create an Ares instance.
-     * @param color of type PlayerColors - the player color,
+     * @param color of type PlayerColors - the player's color,
      */
     public Ares(PlayerColors color) {
         super(color);

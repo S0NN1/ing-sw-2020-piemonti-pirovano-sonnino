@@ -19,7 +19,7 @@ public class Hestia extends Worker {
 
     /**
      * Constructor create an Hestia instance.
-     * @param color of type PlayerColors - the player color,
+     * @param color of type PlayerColors - the player's color,
      */
     public Hestia(PlayerColors color) {
         super(color);

@@ -7,25 +7,38 @@ import it.polimi.ingsw.model.player.Worker;
 import java.util.List;
 
 /**
+ * Hephaestus class defines Hephaestus card.
+ *
  * @author Alice Piemonti
+ * @see Worker
  */
 public class Hephaestus extends Worker {
     private Space oldPosition;
 
+    /**
+     * Constructor Worker creates a new Worker instance.
+     *
+     * @param color of type PlayerColors - the player's color.
+     */
     public Hephaestus(PlayerColors color) {
         super(color);
     }
 
+    /**
+     * Method setPhases sets phases.
+     * @see Worker#setPhases()
+     */
     @Override
     public void setPhases() {
         setTwoBuildPhases();
     }
 
     /**
-     * return an ArrayList which contains all the buildable spaces
+     * Method getBuildableSpaces returns a List containing all the buildable spaces.
      *
-     * @param gameBoard gameBoard
-     * @return an ArrayList of spaces
+     * @param gameBoard of type GameBoard - GameBoard reference.
+     * @return List<Space> - the list of selectable spaces.
+     * @see Worker#getBuildableSpaces(GameBoard)
      */
     @Override
     public List<Space> getBuildableSpaces(GameBoard gameBoard) {
@@ -36,11 +49,12 @@ public class Hephaestus extends Worker {
     }
 
     /**
-     * return true if the worker can build into the space received
+     * Method canBuildOnto returns true if the worker can build into the space received.
      *
-     * @param space space of the GameBoard
-     * @return boolean value
-     * @throws IllegalArgumentException if space is null
+     * @param space of type Space - the space of provided.
+     * @return boolean true if build is permitted, false otherwise.
+     * @throws IllegalArgumentException when space is null.
+     * @see Worker#canBuildOnto(Space)
      */
     @Override
     public boolean canBuildOnto(Space space) throws IllegalArgumentException {
@@ -49,11 +63,13 @@ public class Hephaestus extends Worker {
     }
 
     /**
-     * build on the space received
+     * Method build builds on the space received.
      *
-     * @param space space
-     * @return boolean false if it's impossible to build on the space or if OutOfBoundException is thrown
-     * @throws IllegalArgumentException if space is null
+     * @param space of type Space - the space provided.
+     * @return boolean false if it's impossible to build on the space or if OutOfBoundException is thrown, true
+     * otherwise.
+     * @throws IllegalArgumentException when space is null.
+     * @see Worker#build(Space)
      */
     @Override
     public boolean build(Space space) throws IllegalArgumentException {
@@ -69,11 +85,12 @@ public class Hephaestus extends Worker {
     }
 
     /**
-     * notify the selectSpacesListener with all the moves the worker can do
+     * Method notifyWithMoves notifies the selectSpacesListener with all the moves the worker can do.
      *
-     * @param gameBoard of the game
-     * @throws IllegalArgumentException if gameBoard is null
-     * @throws IllegalStateException    if the worker is blocked
+     * @param gameBoard of type GameBoard - GameBoard reference.
+     * @throws IllegalArgumentException when gameBoard is null
+     * @throws IllegalStateException    when the worker is blocked
+     * @see Worker#notifyWithMoves(GameBoard)
      */
     @Override
     public void notifyWithMoves(GameBoard gameBoard) throws IllegalArgumentException, IllegalStateException {

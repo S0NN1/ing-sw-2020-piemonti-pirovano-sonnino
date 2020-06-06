@@ -14,23 +14,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Minotaur class defines Minotaur card.
+ *
  * @author Alice Piemonti
+ * @see Worker
  */
 public class Minotaur extends Worker {
 
+    /**
+     * Constructor Minotaur creates a new Minotaur instance.
+     *
+     * @param color of type PlayerColors - the player's color.
+     */
     public Minotaur(PlayerColors color) {
         super(color);
     }
 
+
+    /**
+     * Method setPhases sets phases.
+     * @see Worker#setPhases()
+     */
     @Override
     public void setPhases() {
         setNormalPhases();
     }
 
     /**
-     * create the Map of listeners
+     * Method createListeners creates the Map of listeners.
      *
-     * @param client virtualClient
+     * @param client of type VirtualClient - the virtual client on the server.
+     * @see Worker#createListeners(VirtualClient)
      */
     @Override
     public void createListeners(VirtualClient client) {
@@ -38,10 +52,14 @@ public class Minotaur extends Worker {
         listeners.addPropertyChangeListener("MinotaurDoubleMove",new DoubleMoveListener(client));
     }
 
+
     /**
-     * @param space space
-     * @return boolean true if the worker can move to the space received
-     * @throws IllegalArgumentException if space is null
+     * Method isSelectable returns true if space is selectable.
+     *
+     * @param space of type Space - the space provided.
+     * @param gameBoard of type GameBoard - GameBoard reference.
+     * @return boolean true if space is selectable, false otherwise.
+     * @throws IllegalArgumentException when space is null.
      */
     public boolean isSelectable(Space space, GameBoard gameBoard) throws IllegalArgumentException {
         if(space == null) throw new IllegalArgumentException();
@@ -52,7 +70,8 @@ public class Minotaur extends Worker {
             }
             else{
                 Couple coordinates = calculateCoordinates(space);
-                return exists(coordinates) && canForceOn(gameBoard.getSpace(coordinates.getRow(), coordinates.getColumn()));
+                return exists(coordinates) && canForceOn(gameBoard.getSpace(coordinates.getRow(),
+                        coordinates.getColumn()));
             }
         }
         else  return false;
@@ -60,10 +79,10 @@ public class Minotaur extends Worker {
 
 
     /**
-     * Method calculateCoordinates gets the coordinates where the opponent worker is forced to move
+     * Method calculateCoordinates gets the coordinates where the opponent worker is forced to move.
      *
-     * @param space of type Space
-     * @return Couple of coordinates
+     * @param space of type Space - the space provided.
+     * @return Couple - the coordinates needed.
      */
     private Couple calculateCoordinates(Space space) {
         int row;
@@ -93,12 +112,13 @@ public class Minotaur extends Worker {
     }
 
     /**
-     * return an ArrayList that contains the spaces which the worker can move to
+     * Method selectMoves returns a List containing the spaces which the worker can move to.
      *
-     * @param gameBoard GameBoard of the game
-     * @return ArrayList of Spaces
-     * @throws IllegalArgumentException    if gameBoard is null
-     * @throws IllegalThreadStateException if the worker is blocked, so it cannot move
+     * @param gameBoard of type GameBoard - GameBoard reference.
+     * @return List<Space - the list of available spaces.
+     * @throws IllegalArgumentException when gameBoard is null.
+     * @throws IllegalThreadStateException when the worker is blocked, so it cannot move.
+     * @see Worker#selectMoves(GameBoard)
      */
     @Override
     public List<Space> selectMoves(GameBoard gameBoard) {
@@ -115,12 +135,12 @@ public class Minotaur extends Worker {
     }
 
     /**
-     * change the worker's position while check winning condition
-     * requires this.isSelectable(space)
+     * Method move changes the worker's position while check winning condition.
      *
      * @param space the new position
-     * @return boolean false if the worker can't move into this space or if space isn't empty
-     * @throws IllegalArgumentException if space is null
+     * @return boolean false if the worker can't move into this space or if space isn't empty, true otherwise.
+     * @throws IllegalArgumentException when space is null.
+     * @see Worker#move(Space)
      */
     @Override
     public boolean move(Space space) throws IllegalArgumentException {
@@ -129,10 +149,12 @@ public class Minotaur extends Worker {
     }
 
     /**
-     *  move Minotaur to mySpace and force the other worker to move from mySpace to otherSpace
-     * @param mySpace where Minotaur wants to move
-     * @param gameBoard in order to select the space where other worker is forced to move
-     * @return boolean false if otherSpace isn't valid
+     *  Method moves moves Minotaur to mySpace and force the other worker to move from mySpace to otherSpace.
+     * @param mySpace of type Space - the space where Minotaur wants to move.
+     * @param gameBoard of type GameBoard - the GameBoard reference in order to select the space where other worker is
+     * forced to move.
+     * @return boolean false if otherSpace isn't valid, true otherwise.
+     * @see Worker#move(Space, GameBoard)
      */
     @Override
     public boolean move(Space mySpace, GameBoard gameBoard) throws IllegalArgumentException {
@@ -140,7 +162,8 @@ public class Minotaur extends Worker {
         Space otherSpace;
         Couple coordinates = calculateCoordinates(mySpace);
 
-        otherSpace = gameBoard.getSpace(coordinates.getRow(), coordinates.getColumn());       //move Minotaur and force other worker
+        otherSpace = gameBoard.getSpace(coordinates.getRow(), coordinates.getColumn());       //move Minotaur and
+        // force other worker
         mySpace.getWorker().setPosition(otherSpace);
         Space oldPosition = position;
         oldPosition.setWorker(null);

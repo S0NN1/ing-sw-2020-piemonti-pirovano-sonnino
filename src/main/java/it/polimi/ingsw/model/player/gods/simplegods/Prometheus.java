@@ -9,15 +9,27 @@ import it.polimi.ingsw.model.player.Worker;
 import java.util.List;
 
 /**
+ * Prometheus class defines Prometheus card.
+ *
  * @author Alice Piemonti
+ * @see Worker
  */
 public class Prometheus extends Worker {
+    /**
+     * Constructor Worker creates a new Worker instance.
+     *
+     * @param color of type PlayerColors - the player's color.
+     */
     public Prometheus(PlayerColors color) {
         super(color);
     }
 
     private boolean powerUsed = true;
 
+    /**
+     * Method setPhases sets phases.
+     * @see Worker#setPhases()
+     */
     @Override
     public void setPhases() {
         phases.add(new Phase(Action.SELECT_BUILD,false));
@@ -29,10 +41,11 @@ public class Prometheus extends Worker {
     }
 
     /**
-     * return an ArrayList which contains all the buildable spaces
+     * Method getBuildableSpaces returns a List containing all the buildable spaces.
      *
-     * @param gameBoard gameBoard
-     * @return an ArrayList of spaces
+     * @param gameBoard of type GameBoard - GameBoard reference.
+     * @return List<Space> - the list of selectable spaces.
+     * @see Worker#getBuildableSpaces(GameBoard)
      */
     @Override
     public List<Space> getBuildableSpaces(GameBoard gameBoard) {
@@ -48,11 +61,12 @@ public class Prometheus extends Worker {
     }
 
     /**
-     * return true if the worker can move to the space received
+     * Method isSelectable returns true if the worker can move to the space received.
      *
-     * @param space a space of the GameBoard
-     * @return boolean value
-     * @throws IllegalArgumentException if space is null
+     * @param space of type Space - the space provided.
+     * @return boolean true if the space provided is electable, false otherwise.
+     * @throws IllegalArgumentException when space is null.
+     * @see Worker#isSelectable(Space)
      */
     @Override
     public boolean isSelectable(Space space) throws IllegalArgumentException {
@@ -61,12 +75,12 @@ public class Prometheus extends Worker {
     }
 
     /**
-     * change the worker's position while check winning condition
-     * requires this.isSelectable(space)
+     * Method move changes the worker's position while check winning condition.
      *
-     * @param space the new position
-     * @return boolean false if the worker can't move into this space
-     * @throws IllegalArgumentException if space is null
+     * @param space of type Space - the space provided.
+     * @return boolean false if the worker can't move into this space, true otherwise.
+     * @throws IllegalArgumentException when space is null.
+     * @see Worker#move(Space)
      */
     @Override
     public boolean move(Space space) throws IllegalArgumentException {
