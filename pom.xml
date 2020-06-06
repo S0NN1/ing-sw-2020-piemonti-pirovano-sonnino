@@ -59,7 +59,7 @@
       <artifactId>javafx-fxml</artifactId>
       <version>14</version>
     </dependency>
-    <dependency>
+ <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>14</version>
@@ -82,7 +82,6 @@
       <artifactId>sonar-maven-plugin</artifactId>
       <version>3.7.0.1746</version>
     </dependency>
-
   </dependencies>
 
 
