@@ -200,6 +200,7 @@ class ActionControllerTest {
     /**
      * Method forceWorkerTest tests the methods readMessage when different messages arrives. In particularly, it tests
      * readMessage during SELECT_FORCE_WORKER and FORCE_WORKER Charon's phases.
+     * @throws OutOfBoundException when space is invalid.
      */
     @Test
     @DisplayName("remove action test")

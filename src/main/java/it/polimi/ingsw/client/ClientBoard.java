@@ -178,6 +178,7 @@ public class ClientBoard {
    * @param row of type int - the row of the selected row.
    * @param col of type int - the column of the selected column.
    * @param dome of type boolean true if worker wants to build a dome instead of a block. (Only for Atlas workers)
+   * @param action of type Action - the type of action.
    */
   public void build(int row, int col, boolean dome, Action action) {
     if(!action.equals(Action.BUILD)){

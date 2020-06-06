@@ -37,7 +37,7 @@ public class Hephaestus extends Worker {
      * Method getBuildableSpaces returns a List containing all the buildable spaces.
      *
      * @param gameBoard of type GameBoard - GameBoard reference.
-     * @return List<Space> - the list of selectable spaces.
+     * @return List&lt;Space&gt; - the list of selectable spaces.
      * @see Worker#getBuildableSpaces(GameBoard)
      */
     @Override

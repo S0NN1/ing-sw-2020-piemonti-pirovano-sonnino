@@ -286,7 +286,7 @@ public abstract class Worker {
      * @throws IllegalArgumentException when gameBoard is null.
      * @throws IllegalThreadStateException when the worker is blocked, so it cannot move.
      * @param gameBoard of type GameBoard - the game board.
-     * @return List<Space> - the list of spaces.
+     * @return List&lt;Space&gt; - the list of spaces.
      */
     public List<Space> selectMoves(GameBoard gameBoard) {
         ArrayList<Space> moves = new ArrayList<>();
@@ -374,7 +374,7 @@ public abstract class Worker {
     /**
      * Method getBuildableSpaces returns an List which contains all the buildable spaces.
      * @param gameBoard of type GameBoard - GameBoard reference.
-     * @return List<Space> - the list of spaces.
+     * @return List&lt;Space&gt; - the list of spaces.
      */
     public List<Space> getBuildableSpaces(GameBoard gameBoard){
         ArrayList<Space> buildable = new ArrayList<>();

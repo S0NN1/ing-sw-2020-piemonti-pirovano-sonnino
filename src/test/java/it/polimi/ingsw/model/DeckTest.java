@@ -22,6 +22,7 @@ class DeckTest {
     /**
      * Method Initialization creates a new Game, a Deck and 2 test players, with the god powers of Atlas and Athena.
      * The current player is then set as "Luca".
+     * @throws OutOfBoundException when card is invalid.
      */
     @BeforeEach
     void initialization() throws OutOfBoundException {
@@ -48,6 +49,7 @@ class DeckTest {
 
     /**
      * Method insertWithDuplicate tests deck with a duplicate card insertion. A false return (value 0) is expected.
+     * @throws OutOfBoundException when card is invalid.
      */
     @Test
     @DisplayName("Insert test with duplicate card")
@@ -58,7 +60,7 @@ class DeckTest {
     }
 
     /**
-     * Method insertOutOfBound tests deck with an extra-player card insertion (number of god cards > number of players).
+     * Method insertOutOfBound tests deck with an extra-player card insertion (number of god cards &gt; number of players).
      * An "OutOfBoundException" is expected when trying to insert another card.
      */
     @Test
@@ -69,6 +71,7 @@ class DeckTest {
 
     /**
      * Method insertThreePlayers tests the same as above with 3 players instead of 2.
+     * @throws OutOfBoundException when card is invalid.
      */
     @Test
     @DisplayName("Insert test with 3 players in the two conditions above")

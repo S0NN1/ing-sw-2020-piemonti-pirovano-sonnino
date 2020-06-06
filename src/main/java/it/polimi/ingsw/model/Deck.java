@@ -51,7 +51,7 @@ public class Deck {
     /**
      * Method getCards returns the cards of this Deck object.
      *
-     * @return the cards (type List<Card>) of this Deck object.
+     * @return the cards (type List&lt;Card&gt;) of this Deck object.
      */
     public List<Card> getCards() {
         return cards;

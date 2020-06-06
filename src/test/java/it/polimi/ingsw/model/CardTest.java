@@ -47,6 +47,7 @@ class CardTest {
 
     /**
      * Method descriptionTest checks the correct description deploying of the selected god.
+     * @throws FileNotFoundException when file is invalid.
      */
     @Test
     @DisplayName("God description parsing test")

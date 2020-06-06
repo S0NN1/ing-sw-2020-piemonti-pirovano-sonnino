@@ -21,7 +21,7 @@ public class SelectSpacesMessage implements Answer {
     /**
      * Constructor SelectSpacesMessage creates a new SelectSpacesMessage instance.
      *
-     * @param moves of type List<Space> - the list of selectable spaces.
+     * @param moves of type List&lt;Space&gt; - the list of selectable spaces.
      * @param action of type Action - the type of action.
      */
     public SelectSpacesMessage(List<Space> moves, Action action){

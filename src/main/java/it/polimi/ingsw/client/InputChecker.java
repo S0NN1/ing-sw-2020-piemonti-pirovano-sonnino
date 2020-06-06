@@ -48,7 +48,7 @@ public class InputChecker {
 
 
     /**
-     * Method desc validates a "GODDESC <god-name>" message type.
+     * Method desc validates a "GODDESC &lt;god-name&gt;" message type.
      *
      * @param in of type String[] - the user input under array representation.
      * @return ChallengerPhaseAction - the correct ChallengerPhaseAction, null otherwise.
@@ -66,7 +66,7 @@ public class InputChecker {
     }
 
     /**
-     * Method addGod validates an "ADDGOD <god-name>" message type.
+     * Method addGod validates an "ADDGOD &lt;god-name&gt;" message type.
      *
      * @param in of type String[] - the user input under array representation.
      * @return ChallengerPhaseAction - the correct ChallengerPhaseAction, null otherwise.
@@ -84,7 +84,7 @@ public class InputChecker {
 
 
     /**
-     * Method choose validates a "CHOOSE <god-name>" message type.
+     * Method choose validates a "CHOOSE &lt;god-name&gt;" message type.
      *
      * @param in of type String[] - the user input under array representation.
      * @return ChallengerPhaseAction - the correct ChallengerPhaseAction, null otherwise.
@@ -102,7 +102,7 @@ public class InputChecker {
     }
 
     /**
-     * Method starter validates a "STARTER <player-number>" message type.
+     * Method starter validates a "STARTER &lt;player-number&gt;" message type.
      *
      * @param in of type String[] - the user input under array representation.
      * @return ChallengerPhaseAction - the correct ChallengerPhaseAction, null otherwise.
@@ -120,7 +120,7 @@ public class InputChecker {
     }
 
     /**
-     * Method set validates a "SET <x1> <y1> <x2> <y2>" worker placement message type.
+     * Method set validates a "SET &lt;x1&gt; &lt;y1&gt; &lt;x2&gt; &lt;y2&gt;" worker placement message type.
      *
      * @param in of type String[] - the user input under array representation.
      * @return ChallengerPhaseAction - the correct ChallengerPhaseAction, null otherwise.

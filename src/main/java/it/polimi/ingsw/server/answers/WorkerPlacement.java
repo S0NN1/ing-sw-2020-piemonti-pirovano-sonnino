@@ -16,7 +16,7 @@ public class WorkerPlacement implements Answer{
      * Constructor WorkerPlacement creates a new WorkerPlacement instance.
      *
      * @param message of type String - the message received.
-     * @param coords of type List<int[]> - the list with avaible spaces.
+     * @param coords of type List&lt;int[]&gt; - the list with avaible spaces.
      */
     public WorkerPlacement(String message, List<int[]> coords) {
         this.message = message;
@@ -28,7 +28,7 @@ public class WorkerPlacement implements Answer{
      *
      *
      *
-     * @return the availableCoordinates (type List<int[]>) of this WorkerPlacement object.
+     * @return the availableCoordinates (type List&lt;int[]&gt;) of this WorkerPlacement object.
      */
     public List<int[]> getAvailableCoordinates() {
         return availableCoordinates;

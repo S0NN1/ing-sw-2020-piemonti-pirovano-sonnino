@@ -114,7 +114,7 @@ public class Charon extends Worker {
      * Method selectForceWorkerSpaces gets an ArrayList with all the spaces where Charon can use his power.
      *
      * @param gameBoard of type GameBoard - gameBoard.
-     * @return List<Space> - the list of  spaces where Charon can use his power, null if there are not space selectable.
+     * @return List&lt;Space&gt; - the list of  spaces where Charon can use his power, null if there are not space selectable.
      */
     private List<Space> selectForceWorkerSpaces(GameBoard gameBoard) {
         ArrayList<Space> spaces = new ArrayList<>();

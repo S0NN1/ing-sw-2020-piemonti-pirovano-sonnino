@@ -34,6 +34,7 @@ class CardSelectionModelTest {
 
     /**
      * Method testInsertStandard tests insertion with standard conditions.
+     * @throws OutOfBoundException when addition to deck fails.
      */
     @Test
     @DisplayName("Insert test in standard conditions")
@@ -47,6 +48,7 @@ class CardSelectionModelTest {
 
     /**
      * Method testInsertionDuplicate tests insertion with duplicate values check.
+     * @throws OutOfBoundException when card is invalid.
      */
     @Test
     @DisplayName("Insert test with duplicate values")
@@ -64,6 +66,7 @@ class CardSelectionModelTest {
 
     /**
      * Method testInsertOutOfBound tests insertion with "out of bound" cards condition.
+     * @throws OutOfBoundException when addition to deck fails.
      */
     @Test
     @DisplayName("Insert test with out of bound cards")

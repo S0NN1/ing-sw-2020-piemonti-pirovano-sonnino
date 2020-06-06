@@ -274,6 +274,7 @@ public class CLI implements UI, Runnable {
      * @param color of type String - the worker's color.
      * @param rows of type String[] - the rows used to insert player.
      * @param level of type int - the level modified.
+     * @param type of type int - the type of worker.
      */
     private void addWorkerToCell(String color, String[] rows, int level, int type) {
         String[] temp = new String[3];
@@ -338,7 +339,7 @@ public class CLI implements UI, Runnable {
      *
      * @param temp   of type String[] - temporary cell's rows in which player is inserted.
      * @param player of type String[] - the player to be inserted into the rows.
-     * @return HashMap<Integer, String [ ]> - the two strings.
+     *@return HashMaps&lt;Integer, String[]&gt; - the two strings.
      */
     private HashMap<Integer, String[]> createStringMap(String[] temp, String[] player) {
         HashMap<Integer, String[]> stringMap = new HashMap<>();
@@ -353,7 +354,7 @@ public class CLI implements UI, Runnable {
      * @param color of type String  - the player's color
      * @param rows of type String[] - the cell's row
      * @param cellInfos of type int[] - the grid's levels
-     * @param stringMap of type HashMap<Integer, String[]> - the hashmap mapping levels to correct strings.
+     * @param stringMap of type HashMap&lt;Integer, String[]&gt; - the hashmap mapping levels to correct strings.
      * @param indexes of type int[][] - the indexes for each level.
      * @param backgroundColor of type String - the worker's background color.
      * @param counters of type int[] - the indexes in order to print correctly.
@@ -544,6 +545,7 @@ public class CLI implements UI, Runnable {
      * Method addScores adds spaces to side menu.
      *
      * @param max of type int - max length of side menu.
+     * @param s of type String - the String provided.
      * @return StringBuilder - the string added to side menu.
      */
     private StringBuilder addSpaces(int max, String s) {
@@ -605,7 +607,7 @@ public class CLI implements UI, Runnable {
      * Method chooseColor lets the player decide his color, relying on the available ones.
      * If the player is the last in a three-players match, the server automatically assign him the last color.
      *
-     * @param available of type List<PlayerColors> - the list of available colors, which will be printed out.
+     * @param available of type List&lt;PlayerColors&gt; - the list of available colors, which will be printed out.
      */
     public void chooseColor(List<PlayerColors> available) {
         firstBuildBoard(grid);
@@ -628,7 +630,7 @@ public class CLI implements UI, Runnable {
     }
 
     /**
-     * Method greaterThan prints ">".
+     * Method greaterThan prints "&gt;".
      */
     private void greaterThan() {
         System.out.print(">");

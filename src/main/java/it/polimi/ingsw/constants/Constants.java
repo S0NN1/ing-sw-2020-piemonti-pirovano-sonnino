@@ -76,7 +76,7 @@ public class Constants {
      *
      *
      *
-     * @return the godMapCustomAction (type HashMap<String, String>) of this Constants object.
+     * @return the godMapCustomAction (type HashMaps&lt;String, String&gt;) of this Constants object.
      */
     public static Map<String, String> getGodMapCustomAction() {
         return godMapCustomAction;
@@ -88,7 +88,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @return the specialBuildGods (type List<String>) of this Constants object.
+     * @return the specialBuildGods (type List&lt;String&gt;) of this Constants object.
      */
     public static List<String> getSpecialBuildGods() {
         return SPECIAL_BUILD_GODS;
@@ -101,7 +101,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @return the endActionGods (type List<String>) of this Constants object.
+     * @return the endActionGods (type List&lt;String&gt;) of this Constants object.
      */
     public static List<String> getEndActionGods() {
         return END_ACTION_GODS;
@@ -115,7 +115,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @return the startActionGods (type List<String>) of this Constants object.
+     * @return the startActionGods (type List&lt;String&gt;) of this Constants object.
      */
     public static List<String> getStartActionGods() {
         return START_ACTION_GODS;
@@ -128,7 +128,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @return the buildSameBlockGods (type List<String>) of this Constants object.
+     * @return the buildSameBlockGods (type List&lt;String&gt;) of this Constants object.
      */
     public static List<String> getBuildSameBlockGods() {
         return BUILD_SAME_BLOCK_GODS;
@@ -141,7 +141,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @return the doubleMoveGods (type List<String>) of this Constants object.
+     * @return the doubleMoveGods (type List&lt;String&gt;) of this Constants object.
      */
     public static List<String> getDoubleMoveGods() {
         return DOUBLE_MOVE_GODS;
@@ -154,7 +154,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @return the alternatePhaseGods (type List<String>) of this Constants object.
+     * @return the alternatePhaseGods (type List&lt;String&gt;) of this Constants object.
      */
     public static List<String> getAlternatePhaseGods() { return ALTERNATE_PHASE_GODS; }
 
@@ -165,7 +165,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @return the doubleBuildGods (type List<String>) of this Constants object.
+     * @return the doubleBuildGods (type List&lt;String&gt;) of this Constants object.
      */
     public static List<String> getDoubleBuildGods() {
         return DOUBLE_BUILD_GODS;
@@ -181,7 +181,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @return the movePhaseGods (type List<String>) of this Constants object.
+     * @return the movePhaseGods (type List&lt;String&gt;) of this Constants object.
      */
     public static List<String> getMovePhaseGods() {
         return MOVE_PHASE_GODS;
@@ -196,7 +196,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @return the buildPhaseGods (type List<String>) of this Constants object.
+     * @return the buildPhaseGods (type List&lt;String&gt;) of this Constants object.
      */
     public static List<String> getBuildPhaseGods() {
         return BUILD_PHASE_GODS;
@@ -212,7 +212,7 @@ private static final List<String> SPECIAL_BUILD_GODS = Collections.singletonList
      *
      *
      *
-     * @return the moveToCellOccupiedGods (type List<String>) of this Constants object.
+     * @return the moveToCellOccupiedGods (type List&lt;String&gt;) of this Constants object.
      */
     public static List<String> getMoveToCellOccupiedGods() {
         return MOVE_TO_CELL_OCCUPIED_GODS;

@@ -35,9 +35,9 @@ public class GodsPanelController implements GUIController{
 
     /**
      * Method chooseInit initializes the god panel for user's choosing action. It creates the buttons "Choose" and
-     * "Close" and prepares the command "CHOOSE <god-name>" to be sent to the server.
+     * "Close" and prepares the command "CHOOSE &lt;god-name&gt;" to be sent to the server.
      *
-     * @param cards of type List<Card> - the deck of cards.
+     * @param cards of type List&lt;Card&gt; - the deck of cards.
      */
     public void chooseInit(List<Card> cards) {
         for(int i=0; i<3; i++){

@@ -37,7 +37,7 @@ public class Artemis extends Worker {
      * Method selectMoves returns an ArrayList that contains the spaces which the worker can move to.
      *
      * @param gameBoard of GameBoard - the game board of the game.
-     * @return List<Space></Space> - the list of spaces.
+     * @return List&lt;Space&gt; - the list of spaces.
      * @throws IllegalArgumentException    when gameBoard is null.
      * @throws IllegalThreadStateException when the worker is blocked, so it cannot move.
      * @see Worker#selectMoves(GameBoard)

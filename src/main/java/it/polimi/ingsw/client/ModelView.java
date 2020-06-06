@@ -75,7 +75,7 @@ public class ModelView {
      *
      *
      *
-     * @param playerMapColor the playerMapColor (type Map<String, String>) of this ModelView object.
+     * @param playerMapColor the playerMapColor (type Maps&lt;String, String&gt;) of this ModelView object.
      *
      */
     public void setPlayerMapColor(Map<String, String> playerMapColor) {
@@ -87,7 +87,7 @@ public class ModelView {
      *
      *
      *
-     * @param playerMapGod the playerMapColor (type Map<String, String>) of this ModelView object.
+     * @param playerMapGod the playerMapColor (type Maps&lt;String, String&gt;) of this ModelView object.
      *
      */
     public void setPlayerMapGod(Map<String, String> playerMapGod) {
@@ -99,7 +99,7 @@ public class ModelView {
      *
      *
      *
-     * @return the playerMapColor (type Map<String, String>) of this ModelView object.
+     * @return the playerMapColor (type Maps&lt;String, String&gt;) of this ModelView object.
      */
     public Map<String, String> getPlayerMapColor() {
         return playerMapColor;
@@ -110,7 +110,7 @@ public class ModelView {
      *
      *
      *
-     * @return the playerMapGod (type Map<String, String>) of this ModelView object.
+     * @return the playerMapGod (type Maps&lt;String, String&gt;) of this ModelView object.
      */
     public Map<String, String> getPlayerMapGod() {
         return playerMapGod;
@@ -121,7 +121,7 @@ public class ModelView {
      *
      *
      *
-     * @return the selectSpaces (type List<Couple>) of this ModelView object.
+     * @return the selectSpaces (type List&lt;Couple&gt;) of this ModelView object.
      */
     public List<Couple> getSelectSpaces() {
         return selectSpaces;
@@ -132,7 +132,7 @@ public class ModelView {
      *
      *
      *
-     * @param selectSpaces the selectSpaces(type List<Couple>) of this ModelView object.
+     * @param selectSpaces the selectSpaces(type List&lt;Couple&gt;) of this ModelView object.
      *
      */
     public void setSelectSpaces(List<Couple> selectSpaces) {

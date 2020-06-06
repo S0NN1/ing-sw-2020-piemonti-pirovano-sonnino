@@ -775,7 +775,7 @@ import java.util.Map;
   /**
    * Method getGodMapSideMenu returns the godMapSideMenu of this Printable object.
    *
-   * @return the godMapSideMenu (type HashMap<String, String>) of this Printable object.
+   * @return the godMapSideMenu (type HashMaps&lt;String, String&gt;) of this Printable object.
    */
   public static Map<String, String> getGodMapSideMenu() {
     return GOD_MAP_SIDE_MENU;

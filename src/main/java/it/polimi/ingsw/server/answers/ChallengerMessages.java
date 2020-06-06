@@ -39,7 +39,7 @@ public class ChallengerMessages implements Answer {
      *
      * @param message of type String - the message to be displayed.
      * @param startingPlayer of type boolean - the boolean indicating if client is the starting player.
-     * @param players of type List<String> - the list of players' nicknames.
+     * @param players of type List&lt;String&gt; - the list of players' nicknames.
      */
     public ChallengerMessages(String message, boolean startingPlayer, List<String> players) {
         this.message = message;
@@ -54,7 +54,7 @@ public class ChallengerMessages implements Answer {
     /**
      * Constructor ChallengerMessages creates a new ChallengerMessages instance.
      *
-     * @param list of type List<String> - the list of god cards.
+     * @param list of type List&lt;String&gt; - the list of god cards.
      */
     public ChallengerMessages(List<String> list) {
         this.godList = list;
@@ -70,7 +70,7 @@ public class ChallengerMessages implements Answer {
      * Constructor ChallengerMessages creates a new ChallengerMessages instance.
      *
      * @param message of type String - the message to be displayed.
-     * @param selectable of type List<Card> - the list of selectable gods.
+     * @param selectable of type List&lt;Card&gt; - the list of selectable gods.
      */
     public ChallengerMessages(String message, List<Card> selectable) {
         this.godList = null;
@@ -102,7 +102,7 @@ public class ChallengerMessages implements Answer {
      *
      *
      *
-     * @return the godList (type List<String>) of this ChallengerMessages object.
+     * @return the godList (type List&lt;String&gt;) of this ChallengerMessages object.
      */
     public List<String> getGodList() {
         return godList;
@@ -113,7 +113,7 @@ public class ChallengerMessages implements Answer {
      *
      *
      *
-     * @return the selectable (type List<Card>) of this ChallengerMessages object.
+     * @return the selectable (type List&lt;Card&gt;) of this ChallengerMessages object.
      */
     public List<Card> getSelectable() {
         return selectable;
@@ -135,7 +135,7 @@ public class ChallengerMessages implements Answer {
      *
      *
      *
-     * @return the players (type List<String>) of this ChallengerMessages object.
+     * @return the players (type List&lt;String&gt;) of this ChallengerMessages object.
      */
     public List<String> getPlayers() {
         return players;

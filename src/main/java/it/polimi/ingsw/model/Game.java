@@ -122,7 +122,7 @@ public class Game {
     /**
      * Method getActivePlayers returns the list of the active players in the match (not dead).
      *
-     * @return the activePlayers (type List<Player>) of this Game object.
+     * @return the activePlayers (type List&lt;Player&gt;) of this Game object.
      */
     public List<Player> getActivePlayers() {
         return activePlayers;

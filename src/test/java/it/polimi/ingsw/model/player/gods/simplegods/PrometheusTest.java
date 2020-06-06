@@ -74,6 +74,7 @@ class PrometheusTest {
     /**
      * Method moveUpBuild tests getPhase.isMust parameter during the succession of one move up and one build action in
      * a single turn.
+     * @throws OutOfBoundException when space is invalid.
      */
     @Test
     @DisplayName("one move up one build")

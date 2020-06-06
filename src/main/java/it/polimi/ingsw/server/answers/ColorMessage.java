@@ -50,7 +50,7 @@ public class ColorMessage implements Answer {
     /**
      * Method addRemaining updates the list of reamining colors.
      *
-     * @param colors of type List<PlayerColors> - the list of remaining colors.
+     * @param colors of type List&lt;PlayerColors&gt; - the list of remaining colors.
      */
     public void addRemaining(List<PlayerColors> colors) {
         remaining = colors;
@@ -61,7 +61,7 @@ public class ColorMessage implements Answer {
      *
      *
      *
-     * @return the remaining (type List<PlayerColors>) of this ColorMessage object.
+     * @return the remaining (type List&lt;PlayerColors&gt;) of this ColorMessage object.
      */
     public List<PlayerColors> getRemaining() {
         return remaining;

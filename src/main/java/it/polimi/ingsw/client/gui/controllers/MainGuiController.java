@@ -210,6 +210,7 @@ public class MainGuiController implements GUIController {
    * @param row of type int - the row of the cell.
    * @param col of type int - the column of the cell.
    * @param dome of type boolean - true if user wants to build a dome, false otherwise.
+   * @param action of type Action - the type of action.
    */
   public void build(int row, int col, boolean dome, Action action) {
     if (!action.equals(Action.BUILD)) {
@@ -484,12 +485,17 @@ public class MainGuiController implements GUIController {
   /**
    * Method getColors returns the colors of this MainGuiController object.
    *
-   * @return the colors (type HashMap<String, Color>) of this MainGuiController object.
+   * @return the colors (type HashMap&lt;String, Color&gt;) of this MainGuiController object.
    */
   public Map<String, Color> getColors() {
     return colors;
   }
 
+  /**
+   * Method workerPlacement displays worker placement.
+   *
+   * @param coords of type List&lt;int[]&gt; - the coords received.
+   */
   public void workerPlacement(List<int[]> coords) {
     gui.getModelView().activateInput();
     String[] set =new String[2];

@@ -115,7 +115,7 @@ public class Minotaur extends Worker {
      * Method selectMoves returns a List containing the spaces which the worker can move to.
      *
      * @param gameBoard of type GameBoard - GameBoard reference.
-     * @return List<Space - the list of available spaces.
+     * @return List&lt;Space&gt; - the list of available spaces.
      * @throws IllegalArgumentException when gameBoard is null.
      * @throws IllegalThreadStateException when the worker is blocked, so it cannot move.
      * @see Worker#selectMoves(GameBoard)

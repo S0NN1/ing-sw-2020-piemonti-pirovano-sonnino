@@ -79,7 +79,7 @@ public class LoaderController implements GUIController {
 
     /**
      * Method workerPlacement lists all workers' available positions and make him choose the preferred one.
-     * @param coords of type List<int[]> - the available coordinates.
+     * @param coords of type List&lt;int[]&gt; - the available coordinates.
      */
     public void workerPlacement(List<int[]> coords) {
         gui.getModelView().activateInput();
@@ -241,7 +241,7 @@ public class LoaderController implements GUIController {
     /**
      * Method requestColor lets each user choose his workers' color, however, in a match of 3 players the last one
      * receives the remaining color.
-     * @param colors of type List<PlayerColors> - the available colors.
+     * @param colors of type List&lt;PlayerColors&gt; - the available colors.
      */
     public void requestColor(List<PlayerColors> colors) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

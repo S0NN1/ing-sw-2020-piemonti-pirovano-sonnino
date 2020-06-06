@@ -36,7 +36,7 @@ public class MatchStartedMessage implements Answer {
      *
      *
      *
-     * @return the playerMapColor (type Map<String, String>) of this MatchStartedMessage object.
+     * @return the playerMapColor (type Maps&lt;String, String&gt;) of this MatchStartedMessage object.
      */
     public Map<String, String> getPlayerMapColor() {
         return playerMapColor;
@@ -57,7 +57,7 @@ public class MatchStartedMessage implements Answer {
      *
      *
      *
-     * @return the playerMapGod (type Map<String, String>) of this MatchStartedMessage object.
+     * @return the playerMapGod (type Maps&lt;String, String&gt;) of this MatchStartedMessage object.
      */
     public Map<String, String> getPlayerMapGod() {
         return playerMapGod;

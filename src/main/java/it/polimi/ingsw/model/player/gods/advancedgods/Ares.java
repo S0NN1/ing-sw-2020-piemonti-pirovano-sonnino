@@ -96,7 +96,7 @@ public class Ares extends Worker {
      *
      * @param gameBoard of type GameBoard - GameBoard reference.
      * @param unmovedWorkerPosition of type Space - the position of the inactive worker.
-     * @return List<Space> - the list of spaces.
+     * @return List&lt;Space&gt; - the list of spaces.
      */
     private List<Space> getRemovableSpaces(GameBoard gameBoard, Space unmovedWorkerPosition) {
             ArrayList<Space> removable = new ArrayList<>();

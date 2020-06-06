@@ -234,7 +234,7 @@ public class CharonTest {
          *
          *
          *
-         * @return the selectMoves (type ArrayList<Couple>) of this VirtualClientStub object.
+         * @return the selectMoves (type Arraylist&lt;Couple&gt;) of this VirtualClientStub object.
          */
         public ArrayList<Couple> getSelectMoves() {
             return selectMoves;

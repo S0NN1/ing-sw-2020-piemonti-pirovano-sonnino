@@ -28,7 +28,7 @@ public enum Card {
 
     /**
      * Method godsName returns a list with all gods' name, parsed from the json file.
-     * @return List<String> - the list of gods' names, parsed from the json file.
+     * @return List&lt;String&gt; - the list of gods' names, parsed from the json file.
      */
     public static List<String> godsName() {
         Gson gson = new Gson();

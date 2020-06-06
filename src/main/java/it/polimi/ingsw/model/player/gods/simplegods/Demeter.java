@@ -38,7 +38,7 @@ public class Demeter extends Worker {
      * Method getBuildableSpaces returns a List containing all the buildable spaces.
      *
      * @param gameBoard of type GameBoard - GameBoard reference.
-     * @return List<Space> - the list of spaces.
+     * @return List&lt;Space&gt; - the list of spaces.
      * @see Worker#getBuildableSpaces(GameBoard)
      */
     @Override

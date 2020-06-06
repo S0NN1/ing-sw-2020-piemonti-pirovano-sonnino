@@ -41,7 +41,7 @@ public class GameError implements Answer {
      *
      * @param error of type ErrorsType - the error to display.
      * @param message of type String - the message of the error.
-     * @param coordinates of type List<int[]> - the list of coordinates.
+     * @param coordinates of type List&lt;int[]&gt; - the list of coordinates.
      */
     public GameError(ErrorsType  error, String message, List<int[]> coordinates) {
         this.error = error;
@@ -78,7 +78,7 @@ public class GameError implements Answer {
      *
      *
      *
-     * @return the coordinates (type List<int[]>) of this GameError object.
+     * @return the coordinates (type List&lt;int[]&gt;) of this GameError object.
      */
     public List<int[]> getCoordinates() {
         return coordinates;

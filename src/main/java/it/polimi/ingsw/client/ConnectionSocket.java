@@ -50,6 +50,7 @@ public class ConnectionSocket {
    * @param modelView of type ModelView - the structure, stored into the client, containing simple
    *     logic of the model.
    * @param actionHandler of type ActionHandler - the class handling the answers.
+   * @return boolean true if connection is successful, false otherwise.
    * @throws DuplicateNicknameException when the nickname is already in use.
    * @throws InvalidNicknameException when the nickname contains illegal characters (like "-").
    */

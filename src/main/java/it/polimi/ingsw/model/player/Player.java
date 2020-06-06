@@ -37,7 +37,7 @@ public class Player {
     /**
      * Method getWorkers returns the workers of this Player object.
      *
-     * @return the workers (type List<Worker>) of this Player object.
+     * @return the workers (type List&lt;Worker&gt;) of this Player object.
      */
     public List<Worker> getWorkers() {
         return workers;

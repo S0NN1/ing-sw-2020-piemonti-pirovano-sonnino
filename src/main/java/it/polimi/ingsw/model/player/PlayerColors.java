@@ -44,7 +44,7 @@ public enum PlayerColors {
 
     /**
      * Method notChosen returns the list of available colors.
-     * @return List<PlayerColors> - the available colors.
+     * @return List&lt;PlayerColors&gt; - the available colors.
      */
     public static List<PlayerColors> notChosen() {
         return available;
