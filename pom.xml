@@ -59,7 +59,7 @@
       <artifactId>javafx-fxml</artifactId>
       <version>14</version>
     </dependency>
- <dependency>
+    <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>14</version>
@@ -69,13 +69,13 @@
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>14</version>
-      <classifier>linux</classifier>
+      <classifier>mac</classifier>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>14</version>
-      <classifier>mac</classifier>
+      <classifier>linux</classifier>
     </dependency>
     <dependency>
       <groupId>org.sonarsource.scanner.maven</groupId>
