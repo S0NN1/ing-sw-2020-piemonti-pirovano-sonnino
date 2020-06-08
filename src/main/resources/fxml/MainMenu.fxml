@@ -68,9 +68,9 @@
                   <Image url="@../graphics/copyright/roxley_splash.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="1211.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="music" fitHeight="36.0" fitWidth="28.0" layoutX="1238.0" layoutY="20.0" onMouseClicked="#mute" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../graphics/english.png" />
+                  <Image url="@../graphics/icons/speaker.png" />
                </image></ImageView>
             <Label layoutX="459.0" layoutY="22.0" prefWidth="363.0" text="Alice Piemonti, Luca Pirovano, Nicolò Sonnino" textFill="WHITE">
                <font>

@@ -10,12 +10,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TextField;
 
 import java.awt.*;
 import java.io.IOException;
-import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -28,10 +29,12 @@ import java.net.URISyntaxException;
 public class MainMenuController implements GUIController{
     private static final String URL = "https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino";
     private GUI gui;
+    private boolean muted;
     @FXML private TextField username;
     @FXML private TextField address;
     @FXML private TextField port;
     @FXML private Label confirmation;
+    @FXML private ImageView music;
 
     /**
      * Method about opens the project home website.
@@ -59,6 +62,21 @@ public class MainMenuController implements GUIController{
     public void play(MouseEvent event) {
         gui.changeStage("setup.fxml");
         gui.centerApplication();
+    }
+
+    /**
+     * Method mute mutes game music.
+     */
+    public void mute() {
+        if(muted) {
+            gui.getPlayer().play();
+            music.setImage(new Image(getClass().getResourceAsStream("/graphics/icons/speaker.png")));
+            muted = false;
+        } else {
+            gui.getPlayer().stop();
+            music.setImage(new Image(getClass().getResourceAsStream("/graphics/icons/mute.png")));
+            muted = true;
+        }
     }
 
     /**

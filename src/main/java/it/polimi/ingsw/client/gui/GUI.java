@@ -74,6 +74,7 @@ public class GUI extends Application implements UI {
     private boolean activeGame;
     private Scene currentScene;
     private Stage stage;
+    private MediaPlayer player;
 
     private boolean[] actionCheckers;
 
@@ -105,7 +106,7 @@ public class GUI extends Application implements UI {
         stage.show();
         String path = new File("src/main/resources/media/Epic_Battle_Speech.mp3").getAbsolutePath();
         Media pick = new Media(new File(path).toURI().toString());
-        MediaPlayer player = new MediaPlayer(pick);
+        player = new MediaPlayer(pick);
         player.setAutoPlay(true);
         player.setCycleCount(MediaPlayer.INDEFINITE);
         player.setVolume(25);
@@ -607,5 +608,14 @@ public class GUI extends Application implements UI {
                 System.exit(0);
             }
         });
+    }
+
+    /**
+     * Method getPlayer returns the player of this GUI object.
+     *
+     * @return the player (type MediaPlayer) of this GUI object.
+     */
+    public MediaPlayer getPlayer() {
+        return player;
     }
 }
