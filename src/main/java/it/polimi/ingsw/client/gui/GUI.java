@@ -32,6 +32,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -100,12 +101,12 @@ public class GUI extends Application implements UI {
     /**
      * Method run sets the title of the main stage and launches the window.
      */
-    public void run() {
+    public void run() throws URISyntaxException {
         stage.setTitle("Santorini");
         stage.setScene(currentScene);
         stage.show();
-        String path = new File("src/main/resources/media/Epic_Battle_Speech.mp3").getAbsolutePath();
-        Media pick = new Media(new File(path).toURI().toString());
+        //String path = new File(getClass().getClassLoader().getResource("/media/Epic_Battle_Speech.mp3").toURI()).toURI().toString();
+        Media pick = new Media(getClass().getClassLoader().getResource("media/Epic_Battle_Speech.mp3").toExternalForm());
         player = new MediaPlayer(pick);
         player.setAutoPlay(true);
         player.setCycleCount(MediaPlayer.INDEFINITE);
