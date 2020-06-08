@@ -146,7 +146,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>it.polimi.ingsw.Santorini</mainClass>
+              <mainClass>it.polimi.ingsw.SantoriniGUI</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
