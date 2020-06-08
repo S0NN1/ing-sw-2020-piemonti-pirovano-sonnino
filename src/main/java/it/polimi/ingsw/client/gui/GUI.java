@@ -24,9 +24,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,6 +103,16 @@ public class GUI extends Application implements UI {
         stage.setTitle("Santorini");
         stage.setScene(currentScene);
         stage.show();
+        String path = new File("src/main/resources/media/Epic_Battle_Speech.mp3").getAbsolutePath();
+        Media pick = new Media(new File(path).toURI().toString());
+        MediaPlayer player = new MediaPlayer(pick);
+        player.setAutoPlay(true);
+        player.setCycleCount(MediaPlayer.INDEFINITE);
+        player.setVolume(25);
+        player.setOnEndOfMedia(() -> {
+            player.seek(Duration.ZERO);
+            player.play();
+        });
     }
 
     /**
