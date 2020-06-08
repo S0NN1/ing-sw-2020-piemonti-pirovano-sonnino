@@ -17,7 +17,7 @@
     {
       "name": "Athena",
       "property": "Goddess of Wisdom",
-      "desc": "Opponent’s Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn."
+      "desc": "Opponent's Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn."
     },
     {
       "name": "Atlas",
@@ -47,7 +47,7 @@
     {
       "name": "Minotaur",
       "property": "Bull-headed Monster",
-      "desc": "Your Move: Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level."
+      "desc": "Your Move: Your Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards to an unoccupied space at any level."
     },
     {
       "name": "Pan",
