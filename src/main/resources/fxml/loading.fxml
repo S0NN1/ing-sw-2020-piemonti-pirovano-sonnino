@@ -10,7 +10,7 @@
     <children>
         <ImageView fitHeight="550.0" fitWidth="800.0" pickOnBounds="true">
             <image>
-                <Image url="@../graphics/bgs/bg_loading.png" />
+                <Image url="@../graphics/bgs/odyssey_3.png" />
             </image>
         </ImageView>
         <ProgressBar prefHeight="50.0" prefWidth="400.0" style="-fx-padding: 8;" StackPane.alignment="BOTTOM_CENTER">
