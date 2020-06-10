@@ -33,10 +33,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -105,8 +102,8 @@ public class GUI extends Application implements UI {
         stage.setTitle("Santorini");
         stage.setScene(currentScene);
         stage.show();
-        //String path = new File(getClass().getClassLoader().getResource("/media/Epic_Battle_Speech.mp3").toURI()).toURI().toString();
-        Media pick = new Media(getClass().getClassLoader().getResource("media/Epic_Battle_Speech.mp3").toExternalForm());
+        Media pick = new Media(Objects.requireNonNull(getClass().getClassLoader()
+                .getResource("media/Epic_Battle_Speech.mp3")).toExternalForm());
         player = new MediaPlayer(pick);
         player.setAutoPlay(true);
         player.setCycleCount(MediaPlayer.INDEFINITE);
