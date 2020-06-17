@@ -44,8 +44,9 @@ public class Artemis extends Worker {
      */
     @Override
     public List<Space> selectMoves(GameBoard gameBoard) {
-        phases.get(3).changeMust(true);
-        return super.selectMoves(gameBoard);
+        List<Space> selectable = super.selectMoves(gameBoard);
+        if(!selectable.isEmpty()) phases.get(3).changeMust(true);
+        return selectable;
     }
 
     /**

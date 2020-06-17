@@ -71,7 +71,8 @@ public class Minotaur extends Worker {
             else{
                 Couple coordinates = calculateCoordinates(space);
                 return exists(coordinates) && canForceOn(gameBoard.getSpace(coordinates.getRow(),
-                        coordinates.getColumn()));
+                        coordinates.getColumn())) && !space.getWorker().getWorkerColor().equals(workerColor);
+                //TODO non sono sicuro che resettando funzioni
             }
         }
         else  return false;
