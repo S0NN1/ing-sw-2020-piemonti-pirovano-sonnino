@@ -43,7 +43,8 @@ public class Demeter extends Worker {
      */
     @Override
     public List<Space> getBuildableSpaces(GameBoard gameBoard) {
-        phases.get(5).changeMust(true);
+        List<Space> buildable = super.getBuildableSpaces(gameBoard);
+        if(!buildable.isEmpty()) phases.get(5).changeMust(true);
         return super.getBuildableSpaces(gameBoard);
     }
 
