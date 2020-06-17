@@ -97,6 +97,7 @@ public class GUI extends Application implements UI {
 
     /**
      * Method run sets the title of the main stage and launches the window.
+     * @throws URISyntaxException when resource path is invalid.
      */
     public void run() throws URISyntaxException {
         stage.setTitle("Santorini");
