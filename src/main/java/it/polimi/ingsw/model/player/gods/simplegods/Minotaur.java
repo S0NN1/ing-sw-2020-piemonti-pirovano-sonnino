@@ -151,24 +151,24 @@ public class Minotaur extends Worker {
 
     /**
      *  Method moves moves Minotaur to mySpace and force the other worker to move from mySpace to otherSpace.
-     * @param mySpace of type Space - the space where Minotaur wants to move.
+     * @param space of type Space - the space where Minotaur wants to move.
      * @param gameBoard of type GameBoard - the GameBoard reference in order to select the space where other worker is
      * forced to move.
      * @return boolean false if otherSpace isn't valid, true otherwise.
      * @see Worker#move(Space, GameBoard)
      */
     @Override
-    public boolean move(Space mySpace, GameBoard gameBoard) throws IllegalArgumentException {
-        if (mySpace == null) throw new IllegalArgumentException();
+    public boolean move(Space space, GameBoard gameBoard) throws IllegalArgumentException {
+        if (space == null) throw new IllegalArgumentException();
         Space otherSpace;
-        Couple coordinates = calculateCoordinates(mySpace);
+        Couple coordinates = calculateCoordinates(space);
 
         otherSpace = gameBoard.getSpace(coordinates.getRow(), coordinates.getColumn());       //move Minotaur and
         // force other worker
-        mySpace.getWorker().setPosition(otherSpace);
+        space.getWorker().setPosition(otherSpace);
         Space oldPosition = position;
         oldPosition.setWorker(null);
-        this.setPosition(mySpace);
+        this.setPosition(space);
         Move myMove = new Move(oldPosition.getRow(),oldPosition.getColumn(),position.getRow(),position.getColumn());
         Move otherMove = new Move(position.getRow(),position.getColumn(),otherSpace.getRow(),otherSpace.getColumn());
         listeners.firePropertyChange("MinotaurDoubleMove", myMove, otherMove);

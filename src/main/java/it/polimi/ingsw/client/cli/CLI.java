@@ -903,7 +903,7 @@ public class CLI implements UI, Runnable {
         }
         TimeUnit.MILLISECONDS.sleep(500);
         if (modelView.isTurnActive()) {
-                System.out.print(actions[0] ? " - MOVE" : "");
+                System.out.print(actions[0] ? " - MOVE\n" : "");
                 System.out.println(actions[1] ? " - BUILD": "");
             if(actions.length==4){
                 System.out.println(" - " + customPower);

@@ -222,11 +222,11 @@ public abstract class Worker {
 
     /**
      * Method move returns false if it isn't a Minotaur worker.
-     * @param mySpace of type Space - the space where worker wants to move to.
+     * @param space of type Space - the space where worker wants to move to.
      * @param gameBoard of type GameBoard - the game board.
      * @return boolean false if it isn't a Minotaur, true otherwise.
      */
-    public boolean move(Space mySpace, GameBoard gameBoard){
+    public boolean move(Space space, GameBoard gameBoard){
         return false;
     }
 

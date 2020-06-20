@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class Hestia extends Worker {
 
-    boolean alreadyBuilt = false;
+    private boolean alreadyBuilt = false;
 
     /**
      * Constructor create an Hestia instance.
