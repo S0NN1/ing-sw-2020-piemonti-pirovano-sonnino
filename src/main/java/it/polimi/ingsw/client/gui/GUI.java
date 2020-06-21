@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.ActionHandler;
 import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.ModelView;
 import it.polimi.ingsw.client.UI;
+import it.polimi.ingsw.client.gui.controllers.ResizeHandler;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.LoaderController;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
@@ -21,6 +22,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -30,7 +32,6 @@ import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -103,6 +104,9 @@ public class GUI extends Application implements UI {
         stage.setTitle("Santorini");
         stage.setScene(currentScene);
         stage.show();
+        ResizeHandler resize = new ResizeHandler((Pane) currentScene.lookup("#mainPane"));
+        currentScene.widthProperty().addListener(resize.getWidthListener());
+        currentScene.heightProperty().addListener(resize.getHeightListener());
         Media pick = new Media(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("media/Epic_Battle_Speech.mp3")).toExternalForm());
         player = new MediaPlayer(pick);
@@ -122,7 +126,6 @@ public class GUI extends Application implements UI {
     public void start(Stage stage) throws Exception {
         setup();
         this.stage = stage;
-        this.stage.setResizable(false);
         Font.loadFont(getClass().getResourceAsStream("/fonts/DalekPinpointBold.ttf"), 14);
         Font.loadFont(getClass().getResourceAsStream("/fonts/Roboto-Regular.ttf"), 12);
         Font.loadFont(getClass().getResourceAsStream("/fonts/Roboto-Medium.ttf"), 12);
@@ -199,6 +202,9 @@ public class GUI extends Application implements UI {
         currentScene = nameMapScene.get(newScene);
         stage.setScene(currentScene);
         stage.show();
+        ResizeHandler resize = new ResizeHandler((Pane) currentScene.lookup("#mainPane"));
+        currentScene.widthProperty().addListener(resize.getWidthListener());
+        currentScene.heightProperty().addListener(resize.getHeightListener());
     }
 
     /**

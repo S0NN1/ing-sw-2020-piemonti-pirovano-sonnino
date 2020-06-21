@@ -70,7 +70,7 @@ public class Worker extends Polygon {
         AnchorPane tempPane = new AnchorPane();
         AnchorPane.setTopAnchor(tempPane, 66.0);
         AnchorPane.setLeftAnchor(tempPane, 69.0);
-        AnchorPane mainAnchor = controller.getMainAnchor();
+        AnchorPane mainPane = controller.getmainPane();
         final double[] x = new double[1];
         final double[] y = new double[1];
         this.setOnMousePressed(mouseEvent -> {
@@ -93,7 +93,7 @@ public class Worker extends Polygon {
                         controller.getGUI().getListeners().firePropertyChange("action", null, "MOVE "
                                 + newRow + " " + newCol);
 
-                    mainAnchor.getChildren().remove(tempPane);
+                    mainPane.getChildren().remove(tempPane);
                 }
         );
         this.setOnMouseDragged(mouseEvent -> {

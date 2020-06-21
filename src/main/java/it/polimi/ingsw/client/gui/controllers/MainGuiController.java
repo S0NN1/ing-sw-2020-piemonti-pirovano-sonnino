@@ -37,9 +37,10 @@ public class MainGuiController implements GUIController {
   public static final String GRAYED_OUT = "grayedOut";
   private final HashMap<String, Color> colors;
   private final HashMap<Integer, Label> playerMapLabel = new HashMap<>();
-  private final HashMap<Integer, Rectangle> playerMapRect = new HashMap<>();
+  private final HashMap<Integer, ImageView> playerMapRect = new HashMap<>();
   private final HashMap<String, ImageView> playerMapStar = new HashMap<>();
   private final HashMap<Integer, ImageView> indexMapStar = new HashMap<>();
+  private final HashMap<Color, Image> colorMapImage = new HashMap<>();
   private GUI gui;
   private ClientBoard board;
   @FXML private GridPane grid;
@@ -48,14 +49,14 @@ public class MainGuiController implements GUIController {
   @FXML private Button buttonBuild;
   @FXML private Button buttonEnd;
   @FXML private Button buttonCustom;
-  @FXML private AnchorPane mainAnchor;
+  @FXML private AnchorPane mainPane;
   @FXML private AnchorPane centerAnchor;
   @FXML private Label player1;
   @FXML private Label player2;
   @FXML private Label player3;
-  @FXML private Rectangle rect1;
-  @FXML private Rectangle rect2;
-  @FXML private Rectangle rect3;
+  @FXML private ImageView rect1;
+  @FXML private ImageView rect2;
+  @FXML private ImageView rect3;
   @FXML private ImageView star1;
   @FXML private ImageView star2;
   @FXML private ImageView star3;
@@ -69,6 +70,9 @@ public class MainGuiController implements GUIController {
     colors.put("BLUE", Color.DARKBLUE);
     colors.put("GREEN", Color.GREEN);
     colors.put("CYAN", Color.CYAN);
+    colorMapImage.put(Color.RED, new Image(getClass().getResourceAsStream("/graphics/red.png")));
+    colorMapImage.put( Color.GREEN, new Image(getClass().getResourceAsStream("/graphics/green.png")));
+    colorMapImage.put(Color.DARKBLUE, new Image(getClass().getResourceAsStream("/graphics/blue.png")));
   }
 
   /** Method init sets players' nicknames, colors and customAction visibility. */
@@ -82,7 +86,7 @@ public class MainGuiController implements GUIController {
       playerMapStar.put(playerMapLabel.get(i).getText(), indexMapStar.get(i));
       playerMapRect
           .get(i)
-          .setFill(colors.get(gui.getModelView().getPlayerMapColor().get(nickname).toUpperCase()));
+          .setImage(colorMapImage.get(colors.get(gui.getModelView().getPlayerMapColor().get(nickname).toUpperCase())));
       playerMapRect.get(i).setVisible(true);
       playerMapLabel.get(i).setVisible(true);
       playerMapStar.get(playerMapLabel.get(i).getText()).setVisible(true);
@@ -222,6 +226,7 @@ public class MainGuiController implements GUIController {
     } else {
       addDome(row, col);
     }
+
   }
 
   /**
@@ -468,12 +473,12 @@ public class MainGuiController implements GUIController {
   }
 
   /**
-   * Method getMainAnchor returns the mainAnchor of this MainGuiController object.
+   * Method getmainPane returns the mainPane of this MainGuiController object.
    *
-   * @return the mainAnchor (type AnchorPane) of this MainGuiController object.
+   * @return the mainPane (type AnchorPane) of this MainGuiController object.
    */
-  public AnchorPane getMainAnchor() {
-    return mainAnchor;
+  public AnchorPane getmainPane() {
+    return mainPane;
   }
   /** @see GUIController#setGui(GUI) */
   @Override

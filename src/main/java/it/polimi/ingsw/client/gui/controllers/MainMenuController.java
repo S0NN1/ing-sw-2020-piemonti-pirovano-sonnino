@@ -8,12 +8,14 @@ import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.exceptions.InvalidNicknameException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 import java.awt.*;
 import java.io.IOException;
@@ -114,7 +116,7 @@ public class MainMenuController implements GUIController{
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setHeaderText("Server not reachable");
-                    alert.setContentText("The entered IP/port doesn't match any active server or the server is not" +
+                    alert.setContentText("The entered IP/port doesn't match any active server or the server is not " +
                             "running. Please try again!");
                     alert.showAndWait();
                     gui.changeStage("MainMenu.fxml");
