@@ -61,22 +61,22 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="285.0" layoutY="79.0">
+      <AnchorPane fx:id="gridPane" layoutX="277.0" layoutY="75.0">
          <children>
-            <GridPane fx:id="grid" alignment="CENTER" prefHeight="389.0" prefWidth="390.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <GridPane fx:id="grid" alignment="CENTER" layoutX="6.0" layoutY="2.0" prefHeight="394.0" prefWidth="394.0">
               <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="76.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="92.0" minWidth="10.0" prefWidth="79.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="85.0" minWidth="10.0" prefWidth="80.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="84.0" minWidth="10.0" prefWidth="80.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="88.0" minWidth="10.0" prefWidth="75.0" />
+                  <ColumnConstraints halignment="CENTER" percentWidth="20.0" />
+                  <ColumnConstraints halignment="CENTER" percentWidth="20.0" />
+                  <ColumnConstraints halignment="CENTER" percentWidth="20.0" />
+                <ColumnConstraints halignment="CENTER" percentWidth="20.0" />
+                <ColumnConstraints halignment="CENTER" percentWidth="20.0" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="113.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
+                  <RowConstraints percentHeight="20.0" />
+                  <RowConstraints percentHeight="20.0" />
+                <RowConstraints percentHeight="20.0" />
+                <RowConstraints percentHeight="20.0" />
+                <RowConstraints percentHeight="20.0" />
               </rowConstraints>
             </GridPane>
          </children>

@@ -1,19 +1,22 @@
 package it.polimi.ingsw.client.gui.shapes;
 
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
 
 /**
  * Dome class is the gui representation of block dome.
  * @author Alice Piemonti
- * @see Circle
+ * @see Ellipse
  */
-public class Dome extends Circle {
+public class Dome extends Ellipse {
     /**
      * Constructor Dome creates a new Dome instance.
      */
-    public Dome(){
-        super(13.0, Color.BLUE);
+    public Dome(double width, double height){
+    setStyle("-fx-background-color: blue");
+    setRadiusX(width*0.174);
+        setRadiusY(width*0.174);
         setStroke(Color.BLACK);
     }
 }

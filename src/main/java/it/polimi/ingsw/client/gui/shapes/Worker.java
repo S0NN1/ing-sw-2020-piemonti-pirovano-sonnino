@@ -32,7 +32,6 @@ public class Worker extends Polygon {
                         20.0, 10.0,
                         10.0, -10.0);
         setStroke(Color.BLACK);
-
         this.row = row;
         this.col = col;
         this.controller = controller;

@@ -58,6 +58,7 @@ public class GUI extends Application implements UI {
     private final ModelView modelView;
     private final ActionHandler actionHandler;
     private final Logger logger = Logger.getLogger(getClass().getName());
+    private ResizeHandler resize;
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
      */
@@ -104,7 +105,7 @@ public class GUI extends Application implements UI {
         stage.setTitle("Santorini");
         stage.setScene(currentScene);
         stage.show();
-        ResizeHandler resize = new ResizeHandler((Pane) currentScene.lookup("#mainPane"));
+        resize = new ResizeHandler((Pane) currentScene.lookup("#mainPane"));
         currentScene.widthProperty().addListener(resize.getWidthListener());
         currentScene.heightProperty().addListener(resize.getHeightListener());
         Media pick = new Media(Objects.requireNonNull(getClass().getClassLoader()

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.shapes;
 
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -10,31 +11,35 @@ import javafx.scene.shape.Rectangle;
  */
 public class Block extends Rectangle {
 private final int level;
+private final double width;
+private final double height;
     /**
      * Constructor Block creates a new Block instance.
      *
      * @param level of type int - the level identifying the right block.
      */
-    public Block(int level) {
+    public Block(int level, double width, double height) {
         super();
+        this.width = width;
+        this.height = height;
         switch (level) {
             case 1 -> {
-                setWidth(65);
-                setHeight(65);
+                setWidth(width*0.87);
+                setHeight(height*0.87);
             }
             case 2 -> {
-                setWidth(47);
-                setHeight(47);
+                setWidth(width*0.627);
+                setHeight(height*0.627);
             }
             case 3 -> {
-                setWidth(30);
-                setHeight(30);
+                setWidth(width*0.4);
+                setHeight(height*0.4);
             }
             default -> throw new IllegalArgumentException();
         }
-        this.level=level;
         setFill(Color.WHITE);
         setStroke(Color.BLACK);
+        this.level=level;
     }
 
     /**
