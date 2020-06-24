@@ -44,3 +44,7 @@
     -fx-font-size: 15;
     -fx-text-fill: black;
 }
+.gridpane {
+    -fx-background-image: url("../graphics/bgs/gridPane.png");
+    -fx-background-size: stretch;
+}

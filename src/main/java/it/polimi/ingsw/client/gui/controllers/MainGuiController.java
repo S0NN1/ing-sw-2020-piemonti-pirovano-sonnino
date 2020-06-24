@@ -253,7 +253,7 @@ public class MainGuiController implements GUIController {
     }
     Block block = new Block(level, grid.getWidth()/5, grid.getWidth()/5);
     grid.add(block, col, row);
-    double sqrt = Math.sqrt(Math.pow(level, 2) * 2) + 5;
+    double sqrt = Math.sqrt(Math.pow(level, 2) * 1.2) + 5;
     block.widthProperty().bind(grid.widthProperty().divide(sqrt));
     block.heightProperty().bind(grid.heightProperty().divide(sqrt));
    // block.setScaleX(grid.getScene().lookup("#gridPane").getScaleX());

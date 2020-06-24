@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -61,23 +62,26 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="gridPane" layoutX="277.0" layoutY="75.0">
+      <AnchorPane fx:id="gridPane" layoutX="277.0" layoutY="75.0" styleClass="gridpane" stylesheets="@../css/mainScene.css">
          <children>
-            <GridPane fx:id="grid" alignment="CENTER" layoutX="6.0" layoutY="2.0" prefHeight="394.0" prefWidth="394.0">
+            <GridPane fx:id="grid" alignment="CENTER" layoutX="5.0" layoutY="7.0" prefHeight="385.0" prefWidth="392.0">
               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" percentWidth="19.0" />
                   <ColumnConstraints halignment="CENTER" percentWidth="20.0" />
-                  <ColumnConstraints halignment="CENTER" percentWidth="20.0" />
-                  <ColumnConstraints halignment="CENTER" percentWidth="20.0" />
+                  <ColumnConstraints halignment="CENTER" percentWidth="21.0" />
                 <ColumnConstraints halignment="CENTER" percentWidth="20.0" />
                 <ColumnConstraints halignment="CENTER" percentWidth="20.0" />
               </columnConstraints>
               <rowConstraints>
+                  <RowConstraints percentHeight="18.0" />
                   <RowConstraints percentHeight="20.0" />
-                  <RowConstraints percentHeight="20.0" />
+                <RowConstraints percentHeight="21.0" />
                 <RowConstraints percentHeight="20.0" />
-                <RowConstraints percentHeight="20.0" />
-                <RowConstraints percentHeight="20.0" />
+                <RowConstraints percentHeight="21.0" />
               </rowConstraints>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </GridPane>
          </children>
       </AnchorPane>
