@@ -12,7 +12,6 @@ import it.polimi.ingsw.model.player.Action;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,9 +21,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -196,9 +196,10 @@ public class MainGuiController implements GUIController {
    * @param col of type int - the column of the cell.
    */
   public void setWorker(int row, int col) {
-    grid.add(new Worker(row, col, this), col, row);
-    new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
-  }
+    Worker worker = new Worker(row, col, this);
+    grid.add(worker, col, row);
+    worker.radiusXProperty().bind(grid.widthProperty().divide(30));
+    worker.radiusYProperty().bind(grid.heightProperty().divide(30));  }
 
   /** Method selectWorker makes the two workers selectable. */
   public void selectWorker() {
@@ -226,10 +227,8 @@ public class MainGuiController implements GUIController {
     } else if (!dome) {
       int height = board.getHeight(row, col);
       addBlock(row, col, height);
-      new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
     } else {
       addDome(row, col);
-      new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
     }
   }
 
@@ -252,15 +251,18 @@ public class MainGuiController implements GUIController {
         break;
       }
     }
-    AnchorPane pane = new AnchorPane();
-    pane.getChildren().add(new Block(level, grid.getWidth()/5, grid.getWidth()/5));
-    grid.add(pane, col, row);
+    Block block = new Block(level, grid.getWidth()/5, grid.getWidth()/5);
+    grid.add(block, col, row);
+    double sqrt = Math.sqrt(Math.pow(level, 2) * 2) + 5;
+    block.widthProperty().bind(grid.widthProperty().divide(sqrt));
+    block.heightProperty().bind(grid.heightProperty().divide(sqrt));
    // block.setScaleX(grid.getScene().lookup("#gridPane").getScaleX());
     //block.setScaleY(grid.getScene().lookup("#gridPane").getScaleY());
     if (worker != null) {
       grid.add(worker, col, row);
+      worker.radiusXProperty().bind(grid.widthProperty().divide(30));
+      worker.radiusYProperty().bind(grid.heightProperty().divide(30));
     }
-    new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
   }
 
   /**
@@ -277,7 +279,6 @@ public class MainGuiController implements GUIController {
           && node instanceof Block
           && level + 1 == ((Block) node).getLevel()) {
         grid.getChildren().remove(node);
-        new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
         return;
       }
     }
@@ -311,7 +312,8 @@ public class MainGuiController implements GUIController {
   public void addDome(int row, int col) {
     Dome dome = new Dome(grid.getWidth()/5, grid.getHeight());
     grid.add(dome, col, row);
-    new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
+    dome.radiusXProperty().bind(grid.widthProperty().divide(20));
+    dome.radiusYProperty().bind(grid.heightProperty().divide(20));
   }
 
   /**
@@ -324,8 +326,10 @@ public class MainGuiController implements GUIController {
    */
   public void move(int oldRow, int oldCol, int newRow, int newCol) {
     grid.getChildren().remove(getWorkerFromGrid(oldRow, oldCol));
-    grid.add(new Worker(newRow, newCol, this), newCol, newRow);
-    new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
+    Worker worker =new Worker(newRow, newCol, this);
+    grid.add(worker, newCol, newRow);
+    worker.radiusXProperty().bind(grid.widthProperty().divide(30));
+    worker.radiusYProperty().bind(grid.heightProperty().divide(30));
   }
 
   /**
@@ -342,7 +346,6 @@ public class MainGuiController implements GUIController {
     worker1.setFill(colors.get(board.getColor(oldRow1, oldCol1)));
     Worker worker2 = getWorkerFromGrid(oldRow2, oldCol2);
     worker2.setFill(colors.get(board.getColor(oldRow2, oldCol2)));
-    new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
   }
 
   /**
@@ -363,7 +366,8 @@ public class MainGuiController implements GUIController {
     Worker worker2 = new Worker(newRow2, newCol2, this);
     worker2.setFill(colors.get(board.getColor(newRow2, newCol2)));
     grid.add(worker2, newCol2, newRow2);
-    new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
+    worker2.radiusXProperty().bind(grid.widthProperty().divide(30));
+    worker2.radiusYProperty().bind(grid.heightProperty().divide(30));
   }
 
   /**
@@ -379,7 +383,6 @@ public class MainGuiController implements GUIController {
     for (Couple element : spaces) {
       AnchorPane node = new AnchorPane();
       grid.add(node, element.getColumn(), element.getRow());
-      new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
       node.setStyle("-fx-background-color: yellow");
       node.setOpacity(0.4);
       int row = GridPane.getRowIndex(node);
@@ -426,7 +429,6 @@ public class MainGuiController implements GUIController {
       Node node = grid.getChildren().get(i);
       if (node instanceof AnchorPane) {
         grid.getChildren().remove(node);
-        new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
         i--;
       }
     }
@@ -490,11 +492,11 @@ public class MainGuiController implements GUIController {
   }
 
   /**
-   * Method getmainPane returns the mainPane of this MainGuiController object.
+   * Method getMainPane returns the mainPane of this MainGuiController object.
    *
    * @return the mainPane (type AnchorPane) of this MainGuiController object.
    */
-  public AnchorPane getmainPane() {
+  public AnchorPane getMainPane() {
     return mainPane;
   }
   /** @see GUIController#setGui(GUI) */
@@ -530,7 +532,6 @@ public class MainGuiController implements GUIController {
       for (Couple element : spaces) {
         AnchorPane node = new AnchorPane();
         grid.add(node, element.getColumn(), element.getRow());
-        new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
         node.setStyle("-fx-background-color: #ffff00");
         node.setOpacity(0.4);
         int row = GridPane.getRowIndex(node);
@@ -541,10 +542,8 @@ public class MainGuiController implements GUIController {
             set[i.get()]=" " + row + " " + col;
             i.getAndIncrement();
             grid.getChildren().remove(node);
-            new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
             if(set[0]!=null && set[1]!=null){
               normalCells();
-              new ResizeHandler((Pane) grid.getScene().lookup("#mainPane"));
               gui.getListeners().firePropertyChange(ACTION, null, "SET" + set[0] + set[1]);
             }
           });

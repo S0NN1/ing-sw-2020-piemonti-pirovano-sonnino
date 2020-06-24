@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Polygon;
 
 /**
@@ -14,7 +15,7 @@ import javafx.scene.shape.Polygon;
  * @author Alice Piemonti
  * @see Polygon
  */
-public class Worker extends Polygon {
+public class Worker extends Ellipse {
 
     int row;
     int col;
@@ -28,14 +29,12 @@ public class Worker extends Polygon {
      * @param controller of type MainGuiController - the MainGuiController reference.
      */
     public Worker(int row, int col, MainGuiController controller) {
-        super(0.0, 10.0,
-                        20.0, 10.0,
-                        10.0, -10.0);
+        setStyle("-fx-background-color: blue");
         setStroke(Color.BLACK);
         this.row = row;
         this.col = col;
         this.controller = controller;
-        setFill(this.getColor());
+        setFill(getColor());
     }
 
     /**
@@ -69,7 +68,7 @@ public class Worker extends Polygon {
         AnchorPane tempPane = new AnchorPane();
         AnchorPane.setTopAnchor(tempPane, 66.0);
         AnchorPane.setLeftAnchor(tempPane, 69.0);
-        AnchorPane mainPane = controller.getmainPane();
+        AnchorPane mainPane = controller.getMainPane();
         final double[] x = new double[1];
         final double[] y = new double[1];
         this.setOnMousePressed(mouseEvent -> {
@@ -99,7 +98,7 @@ public class Worker extends Polygon {
             this.setLayoutX(mouseEvent.getSceneX() + x[0]);
             this.setLayoutY(mouseEvent.getSceneY() + y[0]);
         });
-        this.setOnMouseEntered(mouseEvent -> this.setCursor(Cursor.HAND));
+        setOnMouseEntered(mouseEvent -> setCursor(Cursor.HAND));
     }
 
     /**
@@ -121,7 +120,7 @@ public class Worker extends Polygon {
      * @return the color (type Paint) of this Worker object.
      */
     public Paint getColor() {
-        return this.controller.getColors().get(controller.getGUI().getModelView().getBoard().getColor(row,col));
+        return controller.getColors().get(controller.getGUI().getModelView().getBoard().getColor(row,col));
     }
 
     /**
@@ -132,6 +131,6 @@ public class Worker extends Polygon {
      * @return the workingNumber (type int) of this Worker object.
      */
     public int getWorkingNumber() {
-        return this.controller.getGUI().getModelView().getBoard().getWorkerNum(row, col);
+        return controller.getGUI().getModelView().getBoard().getWorkerNum(row, col);
     }
 }
