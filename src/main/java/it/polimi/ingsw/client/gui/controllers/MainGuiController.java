@@ -344,9 +344,9 @@ public class MainGuiController implements GUIController {
   public void apolloDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2) {
     Worker worker1 = getWorkerFromGrid(oldRow1, oldCol1);
     worker1.deselect();
-    worker1.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+ board.getColor(oldRow1, oldCol1) + ".png"))));
+    worker1.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+ board.getColor(oldRow1, oldCol1).toLowerCase() + ".png"))));
     Worker worker2 = getWorkerFromGrid(oldRow2, oldCol2);
-    worker2.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+ board.getColor(oldRow1, oldCol1) + ".png"))));
+    worker2.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+ board.getColor(oldRow2, oldCol2).toLowerCase() + ".png"))));
   }
 
   /**
@@ -362,10 +362,10 @@ public class MainGuiController implements GUIController {
   public void minotaurDoubleMove(
       int oldRow1, int oldCol1, int oldRow2, int oldCol2, int newRow2, int newCol2) {
     Worker worker1 = getWorkerFromGrid(oldRow2, oldCol2);
-    worker1.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+ board.getColor(oldRow2, oldCol2) + ".png"))));
+    worker1.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+ board.getColor(oldRow2, oldCol2).toLowerCase() + ".png"))));
     grid.getChildren().remove(getWorkerFromGrid(oldRow1, oldCol1));
     Worker worker2 = new Worker(newRow2, newCol2, this);
-    worker1.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+ board.getColor(newRow2, newCol2) + ".png"))));
+    worker2.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+ board.getColor(newRow2, newCol2).toLowerCase() + ".png"))));
     grid.add(worker2, newCol2, newRow2);
     worker2.radiusXProperty().bind(grid.widthProperty().divide(30));
     worker2.radiusYProperty().bind(grid.heightProperty().divide(30));
