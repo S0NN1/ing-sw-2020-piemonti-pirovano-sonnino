@@ -14,21 +14,36 @@ import javafx.scene.layout.Region;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Class ResizeHandler handles windows auto resizing.
+ *
+ * @author Nicolò Sonino
+ */
 public class ResizeHandler {
-  private Pane pane;
-  private ArrayList<Node> nodes = new ArrayList<>();
-  private ArrayList<Node> gridNodes = new ArrayList<>();
-  private ArrayList<ArrayList<Double>> properties = new ArrayList<>();
-  private ArrayList<ArrayList<Double>> gridProperties = new ArrayList<>();
+  private final ArrayList<Node> nodes = new ArrayList<>();
+  private final ArrayList<Node> gridNodes = new ArrayList<>();
+  private final ArrayList<ArrayList<Double>> properties = new ArrayList<>();
+  private final ArrayList<ArrayList<Double>> gridProperties = new ArrayList<>();
   private ChangeListener<Number> widthListener;
   private ChangeListener<Number> heightListener;
   private double rootWidth;
   private double rootHeight;
 
+  /**
+   * Constructor ResizeHandler creates a new ResizeHandler instance.
+   *
+   * @param pane of type Pane
+   */
   public ResizeHandler(Pane pane) {
     calculateResize(pane, pane);
   }
 
+  /**
+   * Method calculateResize calculates resizing.
+   *
+   * @param pane of type Pane - the root pane.
+   * @param parent of type Pane - the original root pane.
+   */
   public void calculateResize(Pane pane, Pane parent) {
     if (pane.equals(parent)) {
       properties.clear();
@@ -37,7 +52,6 @@ public class ResizeHandler {
       rootHeight = pane.getHeight();
     }
     double fontSize = 0;
-    this.pane = pane;
     for (Node node : parent.getChildren()) {
       nodes.add(node);
       Bounds bounds = node.getBoundsInLocal();
@@ -73,7 +87,7 @@ public class ResizeHandler {
                 && nodes.get(i).getId() != null
                 && nodes.get(i).getId().equalsIgnoreCase("#gridPane")) {
               double offset = 0;
-              nodes.get(i).setScaleX(newSceneWidth.doubleValue() / rootHeight);
+              nodes.get(i).setScaleX(newSceneWidth.doubleValue() / rootWidth);
               offset =
                   ((nodes.get(i).getScaleX() - 1) / 2)
                       * properties.get(i).get(0)
@@ -115,10 +129,24 @@ public class ResizeHandler {
         };
   }
 
+  /**
+   * Method getWidthListener returns the widthListener of this ResizeHandler object.
+   *
+   *
+   *
+   * @return the widthListener (type ChangeListener&lt;Number&gt;) of this ResizeHandler object.
+   */
   public ChangeListener<Number> getWidthListener() {
     return widthListener;
   }
 
+  /**
+   * Method getHeightListener returns the heightListener of this ResizeHandler object.
+   *
+   *
+   *
+   * @return the heightListener (type ChangeListener&lt;Number&gt;) of this ResizeHandler object.
+   */
   public ChangeListener<Number> getHeightListener() {
     return heightListener;
   }

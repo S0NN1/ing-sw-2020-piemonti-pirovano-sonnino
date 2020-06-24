@@ -112,6 +112,9 @@ public class Worker extends Ellipse {
     }
 
 
+    /**
+     * Method setColor sets right color to the worker.
+     */
     public void setColor() {
 
         String color = "/graphics/icons/hammer_"+ controller.getGUI().getModelView().getBoard().getColor(row,col).toLowerCase() + ".png";

@@ -16,6 +16,8 @@ private final double height;
     /**
      * Constructor Block creates a new Block instance.
      *
+     * @param width of type double - the grid's width.
+     * @param height of type double - the grid's height.
      * @param level of type int - the level identifying the right block.
      */
     public Block(int level, double width, double height) {
