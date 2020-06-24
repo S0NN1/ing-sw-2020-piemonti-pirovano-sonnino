@@ -366,7 +366,6 @@ public class MainGuiController implements GUIController {
     grid.getChildren().remove(getWorkerFromGrid(oldRow1, oldCol1));
     Worker worker2 = new Worker(newRow2, newCol2, this);
     worker1.setFill(new ImagePattern(new Image("/graphics/icons/hammer_"+ board.getColor(newRow2, newCol2) + ".png")));
-    worker2.setFill(colors.get(board.getColor(newRow2, newCol2)));
     grid.add(worker2, newCol2, newRow2);
     worker2.radiusXProperty().bind(grid.widthProperty().divide(30));
     worker2.radiusYProperty().bind(grid.heightProperty().divide(30));
