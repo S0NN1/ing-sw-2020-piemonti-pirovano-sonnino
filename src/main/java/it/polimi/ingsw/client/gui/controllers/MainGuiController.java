@@ -525,6 +525,7 @@ public class MainGuiController implements GUIController {
     String[] set =new String[2];
     AtomicInteger i = new AtomicInteger(0);
       getActionsLabel().setText("Place your worker!");
+      getActionsLabel().setVisible(true);
       List<Couple> spaces = new ArrayList<>();
       for (int[] coord : coords) {
         spaces.add(new Couple(coord[0], coord[1]));
@@ -544,6 +545,7 @@ public class MainGuiController implements GUIController {
             grid.getChildren().remove(node);
             if(set[0]!=null && set[1]!=null){
               normalCells();
+              getActionsLabel().setVisible(false);
               gui.getListeners().firePropertyChange(ACTION, null, "SET" + set[0] + set[1]);
             }
           });
