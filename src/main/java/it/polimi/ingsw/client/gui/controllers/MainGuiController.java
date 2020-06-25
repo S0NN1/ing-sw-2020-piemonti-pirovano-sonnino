@@ -102,7 +102,8 @@ public class MainGuiController implements GUIController {
   private void setVisibleCustomAction() {
     if (!Constants.getGodMapCustomAction().containsKey(gui.getModelView().getGod().toUpperCase())) {
       buttonCustom.setVisible(false);
-    } else {
+    } else{
+      new ResizeHandler((Pane) buttonCustom.getScene().lookup("#mainPane"));
       buttonCustom.setText(
           Constants.getGodMapCustomAction().get(gui.getModelView().getGod().toUpperCase()));
       buttonCustom.setOnAction(
@@ -125,7 +126,8 @@ public class MainGuiController implements GUIController {
                 getResourceAsStream("/graphics/icons/clp_star_empty.png")));
     }
       String currentPlayer = gui.getModelView().getCurrentPlayer();
-      playerMapStar.get(currentPlayer).setImage(new Image(getClass().getResourceAsStream("/graphics/icons/clp_star_full.png")));
+      playerMapStar.get(currentPlayer).setImage(new Image(getClass().getResourceAsStream(
+              "/graphics/icons/clp_star_full.png")));
   }
 
   /**

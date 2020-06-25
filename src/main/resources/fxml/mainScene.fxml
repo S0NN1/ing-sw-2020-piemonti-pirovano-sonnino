@@ -87,14 +87,14 @@
       </AnchorPane>
       <AnchorPane layoutX="749.0" layoutY="234.0" prefHeight="278.0" prefWidth="179.0" styleClass="rightMenu" stylesheets="@../css/mainScene.css">
          <children>
-            <Button fx:id="buttonMove" layoutX="26.0" layoutY="80.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="125.0" styleClass="grayedOut" stylesheets="@../css/mainScene.css" text="MOVE" visible="true" />
+            <Label fx:id="actionsLabel" alignment="CENTER" layoutX="22.0" layoutY="40.0" prefHeight="30.0" prefWidth="134.0" text="Labellllllllllllll" textAlignment="CENTER" visible="false" wrapText="true" />
+            <Button fx:id="buttonMove" layoutX="26.0" layoutY="78.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="125.0" styleClass="grayedOut" stylesheets="@../css/mainScene.css" text="MOVE" visible="true" />
             <Button fx:id="buttonBuild" layoutX="26.0" layoutY="120.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="125.0" styleClass="grayedOut" stylesheets="@../css/mainScene.css" text="BUILD" visible="true" />
-            <Button fx:id="buttonCustom" layoutX="26.0" layoutY="160.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="125.0" styleClass="grayedOut" stylesheets="@../css/mainScene.css" text="CUSTOMACTION" visible="true" />
-            <Button fx:id="buttonEnd" layoutX="26.0" layoutY="200.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="125.0" styleClass="grayedOut" stylesheets="@../css/mainScene.css" text="END" textAlignment="CENTER" visible="true" />
+            <Button fx:id="buttonCustom" layoutX="26.0" layoutY="162.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="125.0" styleClass="grayedOut" stylesheets="@../css/mainScene.css" text="CUSTOMACTION" visible="true" />
+            <Button fx:id="buttonEnd" layoutX="26.0" layoutY="204.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="125.0" styleClass="grayedOut" stylesheets="@../css/mainScene.css" text="END" textAlignment="CENTER" visible="true" />
          </children>
       </AnchorPane>
       <Label alignment="CENTER" layoutX="300.0" layoutY="30.0" prefHeight="40.0" prefWidth="40.0" text="0" textAlignment="CENTER" />
-      <Label fx:id="actionsLabel" alignment="CENTER" layoutX="770.0" layoutY="272.0" prefHeight="30.0" prefWidth="134.0" text="Labellllllllllllll" textAlignment="CENTER" visible="false" wrapText="true" />
       <Label alignment="CENTER" layoutX="380.0" layoutY="30.0" prefHeight="40.0" prefWidth="40.0" text="1" textAlignment="CENTER" />
       <Label alignment="CENTER" layoutX="460.0" layoutY="30.0" prefHeight="40.0" prefWidth="40.0" text="2" textAlignment="CENTER" />
       <Label alignment="CENTER" layoutX="540.0" layoutY="30.0" prefHeight="40.0" prefWidth="40.0" text="3" textAlignment="CENTER" />
