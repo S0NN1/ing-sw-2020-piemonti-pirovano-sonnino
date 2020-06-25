@@ -5,7 +5,7 @@
 
 <img src="https://images-na.ssl-images-amazon.com/images/I/91irtho0CNL._AC_SL1500_.jpg" width=192px height=192 px align="right" />
 
-Santorini Board Game is the final test of **"Software Engineering"**, course of **"Computer Engineering"** held at Politecnico di Milano (2019/2020).
+Santorini Board Game is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (2019/2020).
 
 ## Project specification
 The project consists of a Java version of the board game *Santorini*, made by Roxley Games.
