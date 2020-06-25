@@ -444,9 +444,21 @@ public class GUI extends Application implements UI {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("A player left the game.");
             alert.setHeaderText("Lose condition active.");
-            alert.setContentText("Player " + loser + "has loose!");
+            alert.setContentText("Player " + loser + " has lost!");
             alert.showAndWait();
         });
+    }
+
+    public void removeWorkers(String loser) {
+        Platform.runLater(() -> {
+            MainGuiController controller = (MainGuiController)getControllerFromName(MAIN_GUI);
+            List<Couple> positions = modelView.getWorkersPositionByColor(loser);
+            for (Couple position : positions) {
+                controller.getGrid().getChildren().remove(controller.getWorkerFromGrid(position.getRow(), position.getColumn()));
+            }
+            modelView.unregisterPlayer(loser);
+        });
+
     }
 
     /**

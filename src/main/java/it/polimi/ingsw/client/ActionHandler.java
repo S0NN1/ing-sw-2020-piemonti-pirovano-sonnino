@@ -406,7 +406,9 @@ public class ActionHandler {
      * @param answer of type PlayerLostMessage - the answer received from the server.
      */
     private void fireOtherPlayerLost(PlayerLostMessage answer) {
-        modelView.unregisterPlayer(answer.getLoserColor());
+        if(gui!=null) {
+            gui.removeWorkers(answer.getLoserColor());
+        }
         view.firePropertyChange("otherLost", null, answer.getLoser());
     }
 

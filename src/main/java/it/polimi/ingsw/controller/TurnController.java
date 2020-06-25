@@ -258,11 +258,12 @@ public class TurnController implements PropertyChangeListener {
             if(controller.getModel().getCurrentPlayer().getWorkers().get(j).isBlocked()) {
                 endGame();
             }
-            else {
+            else if(controller.getModel().getCurrentPlayer().getWorkers().get(i).isBlocked()) {
                 gameHandler.singleSend(new GameError(ErrorsType.WORKERBLOCKED), gameHandler.getCurrentPlayerID());
-                return;
             }
-            gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+            else {
+                gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+            }
         }
     }
 

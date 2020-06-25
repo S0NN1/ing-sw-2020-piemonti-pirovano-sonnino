@@ -476,6 +476,19 @@ public class ModelView {
             }
         }
     }
+    //TODO valutare
+    public List<Couple> getWorkersPositionByColor(String color) {
+        List<Couple> couples = new ArrayList<>();
+        for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
+            for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
+                if(clientBoard.getGrid()[i][j].getColor()!=null && clientBoard.getGrid()[i][j].getColor().equalsIgnoreCase(color)){
+                    Couple couple = new Couple(i, j);
+                    couples.add(couple);
+                }
+            }
+        }
+        return couples;
+    }
 
     /**
      * Method isGodPowerActive returns the godPowerActive of this ModelView object.
