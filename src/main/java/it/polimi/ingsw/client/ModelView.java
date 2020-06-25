@@ -476,7 +476,13 @@ public class ModelView {
             }
         }
     }
-    //TODO valutare
+
+    /**
+     * Method getWorkersPositionByColor returns the position of the workers identified by the selected color.
+     *
+     * @param color of type String the color of the player.
+     * @return List<Couple> the position of his workers in the grid.
+     */
     public List<Couple> getWorkersPositionByColor(String color) {
         List<Couple> couples = new ArrayList<>();
         for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
