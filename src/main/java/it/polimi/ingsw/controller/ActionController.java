@@ -33,7 +33,6 @@ public class ActionController {
     phase = 0;
     worker = null;
   }
-
   /**
    * Method startAction checks if selected worker is blocked or in a wrong turn phase.
    *
