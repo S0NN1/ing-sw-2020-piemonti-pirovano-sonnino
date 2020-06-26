@@ -57,8 +57,16 @@ public class ActionController {
             }
             phase++;
             return true;
-        } else return worker.getPhase(phase) != null && (worker.getPhase(phase).getAction() == Action.SELECT_BUILD ||
-                worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER);
+        } else if(worker.getPhase(phase) != null && (worker.getPhase(phase).getAction() == Action.SELECT_BUILD)) {
+            return true;
+        } else if(worker.getPhase(phase).getAction() == Action.SELECT_FORCE_WORKER) {
+            if(worker.selectMoves(gameBoard).isEmpty() && ((Charon)worker).selectForceWorkerSpaces(gameBoard).isEmpty()) {
+                worker.setBlocked(true);
+                return false;
+            }
+            return true;
+        } else return false;
+
     }
 
 
