@@ -119,7 +119,7 @@ public class Charon extends Worker {
    * @return List&lt;Space&gt; - the list of spaces where Charon can use his power, null if there
    *     are not space selectable.
    */
-  private List<Space> selectForceWorkerSpaces(GameBoard gameBoard) {
+  public List<Space> selectForceWorkerSpaces(GameBoard gameBoard) {
     ArrayList<Space> spaces = new ArrayList<>();
     for (int i = Constants.GRID_MIN_SIZE; i < Constants.GRID_MAX_SIZE; i++) {
       for (int j = Constants.GRID_MIN_SIZE; j < Constants.GRID_MAX_SIZE; j++) {
