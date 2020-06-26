@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 /**
  * ConnectionSocket class handles the connection between the client and the server.
+ *
  * @author Luca Pirovano
  */
 public class ConnectionSocket {
@@ -30,21 +31,18 @@ public class ConnectionSocket {
   private final String serverAddress;
   private final int serverPort;
   SocketListener listener;
-  private Socket socket;
   private ObjectOutputStream outputStream;
 
-  /**
-   * Constructor ConnectionSocket creates a new ConnectionSocket instance.
-   */
+  /** Constructor ConnectionSocket creates a new ConnectionSocket instance. */
   public ConnectionSocket() {
     this.serverAddress = Constants.getAddress();
     this.serverPort = Constants.getPort();
   }
 
   /**
-   * Method setup initializes a new socket connection and handles the nickname-choice response. It loops until the
-   * server confirms the successful connection (with no nickname duplication and with a correctly configured match
-   * lobby).
+   * Method setup initializes a new socket connection and handles the nickname-choice response. It
+   * loops until the server confirms the successful connection (with no nickname duplication and
+   * with a correctly configured match lobby).
    *
    * @param nickname of type String - the username chosen by the user.
    * @param modelView of type ModelView - the structure, stored into the client, containing simple
@@ -54,7 +52,6 @@ public class ConnectionSocket {
    * @throws DuplicateNicknameException when the nickname is already in use.
    * @throws InvalidNicknameException when the nickname contains illegal characters (like "-").
    */
-
   public boolean setup(String nickname, ModelView modelView, ActionHandler actionHandler)
       throws DuplicateNicknameException, InvalidNicknameException {
     try {
@@ -66,8 +63,9 @@ public class ConnectionSocket {
               + serverPort
               + "..."
               + Constants.ANSI_RESET);
+      Socket socket;
       try {
-        this.socket = new Socket(serverAddress, serverPort);
+        socket = new Socket(serverAddress, serverPort);
       } catch (SocketException | UnknownHostException e) {
         return false;
       }
@@ -89,7 +87,6 @@ public class ConnectionSocket {
       return false;
     }
   }
-
 
   /**
    * Method readInput handles the input reading in order to reduce the setup complexity.
@@ -115,8 +112,8 @@ public class ConnectionSocket {
   }
 
   /**
-   * Method nicknameChecker handles the nickname validation phase after the server answer about the availability of the
-   * desired username.
+   * Method nicknameChecker handles the nickname validation phase after the server answer about the
+   * availability of the desired username.
    *
    * @param input of type Object - the server ObjectStream answer.
    * @return boolean true if the nickname is available and set, false otherwise.
@@ -147,8 +144,8 @@ public class ConnectionSocket {
   }
 
   /**
-   * Method send sends a new message to the server, encapsulating the object in a SerializedMessage type unpacked and
-   * read later by the server.
+   * Method send sends a new message to the server, encapsulating the object in a SerializedMessage
+   * type unpacked and read later by the server.
    *
    * @param message of type Message - the message to be sent to the server.
    */
@@ -165,8 +162,8 @@ public class ConnectionSocket {
   }
 
   /**
-   * Method send sends a new action to the server, encapsulating the object in a SerializedMessage type unpacked and
-   * read later by the server.
+   * Method send sends a new action to the server, encapsulating the object in a SerializedMessage
+   * type unpacked and read later by the server.
    *
    * @param action of type UserAction - the action to be sent to the server.
    */

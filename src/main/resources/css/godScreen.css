@@ -15,6 +15,7 @@
     -fx-background-image: url("../graphics/btns/cm_btn_blue.png");
     -fx-background-size: stretch;
 }
+
 .button:pressed {
     -fx-background-image: url("../graphics/btns/cm_btn_green_pressed.png");
 }

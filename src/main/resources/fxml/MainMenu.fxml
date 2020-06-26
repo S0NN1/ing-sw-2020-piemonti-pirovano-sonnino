@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<AnchorPane fx:id="mainPane" prefHeight="540.0" prefWidth="960.0" styleClass="mainPanel" stylesheets="@../css/mainMenu.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainMenuController">
-   <children>
-      <ImageView fx:id="title" fitHeight="139.0" fitWidth="391.0" layoutX="285.0" layoutY="8.0" pickOnBounds="true">
-         <image>
-            <Image url="@../graphics/santorini-logo.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="setupGame" layoutX="390.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#play" styleClass="actionButton" stylesheets="@../css/mainMenu.css" text="PLAY" textFill="WHITE">
-         <font>
-            <Font name="Britannic Bold" size="36.0" />
-         </font>
-      </Button>
-      <Button fx:id="quitGame" layoutX="390.0" layoutY="327.0" mnemonicParsing="false" onAction="#quit" styleClass="actionButton" stylesheets="@../css/mainMenu.css" text="QUIT" textFill="WHITE">
-         <font>
-            <Font name="Britannic Bold" size="36.0" />
-         </font>
-      </Button>
-      <ImageView fx:id="roxleyIcon" fitHeight="38.0" fitWidth="312.0" layoutY="499.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../graphics/copyright/roxley_splash.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="credits" alignment="CENTER" layoutX="124.0" layoutY="506.0" prefHeight="20.0" prefWidth="778.0" text="Alice Piemonti, Luca Pirovano, Nicolò Sonnino" textFill="WHITE">
-         <font>
-            <Font name="Britannic Bold" size="16.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Label>
-      <ImageView fx:id="music" fitHeight="36.0" fitWidth="28.0" layoutX="918.0" layoutY="504.0" onMouseClicked="#mute" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../graphics/icons/speaker.png" />
-         </image>
-      </ImageView>
-   </children>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:id="mainPane" prefHeight="540.0" prefWidth="960.0" styleClass="mainPanel"
+            stylesheets="@../css/mainMenu.css" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.client.gui.controllers.MainMenuController">
+    <children>
+        <ImageView fx:id="title" fitHeight="139.0" fitWidth="391.0" layoutX="285.0" layoutY="8.0" pickOnBounds="true">
+            <image>
+                <Image url="@../graphics/santorini-logo.png"/>
+            </image>
+        </ImageView>
+        <Button fx:id="setupGame" layoutX="390.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#play"
+                styleClass="actionButton" stylesheets="@../css/mainMenu.css" text="PLAY" textFill="WHITE">
+            <font>
+                <Font name="Britannic Bold" size="36.0"/>
+            </font>
+        </Button>
+        <Button fx:id="quitGame" layoutX="390.0" layoutY="327.0" mnemonicParsing="false" onAction="#quit"
+                styleClass="actionButton" stylesheets="@../css/mainMenu.css" text="QUIT" textFill="WHITE">
+            <font>
+                <Font name="Britannic Bold" size="36.0"/>
+            </font>
+        </Button>
+        <ImageView fx:id="roxleyIcon" fitHeight="38.0" fitWidth="312.0" layoutY="499.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphics/copyright/roxley_splash.png"/>
+            </image>
+        </ImageView>
+        <Label fx:id="credits" alignment="CENTER" layoutX="124.0" layoutY="506.0" prefHeight="20.0" prefWidth="778.0"
+               text="Alice Piemonti, Luca Pirovano, Nicolò Sonnino" textFill="WHITE">
+            <font>
+                <Font name="Britannic Bold" size="16.0"/>
+            </font>
+            <effect>
+                <DropShadow/>
+            </effect>
+        </Label>
+        <ImageView fx:id="music" fitHeight="36.0" fitWidth="28.0" layoutX="918.0" layoutY="504.0" onMouseClicked="#mute"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphics/icons/speaker.png"/>
+            </image>
+        </ImageView>
+    </children>
 </AnchorPane>

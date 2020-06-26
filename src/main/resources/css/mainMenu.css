@@ -1,38 +1,38 @@
 .mainPanel {
-	-fx-background-image: url("../graphics/bgs/bg_mainmenu.png");
-	-fx-background-size: stretch;
+    -fx-background-image: url("../graphics/bgs/bg_mainmenu.png");
+    -fx-background-size: stretch;
 }
 
 .actionButton {
-	-fx-background-image: url("../graphics/btns/cm_btn_blue.png");
-	-fx-background-size: stretch;
-	-fx-background-color: transparent;
-	-fx-font-family: "Dalek Pinpoint";
-	-fx-font-size: 50px;
+    -fx-background-image: url("../graphics/btns/cm_btn_blue.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: "Dalek Pinpoint";
+    -fx-font-size: 50px;
 }
 
 .actionButton:hover {
-	-fx-opacity: 0.9;
+    -fx-opacity: 0.9;
 }
 
 .actionButton:pressed {
-	-fx-background-image: url("../graphics/btns/cm_btn_blue_pressed.png");
+    -fx-background-image: url("../graphics/btns/cm_btn_blue_pressed.png");
 }
 
 .joinButton {
-	-fx-background-image: url("../graphics/btns/cm_btn_blue.png");
-	-fx-background-size: stretch;
-	-fx-background-color: transparent;
-	-fx-font-family: "Dalek Pinpoint";
-	-fx-font-size: 30px;
+    -fx-background-image: url("../graphics/btns/cm_btn_blue.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: "Dalek Pinpoint";
+    -fx-font-size: 30px;
 }
 
 .inputLabels {
-	-fx-font-family: "Roboto";
-	-fx-font-weight: bold;
-	-fx-font-size: 15;
+    -fx-font-family: "Roboto";
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
 }
 
 .joinButton:pressed {
-	-fx-background-image: url("../graphics/btns/cm_btn_blue_pressed.png");
+    -fx-background-image: url("../graphics/btns/cm_btn_blue_pressed.png");
 }

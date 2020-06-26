@@ -1,8 +1,3 @@
-.bg {
-    -fx-background-image: url("../graphics/bgs/clp_bg.png");
-    -fx-background-size: stretch;
-}
-
 .button {
     -fx-font-size: 30;
     -fx-text-fill: white;
@@ -10,6 +5,7 @@
     -fx-background-image: url("../graphics/btns/cm_btn_green.png");
     -fx-background-size: stretch;
 }
+
 .button:pressed {
     -fx-background-image: url("../graphics/btns/cm_btn_green_pressed.png");
 }
@@ -18,9 +14,4 @@
     -fx-font-family: "Britannic Bold";
     -fx-font-size: 25;
     -fx-text-fill: white;
-}
-
-.desc {
-    -fx-font-family: "Roboto";
-    -fx-font-size: 12;
 }

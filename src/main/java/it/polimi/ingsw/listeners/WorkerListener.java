@@ -12,14 +12,14 @@ import java.beans.PropertyChangeListener;
  */
 public abstract class WorkerListener implements PropertyChangeListener {
 
-    final VirtualClient virtualClient;
+  final VirtualClient virtualClient;
 
-    /**
-     * Constructor WorkerListener creates a new WorkerListener instance.
-     *
-     * @param client of type VirtualClient  - the virtual client on Server.
-     */
-    public WorkerListener(VirtualClient client){
-        virtualClient = client;
-    }
+  /**
+   * Constructor WorkerListener creates a new WorkerListener instance.
+   *
+   * @param client of type VirtualClient - the virtual client on Server.
+   */
+  public WorkerListener(VirtualClient client) {
+    virtualClient = client;
+  }
 }

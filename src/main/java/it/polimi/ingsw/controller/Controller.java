@@ -159,9 +159,7 @@ public class Controller implements PropertyChangeListener {
             case "workerPlacement" -> placeWorkers((WorkerSetupAction) evt.getNewValue());
             case TURN_CONTROLLER -> controllerListeners.firePropertyChange(TURN_CONTROLLER, null,
                     evt.getNewValue());
-            default -> {
-                System.err.println("Unrecognized message!");
-            }
+            default -> System.err.println("Unrecognized message!");
         }
     }
 }

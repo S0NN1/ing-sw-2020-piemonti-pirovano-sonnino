@@ -84,7 +84,7 @@ public class ResizeHandler {
             } else if (nodes.get(i) instanceof AnchorPane
                 && nodes.get(i).getId() != null
                 && nodes.get(i).getId().equalsIgnoreCase("#gridPane")) {
-              double offset = 0;
+              double offset;
               nodes.get(i).setScaleX(newSceneWidth.doubleValue() / rootWidth);
               offset =
                   ((nodes.get(i).getScaleX() - 1) / 2)
@@ -92,7 +92,7 @@ public class ResizeHandler {
                       * newSceneWidth.doubleValue();
               (nodes.get(i))
                   .setLayoutX(offset + properties.get(i).get(2) * newSceneWidth.doubleValue());
-            } else if(nodes.get(i) instanceof Region){
+            } else if (nodes.get(i) instanceof Region) {
               ((Region) nodes.get(i))
                   .setPrefWidth(properties.get(i).get(0) * newSceneWidth.intValue());
               nodes.get(i).setLayoutX(properties.get(i).get(2) * newSceneWidth.intValue());
@@ -113,12 +113,18 @@ public class ResizeHandler {
               ((ImageView) nodes.get(i))
                   .setFitHeight(properties.get(i).get(1) * newSceneHeight.intValue());
               nodes.get(i).setLayoutY(properties.get(i).get(3) * newSceneHeight.intValue());
-            } else if (nodes.get(i) instanceof AnchorPane && nodes.get(i).getId()!=null&& nodes.get(i).getId().equalsIgnoreCase("#gridPane")) {
-              double offset = 0;
+            } else if (nodes.get(i) instanceof AnchorPane
+                && nodes.get(i).getId() != null
+                && nodes.get(i).getId().equalsIgnoreCase("#gridPane")) {
+              double offset;
               nodes.get(i).setScaleY(newSceneHeight.doubleValue() / rootHeight);
-              offset =((nodes.get(i).getScaleY()-1)/2)*properties.get(i).get(1)*newSceneHeight.doubleValue();
-              (nodes.get(i)).setLayoutY(offset + properties.get(i).get(3) * newSceneHeight.doubleValue());
-            }else if (nodes.get(i) instanceof Region) {
+              offset =
+                  ((nodes.get(i).getScaleY() - 1) / 2)
+                      * properties.get(i).get(1)
+                      * newSceneHeight.doubleValue();
+              (nodes.get(i))
+                  .setLayoutY(offset + properties.get(i).get(3) * newSceneHeight.doubleValue());
+            } else if (nodes.get(i) instanceof Region) {
               ((Region) nodes.get(i))
                   .setPrefHeight(properties.get(i).get(1) * newSceneHeight.intValue());
               nodes.get(i).setLayoutY(properties.get(i).get(3) * newSceneHeight.intValue());
@@ -130,8 +136,6 @@ public class ResizeHandler {
   /**
    * Method getWidthListener returns the widthListener of this ResizeHandler object.
    *
-   *
-   *
    * @return the widthListener (type ChangeListener&lt;Number&gt;) of this ResizeHandler object.
    */
   public ChangeListener<Number> getWidthListener() {
@@ -140,8 +144,6 @@ public class ResizeHandler {
 
   /**
    * Method getHeightListener returns the heightListener of this ResizeHandler object.
-   *
-   *
    *
    * @return the heightListener (type ChangeListener&lt;Number&gt;) of this ResizeHandler object.
    */

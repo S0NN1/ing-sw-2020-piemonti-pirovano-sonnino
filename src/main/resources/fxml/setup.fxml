@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<AnchorPane fx:id="mainPane" prefHeight="280.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainMenuController">
-   <children>
-      <TextField fx:id="username" layoutX="245.0" layoutY="59.0" />
-      <TextField fx:id="address" layoutX="245.0" layoutY="105.0" />
-      <TextField fx:id="port" layoutX="245.0" layoutY="147.0" />
-      <Label layoutX="44.0" layoutY="61.0" styleClass="inputLabels" stylesheets="@../css/mainMenu.css" text="Insert your nickname" />
-      <Label layoutX="44.0" layoutY="107.0" styleClass="inputLabels" stylesheets="@../css/mainMenu.css" text="Insert a server IP address" />
-      <Label layoutX="44.0" layoutY="149.0" styleClass="inputLabels" stylesheets="@../css/mainMenu.css" text="Insert a server port" />
-      <Label fx:id="confirmation" layoutX="5.0" layoutY="14.0" prefHeight="17.0" prefWidth="480.0" style="-fx-alignment: center;" styleClass="inputLabels" stylesheets="@../css/mainMenu.css" text="Insert nickname, IP and port and click on JOIN!" textAlignment="CENTER" />
-      <Button defaultButton="true" layoutX="161.0" layoutY="193.0" mnemonicParsing="false" onAction="#start" prefHeight="60.0" prefWidth="158.0" styleClass="joinButton" stylesheets="@../css/mainMenu.css" text="JOIN" textFill="WHITE">
-                   <font>
-            <Font name="Bookshelf Symbol 7" size="29.0" />
-         </font>
-      </Button>
-   </children>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:id="mainPane" prefHeight="280.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.client.gui.controllers.MainMenuController">
+    <children>
+        <TextField fx:id="username" layoutX="245.0" layoutY="59.0"/>
+        <TextField fx:id="address" layoutX="245.0" layoutY="105.0"/>
+        <TextField fx:id="port" layoutX="245.0" layoutY="147.0"/>
+        <Label layoutX="44.0" layoutY="61.0" styleClass="inputLabels" stylesheets="@../css/mainMenu.css"
+               text="Insert your nickname"/>
+        <Label layoutX="44.0" layoutY="107.0" styleClass="inputLabels" stylesheets="@../css/mainMenu.css"
+               text="Insert a server IP address"/>
+        <Label layoutX="44.0" layoutY="149.0" styleClass="inputLabels" stylesheets="@../css/mainMenu.css"
+               text="Insert a server port"/>
+        <Label fx:id="confirmation" layoutX="5.0" layoutY="14.0" prefHeight="17.0" prefWidth="480.0"
+               style="-fx-alignment: center;" styleClass="inputLabels" stylesheets="@../css/mainMenu.css"
+               text="Insert nickname, IP and port and click on JOIN!" textAlignment="CENTER"/>
+        <Button defaultButton="true" layoutX="161.0" layoutY="193.0" mnemonicParsing="false" onAction="#start"
+                prefHeight="60.0" prefWidth="158.0" styleClass="joinButton" stylesheets="@../css/mainMenu.css"
+                text="JOIN" textFill="WHITE">
+            <font>
+                <Font name="Bookshelf Symbol 7" size="29.0"/>
+            </font>
+        </Button>
+    </children>
 </AnchorPane>

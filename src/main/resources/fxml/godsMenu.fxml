@@ -1,151 +1,172 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-
-<AnchorPane fx:id="mainPane" prefHeight="540.0" prefWidth="960.0" styleClass="mainPanel" stylesheets="@../css/godScreen.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.GodsPanelController">
-   <children>
-      <AnchorPane layoutX="236.0" layoutY="13.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame" stylesheets="@../css/godScreen.css">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/APOLLO.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" stylesheets="@../css/godScreen.css" text="APOLLO" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="361.0" layoutY="13.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/ARES.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="ARES" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="486.0" layoutY="13.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/ARTEMIS.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="ARTEMIS" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="611.0" layoutY="13.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/ATHENA.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="ATHENA" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="111.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/ATLAS.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="ATLAS" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="236.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/CHARON.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" stylesheets="@../css/godScreen.css" text="CHARON" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="361.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/DEMETER.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" stylesheets="@../css/godScreen.css" text="DEMETER" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="486.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/HEPHAESTUS.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" stylesheets="@../css/godScreen.css" text="HEPHAESTUS" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="611.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/HESTIA.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="HESTIA" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="736.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/MINOTAUR.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="MINOTAUR" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="236.0" layoutY="357.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/PAN.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="PAN" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="361.0" layoutY="357.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/PROMETHEUS.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="PROMETHEUS" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="486.0" layoutY="357.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/TRITON.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="TRITON" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="611.0" layoutY="357.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
-         <children>
-            <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../graphics/gods/ZEUS.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false" onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="ZEUS" textAlignment="CENTER" />
-         </children>
-      </AnchorPane>
-   </children>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:id="mainPane" prefHeight="540.0" prefWidth="960.0" styleClass="mainPanel"
+            stylesheets="@../css/godScreen.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.client.gui.controllers.GodsPanelController">
+    <children>
+        <AnchorPane layoutX="236.0" layoutY="13.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame"
+                    stylesheets="@../css/godScreen.css">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/APOLLO.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" stylesheets="@../css/godScreen.css"
+                        text="APOLLO" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="361.0" layoutY="13.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/ARES.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="ARES" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="486.0" layoutY="13.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/ARTEMIS.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="ARTEMIS" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="611.0" layoutY="13.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/ATHENA.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="ATHENA" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="111.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/ATLAS.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="ATLAS" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="236.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/CHARON.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" stylesheets="@../css/godScreen.css"
+                        text="CHARON" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="361.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/DEMETER.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" stylesheets="@../css/godScreen.css"
+                        text="DEMETER" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="486.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/HEPHAESTUS.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" stylesheets="@../css/godScreen.css"
+                        text="HEPHAESTUS" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="611.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/HESTIA.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="HESTIA" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="736.0" layoutY="185.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/MINOTAUR.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="MINOTAUR" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="236.0" layoutY="357.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/PAN.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="PAN" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="361.0" layoutY="357.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/PROMETHEUS.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="PROMETHEUS"
+                        textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="486.0" layoutY="357.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/TRITON.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="TRITON" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="611.0" layoutY="357.0" prefHeight="165.0" prefWidth="105.0" styleClass="godFrame">
+            <children>
+                <ImageView fitHeight="115.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../graphics/gods/ZEUS.png"/>
+                    </image>
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="135.0" mnemonicParsing="false"
+                        onAction="#showGod" prefHeight="23.0" prefWidth="97.0" text="ZEUS" textAlignment="CENTER"/>
+            </children>
+        </AnchorPane>
+    </children>
 </AnchorPane>

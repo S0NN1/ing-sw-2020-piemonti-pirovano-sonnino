@@ -8,15 +8,14 @@ import java.util.Map;
  *
  * @author Nicolò Sonnino
  */
-  public class Printable {
-    /**
-     * Constructor Printable creates a new Printable instance.
-     */
-    private Printable(){}
+public class Printable {
+  /** Constructor Printable creates a new Printable instance. */
+  private Printable() {}
+
   private static final String GREEN = Constants.ANSI_GREEN;
   private static final String PURPLE = Constants.ANSI_PURPLE;
   public static final String LINE_BLOCK =
-          "█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████";
+      "█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████";
   private static final String TWELVE_LINE_BLOCK = "████████████";
   private static final String ELEVEN_LINE_BLOCK = "███████████";
   private static final String LVL_1_LINE_BLOCK = "║█████████████████████║";

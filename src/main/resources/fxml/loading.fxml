@@ -7,23 +7,26 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane fx:id="mainPane" prefHeight="550.0" prefWidth="800.0" styleClass="mainBackground" stylesheets="@../css/loading.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.LoaderController">
-   <children>
+<AnchorPane fx:id="mainPane" prefHeight="550.0" prefWidth="800.0" styleClass="mainBackground"
+            stylesheets="@../css/loading.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.LoaderController">
+    <children>
         <ProgressBar layoutX="201.0" layoutY="500.0" prefHeight="50.0" prefWidth="400.0" style="-fx-padding: 8;">
         </ProgressBar>
-        <Label fx:id="displayStatus" alignment="CENTER" layoutX="14.0" layoutY="158.0" prefHeight="235.0" prefWidth="773.0" styleClass="loadingText" stylesheets="@../css/loading.css" text="LOADING..." textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="Bell MT" size="48.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Label>
-      <ImageView fx:id="title" fitHeight="139.0" fitWidth="391.0" layoutX="205.0" layoutY="14.0" pickOnBounds="true">
-         <image>
-            <Image url="@../graphics/santorini-logo.png" />
-         </image>
-      </ImageView>
-   </children>
+        <Label fx:id="displayStatus" alignment="CENTER" layoutX="14.0" layoutY="158.0" prefHeight="235.0"
+               prefWidth="773.0" styleClass="loadingText" stylesheets="@../css/loading.css" text="LOADING..."
+               textAlignment="CENTER" textFill="WHITE">
+            <font>
+                <Font name="Bell MT" size="48.0"/>
+            </font>
+            <effect>
+                <DropShadow/>
+            </effect>
+        </Label>
+        <ImageView fx:id="title" fitHeight="139.0" fitWidth="391.0" layoutX="205.0" layoutY="14.0" pickOnBounds="true">
+            <image>
+                <Image url="@../graphics/santorini-logo.png"/>
+            </image>
+        </ImageView>
+    </children>
 </AnchorPane>

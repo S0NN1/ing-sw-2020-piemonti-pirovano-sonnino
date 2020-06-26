@@ -9,26 +9,24 @@ import it.polimi.ingsw.server.answers.Answer;
  * @see Answer
  */
 public class StartTurnMessage implements Answer {
-    private final String currentPlayer;
+  private final String currentPlayer;
 
-    /**
-     * Constructor StartTurnMessage creates a new StartTurnMessage instance.
-     *
-     * @param currentPlayer of type String - the current player's nickname.
-     */
-    public StartTurnMessage(String currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
+  /**
+   * Constructor StartTurnMessage creates a new StartTurnMessage instance.
+   *
+   * @param currentPlayer of type String - the current player's nickname.
+   */
+  public StartTurnMessage(String currentPlayer) {
+    this.currentPlayer = currentPlayer;
+  }
 
-    /**
-     * Method getMessage returns the message of this WorkerPlacement object.
-     *
-     *
-     *
-     * @return the message (type Object) of this WorkerPlacement object.
-     */
-    @Override
-    public Object getMessage() {
-        return currentPlayer;
-    }
+  /**
+   * Method getMessage returns the message of this WorkerPlacement object.
+   *
+   * @return the message (type Object) of this WorkerPlacement object.
+   */
+  @Override
+  public Object getMessage() {
+    return currentPlayer;
+  }
 }

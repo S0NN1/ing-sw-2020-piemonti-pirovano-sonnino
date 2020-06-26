@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.gui.shapes;
 
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -11,8 +10,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class Block extends Rectangle {
 private final int level;
-private final double width;
-private final double height;
+
     /**
      * Constructor Block creates a new Block instance.
      *
@@ -22,8 +20,6 @@ private final double height;
      */
     public Block(int level, double width, double height) {
         super();
-        this.width = width;
-        this.height = height;
         switch (level) {
             case 1 -> {
                 setWidth(width*0.87);

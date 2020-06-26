@@ -224,9 +224,7 @@ public class GameHandler {
             case "ChallengerPhase" -> challengerPhase(action);
             case "WorkerPlacement" -> workerPlacement((WorkerSetupAction) action);
             case "turnController" -> controllerListener.firePropertyChange(type, null, action);
-            default -> {
-                singleSend(new GameError(ErrorsType.INVALIDINPUT), getCurrentPlayerID());
-            }
+            default -> singleSend(new GameError(ErrorsType.INVALIDINPUT), getCurrentPlayerID());
         }
     }
 

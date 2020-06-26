@@ -4,10 +4,10 @@ import it.polimi.ingsw.client.ActionHandler;
 import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.ModelView;
 import it.polimi.ingsw.client.UI;
-import it.polimi.ingsw.client.gui.controllers.ResizeHandler;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.LoaderController;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
+import it.polimi.ingsw.client.gui.controllers.ResizeHandler;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.constants.Move;
 import it.polimi.ingsw.server.answers.*;
@@ -23,17 +23,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,7 +57,6 @@ public class GUI extends Application implements UI {
     private final ModelView modelView;
     private final ActionHandler actionHandler;
     private final Logger logger = Logger.getLogger(getClass().getName());
-    private ResizeHandler resize;
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
      */
@@ -70,12 +68,11 @@ public class GUI extends Application implements UI {
      * @see it.polimi.ingsw.client.gui.controllers for more details.
      */
     private final HashMap<String, GUIController> nameMapController = new HashMap<>();
-    private ConnectionSocket connection = null;
+    private ConnectionSocket connectionSocket = null;
     private boolean activeGame;
     private Scene currentScene;
     private Stage stage;
     private MediaPlayer player;
-
     private boolean[] actionCheckers;
 
 
@@ -99,13 +96,12 @@ public class GUI extends Application implements UI {
 
     /**
      * Method run sets the title of the main stage and launches the window.
-     * @throws URISyntaxException when resource path is invalid.
      */
-    public void run() throws URISyntaxException {
+    public void run() {
         stage.setTitle("Santorini");
         stage.setScene(currentScene);
         stage.show();
-        resize = new ResizeHandler((Pane) currentScene.lookup("#mainPane"));
+        ResizeHandler resize = new ResizeHandler((Pane) currentScene.lookup("#mainPane"));
         currentScene.widthProperty().addListener(resize.getWidthListener());
         currentScene.heightProperty().addListener(resize.getHeightListener());
         Media pick = new Media(Objects.requireNonNull(getClass().getClassLoader()
@@ -124,7 +120,7 @@ public class GUI extends Application implements UI {
      * @see Application#start(Stage)
      */
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         setup();
         this.stage = stage;
         Font.loadFont(getClass().getResourceAsStream("/fonts/DalekPinpointBold.ttf"), 14);
@@ -137,7 +133,7 @@ public class GUI extends Application implements UI {
      * @see Application#stop()
      */
     @Override
-    public void stop() throws Exception {
+    public void stop() {
         System.exit(0);
     }
 
@@ -163,15 +159,6 @@ public class GUI extends Application implements UI {
             logger.log(Level.SEVERE, e.getMessage(), e);
         }
         currentScene = nameMapScene.get(MENU);
-    }
-
-    /**
-     * Method getStage returns the stage of this GUI object.
-     *
-     * @return the stage (type Stage) of this GUI object.
-     */
-    public Stage getStage() {
-        return stage;
     }
 
     /**
@@ -209,22 +196,22 @@ public class GUI extends Application implements UI {
     }
 
     /**
-     * Method getConnection returns the connection of this GUI object.
+     * Method getConnectionSocket returns the connection of this GUI object.
      *
      * @return the connection (type ConnectionSocket) of this GUI object.
      */
-    public ConnectionSocket getConnection() {
-        return connection;
+    public ConnectionSocket getConnectionSocket() {
+        return connectionSocket;
     }
 
     /**
-     * Method setConnection sets the connection of this GUI object.
+     * Method setConnectionSocket sets the connection of this GUI object.
      *
-     * @param connection the connection of this GUI object.
+     * @param connectionSocket the connection of this GUI object.
      */
-    public void setConnection(ConnectionSocket connection) {
-        if (this.connection == null) {
-            this.connection = connection;
+    public void setConnectionSocket(ConnectionSocket connectionSocket) {
+        if (this.connectionSocket == null) {
+            this.connectionSocket = connectionSocket;
         }
     }
 
@@ -272,11 +259,7 @@ public class GUI extends Application implements UI {
                 Platform.runLater(() -> errorDialog("Invalid input, please try again!"));
             case CELLOCCUPIED ->
                 Platform.runLater(() -> errorDialog("Cell already occupied!"));
-            default -> {
-                Platform.runLater(() -> {
-                    errorDialog("Generic Error!");
-                });
-            }
+            default -> Platform.runLater(() -> errorDialog("Generic Error!"));
         }
     }
 
@@ -324,9 +307,7 @@ public class GUI extends Application implements UI {
                             getAvailableCoordinates());
                 });
             }
-            default -> {
-                logger.log(Level.WARNING, "No action to be performed!");
-            }
+            default -> logger.log(Level.WARNING, "No action to be performed!");
         }
     }
 
@@ -385,9 +366,7 @@ public class GUI extends Application implements UI {
             case "singleLost" -> singleLoser();
             case "otherLost" -> otherLoser(evt.getNewValue().toString());
             case "matchStarted" -> matchStarted();
-            default -> {
-                logger.log(Level.WARNING, "No actions to be performed");
-            }
+            default -> logger.log(Level.WARNING, "No actions to be performed");
         }
     }
 

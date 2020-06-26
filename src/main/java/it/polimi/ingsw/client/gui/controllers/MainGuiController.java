@@ -24,7 +24,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -74,8 +73,11 @@ public class MainGuiController implements GUIController {
     colors.put("GREEN", Color.GREEN);
     colors.put("CYAN", Color.CYAN);
     colorMapImage.put(Color.RED, new Image(getClass().getResourceAsStream("/graphics/red.png")));
-    colorMapImage.put( Color.GREEN, new Image(getClass().getResourceAsStream("/graphics/green.png")));
-    colorMapImage.put(Color.DARKBLUE, new Image(getClass().getResourceAsStream("/graphics/blue.png"))); }
+    colorMapImage.put(
+        Color.GREEN, new Image(getClass().getResourceAsStream("/graphics/green.png")));
+    colorMapImage.put(
+        Color.DARKBLUE, new Image(getClass().getResourceAsStream("/graphics/blue.png")));
+  }
 
   /** Method init sets players' nicknames, colors and customAction visibility. */
   public void init() {
@@ -88,7 +90,9 @@ public class MainGuiController implements GUIController {
       playerMapStar.put(playerMapLabel.get(i).getText(), indexMapStar.get(i));
       playerMapRect
           .get(i)
-          .setImage(colorMapImage.get(colors.get(gui.getModelView().getPlayerMapColor().get(nickname).toUpperCase())));
+          .setImage(
+              colorMapImage.get(
+                  colors.get(gui.getModelView().getPlayerMapColor().get(nickname).toUpperCase())));
       playerMapRect.get(i).setVisible(true);
       playerMapLabel.get(i).setVisible(true);
       playerMapStar.get(playerMapLabel.get(i).getText()).setVisible(true);
@@ -101,7 +105,7 @@ public class MainGuiController implements GUIController {
   private void setVisibleCustomAction() {
     if (!Constants.getGodMapCustomAction().containsKey(gui.getModelView().getGod().toUpperCase())) {
       buttonCustom.setVisible(false);
-    } else{
+    } else {
       new ResizeHandler((Pane) buttonCustom.getScene().lookup("#mainPane"));
       buttonCustom.setText(
           Constants.getGodMapCustomAction().get(gui.getModelView().getGod().toUpperCase()));
@@ -117,16 +121,20 @@ public class MainGuiController implements GUIController {
   }
 
   /**
-   * Method updateTurnStatus checks the current player from the ModelView and set the correct star ImageView.
+   * Method updateTurnStatus checks the current player from the ModelView and set the correct star
+   * ImageView.
    */
   public void updateTurnStatus() {
-    for(int i=0; i<gui.getModelView().getPlayerMapColor().size(); i++) {
-        playerMapStar.get(playerMapLabel.get(i).getText()).setImage(new Image(getClass().
-                getResourceAsStream("/graphics/icons/clp_star_empty.png")));
+    for (int i = 0; i < gui.getModelView().getPlayerMapColor().size(); i++) {
+      playerMapStar
+          .get(playerMapLabel.get(i).getText())
+          .setImage(
+              new Image(getClass().getResourceAsStream("/graphics/icons/clp_star_empty.png")));
     }
-      String currentPlayer = gui.getModelView().getCurrentPlayer();
-      playerMapStar.get(currentPlayer).setImage(new Image(getClass().getResourceAsStream(
-              "/graphics/icons/clp_star_full.png")));
+    String currentPlayer = gui.getModelView().getCurrentPlayer();
+    playerMapStar
+        .get(currentPlayer)
+        .setImage(new Image(getClass().getResourceAsStream("/graphics/icons/clp_star_full.png")));
   }
 
   /**
@@ -201,7 +209,8 @@ public class MainGuiController implements GUIController {
     Worker worker = new Worker(row, col, this);
     grid.add(worker, col, row);
     worker.radiusXProperty().bind(grid.widthProperty().divide(30));
-    worker.radiusYProperty().bind(grid.heightProperty().divide(30));  }
+    worker.radiusYProperty().bind(grid.heightProperty().divide(30));
+  }
 
   /** Method selectWorker makes the two workers selectable. */
   public void selectWorker() {
@@ -253,13 +262,13 @@ public class MainGuiController implements GUIController {
         break;
       }
     }
-    Block block = new Block(level, grid.getWidth()/5, grid.getWidth()/5);
+    Block block = new Block(level, grid.getWidth() / 5, grid.getWidth() / 5);
     grid.add(block, col, row);
     double sqrt = Math.sqrt(Math.pow(level, 2) * 1.2) + 5;
     block.widthProperty().bind(grid.widthProperty().divide(sqrt));
     block.heightProperty().bind(grid.heightProperty().divide(sqrt));
-   // block.setScaleX(grid.getScene().lookup("#gridPane").getScaleX());
-    //block.setScaleY(grid.getScene().lookup("#gridPane").getScaleY());
+    // block.setScaleX(grid.getScene().lookup("#gridPane").getScaleX());
+    // block.setScaleY(grid.getScene().lookup("#gridPane").getScaleY());
     if (worker != null) {
       grid.add(worker, col, row);
       worker.radiusXProperty().bind(grid.widthProperty().divide(30));
@@ -286,7 +295,8 @@ public class MainGuiController implements GUIController {
     }
   }
   /**
-   * Method getWorkerFromGrid returns the node of the grid which represents a worker at a specific row/col.
+   * Method getWorkerFromGrid returns the node of the grid which represents a worker at a specific
+   * row/col.
    *
    * @param row of type int - the row of the cell.
    * @param col of type int - the column of the cell.
@@ -312,14 +322,15 @@ public class MainGuiController implements GUIController {
    * @param col of type int - the column of the cell.
    */
   public void addDome(int row, int col) {
-    Dome dome = new Dome(grid.getWidth()/5, grid.getHeight());
+    Dome dome = new Dome(grid.getWidth() / 5, grid.getHeight());
     grid.add(dome, col, row);
     dome.radiusXProperty().bind(grid.widthProperty().divide(20));
     dome.radiusYProperty().bind(grid.heightProperty().divide(20));
   }
 
   /**
-   * Method move moves the triangle (worker) into another cell of the gridPane and deletes the precedent one.
+   * Method move moves the triangle (worker) into another cell of the gridPane and deletes the
+   * precedent one.
    *
    * @param oldRow of type int - the worker's old row.
    * @param oldCol of type int - the worker's old column.
@@ -328,7 +339,7 @@ public class MainGuiController implements GUIController {
    */
   public void move(int oldRow, int oldCol, int newRow, int newCol) {
     grid.getChildren().remove(getWorkerFromGrid(oldRow, oldCol));
-    Worker worker =new Worker(newRow, newCol, this);
+    Worker worker = new Worker(newRow, newCol, this);
     grid.add(worker, newCol, newRow);
     worker.radiusXProperty().bind(grid.widthProperty().divide(30));
     worker.radiusYProperty().bind(grid.heightProperty().divide(30));
@@ -345,11 +356,23 @@ public class MainGuiController implements GUIController {
   public void apolloDoubleMove(int oldRow1, int oldCol1, int oldRow2, int oldCol2) {
     Worker worker1 = getWorkerFromGrid(oldRow1, oldCol1);
     worker1.deselect();
-    worker1.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+
-            board.getColor(oldRow1, oldCol1).toLowerCase() + ".png"))));
+    worker1.setFill(
+        new ImagePattern(
+            new Image(
+                getClass()
+                    .getResourceAsStream(
+                        "/graphics/icons/hammer_"
+                            + board.getColor(oldRow1, oldCol1).toLowerCase()
+                            + ".png"))));
     Worker worker2 = getWorkerFromGrid(oldRow2, oldCol2);
-    worker2.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+
-            board.getColor(oldRow2, oldCol2).toLowerCase() + ".png"))));
+    worker2.setFill(
+        new ImagePattern(
+            new Image(
+                getClass()
+                    .getResourceAsStream(
+                        "/graphics/icons/hammer_"
+                            + board.getColor(oldRow2, oldCol2).toLowerCase()
+                            + ".png"))));
   }
 
   /**
@@ -365,22 +388,35 @@ public class MainGuiController implements GUIController {
   public void minotaurDoubleMove(
       int oldRow1, int oldCol1, int oldRow2, int oldCol2, int newRow2, int newCol2) {
     Worker worker1 = getWorkerFromGrid(oldRow2, oldCol2);
-    worker1.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+
-            board.getColor(oldRow2, oldCol2).toLowerCase() + ".png"))));
+    worker1.setFill(
+        new ImagePattern(
+            new Image(
+                getClass()
+                    .getResourceAsStream(
+                        "/graphics/icons/hammer_"
+                            + board.getColor(oldRow2, oldCol2).toLowerCase()
+                            + ".png"))));
     grid.getChildren().remove(getWorkerFromGrid(oldRow1, oldCol1));
     Worker worker2 = new Worker(newRow2, newCol2, this);
-    worker2.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/graphics/icons/hammer_"+
-            board.getColor(newRow2, newCol2).toLowerCase() + ".png"))));
+    worker2.setFill(
+        new ImagePattern(
+            new Image(
+                getClass()
+                    .getResourceAsStream(
+                        "/graphics/icons/hammer_"
+                            + board.getColor(newRow2, newCol2).toLowerCase()
+                            + ".png"))));
     grid.add(worker2, newCol2, newRow2);
     worker2.radiusXProperty().bind(grid.widthProperty().divide(30));
     worker2.radiusYProperty().bind(grid.heightProperty().divide(30));
   }
 
   /**
-   * Method highlightCell highlights some cell of the grid in order to show to the user in which spaces he can move or
-   * build onto.
+   * Method highlightCell highlights some cell of the grid in order to show to the user in which
+   * spaces he can move or build onto.
    *
-   * @param build of type boolean true if highlighting a selectBuild, false if highlighting a selectMove.
+   * @param build of type boolean true if highlighting a selectBuild, false if highlighting a
+   *     selectMove.
    */
   public void highlightCell(boolean build) {
     getActionsLabel().setText("Move your worker!");
@@ -513,48 +549,40 @@ public class MainGuiController implements GUIController {
   }
 
   /**
-   * Method getColors returns the colors of this MainGuiController object.
-   *
-   * @return the colors (type HashMap&lt;String, Color&gt;) of this MainGuiController object.
-   */
-  public Map<String, Color> getColors() {
-    return colors;
-  }
-
-  /**
    * Method workerPlacement displays worker placement.
    *
    * @param coords of type List&lt;int[]&gt; - the coords received.
    */
   public void workerPlacement(List<int[]> coords) {
     gui.getModelView().activateInput();
-    String[] set =new String[2];
+    String[] set = new String[2];
     AtomicInteger i = new AtomicInteger(0);
-      getActionsLabel().setText("Place your worker!");
-      getActionsLabel().setVisible(true);
-      List<Couple> spaces = new ArrayList<>();
-      for (int[] coord : coords) {
-        spaces.add(new Couple(coord[0], coord[1]));
-      }
-      for (Couple element : spaces) {
-        AnchorPane node = new AnchorPane();
-        grid.add(node, element.getColumn(), element.getRow());
-        node.setStyle("-fx-background-color: #ffff00");
-        node.setOpacity(0.4);
-        int row = GridPane.getRowIndex(node);
-        int col = GridPane.getColumnIndex(node);
-          node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
-          node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
-          node.setOnMouseClicked(mouseEvent -> {
-            set[i.get()]=" " + row + " " + col;
+    getActionsLabel().setText("Place your worker!");
+    getActionsLabel().setVisible(true);
+    List<Couple> spaces = new ArrayList<>();
+    for (int[] coord : coords) {
+      spaces.add(new Couple(coord[0], coord[1]));
+    }
+    for (Couple element : spaces) {
+      AnchorPane node = new AnchorPane();
+      grid.add(node, element.getColumn(), element.getRow());
+      node.setStyle("-fx-background-color: #ffff00");
+      node.setOpacity(0.4);
+      int row = GridPane.getRowIndex(node);
+      int col = GridPane.getColumnIndex(node);
+      node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
+      node.setOnMousePressed(mouseEvent -> node.setCursor(Cursor.CROSSHAIR));
+      node.setOnMouseClicked(
+          mouseEvent -> {
+            set[i.get()] = " " + row + " " + col;
             i.getAndIncrement();
             grid.getChildren().remove(node);
-            if(set[0]!=null && set[1]!=null){
+            if (set[0] != null && set[1] != null) {
               normalCells();
               getActionsLabel().setVisible(false);
               gui.getListeners().firePropertyChange(ACTION, null, "SET" + set[0] + set[1]);
             }
           });
-        }
     }
-} 
+  }
+}
