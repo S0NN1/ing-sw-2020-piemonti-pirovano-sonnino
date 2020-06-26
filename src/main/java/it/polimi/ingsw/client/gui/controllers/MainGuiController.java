@@ -23,7 +23,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -103,7 +102,7 @@ public class MainGuiController implements GUIController {
     if (!Constants.getGodMapCustomAction().containsKey(gui.getModelView().getGod().toUpperCase())) {
       buttonCustom.setVisible(false);
     } else{
-      new ResizeHandler((Pane) buttonCustom.getScene().lookup("#mainPane"));
+      new ResizeHandlerController((Pane) buttonCustom.getScene().lookup("#mainPane"));
       buttonCustom.setText(
           Constants.getGodMapCustomAction().get(gui.getModelView().getGod().toUpperCase()));
       buttonCustom.setOnAction(
