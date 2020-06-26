@@ -4,4 +4,3 @@ target/
 out/
 *.iml
 src/**/META-INF
-graphicsResources
