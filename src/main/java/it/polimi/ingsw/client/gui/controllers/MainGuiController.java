@@ -102,7 +102,7 @@ public class MainGuiController implements GUIController {
     if (!Constants.getGodMapCustomAction().containsKey(gui.getModelView().getGod().toUpperCase())) {
       buttonCustom.setVisible(false);
     } else{
-      new ResizeHandlerController((Pane) buttonCustom.getScene().lookup("#mainPane"));
+      new ResizeHandler((Pane) buttonCustom.getScene().lookup("#mainPane"));
       buttonCustom.setText(
           Constants.getGodMapCustomAction().get(gui.getModelView().getGod().toUpperCase()));
       buttonCustom.setOnAction(

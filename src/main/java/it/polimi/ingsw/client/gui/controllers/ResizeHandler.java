@@ -19,11 +19,9 @@ import java.util.Arrays;
  *
  * @author Nicolò Sonino
  */
-public class ResizeHandlerController {
+public class ResizeHandler {
   private final ArrayList<Node> nodes = new ArrayList<>();
-  private final ArrayList<Node> gridNodes = new ArrayList<>();
   private final ArrayList<ArrayList<Double>> properties = new ArrayList<>();
-  private final ArrayList<ArrayList<Double>> gridProperties = new ArrayList<>();
   private ChangeListener<Number> widthListener;
   private ChangeListener<Number> heightListener;
   private double rootWidth;
@@ -34,7 +32,7 @@ public class ResizeHandlerController {
    *
    * @param pane of type Pane
    */
-  public ResizeHandlerController(Pane pane) {
+  public ResizeHandler(Pane pane) {
     calculateResize(pane, pane);
   }
 

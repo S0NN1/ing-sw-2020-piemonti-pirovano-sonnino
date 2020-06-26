@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.ActionHandler;
 import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.ModelView;
 import it.polimi.ingsw.client.UI;
-import it.polimi.ingsw.client.gui.controllers.ResizeHandlerController;
+import it.polimi.ingsw.client.gui.controllers.ResizeHandler;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.LoaderController;
 import it.polimi.ingsw.client.gui.controllers.MainGuiController;
@@ -58,7 +58,7 @@ public class GUI extends Application implements UI {
     private final ModelView modelView;
     private final ActionHandler actionHandler;
     private final Logger logger = Logger.getLogger(getClass().getName());
-    private ResizeHandlerController resize;
+    private ResizeHandler resize;
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
      */
@@ -105,7 +105,7 @@ public class GUI extends Application implements UI {
         stage.setTitle("Santorini");
         stage.setScene(currentScene);
         stage.show();
-        resize = new ResizeHandlerController((Pane) currentScene.lookup("#mainPane"));
+        resize = new ResizeHandler((Pane) currentScene.lookup("#mainPane"));
         currentScene.widthProperty().addListener(resize.getWidthListener());
         currentScene.heightProperty().addListener(resize.getHeightListener());
         Media pick = new Media(Objects.requireNonNull(getClass().getClassLoader()
@@ -203,7 +203,7 @@ public class GUI extends Application implements UI {
         currentScene = nameMapScene.get(newScene);
         stage.setScene(currentScene);
         stage.show();
-        ResizeHandlerController resize = new ResizeHandlerController((Pane) currentScene.lookup("#mainPane"));
+        ResizeHandler resize = new ResizeHandler((Pane) currentScene.lookup("#mainPane"));
         currentScene.widthProperty().addListener(resize.getWidthListener());
         currentScene.heightProperty().addListener(resize.getHeightListener());
     }
@@ -449,6 +449,11 @@ public class GUI extends Application implements UI {
         });
     }
 
+    /**
+     * Method removeWorkers removes workers from grid.
+     *
+     * @param loser of type String - loser's nickname.
+     */
     public void removeWorkers(String loser) {
         Platform.runLater(() -> {
             MainGuiController controller = (MainGuiController)getControllerFromName(MAIN_GUI);

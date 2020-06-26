@@ -30,19 +30,19 @@ public class InputChecker {
     private static final String RED = Constants.ANSI_RED;
     private static final String RST = Constants.ANSI_RESET;
     private static final String ERR_EMPTY_CELL = "Empty cell!";
-    private final ConnectionSocket connection;
+    private final ConnectionSocket connectionSocket;
     private final ModelView modelView;
 
 
     /**
      * Constructor InputChecker creates a new InputChecker instance.
      *
-     * @param connection of type ConnectionSocket - the socket used for the connection between client and server.
+     * @param connectionSocket of type ConnectionSocket - the socket used for the connection between client and server.
      * @param modelView  of type ModelView - the structure, stored into the client, containing simple logic of the
      *                   model.
      */
-    public InputChecker(ConnectionSocket connection, ModelView modelView) {
-        this.connection = connection;
+    public InputChecker(ConnectionSocket connectionSocket, ModelView modelView) {
+        this.connectionSocket = connectionSocket;
         this.modelView = modelView;
     }
 
@@ -150,7 +150,7 @@ public class InputChecker {
      * Method quit handles the program quit statement, terminating the local service with exit code 0.
      */
     public void quit() {
-        connection.send(new Disconnect());
+        connectionSocket.send(new Disconnect());
         System.err.println("Disconnected from the server.");
         System.exit(0);
     }
@@ -203,7 +203,7 @@ public class InputChecker {
     }
 
     /**
-     * Method atlasBuild checks if atlasBuild action is permitted.
+     * Method domeBuild checks if atlasBuild action is permitted.
      *
      * @param turnPhase    of type int - the number indicating turn's phase.
      * @param row          of type int - the row of the selected cell.
@@ -212,7 +212,7 @@ public class InputChecker {
      *                     turn.
      * @return AtlasBuildAction - the correct AtlasBuildAction, null otherwise.
      */
-    public AtlasBuildAction atlasBuild(int turnPhase, int row, int column, int activeWorker) {
+    public AtlasBuildAction domeBuild(int turnPhase, int row, int column, int activeWorker) {
         if (activeWorker == 0) {
             System.err.println(ERR_WORKER_NOT_SELECTED);
             return null;
