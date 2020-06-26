@@ -311,6 +311,7 @@ public class TurnController implements PropertyChangeListener {
                     loserColor));
             int removeId = gameHandler.getCurrentPlayerID();
             gameHandler.getServer().getClientByID(removeId).getConnection().close();
+            actionController.phase = 0;
             startTurn(new StartTurnAction());
         }
     }
