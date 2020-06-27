@@ -37,6 +37,8 @@ public class MainGuiController implements GUIController {
   public static final String RIGHT_BOARD = "rightBoard";
   public static final String ACTION = "action";
   public static final String GRAYED_OUT = "grayedOut";
+  public static final String GRAPHICS_ICONS_HAMMER = "/graphics/icons/hammer_";
+  public static final String PNG = ".png";
   private final HashMap<String, Color> colors;
   private final HashMap<Integer, Label> playerMapLabel = new HashMap<>();
   private final HashMap<Integer, ImageView> playerMapRect = new HashMap<>();
@@ -361,9 +363,9 @@ public class MainGuiController implements GUIController {
             new Image(
                 getClass()
                     .getResourceAsStream(
-                        "/graphics/icons/hammer_"
+                        GRAPHICS_ICONS_HAMMER
                             + board.getColor(oldRow1, oldCol1).toLowerCase()
-                            + ".png"))));
+                            + PNG))));
     Worker worker2 = getWorkerFromGrid(oldRow2, oldCol2);
     worker2.setFill(
         new ImagePattern(

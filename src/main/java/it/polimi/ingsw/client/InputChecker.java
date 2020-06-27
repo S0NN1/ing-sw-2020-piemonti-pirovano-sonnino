@@ -254,15 +254,21 @@ public class InputChecker {
     if (turnPhase == 1
         || Constants.getMovePhaseGods().contains(modelView.getGod().toUpperCase())
         || Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
-      if (isUnreachable(row, column, worker)) {
-        System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
-        return null;
-      } else {
-        if (modelView.getBoard().getGrid()[row][column].getColor() != null) {
-          return canMoveToOccupiedCell(move);
+      try{
+        if (isUnreachable(row, column, worker)) {
+          System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
+          return null;
         } else {
-          return canReachCell(row, column, worker, move);
+          if (modelView.getBoard().getGrid()[row][column].getColor() != null) {
+            return canMoveToOccupiedCell(move);
+          } else {
+            return canReachCell(row, column, worker, move);
+          }
         }
+      }
+      catch (NullPointerException e){
+        System.err.println(ERR_NONEXISTENT_UNREACHABLE);
+        return null;
       }
     } else {
       System.err.println(ERR_INCORRECT_ACTION);
@@ -322,7 +328,7 @@ public class InputChecker {
    * @return BuildAction - the correct BuildAction, null otherwise.
    */
   private BuildAction getBuildAction(int row, int column, Couple worker, BuildAction build) {
-    if (isUnreachable(row, column, worker)) {
+    try{if (isUnreachable(row, column, worker)) {
       System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
       return null;
     } else {
@@ -339,6 +345,11 @@ public class InputChecker {
           return build;
         }
       }
+    }
+    }
+    catch (NullPointerException e){
+      System.err.println(ERR_NONEXISTENT_UNREACHABLE);
+      return null;
     }
   }
 
@@ -493,7 +504,8 @@ public class InputChecker {
     MoveAction move = new MoveAction(row, column, Action.FORCE_WORKER);
     if (turnPhase == 0
         && Constants.getStartActionGods().contains(modelView.getGod().toUpperCase())) {
-      if (isUnreachable(row, column, worker)) {
+      try{
+        if (isUnreachable(row, column, worker)) {
         System.out.println(RED + ERR_NONEXISTENT_UNREACHABLE + RST);
         return null;
       } else {
@@ -503,6 +515,11 @@ public class InputChecker {
           System.err.println(ERR_EMPTY_CELL);
           return null;
         }
+      }
+      }
+      catch(NullPointerException e){
+        System.err.println(ERR_NONEXISTENT_UNREACHABLE);
+        return null;
       }
     } else {
       System.err.println(ERR_INCORRECT_ACTION);

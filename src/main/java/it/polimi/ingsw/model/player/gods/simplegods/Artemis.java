@@ -73,7 +73,7 @@ public class Artemis extends Worker {
       oldPosition = null; // if super.move return false
       return false;
     } else if (oldPosition == space)
-      return false; // it's the second move and Artemis try to move to the previous
+        return false; // it's the second move and Artemis try to move to the previous
     // position
     else { // second move
       if (super.move(space)) {

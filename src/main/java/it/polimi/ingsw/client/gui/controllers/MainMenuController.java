@@ -28,6 +28,7 @@ import java.net.URISyntaxException;
 public class MainMenuController implements GUIController {
   private static final String URL =
       "https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino";
+  public static final String MAIN_MENU_FXML = "MainMenu.fxml";
   private GUI gui;
   private boolean muted;
   @FXML private TextField username;
@@ -109,7 +110,7 @@ public class MainMenuController implements GUIController {
               "The entered IP/port doesn't match any active server or the server is not "
                   + "running. Please try again!");
           alert.showAndWait();
-          gui.changeStage("MainMenu.fxml");
+          gui.changeStage(MAIN_MENU_FXML);
           return;
         }
         gui.setConnectionSocket(connectionSocket);
@@ -125,7 +126,7 @@ public class MainMenuController implements GUIController {
         alert.setHeaderText("Duplicate nickname!");
         alert.setContentText("This nickname is already in use! Please choose another one.");
         alert.showAndWait();
-        gui.changeStage("MainMenu.fxml");
+        gui.changeStage(MAIN_MENU_FXML);
       } catch (InvalidNicknameException e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Invalid character nickname");
@@ -133,7 +134,7 @@ public class MainMenuController implements GUIController {
         alert.setContentText(
             "Nickname can't contain - special character! Please choose another one");
         alert.showAndWait();
-        gui.changeStage("MainMenu.fxml");
+        gui.changeStage(MAIN_MENU_FXML);
       }
     }
   }
