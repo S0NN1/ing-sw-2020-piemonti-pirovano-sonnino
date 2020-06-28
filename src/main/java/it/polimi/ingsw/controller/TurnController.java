@@ -258,11 +258,12 @@ public class TurnController implements PropertyChangeListener {
             if(controller.getModel().getCurrentPlayer().getWorkers().get(j).isBlocked()) {
                 endGame();
             }
-            else {
+            else if(controller.getModel().getCurrentPlayer().getWorkers().get(i).isBlocked()) {
                 gameHandler.singleSend(new GameError(ErrorsType.WORKERBLOCKED), gameHandler.getCurrentPlayerID());
-                return;
             }
-            gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+            else {
+                gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
+            }
         }
     }
 
@@ -278,9 +279,7 @@ public class TurnController implements PropertyChangeListener {
                 case "start" -> gameHandler.singleSend(new WorkersRequestMessage(), gameHandler.getCurrentPlayerID());
                 case "worker1" -> startTurnAction(0, 1);
                 case "worker2" -> startTurnAction(1, 0);
-                default -> {
-                    gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
-                }
+                default -> gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
             }
         } catch (NullPointerException e) {
             gameHandler.singleSend(new GameError(ErrorsType.INVALIDINPUT), gameHandler.getCurrentPlayerID());
@@ -312,6 +311,7 @@ public class TurnController implements PropertyChangeListener {
                     loserColor));
             int removeId = gameHandler.getCurrentPlayerID();
             gameHandler.getServer().getClientByID(removeId).getConnection().close();
+            actionController.phase = 0;
             startTurn(new StartTurnAction());
         }
     }

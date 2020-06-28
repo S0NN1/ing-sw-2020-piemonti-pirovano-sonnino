@@ -41,7 +41,10 @@ class MinotaurTest {
     }
   }
 
-  /** Method listenerTest tests the double move listener which is fired when Minotaur moves into a not empty space. */
+  /**
+   * Method listenerTest tests the double move listener which is fired when Minotaur moves into a
+   * not empty space.
+   */
   @Test
   @DisplayName("double move listener test")
   void listenerTest() {
@@ -73,10 +76,7 @@ class MinotaurTest {
     } else fail("space not selectable");
   }
 
-
-  /**
-   * Class VirtualClientStub defines a stub for VirtualClient class
-   * */
+  /** Class VirtualClientStub defines a stub for VirtualClient class */
   private static class VirtualClientStub extends VirtualClient {
 
     String god;
@@ -84,9 +84,10 @@ class MinotaurTest {
     Move otherMove;
 
     /**
-     * Method send prepares the answer for sending it through the network, putting it in a serialized package, called
-     * SerializedMessage, then sends the packaged answer to the transmission protocol, located in the socket-client
-     * handler.
+     * Method send prepares the answer for sending it through the network, putting it in a
+     * serialized package, called SerializedMessage, then sends the packaged answer to the
+     * transmission protocol, located in the socket-client handler.
+     *
      * @see it.polimi.ingsw.server.SocketClientConnection for more details.
      * @param serverAnswer of type Answer - the answer to be sent to the user.
      */
@@ -100,8 +101,8 @@ class MinotaurTest {
     }
 
     /**
-     * Method sendAll sends the message to all playing clients, thanks to the GameHandler sendAll method. It's triggered
-     * from the model's listeners after a player action.
+     * Method sendAll sends the message to all playing clients, thanks to the GameHandler sendAll
+     * method. It's triggered from the model's listeners after a player action.
      *
      * @param serverAnswer of type Answer - the message to be sent.
      */
@@ -116,16 +117,16 @@ class MinotaurTest {
   }
 
   /**
-   * Class isSelectable tests the method isSelectable (using selectMoves which calls isSelectable several times) in
-   * different situations (different Minotaur's position into the gameBoard).
+   * Class isSelectable tests the method isSelectable (using selectMoves which calls isSelectable
+   * several times) in different situations (different Minotaur's position into the gameBoard).
    */
   @Nested
   @DisplayName("isSelectable() tests with workers")
   class isSelectable {
 
     /**
-     * Method normalMove tests when Minotaur is positioned on a centered space of the gameBoard: it can move to at
-     * least 8 different spaces.
+     * Method normalMove tests when Minotaur is positioned on a centered space of the gameBoard: it
+     * can move to at least 8 different spaces.
      */
     @Test
     @DisplayName("normal move")
@@ -134,7 +135,10 @@ class MinotaurTest {
       assertEquals(8, minotaur.selectMoves(gameBoard).size(), "1");
     }
 
-    /** Method testBorder tests when Minotaur is positioned on a border: he can move to at least 5 different spaces. */
+    /**
+     * Method testBorder tests when Minotaur is positioned on a border: he can move to at least 5
+     * different spaces.
+     */
     @Test
     @DisplayName("border test")
     void testBorder() {
@@ -152,7 +156,10 @@ class MinotaurTest {
       assertEquals(3, minotaur.selectMoves(gameBoard).size(), "2");
     }
 
-    /** Method testCorner tests when Minotaur is positioned on a corner: he can move to at least 3 spaces. */
+    /**
+     * Method testCorner tests when Minotaur is positioned on a corner: he can move to at least 3
+     * spaces.
+     */
     @Test
     @DisplayName("corner test")
     void testCorner() {
@@ -170,7 +177,10 @@ class MinotaurTest {
   @DisplayName("move tests")
   class move {
 
-    /** Method diagonal tests the method move when Minotaur and worker have different space's row and column. */
+    /**
+     * Method diagonal tests the method move when Minotaur and worker have different space's row and
+     * column.
+     */
     @Test
     @DisplayName("diagonal push")
     void diagonal() {
@@ -197,7 +207,9 @@ class MinotaurTest {
       assertEquals(minotaur, gameBoard.getSpace(2, 3).getWorker());
     }
 
-    /** Method horizontal tests the method move when Minotaur and worker have the same space's row. */
+    /**
+     * Method horizontal tests the method move when Minotaur and worker have the same space's row.
+     */
     @Test
     @DisplayName("horizontal push")
     void horizontal() {
@@ -219,7 +231,9 @@ class MinotaurTest {
       assertEquals(minotaur, gameBoard.getSpace(1, 2).getWorker(), "6");
     }
 
-    /** Method vertical tests the method move when Minotaur and worker have the same space's column. */
+    /**
+     * Method vertical tests the method move when Minotaur and worker have the same space's column.
+     */
     @Test
     @DisplayName("vertical push")
     void vertical() {
@@ -242,15 +256,14 @@ class MinotaurTest {
     }
   }
 
-  /**
-   * Class bugDoubleMove tests possible bugs.
-   */
+  /** Class bugDoubleMove tests possible bugs. */
   @Nested
   @DisplayName("bugs tests")
   class bugDoubleMove {
 
     /**
-     * Method domeBugDoubleMoveTest tests whether Minotaur can force a worker into a space with a completed tower.
+     * Method domeBugDoubleMoveTest tests whether Minotaur can force a worker into a space with a
+     * completed tower.
      *
      * @throws OutOfBoundException when add level is not possible.
      */
@@ -283,7 +296,8 @@ class MinotaurTest {
     }
 
     /**
-     * Method onWorkerBugDoubleMoveTest tests whether Minotaur can force a worker into a not empty space.
+     * Method onWorkerBugDoubleMoveTest tests whether Minotaur can force a worker into a not empty
+     * space.
      */
     @Test
     @DisplayName("worker on a worker")

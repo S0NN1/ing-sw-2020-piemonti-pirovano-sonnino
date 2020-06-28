@@ -10,27 +10,25 @@ import it.polimi.ingsw.server.answers.Answer;
  */
 public class EndTurnMessage implements Answer {
 
-    private final String message;
+  private final String message;
 
-    /**
-     * Constructor EndTurnMessage creates a new EndTurnMessage instance.
-     *
-     * @param message of type String - the message to be displayed.
-     */
-    public EndTurnMessage(String message) {
-        this.message = message;
-    }
+  /**
+   * Constructor EndTurnMessage creates a new EndTurnMessage instance.
+   *
+   * @param message of type String - the message to be displayed.
+   */
+  public EndTurnMessage(String message) {
+    this.message = message;
+  }
 
-    /**
-     * Method getMessage returns the message of this WorkerPlacement object.
-     *
-     *
-     *
-     * @return the message (type Object) of this WorkerPlacement object.
-     * @see Answer#getMessage()
-     */
-    @Override
-    public String getMessage() {
-        return message;
-    }
+  /**
+   * Method getMessage returns the message of this WorkerPlacement object.
+   *
+   * @return the message (type Object) of this WorkerPlacement object.
+   * @see Answer#getMessage()
+   */
+  @Override
+  public String getMessage() {
+    return message;
+  }
 }

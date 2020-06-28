@@ -11,16 +11,14 @@ import it.polimi.ingsw.server.answers.Answer;
  */
 public class WinMessage implements Answer {
 
-    /**
-     * Method getMessage returns the message of this WorkerPlacement object.
-     *
-     *
-     *
-     * @return the message (type Object) of this WorkerPlacement object.
-     * @see Answer#getMessage()
-     */
-    @Override
-    public Worker getMessage() {
-        return null;
-    }
+  /**
+   * Method getMessage returns the message of this WorkerPlacement object.
+   *
+   * @return the message (type Object) of this WorkerPlacement object.
+   * @see Answer#getMessage()
+   */
+  @Override
+  public Worker getMessage() {
+    return null;
+  }
 }

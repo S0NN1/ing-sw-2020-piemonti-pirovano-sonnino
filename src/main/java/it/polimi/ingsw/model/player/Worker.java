@@ -3,12 +3,12 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Couple;
 import it.polimi.ingsw.exceptions.OutOfBoundException;
-import it.polimi.ingsw.model.board.GameBoard;
-import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.listeners.BuildListener;
 import it.polimi.ingsw.listeners.MoveListener;
 import it.polimi.ingsw.listeners.SelectSpacesListener;
 import it.polimi.ingsw.listeners.WinListener;
+import it.polimi.ingsw.model.board.GameBoard;
+import it.polimi.ingsw.model.board.Space;
 import it.polimi.ingsw.server.VirtualClient;
 
 import java.beans.PropertyChangeSupport;
@@ -48,18 +48,6 @@ public abstract class Worker {
             default -> throw new IllegalArgumentException();
         }
         setPhases();
-    }
-
-
-    /**
-     * Method getCanMoveUp returns the canMoveUp of this Worker object.
-     *
-     *
-     *
-     * @return the canMoveUp (type boolean) of this Worker object.
-     */
-    public boolean getCanMoveUp() {
-        return canMoveUp;
     }
 
 

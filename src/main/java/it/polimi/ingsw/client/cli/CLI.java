@@ -42,10 +42,10 @@ public class CLI implements UI, Runnable {
     private final Scanner input;
     private final ModelView modelView;
     private final ActionHandler actionHandler;
-    private final PropertyChangeSupport observers = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     private final DisplayCell[][] grid;
     private boolean activeGame;
-    private ConnectionSocket connection;
+    private ConnectionSocket connectionSocket;
     private int maxSideIndex;
 
     /**
@@ -148,10 +148,10 @@ public class CLI implements UI, Runnable {
                 nickname = null;
             }
         }
-        connection = new ConnectionSocket();
+        connectionSocket = new ConnectionSocket();
         modelView.setPlayerName(nickname);
         try {
-            if(!connection.setup(nickname, modelView, actionHandler)) {
+            if(!connectionSocket.setup(nickname, modelView, actionHandler)) {
                 System.err.println("The entered IP/port doesn't match any active server or the server is not " +
                         "running. Please try again!");
                 CLI.main(null);
@@ -160,7 +160,7 @@ public class CLI implements UI, Runnable {
         } catch (DuplicateNicknameException | InvalidNicknameException e) {
             setup();
         }
-        observers.addPropertyChangeListener("action", new ActionParser(connection, modelView));
+        listeners.addPropertyChangeListener("action", new ActionParser(connectionSocket, modelView));
     }
 
     /**
@@ -170,7 +170,7 @@ public class CLI implements UI, Runnable {
     public void loop() {
         input.reset();
         String cmd = input.nextLine();
-        observers.firePropertyChange("action", null, cmd);
+        listeners.firePropertyChange("action", null, cmd);
     }
 
     /**
@@ -599,7 +599,7 @@ public class CLI implements UI, Runnable {
                         nameMapColor.get("RST"));
             }
         }
-        connection.send(new NumberOfPlayers(selection));
+        connectionSocket.send(new NumberOfPlayers(selection));
         modelView.setStarted(1);
     }
 
@@ -617,7 +617,7 @@ public class CLI implements UI, Runnable {
             try {
                 PlayerColors color = PlayerColors.parseInput(input.nextLine());
                 if (available.contains(color)) {
-                    connection.send(new ChosenColor(color));
+                    connectionSocket.send(new ChosenColor(color));
                     modelView.setStarted(2);
                     return;
                 } else {
@@ -865,7 +865,8 @@ public class CLI implements UI, Runnable {
         clearScreen();
         boardUpdater(grid);
         printBoard(grid);
-        System.out.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has lost." + nameMapColor.get(RST));
+        System.out.println(nameMapColor.get(YELLOW) + "Player " + evt.getNewValue() + " has lost." +
+                nameMapColor.get(RST));
     }
 
     /**

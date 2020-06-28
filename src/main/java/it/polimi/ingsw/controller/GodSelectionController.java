@@ -5,8 +5,8 @@ import it.polimi.ingsw.exceptions.OutOfBoundException;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.CardSelectionModel;
 import it.polimi.ingsw.server.VirtualClient;
-import it.polimi.ingsw.server.answers.CustomMessage;
 import it.polimi.ingsw.server.answers.ChallengerMessages;
+import it.polimi.ingsw.server.answers.CustomMessage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -145,9 +145,7 @@ public class GodSelectionController implements PropertyChangeListener {
             case "ADD" -> add(cmd.arg);
             case "CHOOSE" -> choose(cmd.arg);
             case "LASTSELECTION" -> lastSelection();
-            default ->{
-                System.err.println("No action to be performed!");
-            }
+            default -> System.err.println("No action to be performed!");
         }
     }
 }

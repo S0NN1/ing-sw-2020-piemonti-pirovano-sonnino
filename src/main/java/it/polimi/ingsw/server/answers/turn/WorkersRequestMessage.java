@@ -8,18 +8,15 @@ import it.polimi.ingsw.server.answers.Answer;
  * @author Nicolò Sonnino
  * @see Answer
  */
-
 public class WorkersRequestMessage implements Answer {
-    /**
-     * Method getMessage returns the message of this WorkerPlacement object.
-     *
-     *
-     *
-     * @return the message (type Object) of this WorkerPlacement object.
-     * @see Answer#getMessage()
-     */
-    @Override
-    public Object getMessage() {
-        return null;
-    }
+  /**
+   * Method getMessage returns the message of this WorkerPlacement object.
+   *
+   * @return the message (type Object) of this WorkerPlacement object.
+   * @see Answer#getMessage()
+   */
+  @Override
+  public Object getMessage() {
+    return null;
+  }
 }

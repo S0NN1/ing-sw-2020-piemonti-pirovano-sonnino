@@ -14,8 +14,9 @@ public class WorkerCreator {
 
     /**
      * Constructor WorkerCreator creates a new WorkerCreator instance.
+     * @throws UnsupportedOperationException when constructor fails.
      */
-    public WorkerCreator() {
+    public WorkerCreator() throws UnsupportedOperationException {
     }
 
     /**

@@ -2,3 +2,8 @@
     -fx-font-family: "Dalek Pinpoint";
     -fx-font-size: 25;
 }
+
+.mainBackground {
+    -fx-background-image: url("../graphics/bgs/odyssey_3.png");
+    -fx-background-size: stretch;
+}

@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<StackPane prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.LoaderController">
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:id="mainPane" prefHeight="550.0" prefWidth="800.0" styleClass="mainBackground"
+            stylesheets="@../css/loading.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.LoaderController">
     <children>
-        <ImageView fitHeight="550.0" fitWidth="800.0" pickOnBounds="true">
+        <ProgressBar layoutX="201.0" layoutY="500.0" prefHeight="50.0" prefWidth="400.0" style="-fx-padding: 8;">
+        </ProgressBar>
+        <Label fx:id="displayStatus" alignment="CENTER" layoutX="14.0" layoutY="158.0" prefHeight="235.0"
+               prefWidth="773.0" styleClass="loadingText" stylesheets="@../css/loading.css" text="LOADING..."
+               textAlignment="CENTER" textFill="WHITE">
+            <font>
+                <Font name="Bell MT" size="48.0"/>
+            </font>
+            <effect>
+                <DropShadow/>
+            </effect>
+        </Label>
+        <ImageView fx:id="title" fitHeight="139.0" fitWidth="391.0" layoutX="205.0" layoutY="14.0" pickOnBounds="true">
             <image>
-                <Image url="@../graphics/bgs/odyssey_3.png" />
+                <Image url="@../graphics/santorini-logo.png"/>
             </image>
         </ImageView>
-        <ProgressBar prefHeight="50.0" prefWidth="400.0" style="-fx-padding: 8;" StackPane.alignment="BOTTOM_CENTER">
-        </ProgressBar>
-        <Label fx:id="displayStatus" alignment="CENTER" prefHeight="235.0" prefWidth="773.0" styleClass="loadingText" stylesheets="@../css/loading.css" text="LOADING..." textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER">
-         <font>
-            <Font name="Bell MT" size="48.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect></Label>
-      <ImageView fitHeight="74.0" fitWidth="276.0" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5" translateY="-210.0">
-         <image>
-            <Image url="@../graphics/santorini-logo.png" />
-         </image>
-      </ImageView>
     </children>
-</StackPane>
+</AnchorPane>

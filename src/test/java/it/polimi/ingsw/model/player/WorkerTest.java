@@ -349,7 +349,8 @@ class WorkerTest {
     }
 
     /**
-     * Method getMovesButBlocked tests notifyWithMoves when worker is blocked it must throw an IllegalStateException.
+     * Method getMovesButBlocked tests notifyWithMoves when worker is blocked it must throw an
+     * IllegalStateException.
      *
      * @throws OutOfBoundException if too many levels are added
      */
@@ -397,9 +398,7 @@ class WorkerTest {
 
     GameBoard gameBoard;
 
-    /**
-     * Method init initializes values.
-     */
+    /** Method init initializes values. */
     @BeforeEach
     void init() {
       gameBoard = new GameBoard();
@@ -452,8 +451,8 @@ class WorkerTest {
     }
 
     /**
-     * Method differentHeightBuild tests the worker positioned on a tower with different height
-     * and with towers with different height around it.
+     * Method differentHeightBuild tests the worker positioned on a tower with different height and
+     * with towers with different height around it.
      *
      * @throws OutOfBoundException when too many level are added.
      */

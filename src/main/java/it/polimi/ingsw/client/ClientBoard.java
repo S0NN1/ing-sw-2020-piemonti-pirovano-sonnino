@@ -64,34 +64,36 @@ public class ClientBoard {
     grid[row][col].setColor(color);
   }
 
-    /**
-     * Method getWorkerPosition gets worker's position from his color and workerNum.
-     * @param color of type String - worker's color
-     * @param workerNum of type int - the number identifying worker.
-     * @return of type Couple - worker's position.
-     */
-    public Couple getWorkerPosition(String color, int workerNum) {
-        for (int row = Constants.GRID_MIN_SIZE; row < Constants.GRID_MAX_SIZE; row++) {
-            for (int col = Constants.GRID_MIN_SIZE; col < Constants.GRID_MAX_SIZE; col++) {
-                if (getColor(row,col)!= null && getColor(row, col).equals(color) && getWorkerNum(row, col) ==
-                        workerNum) {
-                    return new Couple(row, col);
-                }
-            }
+  /**
+   * Method getWorkerPosition gets worker's position from his color and workerNum.
+   *
+   * @param color of type String - worker's color
+   * @param workerNum of type int - the number identifying worker.
+   * @return of type Couple - worker's position.
+   */
+  public Couple getWorkerPosition(String color, int workerNum) {
+    for (int row = Constants.GRID_MIN_SIZE; row < Constants.GRID_MAX_SIZE; row++) {
+      for (int col = Constants.GRID_MIN_SIZE; col < Constants.GRID_MAX_SIZE; col++) {
+        if (getColor(row, col) != null
+            && getColor(row, col).equals(color)
+            && getWorkerNum(row, col) == workerNum) {
+          return new Couple(row, col);
         }
-        return null;
+      }
     }
+    return null;
+  }
 
-    /**
-     * Method getHeight gets cell's level.
-     *
-     * @param row of type int - the row of the cell
-     * @param col of type int - the column of the cell.
-     * @return int - the selected level.
-     */
-    public int getHeight(int row, int col) {
-        return grid[row][col].getLevel();
-    }
+  /**
+   * Method getHeight gets cell's level.
+   *
+   * @param row of type int - the row of the cell
+   * @param col of type int - the column of the cell.
+   * @return int - the selected level.
+   */
+  public int getHeight(int row, int col) {
+    return grid[row][col].getLevel();
+  }
 
   /**
    * Method getColor returns the worker's color of the selected cell.
@@ -122,8 +124,8 @@ public class ClientBoard {
   }
 
   /**
-   * Method apolloDoubleMove updates modelView grid after a move action, opponent's worker switches place with APOLLO
-   * (APOLLO ONLY).
+   * Method apolloDoubleMove updates modelView grid after a move action, opponent's worker switches
+   * place with APOLLO (APOLLO ONLY).
    *
    * @param oldRow1 of type int - the row of previous Apollo's position.
    * @param oldCol1 of type int - the column of previous Apollo's position.
@@ -135,7 +137,8 @@ public class ClientBoard {
   }
 
   /**
-   * Method minotaurDoubleMove updates modelView grid after a move action, opponent's worker is forced to next space.
+   * Method minotaurDoubleMove updates modelView grid after a move action, opponent's worker is
+   * forced to next space.
    *
    * @param oldRow1 of type int - the row of Minotaur's previous position.
    * @param oldCol1 of type int - the column of Minotaur's previous position.
@@ -175,16 +178,17 @@ public class ClientBoard {
 
   /**
    * Method build updates modelView grid after a build action.
+   *
    * @param row of type int - the row of the selected row.
    * @param col of type int - the column of the selected column.
-   * @param dome of type boolean true if worker wants to build a dome instead of a block. (Only for Atlas workers)
+   * @param dome of type boolean true if worker wants to build a dome instead of a block. (Only for
+   *     Atlas workers)
    * @param action of type Action - the type of action.
    */
   public void build(int row, int col, boolean dome, Action action) {
-    if(!action.equals(Action.BUILD)){
+    if (!action.equals(Action.BUILD)) {
       grid[row][col].removeLevel();
-    }
-    else if (dome || grid[row][col].getLevel() == 3) {
+    } else if (dome || grid[row][col].getLevel() == 3) {
       grid[row][col].setDome(true);
     } else grid[row][col].addLevel();
   }

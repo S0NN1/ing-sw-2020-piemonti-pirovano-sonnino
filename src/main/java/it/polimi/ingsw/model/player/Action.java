@@ -6,5 +6,12 @@ package it.polimi.ingsw.model.player;
  * @author Alice Piemonti
  */
 public enum Action {
-    SELECT_MOVE, MOVE, SELECT_BUILD, BUILD, SELECT_FORCE_WORKER, FORCE_WORKER, SELECT_REMOVE, REMOVE
+  SELECT_MOVE,
+  MOVE,
+  SELECT_BUILD,
+  BUILD,
+  SELECT_FORCE_WORKER,
+  FORCE_WORKER,
+  SELECT_REMOVE,
+  REMOVE
 }
