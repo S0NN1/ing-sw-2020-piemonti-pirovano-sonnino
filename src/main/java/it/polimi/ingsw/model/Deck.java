@@ -62,24 +62,6 @@ public class Deck {
    * @param client of type VirtualClient - the virtual client associated to the user.
    * @return boolean true if everything goes fine, boolean false otherwise.
    */
-  public boolean chooseCard(Card card, VirtualClient client) {
-    if (!cards.contains(card)) {
-      return false;
-    }
-    game.getCurrentPlayer().setCard(card, client);
-    cards.remove(card);
-    return true;
-  }
-
-  /**
-   * Method chooseCard removes a card afterwards a player god-power choice in case of Athena
-   * selection.
-   *
-   * @param card of type Card - the selected card.
-   * @param client of type VirtualClient - the client which has selected Athena.
-   * @param controller of type TurnController - the game controller.
-   * @return boolean true if everything is ok, boolean false otherwise.
-   */
   public boolean chooseCard(Card card, VirtualClient client, TurnController controller) {
     if (!cards.contains(card)) {
       return false;

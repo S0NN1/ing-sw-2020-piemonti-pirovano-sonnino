@@ -173,9 +173,9 @@ class GodSelectionControllerTest {
     public DeckStub(Game game) {
       super(game);
     }
-    /** @see Deck#chooseCard(Card, VirtualClient) */
+    /** @see Deck#chooseCard(Card, VirtualClient, TurnController) */
     @Override
-    public boolean chooseCard(Card card, VirtualClient client) {
+    public boolean chooseCard(Card card, VirtualClient client, TurnController turnController) {
       if (!super.getCards().contains(card)) {
         return false;
       }

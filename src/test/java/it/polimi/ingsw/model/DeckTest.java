@@ -95,7 +95,7 @@ class DeckTest {
   @Test
   @DisplayName("Choose test in normal conditions")
   void removeCardTest() {
-    assertTrue(testDeck.chooseCard(Card.ATLAS, null));
+    assertTrue(testDeck.chooseCard(Card.ATLAS, null, null));
     assertEquals(1, testDeck.getCards().size());
     testGame.nextPlayer();
     assertTrue(testDeck.chooseCard(Card.ATHENA, null, null));
@@ -109,7 +109,7 @@ class DeckTest {
   @Test
   @DisplayName("Choose test with not chosen card")
   void removeCardNotChosenTest() {
-    assertTrue(testDeck.chooseCard(Card.ATLAS, null));
-    assertFalse(testDeck.chooseCard(Card.APOLLO, null));
+    assertTrue(testDeck.chooseCard(Card.ATLAS, null, null));
+    assertFalse(testDeck.chooseCard(Card.APOLLO, null, null));
   }
 }

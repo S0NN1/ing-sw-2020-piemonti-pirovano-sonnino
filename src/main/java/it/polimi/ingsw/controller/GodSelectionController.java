@@ -78,11 +78,7 @@ public class GodSelectionController implements PropertyChangeListener {
             int clientId = mainController.getModel().getCurrentPlayer().getClientID();
             VirtualClient client = mainController.getGameHandler().getServer().getClientByID(clientId);
             boolean result;
-            if (arg.equals(Card.ATHENA)) {
-                result = mainController.getModel().getDeck().chooseCard(arg, client, mainController.getTurnController());
-            } else {
-                result = mainController.getModel().getDeck().chooseCard(arg, client);
-            }
+            result = mainController.getModel().getDeck().chooseCard(arg, client, mainController.getTurnController());
             if (!result) {
                 mainController.getGameHandler().singleSend(new ChallengerMessages("Error: the selected card has not been" +
                         " chosen by the challenger or has already been taken by another player."), clientId);
@@ -114,11 +110,7 @@ public class GodSelectionController implements PropertyChangeListener {
             return false;
         }
         Card card = mainController.getModel().getDeck().getCards().get(0);
-        if (card.equals(Card.ATHENA)) {
-            mainController.getModel().getDeck().chooseCard(card, client, mainController.getTurnController());
-        } else {
-            mainController.getModel().getDeck().chooseCard(card, client);
-        }
+        mainController.getModel().getDeck().chooseCard(card, client, mainController.getTurnController());
         mainController.getGameHandler().singleSend(new ChallengerMessages(card), mainController.getGameHandler().getCurrentPlayerID());
         mainController.getGameHandler().sendAll(new CustomMessage("The society decides for player " +
                 mainController.getModel().getCurrentPlayer().getNickname() + "! He obtained " + card.name() +
