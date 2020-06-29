@@ -47,7 +47,7 @@ class PlayerTest {
   @DisplayName("God Card addition test")
   void cardAdditionTest() {
     testPlayer.setColor(PlayerColors.RED);
-    testPlayer.setCard(Card.ATLAS, null);
+    testPlayer.setCard(Card.ATLAS, null, null);
     assertTrue(
         testPlayer
             .getWorkers()
@@ -68,7 +68,7 @@ class PlayerTest {
       if (card.equals(Card.ATHENA)) {
         player.setCard(Card.ATHENA, null, null);
       } else {
-        player.addWorker(card, null);
+        player.addWorker(card, null, null);
         assertTrue(
             player
                 .getWorkers()

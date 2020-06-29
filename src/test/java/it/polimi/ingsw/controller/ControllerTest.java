@@ -57,10 +57,10 @@ class ControllerTest {
      *
      * @param card of type Card - the card chosen by the user.
      * @param client of type VirtualClient - the user's virtual client representation.
-     * @see Player#addWorker(Card, VirtualClient)
+     * @see Player#addWorker(Card, VirtualClient, TurnController)
      */
     @Override
-    public void addWorker(Card card, VirtualClient client) {
+    public void addWorker(Card card, VirtualClient client, TurnController controller) {
       workers.add(new WorkerStub(PlayerColors.GREEN));
       workers.add(new WorkerStub(PlayerColors.GREEN));
     }
@@ -174,8 +174,8 @@ class ControllerTest {
     game = new Game();
     game.createNewPlayer(new PlayerStub("Piro", 1));
     game.createNewPlayer(new PlayerStub("Ali", 2));
-    game.getActivePlayers().get(0).addWorker(Card.APOLLO, new VirtualClient());
-    game.getActivePlayers().get(1).addWorker(Card.ATLAS, new VirtualClient());
+    game.getActivePlayers().get(0).addWorker(Card.APOLLO, new VirtualClient(), null);
+    game.getActivePlayers().get(1).addWorker(Card.ATLAS, new VirtualClient(), null);
     game.setCurrentPlayer(game.getActivePlayers().get(0));
     controller = new controllerStub(game, new GameHandlerStub(new Server()));
     new0 = new ChallengerPhaseAction("GODLIST");

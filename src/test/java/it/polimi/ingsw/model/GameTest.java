@@ -38,7 +38,7 @@ class GameTest {
     testGame.setCurrentPlayer(testGame.getActivePlayers().get(0));
     assertEquals("piro", testGame.getCurrentPlayer().getNickname());
     testGame.getCurrentPlayer().setColor(PlayerColors.GREEN);
-    testGame.getCurrentPlayer().addWorker(Card.APOLLO, new VirtualClient());
+    testGame.getCurrentPlayer().addWorker(Card.APOLLO, new VirtualClient(), null);
     testGame
         .getGameBoard()
         .getSpace(0, 1)
@@ -50,7 +50,7 @@ class GameTest {
     testGame.nextPlayer();
     assertEquals("alice", testGame.getCurrentPlayer().getNickname());
     testGame.getCurrentPlayer().setColor(PlayerColors.RED);
-    testGame.getCurrentPlayer().addWorker(Card.PROMETHEUS, new VirtualClient());
+    testGame.getCurrentPlayer().addWorker(Card.PROMETHEUS, new VirtualClient(), null);
     testGame
         .getGameBoard()
         .getSpace(2, 3)
@@ -62,7 +62,7 @@ class GameTest {
     testGame.nextPlayer();
     assertEquals("nico", testGame.getCurrentPlayer().getNickname());
     testGame.getCurrentPlayer().setColor(PlayerColors.BLUE);
-    testGame.getCurrentPlayer().addWorker(Card.ATLAS, new VirtualClient());
+    testGame.getCurrentPlayer().addWorker(Card.ATLAS, new VirtualClient(), null);
     testGame
         .getGameBoard()
         .getSpace(2, 2)

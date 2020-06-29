@@ -98,11 +98,7 @@ public class GodTile extends HBox {
     descText.getStyleClass().addAll("desc");
     descText.setFont(new Font("Constantia", 11));
     descText.setMaxWidth(110);
-    descText.setMaxHeight(USE_PREF_SIZE);
-    if (descText.getMaxHeight() > 150) {
-      descText.setFont(new Font("Constantia", 2));
-    }
-    descText.setMaxHeight(150);
+    descText.setMaxHeight(300);
     descText.setLineSpacing(0);
     descText.setWrapText(true);
     descText.setLayoutX(275);

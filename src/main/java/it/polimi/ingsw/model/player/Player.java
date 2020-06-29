@@ -86,10 +86,10 @@ public class Player {
    * @param card of type Card - the card chosen by the user.
    * @param client of type VirtualClient - the user's virtual client representation.
    */
-  public void addWorker(Card card, VirtualClient client) {
+  public void addWorker(Card card, VirtualClient client, TurnController controller) {
     WorkerCreator creator = new WorkerCreator();
-    workers.add(creator.getWorker(card, color));
-    workers.add(creator.getWorker(card, color));
+    workers.add(creator.getWorker(card, color, controller));
+    workers.add(creator.getWorker(card, color, controller));
     workers.forEach(n -> n.createListeners(client));
   }
 
@@ -99,23 +99,9 @@ public class Player {
    * @param godCard of type Card - the chosen card.
    * @param client of type VirtualClient - the user's virtual client representation.
    */
-  public void setCard(Card godCard, VirtualClient client) {
-    this.card = godCard;
-    addWorker(card, client);
-  }
-
-  /**
-   * Method setCard sets player's card attribute in case user has chosen the Athena god.
-   *
-   * @param godCard of type Card - the Athena card.
-   * @param client of type VirtualClient - the user's virtual client representation.
-   * @param controller of type TurnController - the turn controller reference.
-   */
   public void setCard(Card godCard, VirtualClient client, TurnController controller) {
     this.card = godCard;
-    workers.add(new Athena(color, controller));
-    workers.add(new Athena(color, controller));
-    workers.forEach(n -> n.createListeners(client));
+    addWorker(card, client, controller);
   }
 
   /**

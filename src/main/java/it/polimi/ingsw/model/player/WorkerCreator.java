@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.player.gods.advancedgods.*;
 import it.polimi.ingsw.model.player.gods.simplegods.*;
@@ -28,7 +29,7 @@ public class WorkerCreator {
      * @param color of type PlayerColors - The color of the player who chose the card.
      * @return Worker - The instance of Worker associated to the card.
      */
-    public Worker getWorker( Card godCard, PlayerColors color) {
+    public Worker getWorker(Card godCard, PlayerColors color, TurnController controller) {
         switch (godCard) {
             case APOLLO -> {
                 return new Apollo(color);
@@ -38,6 +39,9 @@ public class WorkerCreator {
             }
             case ARTEMIS -> {
                 return new Artemis(color);
+            }
+            case ATHENA -> {
+                return new Athena(color, controller);
             }
             case ATLAS -> {
                 return new Atlas(color);
