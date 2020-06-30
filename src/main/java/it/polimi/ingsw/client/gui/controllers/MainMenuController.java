@@ -56,7 +56,6 @@ public class MainMenuController implements GUIController {
   /** Method play changes the stage scene to the setup one when the button "Play" is pressed. */
   public void play() {
     gui.changeStage("setup.fxml");
-    gui.centerApplication();
   }
 
   /** Method mute mutes game music. */
@@ -97,7 +96,6 @@ public class MainMenuController implements GUIController {
       }
       try {
         gui.changeStage("loading.fxml");
-        gui.centerApplication();
         loaderController = (LoaderController) gui.getControllerFromName("loading.fxml");
         loaderController.setText("CONFIGURING SOCKET CONNECTION...");
         ConnectionSocket connectionSocket = new ConnectionSocket();

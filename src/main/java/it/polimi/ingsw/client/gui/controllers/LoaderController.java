@@ -125,7 +125,6 @@ public class LoaderController implements GUIController {
       displayGodList(req);
     } else if (req.getSelectable() != null) {
       gui.changeStage(GODS_MENU_FXML);
-      gui.centerApplication();
       GodsPanelController controller =
           (GodsPanelController) gui.getControllerFromName(GODS_MENU_FXML);
       controller.chooseInit(req.getSelectable());

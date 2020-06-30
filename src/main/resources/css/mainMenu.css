@@ -11,6 +11,11 @@
     -fx-font-size: 50px;
 }
 
+.credits {
+    -fx-font-family: "Dalek Pinpoint";
+    -fx-font-size: 16;
+}
+
 .actionButton:hover {
     -fx-opacity: 0.9;
 }
