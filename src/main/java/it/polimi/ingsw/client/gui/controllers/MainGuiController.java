@@ -421,7 +421,12 @@ public class MainGuiController implements GUIController {
    *     selectMove.
    */
   public void highlightCell(boolean build) {
-    getActionsLabel().setText("Move your worker!");
+    if(build) {
+      getActionsLabel().setText("Choose where to build!");
+    }
+    else {
+      getActionsLabel().setText("Move your worker!");
+    }
     getActionsLabel().setVisible(true);
     List<Couple> spaces = getGUI().getModelView().getSelectSpaces();
     for (Couple element : spaces) {

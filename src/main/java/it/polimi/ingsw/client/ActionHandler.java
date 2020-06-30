@@ -371,6 +371,7 @@ public class ActionHandler {
     }
     if (answer instanceof WinMessage) {
       view.firePropertyChange("win", null, null);
+      return;
     } else if (answer instanceof StartTurnMessage) {
       modelView.setCurrentPlayer(answer.getMessage().toString());
       view.firePropertyChange("newPlayerTurn", new boolean[] {false, false, false, false}, null);

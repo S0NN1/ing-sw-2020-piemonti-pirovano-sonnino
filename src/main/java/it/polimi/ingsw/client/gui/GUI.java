@@ -252,15 +252,12 @@ public class GUI extends Application implements UI {
      */
     public void errorHandling(GameError error) {
         switch (error.getError()) {
-            case WORKERBLOCKED ->
-                Platform.runLater(() -> {
-                    errorDialog("The worker you have selected is blocked, please choose another one!");
-                    selectWorker();
-                });
-            case INVALIDINPUT ->
-                Platform.runLater(() -> errorDialog("Invalid input, please try again!"));
-            case CELLOCCUPIED ->
-                Platform.runLater(() -> errorDialog("Cell already occupied!"));
+            case WORKERBLOCKED -> Platform.runLater(() -> {
+                errorDialog("The worker you have selected is blocked, please choose another one!");
+                selectWorker();
+            });
+            case INVALIDINPUT -> Platform.runLater(() -> errorDialog("Invalid input, please try again!"));
+            case CELLOCCUPIED -> Platform.runLater(() -> errorDialog("Cell already occupied!"));
             default -> Platform.runLater(() -> errorDialog("Generic Error!"));
         }
     }
@@ -437,7 +434,7 @@ public class GUI extends Application implements UI {
      */
     public void removeWorkers(String loser) {
         Platform.runLater(() -> {
-            MainGuiController controller = (MainGuiController)getControllerFromName(MAIN_GUI);
+            MainGuiController controller = (MainGuiController) getControllerFromName(MAIN_GUI);
             List<Couple> positions = modelView.getWorkersPositionByColor(loser);
             for (Couple position : positions) {
                 controller.getGrid().getChildren().remove(controller.getWorkerFromGrid(position.getRow(), position.getColumn()));
@@ -543,7 +540,7 @@ public class GUI extends Application implements UI {
                 defineDoubleMove((DoubleMoveMessage) message, controller);
             }
             controller.normalCells();
-            if (modelView.isTurnActive()) {
+            if (modelView.isTurnActive() && activeGame) {
                 controller.showActions(actionCheckers);
                 deselectWorkers(controller);
             }
