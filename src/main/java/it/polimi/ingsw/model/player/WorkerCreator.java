@@ -27,6 +27,7 @@ public class WorkerCreator {
      * @param godCard of type Card - The card chosen during the game, which specifies the instance of Worker to
      *                implement.
      * @param color of type PlayerColors - The color of the player who chose the card.
+     * @param controller of type TurnController - TurnController reference.
      * @return Worker - The instance of Worker associated to the card.
      */
     public Worker getWorker(Card godCard, PlayerColors color, TurnController controller) {

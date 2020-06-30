@@ -85,6 +85,7 @@ public class Player {
    *
    * @param card of type Card - the card chosen by the user.
    * @param client of type VirtualClient - the user's virtual client representation.
+   * @param controller of type TurnController - TurnController reference.
    */
   public void addWorker(Card card, VirtualClient client, TurnController controller) {
     WorkerCreator creator = new WorkerCreator();
@@ -98,6 +99,7 @@ public class Player {
    *
    * @param godCard of type Card - the chosen card.
    * @param client of type VirtualClient - the user's virtual client representation.
+   * @param controller of type TurnController - TurnController reference.
    */
   public void setCard(Card godCard, VirtualClient client, TurnController controller) {
     this.card = godCard;

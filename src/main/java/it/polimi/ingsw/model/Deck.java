@@ -60,6 +60,7 @@ public class Deck {
    *
    * @param card of type Card - the card selected by the player.
    * @param client of type VirtualClient - the virtual client associated to the user.
+   * @param controller of type TurnController - TurnController reference.
    * @return boolean true if everything goes fine, boolean false otherwise.
    */
   public boolean chooseCard(Card card, VirtualClient client, TurnController controller) {
