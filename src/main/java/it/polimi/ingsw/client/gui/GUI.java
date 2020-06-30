@@ -22,6 +22,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -100,6 +101,7 @@ public class GUI extends Application implements UI {
     public void run() {
         stage.setTitle("Santorini");
         stage.setScene(currentScene);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/graphics/icons/santorini.png")));
         stage.show();
         ResizeHandler resize = new ResizeHandler((Pane) currentScene.lookup("#mainPane"));
         currentScene.widthProperty().addListener(resize.getWidthListener());
