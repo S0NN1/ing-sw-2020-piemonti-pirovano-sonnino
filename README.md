@@ -7,6 +7,10 @@
 
 Santorini Board Game is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (2019/2020).
 
+**Teacher** Gianpaolo Cugola
+
+**Final Score**: 30/30 cum laude
+
 ## Project specification
 The project consists of a Java version of the board game *Santorini*, made by Roxley Games.
 
