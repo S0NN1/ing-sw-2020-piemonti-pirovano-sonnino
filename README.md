@@ -16,7 +16,7 @@ The project consists of a Java version of the board game *Santorini*, made by Ro
 
 You can find the full game [here](https://roxley.com/products/santorini).
 
-The final version must include:
+The final version includes:
 * initial UML diagram;
 * final UML diagram, generated from the code by automated tools;
 * working game implementation, which has to be rules compliant;
