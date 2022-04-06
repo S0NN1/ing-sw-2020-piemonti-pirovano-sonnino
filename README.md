@@ -31,18 +31,18 @@ The final version includes:
 ## Implemented Functionalities
 | Functionality | Status |
 |:-----------------------|:------------------------------------:|
-| Basic rules | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/model) |
-| Complete rules | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/model) |
-| Socket |[![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/server) |
-| GUI | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/client/gui) |
-| CLI |[![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/client/cli) |
-| Multiple games | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/blob/master/src/main/java/it/polimi/ingsw/server/Server.java)|
-| 5 Advanced Gods | [![GREEN](http://placehold.it/15/44bb44/44bb44)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/model/player/gods/advancedgods) |
-| Persistence | [![RED](http://placehold.it/15/f03c15/f03c15)]() |
-| Undo Function | [![RED](http://placehold.it/15/f03c15/f03c15)]() |
+| Basic rules | [![GREEN](https://via.placeholder.com/20/64dd17?text=+)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/model) |
+| Complete rules | [![GREEN](https://via.placeholder.com/20/64dd17?text=+)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/model) |
+| Socket |[![GREEN](https://via.placeholder.com/20/64dd17?text=+)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/server) |
+| GUI | [![GREEN](https://via.placeholder.com/20/64dd17?text=+)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/client/gui) |
+| CLI |[![GREEN](https://via.placeholder.com/20/64dd17?text=+)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/client/cli) |
+| Multiple games | [![GREEN](https://via.placeholder.com/20/64dd17?text=+)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/blob/master/src/main/java/it/polimi/ingsw/server/Server.java)|
+| 5 Advanced Gods | [![GREEN](https://via.placeholder.com/20/64dd17?text=+)](https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/tree/master/src/main/java/it/polimi/ingsw/model/player/gods/advancedgods) |
+| Persistence | [![RED](https://via.placeholder.com/20/d50000?text=+)]() |
+| Undo Function | [![RED](https://via.placeholder.com/20/d50000?text=+)]() |
 
 #### Legend
-[![RED](http://placehold.it/15/f03c15/f03c15)]() Not Implemented &nbsp;&nbsp;&nbsp;&nbsp;[![YELLOW](http://placehold.it/15/ffdd00/ffdd00)]() Implementing&nbsp;&nbsp;&nbsp;&nbsp;[![GREEN](http://placehold.it/15/44bb44/44bb44)]() Implemented
+[![RED](https://via.placeholder.com/20/d50000?text=+)]() Not Implemented &nbsp;&nbsp;&nbsp;&nbsp;[![YELLOW](https://via.placeholder.com/20/fbc02d?text=+)]() Implementing&nbsp;&nbsp;&nbsp;&nbsp;[![GREEN](https://via.placeholder.com/20/64dd17?text=+)]() Implemented
 
 
 <!--
